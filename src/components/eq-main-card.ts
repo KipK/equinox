@@ -592,17 +592,24 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderConditions(): TemplateResult {
+    const currentHumidity = this.viewModel?.climate.currentHumidity;
+    const showHumidity = finite(currentHumidity);
+
     return html`
       <div class="conditions">
         <span class="condition">
           <ha-icon icon="mdi:thermometer"></ha-icon>
           <span>${this._formatTemperature(this.viewModel?.climate.currentTemperature)}</span>
         </span>
-        <span class="divider"></span>
-        <span class="condition">
-          <ha-icon icon="mdi:water-percent"></ha-icon>
-          <span>${this._formatPercent(this.viewModel?.climate.currentHumidity)}</span>
-        </span>
+        ${showHumidity
+        ? html`
+            <span class="divider"></span>
+            <span class="condition">
+              <ha-icon icon="mdi:water-percent"></ha-icon>
+              <span>${this._formatPercent(currentHumidity)}</span>
+            </span>
+          `
+        : nothing}
       </div>
     `;
   }
