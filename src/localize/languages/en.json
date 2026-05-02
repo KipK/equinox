@@ -86,6 +86,26 @@
       "open_menu": "Open menu"
     }
   },
+  "dialog": {
+    "close": "Close",
+    "back": "Back",
+    "fan": {
+      "title": "Ventilation",
+      "description_auto": "Auto mode automatically adapts ventilation to heating needs."
+    },
+    "hvac": {
+      "title": "Mode"
+    },
+    "preset": {
+      "title": "Preset"
+    },
+    "menu": {
+      "title": "Menu",
+      "regulation": "Regulation",
+      "boost": "Temporary boost",
+      "history": "History"
+    }
+  },
   "editor": {
     "entity": "Entity",
     "name": "Name",

@@ -7,6 +7,10 @@ import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-icon-button";
+import "./eq-fan-dialog";
+import "./eq-hvac-dialog";
+import "./eq-preset-dialog";
+import "./eq-menu-dialog";
 
 const HVAC_ORDER = ["heat", "cool", "heat_cool", "auto", "dry", "fan_only", "off"];
 const PRESET_ORDER = ["frost", "eco", "comfort", "boost"];
@@ -64,7 +68,8 @@ export class EquinoxMainCard extends LitElement {
   static properties = {
     hass: { attribute: false },
     config: { attribute: false },
-    viewModel: { attribute: false }
+    viewModel: { attribute: false },
+    _activeDialog: { state: true }
   };
 
   static styles = [
@@ -409,6 +414,8 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
+  private _activeDialog: 'fan' | 'hvac' | 'preset' | 'menu' | null = null;
+
   protected render() {
     if (!this.viewModel || !this.config) {
       return nothing;
@@ -424,6 +431,41 @@ export class EquinoxMainCard extends LitElement {
           ${this._renderBottomRow(compact)}
         </div>
       </ha-card>
+      <eq-fan-dialog
+        .open=${this._activeDialog === 'fan'}
+        .hass=${this.hass}
+        .viewModel=${this.viewModel}
+        .config=${this.config}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+      ></eq-fan-dialog>
+      <eq-hvac-dialog
+        .open=${this._activeDialog === 'hvac'}
+        .hass=${this.hass}
+        .viewModel=${this.viewModel}
+        .config=${this.config}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+      ></eq-hvac-dialog>
+      <eq-preset-dialog
+        .open=${this._activeDialog === 'preset'}
+        .hass=${this.hass}
+        .viewModel=${this.viewModel}
+        .config=${this.config}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+      ></eq-preset-dialog>
+      <eq-menu-dialog
+        .open=${this._activeDialog === 'menu'}
+        .hass=${this.hass}
+        .viewModel=${this.viewModel}
+        .config=${this.config}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+        @equinox-open-regulation=${() => { this._activeDialog = null; }}
+        @equinox-open-boost=${() => { this._activeDialog = null; }}
+        @equinox-open-history=${() => { this._activeDialog = null; }}
+      ></eq-menu-dialog>
     `;
   }
 
@@ -624,7 +666,7 @@ export class EquinoxMainCard extends LitElement {
           .tone=${this._modeTone(hvacMode)}
           ?active=${hvacMode !== "off" && !!hvacMode}
           ?disabled=${this._isControlDisabled()}
-          @click=${() => {}}
+          @click=${() => { this._activeDialog = 'hvac'; }}
         ></eq-icon-button>
         ${showPreset
           ? html`
@@ -635,7 +677,7 @@ export class EquinoxMainCard extends LitElement {
                 ?active=${presetActive}
                 ?subtle=${presetActive}
                 ?disabled=${this._isControlDisabled()}
-                @click=${() => {}}
+                @click=${() => { this._activeDialog = 'preset'; }}
               ></eq-icon-button>
             `
           : nothing}
@@ -645,7 +687,7 @@ export class EquinoxMainCard extends LitElement {
                 .icon=${this._fanIcon()}
                 .label=${this._fanLabel()}
                 ?disabled=${this._isControlDisabled()}
-                @click=${() => {}}
+                @click=${() => { this._activeDialog = 'fan'; }}
               ></eq-icon-button>
             `
           : nothing}
@@ -654,12 +696,15 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderBottomRow(compact = false): TemplateResult {
-    if (compact) {
-      // Compact mode: no fan button, only meter + menu
+    const showFan =
+      (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
+      this.viewModel?.vt?.fan.hasAutoFan === true;
+
+    if (compact || !showFan) {
       return html`
         <div class="bottom compact">
           ${this._renderPowerValve()}
-          <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")}>
+          <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${() => { this._activeDialog = 'menu'; }}>
             <ha-icon icon="mdi:dots-vertical"></ha-icon>
           </button>
         </div>
@@ -668,12 +713,12 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="bottom">
-        <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")}>
+        <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${() => { this._activeDialog = 'fan'; }}>
           <ha-icon .icon=${this._fanIcon()}></ha-icon>
           <span class="fan-label">${this._fanLabel()}</span>
         </button>
         ${this._renderPowerValve()}
-        <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")}>
+        <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${() => { this._activeDialog = 'menu'; }}>
           <ha-icon icon="mdi:dots-vertical"></ha-icon>
         </button>
       </div>
