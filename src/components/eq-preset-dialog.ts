@@ -10,8 +10,8 @@ const PRESET_ORDER = ["frost", "eco", "comfort", "boost"];
 
 const PRESET_ICONS: Record<string, string> = {
   frost: "mdi:snowflake",
-  eco: "mdi:leaf",
-  comfort: "mdi:briefcase",
+  eco: "mdi:leaf-outline",
+  comfort: "mdi:sofa-outline",
   boost: "mdi:rocket-launch-outline"
 };
 

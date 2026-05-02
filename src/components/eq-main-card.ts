@@ -20,7 +20,7 @@ const HVAC_ICONS: Record<string, string> = {
   heat: "mdi:fire",
   cool: "mdi:snowflake",
   heat_cool: "mdi:autorenew",
-  auto: "mdi:power",
+  auto: "mdi:auto-mode",
   dry: "mdi:water-percent",
   fan_only: "mdi:fan",
   off: "mdi:power"
@@ -28,8 +28,8 @@ const HVAC_ICONS: Record<string, string> = {
 
 const PRESET_ICONS: Record<string, string> = {
   frost: "mdi:snowflake",
-  eco: "mdi:leaf",
-  comfort: "mdi:briefcase",
+  eco: "mdi:leaf-outline",
+  comfort: "mdi:sofa-outline",
   boost: "mdi:rocket-launch-outline"
 };
 
