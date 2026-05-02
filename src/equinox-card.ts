@@ -1,10 +1,12 @@
 import { LitElement, css, html } from "lit";
 import "./equinox-card-editor";
 import { CARD_NAME, CARD_TAG, CARD_TYPE } from "./const";
+import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
-import type { EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
+import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
 import { localize } from "./localize/localize";
 import type { HomeAssistant, LovelaceCard } from "./types/ha";
+import type { EquinoxViewModel } from "./types/view-model";
 
 export class EquinoxCard extends LitElement implements LovelaceCard {
   static properties = {
@@ -26,20 +28,27 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
   hass?: HomeAssistant;
 
   private _validation?: EquinoxConfigValidation;
+  private _viewModel?: EquinoxViewModel;
 
   static getConfigElement(): HTMLElement {
     return document.createElement("equinox-card-editor");
   }
 
-  static getStubConfig(): EquinoxCardConfigInput {
+  static getStubConfig(hass?: HomeAssistant): EquinoxCardConfigInput {
+    const entity = Object.keys(hass?.states ?? {}).find((entityId) => entityId.startsWith("climate."));
+
     return {
       type: CARD_TYPE,
-      entity: "climate.example"
+      entity: entity ?? "climate.example"
     };
   }
 
   setConfig(config: EquinoxCardConfigInput): void {
     this._validation = validateEquinoxConfig(config);
+  }
+
+  protected willUpdate(): void {
+    this._viewModel = this._buildViewModel();
   }
 
   getCardSize(): number {
@@ -71,9 +80,24 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
     return html`
       <ha-card>
-        <div>${localize(language, "card.placeholder", { entity })}</div>
+        <div>${localize(language, "card.placeholder", { entity: this._viewModel?.climate.entityId ?? entity })}</div>
       </ha-card>
     `;
+  }
+
+  private _buildViewModel(): EquinoxViewModel | undefined {
+    if (!this.hass || !this._validation || this._validation.error) {
+      return undefined;
+    }
+
+    const config = this._validation.config as EquinoxCardConfig;
+    const entity = this.hass.states[config.entity];
+
+    if (!entity) {
+      return undefined;
+    }
+
+    return buildEquinoxViewModel(config, this.hass, entity);
   }
 
   private _renderMessage(message: string, error = false) {
@@ -89,10 +113,15 @@ if (!customElements.get(CARD_TAG)) {
   customElements.define(CARD_TAG, EquinoxCard);
 }
 
-const customCards = window.customCards ?? [];
-window.customCards = customCards;
+window.customCards = window.customCards ?? [];
+const customCards = window.customCards;
+customCards
+  .filter((card) => card.type === CARD_TAG || card.type === CARD_TYPE || card.name === CARD_NAME)
+  .forEach((card) => {
+    customCards.splice(customCards.indexOf(card), 1);
+  });
 customCards.push({
-  type: CARD_TYPE,
+  type: CARD_TAG,
   name: CARD_NAME,
   description: localize(navigator.language, "card.description"),
   preview: true
