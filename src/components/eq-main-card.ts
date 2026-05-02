@@ -76,6 +76,11 @@ export class EquinoxMainCard extends LitElement {
     baseStyles,
     flatStyles,
     css`
+      :host {
+        display: block;
+        position: relative;
+      }
+
       ha-card {
         overflow: visible;
         border-radius: var(--equinox-radius);

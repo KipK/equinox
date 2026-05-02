@@ -74,7 +74,7 @@ export class EquinoxFanDialog extends LitElement {
     }
 
     .fan-option-label {
-      font-size: 12px;
+      font-size: 15px;
     }
 
     /* Mobile fan list */
@@ -82,7 +82,7 @@ export class EquinoxFanDialog extends LitElement {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 4px;
+      padding: 8px 4px;
       border-radius: 8px;
       cursor: pointer;
       border: none;
@@ -224,7 +224,7 @@ export class EquinoxFanDialog extends LitElement {
                   aria-label=${this._fanLabel(mode)}
                 >
                   <span class="fan-option-icon">
-                    <ha-icon .icon=${this._fanIcon(mode)} style="--mdc-icon-size: 28px;"></ha-icon>
+                    <ha-icon .icon=${this._fanIcon(mode)} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span class="fan-option-label">${this._fanLabel(mode)}</span>
                 </button>

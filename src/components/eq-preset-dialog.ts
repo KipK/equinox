@@ -35,8 +35,8 @@ export class EquinoxPresetDialog extends LitElement {
     .option-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 4px;
+      gap: 10px;
+      padding: 8px 4px;
       border-radius: 8px;
       cursor: pointer;
       border: none;

@@ -9,37 +9,45 @@ export class EquinoxDialog extends LitElement {
   };
 
   static styles = css`
+    :host {
+      display: block;
+    }
+
     .scrim {
-      position: fixed;
+      position: absolute;
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 9000;
+      border-radius: var(--equinox-radius, 12px);
     }
 
     .panel {
-      position: fixed;
+      position: absolute;
+      inset: 0;
       z-index: 9001;
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
-      border-radius: 12px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 280px;
-      max-width: 460px;
-      width: auto;
+      border-radius: var(--equinox-radius, 12px);
+      overflow-y: auto;
     }
 
     @media (max-width: 600px) {
-      .panel {
+      .scrim {
         position: fixed;
         inset: 0;
-        transform: none;
         border-radius: 0;
-        width: 100%;
-        max-width: unset;
-        top: unset;
-        left: unset;
+      }
+
+      .panel {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        inset-inline: 0;
+        border-radius: 16px 16px 0 0;
+        max-height: 80vh;
+        overflow-y: auto;
       }
     }
 
@@ -48,7 +56,7 @@ export class EquinoxDialog extends LitElement {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 16px 12px;
+      padding: 6px 12px 6px;
     }
 
     .header-title {
@@ -58,7 +66,7 @@ export class EquinoxDialog extends LitElement {
 
     .close-btn {
       width: 32px;
-      height: 32px;
+      height: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
