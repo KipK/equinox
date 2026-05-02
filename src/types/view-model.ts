@@ -1,3 +1,5 @@
+import type { EquinoxVtViewModel } from "./vt";
+
 export type EquinoxAvailability = "available" | "unknown" | "unavailable";
 
 export interface EquinoxTemperatureRange {
@@ -27,4 +29,5 @@ export interface EquinoxClimateViewModel {
 
 export interface EquinoxViewModel {
   climate: EquinoxClimateViewModel;
+  vt?: EquinoxVtViewModel;
 }
