@@ -63,7 +63,7 @@ export class EquinoxIconButton extends LitElement {
 
       :host([active][subtle]) button {
         background: color-mix(in srgb, var(--equinox-control-bg) 74%, var(--equinox-text-color) 10%);
-        border-color: color-mix(in srgb, var(--equinox-border-color) 55%, var(--equinox-text-color) 45%);
+        border-color: transparent;
       }
 
       :host([tone="heat"][active]) button {

@@ -291,22 +291,28 @@ export class EquinoxMainCard extends LitElement {
         border-radius: 0;
       }
 
+      .compact-selectors {
+        display: flex;
+        gap: 8px;
+        min-height: 45px;
+      }
+
+      .compact-selectors eq-icon-button {
+        flex: 1;
+        min-width: 0;
+      }
+
       .bottom {
         display: grid;
-        grid-template-columns: 42px minmax(0, 1fr) 34px;
+        grid-template-columns: 42px minmax(0, 1fr) 28px;
         align-items: center;
         gap: 8px;
         min-height: 47px;
-        border: 1px solid var(--equinox-border-color);
-        border-radius: var(--equinox-control-radius);
-        background: var(--equinox-panel-bg);
-        padding: 0 7px 0 12px;
       }
 
       /* Compact mode: no fan column */
       .bottom.compact {
-        grid-template-columns: minmax(0, 1fr) 34px;
-        padding: 0 7px 0 7px;
+        grid-template-columns: minmax(0, 1fr) 28px;
       }
 
       .fan {
@@ -354,8 +360,8 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .menu {
-        width: 32px;
-        height: 40px;
+        width: 28px;
+        height: 28px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -408,7 +414,7 @@ export class EquinoxMainCard extends LitElement {
         }
 
         .bottom {
-          grid-template-columns: 38px minmax(0, 1fr) 32px;
+          grid-template-columns: 38px minmax(0, 1fr) 28px;
           gap: 6px;
         }
       }
@@ -603,7 +609,12 @@ export class EquinoxMainCard extends LitElement {
       return nothing;
     }
 
-    return html`<div class="segments">${modes.map((mode) => this._renderHvacButton(mode))}</div>`;
+    const small = modes.length < 3;
+    const segStyle = small
+      ? `width: calc(100% / 3 * ${modes.length}); margin-inline: auto;`
+      : "";
+
+    return html`<div class="segments" style=${segStyle}>${modes.map((mode) => this._renderHvacButton(mode))}</div>`;
   }
 
   private _renderHvacButton(mode: string): TemplateResult {
@@ -663,8 +674,13 @@ export class EquinoxMainCard extends LitElement {
       (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
       this.viewModel?.vt?.fan.hasAutoFan === true;
 
+    const btnCount = 1 + (showPreset ? 1 : 0) + (showFan ? 1 : 0);
+    const compactStyle = btnCount < 3
+      ? `width: calc(100% / 3 * ${btnCount}); margin-inline: auto;`
+      : "";
+
     return html`
-      <div class="segments">
+      <div class="compact-selectors" style=${compactStyle}>
         <eq-icon-button
           .icon=${hvacMode ? (HVAC_ICONS[hvacMode] ?? "") : ""}
           .label=${this._hvacLabel(hvacMode)}
@@ -678,6 +694,7 @@ export class EquinoxMainCard extends LitElement {
               <eq-icon-button
                 .icon=${presetIcon}
                 .label=${preset && preset !== "none" ? this._presetLabel(preset) : localize(this._language(), "main.preset.none")}
+                .tone=${presetActive ? this._presetTone(preset!) : ""}
                 ?disabled=${this._isControlDisabled()}
                 @click=${() => { this._activeDialog = 'preset'; }}
               ></eq-icon-button>
