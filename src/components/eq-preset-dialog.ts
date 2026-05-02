@@ -25,22 +25,33 @@ export class EquinoxPresetDialog extends LitElement {
     hass: { attribute: false },
     viewModel: { attribute: false },
     config: { attribute: false },
-    language: {}
+    language: {},
+    popover: { type: Boolean },
+    anchor: { attribute: false }
   };
 
   static styles = css`
+    .option-grid {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
     .option-row {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      padding: 8px 4px;
+      gap: 6px;
+      padding: 4px 6px 8px;
       border-radius: 8px;
       cursor: pointer;
       border: none;
       background: transparent;
       color: var(--primary-text-color, #fff);
-      width: 100%;
-      text-align: left;
+      flex: 0 0 auto;
+      min-width: 60px;
+      text-align: center;
     }
 
     .option-row:hover:not(:disabled) {
@@ -88,8 +99,25 @@ export class EquinoxPresetDialog extends LitElement {
     }
 
     .option-label {
-      flex: 1;
       font-size: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .option-grid {
+        display: block;
+      }
+
+      .option-row {
+        flex-direction: row;
+        gap: 10px;
+        padding: 8px 4px;
+        width: 100%;
+        text-align: left;
+      }
+
+      .option-label {
+        flex: 1;
+      }
     }
   `;
 
@@ -98,6 +126,8 @@ export class EquinoxPresetDialog extends LitElement {
   viewModel?: EquinoxViewModel;
   config?: EquinoxCardConfig;
   language?: string;
+  popover = false;
+  anchor?: { element: HTMLElement };
 
   private _getOptions(): string[] {
     const available = this.viewModel?.climate.presetModes ?? [];
@@ -173,22 +203,26 @@ export class EquinoxPresetDialog extends LitElement {
         .open=${this.open}
         .title=${title}
         .language=${this.language}
+        .popover=${this.popover}
+        .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
-        ${options.map(
-          (preset) => html`
-            <button
-              class="option-row"
-              ?active=${preset === activePreset}
-              @click=${() => this._selectPreset(preset)}
-            >
-              <span class="option-icon" tone=${this._presetTone(preset)}>
-                <ha-icon .icon=${PRESET_ICONS[preset]} style="--mdc-icon-size: 24px;"></ha-icon>
-              </span>
-              <span class="option-label">${this._presetLabel(preset)}</span>
-            </button>
-          `
-        )}
+        <div class="option-grid">
+          ${options.map(
+            (preset) => html`
+              <button
+                class="option-row"
+                ?active=${preset === activePreset}
+                @click=${() => this._selectPreset(preset)}
+              >
+                <span class="option-icon" tone=${this._presetTone(preset)}>
+                  <ha-icon .icon=${PRESET_ICONS[preset]} style="--mdc-icon-size: 24px;"></ha-icon>
+                </span>
+                <span class="option-label">${this._presetLabel(preset)}</span>
+              </button>
+            `
+          )}
+        </div>
       </eq-dialog>
     `;
   }

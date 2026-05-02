@@ -13,7 +13,9 @@ export class EquinoxFanDialog extends LitElement {
     hass: { attribute: false },
     viewModel: { attribute: false },
     config: { attribute: false },
-    language: {}
+    language: {},
+    popover: { type: Boolean },
+    anchor: { attribute: false }
   };
 
   static styles = css`
@@ -22,6 +24,7 @@ export class EquinoxFanDialog extends LitElement {
       display: flex;
       gap: 12px;
       justify-content: center;
+      overflow-x: auto;
       padding: 4px 0 12px;
     }
 
@@ -34,6 +37,7 @@ export class EquinoxFanDialog extends LitElement {
       border: none;
       background: transparent;
       color: var(--primary-text-color, #fff);
+      flex: 0 0 auto;
       min-width: 60px;
     }
 
@@ -132,6 +136,8 @@ export class EquinoxFanDialog extends LitElement {
   viewModel?: EquinoxViewModel;
   config?: EquinoxCardConfig;
   language?: string;
+  popover = false;
+  anchor?: { element: HTMLElement };
 
   private _getOptions(): string[] {
     if (this.viewModel?.vt?.fan.hasAutoFan === true) {
@@ -191,6 +197,8 @@ export class EquinoxFanDialog extends LitElement {
         .title=${title}
         .language=${this.language}
         .centerContent=${true}
+        .popover=${this.popover}
+        .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
         <!-- Desktop: horizontal grid of icon buttons -->

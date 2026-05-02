@@ -70,7 +70,8 @@ export class EquinoxMainCard extends LitElement {
     hass: { attribute: false },
     config: { attribute: false },
     viewModel: { attribute: false },
-    _activeDialog: { state: true }
+    _activeDialog: { state: true },
+    _dialogAnchor: { state: true }
   };
 
   static styles = [
@@ -427,6 +428,7 @@ export class EquinoxMainCard extends LitElement {
   viewModel?: EquinoxViewModel;
 
   private _activeDialog: 'fan' | 'hvac' | 'preset' | 'menu' | null = null;
+  private _dialogAnchor?: { element: HTMLElement };
 
   protected render() {
     if (!this.viewModel || !this.config) {
@@ -449,6 +451,8 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
+        .popover=${true}
+        .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-fan-dialog>
       <eq-hvac-dialog
@@ -457,6 +461,8 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
+        .popover=${true}
+        .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-hvac-dialog>
       <eq-preset-dialog
@@ -465,6 +471,8 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
+        .popover=${true}
+        .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-preset-dialog>
       <eq-menu-dialog
@@ -694,7 +702,7 @@ export class EquinoxMainCard extends LitElement {
                 .tone=${this._modeTone(currentHvacMode)}
                 ?active=${currentHvacMode !== "off" && !!currentHvacMode}
                 ?disabled=${this._isControlDisabled()}
-                @click=${() => { this._activeDialog = 'hvac'; }}
+                @click=${(event: Event) => this._openDialog("hvac", event)}
               ></eq-icon-button>
             `
           : nothing}
@@ -705,7 +713,7 @@ export class EquinoxMainCard extends LitElement {
                 .label=${preset && preset !== "none" ? this._presetLabel(preset) : localize(this._language(), "main.preset.none")}
                 .tone=${presetActive ? this._presetTone(preset!) : ""}
                 ?disabled=${this._isControlDisabled()}
-                @click=${() => { this._activeDialog = 'preset'; }}
+                @click=${(event: Event) => this._openDialog("preset", event)}
               ></eq-icon-button>
             `
           : nothing}
@@ -716,7 +724,7 @@ export class EquinoxMainCard extends LitElement {
                 .icon=${this._fanIcon()}
                 .label=${this._fanLabel()}
                 ?disabled=${this._isControlDisabled()}
-                @click=${() => { this._activeDialog = 'fan'; }}
+                @click=${(event: Event) => this._openDialog("fan", event)}
               ></eq-icon-button>
             `
           : nothing}
@@ -739,7 +747,7 @@ export class EquinoxMainCard extends LitElement {
       <div class=${showFan ? "bottom with-fan" : "bottom"}>
         ${showFan
         ? html`
-            <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${() => { this._activeDialog = 'fan'; }}>
+            <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${(event: Event) => this._openDialog("fan", event)}>
               <ha-icon .icon=${this._fanIcon()}></ha-icon>
               <span class="fan-label">${this._fanLabel()}</span>
             </button>
@@ -777,6 +785,20 @@ export class EquinoxMainCard extends LitElement {
         <ha-icon icon="mdi:dots-vertical"></ha-icon>
       </button>
     `;
+  }
+
+  private _openDialog(dialog: 'fan' | 'hvac' | 'preset', event: Event): void {
+    const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
+
+    if (target) {
+      this._dialogAnchor = {
+        element: target
+      };
+    } else {
+      this._dialogAnchor = undefined;
+    }
+
+    this._activeDialog = dialog;
   }
 
   private _powerValveValue(): { icon: string; label: string } | undefined {

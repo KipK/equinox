@@ -30,22 +30,33 @@ export class EquinoxHvacDialog extends LitElement {
     hass: { attribute: false },
     viewModel: { attribute: false },
     config: { attribute: false },
-    language: {}
+    language: {},
+    popover: { type: Boolean },
+    anchor: { attribute: false }
   };
 
   static styles = css`
+    .option-grid {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
     .option-row {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      padding: 8px 4px;
+      gap: 6px;
+      padding: 4px 6px 8px;
       border-radius: 8px;
       cursor: pointer;
       border: none;
       background: transparent;
       color: var(--primary-text-color, #fff);
-      width: 100%;
-      text-align: left;
+      flex: 0 0 auto;
+      min-width: 60px;
+      text-align: center;
     }
 
     .option-row:hover:not(:disabled) {
@@ -88,8 +99,25 @@ export class EquinoxHvacDialog extends LitElement {
     }
 
     .option-label {
-      flex: 1;
       font-size: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .option-grid {
+        display: block;
+      }
+
+      .option-row {
+        flex-direction: row;
+        gap: 10px;
+        padding: 8px 4px;
+        width: 100%;
+        text-align: left;
+      }
+
+      .option-label {
+        flex: 1;
+      }
     }
   `;
 
@@ -98,6 +126,8 @@ export class EquinoxHvacDialog extends LitElement {
   viewModel?: EquinoxViewModel;
   config?: EquinoxCardConfig;
   language?: string;
+  popover = false;
+  anchor?: { element: HTMLElement };
 
   private _getOptions(): string[] {
     const available = this.viewModel?.climate.hvacModes ?? [];
@@ -136,22 +166,26 @@ export class EquinoxHvacDialog extends LitElement {
         .open=${this.open}
         .title=${title}
         .language=${this.language}
+        .popover=${this.popover}
+        .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
-        ${options.map(
-          (mode) => html`
-            <button
-              class="option-row"
-              ?active=${mode === activeMode}
-              @click=${() => this._selectMode(mode)}
-            >
-              <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""}>
-                <ha-icon .icon=${HVAC_ICONS[mode]} style="--mdc-icon-size: 24px;"></ha-icon>
-              </span>
-              <span class="option-label">${this._modeLabel(mode)}</span>
-            </button>
-          `
-        )}
+        <div class="option-grid">
+          ${options.map(
+            (mode) => html`
+              <button
+                class="option-row"
+                ?active=${mode === activeMode}
+                @click=${() => this._selectMode(mode)}
+              >
+                <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""}>
+                  <ha-icon .icon=${HVAC_ICONS[mode]} style="--mdc-icon-size: 24px;"></ha-icon>
+                </span>
+                <span class="option-label">${this._modeLabel(mode)}</span>
+              </button>
+            `
+          )}
+        </div>
       </eq-dialog>
     `;
   }

@@ -6,7 +6,9 @@ export class EquinoxDialog extends LitElement {
     open: { type: Boolean },
     title: {},
     language: {},
-    centerContent: { type: Boolean, attribute: "center-content" }
+    centerContent: { type: Boolean, attribute: "center-content" },
+    popover: { type: Boolean },
+    anchor: { attribute: false }
   };
 
   static styles = css`
@@ -33,6 +35,34 @@ export class EquinoxDialog extends LitElement {
     }
 
     @media (min-width: 601px) {
+      .scrim.popover {
+        position: fixed;
+        inset: 0;
+        background: transparent;
+        border-radius: 0;
+      }
+
+      .panel.popover {
+        position: fixed;
+        inset: auto;
+        width: max-content;
+        max-width: min(calc(100vw - 24px), 520px);
+        max-height: min(calc(100vh - 24px), 220px);
+        overflow: auto;
+        background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
+        border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
+        box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
+        backdrop-filter: blur(14px);
+      }
+
+      .panel.popover .header {
+        display: none;
+      }
+
+      .panel.popover .content {
+        padding: 10px;
+      }
+
       .panel.center-content {
         display: flex;
         flex-direction: column;
@@ -106,6 +136,8 @@ export class EquinoxDialog extends LitElement {
   title = "";
   language?: string;
   centerContent = false;
+  popover = false;
+  anchor?: { element: HTMLElement };
 
   // Arrow function so the same reference is used for add/remove listener.
   private readonly _handleKeyDown = (event: KeyboardEvent): void => {
@@ -114,18 +146,76 @@ export class EquinoxDialog extends LitElement {
     }
   };
 
+  private readonly _handleResize = (): void => {
+    if (this.open && this.popover) {
+      this._positionPopover();
+    }
+  };
+
+  private readonly _handleScroll = (): void => {
+    if (this.open && this.popover) {
+      this._positionPopover();
+    }
+  };
+
   connectedCallback(): void {
     super.connectedCallback();
     document.addEventListener("keydown", this._handleKeyDown);
+    window.addEventListener("resize", this._handleResize);
+    window.addEventListener("scroll", this._handleScroll, true);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this._handleKeyDown);
+    window.removeEventListener("resize", this._handleResize);
+    window.removeEventListener("scroll", this._handleScroll, true);
   }
 
   private _dispatchClose(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
+  }
+
+  protected updated(): void {
+    if (this.open && this.popover) {
+      void this.updateComplete.then(() => this._positionPopover());
+    }
+  }
+
+  private _positionPopover(): void {
+    const panel = this.renderRoot.querySelector<HTMLElement>(".panel.popover");
+
+    if (!panel) {
+      return;
+    }
+
+    if (window.innerWidth <= 600) {
+      panel.style.left = "";
+      panel.style.top = "";
+      panel.style.visibility = "";
+      return;
+    }
+
+    if (!this.anchor) {
+      return;
+    }
+
+    const anchorRect = this.anchor.element.getBoundingClientRect();
+    const margin = 12;
+    const gap = 8;
+    const panelRect = panel.getBoundingClientRect();
+    const width = panelRect.width;
+    const height = panelRect.height;
+    const maxLeft = Math.max(margin, window.innerWidth - width - margin);
+    const maxTop = Math.max(margin, window.innerHeight - height - margin);
+    const preferredLeft = anchorRect.left + anchorRect.width / 2 - width / 2;
+    const preferredTop = anchorRect.top - height - gap;
+    const belowTop = anchorRect.top + anchorRect.height + gap;
+    const top = preferredTop >= margin ? preferredTop : belowTop;
+
+    panel.style.left = `${Math.min(Math.max(preferredLeft, margin), maxLeft)}px`;
+    panel.style.top = `${Math.min(Math.max(top, margin), maxTop)}px`;
+    panel.style.visibility = "visible";
   }
 
   protected render() {
@@ -134,10 +224,16 @@ export class EquinoxDialog extends LitElement {
     }
 
     const closeLabel = localize(this.language, "dialog.close");
+    const popoverStyle = this.popover && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "";
+    const panelClass = [
+      "panel",
+      this.centerContent ? "center-content" : "",
+      this.popover ? "popover" : ""
+    ].filter(Boolean).join(" ");
 
     return html`
-      <div class="scrim" @click=${this._dispatchClose}></div>
-      <div class=${this.centerContent ? "panel center-content" : "panel"} @click=${(e: Event) => e.stopPropagation()}>
+      <div class=${this.popover ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
+      <div class=${panelClass} style=${popoverStyle} @click=${(e: Event) => e.stopPropagation()}>
         <div class="header">
           <span class="header-title">${this.title}</span>
           <button class="close-btn" aria-label=${closeLabel} title=${closeLabel} @click=${this._dispatchClose}>
