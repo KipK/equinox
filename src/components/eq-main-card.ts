@@ -100,15 +100,17 @@ export class EquinoxMainCard extends LitElement {
       .status {
         min-height: 27px;
         display: grid;
-        grid-template-columns: 32px 32px minmax(0, 1fr) auto;
+        grid-template-columns: 28px minmax(0, 1fr) auto 28px;
         align-items: center;
-        gap: 9px;
+        justify-items: center;
+        gap: 6px;
       }
 
       .events {
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        justify-self: end;
         gap: 8px;
         min-width: 28px;
       }
@@ -156,6 +158,11 @@ export class EquinoxMainCard extends LitElement {
         color: var(--equinox-muted-color);
       }
 
+      .action-icon[hidden] {
+        visibility: hidden;
+        display: inline-flex;
+      }
+
       .action-icon[tone="heat"] {
         color: var(--equinox-heat-color);
       }
@@ -173,31 +180,29 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .setpoint {
-        display: grid;
-        grid-template-columns: 54px minmax(0, 1fr) 54px;
+        display: flex;
         align-items: center;
-        gap: 14px;
+        justify-content: center;
+        gap: 18px;
         margin-top: 2px;
       }
 
       .step {
-        width: 54px;
-        height: 54px;
+        width: 40px;
+        height: 40px;
         border: 1px solid var(--equinox-border-color);
         border-radius: 50%;
-        background: radial-gradient(
-          circle at 35% 25%,
-          color-mix(in srgb, var(--equinox-control-bg) 84%, var(--equinox-text-color) 10%),
-          color-mix(in srgb, var(--equinox-control-bg) 90%, #000000 10%)
-        );
-        box-shadow:
-          inset 0 1px 0 rgb(255 255 255 / 6%),
-          0 1px 3px rgb(0 0 0 / 18%);
+        background: var(--equinox-control-bg);
+        box-shadow: 0 1px 3px rgb(0 0 0 / 18%);
         color: var(--equinox-text-color);
         display: inline-flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
+      }
+
+      .step:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--equinox-control-bg) 82%, var(--equinox-text-color) 18%);
       }
 
       .step:disabled {
@@ -208,7 +213,7 @@ export class EquinoxMainCard extends LitElement {
       .target {
         min-width: 0;
         text-align: center;
-        font-size: 46px;
+        font-size: 38px;
         line-height: 1;
         font-weight: 700;
         color: var(--equinox-auto-color);
@@ -235,7 +240,6 @@ export class EquinoxMainCard extends LitElement {
         gap: 16px;
         color: var(--equinox-text-color);
         font-size: 14px;
-        font-weight: 800;
       }
 
       .condition {
@@ -307,30 +311,20 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .meter {
-        display: grid;
-        grid-template-columns: 18px auto;
+        display: flex;
         align-items: center;
         justify-content: center;
-        column-gap: 6px;
-        row-gap: 2px;
+        gap: 10px;
         color: var(--equinox-muted-color);
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 12px;
         white-space: nowrap;
       }
 
       .meter-line {
-        display: contents;
-      }
-
-      .meter-line ha-icon {
-        grid-column: 1;
-        justify-self: center;
-      }
-
-      .meter-line span {
-        grid-column: 2;
-        justify-self: start;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        line-height: 1;
       }
 
       .meter.empty {
@@ -346,6 +340,9 @@ export class EquinoxMainCard extends LitElement {
       .menu {
         width: 32px;
         height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         border: 0;
         background: transparent;
         color: var(--equinox-muted-color);
@@ -370,8 +367,13 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .meter ha-icon {
-        width: 16px;
-        height: 16px;
+        --mdc-icon-size: 22px;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
       }
 
       @media (max-width: 360px) {
@@ -380,17 +382,13 @@ export class EquinoxMainCard extends LitElement {
           gap: 10px;
         }
 
-        .setpoint {
-          grid-template-columns: 48px minmax(0, 1fr) 48px;
-        }
-
         .step {
-          width: 48px;
-          height: 48px;
+          width: 34px;
+          height: 34px;
         }
 
         .target {
-          font-size: 42px;
+          font-size: 34px;
         }
 
         .bottom {
@@ -440,30 +438,41 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="status">
-        <button class="lock" title=${lockLabel} aria-label=${lockLabel} ?hidden=${!lockSupported}>
-          <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
-        </button>
         ${this._renderHvacActionIcon()}
         <span></span>
         <div class="events">${this._renderEvents()}</div>
+        <button class="lock" title=${lockLabel} aria-label=${lockLabel} ?hidden=${!lockSupported}>
+          <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
+        </button>
       </div>
     `;
   }
 
-  private _renderHvacActionIcon(): TemplateResult | typeof nothing {
+  private _renderHvacActionIcon(): TemplateResult {
     const action = this.viewModel?.climate.hvacAction;
-    const icon = action ? HVAC_ACTION_ICONS[action] : undefined;
+    const mode = this.viewModel?.climate.hvacMode;
+    const activeActions = new Set(["preheating", "heating", "cooling", "drying", "fan", "defrosting"]);
 
-    if (!action || !icon) {
-      return nothing;
+    let iconStr = "";
+    let tone = "";
+
+    if (action && activeActions.has(action)) {
+      const entry = HVAC_ACTION_ICONS[action];
+      iconStr = entry.icon;
+      tone = entry.tone;
+    } else {
+      iconStr = mode && mode !== "off" ? (HVAC_ICONS[mode] ?? "") : "";
     }
+
+    const visible = iconStr !== "";
 
     return html`
       <ha-icon
         class="action-icon"
-        tone=${icon.tone}
-        .icon=${icon.icon}
-        title=${localize(this._language(), `main.hvac_action.${action}`)}
+        ?hidden=${!visible}
+        tone=${tone}
+        .icon=${iconStr}
+        title=${visible && action ? localize(this._language(), `main.hvac_action.${action}`) : ""}
       ></ha-icon>
     `;
   }
@@ -589,7 +598,7 @@ export class EquinoxMainCard extends LitElement {
         </button>
         ${this._renderPowerValve()}
         <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")}>
-          <ha-icon icon="mdi:chevron-right"></ha-icon>
+          <ha-icon icon="mdi:dots-vertical"></ha-icon>
         </button>
       </div>
     `;
@@ -603,11 +612,11 @@ export class EquinoxMainCard extends LitElement {
     return html`
       <div class=${value || finite(instantPower) ? "meter" : "meter empty"}>
         ${value
-          ? html`<span class="meter-line"><ha-icon .icon=${value.icon}></ha-icon><span>${value.label}</span></span>`
-          : nothing}
+        ? html`<span class="meter-line"><ha-icon .icon=${value.icon}></ha-icon><span>${value.label}</span></span>`
+        : nothing}
         ${finite(instantPower)
-          ? html`<span class="meter-line"><ha-icon icon="mdi:flash"></ha-icon><span>${this._formatNumber(instantPower)}${instantPowerUnit ? ` ${instantPowerUnit}` : ""}</span></span>`
-          : nothing}
+        ? html`<span class="meter-line"><ha-icon icon="mdi:flash"></ha-icon><span>${this._formatNumber(instantPower)}${instantPowerUnit ? ` ${instantPowerUnit}` : ""}</span></span>`
+        : nothing}
         ${!value && !finite(instantPower) ? html`<span class="meter-placeholder"></span>` : nothing}
       </div>
     `;

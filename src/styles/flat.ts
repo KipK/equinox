@@ -2,11 +2,11 @@ import { css } from "lit";
 
 export const flatStyles = css`
   :host {
-    --equinox-card-bg: var(--ha-card-background, var(--card-background-color, #101820));
-    --equinox-panel-bg: var(--equinox-flat-panel-bg, #14212c);
-    --equinox-control-bg: var(--equinox-flat-control-bg, #172633);
-    --equinox-control-active-bg: var(--primary-color, #245887);
-    --equinox-border-color: var(--equinox-flat-border-color, #243746);
+    --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
+    --equinox-panel-bg: var(--equinox-flat-panel-bg, var(--secondary-background-color));
+    --equinox-control-bg: var(--equinox-flat-control-bg, var(--secondary-background-color));
+    --equinox-control-active-bg: var(--primary-color);
+    --equinox-border-color: var(--equinox-flat-border-color, var(--divider-color));
     --equinox-text-color: var(--primary-text-color, #f4f0ec);
     --equinox-muted-color: var(--secondary-text-color, #aeb7c2);
     --equinox-heat-color: var(--state-climate-heat-color, #ff8a1c);
