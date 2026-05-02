@@ -43,6 +43,7 @@
       "defrosting": "Dégivrage"
     },
     "preset": {
+      "none": "Aucun preset",
       "frost": "Hors gel",
       "eco": "Éco",
       "comfort": "Confort",

@@ -43,6 +43,7 @@
       "defrosting": "Defrosting"
     },
     "preset": {
+      "none": "No preset",
       "frost": "Frost protection",
       "eco": "Eco",
       "comfort": "Comfort",

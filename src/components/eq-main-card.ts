@@ -293,6 +293,12 @@ export class EquinoxMainCard extends LitElement {
         padding: 0 7px 0 12px;
       }
 
+      /* Compact mode: no fan column */
+      .bottom.compact {
+        grid-template-columns: minmax(0, 1fr) 34px;
+        padding: 0 7px 0 7px;
+      }
+
       .fan {
         width: 36px;
         height: 40px;
@@ -408,11 +414,14 @@ export class EquinoxMainCard extends LitElement {
       return nothing;
     }
 
+    const compact = this.config?.display_mode === "compact";
+
     return html`
       <ha-card>
         <div class="card">
           ${this._renderName()} ${this._renderStatus()} ${this._renderSetpoint()} ${this._renderConditions()}
-          ${this._renderHvacModes()} ${this._renderPresets()} ${this._renderBottomRow()}
+          ${compact ? this._renderCompactSelectors() : html`${this._renderHvacModes()} ${this._renderPresets()}`}
+          ${this._renderBottomRow(compact)}
         </div>
       </ha-card>
     `;
@@ -589,7 +598,74 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderBottomRow(): TemplateResult {
+  // Renders the compact single-row selector bar (HVAC + optional preset + optional fan).
+  private _renderCompactSelectors(): TemplateResult | typeof nothing {
+    const hvacMode = this.viewModel?.climate.hvacMode;
+    const preset = this.viewModel?.climate.presetMode;
+
+    // Show preset button if the entity exposes any valid preset mode.
+    const availablePresets = (this.viewModel?.climate.presetModes ?? []).filter(
+      (m) => m !== "none" && PRESET_ICONS[m]
+    );
+    const showPreset = availablePresets.length > 0;
+    const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:knob";
+    const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
+
+    // Show fan button if the climate has fan modes OR VT exposes auto-fan.
+    const showFan =
+      (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
+      this.viewModel?.vt?.fan.hasAutoFan === true;
+
+    return html`
+      <div class="segments">
+        <eq-icon-button
+          .icon=${hvacMode ? (HVAC_ICONS[hvacMode] ?? "") : ""}
+          .label=${this._hvacLabel(hvacMode)}
+          .tone=${this._modeTone(hvacMode)}
+          ?active=${hvacMode !== "off" && !!hvacMode}
+          ?disabled=${this._isControlDisabled()}
+          @click=${() => {}}
+        ></eq-icon-button>
+        ${showPreset
+          ? html`
+              <eq-icon-button
+                .icon=${presetIcon}
+                .label=${preset && preset !== "none" ? this._presetLabel(preset) : localize(this._language(), "main.preset.none")}
+                .tone=${presetActive ? this._presetTone(preset!) : ""}
+                ?active=${presetActive}
+                ?subtle=${presetActive}
+                ?disabled=${this._isControlDisabled()}
+                @click=${() => {}}
+              ></eq-icon-button>
+            `
+          : nothing}
+        ${showFan
+          ? html`
+              <eq-icon-button
+                .icon=${this._fanIcon()}
+                .label=${this._fanLabel()}
+                ?disabled=${this._isControlDisabled()}
+                @click=${() => {}}
+              ></eq-icon-button>
+            `
+          : nothing}
+      </div>
+    `;
+  }
+
+  private _renderBottomRow(compact = false): TemplateResult {
+    if (compact) {
+      // Compact mode: no fan button, only meter + menu
+      return html`
+        <div class="bottom compact">
+          ${this._renderPowerValve()}
+          <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")}>
+            <ha-icon icon="mdi:dots-vertical"></ha-icon>
+          </button>
+        </div>
+      `;
+    }
+
     return html`
       <div class="bottom">
         <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")}>
