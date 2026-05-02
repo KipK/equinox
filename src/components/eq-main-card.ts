@@ -97,10 +97,17 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .name {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 28px;
+        align-items: center;
+        gap: 8px;
         min-height: 20px;
         font-size: var(--ha-card-header-font-size, 16px);
         font-weight: var(--ha-card-header-font-weight, 500);
         line-height: var(--ha-card-header-line-height, 20px);
+      }
+
+      .name-label {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -109,7 +116,7 @@ export class EquinoxMainCard extends LitElement {
       .status {
         min-height: 27px;
         display: grid;
-        grid-template-columns: 28px minmax(0, 1fr) auto 28px;
+        grid-template-columns: 28px minmax(0, 1fr) auto 28px 28px;
         align-items: center;
         justify-items: center;
         gap: 6px;
@@ -307,15 +314,14 @@ export class EquinoxMainCard extends LitElement {
 
       .bottom {
         display: grid;
-        grid-template-columns: 42px minmax(0, 1fr) 28px;
+        grid-template-columns: minmax(0, 1fr);
         align-items: center;
         gap: 8px;
         min-height: 47px;
       }
 
-      /* Compact mode: no fan column */
-      .bottom.compact {
-        grid-template-columns: minmax(0, 1fr) 28px;
+      .bottom.with-fan {
+        grid-template-columns: 42px minmax(0, 1fr);
       }
 
       .fan {
@@ -350,16 +356,6 @@ export class EquinoxMainCard extends LitElement {
         align-items: center;
         gap: 6px;
         line-height: 1;
-      }
-
-      .meter.empty {
-        display: block;
-      }
-
-      .meter-placeholder {
-        display: block;
-        width: 1px;
-        height: 1px;
       }
 
       .menu {
@@ -492,7 +488,12 @@ export class EquinoxMainCard extends LitElement {
       return nothing;
     }
 
-    return html`<div class="name">${this.viewModel?.climate.name}</div>`;
+    return html`
+      <div class="name">
+        <span class="name-label">${this.viewModel?.climate.name}</span>
+        ${this._renderMenuButton()}
+      </div>
+    `;
   }
 
   private _renderStatus(): TemplateResult {
@@ -509,6 +510,7 @@ export class EquinoxMainCard extends LitElement {
         <button class="lock" title=${lockLabel} aria-label=${lockLabel} ?hidden=${!lockSupported}>
           <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
         </button>
+        ${this.config?.disable_name ? this._renderMenuButton() : html`<span></span>`}
       </div>
     `;
   }
@@ -625,7 +627,7 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderPresets(): TemplateResult | typeof nothing {
     const presets = uniqueOrdered(this.viewModel?.climate.presetModes ?? [], PRESET_ORDER).filter(
-      (preset) => preset !== "none" && PRESET_ICONS[preset] && !(preset === "frost" && this.viewModel?.climate.hvacMode === "cool")
+      (preset) => preset !== "none" && PRESET_ICONS[preset] && !this._hidePreset(preset)
     );
 
     if (presets.length === 0) {
@@ -708,32 +710,28 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderBottomRow(compact = false): TemplateResult {
+  private _renderBottomRow(compact = false): TemplateResult | typeof nothing {
     const showFan =
-      (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
-      this.viewModel?.vt?.fan.hasAutoFan === true;
+      !compact &&
+      ((this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
+        this.viewModel?.vt?.fan.hasAutoFan === true);
+    const powerValve = this._renderPowerValve();
 
-    if (compact || !showFan) {
-      return html`
-        <div class="bottom compact">
-          ${this._renderPowerValve()}
-          <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${() => { this._activeDialog = 'menu'; }}>
-            <ha-icon icon="mdi:dots-vertical"></ha-icon>
-          </button>
-        </div>
-      `;
+    if (!showFan && powerValve === nothing) {
+      return nothing;
     }
 
     return html`
-      <div class="bottom">
-        <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${() => { this._activeDialog = 'fan'; }}>
-          <ha-icon .icon=${this._fanIcon()}></ha-icon>
-          <span class="fan-label">${this._fanLabel()}</span>
-        </button>
-        ${this._renderPowerValve()}
-        <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${() => { this._activeDialog = 'menu'; }}>
-          <ha-icon icon="mdi:dots-vertical"></ha-icon>
-        </button>
+      <div class=${showFan ? "bottom with-fan" : "bottom"}>
+        ${showFan
+        ? html`
+            <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${() => { this._activeDialog = 'fan'; }}>
+              <ha-icon .icon=${this._fanIcon()}></ha-icon>
+              <span class="fan-label">${this._fanLabel()}</span>
+            </button>
+          `
+        : nothing}
+        ${powerValve}
       </div>
     `;
   }
@@ -743,16 +741,27 @@ export class EquinoxMainCard extends LitElement {
     const instantPower = this.viewModel?.vt?.powerValve.instantPower;
     const instantPowerUnit = this.viewModel?.vt?.powerValve.instantPowerUnit;
 
+    if (!value && !finite(instantPower)) {
+      return nothing;
+    }
+
     return html`
-      <div class=${value || finite(instantPower) ? "meter" : "meter empty"}>
+      <div class="meter">
         ${value
         ? html`<span class="meter-line"><ha-icon .icon=${value.icon}></ha-icon><span>${value.label}</span></span>`
         : nothing}
         ${finite(instantPower)
         ? html`<span class="meter-line"><ha-icon icon="mdi:flash"></ha-icon><span>${this._formatNumber(instantPower)}${instantPowerUnit ? ` ${instantPowerUnit}` : ""}</span></span>`
         : nothing}
-        ${!value && !finite(instantPower) ? html`<span class="meter-placeholder"></span>` : nothing}
       </div>
+    `;
+  }
+
+  private _renderMenuButton(): TemplateResult {
+    return html`
+      <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${() => { this._activeDialog = 'menu'; }}>
+        <ha-icon icon="mdi:dots-vertical"></ha-icon>
+      </button>
     `;
   }
 
@@ -813,6 +822,8 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _presetTone(preset: string): string {
+    const hvacMode = this.viewModel?.climate.hvacMode;
+
     if (preset === "frost") {
       return "cool";
     }
@@ -822,14 +833,28 @@ export class EquinoxMainCard extends LitElement {
     }
 
     if (preset === "comfort") {
+      if (hvacMode === "cool") {
+        return "cool";
+      }
+
       return "heat";
     }
 
     if (preset === "boost") {
+      if (hvacMode === "cool") {
+        return "cool-boost";
+      }
+
       return "boost";
     }
 
     return "";
+  }
+
+  private _hidePreset(preset: string): boolean {
+    const hvacMode = this.viewModel?.climate.hvacMode;
+
+    return preset === "frost" && hvacMode !== "heat";
   }
 
   private _fanIcon(): string {

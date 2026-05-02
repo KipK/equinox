@@ -11,6 +11,7 @@ export const flatStyles = css`
     --equinox-muted-color: var(--secondary-text-color, #aeb7c2);
     --equinox-heat-color: var(--state-climate-heat-color, #ff8a1c);
     --equinox-cool-color: var(--state-climate-cool-color, #4da1ff);
+    --equinox-cool-boost-color: var(--equinox-flat-cool-boost-color, #7cc7ff);
     --equinox-auto-color: var(--success-color, #55bf6a);
     --equinox-boost-color: var(--accent-color, #b06cff);
     --equinox-danger-color: var(--error-color, #ff5d5d);

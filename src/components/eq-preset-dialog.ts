@@ -15,13 +15,6 @@ const PRESET_ICONS: Record<string, string> = {
   boost: "mdi:rocket-launch-outline"
 };
 
-const PRESET_TONES: Record<string, string> = {
-  frost: "cool",
-  eco: "auto",
-  comfort: "heat",
-  boost: "boost"
-};
-
 export class EquinoxPresetDialog extends LitElement {
   static properties = {
     open: { type: Boolean },
@@ -85,6 +78,11 @@ export class EquinoxPresetDialog extends LitElement {
       background: color-mix(in srgb, var(--equinox-boost-color, #b06cff) 15%, transparent);
     }
 
+    .option-icon[tone="cool-boost"] {
+      color: var(--equinox-cool-boost-color, #7cc7ff);
+      background: color-mix(in srgb, var(--equinox-cool-boost-color, #7cc7ff) 15%, transparent);
+    }
+
     .option-label {
       flex: 1;
       font-size: 15px;
@@ -106,7 +104,7 @@ export class EquinoxPresetDialog extends LitElement {
         available.includes(preset) &&
         PRESET_ICONS[preset] &&
         preset !== "none" &&
-        !(preset === "frost" && hvacMode === "cool")
+        !(preset === "frost" && hvacMode !== "heat")
     );
   }
 
@@ -114,6 +112,28 @@ export class EquinoxPresetDialog extends LitElement {
     const label = localize(this.language, `main.preset.${preset}`);
 
     return label === `main.preset.${preset}` ? preset : label;
+  }
+
+  private _presetTone(preset: string): string {
+    const hvacMode = this.viewModel?.climate.hvacMode;
+
+    if (preset === "frost") {
+      return "cool";
+    }
+
+    if (preset === "eco") {
+      return "auto";
+    }
+
+    if (preset === "comfort") {
+      return hvacMode === "cool" ? "cool" : "heat";
+    }
+
+    if (preset === "boost") {
+      return hvacMode === "cool" ? "cool-boost" : "boost";
+    }
+
+    return "";
   }
 
   private _dispatchClose(): void {
@@ -150,7 +170,7 @@ export class EquinoxPresetDialog extends LitElement {
               ?active=${preset === activePreset}
               @click=${() => this._selectPreset(preset)}
             >
-              <span class="option-icon" tone=${PRESET_TONES[preset] ?? ""}>
+              <span class="option-icon" tone=${this._presetTone(preset)}>
                 <ha-icon .icon=${PRESET_ICONS[preset]} style="--mdc-icon-size: 24px;"></ha-icon>
               </span>
               <span class="option-label">${this._presetLabel(preset)}</span>

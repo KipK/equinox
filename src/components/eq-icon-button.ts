@@ -102,6 +102,15 @@ export class EquinoxIconButton extends LitElement {
         background: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-boost-color) 22%);
       }
 
+      :host([tone="cool-boost"][active]) button {
+        background: color-mix(in srgb, var(--equinox-cool-boost-color) 58%, #000000 42%);
+      }
+
+      :host([tone="cool-boost"][active][subtle]) button {
+        color: var(--equinox-cool-boost-color);
+        background: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-boost-color) 22%);
+      }
+
       :host([tone="off"][active]) button {
         background: color-mix(in srgb, var(--disabled-text-color, #7e8792) 58%, #000000 42%);
       }
@@ -120,6 +129,10 @@ export class EquinoxIconButton extends LitElement {
 
       :host([tone="boost"]:not([active])) button {
         color: var(--equinox-boost-color);
+      }
+
+      :host([tone="cool-boost"]:not([active])) button {
+        color: var(--equinox-cool-boost-color);
       }
 
       :host([tone="off"]:not([active])) button {
