@@ -1,0 +1,38 @@
+{
+  "card": {
+    "description": "Lovelace card for Versatile Thermostat and standard climate entities.",
+    "missing_entity": "Configure a climate entity.",
+    "invalid_entity": "The configured entity must belong to the climate domain.",
+    "invalid_theme": "The configured theme is not available.",
+    "invalid_display_mode": "The configured display mode is not available.",
+    "invalid_additional_dashboards": "The configured dashboard mode is not available.",
+    "entity_not_found": "Entity not found: {entity}",
+    "placeholder": "Equinox is ready for {entity}."
+  },
+  "editor": {
+    "entity": "Entity",
+    "name": "Name",
+    "diagnostic_entity": "Diagnostic entity",
+    "power_entity": "Power entity",
+    "humidity_entity": "Humidity entity",
+    "theme": "Theme",
+    "display_mode": "Display format",
+    "disable_name": "Hide name",
+    "enable_lock": "Enable lock",
+    "additional_dashboards": "Additional dashboards",
+    "options": {
+      "theme": {
+        "flat": "Flat"
+      },
+      "display_mode": {
+        "classic": "Classic",
+        "compact": "Compact"
+      },
+      "additional_dashboards": {
+        "auto": "Auto",
+        "custom": "Custom",
+        "disabled": "Disabled"
+      }
+    }
+  }
+}

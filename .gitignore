@@ -1,0 +1,8 @@
+.venv/
+tmp/
+plans/
+dev_tests/
+node_modules/
+dist/
+*.log
+*.bak
