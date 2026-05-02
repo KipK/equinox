@@ -1,0 +1,23 @@
+import { css } from "lit";
+
+export const flatStyles = css`
+  :host {
+    --equinox-card-bg: var(--ha-card-background, var(--card-background-color, #101820));
+    --equinox-panel-bg: var(--equinox-flat-panel-bg, #14212c);
+    --equinox-control-bg: var(--equinox-flat-control-bg, #172633);
+    --equinox-control-active-bg: var(--primary-color, #245887);
+    --equinox-border-color: var(--equinox-flat-border-color, #243746);
+    --equinox-text-color: var(--primary-text-color, #f4f0ec);
+    --equinox-muted-color: var(--secondary-text-color, #aeb7c2);
+    --equinox-heat-color: var(--state-climate-heat-color, #ff8a1c);
+    --equinox-cool-color: var(--state-climate-cool-color, #4da1ff);
+    --equinox-auto-color: var(--success-color, #55bf6a);
+    --equinox-boost-color: var(--accent-color, #b06cff);
+    --equinox-danger-color: var(--error-color, #ff5d5d);
+    --equinox-warning-color: var(--warning-color, #ffa726);
+    --equinox-info-color: var(--info-color, #64b5f6);
+    --equinox-radius: 8px;
+    --equinox-control-radius: 8px;
+    --equinox-shadow: var(--ha-card-box-shadow, 0 1px 2px rgb(0 0 0 / 34%));
+  }
+`;

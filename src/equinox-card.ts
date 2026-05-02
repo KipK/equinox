@@ -1,5 +1,6 @@
 import { LitElement, css, html } from "lit";
 import "./equinox-card-editor";
+import "./components/eq-main-card";
 import { CARD_NAME, CARD_TAG, CARD_TYPE } from "./const";
 import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
@@ -79,9 +80,11 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <ha-card>
-        <div>${localize(language, "card.placeholder", { entity: this._viewModel?.climate.entityId ?? entity })}</div>
-      </ha-card>
+      <eq-main-card
+        .hass=${this.hass}
+        .config=${this._validation.config as EquinoxCardConfig}
+        .viewModel=${this._viewModel}
+      ></eq-main-card>
     `;
   }
 

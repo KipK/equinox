@@ -9,6 +9,82 @@
     "entity_not_found": "Entity not found: {entity}",
     "placeholder": "Equinox is ready for {entity}."
   },
+  "main": {
+    "status": {
+      "heating": "Heating active",
+      "cooling": "Cooling active",
+      "auto": "Auto",
+      "heat": "Heating",
+      "cool": "Cooling",
+      "heat_cool": "Auto",
+      "dry": "Dry",
+      "fan_only": "Fan only",
+      "off": "Off",
+      "boost": "Temporary boost",
+      "unavailable": "Unavailable"
+    },
+    "hvac": {
+      "heat": "Heat",
+      "cool": "Cool",
+      "heat_cool": "Heat/cool",
+      "auto": "Auto",
+      "dry": "Dry",
+      "fan_only": "Fan only",
+      "off": "Off"
+    },
+    "hvac_action": {
+      "off": "Off",
+      "preheating": "Preheating",
+      "heating": "Heating active",
+      "cooling": "Cooling active",
+      "drying": "Drying active",
+      "fan": "Fan active",
+      "idle": "Idle",
+      "defrosting": "Defrosting"
+    },
+    "preset": {
+      "frost": "Frost protection",
+      "eco": "Eco",
+      "comfort": "Comfort",
+      "boost": "Boost"
+    },
+    "fan": {
+      "auto": "Auto",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "off": "Off",
+      "auto_fan_none": "None",
+      "auto_fan_low": "Low",
+      "auto_fan_medium": "Medium",
+      "auto_fan_high": "High",
+      "auto_fan_turbo": "Turbo",
+      "None": "None",
+      "Low": "Low",
+      "Medium": "Medium",
+      "High": "High",
+      "Turbo": "Turbo",
+      "unavailable": "Fan"
+    },
+    "lock": {
+      "locked": "Locked",
+      "unlocked": "Unlocked"
+    },
+    "events": {
+      "hasDanger": "Critical alert",
+      "hasAlert": "Alert",
+      "hasOverpowering": "Overpowering",
+      "hasOpenWindow": "Open window",
+      "hasPresence": "Presence detected",
+      "hasTimer": "Active timer"
+    },
+    "actions": {
+      "decrease_temperature": "Decrease setpoint",
+      "increase_temperature": "Increase setpoint",
+      "open_fan": "Open fan",
+      "open_menu": "Open menu"
+    }
+  },
   "editor": {
     "entity": "Entity",
     "name": "Name",

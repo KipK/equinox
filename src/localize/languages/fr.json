@@ -9,6 +9,82 @@
     "entity_not_found": "Entité introuvable: {entity}",
     "placeholder": "Equinox est prêt pour {entity}."
   },
+  "main": {
+    "status": {
+      "heating": "Chauffage actif",
+      "cooling": "Refroidissement actif",
+      "auto": "Auto",
+      "heat": "Chauffage",
+      "cool": "Refroidissement",
+      "heat_cool": "Auto",
+      "dry": "Déshumidification",
+      "fan_only": "Ventilation",
+      "off": "Éteint",
+      "boost": "Boost temporaire",
+      "unavailable": "Indisponible"
+    },
+    "hvac": {
+      "heat": "Chauffage",
+      "cool": "Refroidissement",
+      "heat_cool": "Chaud/froid",
+      "auto": "Auto",
+      "dry": "Déshumidification",
+      "fan_only": "Ventilation",
+      "off": "Éteint"
+    },
+    "hvac_action": {
+      "off": "Éteint",
+      "preheating": "Préchauffage",
+      "heating": "Chauffage actif",
+      "cooling": "Refroidissement actif",
+      "drying": "Déshumidification active",
+      "fan": "Ventilation active",
+      "idle": "En attente",
+      "defrosting": "Dégivrage"
+    },
+    "preset": {
+      "frost": "Hors gel",
+      "eco": "Éco",
+      "comfort": "Confort",
+      "boost": "Boost"
+    },
+    "fan": {
+      "auto": "Auto",
+      "low": "Faible",
+      "medium": "Moyenne",
+      "high": "Forte",
+      "off": "Éteinte",
+      "auto_fan_none": "Aucune",
+      "auto_fan_low": "Faible",
+      "auto_fan_medium": "Moyenne",
+      "auto_fan_high": "Forte",
+      "auto_fan_turbo": "Turbo",
+      "None": "Aucune",
+      "Low": "Faible",
+      "Medium": "Moyenne",
+      "High": "Forte",
+      "Turbo": "Turbo",
+      "unavailable": "Ventilation"
+    },
+    "lock": {
+      "locked": "Verrouillé",
+      "unlocked": "Déverrouillé"
+    },
+    "events": {
+      "hasDanger": "Alerte critique",
+      "hasAlert": "Alerte",
+      "hasOverpowering": "Délestage",
+      "hasOpenWindow": "Fenêtre ouverte",
+      "hasPresence": "Présence détectée",
+      "hasTimer": "Minuterie active"
+    },
+    "actions": {
+      "decrease_temperature": "Baisser la consigne",
+      "increase_temperature": "Augmenter la consigne",
+      "open_fan": "Ouvrir la ventilation",
+      "open_menu": "Ouvrir le menu"
+    }
+  },
   "editor": {
     "entity": "Entité",
     "name": "Nom",
