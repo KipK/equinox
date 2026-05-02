@@ -678,9 +678,6 @@ export class EquinoxMainCard extends LitElement {
               <eq-icon-button
                 .icon=${presetIcon}
                 .label=${preset && preset !== "none" ? this._presetLabel(preset) : localize(this._language(), "main.preset.none")}
-                .tone=${presetActive ? this._presetTone(preset!) : ""}
-                ?active=${presetActive}
-                ?subtle=${presetActive}
                 ?disabled=${this._isControlDisabled()}
                 @click=${() => { this._activeDialog = 'preset'; }}
               ></eq-icon-button>
