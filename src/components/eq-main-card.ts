@@ -13,14 +13,12 @@ import "./eq-hvac-dialog";
 import "./eq-preset-dialog";
 import "./eq-menu-dialog";
 
-const HVAC_ORDER = ["heat", "cool", "heat_cool", "auto", "dry", "fan_only", "off"];
-const PRESET_ORDER = ["frost", "eco", "comfort", "boost"];
+const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
+const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
 
 const HVAC_ICONS: Record<string, string> = {
   heat: "mdi:fire",
   cool: "mdi:snowflake",
-  heat_cool: "mdi:autorenew",
-  auto: "mdi:auto-mode",
   dry: "mdi:water-percent",
   fan_only: "mdi:fan",
   off: "mdi:power"
@@ -28,8 +26,12 @@ const HVAC_ICONS: Record<string, string> = {
 
 const PRESET_ICONS: Record<string, string> = {
   frost: "mdi:snowflake",
-  eco: "mdi:leaf-outline",
+  eco: "mdi:tree-outline",
+  away: "mdi:home-export-outline",
   comfort: "mdi:sofa-outline",
+  home: "mdi:home-outline",
+  sleep: "mdi:sleep",
+  activity: "mdi:motion-sensor",
   boost: "mdi:rocket-launch-outline"
 };
 
@@ -655,6 +657,9 @@ export class EquinoxMainCard extends LitElement {
   private _renderCompactSelectors(): TemplateResult | typeof nothing {
     const hvacMode = this.viewModel?.climate.hvacMode;
     const preset = this.viewModel?.climate.presetMode;
+    const availableHvacModes = uniqueOrdered(this.viewModel?.climate.hvacModes ?? [], HVAC_ORDER).filter((mode) => HVAC_ICONS[mode]);
+    const currentHvacMode = hvacMode && availableHvacModes.includes(hvacMode) ? hvacMode : undefined;
+    const showHvac = availableHvacModes.length > 0;
 
     // Show preset button if the entity exposes any valid preset mode.
     const availablePresets = (this.viewModel?.climate.presetModes ?? []).filter(
@@ -669,21 +674,30 @@ export class EquinoxMainCard extends LitElement {
       (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
       this.viewModel?.vt?.fan.hasAutoFan === true;
 
-    const btnCount = 1 + (showPreset ? 1 : 0) + (showFan ? 1 : 0);
+    const btnCount = (showHvac ? 1 : 0) + (showPreset ? 1 : 0) + (showFan ? 1 : 0);
+
+    if (btnCount === 0) {
+      return nothing;
+    }
+
     const compactStyle = btnCount < 3
       ? `width: calc(100% / 3 * ${btnCount}); margin-inline: auto;`
       : "";
 
     return html`
       <div class="compact-selectors" style=${compactStyle}>
-        <eq-icon-button
-          .icon=${hvacMode ? (HVAC_ICONS[hvacMode] ?? "") : ""}
-          .label=${this._hvacLabel(hvacMode)}
-          .tone=${this._modeTone(hvacMode)}
-          ?active=${hvacMode !== "off" && !!hvacMode}
-          ?disabled=${this._isControlDisabled()}
-          @click=${() => { this._activeDialog = 'hvac'; }}
-        ></eq-icon-button>
+        ${showHvac
+          ? html`
+              <eq-icon-button
+                .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}
+                .label=${currentHvacMode ? this._hvacLabel(currentHvacMode) : localize(this._language(), "dialog.hvac.title")}
+                .tone=${this._modeTone(currentHvacMode)}
+                ?active=${currentHvacMode !== "off" && !!currentHvacMode}
+                ?disabled=${this._isControlDisabled()}
+                @click=${() => { this._activeDialog = 'hvac'; }}
+              ></eq-icon-button>
+            `
+          : nothing}
         ${showPreset
           ? html`
               <eq-icon-button
@@ -832,6 +846,10 @@ export class EquinoxMainCard extends LitElement {
       return "auto";
     }
 
+    if (preset === "away" || preset === "sleep") {
+      return "off";
+    }
+
     if (preset === "comfort") {
       if (hvacMode === "cool") {
         return "cool";
@@ -840,7 +858,11 @@ export class EquinoxMainCard extends LitElement {
       return "heat";
     }
 
-    if (preset === "boost") {
+    if (preset === "home") {
+      return "auto";
+    }
+
+    if (preset === "boost" || preset === "activity") {
       if (hvacMode === "cool") {
         return "cool-boost";
       }

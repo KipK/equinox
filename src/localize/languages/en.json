@@ -46,7 +46,11 @@
       "none": "No preset",
       "frost": "Frost protection",
       "eco": "Eco",
+      "away": "Away",
       "comfort": "Comfort",
+      "home": "Home",
+      "sleep": "Sleep",
+      "activity": "Activity",
       "boost": "Boost"
     },
     "fan": {

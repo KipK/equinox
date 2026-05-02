@@ -6,12 +6,16 @@ import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
 
-const PRESET_ORDER = ["frost", "eco", "comfort", "boost"];
+const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
 
 const PRESET_ICONS: Record<string, string> = {
   frost: "mdi:snowflake",
-  eco: "mdi:leaf-outline",
+  eco: "mdi:tree-outline",
+  away: "mdi:home-export-outline",
   comfort: "mdi:sofa-outline",
+  home: "mdi:home-outline",
+  sleep: "mdi:sleep",
+  activity: "mdi:motion-sensor",
   boost: "mdi:rocket-launch-outline"
 };
 
@@ -125,11 +129,19 @@ export class EquinoxPresetDialog extends LitElement {
       return "auto";
     }
 
+    if (preset === "away" || preset === "sleep") {
+      return "off";
+    }
+
     if (preset === "comfort") {
       return hvacMode === "cool" ? "cool" : "heat";
     }
 
-    if (preset === "boost") {
+    if (preset === "home") {
+      return "auto";
+    }
+
+    if (preset === "boost" || preset === "activity") {
       return hvacMode === "cool" ? "cool-boost" : "boost";
     }
 

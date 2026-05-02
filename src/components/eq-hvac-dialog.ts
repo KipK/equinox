@@ -6,13 +6,11 @@ import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
 
-const HVAC_ORDER = ["heat", "cool", "heat_cool", "auto", "dry", "fan_only", "off"];
+const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
 
 const HVAC_ICONS: Record<string, string> = {
   heat: "mdi:fire",
   cool: "mdi:snowflake",
-  heat_cool: "mdi:autorenew",
-  auto: "mdi:power",
   dry: "mdi:water-percent",
   fan_only: "mdi:fan",
   off: "mdi:power"
@@ -21,8 +19,6 @@ const HVAC_ICONS: Record<string, string> = {
 const HVAC_TONES: Record<string, string> = {
   heat: "heat",
   cool: "cool",
-  heat_cool: "auto",
-  auto: "auto",
   dry: "cool",
   fan_only: "auto",
   off: "off"
