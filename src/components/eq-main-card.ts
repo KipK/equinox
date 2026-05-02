@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { setHvacMode, setPresetMode, setTemperature } from "../data/actions";
+import { FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
 import { flatStyles } from "../styles/flat";
@@ -42,13 +43,11 @@ const EVENT_ICONS: Array<{ key: keyof NonNullable<EquinoxViewModel["vt"]>["event
 ];
 
 const HVAC_ACTION_ICONS: Record<string, { icon: string; tone: string }> = {
-  off: { icon: "mdi:power", tone: "off" },
   preheating: { icon: "mdi:timer-sand", tone: "heat" },
   heating: { icon: "mdi:fire", tone: "heat" },
   cooling: { icon: "mdi:snowflake", tone: "cool" },
   drying: { icon: "mdi:water-percent", tone: "cool" },
   fan: { icon: "mdi:fan", tone: "auto" },
-  idle: { icon: "mdi:pause-circle-outline", tone: "off" },
   defrosting: { icon: "mdi:snowflake", tone: "cool" }
 };
 
@@ -302,6 +301,10 @@ export class EquinoxMainCard extends LitElement {
         min-width: 0;
       }
 
+      .compact-selectors eq-icon-button.fan-selector::part(button) {
+        color: var(--equinox-text-color);
+      }
+
       .bottom {
         display: grid;
         grid-template-columns: 42px minmax(0, 1fr) 28px;
@@ -512,19 +515,9 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderHvacActionIcon(): TemplateResult {
     const action = this.viewModel?.climate.hvacAction;
-    const mode = this.viewModel?.climate.hvacMode;
-    const activeActions = new Set(["preheating", "heating", "cooling", "drying", "fan", "defrosting"]);
-
-    let iconStr = "";
-    let tone = "";
-
-    if (action && activeActions.has(action)) {
-      const entry = HVAC_ACTION_ICONS[action];
-      iconStr = entry.icon;
-      tone = entry.tone;
-    } else {
-      iconStr = mode && mode !== "off" ? (HVAC_ICONS[mode] ?? "") : "";
-    }
+    const entry = action ? HVAC_ACTION_ICONS[action] : undefined;
+    const iconStr = entry?.icon ?? "";
+    const tone = entry?.tone ?? "";
 
     const visible = iconStr !== "";
 
@@ -703,6 +696,7 @@ export class EquinoxMainCard extends LitElement {
         ${showFan
           ? html`
               <eq-icon-button
+                class="fan-selector"
                 .icon=${this._fanIcon()}
                 .label=${this._fanLabel()}
                 ?disabled=${this._isControlDisabled()}
@@ -841,15 +835,7 @@ export class EquinoxMainCard extends LitElement {
   private _fanIcon(): string {
     const mode = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
 
-    if (mode === "off" || mode === "auto_fan_none" || mode === "None") {
-      return "mdi:fan-off";
-    }
-
-    if (mode === "auto" || mode?.startsWith("auto_fan_")) {
-      return "mdi:fan-auto";
-    }
-
-    return "mdi:fan";
+    return mode ? (FAN_MODE_ICONS[mode] ?? "mdi:fan") : "mdi:fan";
   }
 
   private _fanLabel(): string {

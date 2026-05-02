@@ -1,30 +1,11 @@
 import { LitElement, css, html, nothing } from "lit";
 import { setAutoFanMode, setFanMode } from "../data/actions";
+import { AUTO_FAN_MODES, FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
-
-const FAN_MODE_ICONS: Record<string, string> = {
-  auto: "mdi:fan-auto",
-  off: "mdi:fan-off",
-  auto_fan_none: "mdi:fan-off",
-  None: "mdi:fan-off",
-  low: "mdi:fan-speed-1",
-  auto_fan_low: "mdi:fan-speed-1",
-  Low: "mdi:fan-speed-1",
-  medium: "mdi:fan-speed-2",
-  auto_fan_medium: "mdi:fan-speed-2",
-  Medium: "mdi:fan-speed-2",
-  high: "mdi:fan-speed-3",
-  auto_fan_high: "mdi:fan-speed-3",
-  High: "mdi:fan-speed-3",
-  auto_fan_turbo: "mdi:fan",
-  Turbo: "mdi:fan"
-};
-
-const AUTO_FAN_MODES = ["auto_fan_none", "auto_fan_low", "auto_fan_medium", "auto_fan_high", "auto_fan_turbo"];
 
 export class EquinoxFanDialog extends LitElement {
   static properties = {
@@ -209,6 +190,7 @@ export class EquinoxFanDialog extends LitElement {
         .open=${this.open}
         .title=${title}
         .language=${this.language}
+        .centerContent=${true}
         @eq-dialog-close=${this._dispatchClose}
       >
         <!-- Desktop: horizontal grid of icon buttons -->

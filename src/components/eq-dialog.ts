@@ -5,7 +5,8 @@ export class EquinoxDialog extends LitElement {
   static properties = {
     open: { type: Boolean },
     title: {},
-    language: {}
+    language: {},
+    centerContent: { type: Boolean, attribute: "center-content" }
   };
 
   static styles = css`
@@ -29,6 +30,20 @@ export class EquinoxDialog extends LitElement {
       color: var(--primary-text-color);
       border-radius: var(--equinox-radius, 12px);
       overflow-y: auto;
+    }
+
+    @media (min-width: 601px) {
+      .panel.center-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .panel.center-content .content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
     @media (max-width: 600px) {
@@ -90,6 +105,7 @@ export class EquinoxDialog extends LitElement {
   open = false;
   title = "";
   language?: string;
+  centerContent = false;
 
   // Arrow function so the same reference is used for add/remove listener.
   private readonly _handleKeyDown = (event: KeyboardEvent): void => {
@@ -121,7 +137,7 @@ export class EquinoxDialog extends LitElement {
 
     return html`
       <div class="scrim" @click=${this._dispatchClose}></div>
-      <div class="panel" @click=${(e: Event) => e.stopPropagation()}>
+      <div class=${this.centerContent ? "panel center-content" : "panel"} @click=${(e: Event) => e.stopPropagation()}>
         <div class="header">
           <span class="header-title">${this.title}</span>
           <button class="close-btn" aria-label=${closeLabel} title=${closeLabel} @click=${this._dispatchClose}>
