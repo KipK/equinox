@@ -1234,6 +1234,10 @@ export class EquinoxHistoryDialog extends LitElement {
       const max = Math.max(...values);
       const center = (min + max) / 2;
       const compatible = groups.find((group) => {
+        if (min <= group.max && max >= group.min) {
+          return true;
+        }
+
         const groupCenter = (group.min + group.max) / 2;
         const distance = Math.abs(center - groupCenter);
         const reference = Math.max(Math.abs(center), Math.abs(groupCenter), 1);
@@ -1282,17 +1286,11 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _renderScaleLabels() {
     const scales = this._numericScales();
-    const hasRightScale = scales.length > 1;
     const result = [];
 
-    if (hasRightScale) {
-      result.push(svg`<line class="axis" x1=${PLOT_RIGHT} y1=${PLOT_TOP} x2=${PLOT_RIGHT} y2=${PLOT_BOTTOM}></line>`);
-    }
-
-    for (const [index, scale] of scales.entries()) {
-      const onLeft = index % 2 === 0;
-      const tickX1 = onLeft ? PLOT_LEFT - 4 : PLOT_RIGHT;
-      const tickX2 = onLeft ? PLOT_LEFT : PLOT_RIGHT + 4;
+    for (const [, scale] of scales.entries()) {
+      const tickX1 = PLOT_LEFT - 4;
+      const tickX2 = PLOT_LEFT;
       const ticks = [scale.top + scale.height, scale.top + scale.height / 2, scale.top];
 
       result.push(svg`<line class="axis" x1=${PLOT_LEFT} y1=${scale.top} x2=${PLOT_RIGHT} y2=${scale.top}></line>`);
@@ -1309,13 +1307,9 @@ export class EquinoxHistoryDialog extends LitElement {
     const scales = this._numericScales();
     const chartH = this._chartHeight();
     const leftWidthPct = ((PLOT_LEFT / CHART_WIDTH) * 100).toFixed(2);
-    const rightStartPct = ((PLOT_RIGHT / CHART_WIDTH) * 100).toFixed(2);
+    const sideStyle = `left:0;width:${leftWidthPct}%;text-align:right;padding-right:5px;`;
 
-    return scales.flatMap((scale, index) => {
-      const onLeft = index % 2 === 0;
-      const sideStyle = onLeft
-        ? `left:0;width:${leftWidthPct}%;text-align:right;padding-right:5px;`
-        : `left:${rightStartPct}%;right:0;padding-left:5px;`;
+    return scales.flatMap((scale) => {
       const ticks = [
         { y: scale.top + scale.height, v: scale.min },
         { y: scale.top + scale.height / 2, v: (scale.min + scale.max) / 2 },
