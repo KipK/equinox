@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { setHvacMode, setPresetMode, setTemperature } from "../data/actions";
 import { FAN_MODE_ICONS } from "../data/fan";
+import { buildHistoryPath, navigate } from "../data/navigation";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
 import { flatStyles } from "../styles/flat";
@@ -515,13 +516,23 @@ export class EquinoxMainCard extends LitElement {
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-regulation=${() => { this._activeDialog = null; }}
         @equinox-open-boost=${() => { this._activeDialog = null; }}
-        @equinox-open-history=${() => { this._activeDialog = null; }}
+        @equinox-open-history=${this._openHistory}
       ></eq-menu-dialog>
     `;
   }
 
   private _language(): string | undefined {
     return this.hass?.locale?.language ?? this.hass?.language;
+  }
+
+  private _openHistory(): void {
+    this._activeDialog = null;
+
+    if (!this.config?.entity) {
+      return;
+    }
+
+    navigate(buildHistoryPath(this.config.entity));
   }
 
   private _renderName(): TemplateResult | typeof nothing {
