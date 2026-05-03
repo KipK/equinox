@@ -119,18 +119,20 @@ export class EquinoxMainCard extends LitElement {
 
       .status {
         min-height: 27px;
-        display: grid;
-        grid-template-columns: 28px minmax(0, 1fr) auto 28px 28px;
+        display: flex;
         align-items: center;
-        justify-items: center;
         gap: 6px;
+      }
+
+      .status-spacer {
+        flex: 1;
+        min-width: 0;
       }
 
       .events {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        justify-self: end;
         gap: 8px;
         min-width: 28px;
       }
@@ -164,11 +166,6 @@ export class EquinoxMainCard extends LitElement {
         padding: 0;
       }
 
-      .lock[hidden] {
-        visibility: hidden;
-        display: inline-flex;
-      }
-
       .action-icon {
         width: 26px;
         height: 26px;
@@ -176,11 +173,6 @@ export class EquinoxMainCard extends LitElement {
         align-items: center;
         justify-content: center;
         color: var(--equinox-muted-color);
-      }
-
-      .action-icon[hidden] {
-        visibility: hidden;
-        display: inline-flex;
       }
 
       .action-icon[tone="heat"] {
@@ -439,10 +431,6 @@ export class EquinoxMainCard extends LitElement {
         min-height: 47px;
       }
 
-      .bottom.with-fan {
-        grid-template-columns: 42px minmax(0, 1fr);
-      }
-
       .fan {
         width: 36px;
         height: 40px;
@@ -454,6 +442,11 @@ export class EquinoxMainCard extends LitElement {
         color: var(--equinox-text-color);
         padding: 0;
         cursor: pointer;
+      }
+
+      .status .fan {
+        width: 26px;
+        height: 26px;
       }
 
       .fan-label {
@@ -566,7 +559,7 @@ export class EquinoxMainCard extends LitElement {
         <div class="card">
           ${this._renderName()} ${this._renderStatus()} ${this._renderSetpoint()} ${this._renderConditions()}
           ${compact ? this._renderCompactSelectors() : html`${this._renderHvacModes()} ${this._renderPresets()}`}
-          ${this._renderBottomRow(compact)}
+          ${this._renderBottomRow()}
         </div>
       </ha-card>
       <eq-fan-dialog
@@ -645,35 +638,41 @@ export class EquinoxMainCard extends LitElement {
     const lockLabel = this.viewModel?.vt?.lock.isLocked
       ? localize(this._language(), "main.lock.locked")
       : localize(this._language(), "main.lock.unlocked");
+    const showFan = this.config?.display_mode !== "compact" && this._hasFanControl();
 
     return html`
       <div class="status">
-        ${this._renderHvacActionIcon()}
-        <span></span>
-        <div class="events">${this._renderEvents()}</div>
-        <button class="lock" title=${lockLabel} aria-label=${lockLabel} ?hidden=${!lockSupported}>
-          <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
-        </button>
-        ${this.config?.disable_name ? this._renderMenuButton() : html`<span></span>`}
+        ${showFan ? this._renderFanButton() : nothing}
+        <span class="status-spacer"></span>
+        <div class="events">${this._renderEvents()}${this._renderHvacActionIcon()}</div>
+        ${lockSupported
+          ? html`
+              <button class="lock" title=${lockLabel} aria-label=${lockLabel}>
+                <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
+              </button>
+            `
+          : nothing}
+        ${this.config?.disable_name ? this._renderMenuButton() : nothing}
       </div>
     `;
   }
 
-  private _renderHvacActionIcon(): TemplateResult {
+  private _renderHvacActionIcon(): TemplateResult | typeof nothing {
     const action = this.viewModel?.climate.hvacAction;
     const entry = action ? HVAC_ACTION_ICONS[action] : undefined;
     const iconStr = entry?.icon ?? "";
     const tone = entry?.tone ?? "";
 
-    const visible = iconStr !== "";
+    if (!iconStr || !action) {
+      return nothing;
+    }
 
     return html`
       <ha-icon
         class="action-icon"
-        ?hidden=${!visible}
         tone=${tone}
         .icon=${iconStr}
-        title=${visible && action ? localize(this._language(), `main.hvac_action.${action}`) : ""}
+        title=${localize(this._language(), `main.hvac_action.${action}`)}
       ></ha-icon>
     `;
   }
@@ -928,30 +927,31 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderBottomRow(compact = false): TemplateResult | typeof nothing {
-    const showFan =
-      !compact &&
-      ((this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
-        this.viewModel?.vt?.fan.hasAutoFan === true);
+  private _renderBottomRow(): TemplateResult | typeof nothing {
     const powerValve = this._renderPowerValve();
 
-    if (!showFan && powerValve === nothing) {
+    if (powerValve === nothing) {
       return nothing;
     }
 
     return html`
-      <div class=${showFan ? "bottom with-fan" : "bottom"}>
-        ${showFan
-        ? html`
-            <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${(event: Event) => this._openDialog("fan", event)}>
-              <ha-icon .icon=${this._fanIcon()}></ha-icon>
-              <span class="fan-label">${this._fanLabel()}</span>
-            </button>
-          `
-        : nothing}
+      <div class="bottom">
         ${powerValve}
       </div>
     `;
+  }
+
+  private _renderFanButton(): TemplateResult {
+    return html`
+      <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${(event: Event) => this._openDialog("fan", event)}>
+        <ha-icon .icon=${this._fanIcon()}></ha-icon>
+        <span class="fan-label">${this._fanLabel()}</span>
+      </button>
+    `;
+  }
+
+  private _hasFanControl(): boolean {
+    return (this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === true;
   }
 
   private _renderPowerValve(): TemplateResult | typeof nothing {
