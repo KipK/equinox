@@ -159,7 +159,6 @@ export class EquinoxHistoryDialog extends LitElement {
       overflow: hidden;
     }
 
-    .range-row,
     .selected-row {
       display: flex;
       align-items: center;
@@ -170,17 +169,10 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     .range-row {
-      display: grid;
-      grid-template-columns: repeat(5, max-content) minmax(150px, max-content) minmax(150px, max-content) max-content;
-      overflow: visible;
-    }
-
-    .source-row {
-      display: grid;
-      grid-template-columns: minmax(190px, max-content) minmax(220px, 320px) max-content;
+      display: flex;
       align-items: center;
       gap: 8px;
-      min-width: 0;
+      overflow: visible;
       position: relative;
       z-index: 3;
     }
@@ -269,11 +261,6 @@ export class EquinoxHistoryDialog extends LitElement {
       box-sizing: border-box;
     }
 
-    .entity-input {
-      min-width: 190px;
-      width: 100%;
-    }
-
     .main {
       display: flex;
       flex-direction: column;
@@ -342,16 +329,20 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .entity-menu[open] {
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr);
+      grid-template-rows: auto auto minmax(0, 1fr);
       gap: 8px;
     }
 
-    .entity-menu-bar {
+    .entity-menu-top {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      align-items: start;
+      align-items: center;
       gap: 8px;
       min-width: 0;
+    }
+
+    .entity-menu-top ha-entity-picker {
+      display: block;
     }
 
     .entity-list {
@@ -619,30 +610,31 @@ export class EquinoxHistoryDialog extends LitElement {
       }
 
       .range-row {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        flex-wrap: wrap;
+      }
+
+      .range-row > .entity-picker {
+        width: 100%;
+      }
+
+      .range-row > .entity-trigger {
+        max-width: none;
+        width: 100%;
       }
 
       .range-btn {
+        flex: 1;
         min-width: 0;
         padding: 0 4px;
       }
 
-      .range-row > .date-input,
+      .range-row > .date-input {
+        flex: 1;
+        min-width: 130px;
+      }
+
       .range-row > .load-btn {
-        grid-column: 1 / -1;
         width: 100%;
-      }
-
-      .source-row {
-        grid-template-columns: minmax(0, 1fr) auto;
-      }
-
-      .entity-picker {
-        grid-column: 1 / -1;
-      }
-
-      .entity-trigger {
-        max-width: none;
       }
 
       .entity-menu {
@@ -658,10 +650,6 @@ export class EquinoxHistoryDialog extends LitElement {
 
       .menu-close {
         display: inline-flex;
-      }
-
-      .entity-input {
-        min-width: 0;
       }
 
       .main {
@@ -696,6 +684,8 @@ export class EquinoxHistoryDialog extends LitElement {
   private _controlsCollapsed = true;
   private _activeRangeHours: number | undefined = DEFAULT_RANGE_HOURS;
   private _fullscreen = false;
+  private _entityPickerOpen = false;
+  private _isMouseOutsideEntityPicker = false;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -778,12 +768,16 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _closeAttributeMenu(): void {
     this._attributeMenuOpen = false;
+    this._isMouseOutsideEntityPicker = false;
+    this._entityPickerOpen = false;
   }
 
   private _closeMenuTimer?: number;
 
   private _scheduleCloseMenuOnDesktop(): void {
     if (window.innerWidth <= 600) return;
+    this._isMouseOutsideEntityPicker = true;
+    if (this._entityPickerOpen) return;
     this._closeMenuTimer = window.setTimeout(() => {
       this._closeMenuTimer = undefined;
       this._closeAttributeMenu();
@@ -795,10 +789,30 @@ export class EquinoxHistoryDialog extends LitElement {
       window.clearTimeout(this._closeMenuTimer);
       this._closeMenuTimer = undefined;
     }
+    this._isMouseOutsideEntityPicker = false;
+  }
+
+  private _onEntityPickerOpened(): void {
+    this._entityPickerOpen = true;
+    this._cancelCloseMenuTimer();
+  }
+
+  private _onEntityPickerFocusOut(): void {
+    this._entityPickerOpen = false;
+    if (this._isMouseOutsideEntityPicker) {
+      this._closeAttributeMenu();
+    }
+  }
+
+  private _onEntityPickerClosed(): void {
+    this._entityPickerOpen = false;
+    if (this._isMouseOutsideEntityPicker) {
+      this._closeAttributeMenu();
+    }
   }
 
   private _handleDocumentClick = (event: Event): void => {
-    if (!this._attributeMenuOpen) return;
+    if (!this._attributeMenuOpen || this._entityPickerOpen) return;
     const picker = this.renderRoot?.querySelector(".entity-picker");
     if (!picker || !event.composedPath().includes(picker)) {
       this._closeAttributeMenu();
@@ -833,20 +847,23 @@ export class EquinoxHistoryDialog extends LitElement {
     this._activeRangeHours = undefined;
   }
 
-  private _setCustomEntity(event: Event): void {
-    this._customEntityInput = (event.currentTarget as HTMLInputElement).value.trim();
-  }
+  private _onEntityPickerChanged(event: CustomEvent): void {
+    const entityId = (event.detail as { value: string }).value;
 
-  private _addCustomEntity(): void {
-    if (!this.hass?.states[this._customEntityInput] || this._customEntityIds.includes(this._customEntityInput)) {
+    if (!entityId) {
       return;
     }
 
-    this._customEntityIds = [...this._customEntityIds, this._customEntityInput];
-    this._selectedEntityId = this._customEntityInput;
-    this._customEntityInput = "";
+    const knownIds = new Set(this._entities().map((entity) => entity.entity_id));
+
+    if (!knownIds.has(entityId)) {
+      this._customEntityIds = [...this._customEntityIds, entityId];
+    }
+
+    this._selectedEntityId = entityId;
     this._path = [];
-    this._attributeMenuOpen = true;
+    this._customEntityInput = "";
+    this._isMouseOutsideEntityPicker = false;
   }
 
   private _addSource(source: HistorySource): void {
@@ -897,62 +914,55 @@ export class EquinoxHistoryDialog extends LitElement {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
   }
 
-  private _renderSources(): TemplateResult {
+  private _renderEntityPicker(): TemplateResult {
     const entities = this._entities();
     const selectedEntity = this._selectedEntity();
 
     return html`
-      <div class="source-row">
-        <div class="entity-picker"
-          @mouseleave=${this._scheduleCloseMenuOnDesktop}
-          @mouseenter=${this._cancelCloseMenuTimer}
-        >
-          <button class="entity-trigger" ?open=${this._attributeMenuOpen} @click=${this._toggleAttributeMenu}>
-            <span>${selectedEntity ? this._entityLabel(selectedEntity) : localize(this.language, "editor.entity")}</span>
-            <ha-icon icon=${this._attributeMenuOpen ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
-          </button>
-          <div class="entity-menu" ?open=${this._attributeMenuOpen}
-            @mouseenter=${this._cancelCloseMenuTimer}
-            @mouseleave=${this._scheduleCloseMenuOnDesktop}
-          >
-            <div class="entity-menu-bar">
-              <div class="entity-list">
-                ${entities.map(
-                  (entity) => html`
-                    <button
-                      class="entity-btn"
-                      ?active=${entity.entity_id === this._selectedEntityId}
-                      @click=${() => this._selectEntity(entity.entity_id)}
-                    >
-                      ${this._entityLabel(entity)}
-                    </button>
-                  `
-                )}
-              </div>
-              <button
-                class="menu-close"
-                aria-label=${localize(this.language, "dialog.close")}
-                title=${localize(this.language, "dialog.close")}
-                @click=${this._closeAttributeMenu}
-              >
-                <ha-icon icon="mdi:close"></ha-icon>
-              </button>
-            </div>
-            <div class="browser">${this._renderBrowser()}</div>
+      <div class="entity-picker"
+        @mouseleave=${this._scheduleCloseMenuOnDesktop}
+        @mouseenter=${this._cancelCloseMenuTimer}
+        @picker-opened=${this._onEntityPickerOpened}
+        @picker-closed=${this._onEntityPickerClosed}
+      >
+        <button class="entity-trigger" ?open=${this._attributeMenuOpen} @click=${this._toggleAttributeMenu}>
+          <span>${selectedEntity ? this._entityLabel(selectedEntity) : localize(this.language, "editor.entity")}</span>
+          <ha-icon icon=${this._attributeMenuOpen ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
+        </button>
+        <div class="entity-menu" ?open=${this._attributeMenuOpen}>
+          <div class="entity-menu-top">
+            <ha-entity-picker
+              .hass=${this.hass}
+              .value=${this._customEntityInput}
+              .placeholder=${localize(this.language, "dialog.history.add_entity")}
+              @value-changed=${this._onEntityPickerChanged}
+              @focusin=${this._onEntityPickerOpened}
+              @focusout=${this._onEntityPickerFocusOut}
+            ></ha-entity-picker>
+            <button
+              class="menu-close"
+              aria-label=${localize(this.language, "dialog.close")}
+              title=${localize(this.language, "dialog.close")}
+              @click=${this._closeAttributeMenu}
+            >
+              <ha-icon icon="mdi:close"></ha-icon>
+            </button>
           </div>
+          <div class="entity-list">
+            ${entities.map(
+              (entity) => html`
+                <button
+                  class="entity-btn"
+                  ?active=${entity.entity_id === this._selectedEntityId}
+                  @click=${() => this._selectEntity(entity.entity_id)}
+                >
+                  ${this._entityLabel(entity)}
+                </button>
+              `
+            )}
+          </div>
+          <div class="browser">${this._renderBrowser()}</div>
         </div>
-        <input
-          class="date-input entity-input"
-          placeholder=${localize(this.language, "dialog.history.add_entity")}
-          .value=${this._customEntityInput}
-          @input=${this._setCustomEntity}
-          @keydown=${(event: KeyboardEvent) => {
-            if (event.key === "Enter") {
-              this._addCustomEntity();
-            }
-          }}
-        />
-        <button class="entity-btn" @click=${this._addCustomEntity}>${localize(this.language, "dialog.history.add")}</button>
       </div>
     `;
   }
@@ -1804,6 +1814,7 @@ export class EquinoxHistoryDialog extends LitElement {
           <div class="controls-shell">
             <div class="controls-panel" ?collapsed=${this._controlsCollapsed}>
               <div class="range-row">
+                ${this._renderEntityPicker()}
                 ${RANGE_HOURS.map(
                   (hours) => html`
                     <button class="range-btn" ?active=${this._activeRangeHours === hours} @click=${() => this._setRange(hours)}>
@@ -1815,7 +1826,6 @@ export class EquinoxHistoryDialog extends LitElement {
                 <input class="date-input" type="datetime-local" .value=${this._endInput} @change=${this._setEnd} />
                 <button class="load-btn" @click=${this._loadHistory}>${localize(this.language, "dialog.history.load")}</button>
               </div>
-              ${this._renderSources()}
             </div>
           </div>
           <div class="main">
