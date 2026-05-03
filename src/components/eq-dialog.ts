@@ -10,8 +10,6 @@ export class EquinoxDialog extends LitElement {
     showBack: { type: Boolean, attribute: "show-back" },
     noScroll: { type: Boolean, attribute: "no-scroll" },
     floating: { type: Boolean },
-    lightbox: { type: Boolean },
-    fullscreen: { type: Boolean },
     anchor: { attribute: false }
   };
 
@@ -36,30 +34,6 @@ export class EquinoxDialog extends LitElement {
       color: var(--primary-text-color);
       border-radius: var(--equinox-radius, 12px);
       overflow-y: auto;
-    }
-
-    .panel.lightbox {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: min(90vw, 1100px);
-      height: min(88vh, 780px);
-      max-width: none;
-      max-height: none;
-      border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 72%, transparent);
-      box-shadow: 0 18px 48px rgb(0 0 0 / 38%);
-    }
-
-    .panel.lightbox.fullscreen {
-      inset: 0;
-      left: 0;
-      top: 0;
-      width: auto;
-      height: auto;
-      transform: none;
-      border-radius: 0;
-      box-shadow: none;
     }
 
     .panel.no-scroll {
@@ -131,15 +105,6 @@ export class EquinoxDialog extends LitElement {
         overflow-y: auto;
       }
 
-      .panel.lightbox {
-        inset: 8px;
-        top: 8px;
-        bottom: 8px;
-        border-radius: 16px;
-        max-height: none;
-        height: auto;
-      }
-
       .panel.no-scroll {
         height: auto;
         overflow: hidden;
@@ -202,8 +167,6 @@ export class EquinoxDialog extends LitElement {
   showBack = false;
   noScroll = false;
   floating = false;
-  lightbox = false;
-  fullscreen = false;
   anchor?: { element: HTMLElement };
 
   // Arrow function so the same reference is used for add/remove listener.
@@ -301,9 +264,7 @@ export class EquinoxDialog extends LitElement {
       "panel",
       this.centerContent ? "center-content" : "",
       this.noScroll ? "no-scroll" : "",
-      this.lightbox ? "lightbox" : "",
-      this.floating ? "popover" : "",
-      this.fullscreen ? "fullscreen" : ""
+      this.floating ? "popover" : ""
     ].filter(Boolean).join(" ");
 
     return html`

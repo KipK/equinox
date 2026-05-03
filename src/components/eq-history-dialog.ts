@@ -3,7 +3,6 @@ import { attributeSource, entityStateSource, fetchHistory, valueType, type Histo
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HassEntity, HomeAssistant } from "../types/ha";
-import "./eq-dialog";
 
 const RANGE_HOURS = [1, 6, 24, 72, 168];
 const DEFAULT_RANGE_HOURS = 24;
@@ -152,7 +151,8 @@ export class EquinoxHistoryDialog extends LitElement {
   static styles = css`
     .history-body {
       width: 100%;
-      height: 100%;
+      flex: 1;
+      min-height: 0;
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
       gap: 10px;
@@ -185,40 +185,27 @@ export class EquinoxHistoryDialog extends LitElement {
       z-index: 3;
     }
 
-    .controls-header {
-      display: flex;
-      justify-content: flex-end;
-      gap: 6px;
-      margin-bottom: 8px;
+    .dialog-fullscreen-btn {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--primary-text-color);
+      cursor: pointer;
+    }
+
+    .dialog-fullscreen-btn:hover {
+      background: rgba(128, 128, 128, 0.15);
     }
 
     .controls-shell {
       width: max-content;
       max-width: 100%;
       margin-left: auto;
-    }
-
-    .controls-toggle {
-      border: 1px solid var(--equinox-border-color, var(--divider-color));
-      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
-      color: var(--equinox-text-color, var(--primary-text-color));
-      cursor: pointer;
-      width: 36px;
-      height: 32px;
-      padding: 0;
-      border-radius: var(--equinox-control-radius, 8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .controls-toggle:hover {
-      background: color-mix(in srgb, var(--equinox-control-bg, rgba(128, 128, 128, 0.14)) 50%, var(--equinox-boost-color, var(--accent-color)) 50%);
-      color: #fff;
-    }
-
-    .controls-toggle ha-icon {
-      --mdc-icon-size: 24px;
     }
 
     .controls-panel {
@@ -614,10 +601,6 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     @media (max-width: 600px) {
-      .history-body {
-        height: 100%;
-      }
-
       .controls-shell,
       .controls-panel {
         width: 100%;
@@ -1783,35 +1766,34 @@ export class EquinoxHistoryDialog extends LitElement {
 
   protected render(): TemplateResult {
     return html`
-      <eq-dialog
+      <ha-dialog
         .open=${this.open}
-        .title=${localize(this.language, "dialog.history.title")}
-        .language=${this.language}
-        .noScroll=${true}
-        .lightbox=${true}
-        .fullscreen=${this._fullscreen}
-        @eq-dialog-close=${this._dispatchClose}
+        .headerTitle=${localize(this.language, "dialog.history.title")}
+        width="large"
+        flexcontent
+        ?fullscreen=${this._fullscreen}
+        @closed=${this._dispatchClose}
       >
+        <button
+          slot="headerActionItems"
+          class="dialog-fullscreen-btn"
+          aria-label=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
+          title=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
+          @click=${this._toggleControls}
+        >
+          <ha-icon icon=${this._controlsCollapsed ? "mdi:chevron-down" : "mdi:chevron-up"}></ha-icon>
+        </button>
+        <button
+          slot="headerActionItems"
+          class="dialog-fullscreen-btn"
+          aria-label=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
+          title=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
+          @click=${this._toggleFullscreen}
+        >
+          <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
+        </button>
         <div class="history-body">
           <div class="controls-shell">
-            <div class="controls-header">
-              <button
-                class="controls-toggle"
-                aria-label=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
-                title=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
-                @click=${this._toggleFullscreen}
-              >
-                <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
-              </button>
-              <button
-                class="controls-toggle"
-                aria-label=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
-                title=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
-                @click=${this._toggleControls}
-              >
-                <ha-icon icon=${this._controlsCollapsed ? "mdi:chevron-down" : "mdi:chevron-up"}></ha-icon>
-              </button>
-            </div>
             <div class="controls-panel" ?collapsed=${this._controlsCollapsed}>
               <div class="range-row">
                 ${RANGE_HOURS.map(
@@ -1833,7 +1815,7 @@ export class EquinoxHistoryDialog extends LitElement {
           </div>
           ${this._renderSelected()}
         </div>
-      </eq-dialog>
+      </ha-dialog>
     `;
   }
 }
