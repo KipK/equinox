@@ -106,8 +106,12 @@ export class EquinoxDialog extends LitElement {
       }
 
       .panel.no-scroll {
-        height: min(80vh, calc(100vh - 24px));
+        height: auto;
         overflow: hidden;
+      }
+
+      .panel.no-scroll .content {
+        height: auto;
       }
     }
 

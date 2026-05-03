@@ -44,6 +44,11 @@ export class EquinoxMenuDialog extends LitElement {
       flex-shrink: 0;
     }
 
+    .option-icon[tone="boost"] {
+      color: var(--equinox-boost-color, #b06cff);
+      background: color-mix(in srgb, var(--equinox-boost-color, #b06cff) 16%, transparent);
+    }
+
     .option-label {
       flex: 1;
       font-size: 15px;
@@ -56,7 +61,7 @@ export class EquinoxMenuDialog extends LitElement {
     }
 
     .boost-time {
-      color: var(--equinox-accent-color, #7c4dff);
+      color: var(--equinox-boost-color, #b06cff);
       font-size: 13px;
       font-weight: 500;
     }
@@ -86,11 +91,7 @@ export class EquinoxMenuDialog extends LitElement {
   }
 
   private _showBoost(): boolean {
-    return (
-      this.viewModel?.vt?.timedPreset.isActive === true ||
-      !!this.viewModel?.vt?.timedPresetManager ||
-      (this.viewModel?.climate.presetModes.includes("boost") ?? false)
-    );
+    return this.viewModel?.vt?.timedPreset.isActive === true || !!this.viewModel?.vt?.timedPresetManager;
   }
 
   protected render() {
@@ -133,7 +134,7 @@ export class EquinoxMenuDialog extends LitElement {
                 class="option-row"
                 @click=${() => this._dispatchOpen("equinox-open-boost")}
               >
-                <span class="option-icon">
+                <span class="option-icon" tone=${timedPresetActive ? "boost" : ""}>
                   <ha-icon icon="mdi:timer-outline" style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${localize(this.language, "dialog.menu.boost")}</span>
