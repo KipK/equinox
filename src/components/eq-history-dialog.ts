@@ -12,15 +12,19 @@ const PLOT_LEFT = 40;
 const PLOT_RIGHT = 680;
 const PLOT_WIDTH = PLOT_RIGHT - PLOT_LEFT;
 const PLOT_TOP = 18;
-const PLOT_BOTTOM = 226;
+const GRAPH_TOP = 28;
+const GRAPH_HEIGHT = 180;
+const GRAPH_GAP = 34;
+const GRAPH_BOTTOM_PADDING = 18;
+const GRAPH_STEP = GRAPH_HEIGHT + GRAPH_GAP;
 
 interface NumericScale {
   ids: Set<string>;
   min: number;
   max: number;
+  precision: number;
   top: number;
   height: number;
-  seriesRanges: Map<string, { min: number; max: number }>;
 }
 
 interface TooltipValue {
@@ -370,7 +374,7 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .y-axis-label {
       position: absolute;
-      font-size: 10px;
+      font-size: 11px;
       color: var(--equinox-muted-color, var(--secondary-text-color));
       transform: translateY(-50%);
       white-space: nowrap;
@@ -409,9 +413,16 @@ export class EquinoxHistoryDialog extends LitElement {
       stroke-width: 1;
     }
 
+    .graph-separator {
+      stroke: color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 64%, var(--equinox-text-color, var(--primary-text-color)) 36%);
+      stroke-width: 1.2;
+      stroke-dasharray: 3 5;
+    }
+
     .scale-label {
       fill: var(--equinox-muted-color, var(--secondary-text-color));
       font-size: 10px;
+      pointer-events: none;
     }
 
     .line {
@@ -430,6 +441,11 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .segment {
       opacity: 0.7;
+    }
+
+    .climate-heating-area {
+      fill: var(--equinox-boost-color, var(--accent-color));
+      opacity: 0.22;
     }
 
     .legend {
@@ -502,15 +518,12 @@ export class EquinoxHistoryDialog extends LitElement {
       opacity: 0.38;
     }
 
-    .legend-count {
-      opacity: 0.7;
-    }
-
     .swatch {
       width: 9px;
       height: 9px;
       border-radius: 50%;
       flex: 0 0 auto;
+      box-sizing: border-box;
     }
 
     .chip {
@@ -997,6 +1010,7 @@ export class EquinoxHistoryDialog extends LitElement {
                 <line class="axis" x1=${PLOT_LEFT} y1=${PLOT_TOP} x2=${PLOT_LEFT} y2=${this._plotBottom()}></line>
                 <line class="axis" x1=${PLOT_LEFT} y1=${this._plotBottom()} x2=${PLOT_RIGHT} y2=${this._plotBottom()}></line>
                 ${this._renderScaleLabels()}
+                ${this._renderClimateHeatingAreas()}
                 ${this._renderNumericLines()}
                 ${this._renderSegments()}
                 ${this._renderTooltipGuide()}
@@ -1016,9 +1030,8 @@ export class EquinoxHistoryDialog extends LitElement {
               ?hidden-series=${this._hiddenSourceIds.includes(series.source.id)}
               @click=${() => this._toggleSeries(series.source.id)}
             >
-              <span class="swatch" style=${`background: ${sourceColor(index)}`}></span>
+              <span class="swatch" style=${this._legendSwatchStyle(series, index)}></span>
               <span>${series.source.label}</span>
-              <span class="legend-count">${series.points.length}</span>
             </button>
           `
         )}
@@ -1028,6 +1041,18 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _formatTooltipValue(value: number | string | boolean): string {
     return String(value);
+  }
+
+  private _legendSwatchStyle(series: HistorySeries, index: number): string {
+    if (this._isClimateHvacActionSource(series.source)) {
+      return "background: color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 22%, transparent); border: 1px solid var(--equinox-boost-color, var(--accent-color));";
+    }
+
+    return `background: ${sourceColor(index)}`;
+  }
+
+  private _seriesColor(series: HistorySeries, index: number): string {
+    return this._isClimateHvacActionSource(series.source) ? "var(--equinox-boost-color, var(--accent-color))" : sourceColor(index);
   }
 
   private _tooltipSeries(): TooltipSeries[] {
@@ -1046,7 +1071,7 @@ export class EquinoxHistoryDialog extends LitElement {
         return {
           id: series.source.id,
           label: series.source.label,
-          color: sourceColor(colorIndex),
+          color: this._seriesColor(series, colorIndex),
           points: series.points.map((point) => ({ time: point.time, value: point.value }))
         };
       });
@@ -1180,7 +1205,7 @@ export class EquinoxHistoryDialog extends LitElement {
     return html`
       <div
         class="tooltip"
-        style=${`left: clamp(150px, ${leftPercent}%, calc(100% - 150px)); top: clamp(8px, ${topPercent}%, calc(100% - 8px)); transform: ${placement};`}
+        style=${`left: clamp(150px, ${leftPercent}%, calc(100% - 150px)); top: ${this._tooltip.y.toFixed(1)}px; transform: ${placement};`}
       >
         <div class="tooltip-time">${new Date(this._tooltip.time).toLocaleString()}</div>
         ${this._tooltip.values.map(
@@ -1216,19 +1241,18 @@ export class EquinoxHistoryDialog extends LitElement {
   private _plotBottom(): number {
     const n = Math.max(this._numericScales().length, 1);
 
-    return PLOT_BOTTOM + (n - 1) * 190;
+    return GRAPH_TOP + (n - 1) * GRAPH_STEP + GRAPH_HEIGHT + GRAPH_BOTTOM_PADDING;
   }
 
   private _chartHeight(): number {
-    const segmentCount = this._visibleSeries().filter((series) => series.source.valueType !== "number").length;
+    const segmentCount = this._visibleSeries().filter((series) => series.source.valueType !== "number" && !this._isClimateHvacActionSource(series.source)).length;
 
     return this._plotBottom() + 34 + Math.max(segmentCount - 1, 0) * 14;
   }
 
   private _numericScales(): NumericScale[] {
     const numericSeries = this._visibleSeries().filter((series) => series.source.valueType === "number" && series.points.length > 0);
-    const groups: Array<{ series: HistorySeries[]; min: number; max: number }> = [];
-    const seriesRangeMap = new Map<string, { min: number; max: number }>();
+    const groups: Array<{ key: string; series: HistorySeries[]; min: number; max: number; precision: number }> = [];
 
     for (const series of numericSeries) {
       const values = series.points.map((point) => Number(point.value)).filter((value) => Number.isFinite(value));
@@ -1239,75 +1263,143 @@ export class EquinoxHistoryDialog extends LitElement {
 
       const min = Math.min(...values);
       const max = Math.max(...values);
+      const precision = Math.max(...values.map((value) => this._valuePrecision(value)));
+      const key = this._scaleKey(series.source);
+      const group = groups.find((candidate) => candidate.key === key);
 
-      seriesRangeMap.set(series.source.id, { min, max });
-
-      const center = (min + max) / 2;
-      const compatible = groups.find((group) => {
-        if (min <= group.max && max >= group.min) {
-          return true;
-        }
-
-        const groupCenter = (group.min + group.max) / 2;
-        const distance = Math.abs(center - groupCenter);
-        const reference = Math.max(Math.abs(center), Math.abs(groupCenter), 1);
-
-        return distance / reference < 0.35;
-      });
-
-      if (compatible) {
-        compatible.series.push(series);
-        compatible.min = Math.min(compatible.min, min);
-        compatible.max = Math.max(compatible.max, max);
+      if (group) {
+        group.series.push(series);
+        group.min = Math.min(group.min, min);
+        group.max = Math.max(group.max, max);
+        group.precision = Math.max(group.precision, precision);
       } else {
-        groups.push({ series: [series], min, max });
+        groups.push({ key, series: [series], min, max, precision });
       }
     }
 
-    return groups.map((group, index) => ({
-      ids: new Set(group.series.map((series) => series.source.id)),
-      min: group.min,
-      max: group.max,
-      top: 28 + index * 190,
-      height: 180,
-      seriesRanges: new Map(group.series.map((s) => [s.source.id, seriesRangeMap.get(s.source.id)!]))
-    }));
+    return groups.map((group, index) => {
+      const range = this._paddedRange(group.min, group.max, group.precision);
+
+      return {
+        ids: new Set(group.series.map((series) => series.source.id)),
+        min: range.min,
+        max: range.max,
+        precision: group.precision,
+        top: GRAPH_TOP + index * GRAPH_STEP,
+        height: GRAPH_HEIGHT
+      };
+    });
+  }
+
+  private _scaleKey(source: HistorySource): string {
+    if (this._isClimateTemperatureSource(source)) {
+      return `climate:${source.entityId}:temperature`;
+    }
+
+    if (source.kind === "entity_state" && source.valueType === "number" && source.unit) {
+      return `unit:${source.unit}`;
+    }
+
+    return `source:${source.id}`;
+  }
+
+  private _sourcePath(source: HistorySource): string | undefined {
+    return source.path?.join(".");
+  }
+
+  private _isConfigClimateSource(source: HistorySource): boolean {
+    return source.entityId === this.config?.entity && source.entityId.startsWith("climate.");
+  }
+
+  private _isClimateTemperatureSource(source: HistorySource): boolean {
+    const path = this._sourcePath(source);
+
+    return this._isConfigClimateSource(source) && source.kind === "entity_attribute" && (path === "current_temperature" || path === "temperature");
+  }
+
+  private _isClimateCurrentTemperatureSource(source: HistorySource): boolean {
+    return this._isConfigClimateSource(source) && source.kind === "entity_attribute" && this._sourcePath(source) === "current_temperature";
+  }
+
+  private _isClimateHvacActionSource(source: HistorySource): boolean {
+    return this._isConfigClimateSource(source) && source.kind === "entity_attribute" && this._sourcePath(source) === "hvac_action";
+  }
+
+  private _valuePrecision(value: number): number {
+    if (!Number.isFinite(value) || Number.isInteger(value)) {
+      return 0;
+    }
+
+    const text = value.toString().toLowerCase();
+
+    if (text.includes("e-")) {
+      const [coefficient, exponent] = text.split("e-");
+      const coefficientDecimals = coefficient.split(".")[1]?.length ?? 0;
+
+      return Math.min(coefficientDecimals + Number(exponent), 4);
+    }
+
+    return Math.min(text.split(".")[1]?.length ?? 0, 4);
+  }
+
+  private _roundToPrecision(value: number, precision: number): number {
+    const factor = 10 ** precision;
+
+    return Math.round(value * factor) / factor;
+  }
+
+  private _paddedRange(min: number, max: number, precision: number): { min: number; max: number } {
+    const span = max - min;
+
+    if (span < 1e-6) {
+      const padding = Math.max(Math.abs(max) * 0.05, 1);
+
+      return {
+        min: this._roundToPrecision(min - padding, precision),
+        max: this._roundToPrecision(max + padding, precision)
+      };
+    }
+
+    const padding = span * 0.08;
+
+    return {
+      min: this._roundToPrecision(min - padding, precision),
+      max: this._roundToPrecision(max + padding, precision)
+    };
   }
 
   private _scaleFor(series: HistorySeries, scales: NumericScale[]): NumericScale | undefined {
     return scales.find((scale) => scale.ids.has(series.source.id));
   }
 
-  private _y(value: number, scale: NumericScale, seriesId: string): number {
-    const r = scale.seriesRanges.get(seriesId);
-    const min = r?.min ?? scale.min;
-    const max = r?.max ?? scale.max;
-    const span = max - min;
+  private _y(value: number, scale: NumericScale): number {
+    const span = scale.max - scale.min;
 
     if (span < 1e-6) {
       return scale.top + scale.height / 2;
     }
 
-    return scale.top + scale.height - ((value - min) / span) * scale.height;
+    return scale.top + scale.height - ((value - scale.min) / span) * scale.height;
   }
 
-  private _fmtAxisVal(v: number): string {
-    const abs = Math.abs(v);
-
-    if (abs >= 1000) return v.toFixed(0);
-    if (abs >= 10) return v.toFixed(1);
-
-    return v.toFixed(2);
+  private _fmtAxisVal(v: number, precision: number): string {
+    return v.toFixed(precision);
   }
 
   private _renderScaleLabels() {
     const scales = this._numericScales();
     const result = [];
 
-    for (const [, scale] of scales.entries()) {
+    for (const [index, scale] of scales.entries()) {
       const tickX1 = PLOT_LEFT - 4;
       const tickX2 = PLOT_LEFT;
       const ticks = [scale.top + scale.height, scale.top + scale.height / 2, scale.top];
+
+      if (index > 0) {
+        const separatorY = scale.top - GRAPH_GAP / 2;
+
+        result.push(svg`<line class="graph-separator" x1=${PLOT_LEFT} y1=${separatorY} x2=${PLOT_RIGHT} y2=${separatorY}></line>`);
+      }
 
       result.push(svg`<line class="axis" x1=${PLOT_LEFT} y1=${scale.top} x2=${PLOT_RIGHT} y2=${scale.top}></line>`);
 
@@ -1321,15 +1413,10 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _renderYAxisLabels() {
     const scales = this._numericScales();
-    const chartH = this._chartHeight();
     const leftWidthPct = ((PLOT_LEFT / CHART_WIDTH) * 100).toFixed(2);
-    const sideStyle = `left:0;width:${leftWidthPct}%;text-align:right;padding-right:5px;`;
+    const sideStyle = `left:0;width:${leftWidthPct}%;text-align:right;padding-right:6px;`;
 
     return scales.flatMap((scale) => {
-      if (scale.ids.size > 1) {
-        return [];
-      }
-
       const ticks = [
         { y: scale.top + scale.height, v: scale.min },
         { y: scale.top + scale.height / 2, v: (scale.min + scale.max) / 2 },
@@ -1337,7 +1424,7 @@ export class EquinoxHistoryDialog extends LitElement {
       ];
 
       return ticks.map(({ y, v }) =>
-        html`<span class="y-axis-label" style="top:${((y / chartH) * 100).toFixed(2)}%;${sideStyle}">${this._fmtAxisVal(v)}</span>`
+        html`<span class="y-axis-label" style="top:${y.toFixed(1)}px;${sideStyle}">${this._fmtAxisVal(v, scale.precision)}</span>`
       );
     });
   }
@@ -1361,7 +1448,7 @@ export class EquinoxHistoryDialog extends LitElement {
           points=${series.points
             .map((point) => {
               const x = this._x(point.time);
-              const y = this._y(Number(point.value), scale, series.source.id);
+              const y = this._y(Number(point.value), scale);
 
               return `${x.toFixed(1)},${y.toFixed(1)}`;
             })
@@ -1372,11 +1459,95 @@ export class EquinoxHistoryDialog extends LitElement {
           .filter((_, pointIndex) => pointIndex === 0 || pointIndex === series.points.length - 1)
           .map((point) => {
             const x = this._x(point.time);
-            const y = this._y(Number(point.value), scale, series.source.id);
+            const y = this._y(Number(point.value), scale);
 
             return svg`<circle class="point" cx=${x} cy=${y} r="3" fill=${sourceColor(colorIndex)}></circle>`;
           })
       ];
+    });
+  }
+
+  private _temperatureAt(points: Array<{ time: number; value: number }>, time: number): number | undefined {
+    if (points.length === 0) {
+      return undefined;
+    }
+
+    if (time <= points[0].time) {
+      return points[0].value;
+    }
+
+    const last = points[points.length - 1];
+
+    if (time >= last.time) {
+      return last.value;
+    }
+
+    for (let index = 0; index < points.length - 1; index += 1) {
+      const left = points[index];
+      const right = points[index + 1];
+
+      if (time >= left.time && time <= right.time) {
+        const span = right.time - left.time;
+
+        return span <= 0 ? left.value : left.value + ((time - left.time) / span) * (right.value - left.value);
+      }
+    }
+
+    return undefined;
+  }
+
+  private _renderClimateHeatingAreas() {
+    const visibleSeries = this._visibleSeries();
+    const temperatureSeries = visibleSeries.find((series) => this._isClimateCurrentTemperatureSource(series.source));
+    const hvacActionSeries = visibleSeries.find((series) => this._isClimateHvacActionSource(series.source));
+
+    if (!temperatureSeries || !hvacActionSeries) {
+      return [];
+    }
+
+    const scales = this._numericScales();
+    const scale = this._scaleFor(temperatureSeries, scales);
+
+    if (!scale) {
+      return [];
+    }
+
+    const temperaturePoints = temperatureSeries.points
+      .map((point) => ({ time: point.time, value: Number(point.value) }))
+      .filter((point) => Number.isFinite(point.value))
+      .sort((left, right) => left.time - right.time);
+    const bounds = this._timeBounds();
+
+    return hvacActionSeries.points.flatMap((point, pointIndex) => {
+      if (point.value !== "heating") {
+        return [];
+      }
+
+      const start = Math.max(point.time, bounds.start);
+      const end = Math.min(hvacActionSeries.points[pointIndex + 1]?.time ?? bounds.end, bounds.end);
+
+      if (end <= start) {
+        return [];
+      }
+
+      const topPoints = [
+        { time: start, value: this._temperatureAt(temperaturePoints, start) },
+        ...temperaturePoints.filter((candidate) => candidate.time > start && candidate.time < end),
+        { time: end, value: this._temperatureAt(temperaturePoints, end) }
+      ].filter((candidate): candidate is { time: number; value: number } => candidate.value !== undefined);
+
+      if (topPoints.length === 0) {
+        return [];
+      }
+
+      const bottom = scale.top + scale.height;
+      const polygonPoints = [
+        `${this._x(start).toFixed(1)},${bottom.toFixed(1)}`,
+        ...topPoints.map((candidate) => `${this._x(candidate.time).toFixed(1)},${this._y(candidate.value, scale).toFixed(1)}`),
+        `${this._x(end).toFixed(1)},${bottom.toFixed(1)}`
+      ].join(" ");
+
+      return [svg`<polygon class="climate-heating-area" points=${polygonPoints}></polygon>`];
     });
   }
 
@@ -1387,7 +1558,7 @@ export class EquinoxHistoryDialog extends LitElement {
     let segmentIndex = 0;
 
     return this._visibleSeries().flatMap((series) => {
-      if (series.source.valueType === "number") {
+      if (series.source.valueType === "number" || this._isClimateHvacActionSource(series.source)) {
         return [];
       }
 

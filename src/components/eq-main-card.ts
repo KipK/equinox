@@ -414,7 +414,7 @@ export class EquinoxMainCard extends LitElement {
         gap: 6px;
         font-size: 40px;
         line-height: 1;
-        font-weight: 750;
+        font-weight: 450;
         color: var(--equinox-text-color);
       }
 
@@ -759,7 +759,7 @@ export class EquinoxMainCard extends LitElement {
         <span class="status-spacer"></span>
         <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
         ${lockSupported
-          ? html`
+        ? html`
               <button
                 class="lock"
                 title=${lockActionLabel}
@@ -770,7 +770,7 @@ export class EquinoxMainCard extends LitElement {
                 <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
               </button>
             `
-          : nothing}
+        : nothing}
         ${this.config?.disable_name ? this._renderMenuButton() : nothing}
       </div>
     `;
@@ -897,13 +897,13 @@ export class EquinoxMainCard extends LitElement {
             <span class="sensor-unit">°</span>
           </span>
           ${showHumidity
-            ? html`
+        ? html`
                 <span class="sensor-humidity">
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                   <span>${this._formatPercent(currentHumidity)}</span>
                 </span>
               `
-            : nothing}
+        : nothing}
         </div>
         ${this._renderSetpointControl(true)}
       </div>
@@ -1071,7 +1071,7 @@ export class EquinoxMainCard extends LitElement {
     return html`
       <div class="compact-selectors" style=${compactStyle}>
         ${showHvac
-          ? html`
+        ? html`
               <eq-icon-button
                 .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}
                 .label=${currentHvacMode ? this._hvacLabel(currentHvacMode) : localize(this._language(), "dialog.hvac.title")}
@@ -1082,9 +1082,9 @@ export class EquinoxMainCard extends LitElement {
                 @click=${(event: Event) => this._openDialog("hvac", event)}
               ></eq-icon-button>
             `
-          : nothing}
+        : nothing}
         ${showPreset
-          ? html`
+        ? html`
               <eq-icon-button
                 .icon=${presetIcon}
                 .label=${preset && preset !== "none" ? this._presetLabel(preset) : localize(this._language(), "main.preset.none")}
@@ -1093,9 +1093,9 @@ export class EquinoxMainCard extends LitElement {
                 @click=${(event: Event) => this._openDialog("preset", event)}
               ></eq-icon-button>
             `
-          : nothing}
+        : nothing}
         ${showFan
-          ? html`
+        ? html`
               <eq-icon-button
                 class="fan-selector"
                 .icon=${this._fanIcon()}
@@ -1104,7 +1104,7 @@ export class EquinoxMainCard extends LitElement {
                 @click=${(event: Event) => this._openDialog("fan", event)}
               ></eq-icon-button>
             `
-          : nothing}
+        : nothing}
       </div>
     `;
   }

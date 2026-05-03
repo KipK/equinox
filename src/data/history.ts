@@ -1,4 +1,5 @@
 import type { HassEntity, HomeAssistant } from "../types/ha";
+import { asNumber, asString } from "./format";
 
 export type HistoryValueType = "number" | "boolean" | "string";
 export type HistorySourceKind = "entity_state" | "entity_attribute";
@@ -10,6 +11,7 @@ export interface HistorySource {
   label: string;
   path?: string[];
   valueType: HistoryValueType;
+  unit?: string;
 }
 
 export interface HistoryPoint {
@@ -61,6 +63,7 @@ export function valueType(value: unknown): HistoryValueType | undefined {
 
 export function entityStateSource(entity: HassEntity): HistorySource | undefined {
   const type = valueType(Number.isFinite(Number(entity.state)) ? Number(entity.state) : entity.state);
+  const unit = entity.attributes.unit_of_measurement;
 
   if (!type) {
     return undefined;
@@ -71,7 +74,8 @@ export function entityStateSource(entity: HassEntity): HistorySource | undefined
     kind: "entity_state",
     entityId: entity.entity_id,
     label: entity.attributes.friendly_name && typeof entity.attributes.friendly_name === "string" ? entity.attributes.friendly_name : entity.entity_id,
-    valueType: type
+    valueType: type,
+    unit: type === "number" && typeof unit === "string" && unit !== "" ? unit : undefined
   };
 }
 
@@ -95,16 +99,14 @@ export function attributeSource(entity: HassEntity, path: string[], label?: stri
 
 function normalizeValue(value: unknown, type: HistoryValueType): number | string | boolean | undefined {
   if (type === "number") {
-    const numberValue = typeof value === "number" ? value : Number(value);
-
-    return Number.isFinite(numberValue) ? numberValue : undefined;
+    return asNumber(value);
   }
 
   if (type === "boolean") {
     return typeof value === "boolean" ? value : undefined;
   }
 
-  return typeof value === "string" && value !== "" ? value : undefined;
+  return asString(value);
 }
 
 function valueFromState(state: HistoryState, source: HistorySource): number | string | boolean | undefined {
