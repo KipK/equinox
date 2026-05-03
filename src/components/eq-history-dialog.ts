@@ -9,6 +9,11 @@ const RANGE_HOURS = [1, 6, 24, 72, 168];
 const DEFAULT_RANGE_HOURS = 24;
 const CHART_WIDTH = 720;
 const CHART_HEIGHT = 260;
+const PLOT_LEFT = 40;
+const PLOT_RIGHT = 680;
+const PLOT_WIDTH = PLOT_RIGHT - PLOT_LEFT;
+const PLOT_TOP = 18;
+const PLOT_BOTTOM = 226;
 
 interface NumericScale {
   ids: Set<string>;
@@ -85,7 +90,9 @@ export class EquinoxHistoryDialog extends LitElement {
     _attributeMenuOpen: { state: true },
     _tooltip: { state: true },
     _loading: { state: true },
-    _error: { state: true }
+    _error: { state: true },
+    _controlsCollapsed: { state: true },
+    _activeRangeHours: { state: true }
   };
 
   static styles = css`
@@ -124,6 +131,42 @@ export class EquinoxHistoryDialog extends LitElement {
       z-index: 3;
     }
 
+    .controls-header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 2px;
+    }
+
+    .controls-toggle {
+      border: 0;
+      background: transparent;
+      color: var(--equinox-muted-color, var(--secondary-text-color));
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: var(--equinox-control-radius, 8px);
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .controls-toggle:hover {
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
+    }
+
+    .controls-toggle ha-icon {
+      --mdc-icon-size: 16px;
+    }
+
+    .controls-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .controls-panel[collapsed] {
+      display: none;
+    }
+
     .range-btn,
     .entity-btn,
     .entity-trigger,
@@ -149,6 +192,15 @@ export class EquinoxHistoryDialog extends LitElement {
     .load-btn {
       background: var(--equinox-boost-color, var(--accent-color));
       color: #fff;
+    }
+
+    .range-btn:hover:not([active]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, rgba(128, 128, 128, 0.14)) 50%, var(--equinox-boost-color, var(--accent-color)) 50%);
+      color: #fff;
+    }
+
+    .range-btn[active]:hover {
+      filter: brightness(1.1);
     }
 
     .date-input {
@@ -312,6 +364,37 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .chart-surface {
       position: relative;
+    }
+
+    .y-axis-label {
+      position: absolute;
+      font-size: 10px;
+      color: var(--equinox-muted-color, var(--secondary-text-color));
+      transform: translateY(-50%);
+      white-space: nowrap;
+      pointer-events: none;
+      box-sizing: border-box;
+      line-height: 1;
+      z-index: 1;
+    }
+
+    .chart-loading-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .chart-loading-label {
+      font-size: 11px;
+      color: var(--equinox-muted-color, var(--secondary-text-color));
+      background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color)) 92%, #000 8%);
+      padding: 3px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--equinox-border-color, var(--divider-color));
+      opacity: 0.88;
     }
 
     svg {
@@ -535,9 +618,18 @@ export class EquinoxHistoryDialog extends LitElement {
   private _pendingTooltipPoint?: { x: number; y: number };
   private _loading = false;
   private _error = "";
+  private _controlsCollapsed = false;
+  private _activeRangeHours: number | undefined = DEFAULT_RANGE_HOURS;
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    document.addEventListener("click", this._handleDocumentClick);
+  }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
+    document.removeEventListener("click", this._handleDocumentClick);
+    this._cancelCloseMenuTimer();
 
     if (this._tooltipFrame !== undefined) {
       cancelAnimationFrame(this._tooltipFrame);
@@ -611,10 +703,33 @@ export class EquinoxHistoryDialog extends LitElement {
     this._attributeMenuOpen = false;
   }
 
-  private _closeAttributeMenuOnDesktop(): void {
-    if (window.innerWidth > 600) {
+  private _closeMenuTimer?: number;
+
+  private _scheduleCloseMenuOnDesktop(): void {
+    if (window.innerWidth <= 600) return;
+    this._closeMenuTimer = window.setTimeout(() => {
+      this._closeMenuTimer = undefined;
+      this._closeAttributeMenu();
+    }, 150);
+  }
+
+  private _cancelCloseMenuTimer(): void {
+    if (this._closeMenuTimer !== undefined) {
+      window.clearTimeout(this._closeMenuTimer);
+      this._closeMenuTimer = undefined;
+    }
+  }
+
+  private _handleDocumentClick = (event: Event): void => {
+    if (!this._attributeMenuOpen) return;
+    const picker = this.renderRoot?.querySelector(".entity-picker");
+    if (!picker || !event.composedPath().includes(picker)) {
       this._closeAttributeMenu();
     }
+  };
+
+  private _toggleControls(): void {
+    this._controlsCollapsed = !this._controlsCollapsed;
   }
 
   private _setRange(hours: number): void {
@@ -623,15 +738,18 @@ export class EquinoxHistoryDialog extends LitElement {
 
     this._startInput = inputDateValue(start);
     this._endInput = inputDateValue(end);
+    this._activeRangeHours = hours;
     void this._loadHistory();
   }
 
   private _setStart(event: Event): void {
     this._startInput = (event.currentTarget as HTMLInputElement).value;
+    this._activeRangeHours = undefined;
   }
 
   private _setEnd(event: Event): void {
     this._endInput = (event.currentTarget as HTMLInputElement).value;
+    this._activeRangeHours = undefined;
   }
 
   private _setCustomEntity(event: Event): void {
@@ -704,12 +822,18 @@ export class EquinoxHistoryDialog extends LitElement {
 
     return html`
       <div class="source-row">
-        <div class="entity-picker" @mouseleave=${this._closeAttributeMenuOnDesktop}>
+        <div class="entity-picker"
+          @mouseleave=${this._scheduleCloseMenuOnDesktop}
+          @mouseenter=${this._cancelCloseMenuTimer}
+        >
           <button class="entity-trigger" ?open=${this._attributeMenuOpen} @click=${this._toggleAttributeMenu}>
             <span>${selectedEntity ? this._entityLabel(selectedEntity) : localize(this.language, "editor.entity")}</span>
             <ha-icon icon=${this._attributeMenuOpen ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
           </button>
-          <div class="entity-menu" ?open=${this._attributeMenuOpen}>
+          <div class="entity-menu" ?open=${this._attributeMenuOpen}
+            @mouseenter=${this._cancelCloseMenuTimer}
+            @mouseleave=${this._scheduleCloseMenuOnDesktop}
+          >
             <div class="entity-menu-bar">
               <div class="entity-list">
                 ${entities.map(
@@ -773,9 +897,15 @@ export class EquinoxHistoryDialog extends LitElement {
         )}
       </div>
       <div class="tree">
-        ${this._path.length === 0
-          ? this._renderStateEntry(entity)
-          : nothing}
+        ${this._path.length > 0
+          ? html`
+              <button class="tree-btn" @click=${() => { this._path = this._path.slice(0, -1); }}>
+                <ha-icon icon="mdi:arrow-left"></ha-icon>
+                <span class="tree-label">${localize(this.language, "dialog.back")}</span>
+                <span></span>
+              </button>
+            `
+          : this._renderStateEntry(entity)}
         ${entries.map(([key, value]) => this._renderTreeEntry(entity, key, value))}
       </div>
     `;
@@ -841,19 +971,15 @@ export class EquinoxHistoryDialog extends LitElement {
   }
 
   private _renderChart(): TemplateResult {
-    if (this._loading) {
-      return html`<div class="empty">${localize(this.language, "dialog.history.loading")}</div>`;
-    }
-
     if (this._error) {
       return html`<div class="error">${this._error}</div>`;
     }
 
-    const visibleSeries = this._visibleSeries();
-
     if (this._series.length === 0) {
-      return html`<div class="empty">${localize(this.language, "dialog.history.empty")}</div>`;
+      return html`<div class="empty">${localize(this.language, this._loading ? "dialog.history.loading" : "dialog.history.empty")}</div>`;
     }
+
+    const visibleSeries = this._visibleSeries();
 
     return html`
       ${visibleSeries.length === 0 || visibleSeries.every((series) => series.points.length === 0)
@@ -868,14 +994,18 @@ export class EquinoxHistoryDialog extends LitElement {
                 @touchstart=${this._updateTooltip}
                 @touchmove=${this._updateTooltip}
               >
-                <line class="axis" x1="34" y1="18" x2="34" y2="226"></line>
-                <line class="axis" x1="34" y1="226" x2="704" y2="226"></line>
+                <line class="axis" x1=${PLOT_LEFT} y1=${PLOT_TOP} x2=${PLOT_LEFT} y2=${PLOT_BOTTOM}></line>
+                <line class="axis" x1=${PLOT_LEFT} y1=${PLOT_BOTTOM} x2=${PLOT_RIGHT} y2=${PLOT_BOTTOM}></line>
                 ${this._renderScaleLabels()}
                 ${this._renderNumericLines()}
                 ${this._renderSegments()}
                 ${this._renderTooltipGuide()}
               </svg>
+              ${this._renderYAxisLabels()}
               ${this._renderTooltip()}
+              ${this._loading
+                ? html`<div class="chart-loading-overlay"><span class="chart-loading-label">${localize(this.language, "dialog.history.loading")}</span></div>`
+                : nothing}
             </div>
           `}
       <div class="legend">
@@ -950,7 +1080,7 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _timeFromSvgX(x: number): number {
     const bounds = this._timeBounds();
-    const ratio = Math.min(Math.max((x - 34) / 670, 0), 1);
+    const ratio = Math.min(Math.max((x - PLOT_LEFT) / PLOT_WIDTH, 0), 1);
 
     return bounds.start + ratio * (bounds.end - bounds.start);
   }
@@ -1080,7 +1210,7 @@ export class EquinoxHistoryDialog extends LitElement {
   private _x(time: number): number {
     const bounds = this._timeBounds();
 
-    return 34 + ((time - bounds.start) / (bounds.end - bounds.start)) * 670;
+    return PLOT_LEFT + ((time - bounds.start) / (bounds.end - bounds.start)) * PLOT_WIDTH;
   }
 
   private _chartHeight(): number {
@@ -1141,12 +1271,61 @@ export class EquinoxHistoryDialog extends LitElement {
     return scale.top + scale.height - ((value - scale.min) / span) * scale.height;
   }
 
+  private _fmtAxisVal(v: number): string {
+    const abs = Math.abs(v);
+
+    if (abs >= 1000) return v.toFixed(0);
+    if (abs >= 10) return v.toFixed(1);
+
+    return v.toFixed(2);
+  }
+
   private _renderScaleLabels() {
-    return this._numericScales().flatMap((scale, index) => [
-      svg`<line class="axis" x1="34" y1=${scale.top} x2="704" y2=${scale.top}></line>`,
-      svg`<text class="scale-label" x="38" y=${Math.max(scale.top - 3, 12)}>${scale.min.toFixed(2)}-${scale.max.toFixed(2)}</text>`,
-      svg`<text class="scale-label" x="690" y=${Math.max(scale.top - 3, 12)} text-anchor="end">#${index + 1}</text>`
-    ]);
+    const scales = this._numericScales();
+    const hasRightScale = scales.length > 1;
+    const result = [];
+
+    if (hasRightScale) {
+      result.push(svg`<line class="axis" x1=${PLOT_RIGHT} y1=${PLOT_TOP} x2=${PLOT_RIGHT} y2=${PLOT_BOTTOM}></line>`);
+    }
+
+    for (const [index, scale] of scales.entries()) {
+      const onLeft = index % 2 === 0;
+      const tickX1 = onLeft ? PLOT_LEFT - 4 : PLOT_RIGHT;
+      const tickX2 = onLeft ? PLOT_LEFT : PLOT_RIGHT + 4;
+      const ticks = [scale.top + scale.height, scale.top + scale.height / 2, scale.top];
+
+      result.push(svg`<line class="axis" x1=${PLOT_LEFT} y1=${scale.top} x2=${PLOT_RIGHT} y2=${scale.top}></line>`);
+
+      for (const y of ticks) {
+        result.push(svg`<line class="axis" x1=${tickX1} y1=${y} x2=${tickX2} y2=${y}></line>`);
+      }
+    }
+
+    return result;
+  }
+
+  private _renderYAxisLabels() {
+    const scales = this._numericScales();
+    const chartH = this._chartHeight();
+    const leftWidthPct = ((PLOT_LEFT / CHART_WIDTH) * 100).toFixed(2);
+    const rightStartPct = ((PLOT_RIGHT / CHART_WIDTH) * 100).toFixed(2);
+
+    return scales.flatMap((scale, index) => {
+      const onLeft = index % 2 === 0;
+      const sideStyle = onLeft
+        ? `left:0;width:${leftWidthPct}%;text-align:right;padding-right:5px;`
+        : `left:${rightStartPct}%;right:0;padding-left:5px;`;
+      const ticks = [
+        { y: scale.top + scale.height, v: scale.min },
+        { y: scale.top + scale.height / 2, v: (scale.min + scale.max) / 2 },
+        { y: scale.top, v: scale.max }
+      ];
+
+      return ticks.map(({ y, v }) =>
+        html`<span class="y-axis-label" style="top:${((y / chartH) * 100).toFixed(2)}%;${sideStyle}">${this._fmtAxisVal(v)}</span>`
+      );
+    });
   }
 
   private _renderNumericLines() {
@@ -1234,17 +1413,26 @@ export class EquinoxHistoryDialog extends LitElement {
       >
         <div class="history-body">
           <div>
-            <div class="range-row">
-              ${RANGE_HOURS.map(
-                (hours) => html`
-                  <button class="range-btn" @click=${() => this._setRange(hours)}>${hours < 24 ? `${hours}h` : `${hours / 24}j`}</button>
-                `
-              )}
-              <input class="date-input" type="datetime-local" .value=${this._startInput} @change=${this._setStart} />
-              <input class="date-input" type="datetime-local" .value=${this._endInput} @change=${this._setEnd} />
-              <button class="load-btn" @click=${this._loadHistory}>${localize(this.language, "dialog.history.load")}</button>
+            <div class="controls-header">
+              <button class="controls-toggle" @click=${this._toggleControls}>
+                <ha-icon icon=${this._controlsCollapsed ? "mdi:chevron-down" : "mdi:chevron-up"}></ha-icon>
+              </button>
             </div>
-            ${this._renderSources()}
+            <div class="controls-panel" ?collapsed=${this._controlsCollapsed}>
+              <div class="range-row">
+                ${RANGE_HOURS.map(
+                  (hours) => html`
+                    <button class="range-btn" ?active=${this._activeRangeHours === hours} @click=${() => this._setRange(hours)}>
+                      ${hours < 24 ? `${hours}h` : `${hours / 24}j`}
+                    </button>
+                  `
+                )}
+                <input class="date-input" type="datetime-local" .value=${this._startInput} @change=${this._setStart} />
+                <input class="date-input" type="datetime-local" .value=${this._endInput} @change=${this._setEnd} />
+                <button class="load-btn" @click=${this._loadHistory}>${localize(this.language, "dialog.history.load")}</button>
+              </div>
+              ${this._renderSources()}
+            </div>
           </div>
           <div class="main">
             <div class="chart-panel">${this._renderChart()}</div>
