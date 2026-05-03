@@ -115,6 +115,11 @@ export class EquinoxIconButton extends LitElement {
         background: color-mix(in srgb, var(--disabled-text-color, #7e8792) 58%, #000000 42%);
       }
 
+      :host([tone="off"][active][subtle]) button {
+        color: var(--disabled-text-color, var(--equinox-muted-color));
+        background: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--disabled-text-color, var(--equinox-muted-color)) 22%);
+      }
+
       :host([tone="heat"]:not([active])) button {
         color: var(--equinox-heat-color);
       }

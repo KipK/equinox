@@ -1001,6 +1001,7 @@ export class EquinoxMainCard extends LitElement {
         .label=${this._hvacLabel(mode)}
         .tone=${this._modeTone(mode)}
         ?active=${this.viewModel?.climate.hvacMode === mode}
+        ?subtle=${true}
         ?disabled=${this._isControlDisabled()}
         @click=${() => this._setHvacMode(mode)}
       ></eq-icon-button>
@@ -1073,6 +1074,7 @@ export class EquinoxMainCard extends LitElement {
                 .label=${currentHvacMode ? this._hvacLabel(currentHvacMode) : localize(this._language(), "dialog.hvac.title")}
                 .tone=${this._modeTone(currentHvacMode)}
                 ?active=${currentHvacMode !== "off" && !!currentHvacMode}
+                ?subtle=${true}
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("hvac", event)}
               ></eq-icon-button>
