@@ -289,7 +289,8 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .entity-picker {
       position: relative;
-      min-width: 0;
+      width: 170px;
+      flex-shrink: 0;
     }
 
     .entity-trigger {
@@ -298,7 +299,6 @@ export class EquinoxHistoryDialog extends LitElement {
       align-items: center;
       gap: 6px;
       width: 100%;
-      max-width: min(44vw, 320px);
       text-align: left;
     }
 
@@ -614,11 +614,6 @@ export class EquinoxHistoryDialog extends LitElement {
       }
 
       .range-row > .entity-picker {
-        width: 100%;
-      }
-
-      .range-row > .entity-trigger {
-        max-width: none;
         width: 100%;
       }
 
