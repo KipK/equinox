@@ -231,11 +231,42 @@ export class EquinoxMainCard extends LitElement {
 
       .target {
         min-width: 0;
-        text-align: center;
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
         font-size: 38px;
         line-height: 1;
         font-weight: 700;
         color: var(--equinox-auto-color);
+      }
+
+      .setpoint-input {
+        font-size: inherit;
+        font-weight: inherit;
+        font-family: inherit;
+        line-height: inherit;
+        color: inherit;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+        text-align: right;
+        cursor: pointer;
+      }
+
+      .setpoint-input:focus {
+        cursor: text;
+      }
+
+      .setpoint-input:disabled {
+        cursor: default;
+      }
+
+      .setpoint-unit {
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
       }
 
       .target[mode="heat"],
@@ -565,6 +596,11 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderSetpoint(): TemplateResult {
     const disabled = this._isControlDisabled() || !finite(this.viewModel?.climate.targetTemperature);
+    const step = this.viewModel?.climate.targetTempStep ?? 0.5;
+    const min = this.viewModel?.climate.minTemp;
+    const max = this.viewModel?.climate.maxTemp;
+    const rawValue = this._setpointFallback();
+    const inputWidth = rawValue.length || 4;
 
     return html`
       <div class="setpoint">
@@ -577,7 +613,21 @@ export class EquinoxMainCard extends LitElement {
         >
           <ha-icon icon="mdi:minus"></ha-icon>
         </button>
-        <div class="target" mode=${this._targetTone()}>${this._formatTargetTemperature()}</div>
+        <div class="target" mode=${this._targetTone()}>
+          <input
+            class="setpoint-input"
+            type="text"
+            inputmode="decimal"
+            .value=${rawValue}
+            placeholder="--.-"
+            style="width: ${inputWidth}ch"
+            ?disabled=${disabled}
+            @focus=${this._onSetpointFocus}
+            @blur=${this._onSetpointBlur}
+            @keydown=${this._onSetpointKeyDown}
+          >
+          <span class="setpoint-unit">°</span>
+        </div>
         <button
           class="step"
           title=${localize(this._language(), "main.actions.increase_temperature")}
@@ -945,12 +995,6 @@ export class EquinoxMainCard extends LitElement {
     return label === `${prefix}.${value}` ? value : label;
   }
 
-  private _formatTargetTemperature(): string {
-    const target = this.viewModel?.climate.targetTemperature;
-
-    return finite(target) && this.viewModel?.climate.availability === "available" ? `${this._formatNumber(target)}°` : "--.-°";
-  }
-
   private _formatTemperature(value?: number): string {
     return finite(value) ? `${this._formatNumber(value)}°` : "--.-°";
   }
@@ -968,6 +1012,59 @@ export class EquinoxMainCard extends LitElement {
 
   private _isControlDisabled(): boolean {
     return !this.hass || this.viewModel?.climate.availability !== "available" || this.viewModel?.vt?.lock.isUserLocked === true;
+  }
+
+  private _stepDecimals(): number {
+    const s = String(this.viewModel?.climate.targetTempStep ?? 0.5);
+    return s.includes('.') ? (s.split('.')[1]?.length ?? 0) : 0;
+  }
+
+  private _setpointFallback(): string {
+    const dec = this._stepDecimals();
+    if (!finite(this.viewModel?.climate.targetTemperature)) return "";
+    return new Intl.NumberFormat(this._language(), {
+      minimumFractionDigits: dec,
+      maximumFractionDigits: dec
+    }).format(this.viewModel!.climate.targetTemperature);
+  }
+
+  private _onSetpointFocus(e: Event): void {
+    (e.target as HTMLInputElement).value = "";
+  }
+
+  private _onSetpointKeyDown(e: KeyboardEvent): void {
+    if (e.key === "Enter") {
+      (e.target as HTMLInputElement).blur();
+    }
+  }
+
+  private _isValidStep(val: number): boolean {
+    const step = this.viewModel?.climate.targetTempStep ?? 0.5;
+    const dec = this._stepDecimals();
+    const rounded = Math.round(val / step) * step;
+    return rounded.toFixed(dec) === val.toFixed(dec);
+  }
+
+  private _onSetpointBlur(e: Event): void {
+    const input = e.target as HTMLInputElement;
+    const fallback = this._setpointFallback();
+    const val = parseFloat(input.value.trim().replace(',', '.'));
+
+    if (!Number.isFinite(val) || !this._isValidStep(val) || !this.hass || !this.config || !this.viewModel) {
+      input.value = fallback;
+      return;
+    }
+
+    const dec = this._stepDecimals();
+    const clamped = this._clampTemperature(val);
+    input.value = new Intl.NumberFormat(this._language(), {
+      minimumFractionDigits: dec,
+      maximumFractionDigits: dec
+    }).format(clamped);
+    void setTemperature(
+      { hass: this.hass, entityId: this.config.entity, viewModel: this.viewModel },
+      { temperature: clamped }
+    );
   }
 
   private _changeTemperature(direction: -1 | 1): void {
