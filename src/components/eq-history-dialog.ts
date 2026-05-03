@@ -1027,7 +1027,7 @@ export class EquinoxHistoryDialog extends LitElement {
   }
 
   private _formatTooltipValue(value: number | string | boolean): string {
-    return typeof value === "number" ? value.toFixed(Math.abs(value) < 10 ? 3 : 1) : String(value);
+    return String(value);
   }
 
   private _tooltipSeries(): TooltipSeries[] {
