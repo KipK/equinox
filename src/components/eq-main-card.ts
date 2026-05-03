@@ -325,11 +325,11 @@ export class EquinoxMainCard extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 18px;
+        gap: 10px;
       }
 
       .setpoint-control[compact] {
-        gap: 10px;
+        gap: 6px;
       }
 
       .setpoint-control[compact] .step {
