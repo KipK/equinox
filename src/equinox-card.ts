@@ -6,7 +6,7 @@ import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
 import { localize } from "./localize/localize";
-import type { HomeAssistant, LovelaceCard } from "./types/ha";
+import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
 import type { EquinoxViewModel } from "./types/view-model";
 
 export class EquinoxCard extends LitElement implements LovelaceCard {
@@ -54,6 +54,17 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
   getCardSize(): number {
     return 3;
+  }
+
+  getGridOptions(): LovelaceCardGridOptions {
+    return {
+      columns: 6,
+      min_columns: 3,
+      max_columns: 12,
+      rows: this._validation?.config.display_mode === "compact" ? 4 : 6,
+      min_rows: 3,
+      max_rows: 8
+    };
   }
 
   protected render() {
