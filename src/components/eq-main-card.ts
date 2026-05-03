@@ -251,7 +251,7 @@ export class EquinoxMainCard extends LitElement {
         outline: none;
         padding: 0;
         margin: 0;
-        text-align: right;
+        text-align: center;
         cursor: pointer;
       }
 
@@ -614,6 +614,7 @@ export class EquinoxMainCard extends LitElement {
           <ha-icon icon="mdi:minus"></ha-icon>
         </button>
         <div class="target" mode=${this._targetTone()}>
+          <span class="setpoint-unit" aria-hidden="true" style="visibility: hidden">°</span>
           <input
             class="setpoint-input"
             type="text"
