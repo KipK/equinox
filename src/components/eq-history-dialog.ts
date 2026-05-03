@@ -82,6 +82,7 @@ export class EquinoxHistoryDialog extends LitElement {
     _customEntityInput: { state: true },
     _customEntityIds: { state: true },
     _hiddenSourceIds: { state: true },
+    _attributeMenuOpen: { state: true },
     _tooltip: { state: true },
     _loading: { state: true },
     _error: { state: true }
@@ -98,7 +99,6 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     .range-row,
-    .source-row,
     .selected-row {
       display: flex;
       align-items: center;
@@ -108,10 +108,28 @@ export class EquinoxHistoryDialog extends LitElement {
       padding-bottom: 1px;
     }
 
+    .range-row {
+      display: grid;
+      grid-template-columns: repeat(5, max-content) minmax(150px, 1fr) minmax(150px, 1fr) max-content;
+      overflow: visible;
+    }
+
+    .source-row {
+      display: grid;
+      grid-template-columns: minmax(190px, max-content) minmax(0, 1fr) max-content;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      position: relative;
+      z-index: 3;
+    }
+
     .range-btn,
     .entity-btn,
+    .entity-trigger,
     .tree-btn,
     .chip,
+    .menu-close,
     .load-btn {
       border: 0;
       border-radius: var(--equinox-control-radius, 8px);
@@ -127,6 +145,7 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .range-btn[active],
     .entity-btn[active],
+    .entity-trigger[open],
     .load-btn {
       background: var(--equinox-boost-color, var(--accent-color));
       color: #fff;
@@ -141,15 +160,17 @@ export class EquinoxHistoryDialog extends LitElement {
       padding: 0 8px;
       font: inherit;
       font-size: 13px;
+      min-width: 0;
+      box-sizing: border-box;
     }
 
     .entity-input {
       min-width: 190px;
+      width: 100%;
     }
 
     .main {
-      display: grid;
-      grid-template-columns: minmax(240px, 0.34fr) minmax(0, 0.66fr);
+      display: block;
       gap: 10px;
       min-height: 0;
     }
@@ -165,6 +186,80 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .browser {
       padding: 8px;
+    }
+
+    .entity-picker {
+      position: relative;
+      min-width: 0;
+    }
+
+    .entity-trigger {
+      display: inline-grid;
+      grid-template-columns: minmax(0, 1fr) 18px;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      max-width: min(44vw, 320px);
+      text-align: left;
+    }
+
+    .entity-trigger span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .entity-trigger ha-icon {
+      --mdc-icon-size: 18px;
+    }
+
+    .entity-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      display: none;
+      width: min(420px, calc(100vw - 48px));
+      max-height: min(56vh, 420px);
+      padding: 8px;
+      overflow: hidden;
+      border: 1px solid var(--equinox-border-color, var(--divider-color));
+      border-radius: var(--equinox-control-radius, 8px);
+      background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color)) 94%, var(--equinox-text-color) 3%);
+      box-shadow: 0 14px 36px rgb(0 0 0 / 30%);
+      box-sizing: border-box;
+    }
+
+    .entity-menu[open] {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 8px;
+    }
+
+    .entity-menu-bar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .entity-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .menu-close {
+      display: none;
+      width: 30px;
+      min-width: 30px;
+      padding: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-close ha-icon {
+      --mdc-icon-size: 18px;
     }
 
     .breadcrumb {
@@ -261,12 +356,6 @@ export class EquinoxHistoryDialog extends LitElement {
       margin-top: 6px;
       font-size: 12px;
       color: var(--equinox-muted-color, var(--secondary-text-color));
-    }
-
-    .chart-debug {
-      margin-top: 6px;
-      color: var(--equinox-muted-color, var(--secondary-text-color));
-      font-size: 11px;
     }
 
     .tooltip {
@@ -368,9 +457,59 @@ export class EquinoxHistoryDialog extends LitElement {
         height: 100%;
       }
 
+      .range-row {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .range-btn {
+        min-width: 0;
+        padding: 0 4px;
+      }
+
+      .range-row > .date-input,
+      .range-row > .load-btn {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      .source-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .entity-picker {
+        grid-column: 1 / -1;
+      }
+
+      .entity-trigger {
+        max-width: none;
+      }
+
+      .entity-menu {
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        top: auto;
+        bottom: 16px;
+        width: auto;
+        max-height: min(64vh, 520px);
+        z-index: 4;
+      }
+
+      .menu-close {
+        display: inline-flex;
+      }
+
+      .entity-input {
+        min-width: 0;
+      }
+
       .main {
-        grid-template-columns: 1fr;
-        grid-template-rows: minmax(135px, 0.55fr) minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      svg {
+        min-height: 220px;
+        height: 38vh;
       }
     }
   `;
@@ -388,6 +527,7 @@ export class EquinoxHistoryDialog extends LitElement {
   private _customEntityInput = "";
   private _customEntityIds: string[] = [];
   private _hiddenSourceIds: string[] = [];
+  private _attributeMenuOpen = false;
   private _tooltip?: HistoryTooltip;
   private _tooltipSeriesCacheKey = "";
   private _tooltipSeriesCache: TooltipSeries[] = [];
@@ -460,6 +600,21 @@ export class EquinoxHistoryDialog extends LitElement {
   private _selectEntity(entityId: string): void {
     this._selectedEntityId = entityId;
     this._path = [];
+    this._attributeMenuOpen = true;
+  }
+
+  private _toggleAttributeMenu(): void {
+    this._attributeMenuOpen = !this._attributeMenuOpen;
+  }
+
+  private _closeAttributeMenu(): void {
+    this._attributeMenuOpen = false;
+  }
+
+  private _closeAttributeMenuOnDesktop(): void {
+    if (window.innerWidth > 600) {
+      this._closeAttributeMenu();
+    }
   }
 
   private _setRange(hours: number): void {
@@ -492,6 +647,7 @@ export class EquinoxHistoryDialog extends LitElement {
     this._selectedEntityId = this._customEntityInput;
     this._customEntityInput = "";
     this._path = [];
+    this._attributeMenuOpen = true;
   }
 
   private _addSource(source: HistorySource): void {
@@ -500,6 +656,7 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     this._selectedSources = [...this._selectedSources, source];
+    this._attributeMenuOpen = window.innerWidth <= 600 ? false : this._attributeMenuOpen;
     void this._loadHistory();
   }
 
@@ -543,20 +700,42 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _renderSources(): TemplateResult {
     const entities = this._entities();
+    const selectedEntity = this._selectedEntity();
 
     return html`
       <div class="source-row">
-        ${entities.map(
-          (entity) => html`
-            <button
-              class="entity-btn"
-              ?active=${entity.entity_id === this._selectedEntityId}
-              @click=${() => this._selectEntity(entity.entity_id)}
-            >
-              ${this._entityLabel(entity)}
-            </button>
-          `
-        )}
+        <div class="entity-picker" @mouseleave=${this._closeAttributeMenuOnDesktop}>
+          <button class="entity-trigger" ?open=${this._attributeMenuOpen} @click=${this._toggleAttributeMenu}>
+            <span>${selectedEntity ? this._entityLabel(selectedEntity) : localize(this.language, "editor.entity")}</span>
+            <ha-icon icon=${this._attributeMenuOpen ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
+          </button>
+          <div class="entity-menu" ?open=${this._attributeMenuOpen}>
+            <div class="entity-menu-bar">
+              <div class="entity-list">
+                ${entities.map(
+                  (entity) => html`
+                    <button
+                      class="entity-btn"
+                      ?active=${entity.entity_id === this._selectedEntityId}
+                      @click=${() => this._selectEntity(entity.entity_id)}
+                    >
+                      ${this._entityLabel(entity)}
+                    </button>
+                  `
+                )}
+              </div>
+              <button
+                class="menu-close"
+                aria-label=${localize(this.language, "dialog.close")}
+                title=${localize(this.language, "dialog.close")}
+                @click=${this._closeAttributeMenu}
+              >
+                <ha-icon icon="mdi:close"></ha-icon>
+              </button>
+            </div>
+            <div class="browser">${this._renderBrowser()}</div>
+          </div>
+        </div>
         <input
           class="date-input entity-input"
           placeholder=${localize(this.language, "dialog.history.add_entity")}
@@ -672,29 +851,33 @@ export class EquinoxHistoryDialog extends LitElement {
 
     const visibleSeries = this._visibleSeries();
 
-    if (visibleSeries.length === 0 || visibleSeries.every((series) => series.points.length === 0)) {
+    if (this._series.length === 0) {
       return html`<div class="empty">${localize(this.language, "dialog.history.empty")}</div>`;
     }
 
     return html`
-      <div class="chart-surface">
-        <svg
-          viewBox="0 0 ${CHART_WIDTH} ${this._chartHeight()}"
-          preserveAspectRatio="none"
-          @pointermove=${this._updateTooltip}
-          @pointerleave=${this._clearTooltip}
-          @touchstart=${this._updateTooltip}
-          @touchmove=${this._updateTooltip}
-        >
-          <line class="axis" x1="34" y1="18" x2="34" y2="226"></line>
-          <line class="axis" x1="34" y1="226" x2="704" y2="226"></line>
-          ${this._renderScaleLabels()}
-          ${this._renderNumericLines()}
-          ${this._renderSegments()}
-          ${this._renderTooltipGuide()}
-        </svg>
-        ${this._renderTooltip()}
-      </div>
+      ${visibleSeries.length === 0 || visibleSeries.every((series) => series.points.length === 0)
+        ? html`<div class="empty">${localize(this.language, "dialog.history.empty")}</div>`
+        : html`
+            <div class="chart-surface">
+              <svg
+                viewBox="0 0 ${CHART_WIDTH} ${this._chartHeight()}"
+                preserveAspectRatio="none"
+                @pointermove=${this._updateTooltip}
+                @pointerleave=${this._clearTooltip}
+                @touchstart=${this._updateTooltip}
+                @touchmove=${this._updateTooltip}
+              >
+                <line class="axis" x1="34" y1="18" x2="34" y2="226"></line>
+                <line class="axis" x1="34" y1="226" x2="704" y2="226"></line>
+                ${this._renderScaleLabels()}
+                ${this._renderNumericLines()}
+                ${this._renderSegments()}
+                ${this._renderTooltipGuide()}
+              </svg>
+              ${this._renderTooltip()}
+            </div>
+          `}
       <div class="legend">
         ${this._series.map(
           (series, index) => html`
@@ -710,7 +893,6 @@ export class EquinoxHistoryDialog extends LitElement {
           `
         )}
       </div>
-      <div class="chart-debug">${this._chartSummary()}</div>
     `;
   }
 
@@ -882,29 +1064,6 @@ export class EquinoxHistoryDialog extends LitElement {
         )}
       </div>
     `;
-  }
-
-  private _chartSummary(): string {
-    const visibleSeries = this._visibleSeries();
-    const numericCount = visibleSeries.filter((series) => series.source.valueType === "number").length;
-    const segmentCount = visibleSeries.length - numericCount;
-    const bounds = this._timeBounds();
-    const windowHours = (bounds.end - bounds.start) / 3_600_000;
-    const prefix = `visible=${visibleSeries.length} numeric=${numericCount} segments=${segmentCount} window=${windowHours.toFixed(1)}h`;
-    const details = this._series
-      .map((series) => {
-        const values = series.points.map((point) => point.value);
-        const numericValues = values.filter((value): value is number => typeof value === "number");
-        const first = series.points[0];
-        const last = series.points[series.points.length - 1];
-        const range = numericValues.length > 0 ? ` ${Math.min(...numericValues).toFixed(2)}-${Math.max(...numericValues).toFixed(2)}` : "";
-        const timeRange = first && last ? ` ${new Date(first.time).toLocaleTimeString()}-${new Date(last.time).toLocaleTimeString()}` : "";
-
-        return `${series.source.label}: ${series.points.length}${range}${timeRange}`;
-      })
-      .join(" | ");
-
-    return `${prefix} | ${details}`;
   }
 
   private _visibleSeries(): HistorySeries[] {
@@ -1088,7 +1247,6 @@ export class EquinoxHistoryDialog extends LitElement {
             ${this._renderSources()}
           </div>
           <div class="main">
-            <div class="browser">${this._renderBrowser()}</div>
             <div class="chart-panel">${this._renderChart()}</div>
           </div>
           ${this._renderSelected()}
