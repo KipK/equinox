@@ -66,6 +66,7 @@ export class EquinoxBoostDialog extends LitElement {
       pointer-events: none;
       line-height: 1;
       white-space: nowrap;
+      transform: translateY(clamp(7px, calc(var(--boost-wheel-size) * 0.08), 12px));
     }
 
     .wheel-number {
