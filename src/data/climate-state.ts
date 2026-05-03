@@ -38,15 +38,25 @@ export function buildClimateViewModel(
 ): EquinoxClimateViewModel {
   const attributes = entity.attributes;
 
+  const hvacMode = firstDefined(
+    isUnavailableState(entity.state) ? undefined : entity.state,
+    asString(attributes.hvac_mode),
+    asString(readPath(attributes, ["current_state", "hvac_mode"]))
+  );
+
+  const rawPresetMode = firstDefined(
+    asString(attributes.preset_mode),
+    asString(readPath(attributes, ["current_state", "preset"]))
+  );
+
+  // Frost preset has no AC variant in VT — treat it as manual when in cool mode.
+  const presetMode = hvacMode === "cool" && rawPresetMode === "frost" ? "none" : rawPresetMode;
+
   return {
     entityId: entity.entity_id,
     name: config.name ?? asString(attributes.friendly_name),
     availability: getAvailability(entity),
-    hvacMode: firstDefined(
-      isUnavailableState(entity.state) ? undefined : entity.state,
-      asString(attributes.hvac_mode),
-      asString(readPath(attributes, ["current_state", "hvac_mode"]))
-    ),
+    hvacMode,
     hvacAction: asString(attributes.hvac_action),
     targetTemperature: firstDefined(
       asNumber(attributes.temperature),
@@ -56,7 +66,7 @@ export function buildClimateViewModel(
     currentHumidity: getHumidity(config, hass, attributes),
     hvacModes: asStringArray(attributes.hvac_modes),
     presetModes: asStringArray(attributes.preset_modes),
-    presetMode: firstDefined(asString(attributes.preset_mode), asString(readPath(attributes, ["current_state", "preset"]))),
+    presetMode,
     fanMode: asString(attributes.fan_mode),
     fanModes: asStringArray(attributes.fan_modes),
     minTemp: asNumber(attributes.min_temp),
