@@ -3,12 +3,14 @@ import {
   DEFAULT_CONFIG,
   EQUINOX_ADDITIONAL_DASHBOARDS,
   EQUINOX_DISPLAY_MODES,
+  EQUINOX_PRIMARY_DISPLAYS,
   EQUINOX_THEMES,
   type EquinoxAdditionalDashboards,
   type EquinoxCardConfig,
   type EquinoxCardConfigInput,
   type EquinoxConfigValidation,
   type EquinoxDisplayMode,
+  type EquinoxPrimaryDisplay,
   type EquinoxTheme
 } from "../types/config";
 
@@ -49,6 +51,10 @@ export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxCon
     return { config, error: "invalid_display_mode" };
   }
 
+  if (!isOneOf(EQUINOX_PRIMARY_DISPLAYS, config.primary_display)) {
+    return { config, error: "invalid_primary_display" };
+  }
+
   if (!isOneOf(EQUINOX_ADDITIONAL_DASHBOARDS, config.additional_dashboards)) {
     return { config, error: "invalid_additional_dashboards" };
   }
@@ -68,6 +74,10 @@ export function isEquinoxTheme(value: unknown): value is EquinoxTheme {
 
 export function isEquinoxDisplayMode(value: unknown): value is EquinoxDisplayMode {
   return isOneOf(EQUINOX_DISPLAY_MODES, value);
+}
+
+export function isEquinoxPrimaryDisplay(value: unknown): value is EquinoxPrimaryDisplay {
+  return isOneOf(EQUINOX_PRIMARY_DISPLAYS, value);
 }
 
 export function isEquinoxAdditionalDashboards(value: unknown): value is EquinoxAdditionalDashboards {

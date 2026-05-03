@@ -71,6 +71,7 @@ power_entity: sensor.salon_puissance
 humidity_entity: sensor.salon_humidity
 theme: flat
 display_mode: classic
+primary_display: setpoint
 disable_name: false
 enable_lock: true
 additional_dashboards: auto
@@ -87,6 +88,7 @@ additional_dashboards: auto
 | `humidity_entity` | no | - | External humidity sensor when climate humidity is unavailable. |
 | `theme` | no | `flat` | Visual theme. Only `flat` is available in the MVP. |
 | `display_mode` | no | `classic` | Display format: `classic` or `compact`. |
+| `primary_display` | no | `setpoint` | Main emphasis: `setpoint` or `sensors`. |
 | `disable_name` | no | `false` | Hide the header name. |
 | `enable_lock` | no | `true` | Enable lock UI when supported by VT. |
 | `additional_dashboards` | no | `auto` | Dashboard mode: `auto`, `custom`, or `disabled`. |

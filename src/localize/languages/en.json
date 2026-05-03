@@ -5,6 +5,7 @@
     "invalid_entity": "The configured entity must belong to the climate domain.",
     "invalid_theme": "The configured theme is not available.",
     "invalid_display_mode": "The configured display mode is not available.",
+    "invalid_primary_display": "The configured display priority is not available.",
     "invalid_additional_dashboards": "The configured dashboard mode is not available.",
     "entity_not_found": "Entity not found: {entity}",
     "placeholder": "Equinox is ready for {entity}."
@@ -137,6 +138,7 @@
     "humidity_entity": "Humidity entity",
     "theme": "Theme",
     "display_mode": "Display format",
+    "primary_display": "Display priority",
     "disable_name": "Hide name",
     "enable_lock": "Enable lock",
     "additional_dashboards": "Additional dashboards",
@@ -147,6 +149,10 @@
       "display_mode": {
         "classic": "Classic",
         "compact": "Compact"
+      },
+      "primary_display": {
+        "setpoint": "Setpoint",
+        "sensors": "Sensors"
       },
       "additional_dashboards": {
         "auto": "Auto",

@@ -207,6 +207,12 @@ export class EquinoxMainCard extends LitElement {
         margin-top: 2px;
       }
 
+      .setpoint[sensor-focus] {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 0;
+      }
+
       .step {
         width: 40px;
         height: 40px;
@@ -228,6 +234,26 @@ export class EquinoxMainCard extends LitElement {
       .step:disabled {
         cursor: default;
         opacity: 0.45;
+      }
+
+      .setpoint-control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+      }
+
+      .setpoint-control[compact] {
+        gap: 10px;
+      }
+
+      .setpoint-control[compact] .step {
+        width: 30px;
+        height: 30px;
+      }
+
+      .setpoint-control[compact] .step ha-icon {
+        --mdc-icon-size: 18px;
       }
 
       .target {
@@ -284,13 +310,61 @@ export class EquinoxMainCard extends LitElement {
         color: var(--disabled-text-color, var(--equinox-muted-color));
       }
 
+      .target[compact] {
+        font-size: 20px;
+        font-weight: 650;
+      }
+
+      .sensor-primary {
+        display: inline-flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 12px;
+        min-height: 48px;
+      }
+
+      .sensor-temperature {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        font-size: 40px;
+        line-height: 1;
+        font-weight: 750;
+        color: var(--equinox-text-color);
+      }
+
+      .sensor-temperature ha-icon {
+        --mdc-icon-size: 28px;
+        color: var(--equinox-muted-color);
+      }
+
+      .sensor-temperature .sensor-unit {
+        font-size: 0.82em;
+      }
+
+      .sensor-humidity {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 5px;
+        color: var(--equinox-muted-color);
+        font-size: 20px;
+        line-height: 1;
+        font-weight: 600;
+      }
+
+      .sensor-humidity ha-icon {
+        --mdc-icon-size: 18px;
+        color: var(--equinox-muted-color);
+      }
+
       .conditions {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 16px;
-        color: var(--equinox-text-color);
-        font-size: 14px;
+        color: var(--equinox-muted-color);
+        font-size: 16px;
+        font-weight: 600;
       }
 
       .condition {
@@ -303,6 +377,16 @@ export class EquinoxMainCard extends LitElement {
 
       .condition ha-icon {
         color: var(--equinox-muted-color);
+        --mdc-icon-size: 20px;
+      }
+
+      .condition-value[kind="temperature"] {
+        color: var(--equinox-text-color);
+      }
+
+      .condition-value[kind="humidity"] {
+        color: var(--equinox-muted-color);
+        font-size: 14px;
       }
 
       .divider {
@@ -445,6 +529,14 @@ export class EquinoxMainCard extends LitElement {
 
         .target {
           font-size: 34px;
+        }
+
+        .target[compact] {
+          font-size: 19px;
+        }
+
+        .sensor-temperature {
+          font-size: 36px;
         }
 
         .bottom {
@@ -606,15 +698,46 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderSetpoint(): TemplateResult {
+    if (this.config?.primary_display === "sensors") {
+      return this._renderSensorFocus();
+    }
+
+    return html`<div class="setpoint">${this._renderSetpointControl(false)}</div>`;
+  }
+
+  private _renderSensorFocus(): TemplateResult {
+    const currentHumidity = this.viewModel?.climate.currentHumidity;
+    const showHumidity = finite(currentHumidity);
+
+    return html`
+      <div class="setpoint" sensor-focus>
+        <div class="sensor-primary">
+          <span class="sensor-temperature">
+            <ha-icon icon="mdi:thermometer"></ha-icon>
+            <span>${this._formatTemperatureValue(this.viewModel?.climate.currentTemperature)}</span>
+            <span class="sensor-unit">°</span>
+          </span>
+          ${showHumidity
+            ? html`
+                <span class="sensor-humidity">
+                  <ha-icon icon="mdi:water-percent"></ha-icon>
+                  <span>${this._formatPercent(currentHumidity)}</span>
+                </span>
+              `
+            : nothing}
+        </div>
+        ${this._renderSetpointControl(true)}
+      </div>
+    `;
+  }
+
+  private _renderSetpointControl(compact: boolean): TemplateResult {
     const disabled = this._isControlDisabled() || !finite(this.viewModel?.climate.targetTemperature);
-    const step = this.viewModel?.climate.targetTempStep ?? 0.5;
-    const min = this.viewModel?.climate.minTemp;
-    const max = this.viewModel?.climate.maxTemp;
     const rawValue = this._setpointFallback();
     const inputWidth = rawValue.length || 4;
 
     return html`
-      <div class="setpoint">
+      <div class="setpoint-control" ?compact=${compact}>
         <button
           class="step"
           title=${localize(this._language(), "main.actions.decrease_temperature")}
@@ -624,7 +747,7 @@ export class EquinoxMainCard extends LitElement {
         >
           <ha-icon icon="mdi:minus"></ha-icon>
         </button>
-        <div class="target" mode=${this._targetTone()}>
+        <div class="target" mode=${this._targetTone()} ?compact=${compact}>
           <span class="setpoint-unit" aria-hidden="true" style="visibility: hidden">°</span>
           <input
             class="setpoint-input"
@@ -653,7 +776,11 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderConditions(): TemplateResult {
+  private _renderConditions(): TemplateResult | typeof nothing {
+    if (this.config?.primary_display === "sensors") {
+      return nothing;
+    }
+
     const currentHumidity = this.viewModel?.climate.currentHumidity;
     const showHumidity = finite(currentHumidity);
 
@@ -661,14 +788,14 @@ export class EquinoxMainCard extends LitElement {
       <div class="conditions">
         <span class="condition">
           <ha-icon icon="mdi:thermometer"></ha-icon>
-          <span>${this._formatTemperature(this.viewModel?.climate.currentTemperature)}</span>
+          <span class="condition-value" kind="temperature">${this._formatTemperature(this.viewModel?.climate.currentTemperature)}</span>
         </span>
         ${showHumidity
         ? html`
             <span class="divider"></span>
             <span class="condition">
               <ha-icon icon="mdi:water-percent"></ha-icon>
-              <span>${this._formatPercent(currentHumidity)}</span>
+              <span class="condition-value" kind="humidity">${this._formatPercent(currentHumidity)}</span>
             </span>
           `
         : nothing}
@@ -1009,6 +1136,10 @@ export class EquinoxMainCard extends LitElement {
 
   private _formatTemperature(value?: number): string {
     return finite(value) ? `${this._formatNumber(value)}°` : "--.-°";
+  }
+
+  private _formatTemperatureValue(value?: number): string {
+    return finite(value) ? this._formatNumber(value) : "--.-";
   }
 
   private _formatPercent(value?: number): string {

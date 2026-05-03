@@ -5,6 +5,7 @@
     "invalid_entity": "L'entité configurée doit appartenir au domaine climate.",
     "invalid_theme": "Le thème configuré n'est pas disponible.",
     "invalid_display_mode": "Le mode d'affichage configuré n'est pas disponible.",
+    "invalid_primary_display": "La priorité d'affichage configurée n'est pas disponible.",
     "invalid_additional_dashboards": "Le mode de dashboards configuré n'est pas disponible.",
     "entity_not_found": "Entité introuvable: {entity}",
     "placeholder": "Equinox est prêt pour {entity}."
@@ -137,6 +138,7 @@
     "humidity_entity": "Entité humidité",
     "theme": "Thème",
     "display_mode": "Format d'affichage",
+    "primary_display": "Priorité d'affichage",
     "disable_name": "Masquer le nom",
     "enable_lock": "Activer le verrouillage",
     "additional_dashboards": "Dashboards additionnels",
@@ -147,6 +149,10 @@
       "display_mode": {
         "classic": "Classique",
         "compact": "Compact"
+      },
+      "primary_display": {
+        "setpoint": "Consigne",
+        "sensors": "Capteurs"
       },
       "additional_dashboards": {
         "auto": "Auto",

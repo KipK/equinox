@@ -95,6 +95,18 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       },
       {
+        name: "primary_display",
+        selector: {
+          select: {
+            mode: "dropdown",
+            options: [
+              { value: "setpoint", label: localize(language, "editor.options.primary_display.setpoint") },
+              { value: "sensors", label: localize(language, "editor.options.primary_display.sensors") }
+            ]
+          }
+        }
+      },
+      {
         name: "disable_name",
         selector: {
           boolean: {}

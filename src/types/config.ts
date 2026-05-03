@@ -1,15 +1,18 @@
 import {
   DEFAULT_ADDITIONAL_DASHBOARDS,
   DEFAULT_DISPLAY_MODE,
+  DEFAULT_PRIMARY_DISPLAY,
   DEFAULT_THEME
 } from "../const";
 
 export const EQUINOX_THEMES = ["flat"] as const;
 export const EQUINOX_DISPLAY_MODES = ["classic", "compact"] as const;
+export const EQUINOX_PRIMARY_DISPLAYS = ["setpoint", "sensors"] as const;
 export const EQUINOX_ADDITIONAL_DASHBOARDS = ["auto", "custom", "disabled"] as const;
 
 export type EquinoxTheme = "flat";
 export type EquinoxDisplayMode = "classic" | "compact";
+export type EquinoxPrimaryDisplay = "setpoint" | "sensors";
 export type EquinoxAdditionalDashboards = "auto" | "custom" | "disabled";
 
 export interface EquinoxCardConfig {
@@ -21,6 +24,7 @@ export interface EquinoxCardConfig {
   humidity_entity?: string;
   theme?: EquinoxTheme;
   display_mode?: EquinoxDisplayMode;
+  primary_display?: EquinoxPrimaryDisplay;
   disable_name?: boolean;
   enable_lock?: boolean;
   additional_dashboards?: EquinoxAdditionalDashboards;
@@ -33,12 +37,13 @@ export type EquinoxCardConfigInput = Partial<EquinoxCardConfig> & {
 export const DEFAULT_CONFIG = {
   theme: DEFAULT_THEME,
   display_mode: DEFAULT_DISPLAY_MODE,
+  primary_display: DEFAULT_PRIMARY_DISPLAY,
   disable_name: false,
   enable_lock: true,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS
 } satisfies Pick<
   EquinoxCardConfig,
-  "theme" | "display_mode" | "disable_name" | "enable_lock" | "additional_dashboards"
+  "theme" | "display_mode" | "primary_display" | "disable_name" | "enable_lock" | "additional_dashboards"
 >;
 
 export type EquinoxConfigError =
@@ -46,6 +51,7 @@ export type EquinoxConfigError =
   | "invalid_entity"
   | "invalid_theme"
   | "invalid_display_mode"
+  | "invalid_primary_display"
   | "invalid_additional_dashboards";
 
 export interface EquinoxConfigValidation {

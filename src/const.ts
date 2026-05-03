@@ -6,4 +6,5 @@ export const CARD_VERSION = "0.1.0";
 
 export const DEFAULT_THEME = "flat";
 export const DEFAULT_DISPLAY_MODE = "classic";
+export const DEFAULT_PRIMARY_DISPLAY = "setpoint";
 export const DEFAULT_ADDITIONAL_DASHBOARDS = "auto";
