@@ -8,7 +8,6 @@ import "./eq-dialog";
 const RANGE_HOURS = [1, 6, 24, 72, 168];
 const DEFAULT_RANGE_HOURS = 24;
 const CHART_WIDTH = 720;
-const CHART_HEIGHT = 260;
 const PLOT_LEFT = 40;
 const PLOT_RIGHT = 680;
 const PLOT_WIDTH = PLOT_RIGHT - PLOT_LEFT;
@@ -21,6 +20,7 @@ interface NumericScale {
   max: number;
   top: number;
   height: number;
+  seriesRanges: Map<string, { min: number; max: number }>;
 }
 
 interface TooltipValue {
@@ -364,6 +364,8 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .chart-surface {
       position: relative;
+      overflow-y: auto;
+      max-height: min(65vh, 520px);
     }
 
     .y-axis-label {
@@ -399,8 +401,6 @@ export class EquinoxHistoryDialog extends LitElement {
 
     svg {
       width: 100%;
-      height: min(48vh, 360px);
-      min-height: 260px;
       display: block;
     }
 
@@ -590,9 +590,8 @@ export class EquinoxHistoryDialog extends LitElement {
         min-height: 0;
       }
 
-      svg {
-        min-height: 220px;
-        height: 38vh;
+      .chart-surface {
+        max-height: min(55vh, 420px);
       }
     }
   `;
@@ -988,14 +987,15 @@ export class EquinoxHistoryDialog extends LitElement {
             <div class="chart-surface">
               <svg
                 viewBox="0 0 ${CHART_WIDTH} ${this._chartHeight()}"
+                height="${this._chartHeight()}"
                 preserveAspectRatio="none"
                 @pointermove=${this._updateTooltip}
                 @pointerleave=${this._clearTooltip}
                 @touchstart=${this._updateTooltip}
                 @touchmove=${this._updateTooltip}
               >
-                <line class="axis" x1=${PLOT_LEFT} y1=${PLOT_TOP} x2=${PLOT_LEFT} y2=${PLOT_BOTTOM}></line>
-                <line class="axis" x1=${PLOT_LEFT} y1=${PLOT_BOTTOM} x2=${PLOT_RIGHT} y2=${PLOT_BOTTOM}></line>
+                <line class="axis" x1=${PLOT_LEFT} y1=${PLOT_TOP} x2=${PLOT_LEFT} y2=${this._plotBottom()}></line>
+                <line class="axis" x1=${PLOT_LEFT} y1=${this._plotBottom()} x2=${PLOT_RIGHT} y2=${this._plotBottom()}></line>
                 ${this._renderScaleLabels()}
                 ${this._renderNumericLines()}
                 ${this._renderSegments()}
@@ -1213,15 +1213,22 @@ export class EquinoxHistoryDialog extends LitElement {
     return PLOT_LEFT + ((time - bounds.start) / (bounds.end - bounds.start)) * PLOT_WIDTH;
   }
 
+  private _plotBottom(): number {
+    const n = Math.max(this._numericScales().length, 1);
+
+    return PLOT_BOTTOM + (n - 1) * 190;
+  }
+
   private _chartHeight(): number {
     const segmentCount = this._visibleSeries().filter((series) => series.source.valueType !== "number").length;
 
-    return CHART_HEIGHT + Math.max(segmentCount - 1, 0) * 14;
+    return this._plotBottom() + 34 + Math.max(segmentCount - 1, 0) * 14;
   }
 
   private _numericScales(): NumericScale[] {
     const numericSeries = this._visibleSeries().filter((series) => series.source.valueType === "number" && series.points.length > 0);
     const groups: Array<{ series: HistorySeries[]; min: number; max: number }> = [];
+    const seriesRangeMap = new Map<string, { min: number; max: number }>();
 
     for (const series of numericSeries) {
       const values = series.points.map((point) => Number(point.value)).filter((value) => Number.isFinite(value));
@@ -1232,6 +1239,9 @@ export class EquinoxHistoryDialog extends LitElement {
 
       const min = Math.min(...values);
       const max = Math.max(...values);
+
+      seriesRangeMap.set(series.source.id, { min, max });
+
       const center = (min + max) / 2;
       const compatible = groups.find((group) => {
         if (min <= group.max && max >= group.min) {
@@ -1254,14 +1264,13 @@ export class EquinoxHistoryDialog extends LitElement {
       }
     }
 
-    const bandHeight = 190 / Math.max(groups.length, 1);
-
     return groups.map((group, index) => ({
       ids: new Set(group.series.map((series) => series.source.id)),
       min: group.min,
       max: group.max,
-      top: 28 + index * bandHeight,
-      height: Math.max(bandHeight - 10, 32)
+      top: 28 + index * 190,
+      height: 180,
+      seriesRanges: new Map(group.series.map((s) => [s.source.id, seriesRangeMap.get(s.source.id)!]))
     }));
   }
 
@@ -1269,10 +1278,17 @@ export class EquinoxHistoryDialog extends LitElement {
     return scales.find((scale) => scale.ids.has(series.source.id));
   }
 
-  private _y(value: number, scale: NumericScale): number {
-    const span = Math.max(scale.max - scale.min, 1e-9);
+  private _y(value: number, scale: NumericScale, seriesId: string): number {
+    const r = scale.seriesRanges.get(seriesId);
+    const min = r?.min ?? scale.min;
+    const max = r?.max ?? scale.max;
+    const span = max - min;
 
-    return scale.top + scale.height - ((value - scale.min) / span) * scale.height;
+    if (span < 1e-6) {
+      return scale.top + scale.height / 2;
+    }
+
+    return scale.top + scale.height - ((value - min) / span) * scale.height;
   }
 
   private _fmtAxisVal(v: number): string {
@@ -1310,6 +1326,10 @@ export class EquinoxHistoryDialog extends LitElement {
     const sideStyle = `left:0;width:${leftWidthPct}%;text-align:right;padding-right:5px;`;
 
     return scales.flatMap((scale) => {
+      if (scale.ids.size > 1) {
+        return [];
+      }
+
       const ticks = [
         { y: scale.top + scale.height, v: scale.min },
         { y: scale.top + scale.height / 2, v: (scale.min + scale.max) / 2 },
@@ -1341,7 +1361,7 @@ export class EquinoxHistoryDialog extends LitElement {
           points=${series.points
             .map((point) => {
               const x = this._x(point.time);
-              const y = this._y(Number(point.value), scale);
+              const y = this._y(Number(point.value), scale, series.source.id);
 
               return `${x.toFixed(1)},${y.toFixed(1)}`;
             })
@@ -1352,7 +1372,7 @@ export class EquinoxHistoryDialog extends LitElement {
           .filter((_, pointIndex) => pointIndex === 0 || pointIndex === series.points.length - 1)
           .map((point) => {
             const x = this._x(point.time);
-            const y = this._y(Number(point.value), scale);
+            const y = this._y(Number(point.value), scale, series.source.id);
 
             return svg`<circle class="point" cx=${x} cy=${y} r="3" fill=${sourceColor(colorIndex)}></circle>`;
           })
@@ -1363,7 +1383,7 @@ export class EquinoxHistoryDialog extends LitElement {
   private _renderSegments() {
     const bounds = this._timeBounds();
     const rowHeight = 14;
-    const top = 236;
+    const top = this._plotBottom() + 10;
     let segmentIndex = 0;
 
     return this._visibleSeries().flatMap((series) => {
