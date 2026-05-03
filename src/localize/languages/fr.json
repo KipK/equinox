@@ -93,7 +93,8 @@
     },
     "lock": {
       "locked": "Verrouillé",
-      "unlocked": "Déverrouillé"
+      "unlocked": "Déverrouillé",
+      "code_required": "Code requis"
     },
     "events": {
       "hasDanger": "Alerte critique",
@@ -152,6 +153,21 @@
       "regulation": "Régulation",
       "boost": "Boost temporaire",
       "history": "Historique"
+    },
+    "boost": {
+      "title": "Boost temporaire",
+      "duration": "Durée en minutes",
+      "minutes": "mn",
+      "hours": "h",
+      "start": "Démarrer le boost",
+      "stop": "Arrêter le boost",
+      "active": "Boost actif",
+      "remaining_unknown": "Temps restant indisponible",
+      "preset": "Preset temporisé",
+      "original_preset": "Preset précédent",
+      "start_description": "À la fin du compte à rebours, le thermostat reviendra au mode précédent.",
+      "active_description": "À la fin du compte à rebours, le thermostat reviendra au mode précédent.",
+      "active_description_with_preset": "À la fin du compte à rebours, le thermostat reviendra au mode précédent ({preset})."
     }
   },
   "editor": {

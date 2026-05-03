@@ -77,6 +77,10 @@ export class EquinoxMenuDialog extends LitElement {
     this._dispatchClose();
   }
 
+  private _dispatchOpen(eventName: string): void {
+    this.dispatchEvent(new CustomEvent(eventName, { bubbles: true, composed: true }));
+  }
+
   private _showRegulation(): boolean {
     return this.config?.additional_dashboards !== "disabled";
   }
@@ -84,6 +88,7 @@ export class EquinoxMenuDialog extends LitElement {
   private _showBoost(): boolean {
     return (
       this.viewModel?.vt?.timedPreset.isActive === true ||
+      !!this.viewModel?.vt?.timedPresetManager ||
       (this.viewModel?.climate.presetModes.includes("boost") ?? false)
     );
   }
@@ -126,7 +131,7 @@ export class EquinoxMenuDialog extends LitElement {
           ? html`
               <button
                 class="option-row"
-                @click=${() => this._dispatchAndClose("equinox-open-boost")}
+                @click=${() => this._dispatchOpen("equinox-open-boost")}
               >
                 <span class="option-icon">
                   <ha-icon icon="mdi:timer-outline" style="--mdc-icon-size: 24px;"></ha-icon>

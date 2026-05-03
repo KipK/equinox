@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
-import { setHvacMode, setPresetMode, setTemperature } from "../data/actions";
+import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unlock as unlockThermostat } from "../data/actions";
 import { FAN_MODE_ICONS } from "../data/fan";
 import { buildHistoryPath, navigate } from "../data/navigation";
 import { localize } from "../localize/localize";
@@ -14,6 +14,7 @@ import "./eq-fan-dialog";
 import "./eq-hvac-dialog";
 import "./eq-preset-dialog";
 import "./eq-menu-dialog";
+import "./eq-boost-dialog";
 import "./eq-dialog";
 
 const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
@@ -249,6 +250,12 @@ export class EquinoxMainCard extends LitElement {
         background: transparent;
         color: var(--equinox-text-color);
         padding: 0;
+        cursor: pointer;
+      }
+
+      .lock:disabled {
+        cursor: default;
+        opacity: 0.45;
       }
 
       .action-icon {
@@ -629,7 +636,7 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
-  private _activeDialog: 'fan' | 'hvac' | 'preset' | 'menu' | null = null;
+  private _activeDialog: "fan" | "hvac" | "preset" | "menu" | "boost" | null = null;
   private _dialogAnchor?: { element: HTMLElement };
   private _activeMessageKey?: string;
 
@@ -654,7 +661,7 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
-        .popover=${true}
+        .floating=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-fan-dialog>
@@ -664,7 +671,7 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
-        .popover=${true}
+        .floating=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-hvac-dialog>
@@ -674,7 +681,7 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
-        .popover=${true}
+        .floating=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-preset-dialog>
@@ -686,14 +693,23 @@ export class EquinoxMainCard extends LitElement {
         .language=${this._language()}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-regulation=${() => { this._activeDialog = null; }}
-        @equinox-open-boost=${() => { this._activeDialog = null; }}
+        @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
         @equinox-open-history=${this._openHistory}
       ></eq-menu-dialog>
+      <eq-boost-dialog
+        .open=${this._activeDialog === "boost"}
+        .hass=${this.hass}
+        .viewModel=${this.viewModel}
+        .config=${this.config}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+        @equinox-open-menu=${() => { this._activeDialog = "menu"; }}
+      ></eq-boost-dialog>
       <eq-dialog
         .open=${this._activeMessageKey !== undefined}
         .title=${localize(this._language(), "dialog.message.title")}
         .language=${this._language()}
-        .popover=${true}
+        .floating=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => this._closeMessage()}
       >
@@ -734,16 +750,25 @@ export class EquinoxMainCard extends LitElement {
     const lockLabel = this.viewModel?.vt?.lock.isLocked
       ? localize(this._language(), "main.lock.locked")
       : localize(this._language(), "main.lock.unlocked");
+    const lockActionLabel = this.viewModel?.vt?.lock.hasCode
+      ? localize(this._language(), "main.lock.code_required")
+      : lockLabel;
     const showFan = this.config?.display_mode !== "compact" && this._hasFanControl();
 
     return html`
       <div class="status">
         ${showFan ? this._renderFanButton() : nothing}
         <span class="status-spacer"></span>
-        <div class="events">${this._renderEvents()}${this._renderHvacActionIcon()}</div>
+        <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
         ${lockSupported
           ? html`
-              <button class="lock" title=${lockLabel} aria-label=${lockLabel}>
+              <button
+                class="lock"
+                title=${lockActionLabel}
+                aria-label=${lockActionLabel}
+                ?disabled=${this.viewModel?.vt?.lock.hasCode === true}
+                @click=${this._toggleLock}
+              >
                 <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
               </button>
             `
@@ -753,13 +778,17 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderHvacActionIcon(): TemplateResult | typeof nothing {
+  private _renderHvacStateIcon(): TemplateResult | typeof nothing {
     const action = this.viewModel?.climate.hvacAction;
     const entry = action ? HVAC_ACTION_ICONS[action] : undefined;
-    const iconStr = entry?.icon ?? "";
-    const tone = entry?.tone ?? "";
+    const hvacMode = this.viewModel?.climate.hvacMode;
+    const iconStr = entry?.icon ?? (hvacMode ? HVAC_ICONS[hvacMode] : "");
+    const tone = entry?.tone ?? this._modeTone(hvacMode);
+    const title = action
+      ? localize(this._language(), `main.hvac_action.${action}`)
+      : this._hvacLabel(hvacMode);
 
-    if (!iconStr || !action) {
+    if (!iconStr) {
       return nothing;
     }
 
@@ -768,7 +797,7 @@ export class EquinoxMainCard extends LitElement {
         class="action-icon"
         tone=${tone}
         .icon=${iconStr}
-        title=${localize(this._language(), `main.hvac_action.${action}`)}
+        title=${title}
       ></ha-icon>
     `;
   }
@@ -1131,7 +1160,7 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _openDialog(dialog: 'fan' | 'hvac' | 'preset', event: Event): void {
+  private _openDialog(dialog: "fan" | "hvac" | "preset", event: Event): void {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
 
     if (target) {
@@ -1419,6 +1448,21 @@ export class EquinoxMainCard extends LitElement {
     }
 
     void setPresetMode({ hass: this.hass, entityId: this.config.entity, viewModel: this.viewModel }, preset);
+  }
+
+  private _toggleLock(): void {
+    if (!this.hass || !this.config || !this.viewModel?.vt?.lock.isConfigured || this.viewModel.vt.lock.hasCode) {
+      return;
+    }
+
+    const context = { hass: this.hass, entityId: this.config.entity, viewModel: this.viewModel };
+
+    if (this.viewModel.vt.lock.isLocked) {
+      void unlockThermostat(context);
+      return;
+    }
+
+    void lockThermostat(context);
   }
 }
 

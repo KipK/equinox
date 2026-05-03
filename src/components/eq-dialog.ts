@@ -7,7 +7,9 @@ export class EquinoxDialog extends LitElement {
     title: {},
     language: {},
     centerContent: { type: Boolean, attribute: "center-content" },
-    popover: { type: Boolean },
+    showBack: { type: Boolean, attribute: "show-back" },
+    noScroll: { type: Boolean, attribute: "no-scroll" },
+    floating: { type: Boolean },
     anchor: { attribute: false }
   };
 
@@ -34,6 +36,10 @@ export class EquinoxDialog extends LitElement {
       overflow-y: auto;
     }
 
+    .panel.no-scroll {
+      overflow: hidden;
+    }
+
     @media (min-width: 601px) {
       .scrim.popover {
         position: fixed;
@@ -53,6 +59,10 @@ export class EquinoxDialog extends LitElement {
         border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
         box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
         backdrop-filter: blur(14px);
+      }
+
+      .panel.popover.no-scroll {
+        overflow: hidden;
       }
 
       .panel.popover .header {
@@ -94,6 +104,11 @@ export class EquinoxDialog extends LitElement {
         max-height: 80vh;
         overflow-y: auto;
       }
+
+      .panel.no-scroll {
+        height: min(80vh, calc(100vh - 24px));
+        overflow: hidden;
+      }
     }
 
     .header {
@@ -105,10 +120,12 @@ export class EquinoxDialog extends LitElement {
     }
 
     .header-title {
+      flex: 1;
       font-weight: 600;
       font-size: 16px;
     }
 
+    .back-btn,
     .close-btn {
       width: 32px;
       height: 28px;
@@ -123,6 +140,7 @@ export class EquinoxDialog extends LitElement {
       flex-shrink: 0;
     }
 
+    .back-btn:hover,
     .close-btn:hover {
       background: rgba(128, 128, 128, 0.15);
     }
@@ -130,13 +148,21 @@ export class EquinoxDialog extends LitElement {
     .content {
       padding: 0 16px 16px;
     }
+
+    .panel.no-scroll .content {
+      height: calc(100% - 40px);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
   `;
 
   open = false;
   title = "";
   language?: string;
   centerContent = false;
-  popover = false;
+  showBack = false;
+  noScroll = false;
+  floating = false;
   anchor?: { element: HTMLElement };
 
   // Arrow function so the same reference is used for add/remove listener.
@@ -147,13 +173,13 @@ export class EquinoxDialog extends LitElement {
   };
 
   private readonly _handleResize = (): void => {
-    if (this.open && this.popover) {
+    if (this.open && this.floating) {
       this._positionPopover();
     }
   };
 
   private readonly _handleScroll = (): void => {
-    if (this.open && this.popover) {
+    if (this.open && this.floating) {
       this._positionPopover();
     }
   };
@@ -176,8 +202,12 @@ export class EquinoxDialog extends LitElement {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
   }
 
+  private _dispatchBack(): void {
+    this.dispatchEvent(new CustomEvent("eq-dialog-back", { bubbles: true, composed: true }));
+  }
+
   protected updated(): void {
-    if (this.open && this.popover) {
+    if (this.open && this.floating) {
       void this.updateComplete.then(() => this._positionPopover());
     }
   }
@@ -224,17 +254,26 @@ export class EquinoxDialog extends LitElement {
     }
 
     const closeLabel = localize(this.language, "dialog.close");
-    const popoverStyle = this.popover && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "";
+    const backLabel = localize(this.language, "dialog.back");
+    const popoverStyle = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "";
     const panelClass = [
       "panel",
       this.centerContent ? "center-content" : "",
-      this.popover ? "popover" : ""
+      this.noScroll ? "no-scroll" : "",
+      this.floating ? "popover" : ""
     ].filter(Boolean).join(" ");
 
     return html`
-      <div class=${this.popover ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
+      <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
       <div class=${panelClass} style=${popoverStyle} @click=${(e: Event) => e.stopPropagation()}>
         <div class="header">
+          ${this.showBack
+            ? html`
+                <button class="back-btn" aria-label=${backLabel} title=${backLabel} @click=${this._dispatchBack}>
+                  <ha-icon icon="mdi:chevron-left"></ha-icon>
+                </button>
+              `
+            : nothing}
           <span class="header-title">${this.title}</span>
           <button class="close-btn" aria-label=${closeLabel} title=${closeLabel} @click=${this._dispatchClose}>
             <ha-icon icon="mdi:close"></ha-icon>

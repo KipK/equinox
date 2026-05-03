@@ -1,9 +1,12 @@
 import { LitElement, html } from "lit";
 import { EDITOR_TAG } from "./const";
+import { ensureHaComponents } from "./ha/load-components";
 import { localize } from "./localize/localize";
 import { DEFAULT_CONFIG } from "./types/config";
 import type { EquinoxCardConfigInput } from "./types/config";
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant, LovelaceCardEditor } from "./types/ha";
+
+void ensureHaComponents();
 
 export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor {
   static properties = {

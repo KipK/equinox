@@ -93,7 +93,8 @@
     },
     "lock": {
       "locked": "Locked",
-      "unlocked": "Unlocked"
+      "unlocked": "Unlocked",
+      "code_required": "Code required"
     },
     "events": {
       "hasDanger": "Critical alert",
@@ -152,6 +153,21 @@
       "regulation": "Regulation",
       "boost": "Temporary boost",
       "history": "History"
+    },
+    "boost": {
+      "title": "Temporary boost",
+      "duration": "Duration in minutes",
+      "minutes": "min",
+      "hours": "h",
+      "start": "Start boost",
+      "stop": "Stop boost",
+      "active": "Boost active",
+      "remaining_unknown": "Remaining time unavailable",
+      "preset": "Timed preset",
+      "original_preset": "Previous preset",
+      "start_description": "When the countdown ends, the thermostat will return to the previous mode.",
+      "active_description": "When the countdown ends, the thermostat will return to the previous mode.",
+      "active_description_with_preset": "When the countdown ends, the thermostat will return to the previous mode ({preset})."
     }
   },
   "editor": {

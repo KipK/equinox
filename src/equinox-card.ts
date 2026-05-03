@@ -6,8 +6,11 @@ import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
 import { localize } from "./localize/localize";
+import { ensureHaComponents } from "./ha/load-components";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
 import type { EquinoxViewModel } from "./types/view-model";
+
+void ensureHaComponents();
 
 export class EquinoxCard extends LitElement implements LovelaceCard {
   static properties = {

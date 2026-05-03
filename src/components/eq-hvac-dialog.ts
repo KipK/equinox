@@ -31,7 +31,7 @@ export class EquinoxHvacDialog extends LitElement {
     viewModel: { attribute: false },
     config: { attribute: false },
     language: {},
-    popover: { type: Boolean },
+    floating: { type: Boolean },
     anchor: { attribute: false }
   };
 
@@ -126,7 +126,7 @@ export class EquinoxHvacDialog extends LitElement {
   viewModel?: EquinoxViewModel;
   config?: EquinoxCardConfig;
   language?: string;
-  popover = false;
+  floating = false;
   anchor?: { element: HTMLElement };
 
   private _getOptions(): string[] {
@@ -166,7 +166,7 @@ export class EquinoxHvacDialog extends LitElement {
         .open=${this.open}
         .title=${title}
         .language=${this.language}
-        .popover=${this.popover}
+        .floating=${this.floating}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
