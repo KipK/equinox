@@ -58,12 +58,11 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
   getGridOptions(): LovelaceCardGridOptions {
     return {
-      columns: 6,
-      min_columns: 3,
+      columns: "full",
+      rows: "auto",
+      min_columns: 6,
       max_columns: 12,
-      rows: this._validation?.config.display_mode === "compact" ? 4 : 6,
-      min_rows: 3,
-      max_rows: 8
+      min_rows: 3
     };
   }
 

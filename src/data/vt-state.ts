@@ -30,11 +30,11 @@ function asMessageList(value: unknown): string[] {
 }
 
 function messageSeverity(key: string): EquinoxVtMessageSeverity {
-  if (key === "safety" || key === "heating_failure" || key === "cooling_failure") {
+  if (key === "safety_detected" || key === "heating_failure" || key === "cooling_failure") {
     return "danger";
   }
 
-  if (key === "overpowering" || key === "not_initialized" || key === "window_detection_stopping_hvac") {
+  if (key === "overpowering_detected" || key === "not_initialized") {
     return "alert";
   }
 
@@ -85,7 +85,7 @@ function readMessages(attributes: Record<string, unknown>): EquinoxVtMessage[] {
   const messages = asMessageList(readPath(attributes, ["specific_states", "messages"]));
 
   if (readPath(attributes, ["safety_manager", "safety_state"]) === "on") {
-    messages.push("safety");
+    messages.push("safety_detected");
   }
 
   if (readPath(attributes, ["heating_failure_detection_manager", "heating_failure_state"]) === "on") {
@@ -97,7 +97,7 @@ function readMessages(attributes: Record<string, unknown>): EquinoxVtMessage[] {
   }
 
   if (readPath(attributes, ["power_manager", "overpowering_state"]) === "on") {
-    messages.push("overpowering");
+    messages.push("overpowering_detected");
   }
 
   return [...new Set(messages)].map((key) => ({

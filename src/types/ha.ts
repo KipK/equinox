@@ -21,12 +21,12 @@ export interface LovelaceCard extends HTMLElement {
 }
 
 export interface LovelaceCardGridOptions {
-  rows?: number;
-  min_rows?: number;
-  max_rows?: number;
   columns?: number | "full";
+  rows?: number | "auto";
   min_columns?: number;
   max_columns?: number;
+  min_rows?: number;
+  max_rows?: number;
 }
 
 export interface LovelaceCardEditor extends HTMLElement {

@@ -7,12 +7,14 @@ import { baseStyles } from "../styles/base";
 import { flatStyles } from "../styles/flat";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
+import type { EquinoxVtMessage } from "../types/vt";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-icon-button";
 import "./eq-fan-dialog";
 import "./eq-hvac-dialog";
 import "./eq-preset-dialog";
 import "./eq-menu-dialog";
+import "./eq-dialog";
 
 const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
 const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
@@ -36,14 +38,46 @@ const PRESET_ICONS: Record<string, string> = {
   boost: "mdi:rocket-launch-outline"
 };
 
-const EVENT_ICONS: Array<{ key: keyof NonNullable<EquinoxViewModel["vt"]>["events"]; icon: string; tone: string }> = [
-  { key: "hasDanger", icon: "mdi:alert-octagon-outline", tone: "danger" },
-  { key: "hasAlert", icon: "mdi:alert-outline", tone: "warning" },
-  { key: "hasOverpowering", icon: "mdi:flash-alert", tone: "warning" },
-  { key: "hasOpenWindow", icon: "mdi:window-open-variant", tone: "info" },
+type EventIconDefinition = {
+  key: keyof NonNullable<EquinoxViewModel["vt"]>["events"];
+  icon: string;
+  tone: string;
+  messageKeys?: string[];
+};
+
+const EVENT_ICONS: EventIconDefinition[] = [
+  { key: "hasOverpowering", icon: "mdi:flash-alert", tone: "warning", messageKeys: ["overpowering_detected", "target_temp_power"] },
+  {
+    key: "hasOpenWindow",
+    icon: "mdi:window-open-variant",
+    tone: "info",
+    messageKeys: ["hvac_off_window_detection", "target_temp_window_eco", "target_temp_window_frost"]
+  },
   { key: "hasPresence", icon: "mdi:home-account", tone: "info" },
-  { key: "hasTimer", icon: "mdi:timer-outline", tone: "boost" }
+  { key: "hasTimer", icon: "mdi:timer-outline", tone: "boost", messageKeys: ["target_temp_timed_preset"] }
 ];
+
+const MESSAGE_ICONS: Record<string, { icon: string; tone: string }> = {
+  safety_detected: { icon: "mdi:thermometer-alert", tone: "danger" },
+  heating_failure: { icon: "mdi:thermometer-alert", tone: "danger" },
+  cooling_failure: { icon: "mdi:snowflake-alert", tone: "danger" },
+  overpowering_detected: { icon: "mdi:flash-alert", tone: "warning" },
+  target_temp_power: { icon: "mdi:flash-alert", tone: "warning" },
+  hvac_off_window_detection: { icon: "mdi:window-open-variant", tone: "info" },
+  target_temp_window_eco: { icon: "mdi:window-open-variant", tone: "info" },
+  target_temp_window_frost: { icon: "mdi:window-open-variant", tone: "info" },
+  hvac_off_auto_start_stop: { icon: "mdi:power-sleep", tone: "boost" },
+  hvac_off_sleep_mode: { icon: "mdi:sleep", tone: "boost" },
+  target_temp_timed_preset: { icon: "mdi:timer-outline", tone: "boost" },
+  target_temp_activity_detected: { icon: "mdi:motion-sensor", tone: "info" },
+  target_temp_activity_not_detected: { icon: "mdi:motion-sensor-off", tone: "info" },
+  target_temp_absence_detected: { icon: "mdi:home-export-outline", tone: "info" },
+  hvac_off_central_mode: { icon: "mdi:home-thermometer-outline", tone: "info" },
+  target_temp_central_mode: { icon: "mdi:home-thermometer-outline", tone: "info" },
+  hvac_off_manual: { icon: "mdi:power", tone: "info" },
+  hvac_off_safety_detection: { icon: "mdi:thermometer-alert", tone: "danger" },
+  not_initialized: { icon: "mdi:alert-box-outline", tone: "warning" }
+};
 
 const HVAC_ACTION_ICONS: Record<string, { icon: string; tone: string }> = {
   preheating: { icon: "mdi:timer-sand", tone: "heat" },
@@ -72,7 +106,8 @@ export class EquinoxMainCard extends LitElement {
     config: { attribute: false },
     viewModel: { attribute: false },
     _activeDialog: { state: true },
-    _dialogAnchor: { state: true }
+    _dialogAnchor: { state: true },
+    _activeMessageKey: { state: true }
   };
 
   static styles = [
@@ -138,7 +173,16 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .event {
+        width: 26px;
+        height: 26px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
         color: var(--equinox-info-color);
+        padding: 0;
       }
 
       .event[tone="warning"] {
@@ -150,6 +194,47 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .event[tone="boost"] {
+        color: var(--equinox-boost-color);
+      }
+
+      button.event {
+        cursor: pointer;
+      }
+
+      button.event:hover {
+        background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
+      }
+
+      .event ha-icon {
+        --mdc-icon-size: 22px;
+      }
+
+      .message-body {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 220px;
+        max-width: 360px;
+        color: var(--equinox-text-color);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+
+      .message-body ha-icon {
+        --mdc-icon-size: 24px;
+        flex: 0 0 auto;
+        color: var(--equinox-info-color);
+      }
+
+      .message-body[tone="warning"] ha-icon {
+        color: var(--equinox-warning-color);
+      }
+
+      .message-body[tone="danger"] ha-icon {
+        color: var(--equinox-danger-color);
+      }
+
+      .message-body[tone="boost"] ha-icon {
         color: var(--equinox-boost-color);
       }
 
@@ -546,6 +631,7 @@ export class EquinoxMainCard extends LitElement {
 
   private _activeDialog: 'fan' | 'hvac' | 'preset' | 'menu' | null = null;
   private _dialogAnchor?: { element: HTMLElement };
+  private _activeMessageKey?: string;
 
   protected render() {
     if (!this.viewModel || !this.config) {
@@ -603,6 +689,16 @@ export class EquinoxMainCard extends LitElement {
         @equinox-open-boost=${() => { this._activeDialog = null; }}
         @equinox-open-history=${this._openHistory}
       ></eq-menu-dialog>
+      <eq-dialog
+        .open=${this._activeMessageKey !== undefined}
+        .title=${localize(this._language(), "dialog.message.title")}
+        .language=${this._language()}
+        .popover=${true}
+        .anchor=${this._dialogAnchor}
+        @eq-dialog-close=${() => this._closeMessage()}
+      >
+        ${this._renderMessageOverlay()}
+      </eq-dialog>
     `;
   }
 
@@ -679,21 +775,73 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderEvents(): TemplateResult[] {
     const events = this.viewModel?.vt?.events;
+    const messages = this.viewModel?.vt?.messages ?? [];
 
     if (!events) {
       return [];
     }
 
-    return EVENT_ICONS.filter((event) => events[event.key]).map(
-      (event) => html`
-        <ha-icon
-          class="event"
-          tone=${event.tone}
-          .icon=${event.icon}
-          title=${localize(this._language(), `main.events.${event.key}`)}
-        ></ha-icon>
-      `
-    );
+    const messageIcons = messages.map((message) => this._renderMessageIcon(message));
+    const eventIcons = EVENT_ICONS.filter((event) => {
+      const relatedMessageKeys = event.messageKeys ?? [];
+
+      return events[event.key] && !relatedMessageKeys.some((key) => messages.some((message) => message.key === key));
+    }).map((event) => this._renderEventIcon(event));
+
+    return [...messageIcons, ...eventIcons];
+  }
+
+  private _renderEventIcon(event: EventIconDefinition): TemplateResult {
+    const label = localize(this._language(), `main.events.${event.key}`);
+
+    return html`
+      <ha-icon
+        class="event"
+        tone=${event.tone}
+        .icon=${event.icon}
+        title=${label}
+      ></ha-icon>
+    `;
+  }
+
+  private _renderMessageIcon(message: EquinoxVtMessage): TemplateResult {
+    const entry = this._messageIcon(message.key);
+    const label = this._messageLabel(message.key);
+
+    return html`
+      <button
+        class="event"
+        tone=${entry.tone}
+        title=${label}
+        aria-label=${label}
+        @click=${(event: Event) => this._openMessage(message.key, event)}
+      >
+        <ha-icon .icon=${entry.icon}></ha-icon>
+      </button>
+    `;
+  }
+
+  private _renderMessageOverlay(): TemplateResult | typeof nothing {
+    if (!this._activeMessageKey) {
+      return nothing;
+    }
+
+    const entry = this._messageIcon(this._activeMessageKey);
+
+    return html`
+      <div class="message-body" tone=${entry.tone}>
+        <ha-icon .icon=${entry.icon}></ha-icon>
+        <span>${this._messageLabel(this._activeMessageKey)}</span>
+      </div>
+    `;
+  }
+
+  private _messageIcon(key: string): { icon: string; tone: string } {
+    return MESSAGE_ICONS[key] ?? { icon: "mdi:information-outline", tone: "info" };
+  }
+
+  private _messageLabel(key: string): string {
+    return localize(this._language(), `main.messages.${key}`);
   }
 
   private _renderSetpoint(): TemplateResult {
@@ -995,6 +1143,26 @@ export class EquinoxMainCard extends LitElement {
     }
 
     this._activeDialog = dialog;
+    this._activeMessageKey = undefined;
+  }
+
+  private _openMessage(messageKey: string, event: Event): void {
+    const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
+
+    if (target) {
+      this._dialogAnchor = {
+        element: target
+      };
+    } else {
+      this._dialogAnchor = undefined;
+    }
+
+    this._activeDialog = null;
+    this._activeMessageKey = messageKey;
+  }
+
+  private _closeMessage(): void {
+    this._activeMessageKey = undefined;
   }
 
   private _powerValveValue(): { icon: string; label: string } | undefined {

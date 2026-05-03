@@ -103,6 +103,27 @@
       "hasPresence": "Presence detected",
       "hasTimer": "Active timer"
     },
+    "messages": {
+      "hvac_off_manual": "Turned off manually",
+      "hvac_off_auto_start_stop": "Turned off by auto-start/stop",
+      "hvac_off_window_detection": "Turned off by window detection",
+      "hvac_off_sleep_mode": "Turned off by sleep mode",
+      "hvac_off_safety_detection": "Turned off by safety mode",
+      "hvac_off_central_mode": "Turned off by central mode",
+      "safety_detected": "Safety mode detected",
+      "overpowering_detected": "Overpowering detected",
+      "target_temp_window_eco": "Target temp.: window eco",
+      "target_temp_window_frost": "Target temp.: window frost",
+      "target_temp_power": "Target temp.: power",
+      "target_temp_central_mode": "Target temp.: central mode",
+      "target_temp_activity_detected": "Target temp.: activity detected",
+      "target_temp_activity_not_detected": "Target temp.: activity not detected",
+      "target_temp_absence_detected": "Target temp.: absence detected",
+      "target_temp_timed_preset": "Timed preset active",
+      "not_initialized": "Initialisation error",
+      "heating_failure": "Heating failure detected",
+      "cooling_failure": "Cooling failure detected"
+    },
     "actions": {
       "decrease_temperature": "Decrease setpoint",
       "increase_temperature": "Increase setpoint",
@@ -122,6 +143,9 @@
     },
     "preset": {
       "title": "Preset"
+    },
+    "message": {
+      "title": "Message"
     },
     "menu": {
       "title": "Menu",
