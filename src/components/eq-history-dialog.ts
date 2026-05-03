@@ -189,7 +189,7 @@ export class EquinoxHistoryDialog extends LitElement {
       display: flex;
       justify-content: flex-end;
       gap: 6px;
-      margin-bottom: 2px;
+      margin-bottom: 8px;
     }
 
     .controls-shell {
@@ -444,6 +444,15 @@ export class EquinoxHistoryDialog extends LitElement {
       box-sizing: border-box;
       line-height: 1;
       z-index: 1;
+    }
+
+    .chart-tooltip-clip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      pointer-events: none;
     }
 
     .chart-loading-overlay {
@@ -1085,7 +1094,9 @@ export class EquinoxHistoryDialog extends LitElement {
                 ${this._renderTooltipGuide(chartData)}
               </svg>
               ${this._renderYAxisLabels(chartData)}
-              ${this._renderTooltip()}
+              <div class="chart-tooltip-clip" style="height: ${chartData.chartHeight}px">
+                ${this._renderTooltip()}
+              </div>
               ${this._loading
                 ? html`<div class="chart-loading-overlay"><span class="chart-loading-label">${localize(this.language, "dialog.history.loading")}</span></div>`
                 : nothing}
