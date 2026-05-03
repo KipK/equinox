@@ -275,22 +275,29 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     .main {
-      display: block;
-      gap: 10px;
+      display: flex;
+      flex-direction: column;
       min-height: 0;
     }
 
     .browser,
     .chart-panel {
       min-height: 0;
-      overflow: auto;
       border: 1px solid var(--equinox-border-color, var(--divider-color));
       border-radius: var(--equinox-control-radius, 8px);
       background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color)) 88%, var(--equinox-text-color) 4%);
     }
 
     .browser {
+      overflow: auto;
       padding: 8px;
+    }
+
+    .chart-panel {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .entity-picker {
@@ -418,7 +425,8 @@ export class EquinoxHistoryDialog extends LitElement {
     .chart-surface {
       position: relative;
       overflow-y: auto;
-      max-height: min(65vh, 520px);
+      flex: 1;
+      min-height: 0;
     }
 
     .y-axis-label {
@@ -601,6 +609,10 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     @media (max-width: 600px) {
+      .dialog-fs-toggle {
+        display: none;
+      }
+
       .controls-shell,
       .controls-panel {
         width: 100%;
@@ -654,10 +666,6 @@ export class EquinoxHistoryDialog extends LitElement {
 
       .main {
         min-height: 0;
-      }
-
-      .chart-surface {
-        max-height: min(55vh, 420px);
       }
     }
   `;
@@ -1785,7 +1793,7 @@ export class EquinoxHistoryDialog extends LitElement {
         </button>
         <button
           slot="headerActionItems"
-          class="dialog-fullscreen-btn"
+          class="dialog-fullscreen-btn dialog-fs-toggle"
           aria-label=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
           title=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
           @click=${this._toggleFullscreen}
