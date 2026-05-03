@@ -36,7 +36,6 @@ interface NumericLineRenderData {
   id: string;
   color: string;
   points: string;
-  markers: Array<{ x: number; y: number; color: string }>;
 }
 
 interface SegmentRenderData {
@@ -146,7 +145,8 @@ export class EquinoxHistoryDialog extends LitElement {
     _loading: { state: true },
     _error: { state: true },
     _controlsCollapsed: { state: true },
-    _activeRangeHours: { state: true }
+    _activeRangeHours: { state: true },
+    _fullscreen: { state: true }
   };
 
   static styles = css`
@@ -171,13 +171,13 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .range-row {
       display: grid;
-      grid-template-columns: repeat(5, max-content) minmax(150px, 1fr) minmax(150px, 1fr) max-content;
+      grid-template-columns: repeat(5, max-content) minmax(150px, max-content) minmax(150px, max-content) max-content;
       overflow: visible;
     }
 
     .source-row {
       display: grid;
-      grid-template-columns: minmax(190px, max-content) minmax(0, 1fr) max-content;
+      grid-template-columns: minmax(190px, max-content) minmax(220px, 320px) max-content;
       align-items: center;
       gap: 8px;
       min-width: 0;
@@ -188,33 +188,45 @@ export class EquinoxHistoryDialog extends LitElement {
     .controls-header {
       display: flex;
       justify-content: flex-end;
+      gap: 6px;
       margin-bottom: 2px;
     }
 
+    .controls-shell {
+      width: max-content;
+      max-width: 100%;
+      margin-left: auto;
+    }
+
     .controls-toggle {
-      border: 0;
-      background: transparent;
-      color: var(--equinox-muted-color, var(--secondary-text-color));
+      border: 1px solid var(--equinox-border-color, var(--divider-color));
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
+      color: var(--equinox-text-color, var(--primary-text-color));
       cursor: pointer;
-      padding: 2px 6px;
+      width: 36px;
+      height: 32px;
+      padding: 0;
       border-radius: var(--equinox-control-radius, 8px);
       display: flex;
       align-items: center;
-      font-size: 11px;
+      justify-content: center;
     }
 
     .controls-toggle:hover {
-      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
+      background: color-mix(in srgb, var(--equinox-control-bg, rgba(128, 128, 128, 0.14)) 50%, var(--equinox-boost-color, var(--accent-color)) 50%);
+      color: #fff;
     }
 
     .controls-toggle ha-icon {
-      --mdc-icon-size: 16px;
+      --mdc-icon-size: 24px;
     }
 
     .controls-panel {
       display: flex;
       flex-direction: column;
       gap: 8px;
+      width: max-content;
+      max-width: 100%;
     }
 
     .controls-panel[collapsed] {
@@ -483,12 +495,6 @@ export class EquinoxHistoryDialog extends LitElement {
       vector-effect: non-scaling-stroke;
     }
 
-    .point {
-      stroke: var(--equinox-card-bg, var(--card-background-color));
-      stroke-width: 1;
-      vector-effect: non-scaling-stroke;
-    }
-
     .segment {
       opacity: 0.7;
     }
@@ -603,6 +609,11 @@ export class EquinoxHistoryDialog extends LitElement {
         height: 100%;
       }
 
+      .controls-shell,
+      .controls-panel {
+        width: 100%;
+      }
+
       .range-row {
         grid-template-columns: repeat(5, minmax(0, 1fr));
       }
@@ -682,8 +693,9 @@ export class EquinoxHistoryDialog extends LitElement {
   private _chartRenderCache?: ChartRenderCache;
   private _loading = false;
   private _error = "";
-  private _controlsCollapsed = false;
+  private _controlsCollapsed = true;
   private _activeRangeHours: number | undefined = DEFAULT_RANGE_HOURS;
+  private _fullscreen = false;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -711,6 +723,7 @@ export class EquinoxHistoryDialog extends LitElement {
     const now = new Date();
     const start = new Date(now.getTime() - DEFAULT_RANGE_HOURS * 60 * 60 * 1000);
 
+    this._controlsCollapsed = true;
     this._endInput = this._endInput || inputDateValue(now);
     this._startInput = this._startInput || inputDateValue(start);
     this._selectedEntityId = this._selectedEntityId ?? this.config?.entity;
@@ -794,6 +807,10 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _toggleControls(): void {
     this._controlsCollapsed = !this._controlsCollapsed;
+  }
+
+  private _toggleFullscreen(): void {
+    this._fullscreen = !this._fullscreen;
   }
 
   private _setRange(hours: number): void {
@@ -1591,26 +1608,13 @@ export class EquinoxHistoryDialog extends LitElement {
           return `${x.toFixed(1)},${y.toFixed(1)}`;
         })
         .join(" ");
-      const markers = series.points
-        .filter((_, pointIndex) => pointIndex === 0 || pointIndex === series.points.length - 1)
-        .map((point) => {
-          const value = Number(point.value);
 
-          return Number.isFinite(value)
-            ? { x: this._xFor(point.time, bounds), y: this._y(value, scale), color }
-            : undefined;
-        })
-        .filter((point): point is { x: number; y: number; color: string } => point !== undefined);
-
-      return [{ id: series.source.id, color, points, markers }];
+      return [{ id: series.source.id, color, points }];
     });
   }
 
   private _renderNumericLines(chartData: ChartRenderData) {
-    return chartData.numericLines.flatMap((line) => [
-      svg`<polyline class="line" points=${line.points} stroke=${line.color}></polyline>`,
-      ...line.markers.map((marker) => svg`<circle class="point" cx=${marker.x} cy=${marker.y} r="3" fill=${marker.color}></circle>`)
-    ]);
+    return chartData.numericLines.map((line) => svg`<polyline class="line" points=${line.points} stroke=${line.color}></polyline>`);
   }
 
   private _temperatureAt(points: Array<{ time: number; value: number }>, time: number): number | undefined {
@@ -1774,12 +1778,26 @@ export class EquinoxHistoryDialog extends LitElement {
         .language=${this.language}
         .noScroll=${true}
         .lightbox=${true}
+        .fullscreen=${this._fullscreen}
         @eq-dialog-close=${this._dispatchClose}
       >
         <div class="history-body">
-          <div>
+          <div class="controls-shell">
             <div class="controls-header">
-              <button class="controls-toggle" @click=${this._toggleControls}>
+              <button
+                class="controls-toggle"
+                aria-label=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
+                title=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
+                @click=${this._toggleFullscreen}
+              >
+                <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
+              </button>
+              <button
+                class="controls-toggle"
+                aria-label=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
+                title=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
+                @click=${this._toggleControls}
+              >
                 <ha-icon icon=${this._controlsCollapsed ? "mdi:chevron-down" : "mdi:chevron-up"}></ha-icon>
               </button>
             </div>

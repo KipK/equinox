@@ -162,6 +162,10 @@
       "loading": "Loading history...",
       "empty": "No history for this period.",
       "no_attributes": "No selectable attribute.",
+      "show_controls": "Show history controls",
+      "hide_controls": "Hide history controls",
+      "fullscreen": "Fullscreen",
+      "exit_fullscreen": "Exit fullscreen",
       "sources": {
         "current_temperature": "Current temperature",
         "temperature": "Target temperature",

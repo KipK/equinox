@@ -11,6 +11,7 @@ export class EquinoxDialog extends LitElement {
     noScroll: { type: Boolean, attribute: "no-scroll" },
     floating: { type: Boolean },
     lightbox: { type: Boolean },
+    fullscreen: { type: Boolean },
     anchor: { attribute: false }
   };
 
@@ -39,13 +40,26 @@ export class EquinoxDialog extends LitElement {
 
     .panel.lightbox {
       position: fixed;
-      inset: 24px;
-      width: auto;
-      height: auto;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(90vw, 1100px);
+      height: min(88vh, 780px);
       max-width: none;
       max-height: none;
       border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 72%, transparent);
       box-shadow: 0 18px 48px rgb(0 0 0 / 38%);
+    }
+
+    .panel.lightbox.fullscreen {
+      inset: 0;
+      left: 0;
+      top: 0;
+      width: auto;
+      height: auto;
+      transform: none;
+      border-radius: 0;
+      box-shadow: none;
     }
 
     .panel.no-scroll {
@@ -189,6 +203,7 @@ export class EquinoxDialog extends LitElement {
   noScroll = false;
   floating = false;
   lightbox = false;
+  fullscreen = false;
   anchor?: { element: HTMLElement };
 
   // Arrow function so the same reference is used for add/remove listener.
@@ -287,7 +302,8 @@ export class EquinoxDialog extends LitElement {
       this.centerContent ? "center-content" : "",
       this.noScroll ? "no-scroll" : "",
       this.lightbox ? "lightbox" : "",
-      this.floating ? "popover" : ""
+      this.floating ? "popover" : "",
+      this.fullscreen ? "fullscreen" : ""
     ].filter(Boolean).join(" ");
 
     return html`
