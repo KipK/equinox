@@ -80,12 +80,13 @@ const MESSAGE_ICONS: Record<string, { icon: string; tone: string }> = {
   not_initialized: { icon: "mdi:alert-box-outline", tone: "warning" }
 };
 
-const HVAC_ACTION_ICONS: Record<string, { icon: string; tone: string }> = {
+const HVAC_ACTION_ICONS: Record<string, { icon?: string; tone: string }> = {
   preheating: { icon: "mdi:timer-sand", tone: "heat" },
   heating: { icon: "mdi:fire", tone: "heat" },
   cooling: { icon: "mdi:snowflake", tone: "cool" },
   drying: { icon: "mdi:water-percent", tone: "cool" },
   fan: { icon: "mdi:fan", tone: "auto" },
+  idle: { tone: "muted" },
   defrosting: { icon: "mdi:snowflake", tone: "cool" }
 };
 
@@ -782,7 +783,12 @@ export class EquinoxMainCard extends LitElement {
     const action = this.viewModel?.climate.hvacAction;
     const entry = action ? HVAC_ACTION_ICONS[action] : undefined;
     const hvacMode = this.viewModel?.climate.hvacMode;
-    const iconStr = entry?.icon ?? (hvacMode ? HVAC_ICONS[hvacMode] : "");
+
+    if (hvacMode === "off" && this.viewModel?.vt?.messages.some((message) => message.key === "hvac_off_manual")) {
+      return nothing;
+    }
+
+    const iconStr = entry?.icon || (hvacMode ? HVAC_ICONS[hvacMode] : "");
     const tone = entry?.tone ?? this._modeTone(hvacMode);
     const title = action
       ? localize(this._language(), `main.hvac_action.${action}`)
