@@ -273,7 +273,7 @@ export class EquinoxBoostDialog extends LitElement {
         <div class="boost-body">
           ${hasTimedPreset
             ? html`
-                <vt-ha-control-circular-slider
+                <eq-ha-control-circular-slider
                   class="boost-wheel"
                   .mode=${"start"}
                   .min=${0}
@@ -288,7 +288,7 @@ export class EquinoxBoostDialog extends LitElement {
                     <span class="wheel-number">${displayedDurationLabel.value}</span>
                     <span class="wheel-unit">${displayedDurationLabel.unit}</span>
                   </div>
-                </vt-ha-control-circular-slider>
+                </eq-ha-control-circular-slider>
               `
             : nothing}
           <div class="boost-description">${this._description(isActive, timedPreset?.originalPreset)}</div>

@@ -154,6 +154,20 @@
       "boost": "Boost temporaire",
       "history": "Historique"
     },
+    "history": {
+      "title": "Historique",
+      "load": "Charger",
+      "add": "Ajouter",
+      "add_entity": "Ajouter une entité",
+      "loading": "Chargement de l'historique...",
+      "empty": "Aucun historique sur cette période.",
+      "no_attributes": "Aucun attribut sélectionnable.",
+      "sources": {
+        "current_temperature": "Température actuelle",
+        "temperature": "Consigne",
+        "hvac_action": "Action HVAC"
+      }
+    },
     "boost": {
       "title": "Boost temporaire",
       "duration": "Durée en minutes",

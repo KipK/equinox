@@ -154,6 +154,20 @@
       "boost": "Temporary boost",
       "history": "History"
     },
+    "history": {
+      "title": "History",
+      "load": "Load",
+      "add": "Add",
+      "add_entity": "Add an entity",
+      "loading": "Loading history...",
+      "empty": "No history for this period.",
+      "no_attributes": "No selectable attribute.",
+      "sources": {
+        "current_temperature": "Current temperature",
+        "temperature": "Target temperature",
+        "hvac_action": "HVAC action"
+      }
+    },
     "boost": {
       "title": "Temporary boost",
       "duration": "Duration in minutes",

@@ -150,7 +150,7 @@ export class EquinoxMenuDialog extends LitElement {
         <!-- History entry (always visible) -->
         <button
           class="option-row"
-          @click=${() => this._dispatchAndClose("equinox-open-history")}
+          @click=${() => this._dispatchOpen("equinox-open-history")}
         >
           <span class="option-icon">
             <ha-icon icon="mdi:chart-bar" style="--mdc-icon-size: 24px;"></ha-icon>

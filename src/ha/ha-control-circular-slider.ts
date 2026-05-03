@@ -740,12 +740,12 @@ import {
     }
   }
 
-  if (!customElements.get("vt-ha-control-circular-slider")) {
-    customElements.define("vt-ha-control-circular-slider", BTHaControlCircularSlider);
+  if (!customElements.get("eq-ha-control-circular-slider")) {
+    customElements.define("eq-ha-control-circular-slider", BTHaControlCircularSlider);
   }
   
   declare global {
     interface HTMLElementTagNameMap {
-      "vt-ha-control-circular-slider": BTHaControlCircularSlider;
+      "eq-ha-control-circular-slider": BTHaControlCircularSlider;
     }
   }

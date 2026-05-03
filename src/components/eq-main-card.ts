@@ -1,7 +1,6 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unlock as unlockThermostat } from "../data/actions";
 import { FAN_MODE_ICONS } from "../data/fan";
-import { buildHistoryPath, navigate } from "../data/navigation";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
 import { flatStyles } from "../styles/flat";
@@ -15,6 +14,7 @@ import "./eq-hvac-dialog";
 import "./eq-preset-dialog";
 import "./eq-menu-dialog";
 import "./eq-boost-dialog";
+import "./eq-history-dialog";
 import "./eq-dialog";
 
 const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
@@ -637,7 +637,7 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
-  private _activeDialog: "fan" | "hvac" | "preset" | "menu" | "boost" | null = null;
+  private _activeDialog: "fan" | "hvac" | "preset" | "menu" | "boost" | "history" | null = null;
   private _dialogAnchor?: { element: HTMLElement };
   private _activeMessageKey?: string;
 
@@ -695,7 +695,7 @@ export class EquinoxMainCard extends LitElement {
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-regulation=${() => { this._activeDialog = null; }}
         @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
-        @equinox-open-history=${this._openHistory}
+        @equinox-open-history=${() => { this._activeDialog = "history"; }}
       ></eq-menu-dialog>
       <eq-boost-dialog
         .open=${this._activeDialog === "boost"}
@@ -706,6 +706,13 @@ export class EquinoxMainCard extends LitElement {
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-menu=${() => { this._activeDialog = "menu"; }}
       ></eq-boost-dialog>
+      <eq-history-dialog
+        .open=${this._activeDialog === "history"}
+        .hass=${this.hass}
+        .config=${this.config}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+      ></eq-history-dialog>
       <eq-dialog
         .open=${this._activeMessageKey !== undefined}
         .title=${localize(this._language(), "dialog.message.title")}
@@ -721,16 +728,6 @@ export class EquinoxMainCard extends LitElement {
 
   private _language(): string | undefined {
     return this.hass?.locale?.language ?? this.hass?.language;
-  }
-
-  private _openHistory(): void {
-    this._activeDialog = null;
-
-    if (!this.config?.entity) {
-      return;
-    }
-
-    navigate(buildHistoryPath(this.config.entity));
   }
 
   private _renderName(): TemplateResult | typeof nothing {
