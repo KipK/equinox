@@ -15,22 +15,21 @@ export class EquinoxMenuDialog extends LitElement {
   };
 
   static styles = css`
-    .option-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 4px;
-      border-radius: 8px;
-      cursor: pointer;
-      border: none;
+    .menu-list {
+      min-width: 220px;
+      padding: 0;
       background: transparent;
-      color: var(--primary-text-color, #fff);
-      width: 100%;
-      text-align: left;
     }
 
-    .option-row:hover:not(:disabled) {
-      background: rgba(128, 128, 128, 0.12);
+    ha-md-list-item {
+      border-radius: var(--equinox-control-radius, 8px);
+      color: var(--primary-text-color, #fff);
+      --md-list-item-container-color: transparent;
+      --md-list-item-label-text-size: 15px;
+      --md-list-item-label-text-color: var(--primary-text-color, #fff);
+      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
+      --md-list-item-hover-state-layer-opacity: 0.08;
+      --ha-md-list-item-gap: 12px;
     }
 
     .option-icon {
@@ -47,11 +46,6 @@ export class EquinoxMenuDialog extends LitElement {
     .option-icon[tone="boost"] {
       color: var(--equinox-boost-color, #b06cff);
       background: color-mix(in srgb, var(--equinox-boost-color, #b06cff) 16%, transparent);
-    }
-
-    .option-label {
-      flex: 1;
-      font-size: 15px;
     }
 
     .option-trailing {
@@ -109,57 +103,47 @@ export class EquinoxMenuDialog extends LitElement {
         .language=${this.language}
         @eq-dialog-close=${this._dispatchClose}
       >
-        <!-- Regulation entry -->
-        ${showRegulation
-          ? html`
-              <button
-                class="option-row"
-                @click=${() => this._dispatchAndClose("equinox-open-regulation")}
-              >
-                <span class="option-icon">
-                  <ha-icon icon="mdi:chart-line" style="--mdc-icon-size: 24px;"></ha-icon>
-                </span>
-                <span class="option-label">${localize(this.language, "dialog.menu.regulation")}</span>
-                <span class="option-trailing">
-                  <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
-                </span>
-              </button>
-            `
-          : nothing}
+        <ha-md-list class="menu-list">
+          ${showRegulation
+            ? html`
+                <ha-md-list-item type="button" @click=${() => this._dispatchAndClose("equinox-open-regulation")}>
+                  <span class="option-icon" slot="start">
+                    <ha-icon icon="mdi:chart-line" style="--mdc-icon-size: 24px;"></ha-icon>
+                  </span>
+                  <span>${localize(this.language, "dialog.menu.regulation")}</span>
+                  <span class="option-trailing" slot="end">
+                    <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
+                  </span>
+                </ha-md-list-item>
+              `
+            : nothing}
 
-        <!-- Boost entry -->
-        ${showBoost
-          ? html`
-              <button
-                class="option-row"
-                @click=${() => this._dispatchOpen("equinox-open-boost")}
-              >
-                <span class="option-icon" tone=${timedPresetActive ? "boost" : ""}>
-                  <ha-icon icon="mdi:timer-outline" style="--mdc-icon-size: 24px;"></ha-icon>
-                </span>
-                <span class="option-label">${localize(this.language, "dialog.menu.boost")}</span>
-                <span class="option-trailing">
-                  ${timedPresetActive && typeof remainingTimeMin === "number"
-                    ? html`<span class="boost-time">${remainingTimeMin} min</span>`
-                    : html`<ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>`}
-                </span>
-              </button>
-            `
-          : nothing}
+          ${showBoost
+            ? html`
+                <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-boost")}>
+                  <span class="option-icon" tone=${timedPresetActive ? "boost" : ""} slot="start">
+                    <ha-icon icon="mdi:timer-outline" style="--mdc-icon-size: 24px;"></ha-icon>
+                  </span>
+                  <span>${localize(this.language, "dialog.menu.boost")}</span>
+                  <span class="option-trailing" slot="end">
+                    ${timedPresetActive && typeof remainingTimeMin === "number"
+                      ? html`<span class="boost-time">${remainingTimeMin} min</span>`
+                      : html`<ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>`}
+                  </span>
+                </ha-md-list-item>
+              `
+            : nothing}
 
-        <!-- History entry (always visible) -->
-        <button
-          class="option-row"
-          @click=${() => this._dispatchOpen("equinox-open-history")}
-        >
-          <span class="option-icon">
-            <ha-icon icon="mdi:chart-bar" style="--mdc-icon-size: 24px;"></ha-icon>
-          </span>
-          <span class="option-label">${localize(this.language, "dialog.menu.history")}</span>
-          <span class="option-trailing">
-            <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
-          </span>
-        </button>
+          <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-history")}>
+            <span class="option-icon" slot="start">
+              <ha-icon icon="mdi:chart-bar" style="--mdc-icon-size: 24px;"></ha-icon>
+            </span>
+            <span>${localize(this.language, "dialog.menu.history")}</span>
+            <span class="option-trailing" slot="end">
+              <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
+            </span>
+          </ha-md-list-item>
+        </ha-md-list>
       </eq-dialog>
     `;
   }
