@@ -62,27 +62,25 @@ export class EquinoxFanDialog extends LitElement {
       font-size: 15px;
     }
 
-    /* Mobile fan list */
-    .option-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 4px;
-      border-radius: 8px;
-      cursor: pointer;
-      border: none;
+    .fan-list {
+      padding: 0;
       background: transparent;
+    }
+
+    ha-md-list-item {
+      border-radius: var(--equinox-control-radius, 8px);
       color: var(--primary-text-color, #fff);
-      width: 100%;
-      text-align: left;
+      --md-list-item-container-color: transparent;
+      --md-list-item-label-text-size: 15px;
+      --md-list-item-label-text-color: var(--primary-text-color, #fff);
+      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
+      --md-list-item-hover-state-layer-opacity: 0.08;
+      --ha-md-list-item-gap: 12px;
     }
 
-    .option-row:hover:not(:disabled) {
-      background: rgba(128, 128, 128, 0.12);
-    }
-
-    .option-row[active] {
+    ha-md-list-item[active] {
       color: var(--primary-color);
+      --md-list-item-label-text-color: var(--primary-color);
     }
 
     .option-icon {
@@ -96,14 +94,9 @@ export class EquinoxFanDialog extends LitElement {
       flex-shrink: 0;
     }
 
-    .option-row[active] .option-icon {
+    ha-md-list-item[active] .option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
-    }
-
-    .option-label {
-      flex: 1;
-      font-size: 15px;
     }
 
     .option-check {
@@ -225,23 +218,25 @@ export class EquinoxFanDialog extends LitElement {
 
         <!-- Mobile: vertical list -->
         <div class="fan-mobile">
+          <ha-md-list class="fan-list">
           ${options.map(
             (mode) => html`
-              <button
-                class="option-row"
+              <ha-md-list-item
+                type="button"
                 ?active=${mode === activeMode}
                 @click=${() => this._selectMode(mode)}
               >
-                <span class="option-icon">
+                <span class="option-icon" slot="start">
                   <ha-icon .icon=${this._fanIcon(mode)} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
-                <span class="option-label">${this._fanLabel(mode)}</span>
+                <span>${this._fanLabel(mode)}</span>
                 ${mode === activeMode
-                  ? html`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
+                  ? html`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
                   : nothing}
-              </button>
+              </ha-md-list-item>
             `
           )}
+          </ha-md-list>
         </div>
       </eq-dialog>
     `;

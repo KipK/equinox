@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { setHvacMode } from "../data/actions";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
@@ -102,21 +102,46 @@ export class EquinoxHvacDialog extends LitElement {
       font-size: 15px;
     }
 
+    .option-mobile {
+      display: none;
+    }
+
+    .option-list {
+      padding: 0;
+      background: transparent;
+    }
+
+    ha-md-list-item {
+      border-radius: var(--equinox-control-radius, 8px);
+      color: var(--primary-text-color, #fff);
+      --md-list-item-container-color: transparent;
+      --md-list-item-label-text-size: 15px;
+      --md-list-item-label-text-color: var(--primary-text-color, #fff);
+      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
+      --md-list-item-hover-state-layer-opacity: 0.08;
+      --ha-md-list-item-gap: 10px;
+    }
+
+    ha-md-list-item[active] {
+      --md-list-item-label-text-color: var(--primary-color);
+    }
+
+    ha-md-list-item[active] .option-icon {
+      background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+      color: var(--primary-color);
+    }
+
+    .option-check {
+      color: var(--primary-color);
+    }
+
     @media (max-width: 600px) {
-      .option-grid {
+      .option-desktop {
+        display: none;
+      }
+
+      .option-mobile {
         display: block;
-      }
-
-      .option-row {
-        flex-direction: row;
-        gap: 10px;
-        padding: 8px 4px;
-        width: 100%;
-        text-align: left;
-      }
-
-      .option-label {
-        flex: 1;
       }
     }
   `;
@@ -170,7 +195,7 @@ export class EquinoxHvacDialog extends LitElement {
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
-        <div class="option-grid">
+        <div class="option-grid option-desktop">
           ${options.map(
             (mode) => html`
               <button
@@ -185,6 +210,23 @@ export class EquinoxHvacDialog extends LitElement {
               </button>
             `
           )}
+        </div>
+        <div class="option-mobile">
+          <ha-md-list class="option-list">
+            ${options.map(
+              (mode) => html`
+                <ha-md-list-item type="button" ?active=${mode === activeMode} @click=${() => this._selectMode(mode)}>
+                  <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""} slot="start">
+                    <ha-icon .icon=${HVAC_ICONS[mode]} style="--mdc-icon-size: 24px;"></ha-icon>
+                  </span>
+                  <span>${this._modeLabel(mode)}</span>
+                  ${mode === activeMode
+                    ? html`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
+                    : nothing}
+                </ha-md-list-item>
+              `
+            )}
+          </ha-md-list>
         </div>
       </eq-dialog>
     `;
