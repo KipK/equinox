@@ -416,6 +416,11 @@ export class EquinoxMainCard extends LitElement {
         line-height: 1;
         font-weight: 450;
         color: var(--equinox-text-color);
+        cursor: pointer;
+      }
+
+      .sensor-temperature:hover {
+        opacity: 0.75;
       }
 
       .sensor-temperature ha-icon {
@@ -435,6 +440,11 @@ export class EquinoxMainCard extends LitElement {
         font-size: 20px;
         line-height: 1;
         font-weight: 600;
+        cursor: pointer;
+      }
+
+      .sensor-humidity:hover {
+        opacity: 0.75;
       }
 
       .sensor-humidity ha-icon {
@@ -458,6 +468,11 @@ export class EquinoxMainCard extends LitElement {
         gap: 8px;
         min-width: 66px;
         justify-content: center;
+        cursor: pointer;
+      }
+
+      .condition:hover {
+        opacity: 0.75;
       }
 
       .condition ha-icon {
@@ -934,14 +949,14 @@ export class EquinoxMainCard extends LitElement {
     return html`
       <div class="setpoint" sensor-focus>
         <div class="sensor-primary">
-          <span class="sensor-temperature">
+          <span class="sensor-temperature" @click=${() => this._openMoreInfo(this.config!.entity)}>
             <ha-icon icon="mdi:thermometer"></ha-icon>
             <span>${this._formatTemperatureValue(this.viewModel?.climate.currentTemperature)}</span>
             <span class="sensor-unit">°</span>
           </span>
           ${showHumidity
         ? html`
-                <span class="sensor-humidity">
+                <span class="sensor-humidity" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                   <span>${this._formatPercent(currentHumidity)}</span>
                 </span>
@@ -1008,14 +1023,14 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="conditions">
-        <span class="condition">
+        <span class="condition" @click=${() => this._openMoreInfo(this.config!.entity)}>
           <ha-icon icon="mdi:thermometer"></ha-icon>
           <span class="condition-value" kind="temperature">${this._formatTemperature(this.viewModel?.climate.currentTemperature)}</span>
         </span>
         ${showHumidity
         ? html`
             <span class="divider"></span>
-            <span class="condition">
+            <span class="condition" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
               <ha-icon icon="mdi:water-percent"></ha-icon>
               <span class="condition-value" kind="humidity">${this._formatPercent(currentHumidity)}</span>
             </span>
@@ -1496,6 +1511,14 @@ export class EquinoxMainCard extends LitElement {
     }
 
     void setPresetMode({ hass: this.hass, entityId: this.config.entity, viewModel: this.viewModel }, preset);
+  }
+
+  private _openMoreInfo(entityId: string): void {
+    this.dispatchEvent(new CustomEvent("hass-more-info", { bubbles: true, composed: true, detail: { entityId } }));
+  }
+
+  private _humidityEntityId(): string {
+    return this.config!.humidity_entity ?? this.config!.entity;
   }
 
   private _toggleLock(): void {
