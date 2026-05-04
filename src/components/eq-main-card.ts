@@ -1459,14 +1459,6 @@ export class EquinoxMainCard extends LitElement {
     return label === `${prefix}.${value}` ? value : label;
   }
 
-  private _formatTemperature(value?: number): string {
-    return finite(value) ? `${this._formatNumber(value)}°` : "--.-°";
-  }
-
-  private _formatTemperatureValue(value?: number): string {
-    return finite(value) ? this._formatNumber(value) : "--.-";
-  }
-
   private _formatCurrentTemp(): string {
     const value = this.viewModel?.climate.currentTemperature;
     const decimals = this.viewModel?.climate.currentTemperatureDecimals;
