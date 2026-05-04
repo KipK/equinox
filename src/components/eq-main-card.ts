@@ -883,13 +883,30 @@ export class EquinoxMainCard extends LitElement {
       const relatedMessageKeys = event.messageKeys ?? [];
 
       return events[event.key] && !relatedMessageKeys.some((key) => messages.some((message) => message.key === key));
-    }).map((event) => this._renderEventIcon(event));
+    }).map((event) => {
+      const onClick = event.key === "hasTimer" ? () => { this._activeDialog = "boost"; } : undefined;
+      return this._renderEventIcon(event, onClick);
+    });
 
     return [...messageIcons, ...eventIcons];
   }
 
-  private _renderEventIcon(event: EventIconDefinition): TemplateResult {
+  private _renderEventIcon(event: EventIconDefinition, onClick?: () => void): TemplateResult {
     const label = localize(this._language(), `main.events.${event.key}`);
+
+    if (onClick) {
+      return html`
+        <button
+          class="event"
+          tone=${event.tone}
+          title=${label}
+          aria-label=${label}
+          @click=${onClick}
+        >
+          <ha-icon .icon=${event.icon}></ha-icon>
+        </button>
+      `;
+    }
 
     return html`
       <ha-icon
