@@ -4,7 +4,6 @@ import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
-import "../ha/ha-control-circular-slider";
 import "./eq-dialog";
 
 const DEFAULT_DURATION = 60;
@@ -238,7 +237,7 @@ export class EquinoxBoostDialog extends LitElement {
         <div class="boost-body">
           ${hasTimedPreset
             ? html`
-                <eq-ha-control-circular-slider
+                <ha-control-circular-slider
                   class="boost-wheel"
                   .mode=${"start"}
                   .min=${0}
@@ -253,7 +252,7 @@ export class EquinoxBoostDialog extends LitElement {
                     <span class="wheel-number">${displayedDurationLabel.value}</span>
                     <span class="wheel-unit">${displayedDurationLabel.unit}</span>
                   </div>
-                </eq-ha-control-circular-slider>
+                </ha-control-circular-slider>
               `
             : nothing}
           <button class="action-button" ?disabled=${disabled || (isActive && !hasTimedPreset)} @click=${isActive ? this._stopBoost : this._startBoost}>

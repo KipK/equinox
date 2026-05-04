@@ -4,7 +4,8 @@ const HA_COMPONENTS = [
   "ha-form",
   "ha-icon",
   "ha-entity-picker",
-  "ha-dialog"
+  "ha-dialog",
+  "ha-control-circular-slider"
 ];
 
 let loadPromise: Promise<void> | undefined;
