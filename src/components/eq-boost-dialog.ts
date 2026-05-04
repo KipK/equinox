@@ -38,12 +38,21 @@ export class EquinoxBoostDialog extends LitElement {
       overflow: hidden;
     }
 
-    .boost-wheel {
+    .boost-wheel-shell {
       width: var(--boost-wheel-size);
       height: var(--boost-wheel-size);
       max-width: 100%;
-      display: block;
+      display: grid;
+      place-items: center;
       position: relative;
+    }
+
+    .boost-wheel {
+      grid-area: 1 / 1;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 0;
       --clear-background-color: var(--equinox-card-bg, var(--card-background-color, #111820));
       --control-circular-slider-color: var(--equinox-boost-color, #b06cff);
       --control-circular-slider-background: var(--disabled-color, #5e6975);
@@ -56,8 +65,11 @@ export class EquinoxBoostDialog extends LitElement {
     }
 
     .wheel-value {
-      position: absolute;
-      inset: 0;
+      grid-area: 1 / 1;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -237,22 +249,23 @@ export class EquinoxBoostDialog extends LitElement {
         <div class="boost-body">
           ${hasTimedPreset
             ? html`
-                <ha-control-circular-slider
-                  class="boost-wheel"
-                  .mode=${"start"}
-                  .min=${0}
-                  .max=${BOOST_DURATIONS.length - 1}
-                  .step=${1}
-                  .value=${this._durationIndex(displayedDuration)}
-                  ?disabled=${disabled || isActive}
-                  @value-changed=${this._onDurationChange}
-                  @value-changing=${this._onDurationChange}
-                >
+                <div class="boost-wheel-shell">
+                  <ha-control-circular-slider
+                    class="boost-wheel"
+                    .mode=${"start"}
+                    .min=${0}
+                    .max=${BOOST_DURATIONS.length - 1}
+                    .step=${1}
+                    .value=${this._durationIndex(displayedDuration)}
+                    ?disabled=${disabled || isActive}
+                    @value-changed=${this._onDurationChange}
+                    @value-changing=${this._onDurationChange}
+                  ></ha-control-circular-slider>
                   <div class="wheel-value">
                     <span class="wheel-number">${displayedDurationLabel.value}</span>
                     <span class="wheel-unit">${displayedDurationLabel.unit}</span>
                   </div>
-                </ha-control-circular-slider>
+                </div>
               `
             : nothing}
           <button class="action-button" ?disabled=${disabled || (isActive && !hasTimedPreset)} @click=${isActive ? this._stopBoost : this._startBoost}>
