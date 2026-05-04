@@ -637,10 +637,10 @@ export class EquinoxHistoryDialog extends LitElement {
         left: 16px;
         right: 16px;
         top: auto;
-        bottom: 16px;
+        bottom: auto;
         width: auto;
-        max-height: min(64vh, 520px);
-        z-index: 4;
+        max-height: min(64vh, 420px);
+        z-index: 100;
       }
 
       .menu-close {
@@ -702,6 +702,18 @@ export class EquinoxHistoryDialog extends LitElement {
     if (changed.has("open") && this.open) {
       this._ensureInitialState();
     }
+    if (changed.has("_attributeMenuOpen") && this._attributeMenuOpen) {
+      this._positionEntityMenuMobile();
+    }
+  }
+
+  private _positionEntityMenuMobile(): void {
+    if (window.innerWidth > 600) return;
+    const trigger = this.renderRoot?.querySelector(".entity-trigger") as HTMLElement | null;
+    const menu = this.renderRoot?.querySelector(".entity-menu") as HTMLElement | null;
+    if (!trigger || !menu) return;
+    const rect = trigger.getBoundingClientRect();
+    menu.style.top = `${rect.bottom + 6}px`;
   }
 
   private _ensureInitialState(): void {
@@ -1124,11 +1136,20 @@ export class EquinoxHistoryDialog extends LitElement {
       return "background: color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 22%, transparent); border: 1px solid var(--equinox-boost-color, var(--accent-color));";
     }
 
-    return `background: ${sourceColor(index)}`;
+    return `background: ${this._seriesColor(series, index)}`;
   }
 
   private _seriesColor(series: HistorySeries, index: number): string {
-    return this._isClimateHvacActionSource(series.source) ? "var(--equinox-boost-color, var(--accent-color))" : sourceColor(index);
+    if (this._isClimateHvacActionSource(series.source)) {
+      return "var(--equinox-boost-color, var(--accent-color))";
+    }
+    if (this._isClimateCurrentTemperatureSource(series.source)) {
+      return "#42a5f5";
+    }
+    if (this._isClimateSetpointSource(series.source)) {
+      return "#ff9800";
+    }
+    return sourceColor(index);
   }
 
   private _tooltipSeries(): TooltipSeries[] {
@@ -1442,6 +1463,10 @@ export class EquinoxHistoryDialog extends LitElement {
     return this._isConfigClimateSource(source) && source.kind === "entity_attribute" && this._sourcePath(source) === "current_temperature";
   }
 
+  private _isClimateSetpointSource(source: HistorySource): boolean {
+    return this._isConfigClimateSource(source) && source.kind === "entity_attribute" && this._sourcePath(source) === "temperature";
+  }
+
   private _isClimateHvacActionSource(source: HistorySource): boolean {
     return this._isConfigClimateSource(source) && source.kind === "entity_attribute" && this._sourcePath(source) === "hvac_action";
   }
@@ -1605,7 +1630,7 @@ export class EquinoxHistoryDialog extends LitElement {
       }
 
       const colorIndex = this._series.findIndex((candidate) => candidate.source.id === series.source.id);
-      const color = sourceColor(colorIndex);
+      const color = this._seriesColor(series, colorIndex);
       const displayPoints = this._displayNumericPoints(series, bounds);
       const points = displayPoints
         .map((point) => {
