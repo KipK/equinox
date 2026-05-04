@@ -189,7 +189,6 @@ export class EquinoxFanDialog extends LitElement {
         .open=${this.open}
         .title=${title}
         .language=${this.language}
-        .centerContent=${true}
         .floating=${this.floating}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}

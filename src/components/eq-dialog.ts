@@ -6,9 +6,7 @@ export class EquinoxDialog extends LitElement {
     open: { type: Boolean },
     title: {},
     language: {},
-    centerContent: { type: Boolean, attribute: "center-content" },
     showBack: { type: Boolean, attribute: "show-back" },
-    noScroll: { type: Boolean, attribute: "no-scroll" },
     floating: { type: Boolean },
     anchor: { attribute: false }
   };
@@ -36,10 +34,6 @@ export class EquinoxDialog extends LitElement {
       overflow-y: auto;
     }
 
-    .panel.no-scroll {
-      overflow: hidden;
-    }
-
     @media (min-width: 601px) {
       .scrim.popover {
         position: fixed;
@@ -61,28 +55,12 @@ export class EquinoxDialog extends LitElement {
         backdrop-filter: blur(14px);
       }
 
-      .panel.popover.no-scroll {
-        overflow: hidden;
-      }
-
       .panel.popover .header {
         display: none;
       }
 
       .panel.popover .content {
         padding: 10px;
-      }
-
-      .panel.center-content {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .panel.center-content .content {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
     }
 
@@ -103,15 +81,6 @@ export class EquinoxDialog extends LitElement {
         border-radius: 16px 16px 0 0;
         max-height: 80vh;
         overflow-y: auto;
-      }
-
-      .panel.no-scroll {
-        height: auto;
-        overflow: hidden;
-      }
-
-      .panel.no-scroll .content {
-        height: auto;
       }
     }
 
@@ -140,24 +109,15 @@ export class EquinoxDialog extends LitElement {
     .content {
       padding: 0 16px 16px;
     }
-
-    .panel.no-scroll .content {
-      height: calc(100% - 40px);
-      box-sizing: border-box;
-      overflow: hidden;
-    }
   `;
 
   open = false;
   title = "";
   language?: string;
-  centerContent = false;
   showBack = false;
-  noScroll = false;
   floating = false;
   anchor?: { element: HTMLElement };
 
-  // Arrow function so the same reference is used for add/remove listener.
   private readonly _handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && this.open) {
       this._dispatchClose();
@@ -248,12 +208,7 @@ export class EquinoxDialog extends LitElement {
     const closeLabel = localize(this.language, "dialog.close");
     const backLabel = localize(this.language, "dialog.back");
     const popoverStyle = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "";
-    const panelClass = [
-      "panel",
-      this.centerContent ? "center-content" : "",
-      this.noScroll ? "no-scroll" : "",
-      this.floating ? "popover" : ""
-    ].filter(Boolean).join(" ");
+    const panelClass = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
 
     return html`
       <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>

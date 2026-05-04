@@ -731,65 +731,6 @@ export class EquinoxMainCard extends LitElement {
   private _dialogAnchor?: { element: HTMLElement };
   private _activeMessageKey?: string;
 
-  connectedCallback(): void {
-    super.connectedCallback();
-    document.addEventListener("pointermove", this._handlePointerMove);
-    document.addEventListener("pointerdown", this._handleOutsidePointerDown);
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-    document.removeEventListener("pointermove", this._handlePointerMove);
-    document.removeEventListener("pointerdown", this._handleOutsidePointerDown);
-  }
-
-  private readonly _handleOutsidePointerDown = (e: PointerEvent): void => {
-    if (this._activeDialog !== "boost") {
-      return;
-    }
-    const hostRect = this.getBoundingClientRect();
-    if (
-      e.clientX >= hostRect.left &&
-      e.clientX <= hostRect.right &&
-      e.clientY >= hostRect.top &&
-      e.clientY <= hostRect.bottom
-    ) {
-      return;
-    }
-    this._activeDialog = null;
-  };
-
-  private readonly _handlePointerMove = (e: PointerEvent): void => {
-    if (this._activeDialog !== "menu" || e.pointerType === "touch") {
-      return;
-    }
-    const hostRect = this.getBoundingClientRect();
-    if (
-      e.clientX >= hostRect.left &&
-      e.clientX <= hostRect.right &&
-      e.clientY >= hostRect.top &&
-      e.clientY <= hostRect.bottom
-    ) {
-      return;
-    }
-    const panel = this.shadowRoot
-      ?.querySelector("eq-menu-dialog")
-      ?.shadowRoot?.querySelector("eq-dialog")
-      ?.shadowRoot?.querySelector(".panel");
-    if (panel) {
-      const panelRect = panel.getBoundingClientRect();
-      if (
-        e.clientX >= panelRect.left &&
-        e.clientX <= panelRect.right &&
-        e.clientY >= panelRect.top &&
-        e.clientY <= panelRect.bottom
-      ) {
-        return;
-      }
-    }
-    this._activeDialog = null;
-  };
-
   protected render() {
     if (!this.viewModel || !this.config) {
       return nothing;

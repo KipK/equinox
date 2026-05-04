@@ -24,9 +24,6 @@ export class EquinoxBoostDialog extends LitElement {
   static styles = css`
     .boost-body {
       --boost-wheel-size: clamp(74px, min(32vw, 20vh), 136px);
-      height: 100%;
-      min-height: 0;
-      box-sizing: border-box;
       display: grid;
       grid-template-rows: var(--boost-wheel-size) minmax(34px, 40px);
       align-content: center;
@@ -242,7 +239,6 @@ export class EquinoxBoostDialog extends LitElement {
         .title=${title}
         .language=${this.language}
         .showBack=${true}
-        .noScroll=${true}
         @eq-dialog-close=${this._dispatchClose}
         @eq-dialog-back=${this._dispatchBack}
       >
