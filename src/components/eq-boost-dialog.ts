@@ -66,7 +66,6 @@ export class EquinoxBoostDialog extends LitElement {
       pointer-events: none;
       line-height: 1;
       white-space: nowrap;
-      transform: translateY(clamp(7px, calc(var(--boost-wheel-size) * 0.08), 12px));
     }
 
     .wheel-number {
@@ -85,20 +84,6 @@ export class EquinoxBoostDialog extends LitElement {
 
     .wheel-unit:empty {
       display: none;
-    }
-
-    .boost-description {
-      width: 100%;
-      max-width: 300px;
-      min-height: 0;
-      overflow: hidden;
-      color: var(--primary-text-color, #fff);
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      font-size: clamp(12px, 2vh, 16px);
-      line-height: 1.35;
-      text-align: center;
     }
 
     .action-button {
@@ -201,26 +186,6 @@ export class EquinoxBoostDialog extends LitElement {
     }
   }
 
-  private _presetLabel(preset?: string): string {
-    if (!preset) {
-      return "";
-    }
-
-    const label = localize(this.language, `main.preset.${preset}`);
-
-    return label === `main.preset.${preset}` ? preset : label;
-  }
-
-  private _description(isActive: boolean, originalPreset?: string): string {
-    const preset = this._presetLabel(originalPreset);
-
-    if (isActive && preset) {
-      return localize(this.language, "dialog.boost.active_description_with_preset", { preset });
-    }
-
-    return localize(this.language, isActive ? "dialog.boost.active_description" : "dialog.boost.start_description");
-  }
-
   private _durationIndex(duration: number): number {
     const exactIndex = BOOST_DURATIONS.indexOf(duration);
 
@@ -291,7 +256,6 @@ export class EquinoxBoostDialog extends LitElement {
                 </eq-ha-control-circular-slider>
               `
             : nothing}
-          <div class="boost-description">${this._description(isActive, timedPreset?.originalPreset)}</div>
           <button class="action-button" ?disabled=${disabled || (isActive && !hasTimedPreset)} @click=${isActive ? this._stopBoost : this._startBoost}>
             ${localize(this.language, isActive ? "dialog.boost.stop" : "dialog.boost.start")}
           </button>
