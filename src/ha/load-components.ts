@@ -1,9 +1,16 @@
-import { DEFAULT_HA_COMPONENTS, loadHaComponents } from "@kipk/load-ha-components";
+import { loadHaComponents } from "@kipk/load-ha-components";
+
+const HA_COMPONENTS = [
+  "ha-form",
+  "ha-icon",
+  "ha-entity-picker",
+  "ha-dialog"
+];
 
 let loadPromise: Promise<void> | undefined;
 
 export function ensureHaComponents(): Promise<void> {
-  loadPromise ??= loadHaComponents(DEFAULT_HA_COMPONENTS);
+  loadPromise ??= loadHaComponents(HA_COMPONENTS);
 
   return loadPromise;
 }
