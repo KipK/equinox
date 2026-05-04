@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { attributeSource, entityStateSource, fetchHistory, valueType, type HistorySeries, type HistorySource } from "../data/history";
+import { ensureDateRangePicker } from "../ha/load-components";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HassEntity, HomeAssistant } from "../types/ha";
@@ -70,8 +71,8 @@ interface ChartRenderData {
 interface ChartRenderCache {
   seriesRef: HistorySeries[];
   hiddenKey: string;
-  startInput: string;
-  endInput: string;
+  startTime: number;
+  endTime: number;
   data: ChartRenderData;
 }
 
@@ -108,18 +109,6 @@ function readPath(source: unknown, path: string[]): unknown {
   return path.reduce<unknown>((current, key) => (isRecord(current) ? current[key] : undefined), source);
 }
 
-function inputDateValue(date: Date): string {
-  const offset = date.getTimezoneOffset() * 60_000;
-
-  return new Date(date.getTime() - offset).toISOString().slice(0, 16);
-}
-
-function dateFromInput(value: string): Date | undefined {
-  const time = new Date(value).getTime();
-
-  return Number.isFinite(time) ? new Date(time) : undefined;
-}
-
 function sourceColor(index: number): string {
   return ["#ff9800", "#42a5f5", "#66bb6a", "#ec407a", "#ab47bc", "#26a69a"][index % 6];
 }
@@ -134,8 +123,8 @@ export class EquinoxHistoryDialog extends LitElement {
     _path: { state: true },
     _selectedSources: { state: true },
     _series: { state: true },
-    _startInput: { state: true },
-    _endInput: { state: true },
+    _startDate: { state: true },
+    _endDate: { state: true },
     _customEntityInput: { state: true },
     _customEntityIds: { state: true },
     _hiddenSourceIds: { state: true },
@@ -217,8 +206,7 @@ export class EquinoxHistoryDialog extends LitElement {
     .entity-trigger,
     .tree-btn,
     .chip,
-    .menu-close,
-    .load-btn {
+    .menu-close {
       border: 0;
       border-radius: var(--equinox-control-radius, 8px);
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
@@ -233,8 +221,7 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .range-btn[active],
     .entity-btn[active],
-    .entity-trigger[open],
-    .load-btn {
+    .entity-trigger[open] {
       background: var(--equinox-boost-color, var(--accent-color));
       color: #fff;
     }
@@ -246,19 +233,6 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .range-btn[active]:hover {
       filter: brightness(1.1);
-    }
-
-    .date-input {
-      min-height: 30px;
-      border: 0;
-      border-radius: var(--equinox-control-radius, 8px);
-      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
-      color: var(--equinox-text-color, var(--primary-text-color));
-      padding: 0 8px;
-      font: inherit;
-      font-size: 13px;
-      min-width: 0;
-      box-sizing: border-box;
     }
 
     .main {
@@ -623,15 +597,6 @@ export class EquinoxHistoryDialog extends LitElement {
         padding: 0 4px;
       }
 
-      .range-row > .date-input {
-        flex: 1;
-        min-width: 130px;
-      }
-
-      .range-row > .load-btn {
-        width: 100%;
-      }
-
       .entity-menu {
         position: fixed;
         left: 16px;
@@ -661,8 +626,8 @@ export class EquinoxHistoryDialog extends LitElement {
   private _path: string[] = [];
   private _selectedSources: HistorySource[] = [];
   private _series: HistorySeries[] = [];
-  private _startInput = "";
-  private _endInput = "";
+  private _startDate?: Date;
+  private _endDate?: Date;
   private _customEntityInput = "";
   private _customEntityIds: string[] = [];
   private _hiddenSourceIds: string[] = [];
@@ -685,6 +650,7 @@ export class EquinoxHistoryDialog extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     document.addEventListener("click", this._handleDocumentClick);
+    void ensureDateRangePicker().then(() => this.requestUpdate());
   }
 
   disconnectedCallback(): void {
@@ -721,8 +687,8 @@ export class EquinoxHistoryDialog extends LitElement {
     const start = new Date(now.getTime() - DEFAULT_RANGE_HOURS * 60 * 60 * 1000);
 
     this._controlsCollapsed = true;
-    this._endInput = this._endInput || inputDateValue(now);
-    this._startInput = this._startInput || inputDateValue(start);
+    this._endDate = this._endDate ?? now;
+    this._startDate = this._startDate ?? start;
     this._selectedEntityId = this._selectedEntityId ?? this.config?.entity;
 
     if (this._selectedSources.length === 0) {
@@ -838,20 +804,18 @@ export class EquinoxHistoryDialog extends LitElement {
     const end = new Date();
     const start = new Date(end.getTime() - hours * 60 * 60 * 1000);
 
-    this._startInput = inputDateValue(start);
-    this._endInput = inputDateValue(end);
+    this._startDate = start;
+    this._endDate = end;
     this._activeRangeHours = hours;
     void this._loadHistory();
   }
 
-  private _setStart(event: Event): void {
-    this._startInput = (event.currentTarget as HTMLInputElement).value;
+  private _onDateRangeChanged(event: CustomEvent): void {
+    const { startDate, endDate } = event.detail as { startDate: Date; endDate: Date };
+    this._startDate = startDate;
+    this._endDate = endDate;
     this._activeRangeHours = undefined;
-  }
-
-  private _setEnd(event: Event): void {
-    this._endInput = (event.currentTarget as HTMLInputElement).value;
-    this._activeRangeHours = undefined;
+    void this._loadHistory();
   }
 
   private _onEntityPickerChanged(event: CustomEvent): void {
@@ -896,8 +860,8 @@ export class EquinoxHistoryDialog extends LitElement {
   }
 
   private async _loadHistory(): Promise<void> {
-    const start = dateFromInput(this._startInput);
-    const end = dateFromInput(this._endInput);
+    const start = this._startDate;
+    const end = this._endDate;
 
     if (!this.hass || !start || !end || this._selectedSources.length === 0) {
       this._series = [];
@@ -1331,8 +1295,8 @@ export class EquinoxHistoryDialog extends LitElement {
       cache &&
       cache.seriesRef === this._series &&
       cache.hiddenKey === hiddenKey &&
-      cache.startInput === this._startInput &&
-      cache.endInput === this._endInput
+      cache.startTime === (this._startDate?.getTime() ?? 0) &&
+      cache.endTime === (this._endDate?.getTime() ?? 0)
     ) {
       return cache.data;
     }
@@ -1357,8 +1321,8 @@ export class EquinoxHistoryDialog extends LitElement {
     this._chartRenderCache = {
       seriesRef: this._series,
       hiddenKey,
-      startInput: this._startInput,
-      endInput: this._endInput,
+      startTime: this._startDate?.getTime() ?? 0,
+      endTime: this._endDate?.getTime() ?? 0,
       data
     };
 
@@ -1366,8 +1330,8 @@ export class EquinoxHistoryDialog extends LitElement {
   }
 
   private _timeBounds(): { start: number; end: number } {
-    const start = dateFromInput(this._startInput)?.getTime() ?? Date.now() - DEFAULT_RANGE_HOURS * 60 * 60 * 1000;
-    const end = dateFromInput(this._endInput)?.getTime() ?? Date.now();
+    const start = this._startDate?.getTime() ?? Date.now() - DEFAULT_RANGE_HOURS * 60 * 60 * 1000;
+    const end = this._endDate?.getTime() ?? Date.now();
 
     return { start, end: Math.max(end, start + 1) };
   }
@@ -1842,9 +1806,12 @@ export class EquinoxHistoryDialog extends LitElement {
                     </button>
                   `
                 )}
-                <input class="date-input" type="datetime-local" .value=${this._startInput} @change=${this._setStart} />
-                <input class="date-input" type="datetime-local" .value=${this._endInput} @change=${this._setEnd} />
-                <button class="load-btn" @click=${this._loadHistory}>${localize(this.language, "dialog.history.load")}</button>
+                <ha-date-range-picker
+                  .startDate=${this._startDate ?? new Date(Date.now() - DEFAULT_RANGE_HOURS * 3600000)}
+                  .endDate=${this._endDate ?? new Date()}
+                  time-picker
+                  @value-changed=${this._onDateRangeChanged}
+                ></ha-date-range-picker>
               </div>
             </div>
           </div>
