@@ -22,6 +22,7 @@ export interface EquinoxCardConfig {
   diagnostic_entity?: string;
   power_entity?: string;
   humidity_entity?: string;
+  temperature_entity?: string;
   theme?: EquinoxTheme;
   display_mode?: EquinoxDisplayMode;
   primary_display?: EquinoxPrimaryDisplay;

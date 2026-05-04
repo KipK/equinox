@@ -194,6 +194,7 @@
     "diagnostic_entity": "Entité diagnostic",
     "power_entity": "Entité puissance",
     "humidity_entity": "Entité humidité",
+    "temperature_entity": "Entité température",
     "theme": "Thème",
     "display_mode": "Format d'affichage",
     "primary_display": "Priorité d'affichage",

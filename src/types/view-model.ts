@@ -15,6 +15,8 @@ export interface EquinoxClimateViewModel {
   hvacAction?: string;
   targetTemperature?: number;
   currentTemperature?: number;
+  currentTemperatureDecimals?: number;
+  temperatureEntityId?: string;
   currentHumidity?: number;
   hvacModes: string[];
   presetModes: string[];

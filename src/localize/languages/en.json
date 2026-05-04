@@ -194,6 +194,7 @@
     "diagnostic_entity": "Diagnostic entity",
     "power_entity": "Power entity",
     "humidity_entity": "Humidity entity",
+    "temperature_entity": "Temperature entity",
     "theme": "Theme",
     "display_mode": "Display format",
     "primary_display": "Display priority",

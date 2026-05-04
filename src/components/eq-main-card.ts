@@ -416,10 +416,13 @@ export class EquinoxMainCard extends LitElement {
         line-height: 1;
         font-weight: 450;
         color: var(--equinox-text-color);
+      }
+
+      .sensor-temperature[clickable] {
         cursor: pointer;
       }
 
-      .sensor-temperature:hover {
+      .sensor-temperature[clickable]:hover {
         opacity: 0.75;
       }
 
@@ -447,6 +450,7 @@ export class EquinoxMainCard extends LitElement {
         opacity: 0.75;
       }
 
+
       .sensor-humidity ha-icon {
         --mdc-icon-size: 18px;
         color: var(--equinox-muted-color);
@@ -468,10 +472,13 @@ export class EquinoxMainCard extends LitElement {
         gap: 8px;
         min-width: 66px;
         justify-content: center;
+      }
+
+      .condition[clickable] {
         cursor: pointer;
       }
 
-      .condition:hover {
+      .condition[clickable]:hover {
         opacity: 0.75;
       }
 
@@ -945,13 +952,18 @@ export class EquinoxMainCard extends LitElement {
   private _renderSensorFocus(): TemplateResult {
     const currentHumidity = this.viewModel?.climate.currentHumidity;
     const showHumidity = finite(currentHumidity);
+    const tempEntityId = this.viewModel?.climate.temperatureEntityId;
 
     return html`
       <div class="setpoint" sensor-focus>
         <div class="sensor-primary">
-          <span class="sensor-temperature" @click=${() => this._openMoreInfo(this.config!.entity)}>
+          <span
+            class="sensor-temperature"
+            ?clickable=${!!tempEntityId}
+            @click=${tempEntityId ? () => this._openMoreInfo(tempEntityId) : nothing}
+          >
             <ha-icon icon="mdi:thermometer"></ha-icon>
-            <span>${this._formatTemperatureValue(this.viewModel?.climate.currentTemperature)}</span>
+            <span>${this._formatCurrentTempValue()}</span>
             <span class="sensor-unit">°</span>
           </span>
           ${showHumidity
@@ -1021,16 +1033,22 @@ export class EquinoxMainCard extends LitElement {
     const currentHumidity = this.viewModel?.climate.currentHumidity;
     const showHumidity = finite(currentHumidity);
 
+    const tempEntityId = this.viewModel?.climate.temperatureEntityId;
+
     return html`
       <div class="conditions">
-        <span class="condition" @click=${() => this._openMoreInfo(this.config!.entity)}>
+        <span
+          class="condition"
+          ?clickable=${!!tempEntityId}
+          @click=${tempEntityId ? () => this._openMoreInfo(tempEntityId) : nothing}
+        >
           <ha-icon icon="mdi:thermometer"></ha-icon>
-          <span class="condition-value" kind="temperature">${this._formatTemperature(this.viewModel?.climate.currentTemperature)}</span>
+          <span class="condition-value" kind="temperature">${this._formatCurrentTemp()}</span>
         </span>
         ${showHumidity
         ? html`
             <span class="divider"></span>
-            <span class="condition" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
+            <span class="condition" clickable @click=${() => this._openMoreInfo(this._humidityEntityId())}>
               <ha-icon icon="mdi:water-percent"></ha-icon>
               <span class="condition-value" kind="humidity">${this._formatPercent(currentHumidity)}</span>
             </span>
@@ -1400,6 +1418,26 @@ export class EquinoxMainCard extends LitElement {
 
   private _formatTemperatureValue(value?: number): string {
     return finite(value) ? this._formatNumber(value) : "--.-";
+  }
+
+  private _formatCurrentTemp(): string {
+    const value = this.viewModel?.climate.currentTemperature;
+    const decimals = this.viewModel?.climate.currentTemperatureDecimals;
+    if (!finite(value)) return "--.-°";
+    if (decimals !== undefined) {
+      return new Intl.NumberFormat(this._language(), { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value) + "°";
+    }
+    return `${this._formatNumber(value)}°`;
+  }
+
+  private _formatCurrentTempValue(): string {
+    const value = this.viewModel?.climate.currentTemperature;
+    const decimals = this.viewModel?.climate.currentTemperatureDecimals;
+    if (!finite(value)) return "--.-";
+    if (decimals !== undefined) {
+      return new Intl.NumberFormat(this._language(), { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value);
+    }
+    return this._formatNumber(value);
   }
 
   private _formatPercent(value?: number): string {

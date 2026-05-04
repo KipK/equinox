@@ -77,6 +77,14 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       },
       {
+        name: "temperature_entity",
+        selector: {
+          entity: {
+            domain: ["sensor"]
+          }
+        }
+      },
+      {
         name: "theme",
         selector: {
           select: {

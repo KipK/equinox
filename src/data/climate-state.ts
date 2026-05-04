@@ -31,12 +31,40 @@ function getHumidity(config: EquinoxCardConfig, hass: HomeAssistant, attributes:
   );
 }
 
+function getTemperatureFromEntity(
+  config: EquinoxCardConfig,
+  hass: HomeAssistant
+): { value: number; decimals: number; entityId: string } | undefined {
+  if (!config.temperature_entity) {
+    return undefined;
+  }
+
+  const entity = hass.states[config.temperature_entity];
+  const stateStr = entity?.state;
+
+  if (!stateStr || isUnavailableState(stateStr)) {
+    return undefined;
+  }
+
+  const value = parseFloat(stateStr);
+
+  if (!Number.isFinite(value)) {
+    return undefined;
+  }
+
+  const dotIndex = stateStr.indexOf(".");
+  const decimals = dotIndex >= 0 ? stateStr.length - dotIndex - 1 : 0;
+
+  return { value, decimals, entityId: config.temperature_entity };
+}
+
 export function buildClimateViewModel(
   config: EquinoxCardConfig,
   hass: HomeAssistant,
   entity: HassEntity
 ): EquinoxClimateViewModel {
   const attributes = entity.attributes;
+  const tempFromEntity = getTemperatureFromEntity(config, hass);
 
   const hvacMode = firstDefined(
     isUnavailableState(entity.state) ? undefined : entity.state,
@@ -62,7 +90,9 @@ export function buildClimateViewModel(
       asNumber(attributes.temperature),
       asNumber(readPath(attributes, ["current_state", "target_temperature"]))
     ),
-    currentTemperature: asNumber(attributes.current_temperature),
+    currentTemperature: tempFromEntity?.value ?? asNumber(attributes.current_temperature),
+    currentTemperatureDecimals: tempFromEntity?.decimals,
+    temperatureEntityId: tempFromEntity?.entityId,
     currentHumidity: getHumidity(config, hass, attributes),
     hvacModes: asStringArray(attributes.hvac_modes),
     presetModes: asStringArray(attributes.preset_modes),
