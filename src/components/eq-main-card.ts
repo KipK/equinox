@@ -302,24 +302,18 @@ export class EquinoxMainCard extends LitElement {
         width: clamp(30px, 9cqi, 40px);
         height: clamp(30px, 9cqi, 40px);
         flex-shrink: 0;
-        border: 1px solid var(--equinox-border-color);
-        border-radius: 50%;
-        background: var(--equinox-control-bg);
-        box-shadow: 0 1px 3px rgb(0 0 0 / 18%);
-        color: var(--equinox-text-color);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
+        --control-button-border-radius: 50%;
+        --control-button-padding: 0;
+        --control-button-background-color: var(--equinox-control-bg);
+        --control-button-background-opacity: 1;
+        --control-button-focus-color: var(--primary-color);
+        --control-button-icon-color: var(--equinox-text-color);
+        --mdc-icon-size: 24px;
+        filter: drop-shadow(0 1px 3px rgb(0 0 0 / 18%));
       }
 
-      .step:hover:not(:disabled) {
-        background: color-mix(in srgb, var(--equinox-control-bg) 82%, var(--equinox-text-color) 18%);
-      }
-
-      .step:disabled {
-        cursor: default;
-        opacity: 0.45;
+      .step:hover:not([disabled]) {
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 82%, var(--equinox-text-color) 18%);
       }
 
       .setpoint-control {
@@ -1096,15 +1090,14 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="setpoint-control" ?compact=${compact}>
-        <button
+        <ha-control-button
           class="step"
-          title=${localize(this._language(), "main.actions.decrease_temperature")}
-          aria-label=${localize(this._language(), "main.actions.decrease_temperature")}
+          .label=${localize(this._language(), "main.actions.decrease_temperature")}
           ?disabled=${disabled}
           @click=${() => this._changeTemperature(-1)}
         >
           <ha-icon icon="mdi:minus"></ha-icon>
-        </button>
+        </ha-control-button>
         <div class="target" mode=${this._targetTone()} ?compact=${compact}>
           <span class="setpoint-unit" aria-hidden="true" style="visibility: hidden">°</span>
           <input
@@ -1121,15 +1114,14 @@ export class EquinoxMainCard extends LitElement {
           >
           <span class="setpoint-unit">°</span>
         </div>
-        <button
+        <ha-control-button
           class="step"
-          title=${localize(this._language(), "main.actions.increase_temperature")}
-          aria-label=${localize(this._language(), "main.actions.increase_temperature")}
+          .label=${localize(this._language(), "main.actions.increase_temperature")}
           ?disabled=${disabled}
           @click=${() => this._changeTemperature(1)}
         >
           <ha-icon icon="mdi:plus"></ha-icon>
-        </button>
+        </ha-control-button>
       </div>
     `;
   }
