@@ -8,7 +8,6 @@ import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxVtMessage } from "../types/vt";
 import type { EquinoxViewModel } from "../types/view-model";
-import "./eq-icon-button";
 import "./eq-fan-dialog";
 import "./eq-hvac-dialog";
 import "./eq-preset-dialog";
@@ -515,13 +514,23 @@ export class EquinoxMainCard extends LitElement {
         min-height: 45px;
       }
 
-      .segments eq-icon-button {
-        display: flex;
+      .segments ha-control-button,
+      .compact-selectors ha-control-button {
+        display: block;
         min-width: 0;
+        width: 100%;
+        height: 45px;
+        --control-button-border-radius: var(--equinox-control-radius);
+        --control-button-background-color: transparent;
+        --control-button-background-opacity: 0;
+        --control-button-focus-color: var(--primary-color);
+        --control-button-icon-color: var(--equinox-muted-color);
       }
 
-      .segments eq-icon-button::part(button) {
-        border-radius: 0;
+      .segments ha-control-button {
+        height: 100%;
+        --control-button-border-radius: 0;
+        --control-button-padding: 0;
       }
 
       .compact-selectors {
@@ -530,13 +539,83 @@ export class EquinoxMainCard extends LitElement {
         min-height: 45px;
       }
 
-      .compact-selectors eq-icon-button {
+      .compact-selectors ha-control-button {
         flex: 1;
         min-width: 0;
       }
 
-      .compact-selectors eq-icon-button.fan-selector::part(button) {
-        color: var(--equinox-text-color);
+      ha-control-button:hover:not([disabled]) {
+        --control-button-icon-color: var(--equinox-text-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 82%, var(--equinox-text-color) 18%);
+        --control-button-background-opacity: 1;
+      }
+
+      ha-control-button[active] {
+        --control-button-icon-color: var(--equinox-text-color);
+        --control-button-background-color: var(--equinox-control-active-bg);
+        --control-button-background-opacity: 1;
+      }
+
+      ha-control-button[active][subtle] {
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 74%, var(--equinox-text-color) 10%);
+      }
+
+      ha-control-button[tone="heat"]:not([active]) {
+        --control-button-icon-color: var(--equinox-heat-color);
+      }
+
+      ha-control-button[tone="cool"]:not([active]) {
+        --control-button-icon-color: var(--equinox-cool-color);
+      }
+
+      ha-control-button[tone="auto"]:not([active]) {
+        --control-button-icon-color: var(--equinox-auto-color);
+      }
+
+      ha-control-button[tone="boost"]:not([active]) {
+        --control-button-icon-color: var(--equinox-boost-color);
+      }
+
+      ha-control-button[tone="cool-boost"]:not([active]) {
+        --control-button-icon-color: var(--equinox-cool-boost-color);
+      }
+
+      ha-control-button[tone="off"]:not([active]) {
+        --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
+      }
+
+      ha-control-button[tone="heat"][active][subtle] {
+        --control-button-icon-color: var(--equinox-heat-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-color) 22%);
+      }
+
+      ha-control-button[tone="cool"][active][subtle] {
+        --control-button-icon-color: var(--equinox-cool-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-color) 22%);
+      }
+
+      ha-control-button[tone="auto"][active][subtle] {
+        --control-button-icon-color: var(--equinox-auto-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+      }
+
+      ha-control-button[tone="boost"][active][subtle] {
+        --control-button-icon-color: var(--equinox-boost-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-boost-color) 22%);
+      }
+
+      ha-control-button[tone="cool-boost"][active][subtle] {
+        --control-button-icon-color: var(--equinox-cool-boost-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-boost-color) 22%);
+      }
+
+      ha-control-button[tone="off"][active][subtle] {
+        --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--disabled-text-color, var(--equinox-muted-color)) 22%);
+      }
+
+      .compact-selectors ha-control-button.fan-selector {
+        --control-button-icon-color: var(--equinox-text-color);
       }
 
       .bottom {
@@ -1105,15 +1184,16 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderHvacButton(mode: string): TemplateResult {
     return html`
-      <eq-icon-button
-        .icon=${HVAC_ICONS[mode]}
+      <ha-control-button
         .label=${this._hvacLabel(mode)}
-        .tone=${this._modeTone(mode)}
+        tone=${this._modeTone(mode)}
         ?active=${this.viewModel?.climate.hvacMode === mode}
         ?subtle=${true}
         ?disabled=${this._isControlDisabled()}
         @click=${() => this._setHvacMode(mode)}
-      ></eq-icon-button>
+      >
+        <ha-icon .icon=${HVAC_ICONS[mode]}></ha-icon>
+      </ha-control-button>
     `;
   }
 
@@ -1131,15 +1211,16 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderPresetButton(preset: string): TemplateResult {
     return html`
-      <eq-icon-button
-        .icon=${PRESET_ICONS[preset]}
+      <ha-control-button
         .label=${this._presetLabel(preset)}
-        .tone=${this._presetTone(preset)}
+        tone=${this._presetTone(preset)}
         ?active=${this.viewModel?.climate.presetMode === preset}
         ?subtle=${true}
         ?disabled=${this._isControlDisabled()}
         @click=${() => this._setPresetMode(preset)}
-      ></eq-icon-button>
+      >
+        <ha-icon .icon=${PRESET_ICONS[preset]}></ha-icon>
+      </ha-control-button>
     `;
   }
 
@@ -1178,37 +1259,40 @@ export class EquinoxMainCard extends LitElement {
       <div class="compact-selectors" style=${compactStyle}>
         ${showHvac
         ? html`
-              <eq-icon-button
-                .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}
+              <ha-control-button
                 .label=${currentHvacMode ? this._hvacLabel(currentHvacMode) : localize(this._language(), "dialog.hvac.title")}
-                .tone=${this._modeTone(currentHvacMode)}
+                tone=${this._modeTone(currentHvacMode)}
                 ?active=${currentHvacMode !== "off" && !!currentHvacMode}
                 ?subtle=${true}
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("hvac", event)}
-              ></eq-icon-button>
+              >
+                <ha-icon .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}></ha-icon>
+              </ha-control-button>
             `
         : nothing}
         ${showPreset
         ? html`
-              <eq-icon-button
-                .icon=${presetIcon}
+              <ha-control-button
                 .label=${preset && preset !== "none" ? this._presetLabel(preset) : localize(this._language(), "main.preset.none")}
-                .tone=${presetActive ? this._presetTone(preset!) : ""}
+                tone=${presetActive ? this._presetTone(preset!) : ""}
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("preset", event)}
-              ></eq-icon-button>
+              >
+                <ha-icon .icon=${presetIcon}></ha-icon>
+              </ha-control-button>
             `
         : nothing}
         ${showFan
         ? html`
-              <eq-icon-button
+              <ha-control-button
                 class="fan-selector"
-                .icon=${this._fanIcon()}
                 .label=${this._fanLabel()}
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("fan", event)}
-              ></eq-icon-button>
+              >
+                <ha-icon .icon=${this._fanIcon()}></ha-icon>
+              </ha-control-button>
             `
         : nothing}
       </div>
