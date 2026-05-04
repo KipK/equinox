@@ -5,7 +5,6 @@ import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HassEntity, HomeAssistant } from "../types/ha";
 
-const RANGE_HOURS = [1, 6, 24, 72, 168];
 const DEFAULT_RANGE_HOURS = 24;
 const CHART_WIDTH = 720;
 const PLOT_LEFT = 40;
@@ -133,7 +132,6 @@ export class EquinoxHistoryDialog extends LitElement {
     _loading: { state: true },
     _error: { state: true },
     _controlsCollapsed: { state: true },
-    _activeRangeHours: { state: true },
     _fullscreen: { state: true }
   };
 
@@ -201,7 +199,6 @@ export class EquinoxHistoryDialog extends LitElement {
       display: none;
     }
 
-    .range-btn,
     .entity-btn,
     .entity-trigger,
     .tree-btn,
@@ -219,20 +216,10 @@ export class EquinoxHistoryDialog extends LitElement {
       white-space: nowrap;
     }
 
-    .range-btn[active],
     .entity-btn[active],
     .entity-trigger[open] {
       background: var(--equinox-boost-color, var(--accent-color));
       color: #fff;
-    }
-
-    .range-btn:hover:not([active]) {
-      background: color-mix(in srgb, var(--equinox-control-bg, rgba(128, 128, 128, 0.14)) 50%, var(--equinox-boost-color, var(--accent-color)) 50%);
-      color: #fff;
-    }
-
-    .range-btn[active]:hover {
-      filter: brightness(1.1);
     }
 
     .main {
@@ -591,12 +578,6 @@ export class EquinoxHistoryDialog extends LitElement {
         width: 100%;
       }
 
-      .range-btn {
-        flex: 1;
-        min-width: 0;
-        padding: 0 4px;
-      }
-
       .entity-menu {
         position: fixed;
         left: 16px;
@@ -642,7 +623,6 @@ export class EquinoxHistoryDialog extends LitElement {
   private _loading = false;
   private _error = "";
   private _controlsCollapsed = true;
-  private _activeRangeHours: number | undefined = DEFAULT_RANGE_HOURS;
   private _fullscreen = false;
   private _entityPickerOpen = false;
   private _isMouseOutsideEntityPicker = false;
@@ -800,21 +780,10 @@ export class EquinoxHistoryDialog extends LitElement {
     this._fullscreen = !this._fullscreen;
   }
 
-  private _setRange(hours: number): void {
-    const end = new Date();
-    const start = new Date(end.getTime() - hours * 60 * 60 * 1000);
-
-    this._startDate = start;
-    this._endDate = end;
-    this._activeRangeHours = hours;
-    void this._loadHistory();
-  }
-
   private _onDateRangeChanged(event: CustomEvent): void {
     const { startDate, endDate } = event.detail as { startDate: Date; endDate: Date };
     this._startDate = startDate;
     this._endDate = endDate;
-    this._activeRangeHours = undefined;
     void this._loadHistory();
   }
 
@@ -1799,13 +1768,6 @@ export class EquinoxHistoryDialog extends LitElement {
             <div class="controls-panel" ?collapsed=${this._controlsCollapsed}>
               <div class="range-row">
                 ${this._renderEntityPicker()}
-                ${RANGE_HOURS.map(
-                  (hours) => html`
-                    <button class="range-btn" ?active=${this._activeRangeHours === hours} @click=${() => this._setRange(hours)}>
-                      ${hours < 24 ? `${hours}h` : `${hours / 24}j`}
-                    </button>
-                  `
-                )}
                 <ha-date-range-picker
                   .startDate=${this._startDate ?? new Date(Date.now() - DEFAULT_RANGE_HOURS * 3600000)}
                   .endDate=${this._endDate ?? new Date()}
