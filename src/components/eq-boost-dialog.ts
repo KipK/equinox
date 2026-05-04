@@ -29,8 +29,8 @@ export class EquinoxBoostDialog extends LitElement {
       min-height: 0;
       box-sizing: border-box;
       display: grid;
-      grid-template-rows: var(--boost-wheel-size) minmax(0, 1fr) minmax(34px, 40px);
-      align-content: stretch;
+      grid-template-rows: var(--boost-wheel-size) minmax(34px, 40px);
+      align-content: center;
       align-items: center;
       gap: clamp(5px, 1.4vh, 12px);
       justify-items: center;
