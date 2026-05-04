@@ -350,7 +350,7 @@ export class EquinoxMainCard extends LitElement {
         justify-content: center;
         font-size: clamp(24px, 9cqi, 38px);
         line-height: 1;
-        font-weight: 700;
+        font-weight: var(--ha-font-weight-normal, 400);
         color: var(--equinox-auto-color);
       }
 
@@ -399,7 +399,7 @@ export class EquinoxMainCard extends LitElement {
 
       .target[compact] {
         font-size: clamp(15px, 5cqi, 20px);
-        font-weight: 650;
+        font-weight: var(--ha-font-weight-medium, 500);
       }
 
       .sensor-primary {
@@ -415,7 +415,7 @@ export class EquinoxMainCard extends LitElement {
         gap: 6px;
         font-size: clamp(26px, 9.5cqi, 40px);
         line-height: 1;
-        font-weight: 450;
+        font-weight: var(--ha-font-weight-normal, 400);
         color: var(--equinox-text-color);
       }
 
@@ -443,7 +443,7 @@ export class EquinoxMainCard extends LitElement {
         color: var(--equinox-muted-color);
         font-size: clamp(14px, 5cqi, 20px);
         line-height: 1;
-        font-weight: 600;
+        font-weight: var(--ha-font-weight-normal, 400);
         cursor: pointer;
       }
 
@@ -464,7 +464,7 @@ export class EquinoxMainCard extends LitElement {
         gap: clamp(8px, 4cqi, 16px);
         color: var(--equinox-muted-color);
         font-size: clamp(14px, 5cqi, 20px);
-        font-weight: 600;
+        font-weight: var(--ha-font-weight-normal, 400);
       }
 
       .condition {
