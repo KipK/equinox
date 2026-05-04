@@ -424,6 +424,7 @@ export class EquinoxHistoryDialog extends LitElement {
     svg {
       width: 100%;
       display: block;
+      touch-action: pan-y;
     }
 
     .axis {
@@ -1023,8 +1024,6 @@ export class EquinoxHistoryDialog extends LitElement {
                 preserveAspectRatio="none"
                 @pointermove=${this._updateTooltip}
                 @pointerleave=${this._clearTooltip}
-                @touchstart=${this._updateTooltip}
-                @touchmove=${this._updateTooltip}
               >
                 <line class="axis" x1=${PLOT_LEFT} y1=${PLOT_TOP} x2=${PLOT_LEFT} y2=${chartData.plotBottom}></line>
                 <line class="axis" x1=${PLOT_LEFT} y1=${chartData.plotBottom} x2=${PLOT_RIGHT} y2=${chartData.plotBottom}></line>
@@ -1141,31 +1140,26 @@ export class EquinoxHistoryDialog extends LitElement {
     return bounds.start + ratio * (bounds.end - bounds.start);
   }
 
-  private _eventSvgPoint(event: PointerEvent | TouchEvent): { x: number; y: number } | undefined {
+  private _eventSvgPoint(event: PointerEvent): { x: number; y: number } | undefined {
     const svgElement = event.currentTarget instanceof SVGSVGElement ? event.currentTarget : undefined;
-    const client = event instanceof TouchEvent ? event.touches[0] : event;
 
-    if (!svgElement || !client) {
+    if (!svgElement) {
       return undefined;
     }
 
     const rect = svgElement.getBoundingClientRect();
 
     return {
-      x: ((client.clientX - rect.left) / rect.width) * CHART_WIDTH,
-      y: ((client.clientY - rect.top) / rect.height) * this._chartHeight()
+      x: ((event.clientX - rect.left) / rect.width) * CHART_WIDTH,
+      y: ((event.clientY - rect.top) / rect.height) * this._chartHeight()
     };
   }
 
-  private _updateTooltip(event: PointerEvent | TouchEvent): void {
+  private _updateTooltip(event: PointerEvent): void {
     const point = this._eventSvgPoint(event);
 
     if (!point) {
       return;
-    }
-
-    if (event instanceof TouchEvent) {
-      event.preventDefault();
     }
 
     this._pendingTooltipPoint = point;
