@@ -147,11 +147,16 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .selected-row {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       min-width: 0;
-      overflow-x: auto;
-      padding-bottom: 1px;
+    }
+
+    .selected-row ha-input-chip {
+      flex-shrink: 0;
+      --md-input-chip-container-height: 28px;
+      --md-input-chip-label-text-size: 12px;
     }
 
     .range-row {
@@ -187,10 +192,7 @@ export class EquinoxHistoryDialog extends LitElement {
       display: none;
     }
 
-    .entity-btn,
-    .entity-trigger,
-    .tree-btn,
-    .chip {
+    .entity-trigger {
       border: 0;
       border-radius: var(--equinox-control-radius, 8px);
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
@@ -203,10 +205,45 @@ export class EquinoxHistoryDialog extends LitElement {
       white-space: nowrap;
     }
 
-    .entity-btn[active],
     .entity-trigger[open] {
       background: var(--equinox-boost-color, var(--accent-color));
       color: #fff;
+    }
+
+    ha-input-chip {
+      --md-input-chip-container-shape: 16px;
+      --md-input-chip-label-text-font: Roboto, sans-serif;
+      --md-input-chip-label-text-size: 13px;
+      --md-sys-color-primary: var(--equinox-text-color, var(--primary-text-color));
+      --md-sys-color-on-surface: var(--equinox-text-color, var(--primary-text-color));
+      --md-sys-color-on-surface-variant: var(--equinox-text-color, var(--primary-text-color));
+      --md-sys-color-on-secondary-container: var(--equinox-text-color, var(--primary-text-color));
+      --md-input-chip-outline-color: var(--equinox-border-color, var(--divider-color));
+      --md-input-chip-selected-container-color: rgba(var(--rgb-primary-text-color), 0.15);
+      --ha-input-chip-selected-container-opacity: 1;
+    }
+
+    ha-input-chip[active] {
+      --md-input-chip-selected-container-color: color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 88%, transparent);
+      --md-sys-color-primary: var(--equinox-boost-color, var(--accent-color));
+      --md-sys-color-on-surface: var(--equinox-boost-color, var(--accent-color));
+      --md-sys-color-on-surface-variant: var(--equinox-boost-color, var(--accent-color));
+      --md-sys-color-on-secondary-container: var(--equinox-boost-color, var(--accent-color));
+    }
+
+    .default-chip {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      border: 1px solid var(--equinox-border-color, var(--divider-color));
+      border-radius: 16px;
+      background: transparent;
+      color: var(--equinox-text-color, var(--primary-text-color));
+      font-size: 12px;
+      font-family: Roboto, sans-serif;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .main {
@@ -325,31 +362,6 @@ export class EquinoxHistoryDialog extends LitElement {
       padding: 0;
       font: inherit;
       cursor: pointer;
-    }
-
-    .tree {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .tree-btn {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 22px minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 6px;
-      text-align: left;
-    }
-
-    .tree-label {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .tree-type {
-      color: var(--equinox-muted-color, var(--secondary-text-color));
-      font-size: 11px;
     }
 
     .chart-panel {
@@ -521,14 +533,24 @@ export class EquinoxHistoryDialog extends LitElement {
       box-sizing: border-box;
     }
 
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .tree-list ha-md-list-item {
+      border-radius: var(--equinox-control-radius, 8px);
+      --md-list-item-container-color: transparent;
+      --md-list-item-label-text-size: 13px;
+      --md-list-item-label-text-color: var(--equinox-text-color, var(--primary-text-color));
+      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
+      --md-list-item-hover-state-layer-opacity: 0.08;
+      --ha-md-list-item-gap: 8px;
     }
 
-    .chip ha-icon {
-      --mdc-icon-size: 16px;
+    .tree-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tree-type {
+      color: var(--equinox-muted-color, var(--secondary-text-color));
+      font-size: 11px;
     }
 
     .empty,
@@ -695,6 +717,18 @@ export class EquinoxHistoryDialog extends LitElement {
     return sources;
   }
 
+  private _isDefaultSource(source: HistorySource): boolean {
+    const climateEntityId = this.config?.entity;
+
+    if (!climateEntityId || source.entityId !== climateEntityId || source.kind !== "entity_attribute") {
+      return false;
+    }
+
+    const path = source.path?.join(".");
+
+    return path === "current_temperature" || path === "temperature" || path === "hvac_action";
+  }
+
   private _selectedEntity(): HassEntity | undefined {
     return this._selectedEntityId && this.hass ? this.hass.states[this._selectedEntityId] : undefined;
   }
@@ -814,8 +848,14 @@ export class EquinoxHistoryDialog extends LitElement {
   }
 
   private _removeSource(sourceId: string): void {
-    this._selectedSources = this._selectedSources.filter((source) => source.id !== sourceId);
-    this._hiddenSourceIds = this._hiddenSourceIds.filter((hiddenSourceId) => hiddenSourceId !== sourceId);
+    const source = this._selectedSources.find((s) => s.id === sourceId);
+
+    if (!source || this._isDefaultSource(source)) {
+      return;
+    }
+
+    this._selectedSources = this._selectedSources.filter((s) => s.id !== sourceId);
+    this._hiddenSourceIds = this._hiddenSourceIds.filter((hs) => hs !== sourceId);
     void this._loadHistory();
   }
 
@@ -887,13 +927,12 @@ export class EquinoxHistoryDialog extends LitElement {
           <div class="entity-list">
             ${entities.map(
               (entity) => html`
-                <button
-                  class="entity-btn"
-                  ?active=${entity.entity_id === this._selectedEntityId}
+                <ha-input-chip
+                  .label=${this._entityLabel(entity)}
+                  ?selected=${entity.entity_id === this._selectedEntityId}
+                  class=${entity.entity_id === this._selectedEntityId ? "active" : ""}
                   @click=${() => this._selectEntity(entity.entity_id)}
-                >
-                  ${this._entityLabel(entity)}
-                </button>
+                ></ha-input-chip>
               `
             )}
           </div>
@@ -923,18 +962,17 @@ export class EquinoxHistoryDialog extends LitElement {
           `
         )}
       </div>
-      <div class="tree">
+      <ha-md-list class="tree-list">
         ${this._path.length > 0
           ? html`
-              <button class="tree-btn" @click=${() => { this._path = this._path.slice(0, -1); }}>
-                <ha-icon icon="mdi:arrow-left"></ha-icon>
-                <span class="tree-label">${localize(this.language, "dialog.back")}</span>
-                <span></span>
-              </button>
+              <ha-md-list-item type="button" @click=${() => { this._path = this._path.slice(0, -1); }}>
+                <ha-icon slot="start" icon="mdi:arrow-left"></ha-icon>
+                <span>${localize(this.language, "dialog.back")}</span>
+              </ha-md-list-item>
             `
           : this._renderStateEntry(entity)}
         ${entries.map(([key, value]) => this._renderTreeEntry(entity, key, value))}
-      </div>
+      </ha-md-list>
     `;
   }
 
@@ -946,22 +984,22 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     return html`
-      <button class="tree-btn" @click=${() => this._addSource(source)}>
-        <ha-icon icon="mdi:chart-line"></ha-icon>
-        <span class="tree-label">state</span>
-        <span class="tree-type">${source.valueType}</span>
-      </button>
+      <ha-md-list-item type="button" @click=${() => this._addSource(source)}>
+        <ha-icon slot="start" icon="mdi:chart-line"></ha-icon>
+        <span>state</span>
+        <span class="tree-type" slot="end">${source.valueType}</span>
+      </ha-md-list-item>
     `;
   }
 
   private _renderTreeEntry(entity: HassEntity, key: string, value: unknown): TemplateResult | typeof nothing {
     if (isRecord(value)) {
       return html`
-        <button class="tree-btn" @click=${() => { this._path = [...this._path, key]; }}>
-          <ha-icon icon="mdi:folder-outline"></ha-icon>
-          <span class="tree-label">${key}</span>
-          <ha-icon icon="mdi:chevron-right"></ha-icon>
-        </button>
+        <ha-md-list-item type="button" @click=${() => { this._path = [...this._path, key]; }}>
+          <ha-icon slot="start" icon="mdi:folder-outline"></ha-icon>
+          <span>${key}</span>
+          <ha-icon slot="end" icon="mdi:chevron-right"></ha-icon>
+        </ha-md-list-item>
       `;
     }
 
@@ -974,11 +1012,11 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     return html`
-      <button class="tree-btn" @click=${() => this._addSource(source)}>
-        <ha-icon icon=${type === "number" ? "mdi:chart-line" : "mdi:timeline-text-outline"}></ha-icon>
-        <span class="tree-label">${key}</span>
-        <span class="tree-type">${type}</span>
-      </button>
+      <ha-md-list-item type="button" @click=${() => this._addSource(source)}>
+        <ha-icon slot="start" icon=${type === "number" ? "mdi:chart-line" : "mdi:timeline-text-outline"}></ha-icon>
+        <span>${key}</span>
+        <span class="tree-type" slot="end">${type}</span>
+      </ha-md-list-item>
     `;
   }
 
@@ -986,12 +1024,20 @@ export class EquinoxHistoryDialog extends LitElement {
     return html`
       <div class="selected-row">
         ${this._selectedSources.map(
-          (source) => html`
-            <button class="chip" @click=${() => this._removeSource(source.id)}>
-              <span>${source.label}</span>
-              <ha-icon icon="mdi:close"></ha-icon>
-            </button>
-          `
+          (source) => {
+            const isDefault = this._isDefaultSource(source);
+
+            if (isDefault) {
+              return html`<span class="default-chip">${source.label}</span>`;
+            }
+
+            return html`
+              <ha-input-chip
+                .label=${source.label}
+                @remove=${(e: Event) => { e.preventDefault(); this._removeSource(source.id); }}
+              ></ha-input-chip>
+            `;
+          }
         )}
       </div>
     `;

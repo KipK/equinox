@@ -9,7 +9,8 @@ const HA_COMPONENTS = [
   "ha-control-button",
   "ha-icon-button",
   "ha-md-list",
-  "ha-md-list-item"
+  "ha-md-list-item",
+  "ha-input-chip"
 ];
 
 let loadPromise: Promise<void> | undefined;
