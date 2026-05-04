@@ -131,22 +131,10 @@ export class EquinoxDialog extends LitElement {
 
     .back-btn,
     .close-btn {
-      width: 32px;
-      height: 28px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 50%;
-      background: transparent;
+      --ha-icon-button-size: 32px;
+      --ha-icon-button-padding-inline: 4px;
       color: var(--primary-text-color);
-      cursor: pointer;
       flex-shrink: 0;
-    }
-
-    .back-btn:hover,
-    .close-btn:hover {
-      background: rgba(128, 128, 128, 0.15);
     }
 
     .content {
@@ -273,15 +261,15 @@ export class EquinoxDialog extends LitElement {
         <div class="header">
           ${this.showBack
             ? html`
-                <button class="back-btn" aria-label=${backLabel} title=${backLabel} @click=${this._dispatchBack}>
+                <ha-icon-button class="back-btn" .label=${backLabel} @click=${this._dispatchBack}>
                   <ha-icon icon="mdi:chevron-left"></ha-icon>
-                </button>
+                </ha-icon-button>
               `
             : nothing}
           <span class="header-title">${this.title}</span>
-          <button class="close-btn" aria-label=${closeLabel} title=${closeLabel} @click=${this._dispatchClose}>
+          <ha-icon-button class="close-btn" .label=${closeLabel} @click=${this._dispatchClose}>
             <ha-icon icon="mdi:close"></ha-icon>
-          </button>
+          </ha-icon-button>
         </div>
         <div class="content">
           <slot></slot>

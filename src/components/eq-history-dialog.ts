@@ -164,20 +164,9 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     .dialog-fullscreen-btn {
-      width: 40px;
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 50%;
-      background: transparent;
+      --ha-icon-button-size: 40px;
+      --ha-icon-button-padding-inline: 6px;
       color: var(--primary-text-color);
-      cursor: pointer;
-    }
-
-    .dialog-fullscreen-btn:hover {
-      background: rgba(128, 128, 128, 0.15);
     }
 
     .controls-shell {
@@ -201,8 +190,7 @@ export class EquinoxHistoryDialog extends LitElement {
     .entity-btn,
     .entity-trigger,
     .tree-btn,
-    .chip,
-    .menu-close {
+    .chip {
       border: 0;
       border-radius: var(--equinox-control-radius, 8px);
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.14));
@@ -315,15 +303,9 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .menu-close {
       display: none;
-      width: 30px;
-      min-width: 30px;
-      padding: 0;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .menu-close ha-icon {
-      --mdc-icon-size: 18px;
+      --ha-icon-button-size: 30px;
+      --ha-icon-button-padding-inline: 4px;
+      color: var(--equinox-text-color, var(--primary-text-color));
     }
 
     .breadcrumb {
@@ -894,14 +876,13 @@ export class EquinoxHistoryDialog extends LitElement {
               @focusin=${this._onEntityPickerOpened}
               @focusout=${this._onEntityPickerFocusOut}
             ></ha-entity-picker>
-            <button
+            <ha-icon-button
               class="menu-close"
-              aria-label=${localize(this.language, "dialog.close")}
-              title=${localize(this.language, "dialog.close")}
+              .label=${localize(this.language, "dialog.close")}
               @click=${this._closeAttributeMenu}
             >
               <ha-icon icon="mdi:close"></ha-icon>
-            </button>
+            </ha-icon-button>
           </div>
           <div class="entity-list">
             ${entities.map(
@@ -1753,24 +1734,22 @@ export class EquinoxHistoryDialog extends LitElement {
         ?fullscreen=${this._fullscreen}
         @closed=${this._dispatchClose}
       >
-        <button
+        <ha-icon-button
           slot="headerActionItems"
           class="dialog-fullscreen-btn"
-          aria-label=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
-          title=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
+          .label=${localize(this.language, this._controlsCollapsed ? "dialog.history.show_controls" : "dialog.history.hide_controls")}
           @click=${this._toggleControls}
         >
           <ha-icon icon=${this._controlsCollapsed ? "mdi:chevron-down" : "mdi:chevron-up"}></ha-icon>
-        </button>
-        <button
+        </ha-icon-button>
+        <ha-icon-button
           slot="headerActionItems"
           class="dialog-fullscreen-btn dialog-fs-toggle"
-          aria-label=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
-          title=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
+          .label=${localize(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
           @click=${this._toggleFullscreen}
         >
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
-        </button>
+        </ha-icon-button>
         <div class="history-body">
           <div class="controls-shell">
             <div class="controls-panel" ?collapsed=${this._controlsCollapsed}>
