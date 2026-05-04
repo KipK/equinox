@@ -143,7 +143,6 @@ export class EquinoxHistoryDialog extends LitElement {
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
       gap: 10px;
-      overflow: hidden;
     }
 
     .selected-row {
@@ -273,7 +272,9 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     .entity-menu {
-      position: fixed;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
       display: none;
       width: min(420px, calc(100vw - 48px));
       max-height: min(56vh, 420px);
@@ -578,6 +579,11 @@ export class EquinoxHistoryDialog extends LitElement {
       }
 
       .entity-menu {
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        top: auto;
+        width: auto;
         max-height: min(64vh, 420px);
       }
 
@@ -646,19 +652,11 @@ export class EquinoxHistoryDialog extends LitElement {
   }
 
   private _positionEntityMenu(): void {
+    if (window.innerWidth > 600) return;
     const trigger = this.renderRoot?.querySelector(".entity-trigger") as HTMLElement | null;
     const menu = this.renderRoot?.querySelector(".entity-menu") as HTMLElement | null;
     if (!trigger || !menu) return;
-    const rect = trigger.getBoundingClientRect();
-    menu.style.top = `${rect.bottom + 6}px`;
-    if (window.innerWidth <= 600) {
-      menu.style.left = "16px";
-      menu.style.right = "16px";
-      menu.style.width = "";
-    } else {
-      menu.style.left = `${rect.left}px`;
-      menu.style.right = "auto";
-    }
+    menu.style.top = `${trigger.getBoundingClientRect().bottom + 6}px`;
   }
 
   private _ensureInitialState(): void {
