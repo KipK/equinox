@@ -1,4 +1,4 @@
-import { LitElement, css, html, type TemplateResult } from "lit";
+import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
@@ -42,9 +42,17 @@ export class EquinoxHistoryDialog extends LitElement {
     this._fullscreen = !this._fullscreen;
   }
 
+  private _configCacheKey = "";
+  private _configCache?: BetterHistoryConfig;
+
   private _betterHistoryConfig(): BetterHistoryConfig {
     const climateEntityId = this.config?.entity;
     const lang = this.language ?? this.hass?.locale?.language;
+    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${this.config?.diagnostic_entity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}`;
+
+    if (key === this._configCacheKey && this._configCache) return this._configCache;
+
+    this._configCacheKey = key;
 
     const defaultEntities: string[] = [
       climateEntityId,
@@ -53,7 +61,7 @@ export class EquinoxHistoryDialog extends LitElement {
       this.config?.humidity_entity
     ].filter((id): id is string => typeof id === "string" && id !== "");
 
-    return {
+    this._configCache = {
       showDatePicker: true,
       showEntityPicker: true,
       showLegend: true,
@@ -84,6 +92,8 @@ export class EquinoxHistoryDialog extends LitElement {
           ]
         : []
     };
+
+    return this._configCache;
   }
 
   protected render(): TemplateResult {
@@ -107,11 +117,13 @@ export class EquinoxHistoryDialog extends LitElement {
         >
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
         </ha-icon-button>
-        <ha-better-history
-          .hass=${this.hass}
-          .config=${this._betterHistoryConfig()}
-          .language=${this.language}
-        ></ha-better-history>
+        ${this.open
+          ? html`<ha-better-history
+              .hass=${this.hass}
+              .config=${this._betterHistoryConfig()}
+              .language=${this.language}
+            ></ha-better-history>`
+          : nothing}
       </ha-dialog>
     `;
   }
