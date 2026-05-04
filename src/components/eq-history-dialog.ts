@@ -272,12 +272,12 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     .entity-menu {
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0;
+      position: fixed;
+      top: -9999px;
+      left: -9999px;
       display: none;
       width: min(420px, calc(100vw - 48px));
-      max-height: min(56vh, 420px);
+      max-height: 420px;
       padding: 8px;
       overflow: hidden;
       border: 1px solid var(--equinox-border-color, var(--divider-color));
@@ -579,15 +579,6 @@ export class EquinoxHistoryDialog extends LitElement {
         width: 100%;
       }
 
-      .entity-menu {
-        position: fixed;
-        left: 16px;
-        right: 16px;
-        top: auto;
-        width: auto;
-        max-height: min(64vh, 420px);
-      }
-
       .menu-close {
         display: inline-flex;
       }
@@ -653,11 +644,34 @@ export class EquinoxHistoryDialog extends LitElement {
   }
 
   private _positionEntityMenu(): void {
-    if (window.innerWidth > 600) return;
     const trigger = this.renderRoot?.querySelector(".entity-trigger") as HTMLElement | null;
     const menu = this.renderRoot?.querySelector(".entity-menu") as HTMLElement | null;
     if (!trigger || !menu) return;
-    menu.style.top = `${trigger.getBoundingClientRect().bottom + 6}px`;
+
+    // When an ancestor has a CSS transform, position:fixed is contained by that
+    // ancestor rather than the viewport. To correct for this, we probe where
+    // top:0 / left:0 actually lands in the viewport — that offset IS the
+    // transform ancestor's position — then subtract it from our target coords.
+    menu.style.top = "0";
+    menu.style.left = "0";
+    menu.style.right = "";
+    menu.style.width = "";
+    const originRect = menu.getBoundingClientRect(); // forces layout, reads true viewport pos
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const body = this.renderRoot?.querySelector(".history-body") as HTMLElement | null;
+    const bottomLimit = (body?.getBoundingClientRect().bottom ?? window.innerHeight) - 8;
+    const available = bottomLimit - triggerRect.bottom - 8;
+
+    menu.style.maxHeight = `${Math.min(Math.max(available, 120), 420)}px`;
+    menu.style.top = `${triggerRect.bottom - originRect.top + 6}px`;
+
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      menu.style.left = `${triggerRect.left - originRect.left}px`;
+    } else {
+      menu.style.left = `${16 - originRect.left}px`;
+      menu.style.width = "calc(100vw - 32px)";
+    }
   }
 
   private _ensureInitialState(): void {
@@ -726,7 +740,7 @@ export class EquinoxHistoryDialog extends LitElement {
   private _closeMenuTimer?: number;
 
   private _scheduleCloseMenuOnDesktop(): void {
-    if (window.innerWidth <= 600) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     this._isMouseOutsideEntityPicker = true;
     if (this._entityPickerOpen) return;
     this._closeMenuTimer = window.setTimeout(() => {
@@ -813,7 +827,7 @@ export class EquinoxHistoryDialog extends LitElement {
     }
 
     this._selectedSources = [...this._selectedSources, source];
-    this._attributeMenuOpen = window.innerWidth <= 600 ? false : this._attributeMenuOpen;
+    this._attributeMenuOpen = window.matchMedia("(hover: hover) and (pointer: fine)").matches ? this._attributeMenuOpen : false;
     void this._loadHistory();
   }
 
