@@ -641,6 +641,47 @@ export class EquinoxMainCard extends LitElement {
   private _dialogAnchor?: { element: HTMLElement };
   private _activeMessageKey?: string;
 
+  connectedCallback(): void {
+    super.connectedCallback();
+    document.addEventListener("pointermove", this._handlePointerMove);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("pointermove", this._handlePointerMove);
+  }
+
+  private readonly _handlePointerMove = (e: PointerEvent): void => {
+    if (this._activeDialog !== "menu" || e.pointerType === "touch") {
+      return;
+    }
+    const hostRect = this.getBoundingClientRect();
+    if (
+      e.clientX >= hostRect.left &&
+      e.clientX <= hostRect.right &&
+      e.clientY >= hostRect.top &&
+      e.clientY <= hostRect.bottom
+    ) {
+      return;
+    }
+    const panel = this.shadowRoot
+      ?.querySelector("eq-menu-dialog")
+      ?.shadowRoot?.querySelector("eq-dialog")
+      ?.shadowRoot?.querySelector(".panel");
+    if (panel) {
+      const panelRect = panel.getBoundingClientRect();
+      if (
+        e.clientX >= panelRect.left &&
+        e.clientX <= panelRect.right &&
+        e.clientY >= panelRect.top &&
+        e.clientY <= panelRect.bottom
+      ) {
+        return;
+      }
+    }
+    this._activeDialog = null;
+  };
+
   protected render() {
     if (!this.viewModel || !this.config) {
       return nothing;
@@ -692,6 +733,8 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
+        .floating=${true}
+        .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-regulation=${() => { this._activeDialog = null; }}
         @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
@@ -1159,13 +1202,13 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderMenuButton(): TemplateResult {
     return html`
-      <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${() => { this._activeDialog = 'menu'; }}>
+      <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${(event: Event) => this._openDialog("menu", event)}>
         <ha-icon icon="mdi:dots-vertical"></ha-icon>
       </button>
     `;
   }
 
-  private _openDialog(dialog: "fan" | "hvac" | "preset", event: Event): void {
+  private _openDialog(dialog: "fan" | "hvac" | "preset" | "menu", event: Event): void {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
 
     if (target) {
