@@ -661,12 +661,30 @@ export class EquinoxMainCard extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     document.addEventListener("pointermove", this._handlePointerMove);
+    document.addEventListener("pointerdown", this._handleOutsidePointerDown);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
     document.removeEventListener("pointermove", this._handlePointerMove);
+    document.removeEventListener("pointerdown", this._handleOutsidePointerDown);
   }
+
+  private readonly _handleOutsidePointerDown = (e: PointerEvent): void => {
+    if (this._activeDialog !== "boost") {
+      return;
+    }
+    const hostRect = this.getBoundingClientRect();
+    if (
+      e.clientX >= hostRect.left &&
+      e.clientX <= hostRect.right &&
+      e.clientY >= hostRect.top &&
+      e.clientY <= hostRect.bottom
+    ) {
+      return;
+    }
+    this._activeDialog = null;
+  };
 
   private readonly _handlePointerMove = (e: PointerEvent): void => {
     if (this._activeDialog !== "menu" || e.pointerType === "touch") {
