@@ -119,6 +119,7 @@ export class EquinoxMainCard extends LitElement {
       :host {
         display: block;
         position: relative;
+        container-type: inline-size;
       }
 
       ha-card {
@@ -143,7 +144,7 @@ export class EquinoxMainCard extends LitElement {
         align-items: center;
         gap: 8px;
         min-height: 20px;
-        font-size: var(--ha-card-header-font-size, 16px);
+        font-size: clamp(13px, 4.2cqi, var(--ha-card-header-font-size, 16px));
         font-weight: var(--ha-card-header-font-weight, 500);
         line-height: var(--ha-card-header-line-height, 20px);
       }
@@ -288,7 +289,7 @@ export class EquinoxMainCard extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 18px;
+        gap: clamp(10px, 4cqi, 18px);
         margin-top: 2px;
       }
 
@@ -299,8 +300,9 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .step {
-        width: 40px;
-        height: 40px;
+        width: clamp(30px, 9cqi, 40px);
+        height: clamp(30px, 9cqi, 40px);
+        flex-shrink: 0;
         border: 1px solid var(--equinox-border-color);
         border-radius: 50%;
         background: var(--equinox-control-bg);
@@ -325,16 +327,16 @@ export class EquinoxMainCard extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: clamp(5px, 2.5cqi, 10px);
       }
 
       .setpoint-control[compact] {
-        gap: 6px;
+        gap: clamp(4px, 1.8cqi, 6px);
       }
 
       .setpoint-control[compact] .step {
-        width: 30px;
-        height: 30px;
+        width: clamp(24px, 7cqi, 30px);
+        height: clamp(24px, 7cqi, 30px);
       }
 
       .setpoint-control[compact] .step ha-icon {
@@ -346,7 +348,7 @@ export class EquinoxMainCard extends LitElement {
         display: flex;
         align-items: baseline;
         justify-content: center;
-        font-size: 38px;
+        font-size: clamp(24px, 9cqi, 38px);
         line-height: 1;
         font-weight: 700;
         color: var(--equinox-auto-color);
@@ -396,7 +398,7 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .target[compact] {
-        font-size: 20px;
+        font-size: clamp(15px, 5cqi, 20px);
         font-weight: 650;
       }
 
@@ -404,15 +406,14 @@ export class EquinoxMainCard extends LitElement {
         display: inline-flex;
         align-items: baseline;
         justify-content: center;
-        gap: 12px;
-        min-height: 48px;
+        gap: clamp(6px, 3cqi, 12px);
       }
 
       .sensor-temperature {
         display: inline-flex;
         align-items: baseline;
         gap: 6px;
-        font-size: 40px;
+        font-size: clamp(26px, 9.5cqi, 40px);
         line-height: 1;
         font-weight: 450;
         color: var(--equinox-text-color);
@@ -440,7 +441,7 @@ export class EquinoxMainCard extends LitElement {
         align-items: baseline;
         gap: 5px;
         color: var(--equinox-muted-color);
-        font-size: 20px;
+        font-size: clamp(14px, 5cqi, 20px);
         line-height: 1;
         font-weight: 600;
         cursor: pointer;
@@ -460,9 +461,9 @@ export class EquinoxMainCard extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 16px;
+        gap: clamp(8px, 4cqi, 16px);
         color: var(--equinox-muted-color);
-        font-size: 20px;
+        font-size: clamp(14px, 5cqi, 20px);
         font-weight: 600;
       }
 
@@ -630,26 +631,20 @@ export class EquinoxMainCard extends LitElement {
           gap: 10px;
         }
 
-        .step {
-          width: 34px;
-          height: 34px;
-        }
-
-        .target {
-          font-size: 34px;
-        }
-
-        .target[compact] {
-          font-size: 19px;
-        }
-
-        .sensor-temperature {
-          font-size: 36px;
-        }
-
         .bottom {
           grid-template-columns: 38px minmax(0, 1fr) 28px;
           gap: 6px;
+        }
+      }
+
+      @container (max-width: 260px) {
+        .card {
+          padding: 10px 12px;
+          gap: 8px;
+        }
+
+        .name {
+          font-size: 13px;
         }
       }
     `
