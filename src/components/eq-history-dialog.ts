@@ -11,7 +11,8 @@ export class EquinoxHistoryDialog extends LitElement {
     hass: { attribute: false },
     config: { attribute: false },
     language: {},
-    _fullscreen: { state: true }
+    _fullscreen: { state: true },
+    _controlsVisible: { state: true }
   };
 
   static styles = css`
@@ -19,6 +20,11 @@ export class EquinoxHistoryDialog extends LitElement {
       --ha-icon-button-size: 40px;
       --ha-icon-button-padding-inline: 6px;
       color: var(--primary-text-color);
+    }
+
+    ha-better-history {
+      display: block;
+      --better-history-min-height: 60vh;
     }
 
     @media (max-width: 600px) {
@@ -33,6 +39,7 @@ export class EquinoxHistoryDialog extends LitElement {
   config?: EquinoxCardConfig;
   language?: string;
   private _fullscreen = false;
+  private _controlsVisible = true;
 
   private _dispatchClose(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
@@ -66,6 +73,7 @@ export class EquinoxHistoryDialog extends LitElement {
       showEntityPicker: true,
       showLegend: true,
       showTooltip: true,
+      height: "65vh",
       defaultEntities,
       series: climateEntityId
         ? [
@@ -108,6 +116,17 @@ export class EquinoxHistoryDialog extends LitElement {
       >
         <ha-icon-button
           slot="headerActionItems"
+          class="dialog-fullscreen-btn"
+          .label=${localize(
+            this.language,
+            this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls"
+          )}
+          @click=${() => { this._controlsVisible = !this._controlsVisible; }}
+        >
+          <ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
+        </ha-icon-button>
+        <ha-icon-button
+          slot="headerActionItems"
           class="dialog-fullscreen-btn dialog-fs-toggle"
           .label=${localize(
             this.language,
@@ -122,6 +141,7 @@ export class EquinoxHistoryDialog extends LitElement {
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
               .language=${this.language}
+              .showControls=${this._controlsVisible}
             ></ha-better-history>`
           : nothing}
       </ha-dialog>
