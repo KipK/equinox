@@ -64,15 +64,23 @@ export class EquinoxHistoryDialog extends LitElement {
       this.config?.temperature_entity
     ].filter((id): id is string => typeof id === "string" && id !== "");
 
+    const series: Array<{ entity: string; scaleGroup?: string }> = [];
+
+    if (climateEntityId) {
+      series.push({ entity: climateEntityId });
+    }
+
+    if (this.config?.temperature_entity) {
+      series.push({ entity: this.config.temperature_entity, scaleGroup: "temperature" });
+    }
+
     this._configCache = {
       showDatePicker: true,
       showEntityPicker: true,
       showLegend: true,
       showTooltip: true,
       defaultEntities,
-      series: climateEntityId
-        ? [{ entity: climateEntityId }]
-        : []
+      series
     };
 
     return this._configCache;
