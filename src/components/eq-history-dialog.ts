@@ -90,7 +90,7 @@ export class EquinoxHistoryDialog extends LitElement {
     return html`
       <ha-dialog
         .open=${this.open}
-        .headerTitle=${localize(this.language, "dialog.history.title")}
+        .headerTitle=${this.hass?.states[this.config?.entity ?? ""]?.attributes?.friendly_name ?? this.config?.entity ?? localize(this.language, "dialog.history.title")}
         width="large"
         flexcontent
         ?fullscreen=${this._fullscreen}

@@ -504,7 +504,6 @@ export class EquinoxMainCard extends LitElement {
         border: 1px solid var(--equinox-border-color);
         border-radius: var(--equinox-control-radius);
         overflow: hidden;
-        background: var(--equinox-panel-bg);
         min-height: 45px;
       }
 
@@ -606,6 +605,12 @@ export class EquinoxMainCard extends LitElement {
       ha-control-button[tone="off"][active][subtle] {
         --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
         --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--disabled-text-color, var(--equinox-muted-color)) 22%);
+      }
+
+      .compact-selectors ha-control-button:not(.fan-selector) {
+        border: 1px solid var(--equinox-border-color);
+        border-radius: var(--equinox-control-radius);
+        overflow: hidden;
       }
 
       .compact-selectors ha-control-button.fan-selector {
