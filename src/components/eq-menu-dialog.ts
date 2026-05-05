@@ -16,9 +16,12 @@ export class EquinoxMenuDialog extends LitElement {
 
   static styles = css`
     .menu-list {
-      min-width: 220px;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
       padding: 0;
       background: transparent;
+      box-sizing: border-box;
     }
 
     ha-md-list-item {

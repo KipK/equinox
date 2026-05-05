@@ -731,6 +731,22 @@ export class EquinoxMainCard extends LitElement {
   private _dialogAnchor?: { element: HTMLElement };
   private _activeMessageKey?: string;
 
+  connectedCallback(): void {
+    super.connectedCallback();
+    this.addEventListener("mouseleave", this._handleMouseLeave);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeEventListener("mouseleave", this._handleMouseLeave);
+  }
+
+  private readonly _handleMouseLeave = (): void => {
+    if (this._activeDialog === "menu") {
+      this._activeDialog = null;
+    }
+  };
+
   protected render() {
     if (!this.viewModel || !this.config) {
       return nothing;
