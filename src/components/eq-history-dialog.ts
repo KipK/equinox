@@ -50,7 +50,7 @@ export class EquinoxHistoryDialog extends LitElement {
   private _betterHistoryConfig(): BetterHistoryConfig {
     const climateEntityId = this.config?.entity;
     const lang = this.language ?? this.hass?.locale?.language;
-    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${this.config?.diagnostic_entity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}`;
+    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${this.config?.diagnostic_entity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}|${this.config?.temperature_entity ?? ""}`;
 
     if (key === this._configCacheKey && this._configCache) return this._configCache;
 
@@ -60,7 +60,8 @@ export class EquinoxHistoryDialog extends LitElement {
       climateEntityId,
       this.config?.diagnostic_entity,
       this.config?.power_entity,
-      this.config?.humidity_entity
+      this.config?.humidity_entity,
+      this.config?.temperature_entity
     ].filter((id): id is string => typeof id === "string" && id !== "");
 
     this._configCache = {
