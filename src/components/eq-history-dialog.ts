@@ -50,7 +50,10 @@ export class EquinoxHistoryDialog extends LitElement {
   private _betterHistoryConfig(): BetterHistoryConfig {
     const climateEntityId = this.config?.entity;
     const lang = this.language ?? this.hass?.locale?.language;
-    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${this.config?.diagnostic_entity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}`;
+    const tempUnit = climateEntityId
+      ? this._climateTemperatureUnit(climateEntityId)
+      : undefined;
+    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${tempUnit ?? ""}|${this.config?.diagnostic_entity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}`;
 
     if (key === this._configCacheKey && this._configCache) return this._configCache;
 
@@ -76,6 +79,7 @@ export class EquinoxHistoryDialog extends LitElement {
             attribute: "current_temperature",
             label: localize(lang, "dialog.history.sources.current_temperature"),
             color: "#42a5f5",
+            unit: tempUnit,
             scaleGroup: "temperature"
           },
           {
@@ -83,6 +87,7 @@ export class EquinoxHistoryDialog extends LitElement {
             attribute: "temperature",
             label: localize(lang, "dialog.history.sources.temperature"),
             color: "#ff9800",
+            unit: tempUnit,
             scaleGroup: "temperature"
           },
           {
@@ -96,6 +101,18 @@ export class EquinoxHistoryDialog extends LitElement {
     };
 
     return this._configCache;
+  }
+
+  private _climateTemperatureUnit(entityId: string): string | undefined {
+    const entity = this.hass?.states[entityId];
+    if (!entity) return undefined;
+    const attr = entity.attributes;
+    if (typeof attr.temperature_unit === "string" && attr.temperature_unit !== "") {
+      return attr.temperature_unit;
+    }
+    const unit = attr.unit_of_measurement;
+    if (typeof unit === "string" && unit !== "") return unit;
+    return undefined;
   }
 
   protected render(): TemplateResult {
