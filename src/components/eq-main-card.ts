@@ -501,7 +501,6 @@ export class EquinoxMainCard extends LitElement {
         display: grid;
         grid-auto-flow: column;
         grid-auto-columns: minmax(42px, 1fr);
-        border: 1px solid var(--equinox-border-color);
         border-radius: var(--equinox-control-radius);
         overflow: hidden;
         min-height: 45px;
@@ -608,14 +607,31 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .compact-selectors ha-control-button:not(.fan-selector) {
-        border: 1px solid var(--equinox-border-color);
-        border-radius: var(--equinox-control-radius);
         overflow: hidden;
       }
 
       .compact-selectors ha-control-button.fan-selector {
         --control-button-icon-color: var(--equinox-text-color);
       }
+
+      .btn-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: rgba(128, 128, 128, 0.10);
+      }
+
+      .btn-icon[tone="heat"] { background: color-mix(in srgb, var(--equinox-heat-color) 15%, transparent); }
+      .btn-icon[tone="cool"] { background: color-mix(in srgb, var(--equinox-cool-color) 15%, transparent); }
+      .btn-icon[tone="auto"] { background: color-mix(in srgb, var(--equinox-auto-color) 15%, transparent); }
+      .btn-icon[tone="boost"] { background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent); }
+      .btn-icon[tone="cool-boost"] { background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent); }
+
+      ha-control-button[active] .btn-icon { background: transparent; }
 
       .bottom {
         display: grid;
@@ -1146,7 +1162,9 @@ export class EquinoxMainCard extends LitElement {
         ?disabled=${this._isControlDisabled()}
         @click=${() => this._setHvacMode(mode)}
       >
-        <ha-icon .icon=${HVAC_ICONS[mode]}></ha-icon>
+        <span class="btn-icon" tone=${this._modeTone(mode)}>
+          <ha-icon .icon=${HVAC_ICONS[mode]}></ha-icon>
+        </span>
       </ha-control-button>
     `;
   }
@@ -1173,7 +1191,9 @@ export class EquinoxMainCard extends LitElement {
         ?disabled=${this._isControlDisabled()}
         @click=${() => this._setPresetMode(preset)}
       >
-        <ha-icon .icon=${PRESET_ICONS[preset]}></ha-icon>
+        <span class="btn-icon" tone=${this._presetTone(preset)}>
+          <ha-icon .icon=${PRESET_ICONS[preset]}></ha-icon>
+        </span>
       </ha-control-button>
     `;
   }
@@ -1221,7 +1241,9 @@ export class EquinoxMainCard extends LitElement {
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("hvac", event)}
               >
-                <ha-icon .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}></ha-icon>
+                <span class="btn-icon" tone=${this._modeTone(currentHvacMode)}>
+                  <ha-icon .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}></ha-icon>
+                </span>
               </ha-control-button>
             `
         : nothing}
@@ -1233,7 +1255,9 @@ export class EquinoxMainCard extends LitElement {
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("preset", event)}
               >
-                <ha-icon .icon=${presetIcon}></ha-icon>
+                <span class="btn-icon" tone=${presetActive ? this._presetTone(preset!) : ""}>
+                  <ha-icon .icon=${presetIcon}></ha-icon>
+                </span>
               </ha-control-button>
             `
         : nothing}
