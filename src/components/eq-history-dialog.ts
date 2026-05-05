@@ -22,11 +22,6 @@ export class EquinoxHistoryDialog extends LitElement {
       color: var(--primary-text-color);
     }
 
-    ha-better-history {
-      display: block;
-      --better-history-min-height: 60vh;
-    }
-
     @media (max-width: 600px) {
       .dialog-fs-toggle {
         display: none;
@@ -73,31 +68,30 @@ export class EquinoxHistoryDialog extends LitElement {
       showEntityPicker: true,
       showLegend: true,
       showTooltip: true,
-      height: "65vh",
       defaultEntities,
       series: climateEntityId
         ? [
-            {
-              entity: climateEntityId,
-              attribute: "current_temperature",
-              label: localize(lang, "dialog.history.sources.current_temperature"),
-              color: "#42a5f5",
-              scaleGroup: "temperature"
-            },
-            {
-              entity: climateEntityId,
-              attribute: "temperature",
-              label: localize(lang, "dialog.history.sources.temperature"),
-              color: "#ff9800",
-              scaleGroup: "temperature"
-            },
-            {
-              entity: climateEntityId,
-              attribute: "hvac_action",
-              label: localize(lang, "dialog.history.sources.hvac_action"),
-              color: "#ab47bc"
-            }
-          ]
+          {
+            entity: climateEntityId,
+            attribute: "current_temperature",
+            label: localize(lang, "dialog.history.sources.current_temperature"),
+            color: "#42a5f5",
+            scaleGroup: "temperature"
+          },
+          {
+            entity: climateEntityId,
+            attribute: "temperature",
+            label: localize(lang, "dialog.history.sources.temperature"),
+            color: "#ff9800",
+            scaleGroup: "temperature"
+          },
+          {
+            entity: climateEntityId,
+            attribute: "hvac_action",
+            label: localize(lang, "dialog.history.sources.hvac_action"),
+            color: "#ab47bc"
+          }
+        ]
         : []
     };
 
@@ -118,9 +112,9 @@ export class EquinoxHistoryDialog extends LitElement {
           slot="headerActionItems"
           class="dialog-fullscreen-btn"
           .label=${localize(
-            this.language,
-            this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls"
-          )}
+      this.language,
+      this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls"
+    )}
           @click=${() => { this._controlsVisible = !this._controlsVisible; }}
         >
           <ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
@@ -129,21 +123,22 @@ export class EquinoxHistoryDialog extends LitElement {
           slot="headerActionItems"
           class="dialog-fullscreen-btn dialog-fs-toggle"
           .label=${localize(
-            this.language,
-            this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen"
-          )}
+      this.language,
+      this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen"
+    )}
           @click=${this._toggleFullscreen}
         >
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
         </ha-icon-button>
         ${this.open
-          ? html`<ha-better-history
+        ? html`<ha-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
               .language=${this.language}
               .showControls=${this._controlsVisible}
+              style="flex:1;min-height:70vh;"
             ></ha-better-history>`
-          : nothing}
+        : nothing}
       </ha-dialog>
     `;
   }
