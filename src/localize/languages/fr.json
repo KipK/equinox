@@ -8,7 +8,6 @@
     "invalid_primary_display": "La priorité d'affichage configurée n'est pas disponible.",
     "invalid_additional_dashboards": "Le mode de dashboards configuré n'est pas disponible.",
     "invalid_state_icons_layout": "La disposition des icônes d'état configurée n'est pas disponible.",
-    "invalid_power_info_layout": "La disposition des indicateurs de puissance configurée n'est pas disponible.",
     "entity_not_found": "Entité introuvable: {entity}",
     "placeholder": "Equinox est prêt pour {entity}."
   },
@@ -131,7 +130,8 @@
       "decrease_temperature": "Baisser la consigne",
       "increase_temperature": "Augmenter la consigne",
       "open_fan": "Ouvrir la ventilation",
-      "open_menu": "Ouvrir le menu"
+      "open_menu": "Ouvrir le menu",
+      "open_power_info": "Afficher les indicateurs de puissance"
     }
   },
   "dialog": {
@@ -204,7 +204,6 @@
     "enable_lock": "Activer le verrouillage",
     "additional_dashboards": "Dashboards additionnels",
     "state_icons_layout": "Icônes d'état",
-    "power_info_layout": "Indicateurs de puissance",
     "tabs": {
       "general": "Général",
       "presentation": "Présentation"
@@ -223,8 +222,7 @@
       },
       "layout_orientation": {
         "horizontal": "Horizontal",
-        "vertical": "Vertical",
-        "disabled": "Désactivé"
+        "vertical": "Vertical"
       },
       "additional_dashboards": {
         "auto": "Auto",

@@ -108,7 +108,8 @@ export class EquinoxMainCard extends LitElement {
     viewModel: { attribute: false },
     _activeDialog: { state: true },
     _dialogAnchor: { state: true },
-    _activeMessageKey: { state: true }
+    _activeMessageKey: { state: true },
+    _powerInfoPinned: { state: true }
   };
 
   static styles = [
@@ -295,6 +296,11 @@ export class EquinoxMainCard extends LitElement {
         flex: 1;
         min-height: 0;
         position: relative;
+        --rail-icon-size: clamp(20px, 7cqi, 26px);
+        --rail-menu-size: clamp(22px, 7.5cqi, 28px);
+        --rail-icon-inner-size: clamp(17px, 5.8cqi, 22px);
+        --rail-gap: clamp(4px, 2.5cqi, 8px);
+        --rail-power-font-size: clamp(10px, 3.6cqi, 12px);
       }
 
       .layout[state-vertical] {
@@ -310,16 +316,16 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .state-rail,
-      .sensor-rail {
+      .left-rail {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: var(--rail-gap);
         min-width: 0;
       }
 
       .layout[state-vertical] .state-rail,
-      .layout[sensor-vertical] .sensor-rail {
+      .layout[state-vertical] .left-rail {
         position: absolute;
         top: 0;
         z-index: 1;
@@ -330,6 +336,11 @@ export class EquinoxMainCard extends LitElement {
         right: 0;
       }
 
+      .left-rail {
+        justify-content: flex-start;
+        left: 0;
+      }
+
       .state-rail .events {
         flex-direction: column;
         justify-content: flex-start;
@@ -337,36 +348,38 @@ export class EquinoxMainCard extends LitElement {
 
       .state-rail .lock,
       .state-rail .fan,
-      .state-rail .menu {
+      .state-rail .menu,
+      .left-rail .fan,
+      .left-rail .power-info,
+      .state-rail .power-info {
         flex: 0 0 auto;
       }
 
-      .state-rail .fan {
-        width: 26px;
-        height: 26px;
+      .state-rail .event,
+      .state-rail .action-icon,
+      .state-rail .lock,
+      .state-rail .fan,
+      .left-rail .fan,
+      .left-rail .power-info-button,
+      .state-rail .power-info-button {
+        width: var(--rail-icon-size);
+        height: var(--rail-icon-size);
       }
 
-      .sensor-rail .conditions {
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
+      .state-rail .menu {
+        width: var(--rail-menu-size);
+        height: var(--rail-menu-size);
       }
 
-      .sensor-rail {
-        left: 0;
-      }
-
-      .sensor-rail .meter {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .sensor-rail .meter-line {
-        flex-direction: column;
-        text-align: center;
-        gap: 4px;
+      .state-rail .event ha-icon,
+      .state-rail .action-icon ha-icon,
+      .state-rail .lock ha-icon,
+      .state-rail .fan ha-icon,
+      .state-rail .menu ha-icon,
+      .left-rail .fan ha-icon,
+      .left-rail .power-info-button ha-icon,
+      .state-rail .power-info-button ha-icon {
+        --mdc-icon-size: var(--rail-icon-inner-size);
       }
 
       .setpoint {
@@ -381,12 +394,19 @@ export class EquinoxMainCard extends LitElement {
         flex-direction: column;
         gap: 8px;
         margin-top: 0;
+        --sensor-focus-temperature-size: clamp(18px, 10cqi, 40px);
+        --sensor-focus-humidity-size: clamp(11px, 4.8cqi, 20px);
+        --sensor-focus-temperature-icon-size: clamp(18px, 7cqi, 28px);
+        --sensor-focus-humidity-icon-size: clamp(13px, 4.8cqi, 18px);
       }
 
       .step {
         width: clamp(30px, 9cqi, 40px);
         height: clamp(30px, 9cqi, 40px);
         flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         --control-button-border-radius: 50%;
         --control-button-padding: 0;
         --control-button-background-color: var(--equinox-control-bg);
@@ -419,6 +439,8 @@ export class EquinoxMainCard extends LitElement {
 
       .setpoint-control[compact] .step ha-icon {
         --mdc-icon-size: 18px;
+        width: 18px;
+        height: 18px;
       }
 
       .target {
@@ -484,17 +506,19 @@ export class EquinoxMainCard extends LitElement {
         display: inline-flex;
         align-items: baseline;
         justify-content: center;
-        gap: clamp(6px, 3cqi, 12px);
+        gap: clamp(4px, 2.5cqi, 12px);
+        min-width: 0;
       }
 
       .sensor-temperature {
         display: inline-flex;
         align-items: baseline;
-        gap: 6px;
-        font-size: clamp(26px, 9.5cqi, 40px);
+        gap: clamp(2px, 1.1cqi, 4px);
+        font-size: var(--sensor-focus-temperature-size, clamp(26px, 9.5cqi, 40px));
         line-height: 1;
         font-weight: var(--ha-font-weight-normal, 400);
         color: var(--equinox-text-color);
+        min-width: 0;
       }
 
       .sensor-temperature[clickable] {
@@ -506,7 +530,9 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .sensor-temperature ha-icon {
-        --mdc-icon-size: 28px;
+        --mdc-icon-size: var(--sensor-focus-temperature-icon-size, 28px);
+        width: var(--sensor-focus-temperature-icon-size, 28px);
+        height: var(--sensor-focus-temperature-icon-size, 28px);
         color: var(--equinox-muted-color);
       }
 
@@ -517,12 +543,13 @@ export class EquinoxMainCard extends LitElement {
       .sensor-humidity {
         display: inline-flex;
         align-items: baseline;
-        gap: 5px;
+        gap: clamp(2px, 1cqi, 3px);
         color: var(--equinox-muted-color);
-        font-size: clamp(14px, 5cqi, 20px);
+        font-size: var(--sensor-focus-humidity-size, clamp(14px, 5cqi, 20px));
         line-height: 1;
         font-weight: var(--ha-font-weight-normal, 400);
         cursor: pointer;
+        min-width: 0;
       }
 
       .sensor-humidity:hover {
@@ -531,7 +558,9 @@ export class EquinoxMainCard extends LitElement {
 
 
       .sensor-humidity ha-icon {
-        --mdc-icon-size: 18px;
+        --mdc-icon-size: var(--sensor-focus-humidity-icon-size, 18px);
+        width: var(--sensor-focus-humidity-icon-size, 18px);
+        height: var(--sensor-focus-humidity-icon-size, 18px);
         color: var(--equinox-muted-color);
       }
 
@@ -548,7 +577,7 @@ export class EquinoxMainCard extends LitElement {
       .condition {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: clamp(3px, 1.5cqi, 6px);
         min-width: 66px;
         justify-content: center;
       }
@@ -562,8 +591,11 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .condition ha-icon {
+        --condition-icon-size: clamp(15px, 4.8cqi, 20px);
         color: var(--equinox-muted-color);
-        --mdc-icon-size: 20px;
+        --mdc-icon-size: var(--condition-icon-size);
+        width: var(--condition-icon-size);
+        height: var(--condition-icon-size);
       }
 
       .condition-value[kind="temperature"] {
@@ -804,6 +836,78 @@ export class EquinoxMainCard extends LitElement {
         flex-shrink: 0;
       }
 
+      .power-info {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .power-info-button {
+        width: 26px;
+        height: 26px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--equinox-muted-color);
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .power-info-button:hover,
+      .power-info-button:focus-visible {
+        background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
+      }
+
+      .power-popover {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        z-index: 20;
+        display: none;
+        width: max-content;
+        min-width: 82px;
+        max-width: min(180px, calc(100vw - 24px));
+        padding: 10px;
+        border-radius: var(--equinox-radius);
+        border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
+        background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
+        box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
+        backdrop-filter: blur(14px);
+        color: var(--equinox-text-color);
+      }
+
+      .state-rail .power-popover {
+        left: auto;
+        right: 0;
+      }
+
+      .power-info:hover .power-popover,
+      .power-info:focus-within .power-popover,
+      .power-info[open] .power-popover {
+        display: block;
+      }
+
+      .power-popover .meter {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12px;
+        white-space: nowrap;
+        color: var(--equinox-text-color);
+      }
+
+      .power-popover .meter-line {
+        gap: 6px;
+      }
+
+      .power-popover ha-icon {
+        color: var(--equinox-text-color);
+      }
+
       @media (max-width: 360px) {
         .card {
           padding: 14px;
@@ -840,6 +944,8 @@ export class EquinoxMainCard extends LitElement {
   private _activeDialog: "fan" | "hvac" | "preset" | "menu" | "boost" | "history" | null = null;
   private _dialogAnchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _activeMessageKey?: string;
+  private _powerInfoPinned = false;
+  private _powerInfoPressTimer?: number;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -849,6 +955,7 @@ export class EquinoxMainCard extends LitElement {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener("mouseleave", this._handleMouseLeave);
+    this._clearPowerInfoPressTimer();
   }
 
   private readonly _handleMouseLeave = (): void => {
@@ -864,22 +971,19 @@ export class EquinoxMainCard extends LitElement {
 
     const compact = this.config?.display_mode === "compact";
     const stateIconsVertical = this.config.state_icons_layout === "vertical";
-    const powerInfoEnabled = this.config.power_info_layout !== "disabled";
-    const powerInfoVertical = powerInfoEnabled && this.config.power_info_layout === "vertical" && this._hasBottomSensorInfo();
 
     return html`
       <ha-card>
         <div class="card">
           ${this._renderName()}
           ${stateIconsVertical ? nothing : this._renderStatus()}
-          <div class="layout" ?state-vertical=${stateIconsVertical} ?sensor-vertical=${powerInfoVertical}>
-            ${powerInfoVertical ? html`<div class="sensor-rail">${this._renderPowerValve()}</div>` : nothing}
+          <div class="layout" ?state-vertical=${stateIconsVertical}>
             <div class="main">
               ${this._renderSetpoint()}
               ${this._renderConditions()}
               ${compact ? this._renderCompactSelectors() : html`${this._renderHvacModes()} ${this._renderPresets()}`}
-              ${powerInfoEnabled && !powerInfoVertical ? this._renderBottomRow() : nothing}
             </div>
+            ${stateIconsVertical ? html`<div class="left-rail">${this._renderLeftRail()}</div>` : nothing}
             ${stateIconsVertical ? html`<div class="state-rail">${this._renderStateRail()}</div>` : nothing}
           </div>
         </div>
@@ -990,6 +1094,7 @@ export class EquinoxMainCard extends LitElement {
     return html`
       <div class="status">
         ${showFan ? this._renderFanButton() : nothing}
+        ${this._renderPowerInfoButton()}
         <span class="status-spacer"></span>
         <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
         ${lockSupported ? this._renderLockButton(lockActionLabel) : nothing}
@@ -998,7 +1103,7 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderStateRail(): TemplateResult[] {
+  private _renderStateRail(): Array<TemplateResult | typeof nothing> {
     const lockSupported = this.config?.enable_lock === true && this.viewModel?.vt?.lock.isConfigured === true;
     const lockLabel = this.viewModel?.vt?.lock.isLocked
       ? localize(this._language(), "main.lock.locked")
@@ -1010,8 +1115,14 @@ export class EquinoxMainCard extends LitElement {
     return [
       ...(this.config?.disable_name ? [this._renderMenuButton()] : []),
       ...(lockSupported ? [this._renderLockButton(lockActionLabel)] : []),
-      html`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`,
-      ...(this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : [])
+      html`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`
+    ];
+  }
+
+  private _renderLeftRail(): Array<TemplateResult | typeof nothing> {
+    return [
+      ...(this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : []),
+      this._renderPowerInfoButton()
     ];
   }
 
@@ -1408,26 +1519,63 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderBottomRow(): TemplateResult | typeof nothing {
-    const powerValve = this._renderPowerValve();
-
-    if (powerValve === nothing) {
-      return nothing;
-    }
-
-    return html`
-      <div class="bottom">
-        ${powerValve}
-      </div>
-    `;
-  }
-
-  private _hasBottomSensorInfo(): boolean {
+  private _hasPowerInfo(): boolean {
     const value = this._powerValveValue();
     const instantPower = this.viewModel?.vt?.powerValve.instantPower ?? this.viewModel?.climate.instantPower;
 
     return !!value || finite(instantPower);
   }
+
+  private _renderPowerInfoButton(): TemplateResult | typeof nothing {
+    if (!this._hasPowerInfo()) {
+      return nothing;
+    }
+
+    const label = localize(this._language(), "main.actions.open_power_info");
+
+    return html`
+      <span class="power-info" ?open=${this._powerInfoPinned} @mouseleave=${this._closePowerInfo}>
+        <button
+          class="power-info-button"
+          aria-label=${label}
+          @pointerdown=${this._startPowerInfoPress}
+          @pointerup=${this._clearPowerInfoPressTimer}
+          @pointercancel=${this._clearPowerInfoPressTimer}
+        >
+          <ha-icon .icon=${this._powerInfoButtonIcon()}></ha-icon>
+        </button>
+        <div class="power-popover">
+          ${this._renderPowerValve()}
+        </div>
+      </span>
+    `;
+  }
+
+  private _powerInfoButtonIcon(): string {
+    return this._powerValveValue()?.icon === "mdi:pipe-valve" ? "mdi:pipe-valve" : "mdi:flash";
+  }
+
+  private readonly _startPowerInfoPress = (event: PointerEvent): void => {
+    if (event.pointerType !== "touch" && event.pointerType !== "pen") {
+      return;
+    }
+
+    this._clearPowerInfoPressTimer();
+    this._powerInfoPressTimer = window.setTimeout(() => {
+      this._powerInfoPinned = true;
+    }, 450);
+  };
+
+  private readonly _clearPowerInfoPressTimer = (): void => {
+    if (this._powerInfoPressTimer !== undefined) {
+      window.clearTimeout(this._powerInfoPressTimer);
+      this._powerInfoPressTimer = undefined;
+    }
+  };
+
+  private readonly _closePowerInfo = (): void => {
+    this._powerInfoPinned = false;
+  };
 
   private _renderFanButton(): TemplateResult {
     return html`

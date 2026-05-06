@@ -4,7 +4,6 @@ import {
   EQUINOX_ADDITIONAL_DASHBOARDS,
   EQUINOX_DISPLAY_MODES,
   EQUINOX_LAYOUT_ORIENTATIONS,
-  EQUINOX_POWER_INFO_LAYOUTS,
   EQUINOX_PRIMARY_DISPLAYS,
   EQUINOX_THEMES,
   type EquinoxAdditionalDashboards,
@@ -13,7 +12,6 @@ import {
   type EquinoxConfigValidation,
   type EquinoxDisplayMode,
   type EquinoxLayoutOrientation,
-  type EquinoxPowerInfoLayout,
   type EquinoxPrimaryDisplay,
   type EquinoxTheme
 } from "../types/config";
@@ -68,10 +66,6 @@ export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxCon
     return { config, error: "invalid_state_icons_layout" };
   }
 
-  if (!isOneOf(EQUINOX_POWER_INFO_LAYOUTS, config.power_info_layout)) {
-    return { config, error: "invalid_power_info_layout" };
-  }
-
   return { config: config as EquinoxCardConfig };
 }
 
@@ -99,8 +93,4 @@ export function isEquinoxAdditionalDashboards(value: unknown): value is EquinoxA
 
 export function isEquinoxLayoutOrientation(value: unknown): value is EquinoxLayoutOrientation {
   return isOneOf(EQUINOX_LAYOUT_ORIENTATIONS, value);
-}
-
-export function isEquinoxPowerInfoLayout(value: unknown): value is EquinoxPowerInfoLayout {
-  return isOneOf(EQUINOX_POWER_INFO_LAYOUTS, value);
 }

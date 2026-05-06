@@ -153,10 +153,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       { value: "horizontal", label: localize(language, "editor.options.layout_orientation.horizontal") },
       { value: "vertical", label: localize(language, "editor.options.layout_orientation.vertical") }
     ];
-    const powerInfoOptions = [
-      ...orientationOptions,
-      { value: "disabled", label: localize(language, "editor.options.layout_orientation.disabled") }
-    ];
 
     return [
       {
@@ -204,15 +200,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
           select: {
             mode: "dropdown",
             options: orientationOptions
-          }
-        }
-      },
-      {
-        name: "power_info_layout",
-        selector: {
-          select: {
-            mode: "dropdown",
-            options: powerInfoOptions
           }
         }
       }

@@ -8,7 +8,6 @@
     "invalid_primary_display": "The configured display priority is not available.",
     "invalid_additional_dashboards": "The configured dashboard mode is not available.",
     "invalid_state_icons_layout": "The configured state icon layout is not available.",
-    "invalid_power_info_layout": "The configured power indicator layout is not available.",
     "entity_not_found": "Entity not found: {entity}",
     "placeholder": "Equinox is ready for {entity}."
   },
@@ -131,7 +130,8 @@
       "decrease_temperature": "Decrease setpoint",
       "increase_temperature": "Increase setpoint",
       "open_fan": "Open fan",
-      "open_menu": "Open menu"
+      "open_menu": "Open menu",
+      "open_power_info": "Show power indicators"
     }
   },
   "dialog": {
@@ -204,7 +204,6 @@
     "enable_lock": "Enable lock",
     "additional_dashboards": "Additional dashboards",
     "state_icons_layout": "State icons",
-    "power_info_layout": "Power indicators",
     "tabs": {
       "general": "General",
       "presentation": "Presentation"
@@ -223,8 +222,7 @@
       },
       "layout_orientation": {
         "horizontal": "Horizontal",
-        "vertical": "Vertical",
-        "disabled": "Disabled"
+        "vertical": "Vertical"
       },
       "additional_dashboards": {
         "auto": "Auto",
