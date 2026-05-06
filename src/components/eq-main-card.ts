@@ -942,7 +942,13 @@ export class EquinoxMainCard extends LitElement {
       return [];
     }
 
-    const messageIcons = messages.map((message) => this._renderMessageIcon(message));
+    const boostMessageKeys = new Set(
+      EVENT_ICONS.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])
+    );
+    const messageIcons = messages.map((message) => {
+      const onClick = boostMessageKeys.has(message.key) ? () => { this._activeDialog = "boost"; } : undefined;
+      return this._renderMessageIcon(message, onClick);
+    });
     const eventIcons = EVENT_ICONS.filter((event) => {
       const relatedMessageKeys = event.messageKeys ?? [];
 
@@ -982,9 +988,10 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderMessageIcon(message: EquinoxVtMessage): TemplateResult {
+  private _renderMessageIcon(message: EquinoxVtMessage, onClick?: () => void): TemplateResult {
     const entry = this._messageIcon(message.key);
     const label = this._messageLabel(message.key);
+    const handler = onClick ?? ((event: Event) => this._openMessage(message.key, event));
 
     return html`
       <button
@@ -992,7 +999,7 @@ export class EquinoxMainCard extends LitElement {
         tone=${entry.tone}
         title=${label}
         aria-label=${label}
-        @click=${(event: Event) => this._openMessage(message.key, event)}
+        @click=${handler}
       >
         <ha-icon .icon=${entry.icon}></ha-icon>
       </button>
