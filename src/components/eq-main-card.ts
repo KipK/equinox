@@ -832,6 +832,8 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .config=${this.config}
         .language=${this._language()}
+        .floating=${true}
+        .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-menu=${() => { this._activeDialog = "menu"; }}
       ></eq-boost-dialog>
@@ -946,7 +948,7 @@ export class EquinoxMainCard extends LitElement {
       EVENT_ICONS.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])
     );
     const messageIcons = messages.map((message) => {
-      const onClick = boostMessageKeys.has(message.key) ? () => { this._activeDialog = "boost"; } : undefined;
+      const onClick = boostMessageKeys.has(message.key) ? (e: Event) => this._openBoost(e) : undefined;
       return this._renderMessageIcon(message, onClick);
     });
     const eventIcons = EVENT_ICONS.filter((event) => {
@@ -954,14 +956,14 @@ export class EquinoxMainCard extends LitElement {
 
       return events[event.key] && !relatedMessageKeys.some((key) => messages.some((message) => message.key === key));
     }).map((event) => {
-      const onClick = event.key === "hasTimer" ? () => { this._activeDialog = "boost"; } : undefined;
+      const onClick = event.key === "hasTimer" ? (e: Event) => this._openBoost(e) : undefined;
       return this._renderEventIcon(event, onClick);
     });
 
     return [...messageIcons, ...eventIcons];
   }
 
-  private _renderEventIcon(event: EventIconDefinition, onClick?: () => void): TemplateResult {
+  private _renderEventIcon(event: EventIconDefinition, onClick?: (e: Event) => void): TemplateResult {
     const label = localize(this._language(), `main.events.${event.key}`);
 
     if (onClick) {
@@ -988,7 +990,7 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderMessageIcon(message: EquinoxVtMessage, onClick?: () => void): TemplateResult {
+  private _renderMessageIcon(message: EquinoxVtMessage, onClick?: (event: Event) => void): TemplateResult {
     const entry = this._messageIcon(message.key);
     const label = this._messageLabel(message.key);
     const handler = onClick ?? ((event: Event) => this._openMessage(message.key, event));
@@ -1352,6 +1354,17 @@ export class EquinoxMainCard extends LitElement {
     }
 
     this._activeDialog = dialog;
+    this._activeMessageKey = undefined;
+  }
+
+  private _openBoost(event: Event): void {
+    const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
+
+    if (target) {
+      this._dialogAnchor = { element: target };
+    }
+
+    this._activeDialog = "boost";
     this._activeMessageKey = undefined;
   }
 

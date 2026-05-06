@@ -18,6 +18,8 @@ export class EquinoxBoostDialog extends LitElement {
     viewModel: { attribute: false },
     config: { attribute: false },
     language: {},
+    floating: { type: Boolean },
+    anchor: { attribute: false },
     _durationMinutes: { state: true }
   };
 
@@ -118,6 +120,7 @@ export class EquinoxBoostDialog extends LitElement {
       .boost-body {
         --boost-wheel-size: clamp(72px, min(42vw, 20vh), 148px);
         min-width: 0;
+        padding-top: 16px;
       }
     }
   `;
@@ -127,6 +130,8 @@ export class EquinoxBoostDialog extends LitElement {
   viewModel?: EquinoxViewModel;
   config?: EquinoxCardConfig;
   language?: string;
+  floating = false;
+  anchor?: { element: HTMLElement };
   private _durationMinutes = DEFAULT_DURATION;
 
   private _dispatchClose(): void {
@@ -238,6 +243,8 @@ export class EquinoxBoostDialog extends LitElement {
         .open=${this.open}
         .title=${title}
         .language=${this.language}
+        .floating=${this.floating}
+        .anchor=${this.anchor}
         .showBack=${true}
         @eq-dialog-close=${this._dispatchClose}
         @eq-dialog-back=${this._dispatchBack}
