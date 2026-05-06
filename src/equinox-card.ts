@@ -16,6 +16,15 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
   };
 
   static styles = css`
+    :host {
+      display: block;
+      height: 100%;
+    }
+
+    eq-main-card {
+      height: 100%;
+    }
+
     ha-card {
       padding: 16px;
       color: var(--primary-text-color);
@@ -59,10 +68,11 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
   getGridOptions(): LovelaceCardGridOptions {
     return {
       columns: 12,
-      rows: "auto",
+      rows: 4,
       min_columns: 4,
       max_columns: 12,
-      min_rows: 3
+      min_rows: 3,
+      max_rows: 8
     };
   }
 

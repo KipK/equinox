@@ -7,6 +7,8 @@
     "invalid_display_mode": "Le mode d'affichage configuré n'est pas disponible.",
     "invalid_primary_display": "La priorité d'affichage configurée n'est pas disponible.",
     "invalid_additional_dashboards": "Le mode de dashboards configuré n'est pas disponible.",
+    "invalid_state_icons_layout": "La disposition des icônes d'état configurée n'est pas disponible.",
+    "invalid_power_info_layout": "La disposition des indicateurs de puissance configurée n'est pas disponible.",
     "entity_not_found": "Entité introuvable: {entity}",
     "placeholder": "Equinox est prêt pour {entity}."
   },
@@ -196,11 +198,17 @@
     "humidity_entity": "Entité humidité",
     "temperature_entity": "Entité température",
     "theme": "Thème",
-    "display_mode": "Format d'affichage",
+    "display_mode": "Format",
     "primary_display": "Priorité d'affichage",
     "disable_name": "Masquer le nom",
     "enable_lock": "Activer le verrouillage",
     "additional_dashboards": "Dashboards additionnels",
+    "state_icons_layout": "Icônes d'état",
+    "power_info_layout": "Indicateurs de puissance",
+    "tabs": {
+      "general": "Général",
+      "presentation": "Présentation"
+    },
     "options": {
       "theme": {
         "flat": "Flat"
@@ -212,6 +220,11 @@
       "primary_display": {
         "setpoint": "Consigne",
         "sensors": "Capteurs"
+      },
+      "layout_orientation": {
+        "horizontal": "Horizontal",
+        "vertical": "Vertical",
+        "disabled": "Désactivé"
       },
       "additional_dashboards": {
         "auto": "Auto",

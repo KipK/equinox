@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit";
+import { LitElement, css, html } from "lit";
 import { EDITOR_TAG } from "./const";
 import { ensureHaComponents } from "./ha/load-components";
 import { localize } from "./localize/localize";
@@ -8,35 +8,77 @@ import type { HaFormChangedEvent, HaFormSchema, HomeAssistant, LovelaceCardEdito
 
 void ensureHaComponents();
 
+function cleanEditorConfig(config: EquinoxCardConfigInput): EquinoxCardConfigInput {
+  const cleaned = { ...config };
+  delete (cleaned as { card_height?: unknown }).card_height;
+
+  return cleaned;
+}
+
 export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor {
   static properties = {
     hass: { attribute: false },
-    _config: { state: true }
+    _config: { state: true },
+    _activeTab: { state: true }
   };
+
+  static styles = css`
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--divider-color);
+    }
+
+    .tab {
+      border: 0;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: var(--secondary-text-color);
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .tab[active] {
+      border-bottom-color: var(--primary-color);
+      color: var(--primary-text-color);
+    }
+  `;
 
   hass?: HomeAssistant;
 
   private _config: EquinoxCardConfigInput = {};
+  private _activeTab: "general" | "presentation" = "general";
 
   setConfig(config: EquinoxCardConfigInput): void {
-    this._config = { ...config };
+    this._config = cleanEditorConfig(config);
   }
 
   protected render() {
     const language = this.hass?.locale?.language ?? this.hass?.language;
+    const data = { ...DEFAULT_CONFIG, ...this._config };
 
     return html`
+      <div class="tabs">
+        <button class="tab" ?active=${this._activeTab === "general"} @click=${() => { this._activeTab = "general"; }}>
+          ${localize(language, "editor.tabs.general")}
+        </button>
+        <button class="tab" ?active=${this._activeTab === "presentation"} @click=${() => { this._activeTab = "presentation"; }}>
+          ${localize(language, "editor.tabs.presentation")}
+        </button>
+      </div>
       <ha-form
         .hass=${this.hass}
-        .data=${{ ...DEFAULT_CONFIG, ...this._config }}
-        .schema=${this._schema(language)}
+        .data=${data}
+        .schema=${this._activeTab === "presentation" ? this._presentationSchema(language) : this._generalSchema(language)}
         .computeLabel=${this._computeLabel(language)}
         @value-changed=${this._valueChanged}
       ></ha-form>
     `;
   }
 
-  private _schema(language?: string): HaFormSchema[] {
+  private _generalSchema(language?: string): HaFormSchema[] {
     return [
       {
         name: "entity",
@@ -85,6 +127,45 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       },
       {
+        name: "enable_lock",
+        selector: {
+          boolean: {}
+        }
+      },
+      {
+        name: "additional_dashboards",
+        selector: {
+          select: {
+            mode: "dropdown",
+            options: [
+              { value: "auto", label: localize(language, "editor.options.additional_dashboards.auto") },
+              { value: "custom", label: localize(language, "editor.options.additional_dashboards.custom") },
+              { value: "disabled", label: localize(language, "editor.options.additional_dashboards.disabled") }
+            ]
+          }
+        }
+      }
+    ];
+  }
+
+  private _presentationSchema(language?: string): HaFormSchema[] {
+    const orientationOptions = [
+      { value: "horizontal", label: localize(language, "editor.options.layout_orientation.horizontal") },
+      { value: "vertical", label: localize(language, "editor.options.layout_orientation.vertical") }
+    ];
+    const powerInfoOptions = [
+      ...orientationOptions,
+      { value: "disabled", label: localize(language, "editor.options.layout_orientation.disabled") }
+    ];
+
+    return [
+      {
+        name: "disable_name",
+        selector: {
+          boolean: {}
+        }
+      },
+      {
         name: "theme",
         selector: {
           select: {
@@ -118,27 +199,20 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       },
       {
-        name: "disable_name",
-        selector: {
-          boolean: {}
-        }
-      },
-      {
-        name: "enable_lock",
-        selector: {
-          boolean: {}
-        }
-      },
-      {
-        name: "additional_dashboards",
+        name: "state_icons_layout",
         selector: {
           select: {
             mode: "dropdown",
-            options: [
-              { value: "auto", label: localize(language, "editor.options.additional_dashboards.auto") },
-              { value: "custom", label: localize(language, "editor.options.additional_dashboards.custom") },
-              { value: "disabled", label: localize(language, "editor.options.additional_dashboards.disabled") }
-            ]
+            options: orientationOptions
+          }
+        }
+      },
+      {
+        name: "power_info_layout",
+        selector: {
+          select: {
+            mode: "dropdown",
+            options: powerInfoOptions
           }
         }
       }
@@ -150,7 +224,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
   }
 
   private _valueChanged(event: HaFormChangedEvent<EquinoxCardConfigInput>): void {
-    this._config = event.detail.value;
+    this._config = cleanEditorConfig({ ...this._config, ...event.detail.value });
 
     this.dispatchEvent(
       new CustomEvent("config-changed", {

@@ -7,6 +7,8 @@
     "invalid_display_mode": "The configured display mode is not available.",
     "invalid_primary_display": "The configured display priority is not available.",
     "invalid_additional_dashboards": "The configured dashboard mode is not available.",
+    "invalid_state_icons_layout": "The configured state icon layout is not available.",
+    "invalid_power_info_layout": "The configured power indicator layout is not available.",
     "entity_not_found": "Entity not found: {entity}",
     "placeholder": "Equinox is ready for {entity}."
   },
@@ -196,11 +198,17 @@
     "humidity_entity": "Humidity entity",
     "temperature_entity": "Temperature entity",
     "theme": "Theme",
-    "display_mode": "Display format",
+    "display_mode": "Format",
     "primary_display": "Display priority",
     "disable_name": "Hide name",
     "enable_lock": "Enable lock",
     "additional_dashboards": "Additional dashboards",
+    "state_icons_layout": "State icons",
+    "power_info_layout": "Power indicators",
+    "tabs": {
+      "general": "General",
+      "presentation": "Presentation"
+    },
     "options": {
       "theme": {
         "flat": "Flat"
@@ -212,6 +220,11 @@
       "primary_display": {
         "setpoint": "Setpoint",
         "sensors": "Sensors"
+      },
+      "layout_orientation": {
+        "horizontal": "Horizontal",
+        "vertical": "Vertical",
+        "disabled": "Disabled"
       },
       "additional_dashboards": {
         "auto": "Auto",

@@ -9,11 +9,15 @@ export const EQUINOX_THEMES = ["flat"] as const;
 export const EQUINOX_DISPLAY_MODES = ["classic", "compact"] as const;
 export const EQUINOX_PRIMARY_DISPLAYS = ["setpoint", "sensors"] as const;
 export const EQUINOX_ADDITIONAL_DASHBOARDS = ["auto", "custom", "disabled"] as const;
+export const EQUINOX_LAYOUT_ORIENTATIONS = ["horizontal", "vertical"] as const;
+export const EQUINOX_POWER_INFO_LAYOUTS = ["horizontal", "vertical", "disabled"] as const;
 
 export type EquinoxTheme = "flat";
 export type EquinoxDisplayMode = "classic" | "compact";
 export type EquinoxPrimaryDisplay = "setpoint" | "sensors";
 export type EquinoxAdditionalDashboards = "auto" | "custom" | "disabled";
+export type EquinoxLayoutOrientation = "horizontal" | "vertical";
+export type EquinoxPowerInfoLayout = "horizontal" | "vertical" | "disabled";
 
 export interface EquinoxCardConfig {
   type: "custom:equinox-card";
@@ -29,6 +33,8 @@ export interface EquinoxCardConfig {
   disable_name?: boolean;
   enable_lock?: boolean;
   additional_dashboards?: EquinoxAdditionalDashboards;
+  state_icons_layout?: EquinoxLayoutOrientation;
+  power_info_layout?: EquinoxPowerInfoLayout;
 }
 
 export type EquinoxCardConfigInput = Partial<EquinoxCardConfig> & {
@@ -41,10 +47,19 @@ export const DEFAULT_CONFIG = {
   primary_display: DEFAULT_PRIMARY_DISPLAY,
   disable_name: false,
   enable_lock: true,
-  additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS
+  additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
+  state_icons_layout: "horizontal",
+  power_info_layout: "horizontal"
 } satisfies Pick<
   EquinoxCardConfig,
-  "theme" | "display_mode" | "primary_display" | "disable_name" | "enable_lock" | "additional_dashboards"
+  | "theme"
+  | "display_mode"
+  | "primary_display"
+  | "disable_name"
+  | "enable_lock"
+  | "additional_dashboards"
+  | "state_icons_layout"
+  | "power_info_layout"
 >;
 
 export type EquinoxConfigError =
@@ -53,7 +68,9 @@ export type EquinoxConfigError =
   | "invalid_theme"
   | "invalid_display_mode"
   | "invalid_primary_display"
-  | "invalid_additional_dashboards";
+  | "invalid_additional_dashboards"
+  | "invalid_state_icons_layout"
+  | "invalid_power_info_layout";
 
 export interface EquinoxConfigValidation {
   config: EquinoxCardConfigInput;

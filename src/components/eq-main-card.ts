@@ -119,9 +119,11 @@ export class EquinoxMainCard extends LitElement {
         display: block;
         position: relative;
         container-type: inline-size;
+        height: 100%;
       }
 
       ha-card {
+        height: 100%;
         overflow: visible;
         border-radius: var(--equinox-radius);
         background: var(--equinox-card-bg);
@@ -135,6 +137,8 @@ export class EquinoxMainCard extends LitElement {
         flex-direction: column;
         gap: 11px;
         padding: 15px 16px 16px;
+        box-sizing: border-box;
+        min-height: 100%;
       }
 
       .name {
@@ -282,6 +286,87 @@ export class EquinoxMainCard extends LitElement {
 
       .action-icon[tone="off"] {
         color: var(--disabled-text-color, var(--equinox-muted-color));
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 11px;
+        flex: 1;
+        min-height: 0;
+        position: relative;
+      }
+
+      .layout[state-vertical] {
+        align-items: start;
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        min-width: 0;
+        grid-area: 1 / 1;
+      }
+
+      .state-rail,
+      .sensor-rail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .layout[state-vertical] .state-rail,
+      .layout[sensor-vertical] .sensor-rail {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+      }
+
+      .state-rail {
+        justify-content: flex-start;
+        right: 0;
+      }
+
+      .state-rail .events {
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .state-rail .lock,
+      .state-rail .fan,
+      .state-rail .menu {
+        flex: 0 0 auto;
+      }
+
+      .state-rail .fan {
+        width: 26px;
+        height: 26px;
+      }
+
+      .sensor-rail .conditions {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+      }
+
+      .sensor-rail {
+        left: 0;
+      }
+
+      .sensor-rail .meter {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sensor-rail .meter-line {
+        flex-direction: column;
+        text-align: center;
+        gap: 4px;
       }
 
       .setpoint {
@@ -725,6 +810,10 @@ export class EquinoxMainCard extends LitElement {
           gap: 10px;
         }
 
+        .layout {
+          gap: 10px;
+        }
+
         .bottom {
           grid-template-columns: 38px minmax(0, 1fr) 28px;
           gap: 6px;
@@ -774,13 +863,25 @@ export class EquinoxMainCard extends LitElement {
     }
 
     const compact = this.config?.display_mode === "compact";
+    const stateIconsVertical = this.config.state_icons_layout === "vertical";
+    const powerInfoEnabled = this.config.power_info_layout !== "disabled";
+    const powerInfoVertical = powerInfoEnabled && this.config.power_info_layout === "vertical" && this._hasBottomSensorInfo();
 
     return html`
       <ha-card>
         <div class="card">
-          ${this._renderName()} ${this._renderStatus()} ${this._renderSetpoint()} ${this._renderConditions()}
-          ${compact ? this._renderCompactSelectors() : html`${this._renderHvacModes()} ${this._renderPresets()}`}
-          ${this._renderBottomRow()}
+          ${this._renderName()}
+          ${stateIconsVertical ? nothing : this._renderStatus()}
+          <div class="layout" ?state-vertical=${stateIconsVertical} ?sensor-vertical=${powerInfoVertical}>
+            ${powerInfoVertical ? html`<div class="sensor-rail">${this._renderPowerValve()}</div>` : nothing}
+            <div class="main">
+              ${this._renderSetpoint()}
+              ${this._renderConditions()}
+              ${compact ? this._renderCompactSelectors() : html`${this._renderHvacModes()} ${this._renderPresets()}`}
+              ${powerInfoEnabled && !powerInfoVertical ? this._renderBottomRow() : nothing}
+            </div>
+            ${stateIconsVertical ? html`<div class="state-rail">${this._renderStateRail()}</div>` : nothing}
+          </div>
         </div>
       </ha-card>
       <eq-fan-dialog
@@ -891,21 +992,40 @@ export class EquinoxMainCard extends LitElement {
         ${showFan ? this._renderFanButton() : nothing}
         <span class="status-spacer"></span>
         <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
-        ${lockSupported
-        ? html`
-              <button
-                class="lock"
-                title=${lockActionLabel}
-                aria-label=${lockActionLabel}
-                ?disabled=${this.viewModel?.vt?.lock.hasCode === true}
-                @click=${this._toggleLock}
-              >
-                <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
-              </button>
-            `
-        : nothing}
+        ${lockSupported ? this._renderLockButton(lockActionLabel) : nothing}
         ${this.config?.disable_name ? this._renderMenuButton() : nothing}
       </div>
+    `;
+  }
+
+  private _renderStateRail(): TemplateResult[] {
+    const lockSupported = this.config?.enable_lock === true && this.viewModel?.vt?.lock.isConfigured === true;
+    const lockLabel = this.viewModel?.vt?.lock.isLocked
+      ? localize(this._language(), "main.lock.locked")
+      : localize(this._language(), "main.lock.unlocked");
+    const lockActionLabel = this.viewModel?.vt?.lock.hasCode
+      ? localize(this._language(), "main.lock.code_required")
+      : lockLabel;
+
+    return [
+      ...(this.config?.disable_name ? [this._renderMenuButton()] : []),
+      ...(lockSupported ? [this._renderLockButton(lockActionLabel)] : []),
+      html`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`,
+      ...(this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : [])
+    ];
+  }
+
+  private _renderLockButton(label: string): TemplateResult {
+    return html`
+      <button
+        class="lock"
+        title=${label}
+        aria-label=${label}
+        ?disabled=${this.viewModel?.vt?.lock.hasCode === true}
+        @click=${this._toggleLock}
+      >
+        <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
+      </button>
     `;
   }
 
@@ -1300,6 +1420,13 @@ export class EquinoxMainCard extends LitElement {
         ${powerValve}
       </div>
     `;
+  }
+
+  private _hasBottomSensorInfo(): boolean {
+    const value = this._powerValveValue();
+    const instantPower = this.viewModel?.vt?.powerValve.instantPower ?? this.viewModel?.climate.instantPower;
+
+    return !!value || finite(instantPower);
   }
 
   private _renderFanButton(): TemplateResult {
