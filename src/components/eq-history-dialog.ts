@@ -79,6 +79,7 @@ export class EquinoxHistoryDialog extends LitElement {
       showEntityPicker: true,
       showLegend: true,
       showTooltip: true,
+      debugPerformance: false,
       defaultEntities,
       series
     };
