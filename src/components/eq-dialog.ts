@@ -8,6 +8,7 @@ export class EquinoxDialog extends LitElement {
     language: {},
     showBack: { type: Boolean, attribute: "show-back" },
     floating: { type: Boolean },
+    closeOnLeave: { type: Boolean },
     anchor: { attribute: false }
   };
 
@@ -116,7 +117,8 @@ export class EquinoxDialog extends LitElement {
   language?: string;
   showBack = false;
   floating = false;
-  anchor?: { element: HTMLElement };
+  closeOnLeave = false;
+  anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
 
   private readonly _handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && this.open) {
@@ -182,14 +184,26 @@ export class EquinoxDialog extends LitElement {
       return;
     }
 
-    const anchorRect = this.anchor.element.getBoundingClientRect();
     const margin = 12;
-    const gap = 8;
     const panelRect = panel.getBoundingClientRect();
     const width = panelRect.width;
     const height = panelRect.height;
     const maxLeft = Math.max(margin, window.innerWidth - width - margin);
-    const preferredLeft = anchorRect.left + anchorRect.width / 2 - width / 2;
+
+    if (this.anchor.clientY !== undefined) {
+      const left = Math.min(Math.max(this.anchor.clientX ?? 0, margin), maxLeft);
+      const top = Math.min(Math.max(this.anchor.clientY, margin), window.innerHeight - height - margin);
+      panel.style.left = `${left}px`;
+      panel.style.top = `${top}px`;
+      panel.style.visibility = "visible";
+      return;
+    }
+
+    const anchorRect = this.anchor.element.getBoundingClientRect();
+    const gap = 8;
+    const preferredLeft = this.anchor.clientX !== undefined
+      ? this.anchor.clientX - width / 2
+      : anchorRect.left + anchorRect.width / 2 - width / 2;
 
     const belowTop = anchorRect.bottom + gap;
     const aboveTop = anchorRect.top - height - gap;
@@ -222,7 +236,7 @@ export class EquinoxDialog extends LitElement {
 
     return html`
       <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
-      <div class=${panelClass} style=${popoverStyle} @click=${(e: Event) => e.stopPropagation()}>
+      <div class=${panelClass} style=${popoverStyle} @click=${(e: Event) => e.stopPropagation()} @mouseleave=${this.closeOnLeave ? this._dispatchClose : undefined}>
         <div class="header">
           ${this.showBack
             ? html`

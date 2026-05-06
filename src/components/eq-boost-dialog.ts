@@ -19,6 +19,7 @@ export class EquinoxBoostDialog extends LitElement {
     config: { attribute: false },
     language: {},
     floating: { type: Boolean },
+    closeOnLeave: { type: Boolean },
     anchor: { attribute: false },
     _durationMinutes: { state: true }
   };
@@ -32,6 +33,7 @@ export class EquinoxBoostDialog extends LitElement {
       align-items: center;
       gap: clamp(5px, 1.4vh, 12px);
       justify-items: center;
+      min-width: 210px;
       width: 100%;
       max-width: 100%;
       overflow: hidden;
@@ -116,6 +118,12 @@ export class EquinoxBoostDialog extends LitElement {
       opacity: 0.45;
     }
 
+    @media (min-width: 601px) {
+      .action-button {
+        max-width: 160px;
+      }
+    }
+
     @media (max-width: 600px) {
       .boost-body {
         --boost-wheel-size: clamp(72px, min(42vw, 20vh), 148px);
@@ -131,7 +139,8 @@ export class EquinoxBoostDialog extends LitElement {
   config?: EquinoxCardConfig;
   language?: string;
   floating = false;
-  anchor?: { element: HTMLElement };
+  closeOnLeave = false;
+  anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _durationMinutes = DEFAULT_DURATION;
 
   private _dispatchClose(): void {
@@ -244,6 +253,7 @@ export class EquinoxBoostDialog extends LitElement {
         .title=${title}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         .showBack=${true}
         @eq-dialog-close=${this._dispatchClose}

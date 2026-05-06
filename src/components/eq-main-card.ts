@@ -749,7 +749,7 @@ export class EquinoxMainCard extends LitElement {
   viewModel?: EquinoxViewModel;
 
   private _activeDialog: "fan" | "hvac" | "preset" | "menu" | "boost" | "history" | null = null;
-  private _dialogAnchor?: { element: HTMLElement };
+  private _dialogAnchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _activeMessageKey?: string;
 
   connectedCallback(): void {
@@ -820,6 +820,7 @@ export class EquinoxMainCard extends LitElement {
         .config=${this.config}
         .language=${this._language()}
         .floating=${true}
+        .closeOnLeave=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-regulation=${() => { this._activeDialog = null; }}
@@ -833,6 +834,7 @@ export class EquinoxMainCard extends LitElement {
         .config=${this.config}
         .language=${this._language()}
         .floating=${true}
+        .closeOnLeave=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-menu=${() => { this._activeDialog = "menu"; }}
@@ -1346,9 +1348,10 @@ export class EquinoxMainCard extends LitElement {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
 
     if (target) {
-      this._dialogAnchor = {
-        element: target
-      };
+      const isMenu = dialog === "menu";
+      const clientX = event instanceof MouseEvent ? event.clientX : undefined;
+      const clientY = isMenu && event instanceof MouseEvent ? event.clientY : undefined;
+      this._dialogAnchor = { element: target, clientX, clientY };
     } else {
       this._dialogAnchor = undefined;
     }
@@ -1361,7 +1364,8 @@ export class EquinoxMainCard extends LitElement {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
 
     if (target) {
-      this._dialogAnchor = { element: target };
+      const clientX = event instanceof MouseEvent ? event.clientX : undefined;
+      this._dialogAnchor = { element: target, clientX };
     }
 
     this._activeDialog = "boost";

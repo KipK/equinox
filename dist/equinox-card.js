@@ -1358,7 +1358,7 @@ var St = {
   }
 `, Et = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this._handleKeyDown = (e) => {
+		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this.closeOnLeave = !1, this._handleKeyDown = (e) => {
 			e.key === "Escape" && this.open && this._dispatchClose();
 		}, this._handleResize = () => {
 			this.open && this.floating && this._positionPopover();
@@ -1376,6 +1376,7 @@ var St = {
 				attribute: "show-back"
 			},
 			floating: { type: Boolean },
+			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 }
 		};
 	}
@@ -1509,15 +1510,21 @@ var St = {
 			return;
 		}
 		if (!this.anchor) return;
-		let t = this.anchor.element.getBoundingClientRect(), n = e.getBoundingClientRect(), r = n.width, i = n.height, a = Math.max(12, window.innerWidth - r - 12), o = t.left + t.width / 2 - r / 2, s = t.bottom + 8, c = t.top - i - 8, l = s + i + 12 <= window.innerHeight, u = c >= 12, d;
-		d = l ? s : u ? c : Math.max(12, window.innerHeight - i - 12), e.style.left = `${Math.min(Math.max(o, 12), a)}px`, e.style.top = `${Math.max(d, 12)}px`, e.style.visibility = "visible";
+		let t = e.getBoundingClientRect(), n = t.width, r = t.height, i = Math.max(12, window.innerWidth - n - 12);
+		if (this.anchor.clientY !== void 0) {
+			let t = Math.min(Math.max(this.anchor.clientX ?? 0, 12), i), n = Math.min(Math.max(this.anchor.clientY, 12), window.innerHeight - r - 12);
+			e.style.left = `${t}px`, e.style.top = `${n}px`, e.style.visibility = "visible";
+			return;
+		}
+		let a = this.anchor.element.getBoundingClientRect(), o = this.anchor.clientX === void 0 ? a.left + a.width / 2 - n / 2 : this.anchor.clientX - n / 2, s = a.bottom + 8, c = a.top - r - 8, l = s + r + 12 <= window.innerHeight, u = c >= 12, d;
+		d = l ? s : u ? c : Math.max(12, window.innerHeight - r - 12), e.style.left = `${Math.min(Math.max(o, 12), i)}px`, e.style.top = `${Math.max(d, 12)}px`, e.style.visibility = "visible";
 	}
 	render() {
 		if (!this.open) return S;
 		let e = T(this.language, "dialog.close"), t = T(this.language, "dialog.back"), n = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", r = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
 		return x`
       <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
-      <div class=${r} style=${n} @click=${(e) => e.stopPropagation()}>
+      <div class=${r} style=${n} @click=${(e) => e.stopPropagation()} @mouseleave=${this.closeOnLeave ? this._dispatchClose : void 0}>
         <div class="header">
           ${this.showBack ? x`
                 <ha-icon-button class="back-btn" .label=${t} @click=${this._dispatchBack}>
@@ -2178,7 +2185,7 @@ customElements.get("eq-preset-dialog") || customElements.define("eq-preset-dialo
 //#region src/components/eq-menu-dialog.ts
 var Ft = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
 	static {
 		this.properties = {
@@ -2188,6 +2195,7 @@ var Ft = class extends w {
 			config: { attribute: !1 },
 			language: {},
 			floating: { type: Boolean },
+			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 }
 		};
 	}
@@ -2274,6 +2282,7 @@ var Ft = class extends w {
         .title=${i}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
@@ -2343,7 +2352,7 @@ var It = 60, Lt = [
 	1440
 ], Rt = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1, this._durationMinutes = It;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1, this._durationMinutes = It;
 	}
 	static {
 		this.properties = {
@@ -2353,6 +2362,7 @@ var It = 60, Lt = [
 			config: { attribute: !1 },
 			language: {},
 			floating: { type: Boolean },
+			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 },
 			_durationMinutes: { state: !0 }
 		};
@@ -2367,6 +2377,7 @@ var It = 60, Lt = [
       align-items: center;
       gap: clamp(5px, 1.4vh, 12px);
       justify-items: center;
+      min-width: 210px;
       width: 100%;
       max-width: 100%;
       overflow: hidden;
@@ -2451,6 +2462,12 @@ var It = 60, Lt = [
       opacity: 0.45;
     }
 
+    @media (min-width: 601px) {
+      .action-button {
+        max-width: 160px;
+      }
+    }
+
     @media (max-width: 600px) {
       .boost-body {
         --boost-wheel-size: clamp(72px, min(42vw, 20vh), 148px);
@@ -2528,6 +2545,7 @@ var It = 60, Lt = [
         .title=${e}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         .showBack=${!0}
         @eq-dialog-close=${this._dispatchClose}
@@ -7074,6 +7092,7 @@ var Ja = class extends w {
         .config=${this.config}
         .language=${this._language()}
         .floating=${!0}
+        .closeOnLeave=${!0}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => {
 			this._activeDialog = null;
@@ -7095,6 +7114,7 @@ var Ja = class extends w {
         .config=${this.config}
         .language=${this._language()}
         .floating=${!0}
+        .closeOnLeave=${!0}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => {
 			this._activeDialog = null;
@@ -7449,11 +7469,26 @@ var Ja = class extends w {
 	}
 	_openDialog(e, t) {
 		let n = t.currentTarget instanceof HTMLElement ? t.currentTarget : void 0;
-		n ? this._dialogAnchor = { element: n } : this._dialogAnchor = void 0, this._activeDialog = e, this._activeMessageKey = void 0;
+		if (n) {
+			let r = e === "menu", i = t instanceof MouseEvent ? t.clientX : void 0, a = r && t instanceof MouseEvent ? t.clientY : void 0;
+			this._dialogAnchor = {
+				element: n,
+				clientX: i,
+				clientY: a
+			};
+		} else this._dialogAnchor = void 0;
+		this._activeDialog = e, this._activeMessageKey = void 0;
 	}
 	_openBoost(e) {
 		let t = e.currentTarget instanceof HTMLElement ? e.currentTarget : void 0;
-		t && (this._dialogAnchor = { element: t }), this._activeDialog = "boost", this._activeMessageKey = void 0;
+		if (t) {
+			let n = e instanceof MouseEvent ? e.clientX : void 0;
+			this._dialogAnchor = {
+				element: t,
+				clientX: n
+			};
+		}
+		this._activeDialog = "boost", this._activeMessageKey = void 0;
 	}
 	_openMessage(e, t) {
 		let n = t.currentTarget instanceof HTMLElement ? t.currentTarget : void 0;

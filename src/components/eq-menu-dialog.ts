@@ -13,6 +13,7 @@ export class EquinoxMenuDialog extends LitElement {
     config: { attribute: false },
     language: {},
     floating: { type: Boolean },
+    closeOnLeave: { type: Boolean },
     anchor: { attribute: false }
   };
 
@@ -72,7 +73,8 @@ export class EquinoxMenuDialog extends LitElement {
   config?: EquinoxCardConfig;
   language?: string;
   floating = false;
-  anchor?: { element: HTMLElement };
+  closeOnLeave = false;
+  anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
 
   private _dispatchClose(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
@@ -109,6 +111,7 @@ export class EquinoxMenuDialog extends LitElement {
         .title=${title}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
