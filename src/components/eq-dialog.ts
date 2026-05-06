@@ -47,7 +47,7 @@ export class EquinoxDialog extends LitElement {
         inset: auto;
         width: max-content;
         max-width: min(calc(100vw - 24px), 520px);
-        max-height: min(calc(100vh - 24px), 220px);
+        max-height: calc(100vh - 24px);
         overflow: auto;
         background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
         border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
@@ -189,14 +189,24 @@ export class EquinoxDialog extends LitElement {
     const width = panelRect.width;
     const height = panelRect.height;
     const maxLeft = Math.max(margin, window.innerWidth - width - margin);
-    const maxTop = Math.max(margin, window.innerHeight - height - margin);
     const preferredLeft = anchorRect.left + anchorRect.width / 2 - width / 2;
-    const preferredTop = anchorRect.top - height - gap;
-    const belowTop = anchorRect.top + anchorRect.height + gap;
-    const top = preferredTop >= margin ? preferredTop : belowTop;
+
+    const belowTop = anchorRect.bottom + gap;
+    const aboveTop = anchorRect.top - height - gap;
+    const belowFits = belowTop + height + margin <= window.innerHeight;
+    const aboveFits = aboveTop >= margin;
+
+    let top: number;
+    if (belowFits) {
+      top = belowTop;
+    } else if (aboveFits) {
+      top = aboveTop;
+    } else {
+      top = Math.max(margin, window.innerHeight - height - margin);
+    }
 
     panel.style.left = `${Math.min(Math.max(preferredLeft, margin), maxLeft)}px`;
-    panel.style.top = `${Math.min(Math.max(top, margin), maxTop)}px`;
+    panel.style.top = `${Math.max(top, margin)}px`;
     panel.style.visibility = "visible";
   }
 

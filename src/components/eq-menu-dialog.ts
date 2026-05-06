@@ -11,7 +11,9 @@ export class EquinoxMenuDialog extends LitElement {
     hass: { attribute: false },
     viewModel: { attribute: false },
     config: { attribute: false },
-    language: {}
+    language: {},
+    floating: { type: Boolean },
+    anchor: { attribute: false }
   };
 
   static styles = css`
@@ -69,6 +71,8 @@ export class EquinoxMenuDialog extends LitElement {
   viewModel?: EquinoxViewModel;
   config?: EquinoxCardConfig;
   language?: string;
+  floating = false;
+  anchor?: { element: HTMLElement };
 
   private _dispatchClose(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
@@ -104,6 +108,8 @@ export class EquinoxMenuDialog extends LitElement {
         .open=${this.open}
         .title=${title}
         .language=${this.language}
+        .floating=${this.floating}
+        .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
         <ha-md-list class="menu-list">
