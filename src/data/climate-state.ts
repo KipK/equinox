@@ -58,6 +58,22 @@ function getTemperatureFromEntity(
   return { value, decimals, entityId: config.temperature_entity };
 }
 
+function getPowerFromEntity(
+  config: EquinoxCardConfig,
+  hass: HomeAssistant
+): { instantPower?: number; instantPowerUnit?: string } {
+  if (!config.power_entity) {
+    return {};
+  }
+
+  const entity = hass.states[config.power_entity];
+
+  return {
+    instantPower: asNumber(entity?.state),
+    instantPowerUnit: asString(entity?.attributes.unit_of_measurement)
+  };
+}
+
 export function buildClimateViewModel(
   config: EquinoxCardConfig,
   hass: HomeAssistant,
@@ -109,7 +125,8 @@ export function buildClimateViewModel(
     targetTemperatureRange: {
       low: asNumber(attributes.target_temp_low),
       high: asNumber(attributes.target_temp_high)
-    }
+    },
+    ...getPowerFromEntity(config, hass)
   };
 }
 

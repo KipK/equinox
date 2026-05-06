@@ -27,6 +27,8 @@ export interface EquinoxClimateViewModel {
   maxTemp?: number;
   targetTempStep?: number;
   targetTemperatureRange?: EquinoxTemperatureRange;
+  instantPower?: number;
+  instantPowerUnit?: string;
 }
 
 export interface EquinoxViewModel {

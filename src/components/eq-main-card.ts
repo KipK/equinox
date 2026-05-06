@@ -1313,8 +1313,8 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderPowerValve(): TemplateResult | typeof nothing {
     const value = this._powerValveValue();
-    const instantPower = this.viewModel?.vt?.powerValve.instantPower;
-    const instantPowerUnit = this.viewModel?.vt?.powerValve.instantPowerUnit;
+    const instantPower = this.viewModel?.vt?.powerValve.instantPower ?? this.viewModel?.climate.instantPower;
+    const instantPowerUnit = this.viewModel?.vt?.powerValve.instantPowerUnit ?? this.viewModel?.climate.instantPowerUnit;
 
     if (!value && !finite(instantPower)) {
       return nothing;
