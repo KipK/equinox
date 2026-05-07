@@ -142,7 +142,7 @@ export class EquinoxHistoryDialog extends LitElement {
         ? html`<ha-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
-              .attributeUnits=${equinoxAttributeUnits(this._staticAttributeUnits, this.hass, this.config?.entity)}
+              .attributeUnits=${equinoxAttributeUnits(this._staticAttributeUnits)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               style="flex:1;min-height:70vh;"

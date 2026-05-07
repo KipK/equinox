@@ -1,9 +1,7 @@
 import type { AttributeUnitMap } from "ha-better-history";
-import type { HomeAssistant } from "../types/ha";
 
 const ATTRIBUTES_FILE = "attributes.json";
 const EMPTY_UNITS: AttributeUnitMap = {};
-const unitsByBaseAndTemperatureUnit = new WeakMap<AttributeUnitMap, Map<string, AttributeUnitMap>>();
 let staticUnitsPromise: Promise<AttributeUnitMap> | undefined;
 
 function attributesUrl(): string {
@@ -33,39 +31,8 @@ export function loadEquinoxStaticAttributeUnits(): Promise<AttributeUnitMap> {
   return staticUnitsPromise;
 }
 
-function climateTemperatureUnit(hass: HomeAssistant | undefined, entityId: string | undefined): string {
-  if (!entityId || !hass) return "°C";
-  const entity = hass.states[entityId];
-  if (!entity) return "°C";
-  const attrs = entity.attributes;
-  const tempUnit = attrs.temperature_unit;
-  if (typeof tempUnit === "string" && tempUnit !== "") return tempUnit;
-  const uom = attrs.unit_of_measurement;
-  if (typeof uom === "string" && uom !== "") return uom;
-  return "°C";
-}
-
 export function equinoxAttributeUnits(
-  staticUnits: AttributeUnitMap | undefined,
-  hass: HomeAssistant | undefined,
-  climateEntityId: string | undefined
+  staticUnits: AttributeUnitMap | undefined
 ): AttributeUnitMap {
-  const tempUnit = climateTemperatureUnit(hass, climateEntityId);
-  const baseUnits = staticUnits ?? EMPTY_UNITS;
-  let unitsByTemperatureUnit = unitsByBaseAndTemperatureUnit.get(baseUnits);
-
-  if (!unitsByTemperatureUnit) {
-    unitsByTemperatureUnit = new Map<string, AttributeUnitMap>();
-    unitsByBaseAndTemperatureUnit.set(baseUnits, unitsByTemperatureUnit);
-  }
-
-  const cached = unitsByTemperatureUnit.get(tempUnit);
-  if (cached) return cached;
-
-  const units = {
-    ...baseUnits,
-    "specific_states.ema_temperature": tempUnit
-  };
-  unitsByTemperatureUnit.set(tempUnit, units);
-  return units;
+  return staticUnits ?? EMPTY_UNITS;
 }

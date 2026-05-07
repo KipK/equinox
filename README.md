@@ -55,6 +55,10 @@ Release/HACS packages must include both files. `equinox-card.js` loads
 `attributes.json` next to itself at runtime, so keep both files in the same
 directory.
 
+In `attributes.json`, use `"temperature"` for attributes that should follow the
+active Home Assistant temperature unit (`°C` or `°F`) instead of hard-coding a
+unit.
+
 Vite 8 requires Node `^20.19.0 || >=22.12.0`.
 
 ## Home Assistant Resource
