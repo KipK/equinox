@@ -2,9 +2,9 @@ import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
-import type { BetterHistoryConfig } from "ha-better-history";
+import type { AttributeUnitMap, BetterHistoryConfig } from "ha-better-history";
 import "ha-better-history/define";
-import { equinoxAttributeUnits } from "../data/attribute-units";
+import { equinoxAttributeUnits, loadEquinoxStaticAttributeUnits } from "../data/attribute-units";
 
 export class EquinoxHistoryDialog extends LitElement {
   static properties = {
@@ -13,7 +13,8 @@ export class EquinoxHistoryDialog extends LitElement {
     config: { attribute: false },
     language: {},
     _fullscreen: { state: true },
-    _controlsVisible: { state: true }
+    _controlsVisible: { state: true },
+    _staticAttributeUnits: { state: true }
   };
 
   static styles = css`
@@ -36,6 +37,13 @@ export class EquinoxHistoryDialog extends LitElement {
   language?: string;
   private _fullscreen = false;
   private _controlsVisible = true;
+  private _staticAttributeUnits?: AttributeUnitMap;
+  private _attributeUnitsLoadStarted = false;
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    this._loadAttributeUnits();
+  }
 
   private _dispatchClose(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
@@ -43,6 +51,16 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _toggleFullscreen(): void {
     this._fullscreen = !this._fullscreen;
+  }
+
+  private _loadAttributeUnits(): void {
+    if (this._attributeUnitsLoadStarted) return;
+    this._attributeUnitsLoadStarted = true;
+
+    loadEquinoxStaticAttributeUnits().then((units) => {
+      this._staticAttributeUnits = units;
+      this.requestUpdate();
+    });
   }
 
   private _configCacheKey = "";
@@ -124,7 +142,7 @@ export class EquinoxHistoryDialog extends LitElement {
         ? html`<ha-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
-              .attributeUnits=${equinoxAttributeUnits(this.hass, this.config?.entity)}
+              .attributeUnits=${equinoxAttributeUnits(this._staticAttributeUnits, this.hass, this.config?.entity)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               style="flex:1;min-height:70vh;"

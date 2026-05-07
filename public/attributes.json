@@ -1,0 +1,6 @@
+{
+  "power_percent": "%",
+  "valve_open_percent": "%",
+  "on_percent": "%",
+  "current_state.mean_cycle_power": "%"
+}

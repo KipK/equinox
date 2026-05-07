@@ -45,12 +45,22 @@ The generated Lovelace resource is:
 dist/equinox-card.js
 ```
 
+The build also copies the runtime attribute-unit map:
+
+```text
+dist/attributes.json
+```
+
+Release/HACS packages must include both files. `equinox-card.js` loads
+`attributes.json` next to itself at runtime, so keep both files in the same
+directory.
+
 Vite 8 requires Node `^20.19.0 || >=22.12.0`.
 
 ## Home Assistant Resource
 
-After building, expose `dist/equinox-card.js` to Home Assistant and add it as a
-Lovelace resource:
+After building, expose `dist/equinox-card.js` and `dist/attributes.json` to Home
+Assistant in the same directory, then add the JS file as a Lovelace resource:
 
 ```yaml
 url: /local/equinox-card.js
