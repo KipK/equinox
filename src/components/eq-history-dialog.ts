@@ -25,6 +25,10 @@ export class EquinoxHistoryDialog extends LitElement {
       color: var(--primary-text-color);
     }
 
+    .dialog-tools-btn {
+      --mdc-icon-size: 18px;
+    }
+
     @media (max-width: 600px) {
       .dialog-fs-toggle {
         display: none;
@@ -120,7 +124,7 @@ export class EquinoxHistoryDialog extends LitElement {
       >
         <ha-icon-button
           slot="headerActionItems"
-          class="dialog-fullscreen-btn"
+          class="dialog-fullscreen-btn dialog-tools-btn"
           .label=${localize(this.language, "dialog.history.tools")}
           ?active=${this._toolsOpen}
           @click=${() => { this._toolsOpen = !this._toolsOpen; }}
