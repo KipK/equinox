@@ -4,11 +4,18 @@
   "power_percent": "%",
   "valve_open_percent": "%",
 
+  "ab_learning.bootstrap_progress_percent": "%",
+
   "auto_start_stop_manager.auto_start_stop_dtmin": "min",
+
+  "autocalib.snapshot_age_h": "h",
 
   "configuration.cycle_min": "min",
   "configuration.minimal_activation_delay_sec": "s",
   "configuration.minimal_deactivation_delay_sec": "s",
+
+  "control.ki": "coeff",
+  "control.kp": "coeff",
 
   "heating_failure_detection_manager.cooling_tracking.current_temperature": "temperature",
   "heating_failure_detection_manager.cooling_tracking.elapsed_time_min": "min",
@@ -22,6 +29,11 @@
   "heating_failure_detection_manager.temperature_change_tolerance": "temperature",
 
   "lock_manager.auto_relock_sec": "s",
+
+  "model.a": "coeff",
+  "model.b": "coeff",
+  "model.deadtime_cool_s": "s",
+  "model.deadtime_heat_s": "s",
 
   "motion_manager.motion_delay_sec": "s",
   "motion_manager.motion_off_delay_sec": "s",
@@ -40,8 +52,14 @@
 
   "safety_manager.safety_delay_min": "min",
 
+  "setpoint.filtered_setpoint": "temperature",
+
   "specific_states.ema_temp": "temperature",
   "specific_states.ext_current_temperature": "temperature",
+
+  "temperature.error": "temperature",
+  "temperature.ext_sensor": "temperature",
+  "temperature.sensor": "temperature",
 
   "timed_preset_manager.remaining_time_min": "min",
 
