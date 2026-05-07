@@ -4929,7 +4929,7 @@ function fa(e) {
 	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? Zi, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s;
 	s = t?.series && t.series.length > 0 ? t.series.map((e, t) => ca(e, t, n, r)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => la(e, t, n)).filter((e) => e !== void 0);
 	let c = s.length;
-	return s = s.flatMap((e) => da(e, () => c++, n)), s.some((e) => e.scaleGroupKey === "group:temperature") && (s = s.map((e) => e.valueType === "number" && e.unit && ea(e.unit) && e.scaleGroupKey.startsWith("unit:") ? {
+	return s = s.flatMap((e) => da(e, () => c++, n)), s.some((e) => e.scaleGroupKey === "group:temperature") && (s = s.map((e) => e.valueType === "number" && e.unit && ea(e.unit) && e.scaleGroupKey.startsWith("unit:") && !(e.scaleMode === "manual" && (e.scaleMin !== void 0 || e.scaleMax !== void 0)) ? {
 		...e,
 		scaleGroupKey: "group:temperature"
 	} : e)), {
@@ -5888,7 +5888,10 @@ var K = class extends qn {
 	_fetchSources() {
 		let e = [], t = /* @__PURE__ */ new Set();
 		if (this._resolved) for (let n of this._resolved.series) t.has(n.id) || (t.add(n.id), e.push(Xi(n)));
-		for (let n of this._selectedSources) t.has(n.id) || (t.add(n.id), e.push(n));
+		for (let n of this._selectedSources) {
+			let r = this._sourceWithAttributeUnit(n);
+			t.has(r.id) || (t.add(r.id), e.push(r));
+		}
 		return e;
 	}
 	_isDefaultSource(e) {
@@ -5996,24 +5999,44 @@ var K = class extends qn {
 			}];
 		});
 		for (let t of this._selectedSources) {
-			if (e.some((e) => e.id === t.id)) continue;
-			let n = this._data.series.find((e) => e.source.id === t.id);
-			if (!n) continue;
-			let r = e.length, i = this._pickScaleGroup(t, e);
+			let n = this._sourceWithAttributeUnit(t);
+			if (e.some((e) => e.id === n.id)) continue;
+			let r = this._data.series.find((e) => e.source.id === n.id);
+			if (!r) continue;
+			let i = e.length, a = this._pickScaleGroup(n, e);
 			e.push({
-				id: t.id,
-				label: t.label,
-				color: oi(r),
-				scaleGroupKey: i,
+				id: n.id,
+				label: n.label,
+				color: oi(i),
+				scaleGroupKey: a,
 				scaleMode: "auto",
-				valueType: t.valueType,
-				points: n?.points ?? []
+				valueType: n.valueType,
+				points: r?.points ?? []
 			});
 		}
 		return e;
 	}
 	_chartSourceKey() {
-		return [...this._resolved?.series.map((e) => e.id) ?? [], ...this._selectedSources.map((e) => e.id)].join("|");
+		return [...this._resolved?.series.map((e) => [
+			e.id,
+			e.label,
+			e.color,
+			e.unit ?? "",
+			e.scaleGroupKey,
+			e.scaleMode,
+			e.scaleMin ?? "",
+			e.scaleMax ?? "",
+			e.valueType
+		].join("~")) ?? [], ...this._selectedSources.map((e) => {
+			let t = this._sourceWithAttributeUnit(e);
+			return [
+				t.id,
+				t.label,
+				t.kind,
+				t.unit ?? "",
+				t.valueType
+			].join("~");
+		})].join("|");
 	}
 	_chartData() {
 		let e = this._hiddenSeriesIds.join("|"), t = this._chartSourceKey(), n = this._chartRenderCache, r = this._resolved?.startDate.getTime() ?? 0, i = this._resolved?.endDate.getTime() ?? 0, a = this._containerWidth;
@@ -6239,19 +6262,21 @@ var K = class extends qn {
 		this._entityPickerOpen = !1;
 	}
 	_sourceWithAttributeUnit(e) {
-		if (e.kind !== "entity_attribute" || e.unit || !e.path) return e;
+		if (e.kind !== "entity_attribute" || !e.path) return e;
 		let t = Yi(e.path, this.attributeUnits ?? this.config?.attributeUnits);
-		return t ? {
+		return !t || e.unit === t ? e : {
 			...e,
 			unit: t
-		} : e;
+		};
 	}
 	_addSource(e) {
-		this._selectedSources.some((t) => t.id === e.id) || this._pendingAddedSources.some((t) => t.id === e.id) || (this._resolved?.series ?? []).some((t) => t.id === e.id) || (this._pendingAddedSources = [...this._pendingAddedSources, this._sourceWithAttributeUnit(e)], this._attributeMenuOpen = window.matchMedia("(hover: hover) and (pointer: fine)").matches ? this._attributeMenuOpen : !1, this.dispatchEvent(new CustomEvent("series-added", {
-			detail: { source: e },
+		if (this._selectedSources.some((t) => t.id === e.id) || this._pendingAddedSources.some((t) => t.id === e.id) || (this._resolved?.series ?? []).some((t) => t.id === e.id)) return;
+		let t = this._sourceWithAttributeUnit(e);
+		this._pendingAddedSources = [...this._pendingAddedSources, t], this._attributeMenuOpen = window.matchMedia("(hover: hover) and (pointer: fine)").matches ? this._attributeMenuOpen : !1, this.dispatchEvent(new CustomEvent("series-added", {
+			detail: { source: t },
 			bubbles: !0,
 			composed: !0
-		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), Ua));
+		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), Ua);
 	}
 	_flushPendingAddedSources() {
 		if (this._sourceAddBatchTimer = void 0, this._pendingAddedSources.length === 0) return;
@@ -6293,10 +6318,8 @@ var Ga = {
 	valve_open_percent: "%",
 	on_percent: "%",
 	"current_state.mean_cycle_power": "%"
-};
-//#endregion
-//#region src/data/attribute-units.ts
-function Ka(e, t) {
+}, Ka = /* @__PURE__ */ new Map();
+function qa(e, t) {
 	if (!t || !e) return "°C";
 	let n = e.states[t];
 	if (!n) return "°C";
@@ -6305,16 +6328,18 @@ function Ka(e, t) {
 	let a = r.unit_of_measurement;
 	return typeof a == "string" && a !== "" ? a : "°C";
 }
-function qa(e, t) {
-	let n = Ka(e, t);
-	return {
+function Ja(e, t) {
+	let n = qa(e, t), r = Ka.get(n);
+	if (r) return r;
+	let i = {
 		...Ga,
 		"specific_states.ema_temperature": n
 	};
+	return Ka.set(n, i), i;
 }
 //#endregion
 //#region src/components/eq-history-dialog.ts
-var Ja = class extends w {
+var Ya = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._configCacheKey = "";
 	}
@@ -6407,7 +6432,7 @@ var Ja = class extends w {
         ${this.open ? S`<ha-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
-              .attributeUnits=${qa(this.hass, this.config?.entity)}
+              .attributeUnits=${Ja(this.hass, this.config?.entity)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               style="flex:1;min-height:70vh;"
@@ -6416,16 +6441,16 @@ var Ja = class extends w {
     `;
 	}
 };
-customElements.get("eq-history-dialog") || customElements.define("eq-history-dialog", Ja);
+customElements.get("eq-history-dialog") || customElements.define("eq-history-dialog", Ya);
 //#endregion
 //#region src/components/eq-main-card.ts
-var Ya = [
+var Xa = [
 	"heat",
 	"cool",
 	"dry",
 	"fan_only",
 	"off"
-], Xa = [
+], Za = [
 	"frost",
 	"eco",
 	"away",
@@ -6434,13 +6459,13 @@ var Ya = [
 	"sleep",
 	"activity",
 	"boost"
-], Za = {
+], Qa = {
 	heat: "mdi:fire",
 	cool: "mdi:snowflake",
 	dry: "mdi:water-percent",
 	fan_only: "mdi:fan",
 	off: "mdi:power"
-}, Qa = {
+}, $a = {
 	frost: "mdi:snowflake",
 	eco: "mdi:tree-outline",
 	away: "mdi:home-export-outline",
@@ -6449,7 +6474,7 @@ var Ya = [
 	sleep: "mdi:sleep",
 	activity: "mdi:motion-sensor",
 	boost: "mdi:rocket-launch-outline"
-}, $a = [
+}, eo = [
 	{
 		key: "hasOverpowering",
 		icon: "mdi:flash-alert",
@@ -6477,7 +6502,7 @@ var Ya = [
 		tone: "boost",
 		messageKeys: ["target_temp_timed_preset"]
 	}
-], eo = {
+], to = {
 	safety_detected: {
 		icon: "mdi:thermometer-alert",
 		tone: "danger"
@@ -6554,7 +6579,7 @@ var Ya = [
 		icon: "mdi:alert-box-outline",
 		tone: "warning"
 	}
-}, to = {
+}, no = {
 	preheating: {
 		icon: "mdi:timer-sand",
 		tone: "heat"
@@ -6584,11 +6609,11 @@ var Ya = [
 function q(e) {
 	return typeof e == "number" && Number.isFinite(e);
 }
-function no(e, t) {
+function ro(e, t) {
 	let n = [...new Set(e)], r = t.filter((e) => n.includes(e)), i = n.filter((e) => !t.includes(e));
 	return [...r, ...i];
 }
-var ro = class extends w {
+var io = class extends w {
 	constructor(...e) {
 		super(...e), this._activeDialog = null, this._powerInfoPinned = !1, this._handleMouseLeave = () => {
 			this._activeDialog === "menu" && (this._activeDialog = null);
@@ -7621,9 +7646,9 @@ var ro = class extends w {
     `;
 	}
 	_renderHvacStateIcon() {
-		let e = this.viewModel?.climate.hvacAction, t = e ? to[e] : void 0, n = this.viewModel?.climate.hvacMode;
+		let e = this.viewModel?.climate.hvacAction, t = e ? no[e] : void 0, n = this.viewModel?.climate.hvacMode;
 		if (n === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return C;
-		let r = t?.icon || (n ? Za[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? T(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
+		let r = t?.icon || (n ? Qa[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? T(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
 		return r ? S`
       <ha-icon
         class="action-icon"
@@ -7636,10 +7661,10 @@ var ro = class extends w {
 	_renderEvents() {
 		let e = this.viewModel?.vt?.events, t = this.viewModel?.vt?.messages ?? [];
 		if (!e) return [];
-		let n = new Set($a.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])), r = t.map((e) => {
+		let n = new Set(eo.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])), r = t.map((e) => {
 			let t = n.has(e.key) ? (e) => this._openBoost(e) : void 0;
 			return this._renderMessageIcon(e, t);
-		}), i = $a.filter((n) => {
+		}), i = eo.filter((n) => {
 			let r = n.messageKeys ?? [];
 			return e[n.key] && !r.some((e) => t.some((t) => t.key === e));
 		}).map((e) => {
@@ -7694,7 +7719,7 @@ var ro = class extends w {
     `;
 	}
 	_messageIcon(e) {
-		return eo[e] ?? {
+		return to[e] ?? {
 			icon: "mdi:information-outline",
 			tone: "info"
 		};
@@ -7793,7 +7818,7 @@ var ro = class extends w {
     `;
 	}
 	_renderHvacModes() {
-		let e = no(this.viewModel?.climate.hvacModes ?? [], Ya).filter((e) => Za[e]);
+		let e = ro(this.viewModel?.climate.hvacModes ?? [], Xa).filter((e) => Qa[e]);
 		return e.length === 0 ? C : S`<div class="segments" style=${e.length < 3 ? `width: calc(100% / 3 * ${e.length}); margin-inline: auto;` : ""}>${e.map((e) => this._renderHvacButton(e))}</div>`;
 	}
 	_renderHvacButton(e) {
@@ -7807,13 +7832,13 @@ var ro = class extends w {
         @click=${() => this._setHvacMode(e)}
       >
         <span class="btn-icon" tone=${this._modeTone(e)}>
-          <ha-icon .icon=${Za[e]}></ha-icon>
+          <ha-icon .icon=${Qa[e]}></ha-icon>
         </span>
       </ha-control-button>
     `;
 	}
 	_renderPresets() {
-		let e = no(this.viewModel?.climate.presetModes ?? [], Xa).filter((e) => e !== "none" && Qa[e] && !this._hidePreset(e));
+		let e = ro(this.viewModel?.climate.presetModes ?? [], Za).filter((e) => e !== "none" && $a[e] && !this._hidePreset(e));
 		return e.length === 0 ? C : S`<div class="segments">${e.map((e) => this._renderPresetButton(e))}</div>`;
 	}
 	_renderPresetButton(e) {
@@ -7827,13 +7852,13 @@ var ro = class extends w {
         @click=${() => this._setPresetMode(e)}
       >
         <span class="btn-icon" tone=${this._presetTone(e)}>
-          <ha-icon .icon=${Qa[e]}></ha-icon>
+          <ha-icon .icon=${$a[e]}></ha-icon>
         </span>
       </ha-control-button>
     `;
 	}
 	_renderCompactSelectors() {
-		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = no(this.viewModel?.climate.hvacModes ?? [], Ya).filter((e) => Za[e]), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = (this.viewModel?.climate.presetModes ?? []).filter((e) => e !== "none" && Qa[e]).length > 0, o = t && t !== "none" && Qa[t] ? Qa[t] : "mdi:knob", s = !!t && t !== "none" && !!Qa[t], c = (this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === !0, l = +!!i + +!!a + +!!c;
+		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = ro(this.viewModel?.climate.hvacModes ?? [], Xa).filter((e) => Qa[e]), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = (this.viewModel?.climate.presetModes ?? []).filter((e) => e !== "none" && $a[e]).length > 0, o = t && t !== "none" && $a[t] ? $a[t] : "mdi:knob", s = !!t && t !== "none" && !!$a[t], c = (this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === !0, l = +!!i + +!!a + +!!c;
 		return l === 0 ? C : S`
       <div class="compact-selectors" style=${l < 3 ? `width: calc(100% / 3 * ${l}); margin-inline: auto;` : ""}>
         ${i ? S`
@@ -7846,7 +7871,7 @@ var ro = class extends w {
                 @click=${(e) => this._openDialog("hvac", e)}
               >
                 <span class="btn-icon" tone=${this._modeTone(r)}>
-                  <ha-icon .icon=${r ? Za[r] : "mdi:thermostat"}></ha-icon>
+                  <ha-icon .icon=${r ? Qa[r] : "mdi:thermostat"}></ha-icon>
                 </span>
               </ha-control-button>
             ` : C}
@@ -8120,24 +8145,24 @@ var ro = class extends w {
 		St(e);
 	}
 };
-customElements.get("eq-main-card") || customElements.define("eq-main-card", ro);
+customElements.get("eq-main-card") || customElements.define("eq-main-card", io);
 //#endregion
 //#region src/data/format.ts
-var io = new Set(["unknown", "unavailable"]);
-function ao(e) {
-	return e == null || typeof e == "string" && io.has(e);
+var ao = new Set(["unknown", "unavailable"]);
+function oo(e) {
+	return e == null || typeof e == "string" && ao.has(e);
 }
 function J(e) {
-	if (!(ao(e) || typeof e != "string" || e.trim() === "")) return e;
+	if (!(oo(e) || typeof e != "string" || e.trim() === "")) return e;
 }
 function Y(e) {
-	if (ao(e)) return;
+	if (oo(e)) return;
 	if (typeof e == "number") return Number.isFinite(e) ? e : void 0;
 	if (typeof e != "string" || e.trim() === "") return;
 	let t = Number(e);
 	return Number.isFinite(t) ? t : void 0;
 }
-function oo(e) {
+function so(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : [];
 }
 function X(...e) {
@@ -8154,13 +8179,13 @@ function Q(e, t) {
 function $(e) {
 	return e === !0;
 }
-function so(e) {
+function co(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : typeof e == "string" && e.trim() !== "" ? [e] : [];
 }
-function co(e) {
+function lo(e) {
 	return e === "safety_detected" || e === "heating_failure" || e === "cooling_failure" ? "danger" : e === "overpowering_detected" || e === "not_initialized" ? "alert" : "info";
 }
-function lo(e) {
+function uo(e) {
 	return {
 		isPresenceConfigured: $(e.is_presence_configured),
 		isPowerConfigured: $(e.is_power_configured),
@@ -8173,28 +8198,28 @@ function lo(e) {
 		isRepairIncorrectStateConfigured: $(e.is_repair_incorrect_state_configured)
 	};
 }
-function uo(e) {
+function fo(e) {
 	let t = J(Q(e, ["configuration", "type"])), n = [];
 	return (e.is_over_switch === !0 || t === "over_switch") && n.push("over_switch"), (e.is_over_valve === !0 || t === "over_valve") && n.push("over_valve"), (e.is_over_climate === !0 || t === "over_climate") && n.push("over_climate"), (Q(e, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0 || Q(e, ["configuration", "have_valve_regulation"]) === !0) && n.push("over_climate_valve"), n;
 }
-function fo(e) {
-	let t = so(Q(e, ["specific_states", "messages"]));
+function po(e) {
+	let t = co(Q(e, ["specific_states", "messages"]));
 	return Q(e, ["safety_manager", "safety_state"]) === "on" && t.push("safety_detected"), Q(e, ["heating_failure_detection_manager", "heating_failure_state"]) === "on" && t.push("heating_failure"), Q(e, ["heating_failure_detection_manager", "cooling_failure_state"]) === "on" && t.push("cooling_failure"), Q(e, ["power_manager", "overpowering_state"]) === "on" && t.push("overpowering_detected"), [...new Set(t)].map((e) => ({
 		key: e,
-		severity: co(e)
+		severity: lo(e)
 	}));
 }
-function po(e) {
+function mo(e) {
 	return X(J(Q(e, ["configuration", "proportional_function"])), J(Q(e, ["vtherm_over_valve", "function"])), J(Q(e, [
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"function"
 	])), J(Q(e, ["specific_states", "proportional_function"])));
 }
-function mo(e, t, n) {
-	let r = n.attributes, i = Z(r.specific_states), a = uo(r);
+function ho(e, t, n) {
+	let r = n.attributes, i = Z(r.specific_states), a = fo(r);
 	if (!(a.length > 0 || i !== void 0 || Z(r.configuration) !== void 0)) return;
-	let o = lo(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
+	let o = uo(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
 		"vtherm_over_climate",
 		"valve_regulation",
 		"power_percent"
@@ -8202,13 +8227,13 @@ function mo(e, t, n) {
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"valve_open_percent"
-	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = fo(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
+	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = po(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
 	return {
 		isVt: !0,
 		types: a,
 		configuration: {
 			type: J(Q(r, ["configuration", "type"])),
-			proportionalFunction: po(r),
+			proportionalFunction: mo(r),
 			haveValveRegulation: Q(r, ["configuration", "have_valve_regulation"]) === !0 || Q(r, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0
 		},
 		flags: o,
@@ -8266,22 +8291,22 @@ function mo(e, t, n) {
 }
 //#endregion
 //#region src/data/climate-state.ts
-function ho(e) {
+function go(e) {
 	return typeof e == "object" && e ? e : void 0;
 }
-function go(e, t) {
-	return t.reduce((e, t) => ho(e)?.[t], e);
+function _o(e, t) {
+	return t.reduce((e, t) => go(e)?.[t], e);
 }
-function _o(e) {
+function vo(e) {
 	return e.state === "unavailable" ? "unavailable" : e.state === "unknown" ? "unknown" : "available";
 }
-function vo(e, t, n) {
+function yo(e, t, n) {
 	return X(Y(n.humidity), e.humidity_entity ? Y(t.states[e.humidity_entity]?.state) : void 0);
 }
-function yo(e, t) {
+function bo(e, t) {
 	if (!e.temperature_entity) return;
 	let n = t.states[e.temperature_entity]?.state;
-	if (!n || ao(n)) return;
+	if (!n || oo(n)) return;
 	let r = parseFloat(n);
 	if (!Number.isFinite(r)) return;
 	let i = n.indexOf(".");
@@ -8291,7 +8316,7 @@ function yo(e, t) {
 		entityId: e.temperature_entity
 	};
 }
-function bo(e, t) {
+function xo(e, t) {
 	if (!e.power_entity) return {};
 	let n = t.states[e.power_entity];
 	return {
@@ -8299,61 +8324,61 @@ function bo(e, t) {
 		instantPowerUnit: J(n?.attributes.unit_of_measurement)
 	};
 }
-function xo(e, t, n) {
-	let r = n.attributes, i = yo(e, t), a = X(ao(n.state) ? void 0 : n.state, J(r.hvac_mode), J(go(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(go(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
+function So(e, t, n) {
+	let r = n.attributes, i = bo(e, t), a = X(oo(n.state) ? void 0 : n.state, J(r.hvac_mode), J(_o(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(_o(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
 	return {
 		entityId: n.entity_id,
 		name: e.name ?? J(r.friendly_name),
-		availability: _o(n),
+		availability: vo(n),
 		hvacMode: a,
 		hvacAction: J(r.hvac_action),
-		targetTemperature: X(Y(r.temperature), Y(go(r, ["current_state", "target_temperature"]))),
+		targetTemperature: X(Y(r.temperature), Y(_o(r, ["current_state", "target_temperature"]))),
 		currentTemperature: i?.value ?? Y(r.current_temperature),
 		currentTemperatureDecimals: i?.decimals,
 		temperatureEntityId: i?.entityId,
-		currentHumidity: vo(e, t, r),
-		hvacModes: oo(r.hvac_modes),
-		presetModes: oo(r.preset_modes),
+		currentHumidity: yo(e, t, r),
+		hvacModes: so(r.hvac_modes),
+		presetModes: so(r.preset_modes),
 		presetMode: s,
 		fanMode: J(r.fan_mode),
-		fanModes: oo(r.fan_modes),
+		fanModes: so(r.fan_modes),
 		minTemp: Y(r.min_temp),
 		maxTemp: Y(r.max_temp),
-		targetTempStep: X(Y(r.target_temp_step), Y(go(r, ["configuration", "target_temperature_step"])), .5),
+		targetTempStep: X(Y(r.target_temp_step), Y(_o(r, ["configuration", "target_temperature_step"])), .5),
 		targetTemperatureRange: {
 			low: Y(r.target_temp_low),
 			high: Y(r.target_temp_high)
 		},
-		...bo(e, t)
+		...xo(e, t)
 	};
 }
-function So(e, t, n) {
+function Co(e, t, n) {
 	return {
-		climate: xo(e, t, n),
-		vt: mo(e, t, n)
+		climate: So(e, t, n),
+		vt: ho(e, t, n)
 	};
 }
 //#endregion
 //#region src/data/config.ts
-function Co(e) {
+function wo(e) {
 	return typeof e == "string";
 }
-function wo(e, t) {
-	return Co(t) && e.includes(t);
-}
-function To(e) {
-	return e.startsWith("climate.");
+function To(e, t) {
+	return wo(t) && e.includes(t);
 }
 function Eo(e) {
+	return e.startsWith("climate.");
+}
+function Do(e) {
 	let t = {
 		...lt,
 		...e,
 		type: He
 	};
-	return delete t.card_height, !Co(t.entity) || t.entity.trim() === "" ? {
+	return delete t.card_height, !wo(t.entity) || t.entity.trim() === "" ? {
 		config: t,
 		error: "missing_entity"
-	} : (t.entity = t.entity.trim(), To(t.entity) ? wo(it, t.theme) ? wo(at, t.display_mode) ? wo(ot, t.primary_display) ? wo(st, t.additional_dashboards) ? wo(ct, t.state_icons_layout) ? { config: t } : {
+	} : (t.entity = t.entity.trim(), Eo(t.entity) ? To(it, t.theme) ? To(at, t.display_mode) ? To(ot, t.primary_display) ? To(st, t.additional_dashboards) ? To(ct, t.state_icons_layout) ? { config: t } : {
 		config: t,
 		error: "invalid_state_icons_layout"
 	} : {
@@ -8375,7 +8400,7 @@ function Eo(e) {
 }
 //#endregion
 //#region src/equinox-card.ts
-var Do = class extends w {
+var Oo = class extends w {
 	static {
 		this.properties = {
 			hass: { attribute: !1 },
@@ -8413,7 +8438,7 @@ var Do = class extends w {
 		};
 	}
 	setConfig(e) {
-		this._validation = Eo(e);
+		this._validation = Do(e);
 	}
 	willUpdate() {
 		this._viewModel = this._buildViewModel();
@@ -8449,7 +8474,7 @@ var Do = class extends w {
 	_buildViewModel() {
 		if (!this.hass || !this._validation || this._validation.error) return;
 		let e = this._validation.config, t = this.hass.states[e.entity];
-		if (t) return So(e, this.hass, t);
+		if (t) return Co(e, this.hass, t);
 	}
 	_renderMessage(e, t = !1) {
 		return S`
@@ -8459,15 +8484,15 @@ var Do = class extends w {
     `;
 	}
 };
-customElements.get("equinox-card") || customElements.define(Ue, Do), window.customCards = window.customCards ?? [];
-var Oo = window.customCards;
-Oo.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
-	Oo.splice(Oo.indexOf(e), 1);
-}), Oo.push({
+customElements.get("equinox-card") || customElements.define(Ue, Oo), window.customCards = window.customCards ?? [];
+var ko = window.customCards;
+ko.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
+	ko.splice(ko.indexOf(e), 1);
+}), ko.push({
 	type: Ue,
 	name: Ve,
 	description: T(navigator.language, "card.description"),
 	preview: !0
 });
 //#endregion
-export { Do as EquinoxCard };
+export { Oo as EquinoxCard };
