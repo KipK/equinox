@@ -5627,6 +5627,23 @@ var La = qt`
     background: transparent;
   }
 
+  .entity-browser-entry--present {
+    cursor: default;
+    color: var(--ha-color-amber-80, #ffb74d);
+    background: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 14%, transparent);
+    box-shadow: inset 3px 0 0 var(--ha-color-amber-80, #ffb74d);
+  }
+
+  .entity-browser-entry--present:hover {
+    background: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 14%, transparent);
+  }
+
+  .entity-browser-entry--present .entity-browser-entry-type,
+  .entity-browser-entry--present .entity-browser-entry-arrow {
+    color: inherit;
+    opacity: 0.78;
+  }
+
   .entity-browser-entry-label {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -5681,11 +5698,14 @@ var La = qt`
 
   .entity-browser-entity--present {
     cursor: default;
-    opacity: 0.45;
+    color: var(--ha-color-green-80, #81c784);
+    border-color: color-mix(in srgb, var(--ha-color-green-80, #81c784) 62%, var(--better-history-border-color, var(--divider-color, #444)));
+    background: color-mix(in srgb, var(--ha-color-green-80, #81c784) 14%, transparent);
+    box-shadow: inset 3px 0 0 var(--ha-color-green-80, #81c784);
   }
 
   .entity-browser-entity--present:hover {
-    background: transparent;
+    background: color-mix(in srgb, var(--ha-color-green-80, #81c784) 14%, transparent);
   }
 
   .entity-browser-entity-id {
@@ -5953,7 +5973,7 @@ function lo(e, t, n, r, i) {
     `;
 	let a = Ar(n), o = [...r, t], s = a ? Mr(e, o) : void 0;
 	return s ? ao(s.id, i) ? N`
-      <div class="entity-browser-entry entity-browser-entry--disabled">
+      <div class="entity-browser-entry entity-browser-entry--present">
         <span class="entity-browser-entry-label">${t}</span>
         <span class="entity-browser-entry-type">${a}</span>
       </div>
