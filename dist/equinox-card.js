@@ -1707,9 +1707,6 @@ var kt = class extends w {
     .fan-list {
       padding: 0;
       background: transparent;
-      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
-      border-radius: var(--equinox-control-radius, 8px);
-      overflow: hidden;
     }
 
     ha-md-list-item {
@@ -1742,10 +1739,6 @@ var kt = class extends w {
     ha-md-list-item[active] .option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
-    }
-
-    ha-md-list-item > span:not([slot]) {
-      display: none;
     }
 
     .option-check {
@@ -1983,10 +1976,6 @@ var At = [
       display: none;
     }
 
-    ha-md-list-item > span:not([slot]) {
-      display: none;
-    }
-
     .option-mobile {
       display: none;
     }
@@ -1994,9 +1983,6 @@ var At = [
     .option-list {
       padding: 0;
       background: transparent;
-      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
-      border-radius: var(--equinox-control-radius, 8px);
-      overflow: hidden;
     }
 
     ha-md-list-item {
@@ -2240,10 +2226,6 @@ var Pt = [
       display: none;
     }
 
-    ha-md-list-item > span:not([slot]) {
-      display: none;
-    }
-
     .option-mobile {
       display: none;
     }
@@ -2251,9 +2233,6 @@ var Pt = [
     .option-list {
       padding: 0;
       background: transparent;
-      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
-      border-radius: var(--equinox-control-radius, 8px);
-      overflow: hidden;
     }
 
     ha-md-list-item {

@@ -136,10 +136,6 @@ export class EquinoxPresetDialog extends LitElement {
       display: none;
     }
 
-    ha-md-list-item > span:not([slot]) {
-      display: none;
-    }
-
     .option-mobile {
       display: none;
     }
@@ -147,9 +143,6 @@ export class EquinoxPresetDialog extends LitElement {
     .option-list {
       padding: 0;
       background: transparent;
-      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
-      border-radius: var(--equinox-control-radius, 8px);
-      overflow: hidden;
     }
 
     ha-md-list-item {
