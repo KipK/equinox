@@ -164,6 +164,7 @@
       "loading": "Chargement de l'historique...",
       "empty": "Aucun historique sur cette période.",
       "no_attributes": "Aucun attribut sélectionnable.",
+      "tools": "Outils",
       "show_controls": "Afficher les contrôles de l'historique",
       "hide_controls": "Masquer les contrôles de l'historique",
       "fullscreen": "Plein écran",

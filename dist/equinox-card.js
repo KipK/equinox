@@ -740,6 +740,7 @@ var et = {
 				loading: "Loading history...",
 				empty: "No history for this period.",
 				no_attributes: "No selectable attribute.",
+				tools: "Tools",
 				show_controls: "Show history controls",
 				hide_controls: "Hide history controls",
 				fullscreen: "Fullscreen",
@@ -966,6 +967,7 @@ var et = {
 				loading: "Chargement de l'historique...",
 				empty: "Aucun historique sur cette période.",
 				no_attributes: "Aucun attribut sélectionnable.",
+				tools: "Outils",
 				show_controls: "Afficher les contrôles de l'historique",
 				hide_controls: "Masquer les contrôles de l'historique",
 				fullscreen: "Plein écran",
@@ -5167,7 +5169,6 @@ function Wa(e) {
 		showEntityPicker: t?.showEntityPicker ?? e.showEntityPicker ?? !1,
 		showLegend: t?.showLegend ?? e.showLegend ?? !0,
 		showTooltip: t?.showTooltip ?? e.showTooltip ?? !0,
-		forced: t?.forced ?? e.forced ?? !0,
 		width: t?.width ?? e.width ?? "100%",
 		height: t?.height ?? e.height,
 		backgroundColor: t?.backgroundColor ?? e.backgroundColor,
@@ -5486,7 +5487,6 @@ var qa = qt`
     width: 100%;
   }
 
-  .tools-toggle,
   .tool-icon-button,
   .mode-button,
   .tool-action-button {
@@ -5501,21 +5501,12 @@ var qa = qt`
     font: inherit;
   }
 
-  .tools-toggle {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--better-history-radius, 8px);
-    flex: 0 0 auto;
-  }
-
-  .tools-toggle[active],
   .mode-button[active] {
     color: var(--better-history-text-color, var(--primary-text-color, #fff));
     background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 18%, transparent);
     border-color: var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
   }
 
-  .tools-toggle ha-icon,
   .tool-icon-button ha-icon,
   .mode-button ha-icon,
   .tool-action-button ha-icon {
@@ -5581,7 +5572,7 @@ var qa = qt`
 
   .range-slider-stack {
     position: relative;
-    height: 20px;
+    height: 24px;
     display: flex;
     align-items: center;
     padding: 0 2px;
@@ -5630,19 +5621,19 @@ var qa = qt`
   }
 
   .range-slider::-webkit-slider-runnable-track {
-    height: 20px;
+    height: 24px;
     background: transparent;
   }
 
   .range-slider::-moz-range-track {
-    height: 20px;
+    height: 24px;
     background: transparent;
   }
 
   .range-slider::-webkit-slider-thumb {
     appearance: none;
-    width: 5px;
-    height: 14px;
+    width: 12px;
+    height: 18px;
     margin-top: 3px;
     border: 0;
     border-radius: 999px;
@@ -5654,8 +5645,8 @@ var qa = qt`
   }
 
   .range-slider::-moz-range-thumb {
-    width: 5px;
-    height: 14px;
+    width: 12px;
+    height: 18px;
     border: 0;
     border-radius: 999px;
     background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 86%, var(--primary-text-color, #fff) 14%);
@@ -5711,10 +5702,6 @@ var qa = qt`
     .controls-bar {
       flex-direction: column;
       align-items: stretch;
-    }
-
-    .tools-toggle {
-      width: 100%;
     }
 
     .tools-panel {
@@ -6253,9 +6240,9 @@ function co(e) {
               <span class="history-loading-text">${W(e.hass, "loading")}</span>
             </div>
           ` : F}
-      ${e.chipSources.length > 0 ? N`
+      ${e.selectedSources.length > 0 ? N`
         <div class="entity-row">
-          ${e.chipSources.map((t) => uo(t, e))}
+          ${e.selectedSources.map((t) => uo(t, e))}
         </div>
       ` : F}
     </div>
@@ -6295,12 +6282,12 @@ function uo(e, t) {
         ${r && i ? N`<ha-icon .icon=${lo(i)}></ha-icon>` : N`<ha-icon .icon=${fo(e.valueType)}></ha-icon>`}
       </span>
       <span class="source-chip-label">${e.label}</span>
-      ${!n || !t.forced ? N`<button
+      ${n ? F : N`<button
             class="source-chip-remove"
             @click=${(n) => {
 		n.preventDefault(), t.onSourceRemoved(e.id);
 	}}
-          >&#x2715;</button>` : F}
+          >&#x2715;</button>`}
     </div>
   `;
 }
@@ -6382,15 +6369,11 @@ function bo(e, t) {
       <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--removable" @click=${() => t.onSourceRemoved(n.id)}>
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : _o(n.id, t) ? t.forced ? N`
+    ` : _o(n.id, t) ? N`
       <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--forced">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : N`
-        <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--removable" @click=${() => t.onSourceRemoved(n.id)}>
-          <span class="entity-browser-entry-label">${e.entity_id}</span>
-        </div>
-      ` : vo(e.entity_id, t) ? N`
+    ` : vo(e.entity_id, t) ? N`
       <div class="entity-browser-entity entity-browser-entity--disabled">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
@@ -6413,17 +6396,12 @@ function xo(e, t, n, r, i) {
         <span class="entity-browser-entry-label">${t}</span>
         <span class="entity-browser-entry-type">${a}</span>
       </div>
-    ` : _o(s.id, i) ? i.forced ? N`
+    ` : _o(s.id, i) ? N`
       <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--forced">
         <span class="entity-browser-entry-label">${t}</span>
         <span class="entity-browser-entry-type">${a}</span>
       </div>
     ` : N`
-        <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--removable" @click=${() => i.onSourceRemoved(s.id)}>
-          <span class="entity-browser-entry-label">${t}</span>
-          <span class="entity-browser-entry-type">${a}</span>
-        </div>
-      ` : N`
     <div class="entity-browser-entry" @click=${() => i.onSourceAdded(s)}>
       <span class="entity-browser-entry-label">${t}</span>
       <span class="entity-browser-entry-type">${a}</span>
@@ -6442,7 +6420,7 @@ function wo(e) {
 }
 var K = class extends Jn {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.forced = !0, this.debugPerformance = !1, this._hiddenSeriesIds = [], this._datePickerReady = !1, this._entityComponentsReady = !1, this._toolsOpen = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._removedResolvedSourceIds = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ri(this), this._tooltip = new ga(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ri(this), this._tooltip = new ga(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
 			id: e.entity_id,
 			primary: io(e),
 			secondary: e.entity_id
@@ -6499,33 +6477,24 @@ var K = class extends Jn {
 	}
 	_fetchSources() {
 		let e = [], t = /* @__PURE__ */ new Set();
-		if (this._resolved) for (let n of this._activeResolvedSeries()) t.has(n.id) || (t.add(n.id), e.push(xa(n)));
+		if (this._resolved) for (let n of this._resolved.series) t.has(n.id) || (t.add(n.id), e.push(xa(n)));
 		for (let n of this._selectedSources) {
 			let r = this._sourceWithAttributeUnit(n);
 			t.has(r.id) || (t.add(r.id), e.push(r));
 		}
 		return e;
 	}
-	_activeResolvedSeries() {
-		let e = this._resolved?.series ?? [];
-		if (this._resolved?.forced ?? !0) return e;
-		let t = new Set(this._removedResolvedSourceIds);
-		return e.filter((e) => !t.has(e.id));
-	}
-	_activeResolvedConfig() {
-		return this._resolved ? {
-			...this._resolved,
-			series: this._activeResolvedSeries()
-		} : void 0;
+	_isDefaultSource(e) {
+		return (this._resolved?.series ?? []).some((t) => t.id === e.id);
 	}
 	_resolvedTemperatureUnit() {
-		return this._activeResolvedSeries().find((e) => e.scaleGroupKey === "group:temperature" && e.unit && wo(e.unit))?.unit;
+		return this._resolved?.series.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && wo(e.unit))?.unit;
 	}
 	willUpdate(e) {
 		this._data.debugPerformance = this.debugPerformance || this.config?.debugPerformance === !0;
 		let t = this._effectiveStartDate().getTime(), n = this._effectiveEndDate().getTime();
 		(t !== this._prevStartTime || n !== this._prevEndTime || this._containerWidth !== this._prevContainerWidth) && (this._prevClipX.clear(), this._prevStartTime = t, this._prevEndTime = n, this._prevContainerWidth = this._containerWidth), this._data.loading && this._data.series.length === 0 && this._prevClipX.clear();
-		let r = /* @__PURE__ */ "_rangeStart._rangeEnd._selectedSources._removedResolvedSourceIds.hass.config.entities.hours.startDate.endDate.showDatePicker.showEntityPicker.showLegend.showTooltip.forced.width.height.lineMode.lineWidth.backgroundColor.graphTitle.titleFontFamily.titleFontSize.titleColor.language.debugPerformance.attributeUnits._runtimeLineMode".split(".");
+		let r = /* @__PURE__ */ "_rangeStart._rangeEnd._selectedSources.hass.config.entities.hours.startDate.endDate.showDatePicker.showEntityPicker.showLegend.showTooltip.width.height.lineMode.lineWidth.backgroundColor.graphTitle.titleFontFamily.titleFontSize.titleColor.language.debugPerformance.attributeUnits._runtimeLineMode".split(".");
 		if (r.some((t) => e.has(t))) {
 			if (!r.some((t) => t !== "hass" && e.has(t))) {
 				let e = Math.floor(Date.now() / 1e3) * 1e3;
@@ -6542,7 +6511,6 @@ var K = class extends Jn {
 				showEntityPicker: this.showEntityPicker,
 				showLegend: this.showLegend,
 				showTooltip: this.showTooltip,
-				forced: this.forced,
 				width: this.width,
 				height: this.height,
 				lineMode: this._effectiveLineMode(),
@@ -6556,16 +6524,14 @@ var K = class extends Jn {
 				hass: this.hass,
 				attributeUnits: this.attributeUnits
 			});
-			this._resolved = t;
-			let n = this._removedResolvedSourceIds.filter((e) => !t.forced && t.series.some((t) => t.id === e));
-			n.length !== this._removedResolvedSourceIds.length && (this._removedResolvedSourceIds = n), !this._rangeStart && !this._rangeEnd && (this._rangeStart = t.startDate, this._rangeEnd = t.endDate), !this._viewStart && !this._viewEnd && (this._viewStart = t.startDate, this._viewEnd = t.endDate);
-			let i = this._fetchSources(), a = i.map((e) => e.id).sort().join("|"), o = `${a}|${t.startDate.getTime()}|${t.endDate.getTime()}`;
-			if (o !== this._lastFetchKey) {
-				let e = a === this._lastFetchKey.split("|").slice(0, -2).join("|") && this._lastFetchKey !== "";
+			this._resolved = t, !this._rangeStart && !this._rangeEnd && (this._rangeStart = t.startDate, this._rangeEnd = t.endDate), !this._viewStart && !this._viewEnd && (this._viewStart = t.startDate, this._viewEnd = t.endDate);
+			let n = this._fetchSources(), i = n.map((e) => e.id).sort().join("|"), a = `${i}|${t.startDate.getTime()}|${t.endDate.getTime()}`;
+			if (a !== this._lastFetchKey) {
+				let e = i === this._lastFetchKey.split("|").slice(0, -2).join("|") && this._lastFetchKey !== "";
 				if (this._lastFetchSources.length > 0 && !e) {
-					let e = new Set(this._lastFetchSources.map((e) => e.id)), n = new Set(i.map((e) => e.id)), r = i.filter((t) => !e.has(t.id)), a = this._lastFetchSources.filter((e) => !n.has(e.id)).map((e) => e.id);
-					r.length > 0 && a.length === 0 ? (this._lastFetchKey = o, this._lastFetchSources = i, this._data.addSources(this.hass, r, t.startDate, t.endDate)) : a.length > 0 && r.length === 0 ? (this._lastFetchKey = o, this._lastFetchSources = i, this._data.removeSources(a)) : (this._lastFetchKey = o, this._lastFetchSources = i, this._data.fetch(this.hass, i, t.startDate, t.endDate));
-				} else this._lastFetchKey = o, this._lastFetchSources = i, this._data.fetch(this.hass, i, t.startDate, t.endDate);
+					let e = new Set(this._lastFetchSources.map((e) => e.id)), r = new Set(n.map((e) => e.id)), i = n.filter((t) => !e.has(t.id)), o = this._lastFetchSources.filter((e) => !r.has(e.id)).map((e) => e.id);
+					i.length > 0 && o.length === 0 ? (this._lastFetchKey = a, this._lastFetchSources = n, this._data.addSources(this.hass, i, t.startDate, t.endDate)) : o.length > 0 && i.length === 0 ? (this._lastFetchKey = a, this._lastFetchSources = n, this._data.removeSources(o)) : (this._lastFetchKey = a, this._lastFetchSources = n, this._data.fetch(this.hass, n, t.startDate, t.endDate));
+				} else this._lastFetchKey = a, this._lastFetchSources = n, this._data.fetch(this.hass, n, t.startDate, t.endDate);
 			}
 			t.showDatePicker && !this._datePickerReady && to().then(() => {
 				this._datePickerReady = eo(), this.requestUpdate();
@@ -6590,9 +6556,9 @@ var K = class extends Jn {
 	_pickScaleGroup(e, t) {
 		if (e.valueType !== "number") return `series:${e.id}`;
 		if (e.unit) {
-			let t = this._activeResolvedSeries().find((t) => t.unit === e.unit && t.valueType === "number");
+			let t = this._resolved?.series.find((t) => t.unit === e.unit && t.valueType === "number");
 			if (t) return t.scaleGroupKey;
-			let n = this._activeResolvedSeries().find((e) => e.scaleGroupKey === "group:temperature");
+			let n = this._resolved?.series.find((e) => e.scaleGroupKey === "group:temperature");
 			if (n && wo(e.unit)) return n.scaleGroupKey;
 		}
 		return e.unit ? `unit:${e.unit}` : `series:${e.id}`;
@@ -6607,7 +6573,7 @@ var K = class extends Jn {
 	}
 	_buildRenderSeries() {
 		if (!this._resolved) return [];
-		let e = this._activeResolvedSeries().flatMap((e) => {
+		let e = this._resolved.series.flatMap((e) => {
 			let t = this._data.series.find((t) => t.source.id === e.id);
 			return [{
 				id: e.id,
@@ -6646,7 +6612,7 @@ var K = class extends Jn {
 		return e;
 	}
 	_chartSourceKey() {
-		return [...this._activeResolvedSeries().map((e) => [
+		return [...this._resolved?.series.map((e) => [
 			e.id,
 			e.label,
 			e.color,
@@ -6658,7 +6624,7 @@ var K = class extends Jn {
 			e.lineMode,
 			e.lineWidth,
 			e.valueType
-		].join("~")), ...this._selectedSources.map((e) => {
+		].join("~")) ?? [], ...this._selectedSources.map((e) => {
 			let t = this._sourceWithAttributeUnit(e);
 			return [
 				t.id,
@@ -6801,7 +6767,7 @@ var K = class extends Jn {
 			let e = /timed?\s*out/i.test(this._data.error);
 			return N`<div class="error">${W(this.hass, e ? "error_timeout" : "error")}</div>`;
 		}
-		if (!this._resolved || this._activeResolvedSeries().length === 0 && this._selectedSources.length === 0) return N`<div class="empty">${W(this.hass, "no_series")}</div>`;
+		if (!this._resolved || this._resolved.series.length === 0 && this._selectedSources.length === 0) return N`<div class="empty">${W(this.hass, "no_series")}</div>`;
 		let e = this._chartData(), t = e.visibleSeries.some((e) => e.points.length > 0), n = this._resolved.showTooltip, r = this._graphGroups(e), i = r.length > 0 && (t || this._data.loading);
 		this._suppressLineAnimation = this._wasLoading && !this._data.loading;
 		let a = r.reduce((e, t) => e + t.canvasHeight, 0);
@@ -6827,18 +6793,14 @@ var K = class extends Jn {
     `;
 	}
 	_renderEntityPickerUI() {
-		if (!this._resolved?.showEntityPicker || !this._entityComponentsReady) return F;
-		let e = this._activeResolvedConfig(), t = [...e?.series.map((e) => xa(e)) ?? [], ...this._selectedSources].filter((e, t, n) => n.findIndex((t) => t.id === e.id) === t);
-		return co({
+		return !this._resolved?.showEntityPicker || !this._entityComponentsReady ? F : co({
 			hass: this.hass,
 			menuOpen: this._attributeMenuOpen,
 			entityPickerOpen: this._entityPickerOpen,
 			selectedEntityId: this._selectedEntityId,
 			path: this._path,
 			selectedSources: this._selectedSources,
-			chipSources: t,
-			resolved: e,
-			forced: e?.forced ?? !0,
+			resolved: this._resolved,
 			loading: this._data.loading,
 			getItems: this._getEntityPickerItems,
 			getAdditionalItems: this._getAdditionalEntityPickerItems,
@@ -6920,7 +6882,7 @@ var K = class extends Jn {
 		a.href = i, a.download = `ha-better-history-${o}.json`, a.click(), URL.revokeObjectURL(i);
 	}
 	_renderToolsPanel() {
-		if (!this._toolsOpen || !this._resolved) return F;
+		if (!this.toolsOpen || !this._resolved) return F;
 		let e = this._effectiveViewRange(), t = this._rangePercent(this._viewStart, this._resolved.startDate), n = this._rangePercent(this._viewEnd, this._resolved.endDate), r = this._defaultLineMode();
 		return N`
       <div class="tools-panel">
@@ -6990,16 +6952,6 @@ var K = class extends Jn {
         ${this.showControls ? N`<div class="controls-bar">
               ${this._renderDatePicker()}
               ${this._renderEntityPickerUI()}
-              <button
-                class="tools-toggle"
-                title=${W(this.hass, "tools")}
-                ?active=${this._toolsOpen}
-                @click=${() => {
-			this._toolsOpen = !this._toolsOpen;
-		}}
-              >
-                <ha-icon .icon=${"mdi:tools"}></ha-icon>
-              </button>
             </div>` : F}
         ${this._renderToolsPanel()}
         <div class="chart-area">
@@ -7054,7 +7006,7 @@ var K = class extends Jn {
 		};
 	}
 	_addSource(e) {
-		if (this._selectedSources.some((t) => t.id === e.id) || this._pendingAddedSources.some((t) => t.id === e.id) || this._activeResolvedSeries().some((t) => t.id === e.id)) return;
+		if (this._selectedSources.some((t) => t.id === e.id) || this._pendingAddedSources.some((t) => t.id === e.id) || (this._resolved?.series ?? []).some((t) => t.id === e.id)) return;
 		let t = this._sourceWithAttributeUnit(e);
 		this._pendingAddedSources = [...this._pendingAddedSources, t], this.dispatchEvent(new CustomEvent("series-added", {
 			detail: { source: t },
@@ -7069,15 +7021,7 @@ var K = class extends Jn {
 	}
 	_removeSource(e) {
 		let t = this._selectedSources.find((t) => t.id === e);
-		if (this._pendingAddedSources = this._pendingAddedSources.filter((t) => t.id !== e), t) {
-			this._selectedSources = this._selectedSources.filter((t) => t.id !== e), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
-				detail: { sourceId: e },
-				bubbles: !0,
-				composed: !0
-			})), this.requestUpdate();
-			return;
-		}
-		!this._resolved?.forced && (this._resolved?.series ?? []).some((t) => t.id === e) && (this._removedResolvedSourceIds = [...new Set([...this._removedResolvedSourceIds, e])], this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
+		this._pendingAddedSources = this._pendingAddedSources.filter((t) => t.id !== e), !(!t || this._isDefaultSource(t)) && (this._selectedSources = this._selectedSources.filter((t) => t.id !== e), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
 			detail: { sourceId: e },
 			bubbles: !0,
 			composed: !0
@@ -7101,13 +7045,13 @@ G([I({ attribute: !1 })], K.prototype, "hass", void 0), G([I({ attribute: !1 })]
 })], K.prototype, "showTooltip", void 0), G([I({
 	type: Boolean,
 	attribute: "show-controls"
-})], K.prototype, "showControls", void 0), G([I({ converter: {
-	fromAttribute: (e) => e !== "false",
-	toAttribute: (e) => e ? "" : "false"
-} })], K.prototype, "forced", void 0), G([I()], K.prototype, "width", void 0), G([I()], K.prototype, "height", void 0), G([I({ attribute: "line-mode" })], K.prototype, "lineMode", void 0), G([I({ attribute: "line-width" })], K.prototype, "lineWidth", void 0), G([I({ attribute: "background-color" })], K.prototype, "backgroundColor", void 0), G([I({ attribute: "graph-title" })], K.prototype, "graphTitle", void 0), G([I({ attribute: "title-font-family" })], K.prototype, "titleFontFamily", void 0), G([I({ attribute: "title-font-size" })], K.prototype, "titleFontSize", void 0), G([I({ attribute: "title-color" })], K.prototype, "titleColor", void 0), G([I()], K.prototype, "language", void 0), G([I({
+})], K.prototype, "showControls", void 0), G([I()], K.prototype, "width", void 0), G([I()], K.prototype, "height", void 0), G([I({ attribute: "line-mode" })], K.prototype, "lineMode", void 0), G([I({ attribute: "line-width" })], K.prototype, "lineWidth", void 0), G([I({ attribute: "background-color" })], K.prototype, "backgroundColor", void 0), G([I({ attribute: "graph-title" })], K.prototype, "graphTitle", void 0), G([I({ attribute: "title-font-family" })], K.prototype, "titleFontFamily", void 0), G([I({ attribute: "title-font-size" })], K.prototype, "titleFontSize", void 0), G([I({ attribute: "title-color" })], K.prototype, "titleColor", void 0), G([I()], K.prototype, "language", void 0), G([I({
 	type: Boolean,
 	attribute: "debug-performance"
-})], K.prototype, "debugPerformance", void 0), G([L()], K.prototype, "_resolved", void 0), G([L()], K.prototype, "_hiddenSeriesIds", void 0), G([L()], K.prototype, "_rangeStart", void 0), G([L()], K.prototype, "_rangeEnd", void 0), G([L()], K.prototype, "_viewStart", void 0), G([L()], K.prototype, "_viewEnd", void 0), G([L()], K.prototype, "_datePickerReady", void 0), G([L()], K.prototype, "_entityComponentsReady", void 0), G([L()], K.prototype, "_toolsOpen", void 0), G([L()], K.prototype, "_runtimeLineMode", void 0), G([L()], K.prototype, "_attributeMenuOpen", void 0), G([L()], K.prototype, "_selectedEntityId", void 0), G([L()], K.prototype, "_path", void 0), G([L()], K.prototype, "_selectedSources", void 0), G([L()], K.prototype, "_removedResolvedSourceIds", void 0), G([L()], K.prototype, "_customEntityIds", void 0), G([L()], K.prototype, "_entityPickerOpen", void 0), G([L()], K.prototype, "_containerWidth", void 0), customElements.get("ha-better-history") || customElements.define("ha-better-history", K);
+})], K.prototype, "debugPerformance", void 0), G([I({
+	type: Boolean,
+	attribute: "tools-open"
+})], K.prototype, "toolsOpen", void 0), G([L()], K.prototype, "_resolved", void 0), G([L()], K.prototype, "_hiddenSeriesIds", void 0), G([L()], K.prototype, "_rangeStart", void 0), G([L()], K.prototype, "_rangeEnd", void 0), G([L()], K.prototype, "_viewStart", void 0), G([L()], K.prototype, "_viewEnd", void 0), G([L()], K.prototype, "_datePickerReady", void 0), G([L()], K.prototype, "_entityComponentsReady", void 0), G([L()], K.prototype, "_runtimeLineMode", void 0), G([L()], K.prototype, "_attributeMenuOpen", void 0), G([L()], K.prototype, "_selectedEntityId", void 0), G([L()], K.prototype, "_path", void 0), G([L()], K.prototype, "_selectedSources", void 0), G([L()], K.prototype, "_customEntityIds", void 0), G([L()], K.prototype, "_entityPickerOpen", void 0), G([L()], K.prototype, "_containerWidth", void 0), customElements.get("ha-better-history") || customElements.define("ha-better-history", K);
 //#endregion
 //#region src/data/attribute-units.ts
 var To = "attributes.json", Eo = {}, Do;
@@ -7130,7 +7074,7 @@ function jo(e) {
 //#region src/components/eq-history-dialog.ts
 var Mo = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._attributeUnitsLoadStarted = !1, this._configCacheKey = "";
+		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._attributeUnitsLoadStarted = !1, this._configCacheKey = "";
 	}
 	static {
 		this.properties = {
@@ -7140,6 +7084,7 @@ var Mo = class extends w {
 			language: {},
 			_fullscreen: { state: !0 },
 			_controlsVisible: { state: !0 },
+			_toolsOpen: { state: !0 },
 			_staticAttributeUnits: { state: !0 }
 		};
 	}
@@ -7212,6 +7157,17 @@ var Mo = class extends w {
         <ha-icon-button
           slot="headerActionItems"
           class="dialog-fullscreen-btn"
+          .label=${T(this.language, "dialog.history.tools")}
+          ?active=${this._toolsOpen}
+          @click=${() => {
+			this._toolsOpen = !this._toolsOpen;
+		}}
+        >
+          <ha-icon icon="mdi:tools"></ha-icon>
+        </ha-icon-button>
+        <ha-icon-button
+          slot="headerActionItems"
+          class="dialog-fullscreen-btn"
           .label=${T(this.language, this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls")}
           @click=${() => {
 			this._controlsVisible = !this._controlsVisible;
@@ -7233,6 +7189,7 @@ var Mo = class extends w {
               .attributeUnits=${jo(this._staticAttributeUnits)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
+              .toolsOpen=${this._toolsOpen}
               style="flex:1;min-height:70vh;"
             ></ha-better-history>` : C}
       </ha-dialog>

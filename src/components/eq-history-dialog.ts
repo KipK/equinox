@@ -14,6 +14,7 @@ export class EquinoxHistoryDialog extends LitElement {
     language: {},
     _fullscreen: { state: true },
     _controlsVisible: { state: true },
+    _toolsOpen: { state: true },
     _staticAttributeUnits: { state: true }
   };
 
@@ -37,6 +38,7 @@ export class EquinoxHistoryDialog extends LitElement {
   language?: string;
   private _fullscreen = false;
   private _controlsVisible = true;
+  private _toolsOpen = false;
   private _staticAttributeUnits?: AttributeUnitMap;
   private _attributeUnitsLoadStarted = false;
 
@@ -119,6 +121,15 @@ export class EquinoxHistoryDialog extends LitElement {
         <ha-icon-button
           slot="headerActionItems"
           class="dialog-fullscreen-btn"
+          .label=${localize(this.language, "dialog.history.tools")}
+          ?active=${this._toolsOpen}
+          @click=${() => { this._toolsOpen = !this._toolsOpen; }}
+        >
+          <ha-icon icon="mdi:tools"></ha-icon>
+        </ha-icon-button>
+        <ha-icon-button
+          slot="headerActionItems"
+          class="dialog-fullscreen-btn"
           .label=${localize(
       this.language,
       this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls"
@@ -145,6 +156,7 @@ export class EquinoxHistoryDialog extends LitElement {
               .attributeUnits=${equinoxAttributeUnits(this._staticAttributeUnits)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
+              .toolsOpen=${this._toolsOpen}
               style="flex:1;min-height:70vh;"
             ></ha-better-history>`
         : nothing}

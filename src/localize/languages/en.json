@@ -164,6 +164,7 @@
       "loading": "Loading history...",
       "empty": "No history for this period.",
       "no_attributes": "No selectable attribute.",
+      "tools": "Tools",
       "show_controls": "Show history controls",
       "hide_controls": "Hide history controls",
       "fullscreen": "Fullscreen",
