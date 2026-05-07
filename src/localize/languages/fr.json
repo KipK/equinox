@@ -95,7 +95,9 @@
     "lock": {
       "locked": "Verrouillé",
       "unlocked": "Déverrouillé",
-      "code_required": "Code requis"
+      "code_required": "Code requis",
+      "enter_code": "Entrer le code",
+      "wrong_code": "Code incorrect"
     },
     "events": {
       "hasDanger": "Alerte critique",
@@ -202,7 +204,7 @@
     "display_mode": "Format",
     "primary_display": "Priorité d'affichage",
     "disable_name": "Masquer le nom",
-    "enable_lock": "Activer le verrouillage",
+    "hide_lock_button": "Masquer le bouton de verrouillage",
     "additional_dashboards": "Dashboards additionnels",
     "state_icons_layout": "Icônes d'état",
     "tabs": {

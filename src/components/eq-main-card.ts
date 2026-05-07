@@ -14,6 +14,7 @@ import "./eq-preset-dialog";
 import "./eq-menu-dialog";
 import "./eq-boost-dialog";
 import "./eq-history-dialog";
+import "./eq-lock-dialog";
 import "./eq-dialog";
 
 const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
@@ -109,7 +110,9 @@ export class EquinoxMainCard extends LitElement {
     _activeDialog: { state: true },
     _dialogAnchor: { state: true },
     _activeMessageKey: { state: true },
-    _powerInfoPinned: { state: true }
+    _powerInfoPinned: { state: true },
+    _lockDialogOpen: { state: true },
+    _lockIsLocking: { state: true }
   };
 
   static styles = [
@@ -257,6 +260,8 @@ export class EquinoxMainCard extends LitElement {
         color: var(--equinox-text-color);
         padding: 0;
         cursor: pointer;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
       }
 
       .lock:disabled {
@@ -947,6 +952,17 @@ export class EquinoxMainCard extends LitElement {
         }
 
       }
+
+      .lock[locked] {
+        color: var(--equinox-danger-color);
+      }
+
+      ha-card[locked] .setpoint-control,
+      ha-card[locked] .segments,
+      ha-card[locked] .compact-selectors {
+        opacity: 0.5;
+        transition: opacity 0.2s;
+      }
     `
   ];
 
@@ -959,6 +975,8 @@ export class EquinoxMainCard extends LitElement {
   private _activeMessageKey?: string;
   private _powerInfoPinned = false;
   private _powerInfoPressTimer?: number;
+  private _lockDialogOpen = false;
+  private _lockIsLocking = false;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -984,9 +1002,12 @@ export class EquinoxMainCard extends LitElement {
 
     const compact = this.config?.display_mode === "compact";
     const stateIconsVertical = this.config.state_icons_layout === "vertical";
+    const lockEffectActive =
+      this.viewModel.vt?.lock.isConfigured === true &&
+      this.viewModel.vt.lock.isUserLocked === true;
 
     return html`
-      <ha-card>
+      <ha-card ?locked=${lockEffectActive}>
         <div class="card">
           ${this._renderName()}
           ${stateIconsVertical ? nothing : this._renderStatus()}
@@ -1064,6 +1085,14 @@ export class EquinoxMainCard extends LitElement {
         .language=${this._language()}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-history-dialog>
+      <eq-lock-dialog
+        .open=${this._lockDialogOpen}
+        .hass=${this.hass}
+        .entityId=${this.config.entity}
+        .isLocking=${this._lockIsLocking}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._lockDialogOpen = false; }}
+      ></eq-lock-dialog>
       <eq-dialog
         .open=${this._activeMessageKey !== undefined}
         .title=${localize(this._language(), "dialog.message.title")}
@@ -1095,13 +1124,12 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderStatus(): TemplateResult {
-    const lockSupported = this.config?.enable_lock === true && this.viewModel?.vt?.lock.isConfigured === true;
+    const lockButtonVisible =
+      !this.config?.hide_lock_button &&
+      this.viewModel?.vt?.lock.isConfigured === true;
     const lockLabel = this.viewModel?.vt?.lock.isLocked
       ? localize(this._language(), "main.lock.locked")
       : localize(this._language(), "main.lock.unlocked");
-    const lockActionLabel = this.viewModel?.vt?.lock.hasCode
-      ? localize(this._language(), "main.lock.code_required")
-      : lockLabel;
     const showFan = this.config?.display_mode !== "compact" && this._hasFanControl();
 
     return html`
@@ -1110,24 +1138,23 @@ export class EquinoxMainCard extends LitElement {
         ${this._renderPowerInfoButton()}
         <span class="status-spacer"></span>
         <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
-        ${lockSupported ? this._renderLockButton(lockActionLabel) : nothing}
+        ${lockButtonVisible ? this._renderLockButton(lockLabel) : nothing}
         ${this.config?.disable_name ? this._renderMenuButton() : nothing}
       </div>
     `;
   }
 
   private _renderStateRail(): Array<TemplateResult | typeof nothing> {
-    const lockSupported = this.config?.enable_lock === true && this.viewModel?.vt?.lock.isConfigured === true;
+    const lockButtonVisible =
+      !this.config?.hide_lock_button &&
+      this.viewModel?.vt?.lock.isConfigured === true;
     const lockLabel = this.viewModel?.vt?.lock.isLocked
       ? localize(this._language(), "main.lock.locked")
       : localize(this._language(), "main.lock.unlocked");
-    const lockActionLabel = this.viewModel?.vt?.lock.hasCode
-      ? localize(this._language(), "main.lock.code_required")
-      : lockLabel;
 
     return [
       ...(this.config?.disable_name ? [this._renderMenuButton()] : []),
-      ...(lockSupported ? [this._renderLockButton(lockActionLabel)] : []),
+      ...(lockButtonVisible ? [this._renderLockButton(lockLabel)] : []),
       html`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`
     ];
   }
@@ -1140,15 +1167,16 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderLockButton(label: string): TemplateResult {
+    const isLocked = this.viewModel?.vt?.lock.isLocked === true;
     return html`
       <button
         class="lock"
         title=${label}
         aria-label=${label}
-        ?disabled=${this.viewModel?.vt?.lock.hasCode === true}
+        ?locked=${isLocked}
         @click=${this._toggleLock}
       >
-        <ha-icon .icon=${this.viewModel?.vt?.lock.isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
+        <ha-icon .icon=${isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
       </button>
     `;
   }
@@ -1956,7 +1984,13 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _toggleLock(): void {
-    if (!this.hass || !this.config || !this.viewModel?.vt?.lock.isConfigured || this.viewModel.vt.lock.hasCode) {
+    if (!this.hass || !this.config || !this.viewModel?.vt?.lock.isConfigured) {
+      return;
+    }
+
+    if (this.viewModel.vt.lock.hasCode) {
+      this._lockIsLocking = !this.viewModel.vt.lock.isLocked;
+      this._lockDialogOpen = true;
       return;
     }
 

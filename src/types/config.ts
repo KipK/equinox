@@ -29,7 +29,7 @@ export interface EquinoxCardConfig {
   display_mode?: EquinoxDisplayMode;
   primary_display?: EquinoxPrimaryDisplay;
   disable_name?: boolean;
-  enable_lock?: boolean;
+  hide_lock_button?: boolean;
   additional_dashboards?: EquinoxAdditionalDashboards;
   state_icons_layout?: EquinoxLayoutOrientation;
 }
@@ -43,7 +43,7 @@ export const DEFAULT_CONFIG = {
   display_mode: DEFAULT_DISPLAY_MODE,
   primary_display: DEFAULT_PRIMARY_DISPLAY,
   disable_name: false,
-  enable_lock: true,
+  hide_lock_button: false,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
   state_icons_layout: "horizontal"
 } satisfies Pick<
@@ -52,7 +52,7 @@ export const DEFAULT_CONFIG = {
   | "display_mode"
   | "primary_display"
   | "disable_name"
-  | "enable_lock"
+  | "hide_lock_button"
   | "additional_dashboards"
   | "state_icons_layout"
 >;

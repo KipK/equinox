@@ -127,7 +127,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       },
       {
-        name: "enable_lock",
+        name: "hide_lock_button",
         selector: {
           boolean: {}
         }

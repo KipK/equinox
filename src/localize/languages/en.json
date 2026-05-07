@@ -95,7 +95,9 @@
     "lock": {
       "locked": "Locked",
       "unlocked": "Unlocked",
-      "code_required": "Code required"
+      "code_required": "Code required",
+      "enter_code": "Enter code",
+      "wrong_code": "Incorrect code"
     },
     "events": {
       "hasDanger": "Critical alert",
@@ -202,7 +204,7 @@
     "display_mode": "Format",
     "primary_display": "Display priority",
     "disable_name": "Hide name",
-    "enable_lock": "Enable lock",
+    "hide_lock_button": "Hide lock button",
     "additional_dashboards": "Additional dashboards",
     "state_icons_layout": "State icons",
     "tabs": {
