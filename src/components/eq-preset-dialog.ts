@@ -64,8 +64,36 @@ export class EquinoxPresetDialog extends LitElement {
       background: rgba(128, 128, 128, 0.12);
     }
 
-    .option-row[active] .option-label {
-      color: var(--primary-color);
+    .option-row[active] {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 74%, var(--equinox-text-color, #fff) 10%);
+    }
+
+    .option-row[active]:has(.option-icon[tone="heat"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-heat-color, #ff8a1c) 22%);
+    }
+
+    .option-row[active]:has(.option-icon[tone="cool"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-cool-color, #4da1ff) 22%);
+    }
+
+    .option-row[active]:has(.option-icon[tone="auto"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-auto-color, #55bf6a) 22%);
+    }
+
+    .option-row[active]:has(.option-icon[tone="boost"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-boost-color, #b06cff) 22%);
+    }
+
+    .option-row[active]:has(.option-icon[tone="cool-boost"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-cool-boost-color, #7cc7ff) 22%);
+    }
+
+    .option-row[active]:has(.option-icon[tone="off"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--disabled-text-color, rgba(128, 128, 128, 0.5)) 22%);
+    }
+
+    .option-row[active] .option-icon {
+      background: transparent;
     }
 
     .option-icon {

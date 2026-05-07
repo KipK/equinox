@@ -19,52 +19,67 @@ export class EquinoxFanDialog extends LitElement {
   };
 
   static styles = css`
-    /* Desktop fan grid */
     .fan-grid {
       display: flex;
-      gap: 12px;
-      justify-content: center;
-      overflow-x: auto;
-      padding: 4px 0 12px;
+      overflow: hidden;
+      border-radius: var(--equinox-control-radius, 8px);
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
 
     .fan-option {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      padding: 0 4px;
+      height: 45px;
+      border-radius: 0;
       cursor: pointer;
       border: none;
       background: transparent;
       color: var(--primary-text-color, #fff);
-      flex: 0 0 auto;
-      min-width: 60px;
+      flex: 1;
+      min-width: 56px;
+    }
+
+    .fan-option:not(:last-child) {
+      border-inline-end: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
+    }
+
+    .fan-option:hover:not(:disabled) {
+      background: rgba(128, 128, 128, 0.12);
+    }
+
+    .fan-option[active] {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--primary-color) 22%);
     }
 
     .fan-option-icon {
-      width: 48px;
-      height: 48px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.12);
+      background: rgba(128, 128, 128, 0.10);
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid transparent;
     }
 
     .fan-option[active] .fan-option-icon {
-      border-color: var(--primary-color);
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
     }
 
     .fan-option-label {
-      font-size: 15px;
+      display: none;
     }
 
     .fan-list {
       padding: 0;
       background: transparent;
+      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
+      border-radius: var(--equinox-control-radius, 8px);
+      overflow: hidden;
     }
 
     ha-md-list-item {
@@ -84,10 +99,10 @@ export class EquinoxFanDialog extends LitElement {
     }
 
     .option-icon {
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.12);
+      background: rgba(128, 128, 128, 0.10);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -99,11 +114,14 @@ export class EquinoxFanDialog extends LitElement {
       color: var(--primary-color);
     }
 
+    ha-md-list-item > span:not([slot]) {
+      display: none;
+    }
+
     .option-check {
       color: var(--primary-color);
     }
 
-    /* Responsive: show desktop grid on wide, mobile list on narrow */
     .fan-desktop {
       display: flex;
       flex-direction: column;
