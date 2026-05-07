@@ -915,7 +915,13 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .power-popover ha-icon {
-        color: var(--equinox-text-color);
+        width: 28px;
+        height: 28px;
+        --mdc-icon-size: 18px;
+        background: rgba(128, 128, 128, 0.10);
+        border-radius: 50%;
+        flex-shrink: 0;
+        color: var(--equinox-muted-color);
       }
 
       @media (max-width: 360px) {
