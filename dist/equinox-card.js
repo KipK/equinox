@@ -1875,25 +1875,31 @@ var At = [
 		this.styles = o`
     .option-grid {
       display: flex;
-      gap: 12px;
-      justify-content: center;
-      overflow-x: auto;
+      overflow: hidden;
+      border-radius: var(--equinox-control-radius, 8px);
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
 
     .option-row {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      padding: 4px 6px 8px;
-      border-radius: 8px;
+      justify-content: center;
+      padding: 0 4px;
+      height: 45px;
+      border-radius: 0;
       cursor: pointer;
       border: none;
       background: transparent;
       color: var(--primary-text-color, #fff);
-      flex: 0 0 auto;
-      min-width: 60px;
+      flex: 1;
+      min-width: 56px;
       text-align: center;
+    }
+
+    .option-row:not(:last-child) {
+      border-inline-end: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
 
     .option-row:hover:not(:disabled) {
@@ -1905,10 +1911,10 @@ var At = [
     }
 
     .option-icon {
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.12);
+      background: rgba(128, 128, 128, 0.10);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1936,7 +1942,11 @@ var At = [
     }
 
     .option-label {
-      font-size: 15px;
+      display: none;
+    }
+
+    ha-md-list-item > span:not([slot]) {
+      display: none;
     }
 
     .option-mobile {
@@ -1946,6 +1956,9 @@ var At = [
     .option-list {
       padding: 0;
       background: transparent;
+      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
+      border-radius: var(--equinox-control-radius, 8px);
+      overflow: hidden;
     }
 
     ha-md-list-item {
@@ -2086,25 +2099,31 @@ var Pt = [
 		this.styles = o`
     .option-grid {
       display: flex;
-      gap: 12px;
-      justify-content: center;
-      overflow-x: auto;
+      overflow: hidden;
+      border-radius: var(--equinox-control-radius, 8px);
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
 
     .option-row {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      padding: 4px 6px 8px;
-      border-radius: 8px;
+      justify-content: center;
+      padding: 0 4px;
+      height: 45px;
+      border-radius: 0;
       cursor: pointer;
       border: none;
       background: transparent;
       color: var(--primary-text-color, #fff);
-      flex: 0 0 auto;
-      min-width: 60px;
+      flex: 1;
+      min-width: 56px;
       text-align: center;
+    }
+
+    .option-row:not(:last-child) {
+      border-inline-end: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
 
     .option-row:hover:not(:disabled) {
@@ -2116,10 +2135,10 @@ var Pt = [
     }
 
     .option-icon {
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.12);
+      background: rgba(128, 128, 128, 0.10);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2152,7 +2171,11 @@ var Pt = [
     }
 
     .option-label {
-      font-size: 15px;
+      display: none;
+    }
+
+    ha-md-list-item > span:not([slot]) {
+      display: none;
     }
 
     .option-mobile {
@@ -2162,6 +2185,9 @@ var Pt = [
     .option-list {
       padding: 0;
       background: transparent;
+      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
+      border-radius: var(--equinox-control-radius, 8px);
+      overflow: hidden;
     }
 
     ha-md-list-item {
@@ -7003,6 +7029,12 @@ var Xa = class extends w {
         border-radius: var(--equinox-control-radius);
         overflow: hidden;
         min-height: 45px;
+        background: var(--equinox-control-bg);
+        border: 1px solid var(--equinox-border-color);
+      }
+
+      .segments ha-control-button:not(:last-child) {
+        border-inline-end: 1px solid var(--equinox-border-color);
       }
 
       .segments ha-control-button,
@@ -7033,6 +7065,10 @@ var Xa = class extends w {
       .compact-selectors ha-control-button {
         flex: 1;
         min-width: 0;
+        border: 1px solid var(--equinox-border-color);
+        border-radius: var(--equinox-control-radius);
+        background: var(--equinox-control-bg);
+        overflow: hidden;
       }
 
       ha-control-button:hover:not([disabled]) {
