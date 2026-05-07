@@ -148,7 +148,7 @@ export class EquinoxMainCard extends LitElement {
         align-items: center;
         gap: 8px;
         min-height: 20px;
-        font-size: clamp(13px, 4.2cqi, var(--ha-card-header-font-size, 16px));
+        font-size: var(--ha-card-header-font-size, 16px);
         font-weight: var(--ha-card-header-font-weight, 500);
         line-height: var(--ha-card-header-line-height, 20px);
       }
@@ -930,9 +930,6 @@ export class EquinoxMainCard extends LitElement {
           gap: 8px;
         }
 
-        .name {
-          font-size: 13px;
-        }
       }
     `
   ];
