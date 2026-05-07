@@ -4,6 +4,7 @@ import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { BetterHistoryConfig } from "ha-better-history";
 import "ha-better-history/define";
+import { equinoxAttributeUnits } from "../data/attribute-units";
 
 export class EquinoxHistoryDialog extends LitElement {
   static properties = {
@@ -123,6 +124,7 @@ export class EquinoxHistoryDialog extends LitElement {
         ? html`<ha-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
+              .attributeUnits=${equinoxAttributeUnits(this.hass, this.config?.entity)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               style="flex:1;min-height:70vh;"
