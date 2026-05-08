@@ -6012,6 +6012,20 @@ var Za = Kt`
     -webkit-user-select: none;
   }
 
+  .source-chip[draggable="true"] {
+    cursor: grab;
+  }
+
+  .source-chip[draggable="true"]:active {
+    cursor: grabbing;
+  }
+
+  .source-chip[dragging] {
+    opacity: 0.48;
+    outline: 2px solid var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
+    outline-offset: 2px;
+  }
+
   .source-chip.entity-source-chip {
     border-color: var(--ha-color-green-80, #81c784);
   }
@@ -6366,7 +6380,11 @@ function po(e) {
             </div>
           ` : P}
       ${e.selectedSources.length > 0 ? M`
-        <div class="entity-row">
+        <div
+          class="entity-row"
+          @dragover=${(t) => e.onSourceDragOver(void 0, t)}
+          @drop=${(t) => e.onSourceDrop(void 0, t)}
+        >
           ${e.selectedSources.map((t) => ho(t, e))}
         </div>
       ` : P}
@@ -6400,9 +6418,19 @@ function mo(e) {
 	}[e.entity_id.split(".")[0]] ?? "mdi:bookmark";
 }
 function ho(e, t) {
-	let n = t.resolved?.series.some((t) => t.id === e.id) ?? !1, r = e.kind === "entity_state", i = t.hass?.states[e.entityId];
+	let n = t.resolved?.series.some((t) => t.id === e.id) ?? !1, r = e.kind === "entity_state", i = t.hass?.states[e.entityId], a = r ? "entity-source-chip" : "attr-source-chip", o = t.draggingSourceId === e.id;
 	return M`
-    <div class="source-chip ${r ? "entity-source-chip" : "attr-source-chip"}">
+    <div
+      class="source-chip ${a}"
+      draggable=${!n}
+      ?dragging=${o}
+      @dragstart=${(n) => t.onSourceDragStart(e.id, n)}
+      @dragend=${() => t.onSourceDragEnd()}
+      @dragover=${(r) => {
+		n || t.onSourceDragOver(e.id, r);
+	}}
+      @drop=${(n) => t.onSourceDrop(e.id, n)}
+    >
       <span class="source-chip-icon">
         ${r && i ? M`<ha-icon .icon=${mo(i)}></ha-icon>` : M`<ha-icon .icon=${go(e.valueType)}></ha-icon>`}
       </span>
@@ -6545,7 +6573,7 @@ function ko(e) {
 }
 var K = class extends Jn {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ai(this), this._tooltip = new ba(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._lastPickerOverlayOpen = !1, this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ai(this), this._tooltip = new ba(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
 			id: e.entity_id,
 			primary: co(e),
 			secondary: e.entity_id
@@ -6965,6 +6993,7 @@ var K = class extends Jn {
 			selectedEntityId: this._selectedEntityId,
 			path: this._path,
 			selectedSources: this._selectedSources,
+			draggingSourceId: this._draggingSourceId,
 			resolved: this._resolved,
 			loading: this._data.loading,
 			getItems: this._getEntityPickerItems,
@@ -6974,6 +7003,10 @@ var K = class extends Jn {
 			onEntitySelected: (e) => this._onEntitySelected(e),
 			onSourceAdded: (e) => this._addSource(e),
 			onSourceRemoved: (e) => this._removeSource(e),
+			onSourceDragStart: (e, t) => this._onSourceDragStart(e, t),
+			onSourceDragOver: (e, t) => this._onSourceDragOver(e, t),
+			onSourceDragEnd: () => this._onSourceDragEnd(),
+			onSourceDrop: (e, t) => this._onSourceDrop(e, t),
 			onBreadcrumbClick: (e) => {
 				this._path = e;
 			},
@@ -7245,6 +7278,48 @@ var K = class extends Jn {
 			composed: !0
 		})), this.requestUpdate());
 	}
+	_onSourceDragStart(e, t) {
+		let n = this._selectedSources.find((t) => t.id === e);
+		if (!n || this._isDefaultSource(n)) {
+			t.preventDefault();
+			return;
+		}
+		this._draggingSourceId = e, this._dragStartSourceIds = this._selectedSources.map((e) => e.id), this._dragDropCommitted = !1, t.dataTransfer?.setData("text/plain", e), t.dataTransfer && (t.dataTransfer.effectAllowed = "move");
+	}
+	_onSourceDragEnd() {
+		if (!this._dragDropCommitted && this._dragStartSourceIds) {
+			let e = new Map(this._dragStartSourceIds.map((e, t) => [e, t]));
+			this._selectedSources = [...this._selectedSources].sort((t, n) => (e.get(t.id) ?? 2 ** 53 - 1) - (e.get(n.id) ?? 2 ** 53 - 1));
+		}
+		this._draggingSourceId = void 0, this._dragStartSourceIds = void 0, this._dragDropCommitted = !1;
+	}
+	_onSourceDragOver(e, t) {
+		t.preventDefault(), t.stopPropagation(), t.dataTransfer && (t.dataTransfer.dropEffect = "move");
+		let n = this._draggingSourceId ?? t.dataTransfer?.getData("text/plain");
+		n && this._previewSourceOrder(n, e);
+	}
+	_onSourceDrop(e, t) {
+		t.preventDefault(), t.stopPropagation();
+		let n = this._draggingSourceId ?? t.dataTransfer?.getData("text/plain");
+		n && (this._previewSourceOrder(n, e), this._dragDropCommitted = !0, this.dispatchEvent(new CustomEvent("series-reordered", {
+			detail: { sourceIds: this._selectedSources.map((e) => e.id) },
+			bubbles: !0,
+			composed: !0
+		})), this.requestUpdate());
+	}
+	_previewSourceOrder(e, t) {
+		if (e === t) return;
+		let n = this._selectedSources.find((t) => t.id === e);
+		if (!n || this._isDefaultSource(n)) return;
+		let r = this._selectedSources.filter((t) => t.id !== e), i = t ? r.findIndex((e) => e.id === t) : r.length;
+		if (i < 0) return;
+		let a = [
+			...r.slice(0, i),
+			n,
+			...r.slice(i)
+		];
+		a.map((e) => e.id).join("|") !== this._selectedSources.map((e) => e.id).join("|") && (this._selectedSources = a, this.requestUpdate());
+	}
 };
 //#endregion
 //#region ../ha-better-history/dist/define.js
@@ -7269,7 +7344,7 @@ G([I({ attribute: !1 })], K.prototype, "hass", void 0), G([I({ attribute: !1 })]
 })], K.prototype, "debugPerformance", void 0), G([I({
 	type: Boolean,
 	attribute: "tools-open"
-})], K.prototype, "toolsOpen", void 0), G([L()], K.prototype, "_resolved", void 0), G([L()], K.prototype, "_hiddenSeriesIds", void 0), G([L()], K.prototype, "_rangeStart", void 0), G([L()], K.prototype, "_rangeEnd", void 0), G([L()], K.prototype, "_viewStart", void 0), G([L()], K.prototype, "_viewEnd", void 0), G([L()], K.prototype, "_liveNow", void 0), G([L()], K.prototype, "_datePickerReady", void 0), G([L()], K.prototype, "_entityComponentsReady", void 0), G([L()], K.prototype, "_runtimeLineMode", void 0), G([L()], K.prototype, "_attributeMenuOpen", void 0), G([L()], K.prototype, "_selectedEntityId", void 0), G([L()], K.prototype, "_path", void 0), G([L()], K.prototype, "_selectedSources", void 0), G([L()], K.prototype, "_customEntityIds", void 0), G([L()], K.prototype, "_entityPickerOpen", void 0), G([L()], K.prototype, "_containerWidth", void 0), customElements.get("ha-better-history") || customElements.define("ha-better-history", K);
+})], K.prototype, "toolsOpen", void 0), G([L()], K.prototype, "_resolved", void 0), G([L()], K.prototype, "_hiddenSeriesIds", void 0), G([L()], K.prototype, "_rangeStart", void 0), G([L()], K.prototype, "_rangeEnd", void 0), G([L()], K.prototype, "_viewStart", void 0), G([L()], K.prototype, "_viewEnd", void 0), G([L()], K.prototype, "_liveNow", void 0), G([L()], K.prototype, "_datePickerReady", void 0), G([L()], K.prototype, "_entityComponentsReady", void 0), G([L()], K.prototype, "_runtimeLineMode", void 0), G([L()], K.prototype, "_attributeMenuOpen", void 0), G([L()], K.prototype, "_selectedEntityId", void 0), G([L()], K.prototype, "_path", void 0), G([L()], K.prototype, "_selectedSources", void 0), G([L()], K.prototype, "_customEntityIds", void 0), G([L()], K.prototype, "_entityPickerOpen", void 0), G([L()], K.prototype, "_draggingSourceId", void 0), G([L()], K.prototype, "_containerWidth", void 0), customElements.get("ha-better-history") || customElements.define("ha-better-history", K);
 //#endregion
 //#region src/data/attribute-units.ts
 var Ao = "attributes.json", jo = {}, Mo;
