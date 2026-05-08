@@ -5636,12 +5636,31 @@ var Ya = Kt`
   .range-selection {
     position: absolute;
     top: 50%;
-    height: 2px;
+    height: 12px;
     border-radius: 999px;
+    background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 16%, transparent);
+    transform: translateY(-50%);
+    cursor: grab;
+    pointer-events: auto;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 26%, transparent);
+    touch-action: none;
+    z-index: 1;
+  }
+
+  .range-selection::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    top: 50%;
+    height: 2px;
+    border-radius: inherit;
     background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 82%, var(--primary-text-color, #fff) 18%);
     transform: translateY(-50%);
-    pointer-events: none;
-    box-shadow: 0 0 8px color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 26%, transparent);
+  }
+
+  .range-selection[dragging] {
+    cursor: grabbing;
   }
 
   .range-slider {
@@ -5653,6 +5672,7 @@ var Ya = Kt`
     background: transparent;
     cursor: ew-resize;
     pointer-events: none;
+    z-index: 2;
   }
 
   .range-slider::-webkit-slider-runnable-track {
@@ -5752,6 +5772,10 @@ var Ya = Kt`
     .range-slider::-webkit-slider-runnable-track,
     .range-slider::-moz-range-track {
       height: 30px;
+    }
+
+    .range-selection {
+      height: 18px;
     }
 
     .range-slider::-webkit-slider-thumb {
@@ -6856,6 +6880,29 @@ var K = class extends Jn {
 		let n = this._resolved?.startDate.getTime() ?? this._effectiveStartDate().getTime(), r = this._resolved?.endDate.getTime() ?? this._effectiveEndDate().getTime(), i = Math.max(r - n, 1), a = e?.getTime() ?? t.getTime();
 		return Math.round((a - n) / i * 1e3);
 	}
+	_loadedRangeMs() {
+		let e = this._resolved?.startDate.getTime() ?? this._effectiveStartDate().getTime(), t = this._resolved?.endDate.getTime() ?? this._effectiveEndDate().getTime(), n = Math.max(t, e + 1);
+		return {
+			start: e,
+			end: n,
+			span: n - e
+		};
+	}
+	_minViewSpanMs() {
+		let { span: e } = this._loadedRangeMs();
+		return Math.min(6e4, Math.max(1, Math.floor(e / 1e3)));
+	}
+	_setViewRangeMs(e, t) {
+		let n = this._loadedRangeMs(), r = this._minViewSpanMs(), i = Math.max(t - e, r), a = Math.min(i, n.span), o = Math.min(Math.max(e, n.start), n.end - a), s = o + a;
+		this._viewStart = new Date(o), this._viewEnd = new Date(s), this.dispatchEvent(new CustomEvent("view-range-changed", {
+			detail: {
+				start: this._viewStart,
+				end: this._viewEnd
+			},
+			bubbles: !0,
+			composed: !0
+		}));
+	}
 	_dateFromRangePercent(e) {
 		let t = this._resolved?.startDate.getTime() ?? this._effectiveStartDate().getTime(), n = this._resolved?.endDate.getTime() ?? this._effectiveEndDate().getTime();
 		return new Date(t + Math.max(0, Math.min(1e3, e)) / 1e3 * (n - t));
@@ -6869,12 +6916,34 @@ var K = class extends Jn {
 		});
 	}
 	_setViewRangePart(e, t) {
-		let n = t.currentTarget, r = this._dateFromRangePercent(Number(n.value)), i = this._effectiveViewRange(), a = 6e4;
-		e === "start" ? this._viewStart = new Date(Math.min(r.getTime(), i.end.getTime() - a)) : this._viewEnd = new Date(Math.max(r.getTime(), i.start.getTime() + a)), this.dispatchEvent(new CustomEvent("view-range-changed", {
-			detail: this._effectiveViewRange(),
-			bubbles: !0,
-			composed: !0
-		}));
+		let n = t.currentTarget, r = this._dateFromRangePercent(Number(n.value)), i = this._effectiveViewRange(), a = this._loadedRangeMs(), o = this._minViewSpanMs();
+		if (e === "start") {
+			let e = i.end.getTime();
+			this._setViewRangeMs(Math.min(Math.max(r.getTime(), a.start), e - o), e);
+		} else {
+			let e = i.start.getTime();
+			this._setViewRangeMs(e, Math.max(Math.min(r.getTime(), a.end), e + o));
+		}
+	}
+	_onRangeSelectionPointerDown(e) {
+		if (e.button !== 0) return;
+		let t = e.currentTarget, n = t.closest(".range-slider-stack");
+		if (!(n instanceof HTMLElement)) return;
+		let r = n.getBoundingClientRect();
+		if (r.width <= 0) return;
+		let i = this._loadedRangeMs(), a = this._effectiveViewRange(), o = a.start.getTime(), s = a.end.getTime() - o;
+		if (s >= i.span - 1) return;
+		e.preventDefault(), e.stopPropagation();
+		let c = e.clientX;
+		t.setPointerCapture(e.pointerId), t.toggleAttribute("dragging", !0);
+		let l = (e) => {
+			e.preventDefault();
+			let t = (e.clientX - c) / r.width * i.span, n = Math.min(Math.max(o + t, i.start), i.end - s);
+			this._setViewRangeMs(n, n + s);
+		}, u = () => {
+			t.toggleAttribute("dragging", !1), t.removeEventListener("pointermove", l), t.removeEventListener("pointerup", u), t.removeEventListener("pointercancel", u);
+		};
+		t.addEventListener("pointermove", l), t.addEventListener("pointerup", u), t.addEventListener("pointercancel", u);
 	}
 	_resetViewRange() {
 		this._resolved && (this._viewStart = this._resolved.startDate, this._viewEnd = this._resolved.endDate, this.dispatchEvent(new CustomEvent("view-range-changed", {
@@ -6935,7 +7004,11 @@ var K = class extends Jn {
             <span>${this._formatRangeDate(e.end)}</span>
           </div>
           <div class="range-slider-stack">
-            <div class="range-selection" style="left:${t / 10}%;right:${100 - n / 10}%;"></div>
+            <div
+              class="range-selection"
+              style="left:${t / 10}%;right:${100 - n / 10}%;"
+              @pointerdown=${(e) => this._onRangeSelectionPointerDown(e)}
+            ></div>
             <input class="range-slider" type="range" min="0" max="1000" .value=${String(t)} @input=${(e) => this._setViewRangePart("start", e)} />
             <input class="range-slider" type="range" min="0" max="1000" .value=${String(n)} @input=${(e) => this._setViewRangePart("end", e)} />
           </div>
