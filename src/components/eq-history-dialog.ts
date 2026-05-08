@@ -19,6 +19,12 @@ export class EquinoxHistoryDialog extends LitElement {
   };
 
   static styles = css`
+    :host,
+    ha-dialog {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
     .dialog-fullscreen-btn {
       --ha-icon-button-size: 40px;
       --ha-icon-button-padding-inline: 6px;
@@ -27,9 +33,14 @@ export class EquinoxHistoryDialog extends LitElement {
 
     .dialog-tools-btn {
       --mdc-icon-size: 18px;
+      margin-inline-start: 12px;
     }
 
     @media (max-width: 600px) {
+      .dialog-tools-btn {
+        margin-inline-start: 14px;
+      }
+
       .dialog-fs-toggle {
         display: none;
       }
@@ -45,6 +56,10 @@ export class EquinoxHistoryDialog extends LitElement {
   private _toolsOpen = false;
   private _staticAttributeUnits?: AttributeUnitMap;
   private _attributeUnitsLoadStarted = false;
+
+  protected updated(): void {
+    this._styleDialogHeader();
+  }
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -67,6 +82,37 @@ export class EquinoxHistoryDialog extends LitElement {
       this._staticAttributeUnits = units;
       this.requestUpdate();
     });
+  }
+
+  private _styleDialogHeader(): void {
+    const dialog = this.renderRoot.querySelector("ha-dialog");
+    const root = dialog?.shadowRoot;
+    if (!root || root.querySelector("style[data-equinox-history-header]")) return;
+
+    const style = document.createElement("style");
+    style.dataset.equinoxHistoryHeader = "true";
+    style.textContent = `
+      .mdc-dialog__title,
+      .header-title,
+      .title {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .header,
+      .dialog-header,
+      .mdc-dialog__header {
+        gap: 12px;
+      }
+
+      [name="headerActionItems"],
+      slot[name="headerActionItems"] {
+        flex: 0 0 auto;
+      }
+    `;
+    root.appendChild(style);
   }
 
   private _configCacheKey = "";
