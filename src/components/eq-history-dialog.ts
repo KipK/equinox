@@ -56,6 +56,9 @@ export class EquinoxHistoryDialog extends LitElement {
   private _toolsOpen = false;
   private _staticAttributeUnits?: AttributeUnitMap;
   private _attributeUnitsLoadStarted = false;
+  private _historyPickerOverlayOpen = false;
+  private _suppressNextDialogClose = false;
+  private _suppressCloseTimer?: ReturnType<typeof setTimeout>;
 
   protected updated(): void {
     this._styleDialogHeader();
@@ -63,11 +66,52 @@ export class EquinoxHistoryDialog extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+    document.addEventListener("pointerdown", this._handleDocumentPointerDown, true);
     this._loadAttributeUnits();
   }
 
-  private _dispatchClose(): void {
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("pointerdown", this._handleDocumentPointerDown, true);
+    if (this._suppressCloseTimer !== undefined) {
+      clearTimeout(this._suppressCloseTimer);
+      this._suppressCloseTimer = undefined;
+    }
+  }
+
+  private _handleDocumentPointerDown = (): void => {
+    if (!this.open || !this._historyPickerOverlayOpen) return;
+
+    this._suppressNextDialogClose = true;
+    if (this._suppressCloseTimer !== undefined) {
+      clearTimeout(this._suppressCloseTimer);
+    }
+    this._suppressCloseTimer = setTimeout(() => {
+      this._suppressNextDialogClose = false;
+      this._suppressCloseTimer = undefined;
+    }, 1000);
+  };
+
+  private _handleDialogClosed(event: Event): void {
+    if (this._suppressNextDialogClose) {
+      event.stopPropagation();
+      this._suppressNextDialogClose = false;
+      if (this._suppressCloseTimer !== undefined) {
+        clearTimeout(this._suppressCloseTimer);
+        this._suppressCloseTimer = undefined;
+      }
+
+      const dialog = event.currentTarget as HTMLElement & { open?: boolean };
+      dialog.open = true;
+      this.requestUpdate();
+      return;
+    }
+
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
+  }
+
+  private _onHistoryPickerOverlayChanged(event: CustomEvent<{ open: boolean }>): void {
+    this._historyPickerOverlayOpen = event.detail.open;
   }
 
   private _toggleFullscreen(): void {
@@ -166,7 +210,7 @@ export class EquinoxHistoryDialog extends LitElement {
         width="large"
         flexcontent
         ?fullscreen=${this._fullscreen}
-        @closed=${this._dispatchClose}
+        @closed=${(event: Event) => this._handleDialogClosed(event)}
       >
         <ha-icon-button
           slot="headerActionItems"
@@ -207,6 +251,7 @@ export class EquinoxHistoryDialog extends LitElement {
               .language=${this.language}
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
+              @picker-overlay-changed=${(event: CustomEvent<{ open: boolean }>) => this._onHistoryPickerOverlayChanged(event)}
               style="flex:1;min-height:70vh;"
             ></ha-better-history>`
         : nothing}

@@ -5640,14 +5640,18 @@ var Ya = Kt`
     border-radius: 999px;
     background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 16%, transparent);
     transform: translateY(-50%);
-    cursor: grab;
-    pointer-events: auto;
+    pointer-events: none;
     box-shadow: 0 0 8px color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 26%, transparent);
-    touch-action: none;
     z-index: 1;
   }
 
-  .range-selection::before {
+  .range-selection,
+  .range-selection-hit {
+    min-width: 0;
+  }
+
+  .range-selection::before,
+  .range-selection-hit::before {
     content: "";
     position: absolute;
     left: 6px;
@@ -5659,7 +5663,27 @@ var Ya = Kt`
     transform: translateY(-50%);
   }
 
-  .range-selection[dragging] {
+  .range-selection-hit {
+    position: absolute;
+    top: 50%;
+    width: max(36px, 8%);
+    height: 22px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 8%, transparent);
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: none;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .range-selection-hit::before {
+    left: 12px;
+    right: 12px;
+    opacity: 0.42;
+  }
+
+  .range-selection-hit[dragging] {
     cursor: grabbing;
   }
 
@@ -5776,6 +5800,11 @@ var Ya = Kt`
 
     .range-selection {
       height: 18px;
+    }
+
+    .range-selection-hit {
+      width: max(44px, 12%);
+      height: 30px;
     }
 
     .range-slider::-webkit-slider-thumb {
@@ -6481,7 +6510,7 @@ function Eo(e) {
 }
 var K = class extends Jn {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ri(this), this._tooltip = new va(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ri(this), this._tooltip = new va(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._lastPickerOverlayOpen = !1, this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
 			id: e.entity_id,
 			primary: oo(e),
 			secondary: e.entity_id
@@ -6602,7 +6631,15 @@ var K = class extends Jn {
 		}
 	}
 	updated(e) {
-		e.has("_attributeMenuOpen") && this._attributeMenuOpen && this._positionEntityMenu(), this._animateClipPaths(), this._wasLoading = this._data.loading;
+		e.has("_attributeMenuOpen") && this._attributeMenuOpen && this._positionEntityMenu(), (e.has("_attributeMenuOpen") || e.has("_entityPickerOpen")) && this._emitPickerOverlayState(), this._animateClipPaths(), this._wasLoading = this._data.loading;
+	}
+	_emitPickerOverlayState() {
+		let e = this._attributeMenuOpen || this._entityPickerOpen;
+		e !== this._lastPickerOverlayOpen && (this._lastPickerOverlayOpen = e, this.dispatchEvent(new CustomEvent("picker-overlay-changed", {
+			detail: { open: e },
+			bubbles: !0,
+			composed: !0
+		})));
 	}
 	_onDateRangeChanged(e, t) {
 		this._rangeStart = e, this._rangeEnd = t, this._viewStart = e, this._viewEnd = t, this.dispatchEvent(new CustomEvent("range-changed", {
@@ -6989,7 +7026,7 @@ var K = class extends Jn {
 	}
 	_renderToolsPanel() {
 		if (!this.toolsOpen || !this._resolved) return P;
-		let e = this._effectiveViewRange(), t = this._rangePercent(this._viewStart, this._resolved.startDate), n = this._rangePercent(this._viewEnd, this._resolved.endDate), r = this._defaultLineMode();
+		let e = this._effectiveViewRange(), t = this._rangePercent(this._viewStart, this._resolved.startDate), n = this._rangePercent(this._viewEnd, this._resolved.endDate), r = (t + n) / 20, i = this._defaultLineMode();
 		return M`
       <div class="tools-panel">
         <div class="tool-range">
@@ -7007,6 +7044,10 @@ var K = class extends Jn {
             <div
               class="range-selection"
               style="left:${t / 10}%;right:${100 - n / 10}%;"
+            ></div>
+            <div
+              class="range-selection-hit"
+              style="left:clamp(18px, ${r}%, calc(100% - 18px));"
               @pointerdown=${(e) => this._onRangeSelectionPointerDown(e)}
             ></div>
             <input class="range-slider" type="range" min="0" max="1000" .value=${String(t)} @input=${(e) => this._setViewRangePart("start", e)} />
@@ -7034,7 +7075,7 @@ var K = class extends Jn {
 		].map(([e, t, n]) => M`
               <button
                 class="mode-button"
-                ?active=${r === e}
+                ?active=${i === e}
                 title=${W(this.hass, n)}
                 @click=${() => this._setRuntimeLineMode(e)}
               >
@@ -7184,7 +7225,11 @@ function No(e) {
 //#region src/components/eq-history-dialog.ts
 var Po = class extends D {
 	constructor(...e) {
-		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._attributeUnitsLoadStarted = !1, this._configCacheKey = "";
+		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._attributeUnitsLoadStarted = !1, this._historyPickerOverlayOpen = !1, this._suppressNextDialogClose = !1, this._handleDocumentPointerDown = () => {
+			!this.open || !this._historyPickerOverlayOpen || (this._suppressNextDialogClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
+				this._suppressNextDialogClose = !1, this._suppressCloseTimer = void 0;
+			}, 1e3));
+		}, this._configCacheKey = "";
 	}
 	static {
 		this.properties = {
@@ -7232,13 +7277,25 @@ var Po = class extends D {
 		this._styleDialogHeader();
 	}
 	connectedCallback() {
-		super.connectedCallback(), this._loadAttributeUnits();
+		super.connectedCallback(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), this._loadAttributeUnits();
 	}
-	_dispatchClose() {
+	disconnectedCallback() {
+		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), this._suppressCloseTimer !== void 0 && (clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = void 0);
+	}
+	_handleDialogClosed(e) {
+		if (this._suppressNextDialogClose) {
+			e.stopPropagation(), this._suppressNextDialogClose = !1, this._suppressCloseTimer !== void 0 && (clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = void 0);
+			let t = e.currentTarget;
+			t.open = !0, this.requestUpdate();
+			return;
+		}
 		this.dispatchEvent(new CustomEvent("eq-dialog-close", {
 			bubbles: !0,
 			composed: !0
 		}));
+	}
+	_onHistoryPickerOverlayChanged(e) {
+		this._historyPickerOverlayOpen = e.detail.open;
 	}
 	_toggleFullscreen() {
 		this._fullscreen = !this._fullscreen;
@@ -7286,7 +7343,7 @@ var Po = class extends D {
         width="large"
         flexcontent
         ?fullscreen=${this._fullscreen}
-        @closed=${this._dispatchClose}
+        @closed=${(e) => this._handleDialogClosed(e)}
       >
         <ha-icon-button
           slot="headerActionItems"
@@ -7324,6 +7381,7 @@ var Po = class extends D {
               .language=${this.language}
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
+              @picker-overlay-changed=${(e) => this._onHistoryPickerOverlayChanged(e)}
               style="flex:1;min-height:70vh;"
             ></ha-better-history>` : T}
       </ha-dialog>
