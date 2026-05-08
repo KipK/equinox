@@ -100,7 +100,7 @@ additional_dashboards: auto
 | `diagnostic_entity` | no | - | Diagnostic sensor for algorithm dashboards. |
 | `power_entity` | no | - | Sensor or input number for instant power. |
 | `humidity_entity` | no | - | External humidity sensor when climate humidity is unavailable. |
-| `theme` | no | `flat` | Visual theme. Only `flat` is available in the MVP. |
+| `theme` | no | `flat` | Visual theme: `flat` or `liquid_glow`. |
 | `display_mode` | no | `classic` | Display format: `classic` or `compact`. |
 | `primary_display` | no | `setpoint` | Main emphasis: `setpoint` or `sensors`. |
 | `disable_name` | no | `false` | Hide the header name. |

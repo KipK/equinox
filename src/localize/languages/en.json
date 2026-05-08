@@ -213,7 +213,8 @@
     },
     "options": {
       "theme": {
-        "flat": "Flat"
+        "flat": "Flat",
+        "liquid_glow": "Liquid Glow"
       },
       "display_mode": {
         "classic": "Classic",

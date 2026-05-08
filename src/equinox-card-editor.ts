@@ -166,7 +166,10 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         selector: {
           select: {
             mode: "dropdown",
-            options: [{ value: "flat", label: localize(language, "editor.options.theme.flat") }]
+            options: [
+              { value: "flat", label: localize(language, "editor.options.theme.flat") },
+              { value: "liquid_glow", label: localize(language, "editor.options.theme.liquid_glow") }
+            ]
           }
         }
       },

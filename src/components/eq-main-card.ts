@@ -4,6 +4,7 @@ import { FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
 import { flatStyles } from "../styles/flat";
+import { liquidGlowStyles } from "../styles/liquid-glow";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxVtMessage } from "../types/vt";
@@ -963,7 +964,8 @@ export class EquinoxMainCard extends LitElement {
         opacity: 0.5;
         transition: opacity 0.2s;
       }
-    `
+    `,
+    liquidGlowStyles
   ];
 
   hass?: HomeAssistant;
@@ -995,6 +997,10 @@ export class EquinoxMainCard extends LitElement {
     }
   };
 
+  protected willUpdate(): void {
+    this.setAttribute("theme", this.config?.theme ?? "flat");
+  }
+
   protected render() {
     if (!this.viewModel || !this.config) {
       return nothing;
@@ -1007,7 +1013,7 @@ export class EquinoxMainCard extends LitElement {
       this.viewModel.vt.lock.isUserLocked === true;
 
     return html`
-      <ha-card ?locked=${lockEffectActive}>
+      <ha-card ?locked=${lockEffectActive} tone=${this._cardTone()}>
         <div class="card">
           ${this._renderName()}
           ${stateIconsVertical ? nothing : this._renderStatus()}
@@ -1738,6 +1744,20 @@ export class EquinoxMainCard extends LitElement {
 
     if (this.viewModel?.climate.availability !== "available" || mode === "off") {
       return "unavailable";
+    }
+
+    return this._modeTone(mode);
+  }
+
+  private _cardTone(): string {
+    if (this.viewModel?.vt?.timedPreset.isActive) {
+      return "boost";
+    }
+
+    const mode = this.viewModel?.climate.hvacMode;
+
+    if (this.viewModel?.climate.availability !== "available" || mode === "off") {
+      return "off";
     }
 
     return this._modeTone(mode);
