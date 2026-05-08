@@ -6525,7 +6525,7 @@ var K = class extends Jn {
 		}, this._handleDocumentClick = (e) => {
 			if (!this._attributeMenuOpen || this._entityPickerOpen) return;
 			let t = this.renderRoot?.querySelector(".entity-menu");
-			t && e.composedPath().includes(t) || this._closeAttributeMenu();
+			t && e.composedPath().includes(t) || (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu());
 		};
 	}
 	static {
