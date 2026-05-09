@@ -76,7 +76,9 @@ const MESSAGE_ICONS: Record<string, { icon: string; tone: string }> = {
 
 const HVAC_ACTION_ICONS: Record<string, { icon?: string; tone: string }> = {
   preheating: { icon: "mdi:timer-sand", tone: "heat" },
+  heat: { icon: "mdi:fire", tone: "heat" },
   heating: { icon: "mdi:fire", tone: "heat" },
+  cool: { icon: "mdi:snowflake", tone: "cool" },
   cooling: { icon: "mdi:snowflake", tone: "cool" },
   drying: { icon: "mdi:water-percent", tone: "cool" },
   fan: { icon: "mdi:fan-speed-2", tone: "auto" },

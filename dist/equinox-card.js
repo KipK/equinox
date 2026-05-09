@@ -9257,9 +9257,17 @@ var Yo = [
 		icon: "mdi:timer-sand",
 		tone: "heat"
 	},
+	heat: {
+		icon: "mdi:fire",
+		tone: "heat"
+	},
 	heating: {
 		icon: "mdi:fire",
 		tone: "heat"
+	},
+	cool: {
+		icon: "mdi:snowflake",
+		tone: "cool"
 	},
 	cooling: {
 		icon: "mdi:snowflake",
