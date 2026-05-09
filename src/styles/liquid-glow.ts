@@ -3,7 +3,7 @@ import { css } from "lit";
 export const liquidGlowStyles = css`
   :host([theme="liquid_glow"]) {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
-    --equinox-panel-bg: var(var(--secondary-background-color));
+    --equinox-panel-bg: var(--secondary-background-color);
     --equinox-control-bg: var(--equinox-liquid-control-bg, var(--secondary-background-color));
     --equinox-control-active-bg: var(--equinox-liquid-control-active-bg, var(--primary-color));
     --equinox-border-color: var(--equinox-liquid-border-color, var(--divider-color));
