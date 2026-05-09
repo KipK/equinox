@@ -100,6 +100,31 @@ export class EquinoxPresetDialog extends LitElement {
       overflow: visible;
     }
 
+    :host([theme="liquid_glow"]) .option-icon {
+      background: rgba(128, 128, 128, 0.10);
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="heat"] {
+      background: color-mix(in srgb, var(--equinox-heat-color, #ff8a1c) 15%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="cool"] {
+      background: color-mix(in srgb, var(--equinox-cool-color, #4da1ff) 15%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="auto"] {
+      background: color-mix(in srgb, var(--equinox-auto-color, #55bf6a) 15%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="boost"] {
+      background: color-mix(in srgb, var(--equinox-boost-color, #b06cff) 15%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="cool-boost"] {
+      background: color-mix(in srgb, var(--equinox-cool-boost-color, #7cc7ff) 15%, transparent);
+    }
+
     :host([theme="liquid_glow"]) .option-row[active] {
       --equinox-option-active-tone: var(--equinox-text-color, var(--primary-text-color, #fff));
       position: relative;
@@ -167,6 +192,7 @@ export class EquinoxPresetDialog extends LitElement {
 
     :host([theme="liquid_glow"]) .option-row[active] .option-icon {
       background: transparent;
+      box-shadow: none;
       color: var(--equinox-option-active-tone);
     }
 
@@ -216,6 +242,7 @@ export class EquinoxPresetDialog extends LitElement {
 
     :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
       background: transparent;
+      box-shadow: none;
       color: var(--equinox-option-active-tone);
     }
 
