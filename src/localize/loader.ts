@@ -16,8 +16,13 @@ function normalizeLang(lang: string): string {
   return lang.toLowerCase().split("-")[0] || "en";
 }
 
+// Split import.meta.url from new URL() so Vite's build-time asset analyzer does not attempt
+// to resolve "translations/" as a static asset (it is fetched at runtime from dist/translations/).
+const _moduleUrl = import.meta.url;
+const TRANSLATIONS_BASE = new URL("translations/", _moduleUrl).toString();
+
 function translationUrl(lang: string): string {
-  return new URL(`translations/${lang}.json`, import.meta.url).toString();
+  return TRANSLATIONS_BASE + lang + ".json";
 }
 
 export function getTranslations(lang: string): TranslationMap | undefined {
