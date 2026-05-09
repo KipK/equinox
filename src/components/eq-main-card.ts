@@ -1013,6 +1013,7 @@ export class EquinoxMainCard extends LitElement {
 
   protected willUpdate(): void {
     this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.toggleAttribute("light", !this.hass?.themes?.darkMode);
   }
 
   protected render() {

@@ -1458,16 +1458,14 @@ var Ct = {
     --equinox-shadow: var(--ha-card-box-shadow, 0 1px 2px rgb(0 0 0 / 34%));
   }
 
-  @media (prefers-color-scheme: light) {
-    :host {
-      --equinox-panel-bg: var(--equinox-card-bg);
-      --equinox-control-bg: var(--equinox-card-bg);
-    }
+  :host([light]) {
+    --equinox-panel-bg: var(--equinox-card-bg);
+    --equinox-control-bg: var(--equinox-card-bg);
   }
 `, Dt = o`
   :host([theme="liquid_glow"]) {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
-    --equinox-panel-bg: var(var(--secondary-background-color));
+    --equinox-panel-bg: var(--secondary-background-color);
     --equinox-control-bg: var(--equinox-liquid-control-bg, var(--secondary-background-color));
     --equinox-control-active-bg: var(--equinox-liquid-control-active-bg, var(--primary-color));
     --equinox-border-color: var(--equinox-liquid-border-color, var(--divider-color));
@@ -1596,46 +1594,44 @@ var Ct = {
   }
 
   /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
-     The line itself remains visible, only the surrounding diffusion is reduced. */
-  @media (prefers-color-scheme: light) {
-    :host([theme="liquid_glow"]) {
-      --equinox-liquid-line-opacity-min: 0.82;
-      --equinox-liquid-halo-opacity-min: 0.36;
-      --equinox-liquid-halo-opacity-max: 0.72;
-      --equinox-panel-bg: var(--equinox-card-bg);
-      --equinox-control-bg: var(--equinox-card-bg);
-    }
+     Detected via hass.themes.darkMode reflected as a [light] attribute on :host. */
+  :host([theme="liquid_glow"][light]) {
+    --equinox-liquid-line-opacity-min: 0.82;
+    --equinox-liquid-halo-opacity-min: 0.36;
+    --equinox-liquid-halo-opacity-max: 0.72;
+    --equinox-panel-bg: var(--equinox-card-bg);
+    --equinox-control-bg: var(--equinox-card-bg);
+  }
 
-    :host([theme="liquid_glow"]) ha-card::after {
-      background:
-        radial-gradient(ellipse 8px 60% at left 4px center,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
-          transparent 100%
-        ),
-        radial-gradient(ellipse 8px 60% at right 4px center,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
-          transparent 100%
-      );
-    }
+  :host([theme="liquid_glow"][light]) ha-card::after {
+    background:
+      radial-gradient(ellipse 8px 60% at left 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
+        transparent 100%
+      ),
+      radial-gradient(ellipse 8px 60% at right 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
+        transparent 100%
+    );
+  }
 
-    :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle],
-    :host([theme="liquid_glow"]) .compact-selectors ha-control-button[active][subtle] {
-      border-color: color-mix(in srgb, var(--equinox-liquid-active-tone) 72%, transparent);
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 6%, transparent) 0%, transparent 40%),
-        linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent) 0%, transparent 58%),
-        linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
-      box-shadow:
-        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 10%, transparent),
-        inset 0 -12px 20px color-mix(in srgb, var(--equinox-liquid-active-tone) 10%, transparent),
-        0 0 9px color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent);
-    }
+  :host([theme="liquid_glow"][light]) .segments ha-control-button[active][subtle],
+  :host([theme="liquid_glow"][light]) .compact-selectors ha-control-button[active][subtle] {
+    border-color: color-mix(in srgb, var(--equinox-liquid-active-tone) 72%, transparent);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 6%, transparent) 0%, transparent 40%),
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent) 0%, transparent 58%),
+      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 10%, transparent),
+      inset 0 -12px 20px color-mix(in srgb, var(--equinox-liquid-active-tone) 10%, transparent),
+      0 0 9px color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent);
+  }
 
-    :host([theme="liquid_glow"]) ha-control-button[active][subtle] .btn-icon ha-icon {
-      filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
-    }
+  :host([theme="liquid_glow"][light]) ha-control-button[active][subtle] .btn-icon ha-icon {
+    filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2191,22 +2187,20 @@ var kt = class extends D {
       filter: drop-shadow(0 0 4px currentColor);
     }
 
-    @media (prefers-color-scheme: light) {
-      :host([theme="liquid_glow"]) .fan-option[active] {
-        border-color: color-mix(in srgb, var(--equinox-fan-active-tone) 72%, transparent);
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent) 0%, transparent 58%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-fan-active-tone) 10%));
-        box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
-          inset 0 -12px 20px color-mix(in srgb, var(--equinox-fan-active-tone) 10%, transparent),
-          0 0 9px color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent);
-      }
+    :host([theme="liquid_glow"][light]) .fan-option[active] {
+      border-color: color-mix(in srgb, var(--equinox-fan-active-tone) 72%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-fan-active-tone) 10%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+        inset 0 -12px 20px color-mix(in srgb, var(--equinox-fan-active-tone) 10%, transparent),
+        0 0 9px color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent);
+    }
 
-      :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
-        filter: drop-shadow(0 0 2px currentColor);
-      }
+    :host([theme="liquid_glow"][light]) .fan-option[active] .fan-option-icon ha-icon {
+      filter: drop-shadow(0 0 2px currentColor);
     }
 
     .fan-option-label {
@@ -2276,7 +2270,7 @@ var kt = class extends D {
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat");
+		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
 		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? wt : this.viewModel?.climate.fanModes ?? [];
@@ -2590,38 +2584,36 @@ var At = [
       filter: drop-shadow(0 0 5px currentColor);
     }
 
-    @media (prefers-color-scheme: light) {
-      :host([theme="liquid_glow"]) .option-row[active] {
-        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
-        box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
-          inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
-          0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
-      }
+    :host([theme="liquid_glow"][light]) .option-row[active] {
+      border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+        inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
+        0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
+    }
 
-      :host([theme="liquid_glow"]) ha-md-list-item[active] {
-        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
-        box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
-          0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
-      }
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] {
+      border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
+        0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
+    }
 
-      :host([theme="liquid_glow"]) .option-row[active] .option-icon ha-icon {
-        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
-      }
+    :host([theme="liquid_glow"][light]) .option-row[active] .option-icon ha-icon {
+      filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+    }
 
-      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
-      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
-        filter: drop-shadow(0 0 3px currentColor);
-      }
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-check {
+      filter: drop-shadow(0 0 3px currentColor);
     }
 
     .option-icon {
@@ -2704,7 +2696,7 @@ var At = [
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat");
+		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.hvacModes ?? [];
@@ -3028,38 +3020,36 @@ var Pt = [
       filter: drop-shadow(0 0 5px currentColor);
     }
 
-    @media (prefers-color-scheme: light) {
-      :host([theme="liquid_glow"]) .option-row[active] {
-        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
-        box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
-          inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
-          0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
-      }
+    :host([theme="liquid_glow"][light]) .option-row[active] {
+      border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+        inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
+        0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
+    }
 
-      :host([theme="liquid_glow"]) ha-md-list-item[active] {
-        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
-        box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
-          0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
-      }
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] {
+      border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
+        0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
+    }
 
-      :host([theme="liquid_glow"]) .option-row[active] .option-icon ha-icon {
-        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
-      }
+    :host([theme="liquid_glow"][light]) .option-row[active] .option-icon ha-icon {
+      filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+    }
 
-      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
-      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
-        filter: drop-shadow(0 0 3px currentColor);
-      }
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-check {
+      filter: drop-shadow(0 0 3px currentColor);
     }
 
     .option-icon {
@@ -3147,7 +3137,7 @@ var Pt = [
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat");
+		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.presetModes ?? [], t = this.viewModel?.climate.hvacMode;
@@ -9789,7 +9779,7 @@ var Xo = class extends D {
 		super.disconnectedCallback(), this.removeEventListener("mouseleave", this._handleMouseLeave), this._clearPowerInfoPressTimer();
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat");
+		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	render() {
 		if (!this.viewModel || !this.config) return T;

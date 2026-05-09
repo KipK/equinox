@@ -132,46 +132,44 @@ export const liquidGlowStyles = css`
   }
 
   /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
-     The line itself remains visible, only the surrounding diffusion is reduced. */
-  @media (prefers-color-scheme: light) {
-    :host([theme="liquid_glow"]) {
-      --equinox-liquid-line-opacity-min: 0.82;
-      --equinox-liquid-halo-opacity-min: 0.36;
-      --equinox-liquid-halo-opacity-max: 0.72;
-      --equinox-panel-bg: var(--equinox-card-bg);
-      --equinox-control-bg: var(--equinox-card-bg);
-    }
+     Detected via hass.themes.darkMode reflected as a [light] attribute on :host. */
+  :host([theme="liquid_glow"][light]) {
+    --equinox-liquid-line-opacity-min: 0.82;
+    --equinox-liquid-halo-opacity-min: 0.36;
+    --equinox-liquid-halo-opacity-max: 0.72;
+    --equinox-panel-bg: var(--equinox-card-bg);
+    --equinox-control-bg: var(--equinox-card-bg);
+  }
 
-    :host([theme="liquid_glow"]) ha-card::after {
-      background:
-        radial-gradient(ellipse 8px 60% at left 4px center,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
-          transparent 100%
-        ),
-        radial-gradient(ellipse 8px 60% at right 4px center,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
-          color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
-          transparent 100%
-      );
-    }
+  :host([theme="liquid_glow"][light]) ha-card::after {
+    background:
+      radial-gradient(ellipse 8px 60% at left 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
+        transparent 100%
+      ),
+      radial-gradient(ellipse 8px 60% at right 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
+        transparent 100%
+    );
+  }
 
-    :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle],
-    :host([theme="liquid_glow"]) .compact-selectors ha-control-button[active][subtle] {
-      border-color: color-mix(in srgb, var(--equinox-liquid-active-tone) 72%, transparent);
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 6%, transparent) 0%, transparent 40%),
-        linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent) 0%, transparent 58%),
-        linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
-      box-shadow:
-        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 10%, transparent),
-        inset 0 -12px 20px color-mix(in srgb, var(--equinox-liquid-active-tone) 10%, transparent),
-        0 0 9px color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent);
-    }
+  :host([theme="liquid_glow"][light]) .segments ha-control-button[active][subtle],
+  :host([theme="liquid_glow"][light]) .compact-selectors ha-control-button[active][subtle] {
+    border-color: color-mix(in srgb, var(--equinox-liquid-active-tone) 72%, transparent);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 6%, transparent) 0%, transparent 40%),
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent) 0%, transparent 58%),
+      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 10%, transparent),
+      inset 0 -12px 20px color-mix(in srgb, var(--equinox-liquid-active-tone) 10%, transparent),
+      0 0 9px color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent);
+  }
 
-    :host([theme="liquid_glow"]) ha-control-button[active][subtle] .btn-icon ha-icon {
-      filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
-    }
+  :host([theme="liquid_glow"][light]) ha-control-button[active][subtle] .btn-icon ha-icon {
+    filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
   }
 
   @media (prefers-reduced-motion: reduce) {

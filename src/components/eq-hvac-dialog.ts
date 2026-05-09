@@ -229,38 +229,36 @@ export class EquinoxHvacDialog extends LitElement {
       filter: drop-shadow(0 0 5px currentColor);
     }
 
-    @media (prefers-color-scheme: light) {
-      :host([theme="liquid_glow"]) .option-row[active] {
-        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
-        box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
-          inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
-          0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
-      }
+    :host([theme="liquid_glow"][light]) .option-row[active] {
+      border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+        inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
+        0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
+    }
 
-      :host([theme="liquid_glow"]) ha-md-list-item[active] {
-        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
-          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
-        box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
-          0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
-      }
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] {
+      border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
+        0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
+    }
 
-      :host([theme="liquid_glow"]) .option-row[active] .option-icon ha-icon {
-        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
-      }
+    :host([theme="liquid_glow"][light]) .option-row[active] .option-icon ha-icon {
+      filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+    }
 
-      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
-      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
-        filter: drop-shadow(0 0 3px currentColor);
-      }
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-check {
+      filter: drop-shadow(0 0 3px currentColor);
     }
 
     .option-icon {
@@ -352,6 +350,7 @@ export class EquinoxHvacDialog extends LitElement {
 
   protected willUpdate(): void {
     this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.toggleAttribute("light", !this.hass?.themes?.darkMode);
   }
 
   private _getOptions(): string[] {
