@@ -206,12 +206,43 @@ export const liquidGlowStyles = css`
       linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 10%, transparent) 0%, transparent 40%),
       linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 24%, transparent) 0%, transparent 58%),
       linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 86%, var(--equinox-liquid-active-tone) 14%));
+    /* No inset 1px ring (avoids a "double frame" inside the border) and no outer
+       0 0 0 1px ring (would render 1px past the segments outline now that the active
+       button is extended to it via margin). The 1px border is enough; we keep the soft
+       outer glow only. */
     box-shadow:
-      inset 0 0 0 1px color-mix(in srgb, var(--equinox-liquid-active-tone) 86%, transparent),
       inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 18%, transparent),
       inset 0 -16px 24px color-mix(in srgb, var(--equinox-liquid-active-tone) 18%, transparent),
-      0 0 0 1px color-mix(in srgb, var(--equinox-liquid-active-tone) 48%, transparent),
       0 0 10px color-mix(in srgb, var(--equinox-liquid-active-tone) 28%, transparent);
+  }
+
+  /* Allow the active segment button to extend over the .segments outer border line so
+     its frame coincides with the segments' visible outline instead of sitting 1px inside it.
+     Buttons have an explicit width:100%/height:100%, so a negative margin alone only
+     shifts them — we must also grow width/height by the same amount to cover the border. */
+  :host([theme="liquid_glow"]) .segments {
+    overflow: visible;
+  }
+
+  :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle] {
+    margin-block: -1px;
+    height: calc(100% + 2px);
+  }
+
+  :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle]:first-child {
+    margin-inline-start: -1px;
+    width: calc(100% + 1px);
+  }
+
+  :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle]:last-child {
+    margin-inline-end: -1px;
+    width: calc(100% + 1px);
+  }
+
+  :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle]:only-child {
+    margin: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
   }
 
   :host([theme="liquid_glow"]) .segments ha-control-button[tone="off"][active][subtle],
