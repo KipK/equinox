@@ -96,6 +96,135 @@ export class EquinoxPresetDialog extends LitElement {
       background: transparent;
     }
 
+    :host([theme="liquid_glow"]) .option-grid {
+      overflow: visible;
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active] {
+      --equinox-option-active-tone: var(--equinox-text-color, var(--primary-text-color, #fff));
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box;
+      border: 1px solid color-mix(in srgb, var(--equinox-option-active-tone) 88%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 24%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 86%, var(--equinox-option-active-tone) 14%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 18%, transparent),
+        inset 0 -16px 24px color-mix(in srgb, var(--equinox-option-active-tone) 18%, transparent),
+        0 0 10px color-mix(in srgb, var(--equinox-option-active-tone) 28%, transparent);
+      margin-block: -1px;
+      height: calc(45px + 2px);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="heat"]) {
+      --equinox-option-active-tone: var(--equinox-heat-color, #ff8a1c);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="cool"]) {
+      --equinox-option-active-tone: var(--equinox-cool-color, #4da1ff);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="auto"]) {
+      --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="boost"]) {
+      --equinox-option-active-tone: var(--equinox-boost-color, #b06cff);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="cool-boost"]) {
+      --equinox-option-active-tone: var(--equinox-cool-boost-color, #7cc7ff);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="off"]) {
+      --equinox-option-active-tone: var(--disabled-text-color, rgba(128, 128, 128, 0.5));
+      border-color: var(--equinox-border-color, rgba(128, 128, 128, 0.2));
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      box-shadow: none;
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:first-child {
+      margin-inline-start: -1px;
+      width: calc(100% + 1px);
+      border-start-start-radius: var(--equinox-control-radius, 8px);
+      border-end-start-radius: var(--equinox-control-radius, 8px);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:last-child {
+      margin-inline-end: -1px;
+      width: calc(100% + 1px);
+      border-start-end-radius: var(--equinox-control-radius, 8px);
+      border-end-end-radius: var(--equinox-control-radius, 8px);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:only-child {
+      margin: -1px;
+      width: calc(100% + 2px);
+      border-radius: var(--equinox-control-radius, 8px);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active] .option-icon {
+      background: transparent;
+      color: var(--equinox-option-active-tone);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active] .option-icon ha-icon {
+      filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active] {
+      --equinox-option-active-tone: var(--equinox-text-color, var(--primary-text-color, #fff));
+      --md-list-item-label-text-color: var(--equinox-option-active-tone);
+      border: 1px solid color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent) 0%, transparent 42%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 20%, transparent) 0%, transparent 62%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 88%, var(--equinox-option-active-tone) 12%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 14%, transparent),
+        0 0 10px color-mix(in srgb, var(--equinox-option-active-tone) 22%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat"]) {
+      --equinox-option-active-tone: var(--equinox-heat-color, #ff8a1c);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="cool"]) {
+      --equinox-option-active-tone: var(--equinox-cool-color, #4da1ff);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="auto"]) {
+      --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="boost"]) {
+      --equinox-option-active-tone: var(--equinox-boost-color, #b06cff);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="cool-boost"]) {
+      --equinox-option-active-tone: var(--equinox-cool-boost-color, #7cc7ff);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="off"]) {
+      --equinox-option-active-tone: var(--disabled-text-color, rgba(128, 128, 128, 0.5));
+      border-color: var(--equinox-border-color, rgba(128, 128, 128, 0.2));
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      box-shadow: none;
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
+      background: transparent;
+      color: var(--equinox-option-active-tone);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
+      color: var(--equinox-option-active-tone);
+      filter: drop-shadow(0 0 5px currentColor);
+    }
+
     .option-icon {
       width: 30px;
       height: 30px;
@@ -187,6 +316,10 @@ export class EquinoxPresetDialog extends LitElement {
   language?: string;
   floating = false;
   anchor?: { element: HTMLElement };
+
+  protected willUpdate(): void {
+    this.setAttribute("theme", this.config?.theme ?? "flat");
+  }
 
   private _getOptions(): string[] {
     const available = this.viewModel?.climate.presetModes ?? [];

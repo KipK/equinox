@@ -1559,7 +1559,9 @@ export class EquinoxMainCard extends LitElement {
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("fan", event)}
               >
-                <ha-icon .icon=${this._fanIcon()}></ha-icon>
+                <span class="btn-icon">
+                  <ha-icon .icon=${this._fanIcon()}></ha-icon>
+                </span>
               </ha-control-button>
             `
         : nothing}
