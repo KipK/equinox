@@ -4971,35 +4971,35 @@ function qi(e, t, n, r) {
 function Ji(e, t) {
 	return e + 34 + Math.max(t - 1, 0) * 14;
 }
-function Yi(e, t, n) {
+function Yi(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
-		let r = Wi(e, t);
-		if (!r) return [];
-		let i = Ii(Xi(e.points, n, e.lineMode), n, 40, 640), { points: a, pathLength: o } = e.lineMode === "line" ? na(i, n, r) : ta(i, n, r);
+		let i = Wi(e, t);
+		if (!i) return [];
+		let a = Ii(Xi(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? na(a, n, i) : ta(a, n, i);
 		return [{
 			id: e.id,
 			color: e.color,
-			points: a,
-			pathLength: o,
+			points: o,
+			pathLength: s,
 			lineWidth: e.lineWidth
 		}];
 	});
 }
-function Xi(e, t, n) {
-	let r = e.map((e) => ({
+function Xi(e, t, n, r) {
+	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
-	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), i = r.filter((e) => e.time >= t.start && e.time <= t.end);
-	if (n === "line") return i;
-	let a = [...r].reverse().find((e) => e.time < t.start), o = a && (i.length === 0 || i[0].time > t.start) ? [{
+	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), a = i.filter((e) => e.time >= t.start && e.time <= t.end);
+	if (n === "line") return a;
+	let o = [...i].reverse().find((e) => e.time < t.start), s = o && (a.length === 0 || a[0].time > t.start) ? [{
 		time: t.start,
-		value: a.value
-	}, ...i] : i, s = o[o.length - 1];
-	return s && s.time < t.end ? [...o, {
+		value: o.value
+	}, ...a] : a, c = s[s.length - 1];
+	return r.extendStairToEnd && c && c.time < t.end ? [...s, {
 		time: t.end,
-		value: s.value
-	}] : o;
+		value: c.value
+	}] : s;
 }
 function Zi(e) {
 	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
@@ -5189,40 +5189,41 @@ function fa(e, t, n) {
 	}
 	return [...i.entries()].flatMap(([e, t]) => ua(r.get(e) ?? t, n));
 }
-function pa(e, t, n, r = !1, i = 12) {
-	let a = Fi(fa(e, t, n)), o = new Set(a.map((e) => e.graphKey)).size, s = wi(o), c = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, l = sa(n.start, n.end, i), u = n.end - n.start;
+function pa(e, t, n, r = !1, i = 12, a = !0) {
+	let o = { extendStairToEnd: a }, s = Fi(fa(e, t, n)), c = new Set(s.map((e) => e.graphKey)).size, l = wi(c), u = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, d = sa(n.start, n.end, i), f = n.end - n.start;
 	return {
 		allSeries: e,
 		visibleSeries: t,
 		timeBounds: n,
-		numericScales: a,
-		plotBottom: s,
-		chartHeight: Ji(s, c),
-		numericLines: Yi(t, a, n),
-		numericColumns: Qi(t, a, n),
-		segments: $i(t, s, n),
-		heatingAreas: r ? [] : Vi(t, a, n),
-		yAxisLabels: ea(a),
-		xAxisLabels: l.map((e) => ({
+		extendStairToEnd: a,
+		numericScales: s,
+		plotBottom: l,
+		chartHeight: Ji(l, u),
+		numericLines: Yi(t, s, n, o),
+		numericColumns: Qi(t, s, n),
+		segments: $i(t, l, n),
+		heatingAreas: r ? [] : Vi(t, s, n),
+		yAxisLabels: ea(s),
+		xAxisLabels: d.map((e) => ({
 			x: B(e.time, n),
-			label: ca(e.time, u),
+			label: ca(e.time, f),
 			bold: e.bold
 		}))
 	};
 }
-function ma(e, t, n) {
+function ma(e, t, n, r) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
-		let r = Wi(e, t);
-		if (!r) return [];
-		let i = {
-			...r,
+		let i = Wi(e, t);
+		if (!i) return [];
+		let a = {
+			...i,
 			top: 28
-		}, a = Ii(Xi(e.points, n, e.lineMode), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? na(a, n, i) : ta(a, n, i);
+		}, o = Ii(Xi(e.points, n, e.lineMode, r), n, 40, 640), { points: s, pathLength: c } = e.lineMode === "line" ? na(o, n, a) : ta(o, n, a);
 		return {
 			id: e.id,
 			color: e.color,
-			points: o,
-			pathLength: s,
+			points: s,
+			pathLength: c,
 			lineWidth: e.lineWidth
 		};
 	});
@@ -5337,7 +5338,7 @@ function ba(e, t = 12) {
 			scales: l,
 			svgHeight: v,
 			canvasHeight: te,
-			lines: ma(g.visibleSeries, l, r),
+			lines: ma(g.visibleSeries, l, r, { extendStairToEnd: e.extendStairToEnd }),
 			columns: ha(g.visibleSeries, l, r),
 			segments: ga(_, 218, r),
 			yLabels: _a(u),
@@ -7286,29 +7287,30 @@ var K = class extends Yn {
 		})].join("|");
 	}
 	_chartData() {
-		let e = this._hiddenSeriesIds.join("|"), t = this._chartSourceKey(), n = this._chartRenderCache, r = this._effectiveViewRange(), i = r.start.getTime(), a = r.end.getTime(), o = this._containerWidth;
-		if (n && n.seriesRef === this._data.series && n.sourceKey === t && n.hiddenKey === e && n.startTime === i && n.endTime === a && n.containerWidth === o) return n.data;
-		let s = this._maxXTicks(), c = this._buildRenderSeries(), l = c.filter((e) => !this._hiddenSeriesIds.includes(e.id)), u = {
+		let e = this._hiddenSeriesIds.join("|"), t = this._chartSourceKey(), n = this._chartRenderCache, r = this._effectiveViewRange(), i = r.start.getTime(), a = r.end.getTime(), o = this._containerWidth, s = !this._data.loading;
+		if (n && n.seriesRef === this._data.series && n.sourceKey === t && n.hiddenKey === e && n.startTime === i && n.endTime === a && n.extendStairToEnd === s && n.containerWidth === o) return n.data;
+		let c = this._maxXTicks(), l = this._buildRenderSeries(), u = l.filter((e) => !this._hiddenSeriesIds.includes(e.id)), d = {
 			start: i,
 			end: Math.max(a, i + 1)
-		}, d = this._data.debugPerformance, f = d ? R() : 0, p = pa(c, l, u, this._resolved?.disableClimateOverlay ?? !1, s), m = d ? R() - f : 0;
-		return d && z(d, "chart.build_data", {
-			allSeriesCount: c.length,
-			visibleSeriesCount: l.length,
-			pointCount: l.reduce((e, t) => e + t.points.length, 0),
-			groupCount: p.numericScales.length,
-			segmentCount: p.segments.length,
-			lineCount: p.numericLines.length,
-			buildDurationMs: Math.round(m)
+		}, f = this._data.debugPerformance, p = f ? R() : 0, m = pa(l, u, d, this._resolved?.disableClimateOverlay ?? !1, c, s), h = f ? R() - p : 0;
+		return f && z(f, "chart.build_data", {
+			allSeriesCount: l.length,
+			visibleSeriesCount: u.length,
+			pointCount: u.reduce((e, t) => e + t.points.length, 0),
+			groupCount: m.numericScales.length,
+			segmentCount: m.segments.length,
+			lineCount: m.numericLines.length,
+			buildDurationMs: Math.round(h)
 		}), this._chartRenderCache = {
 			seriesRef: this._data.series,
 			sourceKey: t,
 			hiddenKey: e,
 			startTime: i,
 			endTime: a,
+			extendStairToEnd: s,
 			containerWidth: o,
-			data: p
-		}, p;
+			data: m
+		}, m;
 	}
 	_graphGroups(e) {
 		let t = this._maxXTicks(), n = this._graphGroupRenderCache;
