@@ -5,11 +5,13 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "vite build"
+    "build": "vite build && npm run build:history-lib && npm run gzip:dist",
+    "build:history-lib": "node scripts/build-ha-better-history.mjs",
+    "gzip:dist": "node scripts/gzip-dist.mjs"
   },
   "dependencies": {
     "@kipk/load-ha-components": "^1.0.3",
-    "ha-better-history": "file:../ha-better-history",
+    "ha-better-history": "git+https://github.com/KipK/ha-better-history.git",
     "lit": "^3.3.2"
   },
   "devDependencies": {
