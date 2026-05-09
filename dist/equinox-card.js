@@ -1233,10 +1233,6 @@ var dt = class extends w {
 				selector: { entity: { domain: ["sensor"] } }
 			},
 			{
-				name: "hide_lock_button",
-				selector: { boolean: {} }
-			},
-			{
 				name: "additional_dashboards",
 				selector: { select: {
 					mode: "dropdown",
@@ -1316,6 +1312,10 @@ var dt = class extends w {
 					mode: "dropdown",
 					options: t
 				} }
+			},
+			{
+				name: "hide_lock_button",
+				selector: { boolean: {} }
 			}
 		];
 	}

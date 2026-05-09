@@ -127,12 +127,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       },
       {
-        name: "hide_lock_button",
-        selector: {
-          boolean: {}
-        }
-      },
-      {
         name: "additional_dashboards",
         selector: {
           select: {
@@ -204,6 +198,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
             mode: "dropdown",
             options: orientationOptions
           }
+        }
+      },
+      {
+        name: "hide_lock_button",
+        selector: {
+          boolean: {}
         }
       }
     ];
