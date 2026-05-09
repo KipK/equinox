@@ -68,6 +68,10 @@ export class EquinoxHvacDialog extends LitElement {
       background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-auto-color, #55bf6a) 22%);
     }
 
+    .option-row[active]:has(.option-icon[tone="heat-cool"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-heat-cool-color, #9b5cff) 22%);
+    }
+
     .option-row[active]:has(.option-icon[tone="off"]) {
       background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--disabled-text-color, rgba(128, 128, 128, 0.5)) 22%);
     }
@@ -95,6 +99,10 @@ export class EquinoxHvacDialog extends LitElement {
 
     :host([theme="liquid_glow"]) .option-icon[tone="auto"] {
       background: color-mix(in srgb, var(--equinox-auto-color, #55bf6a) 15%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="heat-cool"] {
+      background: color-mix(in srgb, var(--equinox-heat-cool-color, #9b5cff) 15%, transparent);
     }
 
     :host([theme="liquid_glow"]) .option-icon[tone="off"] {
@@ -129,6 +137,10 @@ export class EquinoxHvacDialog extends LitElement {
 
     :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="auto"]) {
       --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="heat-cool"]) {
+      --equinox-option-active-tone: var(--equinox-heat-cool-color, #9b5cff);
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="off"]) {
@@ -191,6 +203,10 @@ export class EquinoxHvacDialog extends LitElement {
 
     :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="auto"]) {
       --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat-cool"]) {
+      --equinox-option-active-tone: var(--equinox-heat-cool-color, #9b5cff);
     }
 
     :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="off"]) {
@@ -268,6 +284,11 @@ export class EquinoxHvacDialog extends LitElement {
     .option-icon[tone="auto"] {
       color: var(--equinox-auto-color, #55bf6a);
       background: color-mix(in srgb, var(--equinox-auto-color, #55bf6a) 15%, transparent);
+    }
+
+    .option-icon[tone="heat-cool"] {
+      color: var(--equinox-heat-cool-color, #9b5cff);
+      background: color-mix(in srgb, var(--equinox-heat-cool-color, #9b5cff) 15%, transparent);
     }
 
     .option-icon[tone="off"] {

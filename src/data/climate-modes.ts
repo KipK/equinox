@@ -13,7 +13,7 @@ export const HVAC_ICONS: Record<string, string> = {
 export const HVAC_TONES: Record<string, string> = {
   heat: "heat",
   cool: "cool",
-  heat_cool: "auto",
+  heat_cool: "heat-cool",
   auto: "auto",
   dry: "cool",
   fan_only: "auto",

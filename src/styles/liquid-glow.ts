@@ -213,6 +213,11 @@ export const liquidGlowStyles = css`
     --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-auto-color) 22%, transparent);
   }
 
+  :host([theme="liquid_glow"]) ha-card[tone="heat-cool"] {
+    --equinox-liquid-glow-color: var(--equinox-heat-cool-color);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-heat-cool-color) 24%, transparent);
+  }
+
   :host([theme="liquid_glow"]) .segments,
   :host([theme="liquid_glow"]) .compact-selectors ha-control-button {
     border-color: var(--equinox-border-color);
@@ -257,6 +262,12 @@ export const liquidGlowStyles = css`
     --equinox-liquid-active-tone: var(--equinox-auto-color);
     --control-button-icon-color: var(--equinox-auto-color);
     --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+  }
+
+  :host([theme="liquid_glow"]) ha-control-button[tone="heat-cool"][active][subtle] {
+    --equinox-liquid-active-tone: var(--equinox-heat-cool-color);
+    --control-button-icon-color: var(--equinox-heat-cool-color);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="boost"][active][subtle],
@@ -367,6 +378,10 @@ export const liquidGlowStyles = css`
     background: color-mix(in srgb, var(--equinox-auto-color) 15%, transparent);
   }
 
+  :host([theme="liquid_glow"]) .btn-icon[tone="heat-cool"] {
+    background: color-mix(in srgb, var(--equinox-heat-cool-color) 15%, transparent);
+  }
+
   :host([theme="liquid_glow"]) .btn-icon[tone="boost"] {
     background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent);
   }
@@ -402,6 +417,11 @@ export const liquidGlowStyles = css`
   :host([theme="liquid_glow"]) ha-control-button[tone="auto"][active][subtle] .btn-icon {
     background: transparent;
     color: var(--equinox-auto-color);
+  }
+
+  :host([theme="liquid_glow"]) ha-control-button[tone="heat-cool"][active][subtle] .btn-icon {
+    background: transparent;
+    color: var(--equinox-heat-cool-color);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="boost"][active][subtle] .btn-icon,

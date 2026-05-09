@@ -1468,7 +1468,7 @@ var Et = [
 }, Dt = {
 	heat: "heat",
 	cool: "cool",
-	heat_cool: "auto",
+	heat_cool: "heat-cool",
 	auto: "auto",
 	dry: "cool",
 	fan_only: "auto",
@@ -1571,6 +1571,7 @@ var Et = [
     --equinox-muted-color: var(--secondary-text-color, #aeb7c2);
     --equinox-heat-color: var(--state-climate-heat-color, #ff8a1c);
     --equinox-cool-color: var(--state-climate-cool-color, #4da1ff);
+    --equinox-heat-cool-color: var(--equinox-flat-heat-cool-color, #9b5cff);
     --equinox-cool-boost-color: var(--equinox-flat-cool-boost-color, #7cc7ff);
     --equinox-auto-color: var(--success-color, #55bf6a);
     --equinox-boost-color: var(--accent-color, #b06cff);
@@ -1799,6 +1800,11 @@ var Et = [
     --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-auto-color) 22%, transparent);
   }
 
+  :host([theme="liquid_glow"]) ha-card[tone="heat-cool"] {
+    --equinox-liquid-glow-color: var(--equinox-heat-cool-color);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-heat-cool-color) 24%, transparent);
+  }
+
   :host([theme="liquid_glow"]) .segments,
   :host([theme="liquid_glow"]) .compact-selectors ha-control-button {
     border-color: var(--equinox-border-color);
@@ -1843,6 +1849,12 @@ var Et = [
     --equinox-liquid-active-tone: var(--equinox-auto-color);
     --control-button-icon-color: var(--equinox-auto-color);
     --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+  }
+
+  :host([theme="liquid_glow"]) ha-control-button[tone="heat-cool"][active][subtle] {
+    --equinox-liquid-active-tone: var(--equinox-heat-cool-color);
+    --control-button-icon-color: var(--equinox-heat-cool-color);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="boost"][active][subtle],
@@ -1953,6 +1965,10 @@ var Et = [
     background: color-mix(in srgb, var(--equinox-auto-color) 15%, transparent);
   }
 
+  :host([theme="liquid_glow"]) .btn-icon[tone="heat-cool"] {
+    background: color-mix(in srgb, var(--equinox-heat-cool-color) 15%, transparent);
+  }
+
   :host([theme="liquid_glow"]) .btn-icon[tone="boost"] {
     background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent);
   }
@@ -1988,6 +2004,11 @@ var Et = [
   :host([theme="liquid_glow"]) ha-control-button[tone="auto"][active][subtle] .btn-icon {
     background: transparent;
     color: var(--equinox-auto-color);
+  }
+
+  :host([theme="liquid_glow"]) ha-control-button[tone="heat-cool"][active][subtle] .btn-icon {
+    background: transparent;
+    color: var(--equinox-heat-cool-color);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="boost"][active][subtle] .btn-icon,
@@ -2546,6 +2567,10 @@ var Rt = class extends w {
       background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-auto-color, #55bf6a) 22%);
     }
 
+    .option-row[active]:has(.option-icon[tone="heat-cool"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-heat-cool-color, #9b5cff) 22%);
+    }
+
     .option-row[active]:has(.option-icon[tone="off"]) {
       background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--disabled-text-color, rgba(128, 128, 128, 0.5)) 22%);
     }
@@ -2573,6 +2598,10 @@ var Rt = class extends w {
 
     :host([theme="liquid_glow"]) .option-icon[tone="auto"] {
       background: color-mix(in srgb, var(--equinox-auto-color, #55bf6a) 15%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="heat-cool"] {
+      background: color-mix(in srgb, var(--equinox-heat-cool-color, #9b5cff) 15%, transparent);
     }
 
     :host([theme="liquid_glow"]) .option-icon[tone="off"] {
@@ -2607,6 +2636,10 @@ var Rt = class extends w {
 
     :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="auto"]) {
       --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="heat-cool"]) {
+      --equinox-option-active-tone: var(--equinox-heat-cool-color, #9b5cff);
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="off"]) {
@@ -2669,6 +2702,10 @@ var Rt = class extends w {
 
     :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="auto"]) {
       --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat-cool"]) {
+      --equinox-option-active-tone: var(--equinox-heat-cool-color, #9b5cff);
     }
 
     :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="off"]) {
@@ -2746,6 +2783,11 @@ var Rt = class extends w {
     .option-icon[tone="auto"] {
       color: var(--equinox-auto-color, #55bf6a);
       background: color-mix(in srgb, var(--equinox-auto-color, #55bf6a) 15%, transparent);
+    }
+
+    .option-icon[tone="heat-cool"] {
+      color: var(--equinox-heat-cool-color, #9b5cff);
+      background: color-mix(in srgb, var(--equinox-heat-cool-color, #9b5cff) 15%, transparent);
     }
 
     .option-icon[tone="off"] {
@@ -9501,6 +9543,10 @@ var ts = class extends w {
         color: var(--equinox-auto-color);
       }
 
+      .action-icon[tone="heat-cool"] {
+        color: var(--equinox-heat-cool-color);
+      }
+
       .action-icon[tone="off"] {
         color: var(--disabled-text-color, var(--equinox-muted-color));
       }
@@ -9757,6 +9803,10 @@ var ts = class extends w {
         color: var(--equinox-cool-color);
       }
 
+      .target[mode="heat-cool"] {
+        color: var(--equinox-heat-cool-color);
+      }
+
       .target[mode="off"],
       .target[mode="unavailable"] {
         color: var(--disabled-text-color, var(--equinox-muted-color));
@@ -9956,6 +10006,10 @@ var ts = class extends w {
         --control-button-icon-color: var(--equinox-auto-color);
       }
 
+      ha-control-button[tone="heat-cool"]:not([active]) {
+        --control-button-icon-color: var(--equinox-heat-cool-color);
+      }
+
       ha-control-button[tone="boost"]:not([active]) {
         --control-button-icon-color: var(--equinox-boost-color);
       }
@@ -9981,6 +10035,11 @@ var ts = class extends w {
       ha-control-button[tone="auto"][active][subtle] {
         --control-button-icon-color: var(--equinox-auto-color);
         --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+      }
+
+      ha-control-button[tone="heat-cool"][active][subtle] {
+        --control-button-icon-color: var(--equinox-heat-cool-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
       }
 
       ha-control-button[tone="boost"][active][subtle] {
@@ -10036,6 +10095,7 @@ var ts = class extends w {
       .btn-icon[tone="heat"] { background: color-mix(in srgb, var(--equinox-heat-color) 15%, transparent); }
       .btn-icon[tone="cool"] { background: color-mix(in srgb, var(--equinox-cool-color) 15%, transparent); }
       .btn-icon[tone="auto"] { background: color-mix(in srgb, var(--equinox-auto-color) 15%, transparent); }
+      .btn-icon[tone="heat-cool"] { background: color-mix(in srgb, var(--equinox-heat-cool-color) 15%, transparent); }
       .btn-icon[tone="boost"] { background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent); }
       .btn-icon[tone="cool-boost"] { background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent); }
 

@@ -286,6 +286,10 @@ export class EquinoxMainCard extends LitElement {
         color: var(--equinox-auto-color);
       }
 
+      .action-icon[tone="heat-cool"] {
+        color: var(--equinox-heat-cool-color);
+      }
+
       .action-icon[tone="off"] {
         color: var(--disabled-text-color, var(--equinox-muted-color));
       }
@@ -542,6 +546,10 @@ export class EquinoxMainCard extends LitElement {
         color: var(--equinox-cool-color);
       }
 
+      .target[mode="heat-cool"] {
+        color: var(--equinox-heat-cool-color);
+      }
+
       .target[mode="off"],
       .target[mode="unavailable"] {
         color: var(--disabled-text-color, var(--equinox-muted-color));
@@ -741,6 +749,10 @@ export class EquinoxMainCard extends LitElement {
         --control-button-icon-color: var(--equinox-auto-color);
       }
 
+      ha-control-button[tone="heat-cool"]:not([active]) {
+        --control-button-icon-color: var(--equinox-heat-cool-color);
+      }
+
       ha-control-button[tone="boost"]:not([active]) {
         --control-button-icon-color: var(--equinox-boost-color);
       }
@@ -766,6 +778,11 @@ export class EquinoxMainCard extends LitElement {
       ha-control-button[tone="auto"][active][subtle] {
         --control-button-icon-color: var(--equinox-auto-color);
         --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+      }
+
+      ha-control-button[tone="heat-cool"][active][subtle] {
+        --control-button-icon-color: var(--equinox-heat-cool-color);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
       }
 
       ha-control-button[tone="boost"][active][subtle] {
@@ -821,6 +838,7 @@ export class EquinoxMainCard extends LitElement {
       .btn-icon[tone="heat"] { background: color-mix(in srgb, var(--equinox-heat-color) 15%, transparent); }
       .btn-icon[tone="cool"] { background: color-mix(in srgb, var(--equinox-cool-color) 15%, transparent); }
       .btn-icon[tone="auto"] { background: color-mix(in srgb, var(--equinox-auto-color) 15%, transparent); }
+      .btn-icon[tone="heat-cool"] { background: color-mix(in srgb, var(--equinox-heat-cool-color) 15%, transparent); }
       .btn-icon[tone="boost"] { background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent); }
       .btn-icon[tone="cool-boost"] { background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent); }
 
