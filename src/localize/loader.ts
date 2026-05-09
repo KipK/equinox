@@ -4,8 +4,8 @@ export type TranslationTree = string | { [key: string]: TranslationTree };
 export type TranslationMap = Record<string, TranslationTree>;
 
 export const SUPPORTED_LANGUAGES = [
-  "bg", "ca", "cn", "cs", "da", "de", "el", "en",
-  "es", "fi", "fr", "hu", "it", "nl", "no", "pl", "pt", "ru", "sk"
+  "bg", "ca", "cs", "da", "de", "el", "en",
+  "es", "fi", "fr", "hu", "it", "nl", "no", "pl", "pt", "ru", "sk", "zh"
 ] as const;
 
 const loaded = new Map<string, TranslationMap>();

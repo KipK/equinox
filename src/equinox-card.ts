@@ -14,7 +14,7 @@ import type { EquinoxViewModel } from "./types/view-model";
 const CARD_DESCRIPTIONS: Record<string, string> = {
   bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
   ca: "Lovelace card for Versatile Thermostat and standard climate entities.",
-  cn: "Lovelace card for Versatile Thermostat and standard climate entities.",
+  zh: "适用于 Versatile Thermostat 和标准气候实体的 Lovelace 卡片。",
   cs: "Karta Lovelace pro Versatile Thermostat a standardní entity klimatizace.",
   da: "Lovelace card for Versatile Thermostat and standard climate entities.",
   de: "Lovelace-Karte für Versatile Thermostat und Standard-Klimageräte.",

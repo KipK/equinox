@@ -1,0 +1,237 @@
+{
+  "card": {
+    "description": "适用于 Versatile Thermostat 和标准气候实体的 Lovelace 卡片。",
+    "missing_entity": "请配置一个气候实体。",
+    "invalid_entity": "所配置的实体必须属于气候域。",
+    "invalid_theme": "所配置的主题不可用。",
+    "invalid_display_mode": "所配置的显示模式不可用。",
+    "invalid_primary_display": "所配置的显示优先级不可用。",
+    "invalid_additional_dashboards": "所配置的仪表板模式不可用。",
+    "invalid_state_icons_layout": "所配置的状态图标布局不可用。",
+    "entity_not_found": "未找到实体：{entity}",
+    "placeholder": "Equinox 已准备好显示 {entity}。"
+  },
+  "main": {
+    "status": {
+      "heating": "加热中",
+      "cooling": "制冷中",
+      "auto": "自动",
+      "heat": "加热",
+      "cool": "制冷",
+      "heat_cool": "自动",
+      "dry": "除湿",
+      "fan_only": "仅风扇",
+      "off": "关闭",
+      "boost": "临时加速",
+      "unavailable": "不可用"
+    },
+    "hvac": {
+      "heat": "加热",
+      "cool": "制冷",
+      "heat_cool": "加热/制冷",
+      "auto": "自动",
+      "dry": "除湿",
+      "fan_only": "仅风扇",
+      "off": "关闭"
+    },
+    "hvac_action": {
+      "off": "关闭",
+      "preheating": "预热中",
+      "heating": "加热中",
+      "cooling": "制冷中",
+      "drying": "除湿中",
+      "fan": "风扇运行中",
+      "idle": "待机",
+      "defrosting": "除霜中"
+    },
+    "preset": {
+      "none": "无预设",
+      "frost": "防冻保护",
+      "eco": "节能",
+      "away": "离家",
+      "comfort": "舒适",
+      "home": "在家",
+      "sleep": "睡眠",
+      "activity": "活动",
+      "boost": "加速"
+    },
+    "fan": {
+      "on": "开启",
+      "auto": "自动",
+      "low": "低速",
+      "medium": "中速",
+      "middle": "中档",
+      "high": "高速",
+      "top": "最高",
+      "off": "关闭",
+      "focus": "集中",
+      "diffuse": "扩散",
+      "auto_fan_none": "无",
+      "auto_fan_low": "低速",
+      "auto_fan_medium": "中速",
+      "auto_fan_high": "高速",
+      "auto_fan_turbo": "涡轮",
+      "None": "无",
+      "Turbo": "涡轮",
+      "unavailable": "风扇"
+    },
+    "swing": {
+      "off": "关闭",
+      "on": "开启",
+      "vertical": "垂直",
+      "horizontal": "水平",
+      "both": "全向",
+      "unavailable": "摆风"
+    },
+    "lock": {
+      "locked": "已锁定",
+      "unlocked": "已解锁",
+      "code_required": "需要密码",
+      "enter_code": "输入密码",
+      "wrong_code": "密码错误"
+    },
+    "events": {
+      "hasDanger": "严重警报",
+      "hasAlert": "警报",
+      "hasOverpowering": "功率过载",
+      "hasOpenWindow": "窗户开启",
+      "hasPresence": "检测到人员",
+      "hasTimer": "定时器激活"
+    },
+    "messages": {
+      "hvac_off_manual": "已手动关闭",
+      "hvac_off_auto_start_stop": "已由自动启停关闭",
+      "hvac_off_window_detection": "已由开窗检测关闭",
+      "hvac_off_sleep_mode": "已由睡眠模式关闭",
+      "hvac_off_safety_detection": "已由安全模式关闭",
+      "hvac_off_central_mode": "已由集中模式关闭",
+      "safety_detected": "检测到安全模式",
+      "overpowering_detected": "检测到功率过载",
+      "target_temp_window_eco": "目标温度：开窗节能",
+      "target_temp_window_frost": "目标温度：开窗防冻",
+      "target_temp_power": "目标温度：功率限制",
+      "target_temp_central_mode": "目标温度：集中模式",
+      "target_temp_activity_detected": "目标温度：检测到活动",
+      "target_temp_activity_not_detected": "目标温度：未检测到活动",
+      "target_temp_absence_detected": "目标温度：检测到离家",
+      "target_temp_timed_preset": "定时预设激活",
+      "not_initialized": "初始化错误",
+      "heating_failure": "检测到加热故障",
+      "cooling_failure": "检测到制冷故障"
+    },
+    "actions": {
+      "decrease_temperature": "降低设定温度",
+      "increase_temperature": "升高设定温度",
+      "low_temperature": "低温",
+      "high_temperature": "高温",
+      "open_fan": "打开风扇",
+      "open_swing": "打开摆风",
+      "open_menu": "打开菜单",
+      "open_power_info": "显示功率指标"
+    }
+  },
+  "dialog": {
+    "close": "关闭",
+    "back": "返回",
+    "fan": {
+      "title": "通风",
+      "description_auto": "自动模式根据加热需求自动调节通风。"
+    },
+    "swing": {
+      "title": "摆风",
+      "vertical": "垂直",
+      "horizontal": "水平"
+    },
+    "hvac": {
+      "title": "模式"
+    },
+    "preset": {
+      "title": "预设"
+    },
+    "message": {
+      "title": "消息"
+    },
+    "menu": {
+      "title": "菜单",
+      "regulation": "调节",
+      "boost": "临时加速",
+      "history": "历史记录"
+    },
+    "history": {
+      "title": "历史记录",
+      "load": "加载",
+      "add": "添加",
+      "add_entity": "添加实体",
+      "loading": "正在加载历史记录…",
+      "empty": "该时段无历史记录。",
+      "no_attributes": "无可选属性。",
+      "tools": "工具",
+      "show_controls": "显示历史记录控件",
+      "hide_controls": "隐藏历史记录控件",
+      "fullscreen": "全屏",
+      "exit_fullscreen": "退出全屏",
+      "sources": {
+        "current_temperature": "当前温度",
+        "temperature": "目标温度",
+        "hvac_action": "空调动作"
+      }
+    },
+    "boost": {
+      "title": "临时加速",
+      "duration": "持续时间（分钟）",
+      "minutes": "分",
+      "hours": "时",
+      "start": "开始",
+      "stop": "停止",
+      "active": "加速中",
+      "remaining_unknown": "剩余时间不可用",
+      "preset": "定时预设",
+      "original_preset": "上一个预设",
+      "start_description": "倒计时结束后，温控器将返回上一个模式。",
+      "active_description": "倒计时结束后，温控器将返回上一个模式。",
+      "active_description_with_preset": "倒计时结束后，温控器将返回上一个模式（{preset}）。"
+    }
+  },
+  "editor": {
+    "entity": "实体",
+    "name": "名称",
+    "diagnostic_entity": "诊断实体",
+    "power_entity": "功率实体",
+    "humidity_entity": "湿度实体",
+    "temperature_entity": "温度实体",
+    "theme": "主题",
+    "display_mode": "格式",
+    "primary_display": "显示优先级",
+    "disable_name": "隐藏名称",
+    "hide_lock_button": "隐藏锁定按钮",
+    "additional_dashboards": "附加仪表板",
+    "state_icons_layout": "状态图标",
+    "tabs": {
+      "general": "常规",
+      "presentation": "外观"
+    },
+    "options": {
+      "theme": {
+        "flat": "扁平",
+        "liquid_glow": "液态光晕"
+      },
+      "display_mode": {
+        "classic": "经典",
+        "compact": "紧凑"
+      },
+      "primary_display": {
+        "setpoint": "设定值",
+        "sensors": "传感器"
+      },
+      "layout_orientation": {
+        "horizontal": "水平",
+        "vertical": "垂直"
+      },
+      "additional_dashboards": {
+        "auto": "自动",
+        "custom": "自定义",
+        "disabled": "禁用"
+      }
+    }
+  }
+}

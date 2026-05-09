@@ -582,7 +582,6 @@ function $e() {
 var et = [
 	"bg",
 	"ca",
-	"cn",
 	"cs",
 	"da",
 	"de",
@@ -598,7 +597,8 @@ var et = [
 	"pl",
 	"pt",
 	"ru",
-	"sk"
+	"sk",
+	"zh"
 ], tt = /* @__PURE__ */ new Map(), nt = /* @__PURE__ */ new Map(), rt = new Set(et);
 function it(e) {
 	return e.toLowerCase().split("-")[0] || "en";
@@ -11128,7 +11128,7 @@ function Ms(e) {
 var Ns = {
 	bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
 	ca: "Lovelace card for Versatile Thermostat and standard climate entities.",
-	cn: "Lovelace card for Versatile Thermostat and standard climate entities.",
+	zh: "适用于 Versatile Thermostat 和标准气候实体的 Lovelace 卡片。",
 	cs: "Karta Lovelace pro Versatile Thermostat a standardní entity klimatizace.",
 	da: "Lovelace card for Versatile Thermostat and standard climate entities.",
 	de: "Lovelace-Karte für Versatile Thermostat und Standard-Klimageräte.",
