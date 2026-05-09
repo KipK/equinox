@@ -1610,6 +1610,23 @@ var Ct = {
           transparent 100%
       );
     }
+
+    :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle],
+    :host([theme="liquid_glow"]) .compact-selectors ha-control-button[active][subtle] {
+      border-color: color-mix(in srgb, var(--equinox-liquid-active-tone) 72%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 6%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 10%, transparent),
+        inset 0 -12px 20px color-mix(in srgb, var(--equinox-liquid-active-tone) 10%, transparent),
+        0 0 9px color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) ha-control-button[active][subtle] .btn-icon ha-icon {
+      filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2158,6 +2175,24 @@ var kt = class extends D {
       filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
     }
 
+    @media (prefers-color-scheme: light) {
+      :host([theme="liquid_glow"]) .fan-option[active] {
+        border-color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--primary-text-color) 6%, transparent) 0%, transparent 40%),
+          linear-gradient(180deg, color-mix(in srgb, var(--primary-color) 16%, transparent) 0%, transparent 58%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--primary-color) 10%));
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, var(--primary-text-color) 10%, transparent),
+          inset 0 -12px 20px color-mix(in srgb, var(--primary-color) 10%, transparent),
+          0 0 9px color-mix(in srgb, var(--primary-color) 16%, transparent);
+      }
+
+      :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
+        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+      }
+    }
+
     .fan-option-label {
       display: none;
     }
@@ -2536,6 +2571,40 @@ var At = [
     :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
       color: var(--equinox-option-active-tone);
       filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :host([theme="liquid_glow"]) .option-row[active] {
+        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+          inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
+          0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
+      }
+
+      :host([theme="liquid_glow"]) ha-md-list-item[active] {
+        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
+          0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
+      }
+
+      :host([theme="liquid_glow"]) .option-row[active] .option-icon ha-icon {
+        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+      }
+
+      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
+      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
+        filter: drop-shadow(0 0 3px currentColor);
+      }
     }
 
     .option-icon {
@@ -2940,6 +3009,40 @@ var Pt = [
     :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
       color: var(--equinox-option-active-tone);
       filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :host([theme="liquid_glow"]) .option-row[active] {
+        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent) 0%, transparent 58%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-option-active-tone) 10%));
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+          inset 0 -12px 20px color-mix(in srgb, var(--equinox-option-active-tone) 10%, transparent),
+          0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
+      }
+
+      :host([theme="liquid_glow"]) ha-md-list-item[active] {
+        border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-option-active-tone) 13%, transparent) 0%, transparent 62%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-option-active-tone) 8%));
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent),
+          0 0 8px color-mix(in srgb, var(--equinox-option-active-tone) 14%, transparent);
+      }
+
+      :host([theme="liquid_glow"]) .option-row[active] .option-icon ha-icon {
+        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+      }
+
+      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
+      :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
+        filter: drop-shadow(0 0 3px currentColor);
+      }
     }
 
     .option-icon {

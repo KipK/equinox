@@ -126,6 +126,24 @@ export class EquinoxFanDialog extends LitElement {
       filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
     }
 
+    @media (prefers-color-scheme: light) {
+      :host([theme="liquid_glow"]) .fan-option[active] {
+        border-color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--primary-text-color) 6%, transparent) 0%, transparent 40%),
+          linear-gradient(180deg, color-mix(in srgb, var(--primary-color) 16%, transparent) 0%, transparent 58%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--primary-color) 10%));
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, var(--primary-text-color) 10%, transparent),
+          inset 0 -12px 20px color-mix(in srgb, var(--primary-color) 10%, transparent),
+          0 0 9px color-mix(in srgb, var(--primary-color) 16%, transparent);
+      }
+
+      :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
+        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+      }
+    }
+
     .fan-option-label {
       display: none;
     }
