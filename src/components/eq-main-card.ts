@@ -675,10 +675,10 @@ export class EquinoxMainCard extends LitElement {
       .segments {
         display: grid;
         grid-auto-flow: column;
-        grid-auto-columns: minmax(42px, 1fr);
+        grid-auto-columns: minmax(0, 1fr);
         border-radius: var(--equinox-control-radius);
         overflow: hidden;
-        min-height: 45px;
+        min-height: clamp(36px, 14cqi, 45px);
         background: var(--equinox-control-bg);
         border: 1px solid var(--equinox-border-color);
       }
@@ -698,6 +698,7 @@ export class EquinoxMainCard extends LitElement {
         --control-button-background-opacity: 0;
         --control-button-focus-color: var(--primary-color);
         --control-button-icon-color: var(--equinox-muted-color);
+        --control-button-padding: 0;
       }
 
       .segments ha-control-button {
@@ -708,13 +709,14 @@ export class EquinoxMainCard extends LitElement {
 
       .compact-selectors {
         display: flex;
-        gap: 8px;
-        min-height: 45px;
+        gap: clamp(3px, 2.4cqi, 8px);
+        min-height: clamp(36px, 14cqi, 45px);
       }
 
       .compact-selectors ha-control-button {
         flex: 1;
         min-width: 0;
+        height: clamp(36px, 14cqi, 45px);
         border: 1px solid var(--equinox-border-color);
         border-radius: var(--equinox-control-radius);
         background: var(--equinox-control-bg);
@@ -817,11 +819,32 @@ export class EquinoxMainCard extends LitElement {
 
       .fan-icon-auto {
         --mdc-icon-size: 22px;
-        transform: translate(-1px, -1px);
+        transform: translate(-0.04em, -0.04em);
       }
 
       .fan .fan-icon-speed {
         transform: translateY(-1px);
+      }
+
+      .compact-selectors .btn-icon {
+        --equinox-selector-icon-size: clamp(16px, 7.6cqi, 24px);
+        width: clamp(20px, 10cqi, 30px);
+        height: clamp(20px, 10cqi, 30px);
+      }
+
+      .segments .btn-icon {
+        --equinox-selector-icon-size: clamp(16px, 7.6cqi, 24px);
+        width: clamp(20px, 10cqi, 30px);
+        height: clamp(20px, 10cqi, 30px);
+      }
+
+      .segments .btn-icon ha-icon,
+      .compact-selectors .btn-icon ha-icon {
+        --mdc-icon-size: var(--equinox-selector-icon-size);
+      }
+
+      .compact-selectors .fan-icon-auto {
+        --equinox-selector-icon-size: clamp(15px, 7cqi, 22px);
       }
 
       .btn-icon {
@@ -833,6 +856,15 @@ export class EquinoxMainCard extends LitElement {
         justify-content: center;
         flex-shrink: 0;
         background: rgba(128, 128, 128, 0.10);
+      }
+
+      .btn-icon ha-icon {
+        width: var(--equinox-selector-icon-size, 24px);
+        height: var(--equinox-selector-icon-size, 24px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
       }
 
       .btn-icon[tone="heat"] { background: color-mix(in srgb, var(--equinox-heat-color) 15%, transparent); }
