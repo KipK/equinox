@@ -466,6 +466,8 @@ export class EquinoxPresetDialog extends LitElement {
                 class="option-row"
                 ?active=${preset === activePreset}
                 @click=${() => this._selectPreset(preset)}
+                title=${this._presetLabel(preset)}
+                aria-label=${this._presetLabel(preset)}
               >
                 <span class="option-icon" tone=${this._presetTone(preset)}>
                   <ha-icon .icon=${PRESET_ICONS[preset]} style="--mdc-icon-size: 24px;"></ha-icon>

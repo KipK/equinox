@@ -2842,6 +2842,8 @@ var Rt = class extends w {
                 class="option-row"
                 ?active=${e === t}
                 @click=${() => this._selectMode(e)}
+                title=${this._modeLabel(e)}
+                aria-label=${this._modeLabel(e)}
               >
                 <span class="option-icon" tone=${Dt[e] ?? ""}>
                   <ha-icon .icon=${A[e]} style="--mdc-icon-size: 24px;"></ha-icon>
@@ -3601,6 +3603,8 @@ var Vt = [
                 class="option-row"
                 ?active=${e === t}
                 @click=${() => this._selectPreset(e)}
+                title=${this._presetLabel(e)}
+                aria-label=${this._presetLabel(e)}
               >
                 <span class="option-icon" tone=${this._presetTone(e)}>
                   <ha-icon .icon=${Ht[e]} style="--mdc-icon-size: 24px;"></ha-icon>

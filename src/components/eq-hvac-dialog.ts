@@ -384,6 +384,8 @@ export class EquinoxHvacDialog extends LitElement {
                 class="option-row"
                 ?active=${mode === activeMode}
                 @click=${() => this._selectMode(mode)}
+                title=${this._modeLabel(mode)}
+                aria-label=${this._modeLabel(mode)}
               >
                 <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""}>
                   <ha-icon .icon=${HVAC_ICONS[mode]} style="--mdc-icon-size: 24px;"></ha-icon>
