@@ -47,16 +47,32 @@ function normalizeLanguage(language?: string): string {
   return (language ?? "en").toLowerCase().split("-")[0] || "en";
 }
 
+// Resolves each key segment with exact match, case-insensitive fallback, and FAN_/SWING_ prefix stripping on the final segment.
 function lookup(translations: TranslationMap, key: string): string | undefined {
-  const value = key.split(".").reduce<TranslationTree | undefined>((current, part) => {
+  const parts = key.split(".");
+  let current: TranslationTree | undefined = translations;
+
+  for (let i = 0; i < parts.length; i++) {
     if (typeof current !== "object" || current === null) {
       return undefined;
     }
 
-    return current[part];
-  }, translations);
+    const seg = parts[i];
+    const isLast = i === parts.length - 1;
 
-  return typeof value === "string" ? value : undefined;
+    if (seg in current) {
+      current = current[seg];
+    } else if (seg.toLowerCase() in current) {
+      current = current[seg.toLowerCase()];
+    } else if (isLast) {
+      const stripped = seg.replace(/^(fan_|swing_)/i, "").toLowerCase();
+      current = stripped in current ? current[stripped] : undefined;
+    } else {
+      return undefined;
+    }
+  }
+
+  return typeof current === "string" ? current : undefined;
 }
 
 function interpolate(value: string, replacements: Record<string, string | number>): string {
