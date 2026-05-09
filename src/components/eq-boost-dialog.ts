@@ -26,20 +26,25 @@ export class EquinoxBoostDialog extends LitElement {
 
   static styles = css`
     .boost-body {
-      --boost-wheel-size: clamp(74px, min(32vw, 20vh), 136px);
+      --boost-wheel-size: clamp(92px, min(34vw, 20vh), 136px);
       display: grid;
-      grid-template-rows: var(--boost-wheel-size) minmax(34px, 40px);
+      grid-template-rows: minmax(34px, 40px);
       align-content: center;
       align-items: center;
-      gap: clamp(5px, 1.4vh, 12px);
+      gap: clamp(8px, 1.6vh, 12px);
       justify-items: center;
       min-width: 210px;
-      width: 100%;
-      max-width: 100%;
-      overflow: hidden;
+      width: max-content;
+      max-width: calc(100vw - 48px);
+      overflow: visible;
+    }
+
+    .boost-body[has-wheel] {
+      grid-template-rows: auto minmax(34px, 40px);
     }
 
     .boost-wheel-shell {
+      box-sizing: border-box;
       width: var(--boost-wheel-size);
       height: var(--boost-wheel-size);
       max-width: 100%;
@@ -50,13 +55,13 @@ export class EquinoxBoostDialog extends LitElement {
 
     .boost-wheel {
       grid-area: 1 / 1;
-      width: 100%;
-      height: 100%;
+      width: var(--boost-wheel-size);
+      height: var(--boost-wheel-size);
       display: block;
       z-index: 0;
       --clear-background-color: var(--equinox-card-bg, var(--card-background-color, #111820));
-      --control-circular-slider-color: var(--equinox-boost-color, #b06cff);
-      --control-circular-slider-background: var(--disabled-color, #5e6975);
+      --control-circular-slider-color: var(--equinox-boost-color, var(--accent-color));
+      --control-circular-slider-background: color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 22%, var(--disabled-color, #5e6975));
       --control-circular-slider-background-opacity: 0.3;
       --control-circular-slider-margin-top: 0;
     }
@@ -81,7 +86,7 @@ export class EquinoxBoostDialog extends LitElement {
     }
 
     .wheel-number {
-      color: var(--equinox-boost-color, #b06cff);
+      color: var(--equinox-boost-color, var(--accent-color));
       font-size: clamp(22px, calc(var(--boost-wheel-size) * 0.23), 36px);
       font-weight: 700;
       letter-spacing: 0;
@@ -89,7 +94,7 @@ export class EquinoxBoostDialog extends LitElement {
 
     .wheel-unit {
       margin-top: clamp(4px, calc(var(--boost-wheel-size) * 0.04), 8px);
-      color: var(--primary-text-color, #fff);
+      color: var(--equinox-muted-color, var(--secondary-text-color, #9ba3ad));
       font-size: clamp(16px, calc(var(--boost-wheel-size) * 0.12), 25px);
       font-weight: 600;
     }
@@ -99,18 +104,36 @@ export class EquinoxBoostDialog extends LitElement {
     }
 
     .action-button {
-      width: min(100%, 300px);
+      min-width: 132px;
+      width: max-content;
       min-height: 34px;
       height: 100%;
       max-height: 40px;
-      border: 0;
+      display: grid;
+      grid-template-columns: 22px max-content 22px;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 10px;
+      border: 1px solid color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 55%, transparent);
       border-radius: var(--equinox-control-radius, 8px);
-      background: var(--equinox-boost-color, #b06cff);
-      color: #fff;
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      color: var(--equinox-text-color, var(--primary-text-color, #fff));
       cursor: pointer;
       font: inherit;
       font-size: clamp(13px, 1.9vh, 15px);
       font-weight: 600;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .action-button ha-icon {
+      color: var(--equinox-boost-color, var(--accent-color));
+      --mdc-icon-size: 20px;
+    }
+
+    .action-label {
+      white-space: nowrap;
     }
 
     .action-button:disabled {
@@ -118,17 +141,86 @@ export class EquinoxBoostDialog extends LitElement {
       opacity: 0.45;
     }
 
+    .action-button:hover:not(:disabled),
+    .action-button:focus-visible:not(:disabled) {
+      background: color-mix(in srgb, var(--equinox-control-bg, rgba(128, 128, 128, 0.08)) 78%, var(--equinox-boost-color, var(--accent-color)) 22%);
+    }
+
     @media (min-width: 601px) {
       .action-button {
-        max-width: 160px;
+        max-width: none;
       }
+    }
+
+    :host([theme="liquid_glow"]) .boost-body {
+      overflow: visible;
+    }
+
+    :host([theme="liquid_glow"]) .action-button {
+      border-color: color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 72%, transparent);
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+        0 0 7px color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 14%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .action-button:hover:not(:disabled),
+    :host([theme="liquid_glow"]) .action-button:focus-visible:not(:disabled) {
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 20%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 88%, var(--equinox-boost-color, var(--accent-color)) 12%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 14%, transparent),
+        inset 0 -12px 20px color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 12%, transparent),
+        0 0 10px color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 22%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .action-button ha-icon {
+      filter: drop-shadow(0 0 4px currentColor);
+    }
+
+    :host([theme="liquid_glow"][light]) .action-button {
+      border-color: color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 52%, transparent);
+      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #111)) 7%, transparent),
+        0 0 6px color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 8%, transparent);
+    }
+
+    :host([theme="liquid_glow"][light]) .action-button:hover:not(:disabled),
+    :host([theme="liquid_glow"][light]) .action-button:focus-visible:not(:disabled) {
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #111)) 5%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 12%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 92%, var(--equinox-boost-color, var(--accent-color)) 8%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #111)) 8%, transparent),
+        inset 0 -10px 18px color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 8%, transparent),
+        0 0 8px color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 13%, transparent);
+    }
+
+    :host([theme="liquid_glow"][light]) .action-button ha-icon {
+      filter: drop-shadow(0 0 2px currentColor);
     }
 
     @media (max-width: 600px) {
       .boost-body {
-        --boost-wheel-size: clamp(72px, min(42vw, 20vh), 148px);
+        --boost-wheel-size: clamp(84px, min(40vw, 18vh), 132px);
         min-width: 0;
-        padding-top: 16px;
+        width: 100%;
+        max-width: 100%;
+        padding-top: 8px;
+      }
+
+      .boost-wheel-shell {
+        width: var(--boost-wheel-size);
+        height: var(--boost-wheel-size);
+      }
+
+      .action-button {
+        width: 100%;
+        max-width: none;
       }
     }
   `;
@@ -142,6 +234,12 @@ export class EquinoxBoostDialog extends LitElement {
   closeOnLeave = false;
   anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _durationMinutes = DEFAULT_DURATION;
+
+  protected willUpdate(): void {
+    // Mirror the active equinox theme onto our host so :host([theme="..."]) rules apply.
+    this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+  }
 
   private _dispatchClose(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
@@ -259,7 +357,7 @@ export class EquinoxBoostDialog extends LitElement {
         @eq-dialog-close=${this._dispatchClose}
         @eq-dialog-back=${this._dispatchBack}
       >
-        <div class="boost-body">
+        <div class="boost-body" ?has-wheel=${hasTimedPreset}>
           ${hasTimedPreset
             ? html`
                 <div class="boost-wheel-shell">
@@ -282,7 +380,9 @@ export class EquinoxBoostDialog extends LitElement {
               `
             : nothing}
           <button class="action-button" ?disabled=${disabled || (isActive && !hasTimedPreset)} @click=${isActive ? this._stopBoost : this._startBoost}>
-            ${localize(this.language, isActive ? "dialog.boost.stop" : "dialog.boost.start")}
+            <ha-icon aria-hidden="true" .icon=${isActive ? "mdi:timer-off-outline" : "mdi:rocket-launch-outline"}></ha-icon>
+            <span class="action-label">${localize(this.language, isActive ? "dialog.boost.stop" : "dialog.boost.start")}</span>
+            <span aria-hidden="true"></span>
           </button>
         </div>
       </eq-dialog>
