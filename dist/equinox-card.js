@@ -254,7 +254,7 @@ var y = class extends HTMLElement {
 y.elementStyles = [], y.shadowRootOptions = { mode: "open" }, y[v("elementProperties")] = /* @__PURE__ */ new Map(), y[v("finalized")] = /* @__PURE__ */ new Map(), ee?.({ ReactiveElement: y }), (h.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/lit-html/lit-html.js
-var ie = globalThis, b = (e) => e, ae = ie.trustedTypes, oe = ae ? ae.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, se = "$lit$", x = `lit$${Math.random().toFixed(9).slice(2)}$`, ce = "?" + x, le = `<${ce}>`, ue = document, de = () => ue.createComment(""), fe = (e) => e === null || typeof e != "object" && typeof e != "function", pe = Array.isArray, me = (e) => pe(e) || typeof e?.[Symbol.iterator] == "function", he = "[ 	\n\f\r]", ge = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _e = /-->/g, ve = />/g, ye = RegExp(`>|${he}(?:([^\\s"'>=/]+)(${he}*=${he}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), be = /'/g, xe = /"/g, Se = /^(?:script|style|textarea|title)$/i, S = ((e) => (t, ...n) => ({
+var ie = globalThis, ae = (e) => e, b = ie.trustedTypes, oe = b ? b.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, se = "$lit$", x = `lit$${Math.random().toFixed(9).slice(2)}$`, ce = "?" + x, le = `<${ce}>`, ue = document, de = () => ue.createComment(""), fe = (e) => e === null || typeof e != "object" && typeof e != "function", pe = Array.isArray, me = (e) => pe(e) || typeof e?.[Symbol.iterator] == "function", he = "[ 	\n\f\r]", ge = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _e = /-->/g, ve = />/g, ye = RegExp(`>|${he}(?:([^\\s"'>=/]+)(${he}*=${he}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), be = /'/g, xe = /"/g, Se = /^(?:script|style|textarea|title)$/i, S = ((e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
@@ -299,7 +299,7 @@ var De = (e, t) => {
 				if (Se.test(i.tagName)) {
 					let e = i.textContent.split(x), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = ae ? ae.emptyScript : "";
+						i.textContent = b ? b.emptyScript : "";
 						for (let n = 0; n < t; n++) i.append(e[n], de()), Te.nextNode(), c.push({
 							type: 2,
 							index: ++a
@@ -407,8 +407,8 @@ var Ae = class {
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
 		for (this._$AP?.(!1, !0, t); e !== this._$AB;) {
-			let t = b(e).nextSibling;
-			b(e).remove(), e = t;
+			let t = ae(e).nextSibling;
+			ae(e).remove(), e = t;
 		}
 	}
 	setConnected(e) {
@@ -578,4402 +578,41 @@ function $e() {
 	return Qe ??= Xe(Ze), Qe;
 }
 //#endregion
+//#region src/localize/loader.ts
+var et = [
+	"bg",
+	"ca",
+	"cn",
+	"cs",
+	"da",
+	"de",
+	"el",
+	"en",
+	"es",
+	"fi",
+	"fr",
+	"hu",
+	"it",
+	"nl",
+	"no",
+	"pl",
+	"pt",
+	"ru",
+	"sk"
+], tt = /* @__PURE__ */ new Map();
+new Set(et);
+function nt(e) {
+	return e.toLowerCase().split("-")[0] || "en";
+}
+function rt(e) {
+	return tt.get(nt(e));
+}
+//#endregion
 //#region src/localize/localize.ts
-var et = {
-	en: {
-		card: {
-			description: "Lovelace card for Versatile Thermostat and standard climate entities.",
-			missing_entity: "Configure a climate entity.",
-			invalid_entity: "The configured entity must belong to the climate domain.",
-			invalid_theme: "The configured theme is not available.",
-			invalid_display_mode: "The configured display mode is not available.",
-			invalid_primary_display: "The configured display priority is not available.",
-			invalid_additional_dashboards: "The configured dashboard mode is not available.",
-			invalid_state_icons_layout: "The configured state icon layout is not available.",
-			entity_not_found: "Entity not found: {entity}",
-			placeholder: "Equinox is ready for {entity}."
-		},
-		main: {
-			status: {
-				heating: "Heating active",
-				cooling: "Cooling active",
-				auto: "Auto",
-				heat: "Heating",
-				cool: "Cooling",
-				heat_cool: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off",
-				boost: "Temporary boost",
-				unavailable: "Unavailable"
-			},
-			hvac: {
-				heat: "Heat",
-				cool: "Cool",
-				heat_cool: "Heat/cool",
-				auto: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off"
-			},
-			hvac_action: {
-				off: "Off",
-				preheating: "Preheating",
-				heating: "Heating active",
-				cooling: "Cooling active",
-				drying: "Drying active",
-				fan: "Fan active",
-				idle: "Idle",
-				defrosting: "Defrosting"
-			},
-			preset: {
-				none: "No preset",
-				frost: "Frost protection",
-				eco: "Eco",
-				away: "Away",
-				comfort: "Comfort",
-				home: "Home",
-				sleep: "Sleep",
-				activity: "Activity",
-				boost: "Boost"
-			},
-			fan: {
-				on: "On",
-				auto: "Auto",
-				low: "Low",
-				medium: "Medium",
-				middle: "Middle",
-				high: "High",
-				top: "Top",
-				off: "Off",
-				focus: "Focus",
-				diffuse: "Diffuse",
-				auto_fan_none: "None",
-				auto_fan_low: "Low",
-				auto_fan_medium: "Medium",
-				auto_fan_high: "High",
-				auto_fan_turbo: "Turbo",
-				None: "None",
-				Turbo: "Turbo",
-				unavailable: "Fan"
-			},
-			swing: {
-				off: "Off",
-				on: "On",
-				vertical: "Vertical",
-				horizontal: "Horizontal",
-				both: "Both",
-				unavailable: "Swing"
-			},
-			lock: {
-				locked: "Locked",
-				unlocked: "Unlocked",
-				code_required: "Code required",
-				enter_code: "Enter code",
-				wrong_code: "Incorrect code"
-			},
-			events: {
-				hasDanger: "Critical alert",
-				hasAlert: "Alert",
-				hasOverpowering: "Overpowering",
-				hasOpenWindow: "Open window",
-				hasPresence: "Presence detected",
-				hasTimer: "Active timer"
-			},
-			messages: {
-				hvac_off_manual: "Turned off manually",
-				hvac_off_auto_start_stop: "Turned off by auto-start/stop",
-				hvac_off_window_detection: "Turned off by window detection",
-				hvac_off_sleep_mode: "Turned off by sleep mode",
-				hvac_off_safety_detection: "Turned off by safety mode",
-				hvac_off_central_mode: "Turned off by central mode",
-				safety_detected: "Safety mode detected",
-				overpowering_detected: "Overpowering detected",
-				target_temp_window_eco: "Target temp.: window eco",
-				target_temp_window_frost: "Target temp.: window frost",
-				target_temp_power: "Target temp.: power",
-				target_temp_central_mode: "Target temp.: central mode",
-				target_temp_activity_detected: "Target temp.: activity detected",
-				target_temp_activity_not_detected: "Target temp.: activity not detected",
-				target_temp_absence_detected: "Target temp.: absence detected",
-				target_temp_timed_preset: "Timed preset active",
-				not_initialized: "Initialisation error",
-				heating_failure: "Heating failure detected",
-				cooling_failure: "Cooling failure detected"
-			},
-			actions: {
-				decrease_temperature: "Decrease setpoint",
-				increase_temperature: "Increase setpoint",
-				low_temperature: "Low",
-				high_temperature: "High",
-				open_fan: "Open fan",
-				open_swing: "Open swing",
-				open_menu: "Open menu",
-				open_power_info: "Show power indicators"
-			}
-		},
-		dialog: {
-			close: "Close",
-			back: "Back",
-			fan: {
-				title: "Ventilation",
-				description_auto: "Auto mode automatically adapts ventilation to heating needs."
-			},
-			swing: {
-				title: "Swing",
-				vertical: "Vertical",
-				horizontal: "Horizontal"
-			},
-			hvac: { title: "Mode" },
-			preset: { title: "Preset" },
-			message: { title: "Message" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulation",
-				boost: "Temporary boost",
-				history: "History"
-			},
-			history: {
-				title: "History",
-				load: "Load",
-				add: "Add",
-				add_entity: "Add an entity",
-				loading: "Loading history...",
-				empty: "No history for this period.",
-				no_attributes: "No selectable attribute.",
-				tools: "Tools",
-				show_controls: "Show history controls",
-				hide_controls: "Hide history controls",
-				fullscreen: "Fullscreen",
-				exit_fullscreen: "Exit fullscreen",
-				sources: {
-					current_temperature: "Current temperature",
-					temperature: "Target temperature",
-					hvac_action: "HVAC action"
-				}
-			},
-			boost: {
-				title: "Temporary boost",
-				duration: "Duration in minutes",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stop",
-				active: "Boost active",
-				remaining_unknown: "Remaining time unavailable",
-				preset: "Timed preset",
-				original_preset: "Previous preset",
-				start_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description_with_preset: "When the countdown ends, the thermostat will return to the previous mode ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entity",
-			name: "Name",
-			diagnostic_entity: "Diagnostic entity",
-			power_entity: "Power entity",
-			humidity_entity: "Humidity entity",
-			temperature_entity: "Temperature entity",
-			theme: "Theme",
-			display_mode: "Format",
-			primary_display: "Display priority",
-			disable_name: "Hide name",
-			hide_lock_button: "Hide lock button",
-			additional_dashboards: "Additional dashboards",
-			state_icons_layout: "State icons",
-			tabs: {
-				general: "General",
-				presentation: "Presentation"
-			},
-			options: {
-				theme: {
-					flat: "Flat",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Classic",
-					compact: "Compact"
-				},
-				primary_display: {
-					setpoint: "Setpoint",
-					sensors: "Sensors"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertical"
-				},
-				additional_dashboards: {
-					auto: "Auto",
-					custom: "Custom",
-					disabled: "Disabled"
-				}
-			}
-		}
-	},
-	fr: {
-		card: {
-			description: "Carte Lovelace pour Versatile Thermostat et les entités climate standard.",
-			missing_entity: "Configurez une entité climate.",
-			invalid_entity: "L'entité configurée doit appartenir au domaine climate.",
-			invalid_theme: "Le thème configuré n'est pas disponible.",
-			invalid_display_mode: "Le mode d'affichage configuré n'est pas disponible.",
-			invalid_primary_display: "La priorité d'affichage configurée n'est pas disponible.",
-			invalid_additional_dashboards: "Le mode de dashboards configuré n'est pas disponible.",
-			invalid_state_icons_layout: "La disposition des icônes d'état configurée n'est pas disponible.",
-			entity_not_found: "Entité introuvable: {entity}",
-			placeholder: "Equinox est prêt pour {entity}."
-		},
-		main: {
-			status: {
-				heating: "Chauffage actif",
-				cooling: "Refroidissement actif",
-				auto: "Auto",
-				heat: "Chauffage",
-				cool: "Clim",
-				heat_cool: "Auto",
-				dry: "Déshumidification",
-				fan_only: "Ventilation",
-				off: "Éteint",
-				boost: "Boost temporaire",
-				unavailable: "Indisponible"
-			},
-			hvac: {
-				heat: "Chauffage",
-				cool: "Clim",
-				heat_cool: "Chaud/froid",
-				auto: "Auto",
-				dry: "Déshumidification",
-				fan_only: "Ventilation",
-				off: "Éteint"
-			},
-			hvac_action: {
-				off: "Éteint",
-				preheating: "Préchauffage",
-				heating: "Chauffage actif",
-				cooling: "Refroidissement actif",
-				drying: "Déshumidification active",
-				fan: "Ventilation active",
-				idle: "En attente",
-				defrosting: "Dégivrage"
-			},
-			preset: {
-				none: "Aucun preset",
-				frost: "Hors gel",
-				eco: "Éco",
-				away: "Absent",
-				comfort: "Confort",
-				home: "Maison",
-				sleep: "Nuit",
-				activity: "Activité",
-				boost: "Boost"
-			},
-			fan: {
-				on: "Activée",
-				auto: "Auto",
-				low: "Faible",
-				medium: "Moyenne",
-				middle: "Moyenne",
-				high: "Forte",
-				top: "Maximale",
-				off: "Éteinte",
-				focus: "Concentrée",
-				diffuse: "Diffuse",
-				auto_fan_none: "Aucune",
-				auto_fan_low: "Faible",
-				auto_fan_medium: "Moyenne",
-				auto_fan_high: "Forte",
-				auto_fan_turbo: "Turbo",
-				None: "Aucune",
-				Turbo: "Turbo",
-				unavailable: "Ventilation"
-			},
-			swing: {
-				off: "Éteint",
-				on: "Activé",
-				vertical: "Vertical",
-				horizontal: "Horizontal",
-				both: "Complet",
-				unavailable: "Oscillation"
-			},
-			lock: {
-				locked: "Verrouillé",
-				unlocked: "Déverrouillé",
-				code_required: "Code requis",
-				enter_code: "Entrer le code",
-				wrong_code: "Code incorrect"
-			},
-			events: {
-				hasDanger: "Alerte critique",
-				hasAlert: "Alerte",
-				hasOverpowering: "Délestage",
-				hasOpenWindow: "Fenêtre ouverte",
-				hasPresence: "Présence détectée",
-				hasTimer: "Minuterie active"
-			},
-			messages: {
-				hvac_off_manual: "Eteint manuellement",
-				hvac_off_auto_start_stop: "Eteint par auto-start/stop",
-				hvac_off_window_detection: "Eteint par détection d'ouverture",
-				hvac_off_sleep_mode: "Eteint par le mode endormi",
-				hvac_off_safety_detection: "Eteint par le mode sécurité",
-				hvac_off_central_mode: "Eteint par le mode central",
-				safety_detected: "Mode sécurité détectée",
-				overpowering_detected: "Sur-puissance détectée",
-				target_temp_window_eco: "Temp. cible : fenêtre éco",
-				target_temp_window_frost: "Temp. cible : fenêtre hors-gel",
-				target_temp_power: "Temp. cible : délestage",
-				target_temp_central_mode: "Temp. cible : mode central",
-				target_temp_activity_detected: "Temp. cible : activité détectée",
-				target_temp_activity_not_detected: "Temp. cible : activité non détectée",
-				target_temp_absence_detected: "Temp. cible : absence détectée",
-				target_temp_timed_preset: "Temporisation d'un preset active",
-				not_initialized: "Erreur d'initialisation",
-				heating_failure: "Défaut de chauffage détecté",
-				cooling_failure: "Défaut de refroidissement détecté"
-			},
-			actions: {
-				decrease_temperature: "Baisser la consigne",
-				increase_temperature: "Augmenter la consigne",
-				low_temperature: "Basse",
-				high_temperature: "Haute",
-				open_fan: "Ouvrir la ventilation",
-				open_swing: "Ouvrir l'oscillation",
-				open_menu: "Ouvrir le menu",
-				open_power_info: "Afficher les indicateurs de puissance"
-			}
-		},
-		dialog: {
-			close: "Fermer",
-			back: "Retour",
-			fan: {
-				title: "Ventilation",
-				description_auto: "Le mode Auto adapte automatiquement la ventilation selon les besoins."
-			},
-			swing: {
-				title: "Oscillation",
-				vertical: "Verticale",
-				horizontal: "Horizontale"
-			},
-			hvac: { title: "Mode" },
-			preset: { title: "Preset" },
-			message: { title: "Message" },
-			menu: {
-				title: "Menu",
-				regulation: "Régulation",
-				boost: "Boost temporaire",
-				history: "Historique"
-			},
-			history: {
-				title: "Historique",
-				load: "Charger",
-				add: "Ajouter",
-				add_entity: "Ajouter une entité",
-				loading: "Chargement de l'historique...",
-				empty: "Aucun historique sur cette période.",
-				no_attributes: "Aucun attribut sélectionnable.",
-				tools: "Outils",
-				show_controls: "Afficher les contrôles de l'historique",
-				hide_controls: "Masquer les contrôles de l'historique",
-				fullscreen: "Plein écran",
-				exit_fullscreen: "Quitter le plein écran",
-				sources: {
-					current_temperature: "Température actuelle",
-					temperature: "Consigne",
-					hvac_action: "Action HVAC"
-				}
-			},
-			boost: {
-				title: "Boost temporaire",
-				duration: "Durée en minutes",
-				minutes: "mn",
-				hours: "h",
-				start: "Démarrer",
-				stop: "Arrêter",
-				active: "Boost actif",
-				remaining_unknown: "Temps restant indisponible",
-				preset: "Preset temporisé",
-				original_preset: "Preset précédent",
-				start_description: "À la fin du compte à rebours, le thermostat reviendra au mode précédent.",
-				active_description: "À la fin du compte à rebours, le thermostat reviendra au mode précédent.",
-				active_description_with_preset: "À la fin du compte à rebours, le thermostat reviendra au mode précédent ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entité",
-			name: "Nom",
-			diagnostic_entity: "Entité diagnostic",
-			power_entity: "Entité puissance",
-			humidity_entity: "Entité humidité",
-			temperature_entity: "Entité température",
-			theme: "Thème",
-			display_mode: "Format",
-			primary_display: "Priorité d'affichage",
-			disable_name: "Masquer le nom",
-			hide_lock_button: "Masquer le bouton de verrouillage",
-			additional_dashboards: "Dashboards additionnels",
-			state_icons_layout: "Icônes d'état",
-			tabs: {
-				general: "Général",
-				presentation: "Présentation"
-			},
-			options: {
-				theme: {
-					flat: "Flat",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Classique",
-					compact: "Compact"
-				},
-				primary_display: {
-					setpoint: "Consigne",
-					sensors: "Capteurs"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertical"
-				},
-				additional_dashboards: {
-					auto: "Auto",
-					custom: "Personnalisé",
-					disabled: "Désactivé"
-				}
-			}
-		}
-	},
-	de: {
-		card: {
-			description: "Lovelace-Karte für Versatile Thermostat und Standard-Klimageräte.",
-			missing_entity: "Konfigurieren Sie ein Klimagerät.",
-			invalid_entity: "Das konfigurierte Gerät muss zur Klimadomäne gehören.",
-			invalid_theme: "Das konfigurierte Design ist nicht verfügbar.",
-			invalid_display_mode: "Der konfigurierte Anzeigemodus ist nicht verfügbar.",
-			invalid_primary_display: "Die konfigurierte Anzeigepriorität ist nicht verfügbar.",
-			invalid_additional_dashboards: "Der konfigurierte Dashboard-Modus ist nicht verfügbar.",
-			invalid_state_icons_layout: "Das konfigurierte Zustandssymbollayout ist nicht verfügbar.",
-			entity_not_found: "Gerät nicht gefunden: {entity}",
-			placeholder: "Equinox ist bereit für {entity}."
-		},
-		main: {
-			status: {
-				heating: "Heizung aktiv",
-				cooling: "Kühlung aktiv",
-				auto: "Automatisch",
-				heat: "Heizen",
-				cool: "Kühlen",
-				heat_cool: "Automatisch",
-				dry: "Trocknung",
-				fan_only: "Nur Lüfter",
-				off: "Aus",
-				boost: "Temporärer Boost",
-				unavailable: "Nicht verfügbar"
-			},
-			hvac: {
-				heat: "Heizen",
-				cool: "Kühlen",
-				heat_cool: "Heizen/Kühlen",
-				auto: "Automatisch",
-				dry: "Trocknung",
-				fan_only: "Nur Lüfter",
-				off: "Aus"
-			},
-			hvac_action: {
-				off: "Aus",
-				preheating: "Vorwärmung",
-				heating: "Heizung aktiv",
-				cooling: "Kühlung aktiv",
-				drying: "Trocknung aktiv",
-				fan: "Lüfter aktiv",
-				idle: "Bereit",
-				defrosting: "Enteisen"
-			},
-			preset: {
-				none: "Kein Preset",
-				frost: "Frostschutz",
-				eco: "Öko",
-				away: "Abwesend",
-				comfort: "Komfort",
-				home: "Zuhause",
-				sleep: "Schlaf",
-				activity: "Aktivität",
-				boost: "Boost"
-			},
-			fan: {
-				on: "An",
-				auto: "Automatisch",
-				low: "Niedrig",
-				medium: "Mittel",
-				middle: "Mitte",
-				high: "Hoch",
-				top: "Oben",
-				off: "Aus",
-				focus: "Fokus",
-				diffuse: "Diffus",
-				auto_fan_none: "Keine",
-				auto_fan_low: "Niedrig",
-				auto_fan_medium: "Mittel",
-				auto_fan_high: "Hoch",
-				auto_fan_turbo: "Turbo",
-				None: "Keine",
-				Turbo: "Turbo",
-				unavailable: "Lüfter"
-			},
-			swing: {
-				off: "Aus",
-				on: "An",
-				vertical: "Vertikal",
-				horizontal: "Horizontal",
-				both: "Beide",
-				unavailable: "Lüfterschwung"
-			},
-			lock: {
-				locked: "Gesperrt",
-				unlocked: "Entsperrt",
-				code_required: "Code erforderlich",
-				enter_code: "Code eingeben",
-				wrong_code: "Falscher Code"
-			},
-			events: {
-				hasDanger: "Kritische Warnung",
-				hasAlert: "Warnung",
-				hasOverpowering: "Überlastung",
-				hasOpenWindow: "Fenster offen",
-				hasPresence: "Präsenz erkannt",
-				hasTimer: "Timer aktiv"
-			},
-			messages: {
-				hvac_off_manual: "Manuell ausgeschaltet",
-				hvac_off_auto_start_stop: "Von Auto-Start/Stop ausgeschaltet",
-				hvac_off_window_detection: "Von Fenstererkennung ausgeschaltet",
-				hvac_off_sleep_mode: "Von Schlafmodus ausgeschaltet",
-				hvac_off_safety_detection: "Von Sicherheitsmodus ausgeschaltet",
-				hvac_off_central_mode: "Von Zentralmodus ausgeschaltet",
-				safety_detected: "Sicherheitsmodus erkannt",
-				overpowering_detected: "Überlastung erkannt",
-				target_temp_window_eco: "Zieltemp.: Fenster-Öko",
-				target_temp_window_frost: "Zieltemp.: Fenster-Frost",
-				target_temp_power: "Zieltemp.: Leistung",
-				target_temp_central_mode: "Zieltemp.: Zentralmodus",
-				target_temp_activity_detected: "Zieltemp.: Aktivität erkannt",
-				target_temp_activity_not_detected: "Zieltemp.: Keine Aktivität",
-				target_temp_absence_detected: "Zieltemp.: Abwesenheit erkannt",
-				target_temp_timed_preset: "Zeitgesteuertes Preset aktiv",
-				not_initialized: "Initialisierungsfehler",
-				heating_failure: "Heizfehler erkannt",
-				cooling_failure: "Kühlungsfehler erkannt"
-			},
-			actions: {
-				decrease_temperature: "Sollwert senken",
-				increase_temperature: "Sollwert erhöhen",
-				low_temperature: "Niedrig",
-				high_temperature: "Hoch",
-				open_fan: "Lüfter öffnen",
-				open_swing: "Lüfterschwung öffnen",
-				open_menu: "Menü öffnen",
-				open_power_info: "Leistungsindikatoren anzeigen"
-			}
-		},
-		dialog: {
-			close: "Schließen",
-			back: "Zurück",
-			fan: {
-				title: "Belüftung",
-				description_auto: "Der Automatikmodus passt die Belüftung automatisch an die Heizanforderungen an."
-			},
-			swing: {
-				title: "Lüfterschwung",
-				vertical: "Vertikal",
-				horizontal: "Horizontal"
-			},
-			hvac: { title: "Modus" },
-			preset: { title: "Preset" },
-			message: { title: "Nachricht" },
-			menu: {
-				title: "Menü",
-				regulation: "Regelung",
-				boost: "Temporärer Boost",
-				history: "Verlauf"
-			},
-			history: {
-				title: "Verlauf",
-				load: "Laden",
-				add: "Hinzufügen",
-				add_entity: "Gerät hinzufügen",
-				loading: "Verlauf wird geladen...",
-				empty: "Kein Verlauf für diesen Zeitraum.",
-				no_attributes: "Kein wählbares Attribut.",
-				tools: "Werkzeuge",
-				show_controls: "Verlaufssteuerelemente anzeigen",
-				hide_controls: "Verlaufssteuerelemente ausblenden",
-				fullscreen: "Vollbild",
-				exit_fullscreen: "Vollbild beenden",
-				sources: {
-					current_temperature: "Aktuelle Temperatur",
-					temperature: "Solltemperatur",
-					hvac_action: "HVAC-Aktion"
-				}
-			},
-			boost: {
-				title: "Temporärer Boost",
-				duration: "Dauer in Minuten",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stop",
-				active: "Boost aktiv",
-				remaining_unknown: "Verbleibende Zeit nicht verfügbar",
-				preset: "Zeitgesteuertes Preset",
-				original_preset: "Vorheriges Preset",
-				start_description: "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
-				active_description: "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
-				active_description_with_preset: "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück ({preset})."
-			}
-		},
-		editor: {
-			entity: "Gerät",
-			name: "Name",
-			diagnostic_entity: "Diagnose-Gerät",
-			power_entity: "Leistungs-Gerät",
-			humidity_entity: "Feuchte-Gerät",
-			temperature_entity: "Temperatur-Gerät",
-			theme: "Design",
-			display_mode: "Format",
-			primary_display: "Anzeigepriorität",
-			disable_name: "Name ausblenden",
-			hide_lock_button: "Sperrschaltfläche ausblenden",
-			additional_dashboards: "Zusätzliche Dashboards",
-			state_icons_layout: "Statussymbole",
-			tabs: {
-				general: "Allgemein",
-				presentation: "Präsentation"
-			},
-			options: {
-				theme: {
-					flat: "Flach",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klassisch",
-					compact: "Kompakt"
-				},
-				primary_display: {
-					setpoint: "Sollwert",
-					sensors: "Sensoren"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertikal"
-				},
-				additional_dashboards: {
-					auto: "Automatisch",
-					custom: "Benutzerdefiniert",
-					disabled: "Deaktiviert"
-				}
-			}
-		}
-	},
-	cs: {
-		card: {
-			description: "Karta Lovelace pro Versatile Thermostat a standardní entity klimatizace.",
-			missing_entity: "Nakonfigurujte entitu klimatizace.",
-			invalid_entity: "Nakonfigurovaná entita musí patřit do domény klimatizace.",
-			invalid_theme: "Nakonfigurované téma není dostupné.",
-			invalid_display_mode: "Nakonfigurovaný režim zobrazení není dostupný.",
-			invalid_primary_display: "Nakonfigurovaná priorita zobrazení není dostupná.",
-			invalid_additional_dashboards: "Nakonfigurovaný režim přístupového panelu není dostupný.",
-			invalid_state_icons_layout: "Nakonfigurované rozložení ikon stavu není dostupné.",
-			entity_not_found: "Entita nenalezena: {entity}",
-			placeholder: "Equinox je připraven pro {entity}."
-		},
-		main: {
-			status: {
-				heating: "Topení aktivní",
-				cooling: "Chlazení aktivní",
-				auto: "Automatické",
-				heat: "Topení",
-				cool: "Chlazení",
-				heat_cool: "Automatické",
-				dry: "Sušení",
-				fan_only: "Pouze ventilátor",
-				off: "Vypnuto",
-				boost: "Dočasný boost",
-				unavailable: "Nedostupné"
-			},
-			hvac: {
-				heat: "Topení",
-				cool: "Chlazení",
-				heat_cool: "Topení/Chlazení",
-				auto: "Automatické",
-				dry: "Sušení",
-				fan_only: "Pouze ventilátor",
-				off: "Vypnuto"
-			},
-			hvac_action: {
-				off: "Vypnuto",
-				preheating: "Předehřívání",
-				heating: "Topení aktivní",
-				cooling: "Chlazení aktivní",
-				drying: "Sušení aktivní",
-				fan: "Ventilátor aktivní",
-				idle: "Nečinný",
-				defrosting: "Odmrazování"
-			},
-			preset: {
-				none: "Bez předvolby",
-				frost: "Ochrana před mrazem",
-				eco: "Eco",
-				away: "Pryč",
-				comfort: "Komfort",
-				home: "Domů",
-				sleep: "Spánek",
-				activity: "Aktivita",
-				boost: "Boost"
-			},
-			fan: {
-				on: "Zapnuto",
-				auto: "Automatické",
-				low: "Nízko",
-				medium: "Střední",
-				middle: "Střed",
-				high: "Vysoko",
-				top: "Horní",
-				off: "Vypnuto",
-				focus: "Zaměření",
-				diffuse: "Rozptyl",
-				auto_fan_none: "Žádný",
-				auto_fan_low: "Nízko",
-				auto_fan_medium: "Střední",
-				auto_fan_high: "Vysoko",
-				auto_fan_turbo: "Turbo",
-				None: "Žádný",
-				Turbo: "Turbo",
-				unavailable: "Ventilátor"
-			},
-			swing: {
-				off: "Vypnuto",
-				on: "Zapnuto",
-				vertical: "Vertikální",
-				horizontal: "Horizontální",
-				both: "Oba",
-				unavailable: "Kyv"
-			},
-			lock: {
-				locked: "Zamčeno",
-				unlocked: "Odemčeno",
-				code_required: "Vyžadován kód",
-				enter_code: "Zadejte kód",
-				wrong_code: "Nesprávný kód"
-			},
-			events: {
-				hasDanger: "Kritické upozornění",
-				hasAlert: "Upozornění",
-				hasOverpowering: "Přetížení",
-				hasOpenWindow: "Okno otevřeno",
-				hasPresence: "Přítomnost zjištěna",
-				hasTimer: "Časovač aktivní"
-			},
-			messages: {
-				hvac_off_manual: "Ručně vypnuto",
-				hvac_off_auto_start_stop: "Vypnuto automatickým spuštěním/zastavením",
-				hvac_off_window_detection: "Vypnuto detekcí okna",
-				hvac_off_sleep_mode: "Vypnuto režimem spánku",
-				hvac_off_safety_detection: "Vypnuto režimem bezpečnosti",
-				hvac_off_central_mode: "Vypnuto centrálním režimem",
-				safety_detected: "Režim bezpečnosti zjištěn",
-				overpowering_detected: "Přetížení zjištěno",
-				target_temp_window_eco: "Cíl. teplota: okno eco",
-				target_temp_window_frost: "Cíl. teplota: okno mraz",
-				target_temp_power: "Cíl. teplota: výkon",
-				target_temp_central_mode: "Cíl. teplota: centrální režim",
-				target_temp_activity_detected: "Cíl. teplota: aktivita zjištěna",
-				target_temp_activity_not_detected: "Cíl. teplota: bez aktivity",
-				target_temp_absence_detected: "Cíl. teplota: absence zjištěna",
-				target_temp_timed_preset: "Časovaná předvolba aktivní",
-				not_initialized: "Chyba inicializace",
-				heating_failure: "Chyba topení zjištěna",
-				cooling_failure: "Chyba chlazení zjištěna"
-			},
-			actions: {
-				decrease_temperature: "Snížit zadanou teplotu",
-				increase_temperature: "Zvýšit zadanou teplotu",
-				low_temperature: "Nízko",
-				high_temperature: "Vysoko",
-				open_fan: "Otevřít ventilátor",
-				open_swing: "Otevřít kyv",
-				open_menu: "Otevřít menu",
-				open_power_info: "Zobrazit indikátory výkonu"
-			}
-		},
-		dialog: {
-			close: "Zavřít",
-			back: "Zpět",
-			fan: {
-				title: "Ventilace",
-				description_auto: "Automatický režim automaticky přizpůsobuje ventilaci potřebám topení."
-			},
-			swing: {
-				title: "Kyv",
-				vertical: "Vertikální",
-				horizontal: "Horizontální"
-			},
-			hvac: { title: "Režim" },
-			preset: { title: "Předvolba" },
-			message: { title: "Zpráva" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulace",
-				boost: "Dočasný boost",
-				history: "Historie"
-			},
-			history: {
-				title: "Historie",
-				load: "Načíst",
-				add: "Přidat",
-				add_entity: "Přidat entitu",
-				loading: "Načítání historie...",
-				empty: "Žádná historie pro toto období.",
-				no_attributes: "Žádný volitelný atribut.",
-				tools: "Nástroje",
-				show_controls: "Zobrazit ovládací prvky historie",
-				hide_controls: "Skrýt ovládací prvky historie",
-				fullscreen: "Celá obrazovka",
-				exit_fullscreen: "Opustit celou obrazovku",
-				sources: {
-					current_temperature: "Aktuální teplota",
-					temperature: "Cílová teplota",
-					hvac_action: "Akce HVAC"
-				}
-			},
-			boost: {
-				title: "Dočasný boost",
-				duration: "Doba trvání v minutách",
-				minutes: "min",
-				hours: "h",
-				start: "Spustit",
-				stop: "Zastavit",
-				active: "Boost aktivní",
-				remaining_unknown: "Zbývající čas není dostupný",
-				preset: "Časovaná předvolba",
-				original_preset: "Předchozí předvolba",
-				start_description: "Když se odpočet skončí, termostat se vrátí do předchozího režimu.",
-				active_description: "Když se odpočet skončí, termostat se vrátí do předchozího režimu.",
-				active_description_with_preset: "Když se odpočet skončí, termostat se vrátí do předchozího režimu ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entita",
-			name: "Název",
-			diagnostic_entity: "Diagnostická entita",
-			power_entity: "Entita výkonu",
-			humidity_entity: "Entita vlhkosti",
-			temperature_entity: "Entita teploty",
-			theme: "Téma",
-			display_mode: "Formát",
-			primary_display: "Priorita zobrazení",
-			disable_name: "Skrýt název",
-			hide_lock_button: "Skrýt tlačítko zámku",
-			additional_dashboards: "Další přístupové panely",
-			state_icons_layout: "Ikony stavu",
-			tabs: {
-				general: "Obecné",
-				presentation: "Prezentace"
-			},
-			options: {
-				theme: {
-					flat: "Plochý",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klasický",
-					compact: "Kompaktní"
-				},
-				primary_display: {
-					setpoint: "Zadaná teplota",
-					sensors: "Senzory"
-				},
-				layout_orientation: {
-					horizontal: "Horizontální",
-					vertical: "Vertikální"
-				},
-				additional_dashboards: {
-					auto: "Automatické",
-					custom: "Vlastní",
-					disabled: "Zakázáno"
-				}
-			}
-		}
-	},
-	el: {
-		card: {
-			description: "Κάρτα Lovelace για Versatile Thermostat και τυπικές οντότητες κλίματος.",
-			missing_entity: "Διαμορφώστε μια οντότητα κλίματος.",
-			invalid_entity: "Η διαμορφωμένη οντότητα πρέπει να ανήκει στο πεδίο κλίματος.",
-			invalid_theme: "Το διαμορφωμένο θέμα δεν είναι διαθέσιμο.",
-			invalid_display_mode: "Η διαμορφωμένη λειτουργία εμφάνισης δεν είναι διαθέσιμη.",
-			invalid_primary_display: "Η διαμορφωμένη προτεραιότητα εμφάνισης δεν είναι διαθέσιμη.",
-			invalid_additional_dashboards: "Η διαμορφωμένη λειτουργία πίνακα δεν είναι διαθέσιμη.",
-			invalid_state_icons_layout: "Η διαμορφωμένη διάταξη εικονιδίων κατάστασης δεν είναι διαθέσιμη.",
-			entity_not_found: "Οντότητα δεν βρέθηκε: {entity}",
-			placeholder: "Το Equinox είναι έτοιμο για {entity}."
-		},
-		main: {
-			status: {
-				heating: "Θέρμανση ενεργή",
-				cooling: "Ψύξη ενεργή",
-				auto: "Αυτόματο",
-				heat: "Θέρμανση",
-				cool: "Ψύξη",
-				heat_cool: "Αυτόματο",
-				dry: "Ξήρανση",
-				fan_only: "Μόνο ανεμιστήρας",
-				off: "Απενεργοποιημένο",
-				boost: "Προσωρινή ενίσχυση",
-				unavailable: "Μη διαθέσιμο"
-			},
-			hvac: {
-				heat: "Θέρμανση",
-				cool: "Ψύξη",
-				heat_cool: "Θέρμανση/Ψύξη",
-				auto: "Αυτόματο",
-				dry: "Ξήρανση",
-				fan_only: "Μόνο ανεμιστήρας",
-				off: "Απενεργοποιημένο"
-			},
-			hvac_action: {
-				off: "Απενεργοποιημένο",
-				preheating: "Προθέρμανση",
-				heating: "Θέρμανση ενεργή",
-				cooling: "Ψύξη ενεργή",
-				drying: "Ξήρανση ενεργή",
-				fan: "Ανεμιστήρας ενεργός",
-				idle: "Αδράνεια",
-				defrosting: "Απόψυξη"
-			},
-			preset: {
-				none: "Χωρίς προρύθμιση",
-				frost: "Προστασία από παγετό",
-				eco: "Eco",
-				away: "Απόντας",
-				comfort: "Άνεση",
-				home: "Σπίτι",
-				sleep: "Ύπνος",
-				activity: "Δραστηριότητα",
-				boost: "Ενίσχυση"
-			},
-			fan: {
-				on: "Ενεργό",
-				auto: "Αυτόματο",
-				low: "Χαμηλό",
-				medium: "Μεσαίο",
-				middle: "Μέση",
-				high: "Υψηλό",
-				top: "Κορυφή",
-				off: "Απενεργοποιημένο",
-				focus: "Εστίαση",
-				diffuse: "Διάχυση",
-				auto_fan_none: "Κανένα",
-				auto_fan_low: "Χαμηλό",
-				auto_fan_medium: "Μεσαίο",
-				auto_fan_high: "Υψηλό",
-				auto_fan_turbo: "Turbo",
-				None: "Κανένα",
-				Turbo: "Turbo",
-				unavailable: "Ανεμιστήρας"
-			},
-			swing: {
-				off: "Απενεργοποιημένο",
-				on: "Ενεργό",
-				vertical: "Κάθετη",
-				horizontal: "Οριζόντια",
-				both: "Και οι δύο",
-				unavailable: "Ταλάντωση"
-			},
-			lock: {
-				locked: "Κλειδωμένο",
-				unlocked: "Ξεκλείδωτο",
-				code_required: "Απαιτείται κωδικός",
-				enter_code: "Εισαγάγετε κωδικό",
-				wrong_code: "Λανθασμένος κωδικός"
-			},
-			events: {
-				hasDanger: "Κρίσιμη ειδοποίηση",
-				hasAlert: "Ειδοποίηση",
-				hasOverpowering: "Υπερφόρτωση",
-				hasOpenWindow: "Παράθυρο ανοικτό",
-				hasPresence: "Παρουσία ανιχνεύθηκε",
-				hasTimer: "Χρονόμετρο ενεργό"
-			},
-			messages: {
-				hvac_off_manual: "Απενεργοποιήθηκε χειροκίνητα",
-				hvac_off_auto_start_stop: "Απενεργοποιήθηκε με αυτόματη έναρξη/διακοπή",
-				hvac_off_window_detection: "Απενεργοποιήθηκε με ανίχνευση παραθύρου",
-				hvac_off_sleep_mode: "Απενεργοποιήθηκε σε λειτουργία ύπνου",
-				hvac_off_safety_detection: "Απενεργοποιήθηκε σε λειτουργία ασφαλείας",
-				hvac_off_central_mode: "Απενεργοποιήθηκε σε κεντρική λειτουργία",
-				safety_detected: "Ανιχνεύθηκε λειτουργία ασφαλείας",
-				overpowering_detected: "Ανιχνεύθηκε υπερφόρτωση",
-				target_temp_window_eco: "Θερμ. στόχου: παράθυρο eco",
-				target_temp_window_frost: "Θερμ. στόχου: παράθυρο παγετό",
-				target_temp_power: "Θερμ. στόχου: ισχύς",
-				target_temp_central_mode: "Θερμ. στόχου: κεντρική λειτουργία",
-				target_temp_activity_detected: "Θερμ. στόχου: δραστηριότητα ανιχνεύθηκε",
-				target_temp_activity_not_detected: "Θερμ. στόχου: χωρίς δραστηριότητα",
-				target_temp_absence_detected: "Θερμ. στόχου: απουσία ανιχνεύθηκε",
-				target_temp_timed_preset: "Χρονοδιάγραμμα προρύθμισης ενεργό",
-				not_initialized: "Σφάλμα αρχικοποίησης",
-				heating_failure: "Ανιχνεύθηκε σφάλμα θέρμανσης",
-				cooling_failure: "Ανιχνεύθηκε σφάλμα ψύξης"
-			},
-			actions: {
-				decrease_temperature: "Μείωση σημείου ρύθμισης",
-				increase_temperature: "Αύξηση σημείου ρύθμισης",
-				low_temperature: "Χαμηλό",
-				high_temperature: "Υψηλό",
-				open_fan: "Ανοίξτε ανεμιστήρα",
-				open_swing: "Ανοίξτε ταλάντωση",
-				open_menu: "Ανοίξτε μενού",
-				open_power_info: "Εμφάνιση δεικτών ισχύος"
-			}
-		},
-		dialog: {
-			close: "Κλείσιμο",
-			back: "Πίσω",
-			fan: {
-				title: "Εξαερισμός",
-				description_auto: "Η λειτουργία αυτόματης προσαρμογής τροποποιεί αυτόματα τον εξαερισμό στις ανάγκες θέρμανσης."
-			},
-			swing: {
-				title: "Ταλάντωση",
-				vertical: "Κάθετη",
-				horizontal: "Οριζόντια"
-			},
-			hvac: { title: "Λειτουργία" },
-			preset: { title: "Προρύθμιση" },
-			message: { title: "Μήνυμα" },
-			menu: {
-				title: "Μενού",
-				regulation: "Ρύθμιση",
-				boost: "Προσωρινή ενίσχυση",
-				history: "Ιστορικό"
-			},
-			history: {
-				title: "Ιστορικό",
-				load: "Φόρτωση",
-				add: "Προσθήκη",
-				add_entity: "Προσθήκη οντότητας",
-				loading: "Φόρτωση ιστορικού...",
-				empty: "Κανένα ιστορικό για αυτήν την περίοδο.",
-				no_attributes: "Κανένα επιλεγμένο χαρακτηριστικό.",
-				tools: "Εργαλεία",
-				show_controls: "Εμφάνιση στοιχείων ελέγχου ιστορικού",
-				hide_controls: "Απόκρυψη στοιχείων ελέγχου ιστορικού",
-				fullscreen: "Πλήρης οθόνη",
-				exit_fullscreen: "Έξοδος από πλήρη οθόνη",
-				sources: {
-					current_temperature: "Τρέχουσα θερμοκρασία",
-					temperature: "Θερμοκρασία στόχου",
-					hvac_action: "Ενέργεια HVAC"
-				}
-			},
-			boost: {
-				title: "Προσωρινή ενίσχυση",
-				duration: "Διάρκεια σε λεπτά",
-				minutes: "λ",
-				hours: "ώ",
-				start: "Έναρξη",
-				stop: "Διακοπή",
-				active: "Ενίσχυση ενεργή",
-				remaining_unknown: "Υπολειπόμενος χρόνος μη διαθέσιμος",
-				preset: "Χρονοδιάγραμμα προρύθμισης",
-				original_preset: "Προηγούμενη προρύθμιση",
-				start_description: "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
-				active_description: "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
-				active_description_with_preset: "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία ({preset})."
-			}
-		},
-		editor: {
-			entity: "Οντότητα",
-			name: "Όνομα",
-			diagnostic_entity: "Δεδομένα διάγνωσης",
-			power_entity: "Οντότητα ισχύος",
-			humidity_entity: "Οντότητα υγρασίας",
-			temperature_entity: "Οντότητα θερμοκρασίας",
-			theme: "Θέμα",
-			display_mode: "Μορφή",
-			primary_display: "Προτεραιότητα εμφάνισης",
-			disable_name: "Απόκρυψη ονόματος",
-			hide_lock_button: "Απόκρυψη κουμπιού κλειδώματος",
-			additional_dashboards: "Πρόσθετα ταμπλό",
-			state_icons_layout: "Εικονίδια κατάστασης",
-			tabs: {
-				general: "Γενικά",
-				presentation: "Παρουσίαση"
-			},
-			options: {
-				theme: {
-					flat: "Επίπεδη",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Κλασσικό",
-					compact: "Συμπαγής"
-				},
-				primary_display: {
-					setpoint: "Σημείο ρύθμισης",
-					sensors: "Αισθητήρες"
-				},
-				layout_orientation: {
-					horizontal: "Οριζόντια",
-					vertical: "Κάθετη"
-				},
-				additional_dashboards: {
-					auto: "Αυτόματο",
-					custom: "Προσαρμοσμένο",
-					disabled: "Απενεργοποιημένο"
-				}
-			}
-		}
-	},
-	it: {
-		card: {
-			description: "Scheda Lovelace per Termostato Versatile e entità climatiche standard.",
-			missing_entity: "Configurare un'entità climatica.",
-			invalid_entity: "L'entità configurata deve appartenere al dominio climatico.",
-			invalid_theme: "Il tema configurato non è disponibile.",
-			invalid_display_mode: "La modalità di visualizzazione configurata non è disponibile.",
-			invalid_primary_display: "La priorità di visualizzazione configurata non è disponibile.",
-			invalid_additional_dashboards: "La modalità dashboard configurata non è disponibile.",
-			invalid_state_icons_layout: "Il layout delle icone di stato configurato non è disponibile.",
-			entity_not_found: "Entità non trovata: {entity}",
-			placeholder: "Equinox è pronto per {entity}."
-		},
-		main: {
-			status: {
-				heating: "Riscaldamento attivo",
-				cooling: "Raffreddamento attivo",
-				auto: "Automatico",
-				heat: "Riscaldamento",
-				cool: "Raffreddamento",
-				heat_cool: "Automatico",
-				dry: "Secco",
-				fan_only: "Solo ventilatore",
-				off: "Spento",
-				boost: "Potenziamento temporaneo",
-				unavailable: "Non disponibile"
-			},
-			hvac: {
-				heat: "Riscaldamento",
-				cool: "Raffreddamento",
-				heat_cool: "Riscaldamento/Raffreddamento",
-				auto: "Automatico",
-				dry: "Secco",
-				fan_only: "Solo ventilatore",
-				off: "Spento"
-			},
-			hvac_action: {
-				off: "Spento",
-				preheating: "Preriscaldamento",
-				heating: "Riscaldamento attivo",
-				cooling: "Raffreddamento attivo",
-				drying: "Essiccazione attiva",
-				fan: "Ventilatore attivo",
-				idle: "Inattivo",
-				defrosting: "Sbrinamento"
-			},
-			preset: {
-				none: "Nessun preset",
-				frost: "Protezione dal gelo",
-				eco: "Eco",
-				away: "Assente",
-				comfort: "Comfort",
-				home: "Casa",
-				sleep: "Riposo",
-				activity: "Attività",
-				boost: "Potenziamento"
-			},
-			fan: {
-				on: "Acceso",
-				auto: "Automatico",
-				low: "Basso",
-				medium: "Medio",
-				middle: "Mezzo",
-				high: "Alto",
-				top: "Superiore",
-				off: "Spento",
-				focus: "Fuoco",
-				diffuse: "Diffuso",
-				auto_fan_none: "Nessuno",
-				auto_fan_low: "Basso",
-				auto_fan_medium: "Medio",
-				auto_fan_high: "Alto",
-				auto_fan_turbo: "Turbo",
-				None: "Nessuno",
-				Turbo: "Turbo",
-				unavailable: "Ventilatore"
-			},
-			swing: {
-				off: "Spento",
-				on: "Acceso",
-				vertical: "Verticale",
-				horizontal: "Orizzontale",
-				both: "Entrambi",
-				unavailable: "Oscillazione"
-			},
-			lock: {
-				locked: "Bloccato",
-				unlocked: "Sbloccato",
-				code_required: "Codice richiesto",
-				enter_code: "Inserisci codice",
-				wrong_code: "Codice errato"
-			},
-			events: {
-				hasDanger: "Avviso critico",
-				hasAlert: "Avviso",
-				hasOverpowering: "Sovraccarico",
-				hasOpenWindow: "Finestra aperta",
-				hasPresence: "Presenza rilevata",
-				hasTimer: "Timer attivo"
-			},
-			messages: {
-				hvac_off_manual: "Spento manualmente",
-				hvac_off_auto_start_stop: "Spento da avvio/arresto automatico",
-				hvac_off_window_detection: "Spento dal rilevamento finestra",
-				hvac_off_sleep_mode: "Spento da modalità riposo",
-				hvac_off_safety_detection: "Spento da modalità sicurezza",
-				hvac_off_central_mode: "Spento da modalità centrale",
-				safety_detected: "Modalità sicurezza rilevata",
-				overpowering_detected: "Sovraccarico rilevato",
-				target_temp_window_eco: "Temp. obiettivo: finestra eco",
-				target_temp_window_frost: "Temp. obiettivo: finestra gelo",
-				target_temp_power: "Temp. obiettivo: potenza",
-				target_temp_central_mode: "Temp. obiettivo: modalità centrale",
-				target_temp_activity_detected: "Temp. obiettivo: attività rilevata",
-				target_temp_activity_not_detected: "Temp. obiettivo: nessuna attività",
-				target_temp_absence_detected: "Temp. obiettivo: assenza rilevata",
-				target_temp_timed_preset: "Preset programmato attivo",
-				not_initialized: "Errore di inizializzazione",
-				heating_failure: "Errore di riscaldamento rilevato",
-				cooling_failure: "Errore di raffreddamento rilevato"
-			},
-			actions: {
-				decrease_temperature: "Diminuisci consegna",
-				increase_temperature: "Aumenta consegna",
-				low_temperature: "Basso",
-				high_temperature: "Alto",
-				open_fan: "Apri ventilatore",
-				open_swing: "Apri oscillazione",
-				open_menu: "Apri menu",
-				open_power_info: "Mostra indicatori di potenza"
-			}
-		},
-		dialog: {
-			close: "Chiudi",
-			back: "Indietro",
-			fan: {
-				title: "Ventilazione",
-				description_auto: "La modalità automatica adatta automaticamente la ventilazione alle esigenze di riscaldamento."
-			},
-			swing: {
-				title: "Oscillazione",
-				vertical: "Verticale",
-				horizontal: "Orizzontale"
-			},
-			hvac: { title: "Modalità" },
-			preset: { title: "Preset" },
-			message: { title: "Messaggio" },
-			menu: {
-				title: "Menu",
-				regulation: "Regolazione",
-				boost: "Potenziamento temporaneo",
-				history: "Cronologia"
-			},
-			history: {
-				title: "Cronologia",
-				load: "Carica",
-				add: "Aggiungi",
-				add_entity: "Aggiungi un'entità",
-				loading: "Caricamento cronologia...",
-				empty: "Nessuna cronologia per questo periodo.",
-				no_attributes: "Nessun attributo selezionabile.",
-				tools: "Strumenti",
-				show_controls: "Mostra controlli cronologia",
-				hide_controls: "Nascondi controlli cronologia",
-				fullscreen: "Schermo intero",
-				exit_fullscreen: "Esci da schermo intero",
-				sources: {
-					current_temperature: "Temperatura attuale",
-					temperature: "Temperatura obiettivo",
-					hvac_action: "Azione HVAC"
-				}
-			},
-			boost: {
-				title: "Potenziamento temporaneo",
-				duration: "Durata in minuti",
-				minutes: "min",
-				hours: "h",
-				start: "Avvia",
-				stop: "Arresta",
-				active: "Potenziamento attivo",
-				remaining_unknown: "Tempo rimanente non disponibile",
-				preset: "Preset programmato",
-				original_preset: "Preset precedente",
-				start_description: "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente.",
-				active_description: "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente.",
-				active_description_with_preset: "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entità",
-			name: "Nome",
-			diagnostic_entity: "Entità diagnostica",
-			power_entity: "Entità potenza",
-			humidity_entity: "Entità umidità",
-			temperature_entity: "Entità temperatura",
-			theme: "Tema",
-			display_mode: "Formato",
-			primary_display: "Priorità visualizzazione",
-			disable_name: "Nascondi nome",
-			hide_lock_button: "Nascondi pulsante blocco",
-			additional_dashboards: "Dashboard aggiuntivi",
-			state_icons_layout: "Icone di stato",
-			tabs: {
-				general: "Generale",
-				presentation: "Presentazione"
-			},
-			options: {
-				theme: {
-					flat: "Piatto",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Classico",
-					compact: "Compatto"
-				},
-				primary_display: {
-					setpoint: "Consegna",
-					sensors: "Sensori"
-				},
-				layout_orientation: {
-					horizontal: "Orizzontale",
-					vertical: "Verticale"
-				},
-				additional_dashboards: {
-					auto: "Automatico",
-					custom: "Personalizzato",
-					disabled: "Disabilitato"
-				}
-			}
-		}
-	},
-	pl: {
-		card: {
-			description: "Karta Lovelace dla Versatile Thermostat i standardowych jednostek klimatyzacyjnych.",
-			missing_entity: "Skonfiguruj jednostkę klimatyzacyjną.",
-			invalid_entity: "Skonfigurowana jednostka musi należeć do domeny klimatyzacyjnej.",
-			invalid_theme: "Skonfigurowany motyw nie jest dostępny.",
-			invalid_display_mode: "Skonfigurowany tryb wyświetlania nie jest dostępny.",
-			invalid_primary_display: "Skonfigurowany priorytet wyświetlania nie jest dostępny.",
-			invalid_additional_dashboards: "Skonfigurowany tryb pulpitu nawigacyjnego nie jest dostępny.",
-			invalid_state_icons_layout: "Skonfigurowany układ ikon stanu nie jest dostępny.",
-			entity_not_found: "Jednostka nie znaleziona: {entity}",
-			placeholder: "Equinox jest gotowy dla {entity}."
-		},
-		main: {
-			status: {
-				heating: "Grzewanie aktywne",
-				cooling: "Chłodzenie aktywne",
-				auto: "Automatyczne",
-				heat: "Grzewanie",
-				cool: "Chłodzenie",
-				heat_cool: "Automatyczne",
-				dry: "Suszenie",
-				fan_only: "Tylko wentylator",
-				off: "Wyłączony",
-				boost: "Tymczasowe przyspieszenie",
-				unavailable: "Niedostępne"
-			},
-			hvac: {
-				heat: "Grzewanie",
-				cool: "Chłodzenie",
-				heat_cool: "Grzewanie/Chłodzenie",
-				auto: "Automatyczne",
-				dry: "Suszenie",
-				fan_only: "Tylko wentylator",
-				off: "Wyłączony"
-			},
-			hvac_action: {
-				off: "Wyłączony",
-				preheating: "Wstępne podgrzewanie",
-				heating: "Grzewanie aktywne",
-				cooling: "Chłodzenie aktywne",
-				drying: "Suszenie aktywne",
-				fan: "Wentylator aktywny",
-				idle: "Bezczynny",
-				defrosting: "Odmrażanie"
-			},
-			preset: {
-				none: "Brak predefiniowanego",
-				frost: "Ochrona przed mrozem",
-				eco: "Eco",
-				away: "Nieobecny",
-				comfort: "Komfort",
-				home: "Dom",
-				sleep: "Sen",
-				activity: "Aktywność",
-				boost: "Przyspieszenie"
-			},
-			fan: {
-				on: "Włączony",
-				auto: "Automatyczne",
-				low: "Niskie",
-				medium: "Średnie",
-				middle: "Pośrednie",
-				high: "Wysokie",
-				top: "Górne",
-				off: "Wyłączony",
-				focus: "Skupienie",
-				diffuse: "Rozproszone",
-				auto_fan_none: "Brak",
-				auto_fan_low: "Niskie",
-				auto_fan_medium: "Średnie",
-				auto_fan_high: "Wysokie",
-				auto_fan_turbo: "Turbo",
-				None: "Brak",
-				Turbo: "Turbo",
-				unavailable: "Wentylator"
-			},
-			swing: {
-				off: "Wyłączony",
-				on: "Włączony",
-				vertical: "Pionowa",
-				horizontal: "Pozioma",
-				both: "Obie",
-				unavailable: "Oscylacja"
-			},
-			lock: {
-				locked: "Zablokowany",
-				unlocked: "Odblokowany",
-				code_required: "Wymagany kod",
-				enter_code: "Wpisz kod",
-				wrong_code: "Nieprawidłowy kod"
-			},
-			events: {
-				hasDanger: "Alert krytyczny",
-				hasAlert: "Alert",
-				hasOverpowering: "Przeciążenie",
-				hasOpenWindow: "Okno otwarte",
-				hasPresence: "Wykryta obecność",
-				hasTimer: "Czasomierz aktywny"
-			},
-			messages: {
-				hvac_off_manual: "Wyłączony ręcznie",
-				hvac_off_auto_start_stop: "Wyłączony przez automatyczne uruchamianie/zatrzymywanie",
-				hvac_off_window_detection: "Wyłączony przez detekcję okna",
-				hvac_off_sleep_mode: "Wyłączony przez tryb snu",
-				hvac_off_safety_detection: "Wyłączony przez tryb bezpieczeństwa",
-				hvac_off_central_mode: "Wyłączony przez tryb centralny",
-				safety_detected: "Wykryty tryb bezpieczeństwa",
-				overpowering_detected: "Wykryto przeciążenie",
-				target_temp_window_eco: "Docel. temp.: okno eco",
-				target_temp_window_frost: "Docel. temp.: okno mróz",
-				target_temp_power: "Docel. temp.: moc",
-				target_temp_central_mode: "Docel. temp.: tryb centralny",
-				target_temp_activity_detected: "Docel. temp.: aktywność wykryta",
-				target_temp_activity_not_detected: "Docel. temp.: brak aktywności",
-				target_temp_absence_detected: "Docel. temp.: nieobecność wykryta",
-				target_temp_timed_preset: "Zaplanowana predefiniowana aktywna",
-				not_initialized: "Błąd inicjalizacji",
-				heating_failure: "Wykryto błąd grzewania",
-				cooling_failure: "Wykryto błąd chłodzenia"
-			},
-			actions: {
-				decrease_temperature: "Zmniejsz punkt zadany",
-				increase_temperature: "Zwiększ punkt zadany",
-				low_temperature: "Niskie",
-				high_temperature: "Wysokie",
-				open_fan: "Otwórz wentylator",
-				open_swing: "Otwórz oscylację",
-				open_menu: "Otwórz menu",
-				open_power_info: "Pokaż wskaźniki mocy"
-			}
-		},
-		dialog: {
-			close: "Zamknij",
-			back: "Wróć",
-			fan: {
-				title: "Wentylacja",
-				description_auto: "Tryb automatyczny automatycznie dostosowuje wentylację do potrzeb grzewania."
-			},
-			swing: {
-				title: "Oscylacja",
-				vertical: "Pionowa",
-				horizontal: "Pozioma"
-			},
-			hvac: { title: "Tryb" },
-			preset: { title: "Predefiniowana" },
-			message: { title: "Wiadomość" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulacja",
-				boost: "Tymczasowe przyspieszenie",
-				history: "Historia"
-			},
-			history: {
-				title: "Historia",
-				load: "Załaduj",
-				add: "Dodaj",
-				add_entity: "Dodaj jednostkę",
-				loading: "Ładowanie historii...",
-				empty: "Brak historii dla tego okresu.",
-				no_attributes: "Brak atrybutu do wyboru.",
-				tools: "Narzędzia",
-				show_controls: "Pokaż kontrolki historii",
-				hide_controls: "Ukryj kontrolki historii",
-				fullscreen: "Pełny ekran",
-				exit_fullscreen: "Zamknij pełny ekran",
-				sources: {
-					current_temperature: "Bieżąca temperatura",
-					temperature: "Temperatura docelowa",
-					hvac_action: "Działanie HVAC"
-				}
-			},
-			boost: {
-				title: "Tymczasowe przyspieszenie",
-				duration: "Czas trwania w minutach",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stop",
-				active: "Przyspieszenie aktywne",
-				remaining_unknown: "Pozostały czas niedostępny",
-				preset: "Zaplanowana predefiniowana",
-				original_preset: "Poprzednia predefiniowana",
-				start_description: "Po zakończeniu odliczania termostat powróci do poprzedniego trybu.",
-				active_description: "Po zakończeniu odliczania termostat powróci do poprzedniego trybu.",
-				active_description_with_preset: "Po zakończeniu odliczania termostat powróci do poprzedniego trybu ({preset})."
-			}
-		},
-		editor: {
-			entity: "Jednostka",
-			name: "Nazwa",
-			diagnostic_entity: "Jednostka diagnostyki",
-			power_entity: "Jednostka mocy",
-			humidity_entity: "Jednostka wilgotności",
-			temperature_entity: "Jednostka temperatury",
-			theme: "Motyw",
-			display_mode: "Format",
-			primary_display: "Priorytet wyświetlania",
-			disable_name: "Ukryj nazwę",
-			hide_lock_button: "Ukryj przycisk blokady",
-			additional_dashboards: "Dodatkowe pulpity nawigacyjne",
-			state_icons_layout: "Ikony stanu",
-			tabs: {
-				general: "Ogólne",
-				presentation: "Prezentacja"
-			},
-			options: {
-				theme: {
-					flat: "Płaski",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klasyczny",
-					compact: "Kompaktowy"
-				},
-				primary_display: {
-					setpoint: "Punkt zadany",
-					sensors: "Czujniki"
-				},
-				layout_orientation: {
-					horizontal: "Pozioma",
-					vertical: "Pionowa"
-				},
-				additional_dashboards: {
-					auto: "Automatyczne",
-					custom: "Niestandardowy",
-					disabled: "Wyłączony"
-				}
-			}
-		}
-	},
-	ru: {
-		card: {
-			description: "Карточка Lovelace для Versatile Thermostat и стандартных сущностей климата.",
-			missing_entity: "Настройте сущность климата.",
-			invalid_entity: "Настроенная сущность должна принадлежать домену климата.",
-			invalid_theme: "Настроенная тема недоступна.",
-			invalid_display_mode: "Настроенный режим отображения недоступен.",
-			invalid_primary_display: "Настроенный приоритет отображения недоступен.",
-			invalid_additional_dashboards: "Настроенный режим панели недоступен.",
-			invalid_state_icons_layout: "Настроенный макет значков состояния недоступен.",
-			entity_not_found: "Сущность не найдена: {entity}",
-			placeholder: "Equinox готов к {entity}."
-		},
-		main: {
-			status: {
-				heating: "Отопление активно",
-				cooling: "Охлаждение активно",
-				auto: "Автоматический",
-				heat: "Отопление",
-				cool: "Охлаждение",
-				heat_cool: "Автоматический",
-				dry: "Осушка",
-				fan_only: "Только вентилятор",
-				off: "Выключено",
-				boost: "Временное ускорение",
-				unavailable: "Недоступно"
-			},
-			hvac: {
-				heat: "Отопление",
-				cool: "Охлаждение",
-				heat_cool: "Отопление/Охлаждение",
-				auto: "Автоматический",
-				dry: "Осушка",
-				fan_only: "Только вентилятор",
-				off: "Выключено"
-			},
-			hvac_action: {
-				off: "Выключено",
-				preheating: "Предварительный нагрев",
-				heating: "Отопление активно",
-				cooling: "Охлаждение активно",
-				drying: "Осушка активна",
-				fan: "Вентилятор активен",
-				idle: "Ожидание",
-				defrosting: "Разморозка"
-			},
-			preset: {
-				none: "Нет предустановки",
-				frost: "Защита от мороза",
-				eco: "Эко",
-				away: "В отсутствии",
-				comfort: "Комфорт",
-				home: "Дом",
-				sleep: "Сон",
-				activity: "Активность",
-				boost: "Ускорение"
-			},
-			fan: {
-				on: "Включено",
-				auto: "Автоматический",
-				low: "Низко",
-				medium: "Среднее",
-				middle: "Середина",
-				high: "Высоко",
-				top: "Верхний",
-				off: "Выключено",
-				focus: "Фокус",
-				diffuse: "Диффузия",
-				auto_fan_none: "Нет",
-				auto_fan_low: "Низко",
-				auto_fan_medium: "Среднее",
-				auto_fan_high: "Высоко",
-				auto_fan_turbo: "Турбо",
-				None: "Нет",
-				Turbo: "Турбо",
-				unavailable: "Вентилятор"
-			},
-			swing: {
-				off: "Выключено",
-				on: "Включено",
-				vertical: "Вертикально",
-				horizontal: "Горизонтально",
-				both: "Оба",
-				unavailable: "Колебание"
-			},
-			lock: {
-				locked: "Заблокировано",
-				unlocked: "Разблокировано",
-				code_required: "Требуется код",
-				enter_code: "Введите код",
-				wrong_code: "Неправильный код"
-			},
-			events: {
-				hasDanger: "Критическое предупреждение",
-				hasAlert: "Предупреждение",
-				hasOverpowering: "Перегрузка",
-				hasOpenWindow: "Окно открыто",
-				hasPresence: "Обнаружено присутствие",
-				hasTimer: "Таймер активен"
-			},
-			messages: {
-				hvac_off_manual: "Выключено вручную",
-				hvac_off_auto_start_stop: "Выключено автоматическим запуском/остановом",
-				hvac_off_window_detection: "Выключено обнаружением окна",
-				hvac_off_sleep_mode: "Выключено режимом сна",
-				hvac_off_safety_detection: "Выключено режимом безопасности",
-				hvac_off_central_mode: "Выключено центральным режимом",
-				safety_detected: "Обнаружен режим безопасности",
-				overpowering_detected: "Обнаружена перегрузка",
-				target_temp_window_eco: "Целевая темп.: окно эко",
-				target_temp_window_frost: "Целевая темп.: окно мороз",
-				target_temp_power: "Целевая темп.: питание",
-				target_temp_central_mode: "Целевая темп.: центральный режим",
-				target_temp_activity_detected: "Целевая темп.: активность обнаружена",
-				target_temp_activity_not_detected: "Целевая темп.: активность не обнаружена",
-				target_temp_absence_detected: "Целевая темп.: отсутствие обнаружено",
-				target_temp_timed_preset: "Временная предустановка активна",
-				not_initialized: "Ошибка инициализации",
-				heating_failure: "Обнаружена ошибка отопления",
-				cooling_failure: "Обнаружена ошибка охлаждения"
-			},
-			actions: {
-				decrease_temperature: "Уменьшить уставку",
-				increase_temperature: "Увеличить уставку",
-				low_temperature: "Низко",
-				high_temperature: "Высоко",
-				open_fan: "Открыть вентилятор",
-				open_swing: "Открыть колебание",
-				open_menu: "Открыть меню",
-				open_power_info: "Показать индикаторы питания"
-			}
-		},
-		dialog: {
-			close: "Закрыть",
-			back: "Назад",
-			fan: {
-				title: "Вентиляция",
-				description_auto: "Автоматический режим автоматически адаптирует вентиляцию к потребностям отопления."
-			},
-			swing: {
-				title: "Колебание",
-				vertical: "Вертикально",
-				horizontal: "Горизонтально"
-			},
-			hvac: { title: "Режим" },
-			preset: { title: "Предустановка" },
-			message: { title: "Сообщение" },
-			menu: {
-				title: "Меню",
-				regulation: "Регуляция",
-				boost: "Временное ускорение",
-				history: "История"
-			},
-			history: {
-				title: "История",
-				load: "Загрузить",
-				add: "Добавить",
-				add_entity: "Добавить сущность",
-				loading: "Загрузка истории...",
-				empty: "Нет истории для этого периода.",
-				no_attributes: "Нет выбираемого атрибута.",
-				tools: "Инструменты",
-				show_controls: "Показать элементы управления историей",
-				hide_controls: "Скрыть элементы управления историей",
-				fullscreen: "Полный экран",
-				exit_fullscreen: "Выход из полного экрана",
-				sources: {
-					current_temperature: "Текущая температура",
-					temperature: "Целевая температура",
-					hvac_action: "Действие HVAC"
-				}
-			},
-			boost: {
-				title: "Временное ускорение",
-				duration: "Продолжительность в минутах",
-				minutes: "мин",
-				hours: "ч",
-				start: "Начать",
-				stop: "Остановить",
-				active: "Ускорение активно",
-				remaining_unknown: "Оставшееся время недоступно",
-				preset: "Временная предустановка",
-				original_preset: "Предыдущая предустановка",
-				start_description: "По окончании обратного отсчета термостат вернется в предыдущий режим.",
-				active_description: "По окончании обратного отсчета термостат вернется в предыдущий режим.",
-				active_description_with_preset: "По окончании обратного отсчета термостат вернется в предыдущий режим ({preset})."
-			}
-		},
-		editor: {
-			entity: "Сущность",
-			name: "Название",
-			diagnostic_entity: "Сущность диагностики",
-			power_entity: "Сущность питания",
-			humidity_entity: "Сущность влажности",
-			temperature_entity: "Сущность температуры",
-			theme: "Тема",
-			display_mode: "Формат",
-			primary_display: "Приоритет отображения",
-			disable_name: "Скрыть название",
-			hide_lock_button: "Скрыть кнопку блокировки",
-			additional_dashboards: "Дополнительные панели",
-			state_icons_layout: "Значки состояния",
-			tabs: {
-				general: "Общие",
-				presentation: "Презентация"
-			},
-			options: {
-				theme: {
-					flat: "Плоский",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Классический",
-					compact: "Компактный"
-				},
-				primary_display: {
-					setpoint: "Уставка",
-					sensors: "Датчики"
-				},
-				layout_orientation: {
-					horizontal: "Горизонтально",
-					vertical: "Вертикально"
-				},
-				additional_dashboards: {
-					auto: "Автоматический",
-					custom: "Пользовательский",
-					disabled: "Отключено"
-				}
-			}
-		}
-	},
-	sk: {
-		card: {
-			description: "Karta Lovelace pre Versatile Thermostat a štandardné klimatizačné entity.",
-			missing_entity: "Nakonfigurujte klimatizačnú entitu.",
-			invalid_entity: "Nakonfigurovaná entita musí patriť do klimatizačnej domény.",
-			invalid_theme: "Nakonfigurovaná téma nie je dostupná.",
-			invalid_display_mode: "Nakonfigurovaný režim zobrazenia nie je dostupný.",
-			invalid_primary_display: "Nakonfigurovaná priorita zobrazenia nie je dostupná.",
-			invalid_additional_dashboards: "Nakonfigurovaný režim panelu nie je dostupný.",
-			invalid_state_icons_layout: "Nakonfigurované rozloženie ikon stavu nie je dostupné.",
-			entity_not_found: "Entita nenájdená: {entity}",
-			placeholder: "Equinox je pripravený pre {entity}."
-		},
-		main: {
-			status: {
-				heating: "Vykurovanie aktívne",
-				cooling: "Chladenie aktívne",
-				auto: "Automatické",
-				heat: "Vykurovanie",
-				cool: "Chladenie",
-				heat_cool: "Automatické",
-				dry: "Sušenie",
-				fan_only: "Iba ventilátor",
-				off: "Vypnuté",
-				boost: "Dočasný boost",
-				unavailable: "Nedostupné"
-			},
-			hvac: {
-				heat: "Vykurovanie",
-				cool: "Chladenie",
-				heat_cool: "Vykurovanie/Chladenie",
-				auto: "Automatické",
-				dry: "Sušenie",
-				fan_only: "Iba ventilátor",
-				off: "Vypnuté"
-			},
-			hvac_action: {
-				off: "Vypnuté",
-				preheating: "Predohrev",
-				heating: "Vykurovanie aktívne",
-				cooling: "Chladenie aktívne",
-				drying: "Sušenie aktívne",
-				fan: "Ventilátor aktívny",
-				idle: "Nečinný",
-				defrosting: "Odmrazovanie"
-			},
-			preset: {
-				none: "Bez prednastavenia",
-				frost: "Ochrana pred mrazom",
-				eco: "Eco",
-				away: "Preč",
-				comfort: "Komfort",
-				home: "Domov",
-				sleep: "Spánok",
-				activity: "Aktivita",
-				boost: "Boost"
-			},
-			fan: {
-				on: "Zapnuté",
-				auto: "Automatické",
-				low: "Nízko",
-				medium: "Stredné",
-				middle: "Stred",
-				high: "Vysoko",
-				top: "Horný",
-				off: "Vypnuté",
-				focus: "Zameranie",
-				diffuse: "Rozptyl",
-				auto_fan_none: "Žiadny",
-				auto_fan_low: "Nízko",
-				auto_fan_medium: "Stredné",
-				auto_fan_high: "Vysoko",
-				auto_fan_turbo: "Turbo",
-				None: "Žiadny",
-				Turbo: "Turbo",
-				unavailable: "Ventilátor"
-			},
-			swing: {
-				off: "Vypnuté",
-				on: "Zapnuté",
-				vertical: "Vertikálne",
-				horizontal: "Horizontálne",
-				both: "Oboje",
-				unavailable: "Kyv"
-			},
-			lock: {
-				locked: "Zamknuté",
-				unlocked: "Odomknuté",
-				code_required: "Vyžaduje sa kód",
-				enter_code: "Zadajte kód",
-				wrong_code: "Nesprávny kód"
-			},
-			events: {
-				hasDanger: "Kritické upozornenie",
-				hasAlert: "Upozornenie",
-				hasOverpowering: "Preťaženie",
-				hasOpenWindow: "Okno otvorené",
-				hasPresence: "Prítomnosť zistená",
-				hasTimer: "Časovač aktívny"
-			},
-			messages: {
-				hvac_off_manual: "Ručne vypnuté",
-				hvac_off_auto_start_stop: "Vypnuté automatickým spustením/zastavením",
-				hvac_off_window_detection: "Vypnuté detekciou okna",
-				hvac_off_sleep_mode: "Vypnuté režimom spánku",
-				hvac_off_safety_detection: "Vypnuté režimom bezpečnosti",
-				hvac_off_central_mode: "Vypnuté centrálnym režimom",
-				safety_detected: "Režim bezpečnosti zistený",
-				overpowering_detected: "Preťaženie zistené",
-				target_temp_window_eco: "Cieľ. teplota: okno eco",
-				target_temp_window_frost: "Cieľ. teplota: okno mráz",
-				target_temp_power: "Cieľ. teplota: výkon",
-				target_temp_central_mode: "Cieľ. teplota: centrálny režim",
-				target_temp_activity_detected: "Cieľ. teplota: aktivita zistená",
-				target_temp_activity_not_detected: "Cieľ. teplota: bez aktivity",
-				target_temp_absence_detected: "Cieľ. teplota: neprítomnosť zistená",
-				target_temp_timed_preset: "Načasované prednastavenie aktívne",
-				not_initialized: "Chyba inicializácie",
-				heating_failure: "Zistená chyba vykurovania",
-				cooling_failure: "Zistená chyba chladenia"
-			},
-			actions: {
-				decrease_temperature: "Znížiť nastavenú teplotu",
-				increase_temperature: "Zvýšiť nastavenú teplotu",
-				low_temperature: "Nízko",
-				high_temperature: "Vysoko",
-				open_fan: "Otvoriť ventilátor",
-				open_swing: "Otvoriť kyv",
-				open_menu: "Otvoriť menu",
-				open_power_info: "Zobraziť indikátory výkonu"
-			}
-		},
-		dialog: {
-			close: "Zatvoriť",
-			back: "Späť",
-			fan: {
-				title: "Ventilacia",
-				description_auto: "Automatický režim automaticky prispôsobuje ventilciu potrebám vykurovania."
-			},
-			swing: {
-				title: "Kyv",
-				vertical: "Vertikálne",
-				horizontal: "Horizontálne"
-			},
-			hvac: { title: "Režim" },
-			preset: { title: "Prednastavenie" },
-			message: { title: "Správa" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulácia",
-				boost: "Dočasný boost",
-				history: "História"
-			},
-			history: {
-				title: "História",
-				load: "Načítať",
-				add: "Pridať",
-				add_entity: "Pridať entitu",
-				loading: "Načítavanie histórie...",
-				empty: "Žiadna história za toto obdobie.",
-				no_attributes: "Žiadny voliteľný atribút.",
-				tools: "Nástroje",
-				show_controls: "Zobraziť ovládacie prvky histórie",
-				hide_controls: "Skryť ovládacie prvky histórie",
-				fullscreen: "Celá obrazovka",
-				exit_fullscreen: "Opustiť celú obrazovku",
-				sources: {
-					current_temperature: "Aktuálna teplota",
-					temperature: "Cieľová teplota",
-					hvac_action: "Akcia HVAC"
-				}
-			},
-			boost: {
-				title: "Dočasný boost",
-				duration: "Trvanie v minútach",
-				minutes: "min",
-				hours: "h",
-				start: "Spustiť",
-				stop: "Zastaviť",
-				active: "Boost aktívny",
-				remaining_unknown: "Zvyšný čas nie je dostupný",
-				preset: "Načasované prednastavenie",
-				original_preset: "Predchádzajúce prednastavenie",
-				start_description: "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
-				active_description: "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
-				active_description_with_preset: "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entita",
-			name: "Názov",
-			diagnostic_entity: "Diagnostická entita",
-			power_entity: "Entita výkonu",
-			humidity_entity: "Entita vlhkosti",
-			temperature_entity: "Entita teploty",
-			theme: "Téma",
-			display_mode: "Formát",
-			primary_display: "Priorita zobrazenia",
-			disable_name: "Skryť názov",
-			hide_lock_button: "Skryť tlačítko zámku",
-			additional_dashboards: "Ďalšie panely",
-			state_icons_layout: "Ikony stavu",
-			tabs: {
-				general: "Všeobecné",
-				presentation: "Prezentácia"
-			},
-			options: {
-				theme: {
-					flat: "Plochý",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klasický",
-					compact: "Kompaktný"
-				},
-				primary_display: {
-					setpoint: "Nastavená teplota",
-					sensors: "Senzory"
-				},
-				layout_orientation: {
-					horizontal: "Horizontálne",
-					vertical: "Vertikálne"
-				},
-				additional_dashboards: {
-					auto: "Automatické",
-					custom: "Vlastný",
-					disabled: "Zakázané"
-				}
-			}
-		}
-	},
-	bg: {
-		card: {
-			description: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
-			missing_entity: "Конфигурирайте климатичен елемент.",
-			invalid_entity: "Конфигурираният елемент трябва да принадлежи към климатичния домейн.",
-			invalid_theme: "Конфигурираната тема не е налична.",
-			invalid_display_mode: "Конфигурираният режим на показване не е наличен.",
-			invalid_primary_display: "Конфигурираният приоритет на показване не е наличен.",
-			invalid_additional_dashboards: "Конфигурираният режим на панелите не е наличен.",
-			invalid_state_icons_layout: "Конфигурираният макет на икони на състояние не е наличен.",
-			entity_not_found: "Елемент не е намерен: {entity}",
-			placeholder: "Equinox е готин за {entity}."
-		},
-		main: {
-			status: {
-				heating: "Отопление активно",
-				cooling: "Охлаждане активно",
-				auto: "Автоматичен",
-				heat: "Отопление",
-				cool: "Охлаждане",
-				heat_cool: "Автоматичен",
-				dry: "Сушене",
-				fan_only: "Само вентилатор",
-				off: "Изключено",
-				boost: "Временен импулс",
-				unavailable: "Недостъпно"
-			},
-			hvac: {
-				heat: "Отопление",
-				cool: "Охлаждане",
-				heat_cool: "Отопление/Охлаждане",
-				auto: "Автоматичен",
-				dry: "Сушене",
-				fan_only: "Само вентилатор",
-				off: "Изключено"
-			},
-			hvac_action: {
-				off: "Изключено",
-				preheating: "Предварително загряване",
-				heating: "Отопление активно",
-				cooling: "Охлаждане активно",
-				drying: "Сушене активно",
-				fan: "Вентилатор активен",
-				idle: "Неактивен",
-				defrosting: "Разстойване"
-			},
-			preset: {
-				none: "Без предустановка",
-				frost: "Защита от замръзване",
-				eco: "Eco",
-				away: "Отсъстващ",
-				comfort: "Комфорт",
-				home: "Дом",
-				sleep: "Сън",
-				activity: "Активност",
-				boost: "Импулс"
-			},
-			fan: {
-				on: "Включено",
-				auto: "Автоматичен",
-				low: "Нисък",
-				medium: "Среден",
-				middle: "Среда",
-				high: "Висок",
-				top: "Горен",
-				off: "Изключено",
-				focus: "Фокус",
-				diffuse: "Дифузия",
-				auto_fan_none: "Нищо",
-				auto_fan_low: "Нисък",
-				auto_fan_medium: "Среден",
-				auto_fan_high: "Висок",
-				auto_fan_turbo: "Турбо",
-				None: "Нищо",
-				Turbo: "Турбо",
-				unavailable: "Вентилатор"
-			},
-			swing: {
-				off: "Изключено",
-				on: "Включено",
-				vertical: "Вертикална",
-				horizontal: "Хоризонтална",
-				both: "И двете",
-				unavailable: "Люлеене"
-			},
-			lock: {
-				locked: "Заключено",
-				unlocked: "Отключено",
-				code_required: "Изисква се код",
-				enter_code: "Въведете код",
-				wrong_code: "Неправилен код"
-			},
-			events: {
-				hasDanger: "Критично предупреждение",
-				hasAlert: "Предупреждение",
-				hasOverpowering: "Претоварване",
-				hasOpenWindow: "Прозорец е отворен",
-				hasPresence: "Присъствието е открито",
-				hasTimer: "Таймерът е активен"
-			},
-			messages: {
-				hvac_off_manual: "Ръчно изключено",
-				hvac_off_auto_start_stop: "Изключено чрез автоматичен старт/стоп",
-				hvac_off_window_detection: "Изключено чрез откриване на прозорец",
-				hvac_off_sleep_mode: "Изключено чрез режим на сън",
-				hvac_off_safety_detection: "Изключено чрез режим на безопасност",
-				hvac_off_central_mode: "Изключено чрез централен режим",
-				safety_detected: "Режимът на безопасност е открит",
-				overpowering_detected: "Претоварването е открито",
-				target_temp_window_eco: "Цел. темп.: прозорец eco",
-				target_temp_window_frost: "Цел. темп.: прозорец мраз",
-				target_temp_power: "Цел. темп.: мощност",
-				target_temp_central_mode: "Цел. темп.: централен режим",
-				target_temp_activity_detected: "Цел. темп.: активност открита",
-				target_temp_activity_not_detected: "Цел. темп.: без активност",
-				target_temp_absence_detected: "Цел. темп.: отсъствието е открито",
-				target_temp_timed_preset: "Синхронизирана предустановка активна",
-				not_initialized: "Грешка при инициализация",
-				heating_failure: "Открита е грешка при отопление",
-				cooling_failure: "Открита е грешка при охлаждане"
-			},
-			actions: {
-				decrease_temperature: "Намалете зададената температура",
-				increase_temperature: "Увеличете зададената температура",
-				low_temperature: "Нисък",
-				high_temperature: "Висок",
-				open_fan: "Отворете вентилатор",
-				open_swing: "Отворете люлеене",
-				open_menu: "Отворете меню",
-				open_power_info: "Показване на индикаторите на мощност"
-			}
-		},
-		dialog: {
-			close: "Затворете",
-			back: "Назад",
-			fan: {
-				title: "Вентилация",
-				description_auto: "Автоматичният режим автоматично приспособява вентилацията към потребностите на отопление."
-			},
-			swing: {
-				title: "Люлеене",
-				vertical: "Вертикална",
-				horizontal: "Хоризонтална"
-			},
-			hvac: { title: "Режим" },
-			preset: { title: "Предустановка" },
-			message: { title: "Съобщение" },
-			menu: {
-				title: "Меню",
-				regulation: "Регулация",
-				boost: "Временен импулс",
-				history: "История"
-			},
-			history: {
-				title: "История",
-				load: "Зареждане",
-				add: "Добавяне",
-				add_entity: "Добавяне на елемент",
-				loading: "Зареждане на история...",
-				empty: "Няма история за този период.",
-				no_attributes: "Няма избираем атрибут.",
-				tools: "Инструменти",
-				show_controls: "Показване на контролите на историята",
-				hide_controls: "Скриване на контролите на историята",
-				fullscreen: "Цял екран",
-				exit_fullscreen: "Излизане от цял екран",
-				sources: {
-					current_temperature: "Текуща температура",
-					temperature: "Целева температура",
-					hvac_action: "Действие на HVAC"
-				}
-			},
-			boost: {
-				title: "Временен импулс",
-				duration: "Продължителност в минути",
-				minutes: "мин",
-				hours: "ч",
-				start: "Начало",
-				stop: "Стоп",
-				active: "Импулсът е активен",
-				remaining_unknown: "Оставащото време е недостъпно",
-				preset: "Синхронизирана предустановка",
-				original_preset: "Предишна предустановка",
-				start_description: "Когато обратното броене завърши, термостатът ще се върне в предишния режим.",
-				active_description: "Когато обратното броене завърши, термостатът ще се върне в предишния режим.",
-				active_description_with_preset: "Когато обратното броене завърши, термостатът ще се върне в предишния режим ({preset})."
-			}
-		},
-		editor: {
-			entity: "Елемент",
-			name: "Име",
-			diagnostic_entity: "Диагностичен елемент",
-			power_entity: "Елемент на мощност",
-			humidity_entity: "Елемент на влажност",
-			temperature_entity: "Елемент на температура",
-			theme: "Тема",
-			display_mode: "Формат",
-			primary_display: "Приоритет на показване",
-			disable_name: "Скриване на име",
-			hide_lock_button: "Скриване на бутона за заключване",
-			additional_dashboards: "Допълнителни панели",
-			state_icons_layout: "Икони на състояние",
-			tabs: {
-				general: "Общи",
-				presentation: "Презентация"
-			},
-			options: {
-				theme: {
-					flat: "Равен",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Класически",
-					compact: "Компактен"
-				},
-				primary_display: {
-					setpoint: "Зададена температура",
-					sensors: "Сензори"
-				},
-				layout_orientation: {
-					horizontal: "Хоризонтална",
-					vertical: "Вертикална"
-				},
-				additional_dashboards: {
-					auto: "Автоматичен",
-					custom: "Персонализиран",
-					disabled: "Деактивирано"
-				}
-			}
-		}
-	},
-	ca: {
-		card: {
-			description: "Lovelace card for Versatile Thermostat and standard climate entities.",
-			missing_entity: "Configure a climate entity.",
-			invalid_entity: "The configured entity must belong to the climate domain.",
-			invalid_theme: "The configured theme is not available.",
-			invalid_display_mode: "The configured display mode is not available.",
-			invalid_primary_display: "The configured display priority is not available.",
-			invalid_additional_dashboards: "The configured dashboard mode is not available.",
-			invalid_state_icons_layout: "The configured state icon layout is not available.",
-			entity_not_found: "Entity not found: {entity}",
-			placeholder: "Equinox is ready for {entity}."
-		},
-		main: {
-			status: {
-				heating: "Heating active",
-				cooling: "Cooling active",
-				auto: "Auto",
-				heat: "Heating",
-				cool: "Cooling",
-				heat_cool: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off",
-				boost: "Temporary boost",
-				unavailable: "Unavailable"
-			},
-			hvac: {
-				heat: "Heat",
-				cool: "Cool",
-				heat_cool: "Heat/cool",
-				auto: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off"
-			},
-			hvac_action: {
-				off: "Off",
-				preheating: "Preheating",
-				heating: "Heating active",
-				cooling: "Cooling active",
-				drying: "Drying active",
-				fan: "Fan active",
-				idle: "Idle",
-				defrosting: "Defrosting"
-			},
-			preset: {
-				none: "No preset",
-				frost: "Frost protection",
-				eco: "Eco",
-				away: "Away",
-				comfort: "Comfort",
-				home: "Home",
-				sleep: "Sleep",
-				activity: "Activity",
-				boost: "Boost"
-			},
-			fan: {
-				on: "On",
-				auto: "Auto",
-				low: "Low",
-				medium: "Medium",
-				middle: "Middle",
-				high: "High",
-				top: "Top",
-				off: "Off",
-				focus: "Focus",
-				diffuse: "Diffuse",
-				auto_fan_none: "None",
-				auto_fan_low: "Low",
-				auto_fan_medium: "Medium",
-				auto_fan_high: "High",
-				auto_fan_turbo: "Turbo",
-				None: "None",
-				Turbo: "Turbo",
-				unavailable: "Fan"
-			},
-			swing: {
-				off: "Off",
-				on: "On",
-				vertical: "Vertical",
-				horizontal: "Horizontal",
-				both: "Both",
-				unavailable: "Swing"
-			},
-			lock: {
-				locked: "Locked",
-				unlocked: "Unlocked",
-				code_required: "Code required",
-				enter_code: "Enter code",
-				wrong_code: "Incorrect code"
-			},
-			events: {
-				hasDanger: "Critical alert",
-				hasAlert: "Alert",
-				hasOverpowering: "Overpowering",
-				hasOpenWindow: "Open window",
-				hasPresence: "Presence detected",
-				hasTimer: "Active timer"
-			},
-			messages: {
-				hvac_off_manual: "Turned off manually",
-				hvac_off_auto_start_stop: "Turned off by auto-start/stop",
-				hvac_off_window_detection: "Turned off by window detection",
-				hvac_off_sleep_mode: "Turned off by sleep mode",
-				hvac_off_safety_detection: "Turned off by safety mode",
-				hvac_off_central_mode: "Turned off by central mode",
-				safety_detected: "Safety mode detected",
-				overpowering_detected: "Overpowering detected",
-				target_temp_window_eco: "Target temp.: window eco",
-				target_temp_window_frost: "Target temp.: window frost",
-				target_temp_power: "Target temp.: power",
-				target_temp_central_mode: "Target temp.: central mode",
-				target_temp_activity_detected: "Target temp.: activity detected",
-				target_temp_activity_not_detected: "Target temp.: activity not detected",
-				target_temp_absence_detected: "Target temp.: absence detected",
-				target_temp_timed_preset: "Timed preset active",
-				not_initialized: "Initialisation error",
-				heating_failure: "Heating failure detected",
-				cooling_failure: "Cooling failure detected"
-			},
-			actions: {
-				decrease_temperature: "Decrease setpoint",
-				increase_temperature: "Increase setpoint",
-				low_temperature: "Low",
-				high_temperature: "High",
-				open_fan: "Open fan",
-				open_swing: "Open swing",
-				open_menu: "Open menu",
-				open_power_info: "Show power indicators"
-			}
-		},
-		dialog: {
-			close: "Close",
-			back: "Back",
-			fan: {
-				title: "Ventilation",
-				description_auto: "Auto mode automatically adapts ventilation to heating needs."
-			},
-			swing: {
-				title: "Swing",
-				vertical: "Vertical",
-				horizontal: "Horizontal"
-			},
-			hvac: { title: "Mode" },
-			preset: { title: "Preset" },
-			message: { title: "Message" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulation",
-				boost: "Temporary boost",
-				history: "History"
-			},
-			history: {
-				title: "History",
-				load: "Load",
-				add: "Add",
-				add_entity: "Add an entity",
-				loading: "Loading history...",
-				empty: "No history for this period.",
-				no_attributes: "No selectable attribute.",
-				tools: "Tools",
-				show_controls: "Show history controls",
-				hide_controls: "Hide history controls",
-				fullscreen: "Fullscreen",
-				exit_fullscreen: "Exit fullscreen",
-				sources: {
-					current_temperature: "Current temperature",
-					temperature: "Target temperature",
-					hvac_action: "HVAC action"
-				}
-			},
-			boost: {
-				title: "Temporary boost",
-				duration: "Duration in minutes",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stop",
-				active: "Boost active",
-				remaining_unknown: "Remaining time unavailable",
-				preset: "Timed preset",
-				original_preset: "Previous preset",
-				start_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description_with_preset: "When the countdown ends, the thermostat will return to the previous mode ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entity",
-			name: "Name",
-			diagnostic_entity: "Diagnostic entity",
-			power_entity: "Power entity",
-			humidity_entity: "Humidity entity",
-			temperature_entity: "Temperature entity",
-			theme: "Theme",
-			display_mode: "Format",
-			primary_display: "Display priority",
-			disable_name: "Hide name",
-			hide_lock_button: "Hide lock button",
-			additional_dashboards: "Additional dashboards",
-			state_icons_layout: "State icons",
-			tabs: {
-				general: "General",
-				presentation: "Presentation"
-			},
-			options: {
-				theme: {
-					flat: "Flat",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Classic",
-					compact: "Compact"
-				},
-				primary_display: {
-					setpoint: "Setpoint",
-					sensors: "Sensors"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertical"
-				},
-				additional_dashboards: {
-					auto: "Auto",
-					custom: "Custom",
-					disabled: "Disabled"
-				}
-			}
-		}
-	},
-	cn: {
-		card: {
-			description: "Lovelace card for Versatile Thermostat and standard climate entities.",
-			missing_entity: "Configure a climate entity.",
-			invalid_entity: "The configured entity must belong to the climate domain.",
-			invalid_theme: "The configured theme is not available.",
-			invalid_display_mode: "The configured display mode is not available.",
-			invalid_primary_display: "The configured display priority is not available.",
-			invalid_additional_dashboards: "The configured dashboard mode is not available.",
-			invalid_state_icons_layout: "The configured state icon layout is not available.",
-			entity_not_found: "Entity not found: {entity}",
-			placeholder: "Equinox is ready for {entity}."
-		},
-		main: {
-			status: {
-				heating: "Heating active",
-				cooling: "Cooling active",
-				auto: "Auto",
-				heat: "Heating",
-				cool: "Cooling",
-				heat_cool: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off",
-				boost: "Temporary boost",
-				unavailable: "Unavailable"
-			},
-			hvac: {
-				heat: "Heat",
-				cool: "Cool",
-				heat_cool: "Heat/cool",
-				auto: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off"
-			},
-			hvac_action: {
-				off: "Off",
-				preheating: "Preheating",
-				heating: "Heating active",
-				cooling: "Cooling active",
-				drying: "Drying active",
-				fan: "Fan active",
-				idle: "Idle",
-				defrosting: "Defrosting"
-			},
-			preset: {
-				none: "No preset",
-				frost: "Frost protection",
-				eco: "Eco",
-				away: "Away",
-				comfort: "Comfort",
-				home: "Home",
-				sleep: "Sleep",
-				activity: "Activity",
-				boost: "Boost"
-			},
-			fan: {
-				on: "On",
-				auto: "Auto",
-				low: "Low",
-				medium: "Medium",
-				middle: "Middle",
-				high: "High",
-				top: "Top",
-				off: "Off",
-				focus: "Focus",
-				diffuse: "Diffuse",
-				auto_fan_none: "None",
-				auto_fan_low: "Low",
-				auto_fan_medium: "Medium",
-				auto_fan_high: "High",
-				auto_fan_turbo: "Turbo",
-				None: "None",
-				Turbo: "Turbo",
-				unavailable: "Fan"
-			},
-			swing: {
-				off: "Off",
-				on: "On",
-				vertical: "Vertical",
-				horizontal: "Horizontal",
-				both: "Both",
-				unavailable: "Swing"
-			},
-			lock: {
-				locked: "Locked",
-				unlocked: "Unlocked",
-				code_required: "Code required",
-				enter_code: "Enter code",
-				wrong_code: "Incorrect code"
-			},
-			events: {
-				hasDanger: "Critical alert",
-				hasAlert: "Alert",
-				hasOverpowering: "Overpowering",
-				hasOpenWindow: "Open window",
-				hasPresence: "Presence detected",
-				hasTimer: "Active timer"
-			},
-			messages: {
-				hvac_off_manual: "Turned off manually",
-				hvac_off_auto_start_stop: "Turned off by auto-start/stop",
-				hvac_off_window_detection: "Turned off by window detection",
-				hvac_off_sleep_mode: "Turned off by sleep mode",
-				hvac_off_safety_detection: "Turned off by safety mode",
-				hvac_off_central_mode: "Turned off by central mode",
-				safety_detected: "Safety mode detected",
-				overpowering_detected: "Overpowering detected",
-				target_temp_window_eco: "Target temp.: window eco",
-				target_temp_window_frost: "Target temp.: window frost",
-				target_temp_power: "Target temp.: power",
-				target_temp_central_mode: "Target temp.: central mode",
-				target_temp_activity_detected: "Target temp.: activity detected",
-				target_temp_activity_not_detected: "Target temp.: activity not detected",
-				target_temp_absence_detected: "Target temp.: absence detected",
-				target_temp_timed_preset: "Timed preset active",
-				not_initialized: "Initialisation error",
-				heating_failure: "Heating failure detected",
-				cooling_failure: "Cooling failure detected"
-			},
-			actions: {
-				decrease_temperature: "Decrease setpoint",
-				increase_temperature: "Increase setpoint",
-				low_temperature: "Low",
-				high_temperature: "High",
-				open_fan: "Open fan",
-				open_swing: "Open swing",
-				open_menu: "Open menu",
-				open_power_info: "Show power indicators"
-			}
-		},
-		dialog: {
-			close: "Close",
-			back: "Back",
-			fan: {
-				title: "Ventilation",
-				description_auto: "Auto mode automatically adapts ventilation to heating needs."
-			},
-			swing: {
-				title: "Swing",
-				vertical: "Vertical",
-				horizontal: "Horizontal"
-			},
-			hvac: { title: "Mode" },
-			preset: { title: "Preset" },
-			message: { title: "Message" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulation",
-				boost: "Temporary boost",
-				history: "History"
-			},
-			history: {
-				title: "History",
-				load: "Load",
-				add: "Add",
-				add_entity: "Add an entity",
-				loading: "Loading history...",
-				empty: "No history for this period.",
-				no_attributes: "No selectable attribute.",
-				tools: "Tools",
-				show_controls: "Show history controls",
-				hide_controls: "Hide history controls",
-				fullscreen: "Fullscreen",
-				exit_fullscreen: "Exit fullscreen",
-				sources: {
-					current_temperature: "Current temperature",
-					temperature: "Target temperature",
-					hvac_action: "HVAC action"
-				}
-			},
-			boost: {
-				title: "Temporary boost",
-				duration: "Duration in minutes",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stop",
-				active: "Boost active",
-				remaining_unknown: "Remaining time unavailable",
-				preset: "Timed preset",
-				original_preset: "Previous preset",
-				start_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description_with_preset: "When the countdown ends, the thermostat will return to the previous mode ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entity",
-			name: "Name",
-			diagnostic_entity: "Diagnostic entity",
-			power_entity: "Power entity",
-			humidity_entity: "Humidity entity",
-			temperature_entity: "Temperature entity",
-			theme: "Theme",
-			display_mode: "Format",
-			primary_display: "Display priority",
-			disable_name: "Hide name",
-			hide_lock_button: "Hide lock button",
-			additional_dashboards: "Additional dashboards",
-			state_icons_layout: "State icons",
-			tabs: {
-				general: "General",
-				presentation: "Presentation"
-			},
-			options: {
-				theme: {
-					flat: "Flat",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Classic",
-					compact: "Compact"
-				},
-				primary_display: {
-					setpoint: "Setpoint",
-					sensors: "Sensors"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertical"
-				},
-				additional_dashboards: {
-					auto: "Auto",
-					custom: "Custom",
-					disabled: "Disabled"
-				}
-			}
-		}
-	},
-	da: {
-		card: {
-			description: "Lovelace card for Versatile Thermostat and standard climate entities.",
-			missing_entity: "Configure a climate entity.",
-			invalid_entity: "The configured entity must belong to the climate domain.",
-			invalid_theme: "The configured theme is not available.",
-			invalid_display_mode: "The configured display mode is not available.",
-			invalid_primary_display: "The configured display priority is not available.",
-			invalid_additional_dashboards: "The configured dashboard mode is not available.",
-			invalid_state_icons_layout: "The configured state icon layout is not available.",
-			entity_not_found: "Entity not found: {entity}",
-			placeholder: "Equinox is ready for {entity}."
-		},
-		main: {
-			status: {
-				heating: "Heating active",
-				cooling: "Cooling active",
-				auto: "Auto",
-				heat: "Heating",
-				cool: "Cooling",
-				heat_cool: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off",
-				boost: "Temporary boost",
-				unavailable: "Unavailable"
-			},
-			hvac: {
-				heat: "Heat",
-				cool: "Cool",
-				heat_cool: "Heat/cool",
-				auto: "Auto",
-				dry: "Dry",
-				fan_only: "Fan only",
-				off: "Off"
-			},
-			hvac_action: {
-				off: "Off",
-				preheating: "Preheating",
-				heating: "Heating active",
-				cooling: "Cooling active",
-				drying: "Drying active",
-				fan: "Fan active",
-				idle: "Idle",
-				defrosting: "Defrosting"
-			},
-			preset: {
-				none: "No preset",
-				frost: "Frost protection",
-				eco: "Eco",
-				away: "Away",
-				comfort: "Comfort",
-				home: "Home",
-				sleep: "Sleep",
-				activity: "Activity",
-				boost: "Boost"
-			},
-			fan: {
-				on: "On",
-				auto: "Auto",
-				low: "Low",
-				medium: "Medium",
-				middle: "Middle",
-				high: "High",
-				top: "Top",
-				off: "Off",
-				focus: "Focus",
-				diffuse: "Diffuse",
-				auto_fan_none: "None",
-				auto_fan_low: "Low",
-				auto_fan_medium: "Medium",
-				auto_fan_high: "High",
-				auto_fan_turbo: "Turbo",
-				None: "None",
-				Turbo: "Turbo",
-				unavailable: "Fan"
-			},
-			swing: {
-				off: "Off",
-				on: "On",
-				vertical: "Vertical",
-				horizontal: "Horizontal",
-				both: "Both",
-				unavailable: "Swing"
-			},
-			lock: {
-				locked: "Locked",
-				unlocked: "Unlocked",
-				code_required: "Code required",
-				enter_code: "Enter code",
-				wrong_code: "Incorrect code"
-			},
-			events: {
-				hasDanger: "Critical alert",
-				hasAlert: "Alert",
-				hasOverpowering: "Overpowering",
-				hasOpenWindow: "Open window",
-				hasPresence: "Presence detected",
-				hasTimer: "Active timer"
-			},
-			messages: {
-				hvac_off_manual: "Turned off manually",
-				hvac_off_auto_start_stop: "Turned off by auto-start/stop",
-				hvac_off_window_detection: "Turned off by window detection",
-				hvac_off_sleep_mode: "Turned off by sleep mode",
-				hvac_off_safety_detection: "Turned off by safety mode",
-				hvac_off_central_mode: "Turned off by central mode",
-				safety_detected: "Safety mode detected",
-				overpowering_detected: "Overpowering detected",
-				target_temp_window_eco: "Target temp.: window eco",
-				target_temp_window_frost: "Target temp.: window frost",
-				target_temp_power: "Target temp.: power",
-				target_temp_central_mode: "Target temp.: central mode",
-				target_temp_activity_detected: "Target temp.: activity detected",
-				target_temp_activity_not_detected: "Target temp.: activity not detected",
-				target_temp_absence_detected: "Target temp.: absence detected",
-				target_temp_timed_preset: "Timed preset active",
-				not_initialized: "Initialisation error",
-				heating_failure: "Heating failure detected",
-				cooling_failure: "Cooling failure detected"
-			},
-			actions: {
-				decrease_temperature: "Decrease setpoint",
-				increase_temperature: "Increase setpoint",
-				low_temperature: "Low",
-				high_temperature: "High",
-				open_fan: "Open fan",
-				open_swing: "Open swing",
-				open_menu: "Open menu",
-				open_power_info: "Show power indicators"
-			}
-		},
-		dialog: {
-			close: "Close",
-			back: "Back",
-			fan: {
-				title: "Ventilation",
-				description_auto: "Auto mode automatically adapts ventilation to heating needs."
-			},
-			swing: {
-				title: "Swing",
-				vertical: "Vertical",
-				horizontal: "Horizontal"
-			},
-			hvac: { title: "Mode" },
-			preset: { title: "Preset" },
-			message: { title: "Message" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulation",
-				boost: "Temporary boost",
-				history: "History"
-			},
-			history: {
-				title: "History",
-				load: "Load",
-				add: "Add",
-				add_entity: "Add an entity",
-				loading: "Loading history...",
-				empty: "No history for this period.",
-				no_attributes: "No selectable attribute.",
-				tools: "Tools",
-				show_controls: "Show history controls",
-				hide_controls: "Hide history controls",
-				fullscreen: "Fullscreen",
-				exit_fullscreen: "Exit fullscreen",
-				sources: {
-					current_temperature: "Current temperature",
-					temperature: "Target temperature",
-					hvac_action: "HVAC action"
-				}
-			},
-			boost: {
-				title: "Temporary boost",
-				duration: "Duration in minutes",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stop",
-				active: "Boost active",
-				remaining_unknown: "Remaining time unavailable",
-				preset: "Timed preset",
-				original_preset: "Previous preset",
-				start_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description: "When the countdown ends, the thermostat will return to the previous mode.",
-				active_description_with_preset: "When the countdown ends, the thermostat will return to the previous mode ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entity",
-			name: "Name",
-			diagnostic_entity: "Diagnostic entity",
-			power_entity: "Power entity",
-			humidity_entity: "Humidity entity",
-			temperature_entity: "Temperature entity",
-			theme: "Theme",
-			display_mode: "Format",
-			primary_display: "Display priority",
-			disable_name: "Hide name",
-			hide_lock_button: "Hide lock button",
-			additional_dashboards: "Additional dashboards",
-			state_icons_layout: "State icons",
-			tabs: {
-				general: "General",
-				presentation: "Presentation"
-			},
-			options: {
-				theme: {
-					flat: "Flat",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Classic",
-					compact: "Compact"
-				},
-				primary_display: {
-					setpoint: "Setpoint",
-					sensors: "Sensors"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertical"
-				},
-				additional_dashboards: {
-					auto: "Auto",
-					custom: "Custom",
-					disabled: "Disabled"
-				}
-			}
-		}
-	},
-	es: {
-		card: {
-			description: "Tarjeta Lovelace para Termostato Versátil y entidades climáticas estándar.",
-			missing_entity: "Configure una entidad climática.",
-			invalid_entity: "La entidad configurada debe pertenecer al dominio climático.",
-			invalid_theme: "El tema configurado no está disponible.",
-			invalid_display_mode: "El modo de visualización configurado no está disponible.",
-			invalid_primary_display: "La prioridad de visualización configurada no está disponible.",
-			invalid_additional_dashboards: "El modo de panel configurado no está disponible.",
-			invalid_state_icons_layout: "El diseño de iconos de estado configurado no está disponible.",
-			entity_not_found: "Entidad no encontrada: {entity}",
-			placeholder: "Equinox está listo para {entity}."
-		},
-		main: {
-			status: {
-				heating: "Calefacción activa",
-				cooling: "Refrigeración activa",
-				auto: "Automático",
-				heat: "Calefacción",
-				cool: "Refrigeración",
-				heat_cool: "Automático",
-				dry: "Secado",
-				fan_only: "Solo ventilador",
-				off: "Apagado",
-				boost: "Impulso temporal",
-				unavailable: "No disponible"
-			},
-			hvac: {
-				heat: "Calefacción",
-				cool: "Refrigeración",
-				heat_cool: "Calefacción/Refrigeración",
-				auto: "Automático",
-				dry: "Secado",
-				fan_only: "Solo ventilador",
-				off: "Apagado"
-			},
-			hvac_action: {
-				off: "Apagado",
-				preheating: "Precalentamiento",
-				heating: "Calefacción activa",
-				cooling: "Refrigeración activa",
-				drying: "Secado activo",
-				fan: "Ventilador activo",
-				idle: "Inactivo",
-				defrosting: "Descongelación"
-			},
-			preset: {
-				none: "Sin preset",
-				frost: "Protección anticongelante",
-				eco: "Eco",
-				away: "Ausente",
-				comfort: "Confort",
-				home: "Inicio",
-				sleep: "Sueño",
-				activity: "Actividad",
-				boost: "Impulso"
-			},
-			fan: {
-				on: "Encendido",
-				auto: "Automático",
-				low: "Bajo",
-				medium: "Medio",
-				middle: "Medio",
-				high: "Alto",
-				top: "Arriba",
-				off: "Apagado",
-				focus: "Enfoque",
-				diffuse: "Difuso",
-				auto_fan_none: "Ninguno",
-				auto_fan_low: "Bajo",
-				auto_fan_medium: "Medio",
-				auto_fan_high: "Alto",
-				auto_fan_turbo: "Turbo",
-				None: "Ninguno",
-				Turbo: "Turbo",
-				unavailable: "Ventilador"
-			},
-			swing: {
-				off: "Apagado",
-				on: "Encendido",
-				vertical: "Vertical",
-				horizontal: "Horizontal",
-				both: "Ambos",
-				unavailable: "Oscilación"
-			},
-			lock: {
-				locked: "Bloqueado",
-				unlocked: "Desbloqueado",
-				code_required: "Código requerido",
-				enter_code: "Ingrese código",
-				wrong_code: "Código incorrecto"
-			},
-			events: {
-				hasDanger: "Alerta crítica",
-				hasAlert: "Alerta",
-				hasOverpowering: "Sobrecarga",
-				hasOpenWindow: "Ventana abierta",
-				hasPresence: "Presencia detectada",
-				hasTimer: "Temporizador activo"
-			},
-			messages: {
-				hvac_off_manual: "Apagado manualmente",
-				hvac_off_auto_start_stop: "Apagado por auto-inicio/parada",
-				hvac_off_window_detection: "Apagado por detección de ventana",
-				hvac_off_sleep_mode: "Apagado por modo de sueño",
-				hvac_off_safety_detection: "Apagado por modo de seguridad",
-				hvac_off_central_mode: "Apagado por modo central",
-				safety_detected: "Modo de seguridad detectado",
-				overpowering_detected: "Sobrecarga detectada",
-				target_temp_window_eco: "Temp. obj.: ventana eco",
-				target_temp_window_frost: "Temp. obj.: ventana anticongelante",
-				target_temp_power: "Temp. obj.: potencia",
-				target_temp_central_mode: "Temp. obj.: modo central",
-				target_temp_activity_detected: "Temp. obj.: actividad detectada",
-				target_temp_activity_not_detected: "Temp. obj.: sin actividad",
-				target_temp_absence_detected: "Temp. obj.: ausencia detectada",
-				target_temp_timed_preset: "Preset temporizado activo",
-				not_initialized: "Error de inicialización",
-				heating_failure: "Fallo de calefacción detectado",
-				cooling_failure: "Fallo de refrigeración detectado"
-			},
-			actions: {
-				decrease_temperature: "Disminuir consigna",
-				increase_temperature: "Aumentar consigna",
-				low_temperature: "Bajo",
-				high_temperature: "Alto",
-				open_fan: "Abrir ventilador",
-				open_swing: "Abrir oscilación",
-				open_menu: "Abrir menú",
-				open_power_info: "Mostrar indicadores de potencia"
-			}
-		},
-		dialog: {
-			close: "Cerrar",
-			back: "Atrás",
-			fan: {
-				title: "Ventilación",
-				description_auto: "El modo automático adapta automáticamente la ventilación a las necesidades de calefacción."
-			},
-			swing: {
-				title: "Oscilación",
-				vertical: "Vertical",
-				horizontal: "Horizontal"
-			},
-			hvac: { title: "Modo" },
-			preset: { title: "Preset" },
-			message: { title: "Mensaje" },
-			menu: {
-				title: "Menú",
-				regulation: "Regulación",
-				boost: "Impulso temporal",
-				history: "Historial"
-			},
-			history: {
-				title: "Historial",
-				load: "Cargar",
-				add: "Añadir",
-				add_entity: "Añadir una entidad",
-				loading: "Cargando historial...",
-				empty: "Sin historial para este período.",
-				no_attributes: "Sin atributo seleccionable.",
-				tools: "Herramientas",
-				show_controls: "Mostrar controles de historial",
-				hide_controls: "Ocultar controles de historial",
-				fullscreen: "Pantalla completa",
-				exit_fullscreen: "Salir de pantalla completa",
-				sources: {
-					current_temperature: "Temperatura actual",
-					temperature: "Temperatura objetivo",
-					hvac_action: "Acción HVAC"
-				}
-			},
-			boost: {
-				title: "Impulso temporal",
-				duration: "Duración en minutos",
-				minutes: "min",
-				hours: "h",
-				start: "Iniciar",
-				stop: "Detener",
-				active: "Impulso activo",
-				remaining_unknown: "Tiempo restante no disponible",
-				preset: "Preset temporizado",
-				original_preset: "Preset anterior",
-				start_description: "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior.",
-				active_description: "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior.",
-				active_description_with_preset: "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entidad",
-			name: "Nombre",
-			diagnostic_entity: "Entidad de diagnóstico",
-			power_entity: "Entidad de potencia",
-			humidity_entity: "Entidad de humedad",
-			temperature_entity: "Entidad de temperatura",
-			theme: "Tema",
-			display_mode: "Formato",
-			primary_display: "Prioridad de visualización",
-			disable_name: "Ocultar nombre",
-			hide_lock_button: "Ocultar botón de bloqueo",
-			additional_dashboards: "Paneles adicionales",
-			state_icons_layout: "Iconos de estado",
-			tabs: {
-				general: "General",
-				presentation: "Presentación"
-			},
-			options: {
-				theme: {
-					flat: "Plano",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Clásico",
-					compact: "Compacto"
-				},
-				primary_display: {
-					setpoint: "Consigna",
-					sensors: "Sensores"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertical"
-				},
-				additional_dashboards: {
-					auto: "Automático",
-					custom: "Personalizado",
-					disabled: "Deshabilitado"
-				}
-			}
-		}
-	},
-	fi: {
-		card: {
-			description: "Lovelace-kortti Versatile Thermostat- ja vakioilmastoentiteeteille.",
-			missing_entity: "Määritä ilmastoentiteetti.",
-			invalid_entity: "Määritellyn entiteetin tulee kuulua ilmaston verkkotunnukseen.",
-			invalid_theme: "Määriteltyä teemaa ei ole saatavilla.",
-			invalid_display_mode: "Määriteltyä näyttötilaa ei ole saatavilla.",
-			invalid_primary_display: "Määriteltyä näyttöprioriteetia ei ole saatavilla.",
-			invalid_additional_dashboards: "Määriteltyä koontinäyttötilaa ei ole saatavilla.",
-			invalid_state_icons_layout: "Määriteltyä tilapainikkeiston asettelua ei ole saatavilla.",
-			entity_not_found: "Entiteettiä ei löydy: {entity}",
-			placeholder: "Equinox on valmis {entity}:lle."
-		},
-		main: {
-			status: {
-				heating: "Lämmitys aktiivinen",
-				cooling: "Jäähdytys aktiivinen",
-				auto: "Automaattinen",
-				heat: "Lämmitys",
-				cool: "Jäähdytys",
-				heat_cool: "Automaattinen",
-				dry: "Kuivaus",
-				fan_only: "Vain puhaltimen",
-				off: "Pois",
-				boost: "Väliaikainen tehonkohennos",
-				unavailable: "Ei saatavilla"
-			},
-			hvac: {
-				heat: "Lämmitys",
-				cool: "Jäähdytys",
-				heat_cool: "Lämmitys/Jäähdytys",
-				auto: "Automaattinen",
-				dry: "Kuivaus",
-				fan_only: "Vain puhaltimen",
-				off: "Pois"
-			},
-			hvac_action: {
-				off: "Pois",
-				preheating: "Eslämmitys",
-				heating: "Lämmitys aktiivinen",
-				cooling: "Jäähdytys aktiivinen",
-				drying: "Kuivaus aktiivinen",
-				fan: "Puhallinen aktiivinen",
-				idle: "Käyttämätön",
-				defrosting: "Sulaminen"
-			},
-			preset: {
-				none: "Ei esiasetus",
-				frost: "Pakkassuoja",
-				eco: "Eco",
-				away: "Poissa",
-				comfort: "Mukavuus",
-				home: "Koti",
-				sleep: "Uni",
-				activity: "Aktiviteetti",
-				boost: "Tehonkohennos"
-			},
-			fan: {
-				on: "Päällä",
-				auto: "Automaattinen",
-				low: "Matala",
-				medium: "Keskitaso",
-				middle: "Keski",
-				high: "Korkea",
-				top: "Yläosa",
-				off: "Pois",
-				focus: "Kohdistus",
-				diffuse: "Hajallaan",
-				auto_fan_none: "Ei mitään",
-				auto_fan_low: "Matala",
-				auto_fan_medium: "Keskitaso",
-				auto_fan_high: "Korkea",
-				auto_fan_turbo: "Turbo",
-				None: "Ei mitään",
-				Turbo: "Turbo",
-				unavailable: "Puhallinen"
-			},
-			swing: {
-				off: "Pois",
-				on: "Päällä",
-				vertical: "Pystysuora",
-				horizontal: "Vaakasuora",
-				both: "Molemmat",
-				unavailable: "Heilunta"
-			},
-			lock: {
-				locked: "Lukittu",
-				unlocked: "Lukittu auki",
-				code_required: "Koodi vaaditaan",
-				enter_code: "Syötä koodi",
-				wrong_code: "Väärä koodi"
-			},
-			events: {
-				hasDanger: "Kriittinen varoitus",
-				hasAlert: "Varoitus",
-				hasOverpowering: "Ylikuorma",
-				hasOpenWindow: "Ikkuna auki",
-				hasPresence: "Läsnäolo havaittu",
-				hasTimer: "Ajastin aktiivinen"
-			},
-			messages: {
-				hvac_off_manual: "Sammutettu manuaalisesti",
-				hvac_off_auto_start_stop: "Sammutettu automaattisella käynnistyksellä/pysäytyksellä",
-				hvac_off_window_detection: "Sammutettu ikkunan havainnolla",
-				hvac_off_sleep_mode: "Sammutettu uniilla",
-				hvac_off_safety_detection: "Sammutettu turvatilalla",
-				hvac_off_central_mode: "Sammutettu keskustilalla",
-				safety_detected: "Turvatila havaittu",
-				overpowering_detected: "Ylikuorma havaittu",
-				target_temp_window_eco: "Koht. lämp.: ikkuna eco",
-				target_temp_window_frost: "Koht. lämp.: ikkuna pakkanen",
-				target_temp_power: "Koht. lämp.: teho",
-				target_temp_central_mode: "Koht. lämp.: keskustila",
-				target_temp_activity_detected: "Koht. lämp.: aktiviteetti havaittu",
-				target_temp_activity_not_detected: "Koht. lämp.: ei aktiviteettia",
-				target_temp_absence_detected: "Koht. lämp.: poissaolo havaittu",
-				target_temp_timed_preset: "Ajastettu esiasetus aktiivinen",
-				not_initialized: "Alustusvirhe",
-				heating_failure: "Lämmitysvirhe havaittu",
-				cooling_failure: "Jäähdytysvirhe havaittu"
-			},
-			actions: {
-				decrease_temperature: "Pienennä asetusarvoa",
-				increase_temperature: "Suurenna asetusarvoa",
-				low_temperature: "Matala",
-				high_temperature: "Korkea",
-				open_fan: "Avaa puhallinen",
-				open_swing: "Avaa heilunta",
-				open_menu: "Avaa valikko",
-				open_power_info: "Näytä tehoindikaattorit"
-			}
-		},
-		dialog: {
-			close: "Sulje",
-			back: "Takaisin",
-			fan: {
-				title: "Tuuletus",
-				description_auto: "Automaattinen tila mukauttaa automaattisesti tuuletusta lämmitystarpeisiin."
-			},
-			swing: {
-				title: "Heilunta",
-				vertical: "Pystysuora",
-				horizontal: "Vaakasuora"
-			},
-			hvac: { title: "Tila" },
-			preset: { title: "Esiasetus" },
-			message: { title: "Viesti" },
-			menu: {
-				title: "Valikko",
-				regulation: "Säätö",
-				boost: "Väliaikainen tehonkohennos",
-				history: "Historia"
-			},
-			history: {
-				title: "Historia",
-				load: "Lataa",
-				add: "Lisää",
-				add_entity: "Lisää entiteetti",
-				loading: "Ladataan historiaa...",
-				empty: "Ei historiaa tälle ajanjaksolle.",
-				no_attributes: "Ei valittavaa attribuuttia.",
-				tools: "Työkalut",
-				show_controls: "Näytä historian ohjaimet",
-				hide_controls: "Piilota historian ohjaimet",
-				fullscreen: "Koko näyttö",
-				exit_fullscreen: "Poistu koko näytöstä",
-				sources: {
-					current_temperature: "Nykyinen lämpötila",
-					temperature: "Tavoitelämpötila",
-					hvac_action: "HVAC-toiminta"
-				}
-			},
-			boost: {
-				title: "Väliaikainen tehonkohennos",
-				duration: "Kesto minuutteina",
-				minutes: "min",
-				hours: "h",
-				start: "Aloita",
-				stop: "Pysäytä",
-				active: "Tehonkohennos aktiivinen",
-				remaining_unknown: "Jäljellä oleva aika ei ole saatavilla",
-				preset: "Ajastettu esiasetus",
-				original_preset: "Edellinen esiasetus",
-				start_description: "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan.",
-				active_description: "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan.",
-				active_description_with_preset: "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entiteetti",
-			name: "Nimi",
-			diagnostic_entity: "Diagnostinen entiteetti",
-			power_entity: "Tehotoiminto",
-			humidity_entity: "Kosteuden entiteetti",
-			temperature_entity: "Lämpötilan entiteetti",
-			theme: "Teema",
-			display_mode: "Muoto",
-			primary_display: "Näyttöprioriteetti",
-			disable_name: "Piilota nimi",
-			hide_lock_button: "Piilota lukituspainike",
-			additional_dashboards: "Lisäkoontinäytöt",
-			state_icons_layout: "Tilakuvakkeet",
-			tabs: {
-				general: "Yleinen",
-				presentation: "Esittely"
-			},
-			options: {
-				theme: {
-					flat: "Litteä",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klassinen",
-					compact: "Kompakti"
-				},
-				primary_display: {
-					setpoint: "Asetusarvo",
-					sensors: "Anturit"
-				},
-				layout_orientation: {
-					horizontal: "Vaakasuora",
-					vertical: "Pystysuora"
-				},
-				additional_dashboards: {
-					auto: "Automaattinen",
-					custom: "Mukautettu",
-					disabled: "Poistettu käytöstä"
-				}
-			}
-		}
-	},
-	hu: {
-		card: {
-			description: "Lovelace kártya a sokoldalú termosztáthoz és standard klímaentitásokhoz.",
-			missing_entity: "Konfigurálja a klímaentitást.",
-			invalid_entity: "A konfigurált entitásnak a klíma tartományba kell tartoznia.",
-			invalid_theme: "A konfigurált téma nem érhető el.",
-			invalid_display_mode: "A konfigurált megjelenítési mód nem érhető el.",
-			invalid_primary_display: "A konfigurált megjelenítési prioritás nem érhető el.",
-			invalid_additional_dashboards: "A konfigurált irányítópult mód nem érhető el.",
-			invalid_state_icons_layout: "A konfigurált állapot ikon elrendezés nem érhető el.",
-			entity_not_found: "Entitás nem található: {entity}",
-			placeholder: "Az Equinox készen áll a {entity}hez."
-		},
-		main: {
-			status: {
-				heating: "Fűtés aktív",
-				cooling: "Hűtés aktív",
-				auto: "Automatikus",
-				heat: "Fűtés",
-				cool: "Hűtés",
-				heat_cool: "Automatikus",
-				dry: "Szárítás",
-				fan_only: "Csak ventilátor",
-				off: "Kikapcsolva",
-				boost: "Ideiglenes erősítés",
-				unavailable: "Nem elérhető"
-			},
-			hvac: {
-				heat: "Fűtés",
-				cool: "Hűtés",
-				heat_cool: "Fűtés/Hűtés",
-				auto: "Automatikus",
-				dry: "Szárítás",
-				fan_only: "Csak ventilátor",
-				off: "Kikapcsolva"
-			},
-			hvac_action: {
-				off: "Kikapcsolva",
-				preheating: "Előfűtés",
-				heating: "Fűtés aktív",
-				cooling: "Hűtés aktív",
-				drying: "Szárítás aktív",
-				fan: "Ventilátor aktív",
-				idle: "Tétlen",
-				defrosting: "Leolvasztás"
-			},
-			preset: {
-				none: "Nincs előbeállítás",
-				frost: "Fagyálló védelme",
-				eco: "Eco",
-				away: "Távolléte",
-				comfort: "Kényelem",
-				home: "Otthon",
-				sleep: "Alvás",
-				activity: "Aktivitás",
-				boost: "Erősítés"
-			},
-			fan: {
-				on: "Be",
-				auto: "Automatikus",
-				low: "Alacsony",
-				medium: "Közepes",
-				middle: "Közép",
-				high: "Magas",
-				top: "Felső",
-				off: "Ki",
-				focus: "Fókusz",
-				diffuse: "Szórt",
-				auto_fan_none: "Nincs",
-				auto_fan_low: "Alacsony",
-				auto_fan_medium: "Közepes",
-				auto_fan_high: "Magas",
-				auto_fan_turbo: "Turbo",
-				None: "Nincs",
-				Turbo: "Turbo",
-				unavailable: "Ventilátor"
-			},
-			swing: {
-				off: "Ki",
-				on: "Be",
-				vertical: "Függőleges",
-				horizontal: "Vízszintes",
-				both: "Mindkettő",
-				unavailable: "Lengés"
-			},
-			lock: {
-				locked: "Zárva",
-				unlocked: "Nyitva",
-				code_required: "Kód szükséges",
-				enter_code: "Írja be a kódot",
-				wrong_code: "Hibás kód"
-			},
-			events: {
-				hasDanger: "Kritikus figyelmeztetés",
-				hasAlert: "Figyelmeztetés",
-				hasOverpowering: "Túlterhelés",
-				hasOpenWindow: "Ablak nyitva",
-				hasPresence: "Jelenlét észlelhető",
-				hasTimer: "Időzítő aktív"
-			},
-			messages: {
-				hvac_off_manual: "Manuálisan kikapcsolva",
-				hvac_off_auto_start_stop: "Kikapcsolva automatikus indítás/leállítással",
-				hvac_off_window_detection: "Ablakérzékelés által kikapcsolva",
-				hvac_off_sleep_mode: "Alvási mód által kikapcsolva",
-				hvac_off_safety_detection: "Biztonsági mód által kikapcsolva",
-				hvac_off_central_mode: "Központi mód által kikapcsolva",
-				safety_detected: "Biztonsági mód észlelve",
-				overpowering_detected: "Túlterhelés észlelve",
-				target_temp_window_eco: "Cél hőm.: ablak eco",
-				target_temp_window_frost: "Cél hőm.: ablak fagy",
-				target_temp_power: "Cél hőm.: teljesítmény",
-				target_temp_central_mode: "Cél hőm.: központi mód",
-				target_temp_activity_detected: "Cél hőm.: aktivitás észlelve",
-				target_temp_activity_not_detected: "Cél hőm.: nincs aktivitás",
-				target_temp_absence_detected: "Cél hőm.: hiányzás észlelve",
-				target_temp_timed_preset: "Időzített előbeállítás aktív",
-				not_initialized: "Inicializálási hiba",
-				heating_failure: "Fűtési hiba észlelve",
-				cooling_failure: "Hűtési hiba észlelve"
-			},
-			actions: {
-				decrease_temperature: "Csökkentse a beállított értéket",
-				increase_temperature: "Növelje a beállított értéket",
-				low_temperature: "Alacsony",
-				high_temperature: "Magas",
-				open_fan: "Nyissa meg a ventilátort",
-				open_swing: "Nyissa meg a lengést",
-				open_menu: "Nyissa meg a menüt",
-				open_power_info: "Teljesítménymutató megjelenítése"
-			}
-		},
-		dialog: {
-			close: "Bezárás",
-			back: "Vissza",
-			fan: {
-				title: "Szellőztetés",
-				description_auto: "Az automatikus mód automatikusan igazítja a szellőztetést a fűtési igényekhez."
-			},
-			swing: {
-				title: "Lengés",
-				vertical: "Függőleges",
-				horizontal: "Vízszintes"
-			},
-			hvac: { title: "Mód" },
-			preset: { title: "Előbeállítás" },
-			message: { title: "Üzenet" },
-			menu: {
-				title: "Menü",
-				regulation: "Szabályozás",
-				boost: "Ideiglenes erősítés",
-				history: "Előzmények"
-			},
-			history: {
-				title: "Előzmények",
-				load: "Betöltés",
-				add: "Hozzáadás",
-				add_entity: "Entitás hozzáadása",
-				loading: "Előzmények betöltése...",
-				empty: "Nincsenek előzmények erre az időszakra.",
-				no_attributes: "Nincs választható attribútum.",
-				tools: "Eszközök",
-				show_controls: "Az előzmények vezérlőelemei megjelenítése",
-				hide_controls: "Az előzmények vezérlőelemei elrejtése",
-				fullscreen: "Teljes képernyő",
-				exit_fullscreen: "Teljes képernyő bezárása",
-				sources: {
-					current_temperature: "Jelenlegi hőmérséklet",
-					temperature: "Cél hőmérséklet",
-					hvac_action: "HVAC művelet"
-				}
-			},
-			boost: {
-				title: "Ideiglenes erősítés",
-				duration: "Időtartam percben",
-				minutes: "min",
-				hours: "h",
-				start: "Indítás",
-				stop: "Leállítás",
-				active: "Erősítés aktív",
-				remaining_unknown: "Hátralévő idő nem érhető el",
-				preset: "Időzített előbeállítás",
-				original_preset: "Előző előbeállítás",
-				start_description: "A visszaszámlálás végénél a termosztát visszatér az előző módhoz.",
-				active_description: "A visszaszámlálás végénél a termosztát visszatér az előző módhoz.",
-				active_description_with_preset: "A visszaszámlálás végénél a termosztát visszatér az előző módhoz ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entitás",
-			name: "Név",
-			diagnostic_entity: "Diagnosztikai entitás",
-			power_entity: "Teljesítmény entitás",
-			humidity_entity: "Páratartalom entitás",
-			temperature_entity: "Hőmérséklet entitás",
-			theme: "Téma",
-			display_mode: "Formátum",
-			primary_display: "Megjelenítési prioritás",
-			disable_name: "Név elrejtése",
-			hide_lock_button: "Zárolási gomb elrejtése",
-			additional_dashboards: "További irányítópultok",
-			state_icons_layout: "Állapot ikonok",
-			tabs: {
-				general: "Általános",
-				presentation: "Bemutató"
-			},
-			options: {
-				theme: {
-					flat: "Lapos",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klasszikus",
-					compact: "Kompakt"
-				},
-				primary_display: {
-					setpoint: "Beállított érték",
-					sensors: "Érzékelők"
-				},
-				layout_orientation: {
-					horizontal: "Vízszintes",
-					vertical: "Függőleges"
-				},
-				additional_dashboards: {
-					auto: "Automatikus",
-					custom: "Egyéni",
-					disabled: "Letiltva"
-				}
-			}
-		}
-	},
-	nl: {
-		card: {
-			description: "Lovelace-kaart voor Versatile Thermostat en standaard klimaatentiteiten.",
-			missing_entity: "Configureer een klimaatentiteit.",
-			invalid_entity: "De geconfigureerde entiteit moet tot het klimaatdomein behoren.",
-			invalid_theme: "Het geconfigureerde thema is niet beschikbaar.",
-			invalid_display_mode: "De geconfigureerde weergavemodus is niet beschikbaar.",
-			invalid_primary_display: "De geconfigureerde weergaveprioriteit is niet beschikbaar.",
-			invalid_additional_dashboards: "De geconfigureerde dashboardmodus is niet beschikbaar.",
-			invalid_state_icons_layout: "De geconfigureerde statusiconindeling is niet beschikbaar.",
-			entity_not_found: "Entiteit niet gevonden: {entity}",
-			placeholder: "Equinox is klaar voor {entity}."
-		},
-		main: {
-			status: {
-				heating: "Verwarming actief",
-				cooling: "Koeling actief",
-				auto: "Automatisch",
-				heat: "Verwarming",
-				cool: "Koeling",
-				heat_cool: "Automatisch",
-				dry: "Drogen",
-				fan_only: "Alleen ventilator",
-				off: "Uit",
-				boost: "Tijdelijke verhoging",
-				unavailable: "Niet beschikbaar"
-			},
-			hvac: {
-				heat: "Verwarming",
-				cool: "Koeling",
-				heat_cool: "Verwarming/Koeling",
-				auto: "Automatisch",
-				dry: "Drogen",
-				fan_only: "Alleen ventilator",
-				off: "Uit"
-			},
-			hvac_action: {
-				off: "Uit",
-				preheating: "Voorverwarmen",
-				heating: "Verwarming actief",
-				cooling: "Koeling actief",
-				drying: "Drogen actief",
-				fan: "Ventilator actief",
-				idle: "Inactief",
-				defrosting: "Ontdooien"
-			},
-			preset: {
-				none: "Geen voorinstelling",
-				frost: "Vorstbescherming",
-				eco: "Eco",
-				away: "Weg",
-				comfort: "Comfort",
-				home: "Thuis",
-				sleep: "Slaap",
-				activity: "Activiteit",
-				boost: "Verhoging"
-			},
-			fan: {
-				on: "Aan",
-				auto: "Automatisch",
-				low: "Laag",
-				medium: "Gemiddeld",
-				middle: "Midden",
-				high: "Hoog",
-				top: "Bovenkant",
-				off: "Uit",
-				focus: "Scherpstelling",
-				diffuse: "Diffuus",
-				auto_fan_none: "Geen",
-				auto_fan_low: "Laag",
-				auto_fan_medium: "Gemiddeld",
-				auto_fan_high: "Hoog",
-				auto_fan_turbo: "Turbo",
-				None: "Geen",
-				Turbo: "Turbo",
-				unavailable: "Ventilator"
-			},
-			swing: {
-				off: "Uit",
-				on: "Aan",
-				vertical: "Verticaal",
-				horizontal: "Horizontaal",
-				both: "Beide",
-				unavailable: "Swing"
-			},
-			lock: {
-				locked: "Vergrendeld",
-				unlocked: "Ontgrendeld",
-				code_required: "Code vereist",
-				enter_code: "Voer code in",
-				wrong_code: "Onjuiste code"
-			},
-			events: {
-				hasDanger: "Kritische waarschuwing",
-				hasAlert: "Waarschuwing",
-				hasOverpowering: "Overbelasting",
-				hasOpenWindow: "Raam open",
-				hasPresence: "Aanwezigheid gedetecteerd",
-				hasTimer: "Timer actief"
-			},
-			messages: {
-				hvac_off_manual: "Handmatig uitgeschakeld",
-				hvac_off_auto_start_stop: "Uitgeschakeld door automatisch starten/stoppen",
-				hvac_off_window_detection: "Uitgeschakeld door raamdetectie",
-				hvac_off_sleep_mode: "Uitgeschakeld door slaapmodus",
-				hvac_off_safety_detection: "Uitgeschakeld door veiligheidsmodus",
-				hvac_off_central_mode: "Uitgeschakeld door centrale modus",
-				safety_detected: "Veiligheidsmodus gedetecteerd",
-				overpowering_detected: "Overbelasting gedetecteerd",
-				target_temp_window_eco: "Doel temp.: raam eco",
-				target_temp_window_frost: "Doel temp.: raam vorst",
-				target_temp_power: "Doel temp.: vermogen",
-				target_temp_central_mode: "Doel temp.: centrale modus",
-				target_temp_activity_detected: "Doel temp.: activiteit gedetecteerd",
-				target_temp_activity_not_detected: "Doel temp.: geen activiteit",
-				target_temp_absence_detected: "Doel temp.: afwezigheid gedetecteerd",
-				target_temp_timed_preset: "Getimede voorinstelling actief",
-				not_initialized: "Initialisatiefout",
-				heating_failure: "Verwarmingsfout gedetecteerd",
-				cooling_failure: "Koelfout gedetecteerd"
-			},
-			actions: {
-				decrease_temperature: "Zet punt verlagen",
-				increase_temperature: "Zet punt verhogen",
-				low_temperature: "Laag",
-				high_temperature: "Hoog",
-				open_fan: "Open ventilator",
-				open_swing: "Open swing",
-				open_menu: "Menu openen",
-				open_power_info: "Stromindicatoren weergeven"
-			}
-		},
-		dialog: {
-			close: "Sluiten",
-			back: "Terug",
-			fan: {
-				title: "Ventilatie",
-				description_auto: "Automatische modus past ventilatie automatisch aan aan verwarmingsbehoeften."
-			},
-			swing: {
-				title: "Swing",
-				vertical: "Verticaal",
-				horizontal: "Horizontaal"
-			},
-			hvac: { title: "Modus" },
-			preset: { title: "Voorinstelling" },
-			message: { title: "Bericht" },
-			menu: {
-				title: "Menu",
-				regulation: "Regeling",
-				boost: "Tijdelijke verhoging",
-				history: "Geschiedenis"
-			},
-			history: {
-				title: "Geschiedenis",
-				load: "Laden",
-				add: "Toevoegen",
-				add_entity: "Entiteit toevoegen",
-				loading: "Geschiedenis laden...",
-				empty: "Geen geschiedenis voor deze periode.",
-				no_attributes: "Geen selecteerbaar attribuut.",
-				tools: "Gereedschappen",
-				show_controls: "Geschiedenisbesturingselementen weergeven",
-				hide_controls: "Geschiedenisbesturingselementen verbergen",
-				fullscreen: "Volledig scherm",
-				exit_fullscreen: "Volledig scherm afsluiten",
-				sources: {
-					current_temperature: "Huidige temperatuur",
-					temperature: "Doeltemperatuur",
-					hvac_action: "HVAC-actie"
-				}
-			},
-			boost: {
-				title: "Tijdelijke verhoging",
-				duration: "Duur in minuten",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stop",
-				active: "Verhoging actief",
-				remaining_unknown: "Resterende tijd niet beschikbaar",
-				preset: "Getimede voorinstelling",
-				original_preset: "Vorige voorinstelling",
-				start_description: "Wanneer de aftelling eindigt, keert de thermostaat terug naar de vorige modus.",
-				active_description: "Wanneer de aftelling eindigt, keert de thermostaat terug naar de vorige modus.",
-				active_description_with_preset: "Wanneer de aftelling eindigt, keert de thermostaat terug naar de vorige modus ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entiteit",
-			name: "Naam",
-			diagnostic_entity: "Diagnostische entiteit",
-			power_entity: "Vermogenentiteit",
-			humidity_entity: "Vochtigheidsentiteit",
-			temperature_entity: "Temperatuurentiteit",
-			theme: "Thema",
-			display_mode: "Indeling",
-			primary_display: "Weergaveprioriteit",
-			disable_name: "Naam verbergen",
-			hide_lock_button: "Vergrendelingsknop verbergen",
-			additional_dashboards: "Aanvullende dashboards",
-			state_icons_layout: "Statuspictogrammen",
-			tabs: {
-				general: "Algemeen",
-				presentation: "Presentatie"
-			},
-			options: {
-				theme: {
-					flat: "Plat",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klassiek",
-					compact: "Compact"
-				},
-				primary_display: {
-					setpoint: "Zet punt",
-					sensors: "Sensoren"
-				},
-				layout_orientation: {
-					horizontal: "Horizontaal",
-					vertical: "Verticaal"
-				},
-				additional_dashboards: {
-					auto: "Automatisch",
-					custom: "Aangepast",
-					disabled: "Uitgeschakeld"
-				}
-			}
-		}
-	},
-	no: {
-		card: {
-			description: "Lovelace-kort for Versatile Thermostat og standard klimaenheter.",
-			missing_entity: "Konfigurer en klimaenhet.",
-			invalid_entity: "Den konfigurerte enheten må tilhøre klimadomenet.",
-			invalid_theme: "Det konfigurerte temaet er ikke tilgjengelig.",
-			invalid_display_mode: "Den konfigurerte visningsmodus er ikke tilgjengelig.",
-			invalid_primary_display: "Den konfigurerte visningsprioriteten er ikke tilgjengelig.",
-			invalid_additional_dashboards: "Den konfigurerte dashbordmodus er ikke tilgjengelig.",
-			invalid_state_icons_layout: "Den konfigurerte tilstandsikonoppsettingen er ikke tilgjengelig.",
-			entity_not_found: "Enhet ikke funnet: {entity}",
-			placeholder: "Equinox er klar for {entity}."
-		},
-		main: {
-			status: {
-				heating: "Oppvarming aktiv",
-				cooling: "Kjøling aktiv",
-				auto: "Automatisk",
-				heat: "Oppvarming",
-				cool: "Kjøling",
-				heat_cool: "Automatisk",
-				dry: "Tørking",
-				fan_only: "Kun vifte",
-				off: "Av",
-				boost: "Midlertidig boost",
-				unavailable: "Utilgjengelig"
-			},
-			hvac: {
-				heat: "Oppvarming",
-				cool: "Kjøling",
-				heat_cool: "Oppvarming/Kjøling",
-				auto: "Automatisk",
-				dry: "Tørking",
-				fan_only: "Kun vifte",
-				off: "Av"
-			},
-			hvac_action: {
-				off: "Av",
-				preheating: "Forvarmning",
-				heating: "Oppvarming aktiv",
-				cooling: "Kjøling aktiv",
-				drying: "Tørking aktiv",
-				fan: "Vifte aktiv",
-				idle: "Inaktiv",
-				defrosting: "Avising"
-			},
-			preset: {
-				none: "Ingen forhåndsinnstilling",
-				frost: "Frostbeskyttelse",
-				eco: "Eco",
-				away: "Borte",
-				comfort: "Komfort",
-				home: "Hjem",
-				sleep: "Søvn",
-				activity: "Aktivitet",
-				boost: "Boost"
-			},
-			fan: {
-				on: "På",
-				auto: "Automatisk",
-				low: "Lav",
-				medium: "Medium",
-				middle: "Midt",
-				high: "Høy",
-				top: "Topp",
-				off: "Av",
-				focus: "Fokus",
-				diffuse: "Diffus",
-				auto_fan_none: "Ingen",
-				auto_fan_low: "Lav",
-				auto_fan_medium: "Medium",
-				auto_fan_high: "Høy",
-				auto_fan_turbo: "Turbo",
-				None: "Ingen",
-				Turbo: "Turbo",
-				unavailable: "Vifte"
-			},
-			swing: {
-				off: "Av",
-				on: "På",
-				vertical: "Vertikal",
-				horizontal: "Horisontal",
-				both: "Begge",
-				unavailable: "Swing"
-			},
-			lock: {
-				locked: "Låst",
-				unlocked: "Ulåst",
-				code_required: "Kode påkrevd",
-				enter_code: "Skriv inn kode",
-				wrong_code: "Feil kode"
-			},
-			events: {
-				hasDanger: "Kritisk advarsel",
-				hasAlert: "Advarsel",
-				hasOverpowering: "Overbelastning",
-				hasOpenWindow: "Vindu åpent",
-				hasPresence: "Tilstedeværelse oppdaget",
-				hasTimer: "Timer aktiv"
-			},
-			messages: {
-				hvac_off_manual: "Slått av manuelt",
-				hvac_off_auto_start_stop: "Slått av av automatisk start/stopp",
-				hvac_off_window_detection: "Slått av av vindusdeteksjon",
-				hvac_off_sleep_mode: "Slått av av søvnmodus",
-				hvac_off_safety_detection: "Slått av av sikkerhetsmodus",
-				hvac_off_central_mode: "Slått av av sentral modus",
-				safety_detected: "Sikkerhetsmodus oppdaget",
-				overpowering_detected: "Overbelastning oppdaget",
-				target_temp_window_eco: "Mål temp.: vindu eco",
-				target_temp_window_frost: "Mål temp.: vindu frost",
-				target_temp_power: "Mål temp.: kraft",
-				target_temp_central_mode: "Mål temp.: sentral modus",
-				target_temp_activity_detected: "Mål temp.: aktivitet oppdaget",
-				target_temp_activity_not_detected: "Mål temp.: ingen aktivitet",
-				target_temp_absence_detected: "Mål temp.: fravær oppdaget",
-				target_temp_timed_preset: "Tidsinnstilt forhåndsinnstilling aktiv",
-				not_initialized: "Initialiseringsfeil",
-				heating_failure: "Oppvarmingsfeil oppdaget",
-				cooling_failure: "Kjølingsfeil oppdaget"
-			},
-			actions: {
-				decrease_temperature: "Senk innstillingspunktet",
-				increase_temperature: "Hev innstillingspunktet",
-				low_temperature: "Lav",
-				high_temperature: "Høy",
-				open_fan: "Åpne vifte",
-				open_swing: "Åpne swing",
-				open_menu: "Åpne meny",
-				open_power_info: "Vis stromindikatorer"
-			}
-		},
-		dialog: {
-			close: "Lukk",
-			back: "Tilbake",
-			fan: {
-				title: "Ventilasjon",
-				description_auto: "Automatisk modus tilpasser automatisk ventilasjon til oppvarmingsbehov."
-			},
-			swing: {
-				title: "Swing",
-				vertical: "Vertikal",
-				horizontal: "Horisontal"
-			},
-			hvac: { title: "Modus" },
-			preset: { title: "Forhåndsinnstilling" },
-			message: { title: "Melding" },
-			menu: {
-				title: "Meny",
-				regulation: "Regulering",
-				boost: "Midlertidig boost",
-				history: "Historie"
-			},
-			history: {
-				title: "Historie",
-				load: "Last inn",
-				add: "Legg til",
-				add_entity: "Legg til enhet",
-				loading: "Laster inn historie...",
-				empty: "Ingen historie for denne perioden.",
-				no_attributes: "Ingen valgbar attributt.",
-				tools: "Verktøy",
-				show_controls: "Vis historiekontroller",
-				hide_controls: "Skjul historiekontroller",
-				fullscreen: "Fullskjerm",
-				exit_fullscreen: "Avslutt fullskjerm",
-				sources: {
-					current_temperature: "Gjeldende temperatur",
-					temperature: "Måltemperatur",
-					hvac_action: "HVAC-handling"
-				}
-			},
-			boost: {
-				title: "Midlertidig boost",
-				duration: "Varighet i minutter",
-				minutes: "min",
-				hours: "h",
-				start: "Start",
-				stop: "Stopp",
-				active: "Boost aktiv",
-				remaining_unknown: "Gjenstående tid utilgjengelig",
-				preset: "Tidsinnstilt forhåndsinnstilling",
-				original_preset: "Forrige forhåndsinnstilling",
-				start_description: "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
-				active_description: "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
-				active_description_with_preset: "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus ({preset})."
-			}
-		},
-		editor: {
-			entity: "Enhet",
-			name: "Navn",
-			diagnostic_entity: "Diagnostisk enhet",
-			power_entity: "Kraftenhet",
-			humidity_entity: "Fuktighets-enhet",
-			temperature_entity: "Temperaturenhet",
-			theme: "Tema",
-			display_mode: "Format",
-			primary_display: "Visningsprioritet",
-			disable_name: "Skjul navn",
-			hide_lock_button: "Skjul låseknapp",
-			additional_dashboards: "Tilleggssamler",
-			state_icons_layout: "Tilstands ikoner",
-			tabs: {
-				general: "Generelt",
-				presentation: "Presentasjon"
-			},
-			options: {
-				theme: {
-					flat: "Flat",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Klassisk",
-					compact: "Kompakt"
-				},
-				primary_display: {
-					setpoint: "Innstillingspunkt",
-					sensors: "Sensorer"
-				},
-				layout_orientation: {
-					horizontal: "Horisontal",
-					vertical: "Vertikal"
-				},
-				additional_dashboards: {
-					auto: "Automatisk",
-					custom: "Tilpasset",
-					disabled: "Deaktivert"
-				}
-			}
-		}
-	},
-	pt: {
-		card: {
-			description: "Placa Lovelace para Termostato Versátil e entidades climáticas padrão.",
-			missing_entity: "Configure uma entidade climática.",
-			invalid_entity: "A entidade configurada deve pertencer ao domínio climático.",
-			invalid_theme: "O tema configurado não está disponível.",
-			invalid_display_mode: "O modo de exibição configurado não está disponível.",
-			invalid_primary_display: "A prioridade de exibição configurada não está disponível.",
-			invalid_additional_dashboards: "O modo de painel configurado não está disponível.",
-			invalid_state_icons_layout: "O layout de ícones de estado configurado não está disponível.",
-			entity_not_found: "Entidade não encontrada: {entity}",
-			placeholder: "Equinox está pronto para {entity}."
-		},
-		main: {
-			status: {
-				heating: "Aquecimento ativo",
-				cooling: "Resfriamento ativo",
-				auto: "Automático",
-				heat: "Aquecimento",
-				cool: "Resfriamento",
-				heat_cool: "Automático",
-				dry: "Secagem",
-				fan_only: "Apenas ventilador",
-				off: "Desligado",
-				boost: "Impulso temporário",
-				unavailable: "Indisponível"
-			},
-			hvac: {
-				heat: "Aquecimento",
-				cool: "Resfriamento",
-				heat_cool: "Aquecimento/Resfriamento",
-				auto: "Automático",
-				dry: "Secagem",
-				fan_only: "Apenas ventilador",
-				off: "Desligado"
-			},
-			hvac_action: {
-				off: "Desligado",
-				preheating: "Pré-aquecimento",
-				heating: "Aquecimento ativo",
-				cooling: "Resfriamento ativo",
-				drying: "Secagem ativa",
-				fan: "Ventilador ativo",
-				idle: "Inativo",
-				defrosting: "Descongelação"
-			},
-			preset: {
-				none: "Sem preset",
-				frost: "Proteção contra congelamento",
-				eco: "Eco",
-				away: "Fora",
-				comfort: "Conforto",
-				home: "Casa",
-				sleep: "Dormir",
-				activity: "Atividade",
-				boost: "Impulso"
-			},
-			fan: {
-				on: "Ligado",
-				auto: "Automático",
-				low: "Baixo",
-				medium: "Médio",
-				middle: "Meio",
-				high: "Alto",
-				top: "Superior",
-				off: "Desligado",
-				focus: "Foco",
-				diffuse: "Difuso",
-				auto_fan_none: "Nenhum",
-				auto_fan_low: "Baixo",
-				auto_fan_medium: "Médio",
-				auto_fan_high: "Alto",
-				auto_fan_turbo: "Turbo",
-				None: "Nenhum",
-				Turbo: "Turbo",
-				unavailable: "Ventilador"
-			},
-			swing: {
-				off: "Desligado",
-				on: "Ligado",
-				vertical: "Vertical",
-				horizontal: "Horizontal",
-				both: "Ambos",
-				unavailable: "Balanço"
-			},
-			lock: {
-				locked: "Bloqueado",
-				unlocked: "Desbloqueado",
-				code_required: "Código obrigatório",
-				enter_code: "Insira o código",
-				wrong_code: "Código incorreto"
-			},
-			events: {
-				hasDanger: "Alerta crítico",
-				hasAlert: "Alerta",
-				hasOverpowering: "Sobrecarga",
-				hasOpenWindow: "Janela aberta",
-				hasPresence: "Presença detectada",
-				hasTimer: "Temporizador ativo"
-			},
-			messages: {
-				hvac_off_manual: "Desligado manualmente",
-				hvac_off_auto_start_stop: "Desligado por início/parada automática",
-				hvac_off_window_detection: "Desligado por detecção de janela",
-				hvac_off_sleep_mode: "Desligado pelo modo dormir",
-				hvac_off_safety_detection: "Desligado pelo modo de segurança",
-				hvac_off_central_mode: "Desligado pelo modo central",
-				safety_detected: "Modo de segurança detectado",
-				overpowering_detected: "Sobrecarga detectada",
-				target_temp_window_eco: "Temp. alvo: janela eco",
-				target_temp_window_frost: "Temp. alvo: janela congelada",
-				target_temp_power: "Temp. alvo: energia",
-				target_temp_central_mode: "Temp. alvo: modo central",
-				target_temp_activity_detected: "Temp. alvo: atividade detectada",
-				target_temp_activity_not_detected: "Temp. alvo: sem atividade",
-				target_temp_absence_detected: "Temp. alvo: ausência detectada",
-				target_temp_timed_preset: "Preset cronometrado ativo",
-				not_initialized: "Erro de inicialização",
-				heating_failure: "Falha de aquecimento detectada",
-				cooling_failure: "Falha de resfriamento detectada"
-			},
-			actions: {
-				decrease_temperature: "Diminuir setpoint",
-				increase_temperature: "Aumentar setpoint",
-				low_temperature: "Baixo",
-				high_temperature: "Alto",
-				open_fan: "Abrir ventilador",
-				open_swing: "Abrir balanço",
-				open_menu: "Abrir menu",
-				open_power_info: "Mostrar indicadores de energia"
-			}
-		},
-		dialog: {
-			close: "Fechar",
-			back: "Voltar",
-			fan: {
-				title: "Ventilação",
-				description_auto: "O modo automático adapta automaticamente a ventilação às necessidades de aquecimento."
-			},
-			swing: {
-				title: "Balanço",
-				vertical: "Vertical",
-				horizontal: "Horizontal"
-			},
-			hvac: { title: "Modo" },
-			preset: { title: "Preset" },
-			message: { title: "Mensagem" },
-			menu: {
-				title: "Menu",
-				regulation: "Regulação",
-				boost: "Impulso temporário",
-				history: "Histórico"
-			},
-			history: {
-				title: "Histórico",
-				load: "Carregar",
-				add: "Adicionar",
-				add_entity: "Adicionar uma entidade",
-				loading: "Carregando histórico...",
-				empty: "Nenhum histórico para este período.",
-				no_attributes: "Nenhum atributo selecionável.",
-				tools: "Ferramentas",
-				show_controls: "Mostrar controles de histórico",
-				hide_controls: "Ocultar controles de histórico",
-				fullscreen: "Tela cheia",
-				exit_fullscreen: "Sair da tela cheia",
-				sources: {
-					current_temperature: "Temperatura atual",
-					temperature: "Temperatura alvo",
-					hvac_action: "Ação HVAC"
-				}
-			},
-			boost: {
-				title: "Impulso temporário",
-				duration: "Duração em minutos",
-				minutes: "min",
-				hours: "h",
-				start: "Iniciar",
-				stop: "Parar",
-				active: "Impulso ativo",
-				remaining_unknown: "Tempo restante indisponível",
-				preset: "Preset cronometrado",
-				original_preset: "Preset anterior",
-				start_description: "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior.",
-				active_description: "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior.",
-				active_description_with_preset: "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior ({preset})."
-			}
-		},
-		editor: {
-			entity: "Entidade",
-			name: "Nome",
-			diagnostic_entity: "Entidade de diagnóstico",
-			power_entity: "Entidade de energia",
-			humidity_entity: "Entidade de umidade",
-			temperature_entity: "Entidade de temperatura",
-			theme: "Tema",
-			display_mode: "Formato",
-			primary_display: "Prioridade de exibição",
-			disable_name: "Ocultar nome",
-			hide_lock_button: "Ocultar botão de bloqueio",
-			additional_dashboards: "Painéis adicionais",
-			state_icons_layout: "Ícones de estado",
-			tabs: {
-				general: "Geral",
-				presentation: "Apresentação"
-			},
-			options: {
-				theme: {
-					flat: "Plano",
-					liquid_glow: "Liquid Glow"
-				},
-				display_mode: {
-					classic: "Clássico",
-					compact: "Compacto"
-				},
-				primary_display: {
-					setpoint: "Setpoint",
-					sensors: "Sensores"
-				},
-				layout_orientation: {
-					horizontal: "Horizontal",
-					vertical: "Vertical"
-				},
-				additional_dashboards: {
-					auto: "Automático",
-					custom: "Personalizado",
-					disabled: "Desabilitado"
-				}
-			}
-		}
-	}
-};
-function tt(e) {
+function it(e) {
 	return (e ?? "en").toLowerCase().split("-")[0] || "en";
 }
-function nt(e, t) {
+function at(e, t) {
 	let n = t.split("."), r = e;
 	for (let e = 0; e < n.length; e++) {
 		if (typeof r != "object" || !r) return;
@@ -4987,19 +626,20 @@ function nt(e, t) {
 	}
 	return typeof r == "string" ? r : void 0;
 }
-function rt(e, t) {
+function ot(e, t) {
 	return Object.entries(t).reduce((e, [t, n]) => e.replaceAll(`{${t}}`, String(n)), e);
 }
 function T(e, t, n = {}) {
-	return rt(nt(et[tt(e)] ?? et.en, t) ?? nt(et.en, t) ?? t, n);
+	let r = rt(it(e)), i = rt("en");
+	return ot((r == null ? void 0 : at(r, t)) ?? (i == null ? void 0 : at(i, t)) ?? t, n);
 }
 //#endregion
 //#region src/types/config.ts
-var it = ["flat", "liquid_glow"], at = ["classic", "compact"], ot = ["setpoint", "sensors"], st = [
+var st = ["flat", "liquid_glow"], ct = ["classic", "compact"], lt = ["setpoint", "sensors"], ut = [
 	"auto",
 	"custom",
 	"disabled"
-], ct = ["horizontal", "vertical"], lt = {
+], dt = ["horizontal", "vertical"], ft = {
 	theme: Ge,
 	display_mode: Ke,
 	primary_display: qe,
@@ -5011,11 +651,11 @@ var it = ["flat", "liquid_glow"], at = ["classic", "compact"], ot = ["setpoint",
 //#endregion
 //#region src/equinox-card-editor.ts
 $e();
-function ut(e) {
+function pt(e) {
 	let t = { ...e };
 	return delete t.card_height, t;
 }
-var dt = class extends w {
+var mt = class extends w {
 	constructor(...e) {
 		super(...e), this._config = {}, this._activeTab = "general";
 	}
@@ -5052,11 +692,11 @@ var dt = class extends w {
   `;
 	}
 	setConfig(e) {
-		this._config = ut(e);
+		this._config = pt(e);
 	}
 	render() {
 		let e = this.hass?.locale?.language ?? this.hass?.language, t = {
-			...lt,
+			...ft,
 			...this._config
 		};
 		return S`
@@ -5198,7 +838,7 @@ var dt = class extends w {
 		return (t) => T(e, `editor.${t.name}`);
 	}
 	_valueChanged(e) {
-		this._config = ut({
+		this._config = pt({
 			...this._config,
 			...e.detail.value
 		}), this.dispatchEvent(new CustomEvent("config-changed", {
@@ -5208,10 +848,10 @@ var dt = class extends w {
 		}));
 	}
 };
-customElements.get("equinox-card-editor") || customElements.define(We, dt);
+customElements.get("equinox-card-editor") || customElements.define(We, mt);
 //#endregion
 //#region src/data/actions.ts
-var ft = {
+var ht = {
 	auto_fan_none: "None",
 	auto_fan_low: "Low",
 	auto_fan_medium: "Medium",
@@ -5233,7 +873,7 @@ function O() {
 		error: "unsupported"
 	};
 }
-function pt() {
+function gt() {
 	return {
 		ok: !1,
 		error: "invalid_payload"
@@ -5250,81 +890,81 @@ async function k(e, t, n, r) {
 		};
 	}
 }
-function mt(e) {
+function _t(e) {
 	return typeof e == "number" && Number.isFinite(e);
 }
-async function ht(e, t) {
-	return E(e) ? D() : mt(t.targetTempLow) && mt(t.targetTempHigh) ? k(e, "climate", "set_temperature", {
+async function vt(e, t) {
+	return E(e) ? D() : _t(t.targetTempLow) && _t(t.targetTempHigh) ? k(e, "climate", "set_temperature", {
 		entity_id: e.entityId,
 		target_temp_low: t.targetTempLow,
 		target_temp_high: t.targetTempHigh
-	}) : mt(t.temperature) ? k(e, "climate", "set_temperature", {
+	}) : _t(t.temperature) ? k(e, "climate", "set_temperature", {
 		entity_id: e.entityId,
 		temperature: t.temperature
-	}) : pt();
+	}) : gt();
 }
-async function gt(e, t) {
+async function yt(e, t) {
 	return E(e) ? D() : e.viewModel?.climate.hvacModes.includes(t) ? k(e, "climate", "set_hvac_mode", {
 		entity_id: e.entityId,
 		hvac_mode: t
 	}) : O();
 }
-async function _t(e, t) {
+async function bt(e, t) {
 	return E(e) ? D() : e.viewModel?.climate.presetModes.includes(t) ? k(e, "climate", "set_preset_mode", {
 		entity_id: e.entityId,
 		preset_mode: t
 	}) : O();
 }
-async function vt(e, t) {
+async function xt(e, t) {
 	return E(e) ? D() : e.viewModel?.climate.fanModes.includes(t) ? k(e, "climate", "set_fan_mode", {
 		entity_id: e.entityId,
 		fan_mode: t
 	}) : O();
 }
-async function yt(e, t) {
+async function St(e, t) {
 	return E(e) ? D() : e.viewModel?.climate.swingModes.includes(t) ? k(e, "climate", "set_swing_mode", {
 		entity_id: e.entityId,
 		swing_mode: t
 	}) : O();
 }
-async function bt(e, t) {
+async function Ct(e, t) {
 	return E(e) ? D() : e.viewModel?.climate.swingHorizontalModes.includes(t) ? k(e, "climate", "set_swing_horizontal_mode", {
 		entity_id: e.entityId,
 		swing_horizontal_mode: t
 	}) : O();
 }
-async function xt(e, t, n) {
-	return E(e) ? D() : !e.viewModel?.vt?.isVt || !e.viewModel.vt.timedPresetManager ? O() : !Number.isInteger(n) || n < 1 || n > 1440 || t.trim() === "" ? pt() : k(e, "versatile_thermostat", "set_timed_preset", {
+async function wt(e, t, n) {
+	return E(e) ? D() : !e.viewModel?.vt?.isVt || !e.viewModel.vt.timedPresetManager ? O() : !Number.isInteger(n) || n < 1 || n > 1440 || t.trim() === "" ? gt() : k(e, "versatile_thermostat", "set_timed_preset", {
 		entity_id: e.entityId,
 		preset: t,
 		duration_minutes: n
 	});
 }
-async function St(e) {
+async function Tt(e) {
 	return E(e) ? D() : e.viewModel?.vt?.timedPreset.isActive ? k(e, "versatile_thermostat", "cancel_timed_preset", { entity_id: e.entityId }) : O();
 }
-async function Ct(e, t) {
+async function Et(e, t) {
 	if (E(e)) return D();
 	if (!e.viewModel?.vt?.fan.hasAutoFan) return O();
-	let n = ft[t];
+	let n = ht[t];
 	return n ? k(e, "versatile_thermostat", "set_auto_fan_mode", {
 		entity_id: e.entityId,
 		auto_fan_mode: n
-	}) : pt();
+	}) : gt();
 }
-async function wt(e, t) {
+async function Dt(e, t) {
 	if (!e.viewModel?.vt?.lock.isConfigured) return O();
 	let n = { entity_id: e.entityId };
 	return t && (n.code = t), k(e, "versatile_thermostat", "lock", n);
 }
-async function Tt(e, t) {
+async function Ot(e, t) {
 	if (!e.viewModel?.vt?.lock.isConfigured) return O();
 	let n = { entity_id: e.entityId };
 	return t && (n.code = t), k(e, "versatile_thermostat", "unlock", n);
 }
 //#endregion
 //#region src/data/climate-modes.ts
-var Et = [
+var kt = [
 	"heat",
 	"cool",
 	"heat_cool",
@@ -5340,7 +980,7 @@ var Et = [
 	dry: "mdi:water-percent",
 	fan_only: "mdi:fan",
 	off: "mdi:power"
-}, Dt = {
+}, At = {
 	heat: "heat",
 	cool: "cool",
 	heat_cool: "heat-cool",
@@ -5348,13 +988,13 @@ var Et = [
 	dry: "cool",
 	fan_only: "auto",
 	off: "off"
-}, Ot = [
+}, jt = [
 	"off",
 	"on",
 	"vertical",
 	"horizontal",
 	"both"
-], kt = {
+], Mt = {
 	off: "mdi:arrow-oscillating-off",
 	Off: "mdi:arrow-oscillating-off",
 	SWING_OFF: "mdi:arrow-oscillating-off",
@@ -5370,12 +1010,12 @@ var Et = [
 	both: "mdi:arrow-all",
 	Both: "mdi:arrow-all",
 	SWING_BOTH: "mdi:arrow-all"
-}, At = {
+}, Nt = {
 	off: "mdi:arrow-oscillating-off",
 	Off: "mdi:arrow-oscillating-off",
 	on: "mdi:arrow-expand-horizontal",
 	On: "mdi:arrow-expand-horizontal"
-}, jt = {
+}, Pt = {
 	on: "mdi:fan",
 	On: "mdi:fan",
 	FAN_ON: "mdi:fan",
@@ -5413,13 +1053,13 @@ var Et = [
 	FAN_DIFFUSE: "mdi:fan-chevron-down",
 	auto_fan_turbo: "mdi:fan-speed-2",
 	Turbo: "mdi:fan-speed-2"
-}, Mt = [
+}, Ft = [
 	"auto_fan_none",
 	"auto_fan_low",
 	"auto_fan_medium",
 	"auto_fan_high",
 	"auto_fan_turbo"
-], Nt = o`
+], It = o`
   :host {
     display: block;
     color: var(--equinox-text-color);
@@ -5435,7 +1075,7 @@ var Et = [
     width: 22px;
     height: 22px;
   }
-`, Pt = o`
+`, Lt = o`
   :host {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
     --equinox-panel-bg: var(--equinox-flat-panel-bg, var(--secondary-background-color));
@@ -5462,7 +1102,7 @@ var Et = [
     --equinox-panel-bg: var(--equinox-card-bg);
     --equinox-control-bg: var(--equinox-card-bg);
   }
-`, Ft = o`
+`, Rt = o`
   :host([theme="liquid_glow"]) {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
     --equinox-panel-bg: var(--secondary-background-color);
@@ -5891,7 +1531,7 @@ var Et = [
     background: transparent;
     color: var(--equinox-boost-color);
   }
-`, It = class extends w {
+`, zt = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this.closeOnLeave = !1, this._handleKeyDown = (e) => {
 			e.key === "Escape" && this.open && this._dispatchClose();
@@ -6092,10 +1732,10 @@ var Et = [
     `;
 	}
 };
-customElements.get("eq-dialog") || customElements.define("eq-dialog", It);
+customElements.get("eq-dialog") || customElements.define("eq-dialog", zt);
 //#endregion
 //#region src/components/eq-fan-dialog.ts
-var Lt = class extends w {
+var Bt = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -6308,13 +1948,13 @@ var Lt = class extends w {
 		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
-		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? Mt : this.viewModel?.climate.fanModes ?? [];
+		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? Ft : this.viewModel?.climate.fanModes ?? [];
 	}
 	_getActiveMode() {
 		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? this.viewModel.vt.fan.currentAutoFanMode : this.viewModel?.climate.fanMode;
 	}
 	_fanIcon(e) {
-		return jt[e] ?? "mdi:fan-speed-2";
+		return Pt[e] ?? "mdi:fan-speed-2";
 	}
 	_fanLabel(e) {
 		let t = T(this.language, `main.fan.${e}`);
@@ -6333,7 +1973,7 @@ var Lt = class extends w {
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		};
-		this.viewModel?.vt?.fan.hasAutoFan === !0 ? await Ct(t, e) : await vt(t, e), this._dispatchClose();
+		this.viewModel?.vt?.fan.hasAutoFan === !0 ? await Et(t, e) : await xt(t, e), this._dispatchClose();
 	}
 	render() {
 		let e = this._getOptions(), t = this._getActiveMode(), n = T(this.language, "dialog.fan.title");
@@ -6389,10 +2029,10 @@ var Lt = class extends w {
     `;
 	}
 };
-customElements.get("eq-fan-dialog") || customElements.define("eq-fan-dialog", Lt);
+customElements.get("eq-fan-dialog") || customElements.define("eq-fan-dialog", Bt);
 //#endregion
 //#region src/components/eq-hvac-dialog.ts
-var Rt = class extends w {
+var Vt = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -6740,7 +2380,7 @@ var Rt = class extends w {
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.hvacModes ?? [];
-		return Et.filter((t) => e.includes(t) && A[t]);
+		return kt.filter((t) => e.includes(t) && A[t]);
 	}
 	_modeLabel(e) {
 		let t = T(this.language, `main.hvac.${e}`);
@@ -6753,7 +2393,7 @@ var Rt = class extends w {
 		}));
 	}
 	async _selectMode(e) {
-		!this.hass || !this.config || (await gt({
+		!this.hass || !this.config || (await yt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -6780,7 +2420,7 @@ var Rt = class extends w {
                 title=${this._modeLabel(e)}
                 aria-label=${this._modeLabel(e)}
               >
-                <span class="option-icon" tone=${Dt[e] ?? ""}>
+                <span class="option-icon" tone=${At[e] ?? ""}>
                   <ha-icon .icon=${A[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${this._modeLabel(e)}</span>
@@ -6791,7 +2431,7 @@ var Rt = class extends w {
           <ha-md-list class="option-list">
             ${e.map((e) => S`
                 <ha-md-list-item type="button" ?active=${e === t} @click=${() => this._selectMode(e)}>
-                  <span class="option-icon" tone=${Dt[e] ?? ""} slot="start">
+                  <span class="option-icon" tone=${At[e] ?? ""} slot="start">
                     <ha-icon .icon=${A[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._modeLabel(e)}</span>
@@ -6804,14 +2444,14 @@ var Rt = class extends w {
     `;
 	}
 };
-customElements.get("eq-hvac-dialog") || customElements.define("eq-hvac-dialog", Rt);
+customElements.get("eq-hvac-dialog") || customElements.define("eq-hvac-dialog", Vt);
 //#endregion
 //#region src/components/eq-swing-dialog.ts
-function zt(e) {
-	let t = [...new Set(e)], n = Ot.filter((e) => t.includes(e)), r = t.filter((e) => !Ot.includes(e));
+function Ht(e) {
+	let t = [...new Set(e)], n = jt.filter((e) => t.includes(e)), r = t.filter((e) => !jt.includes(e));
 	return [...n, ...r];
 }
-var Bt = class extends w {
+var Ut = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -7007,13 +2647,13 @@ var Bt = class extends w {
 		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_verticalOptions() {
-		return zt(this.viewModel?.climate.swingModes ?? []);
+		return Ht(this.viewModel?.climate.swingModes ?? []);
 	}
 	_horizontalOptions() {
-		return zt(this.viewModel?.climate.swingHorizontalModes ?? []);
+		return Ht(this.viewModel?.climate.swingHorizontalModes ?? []);
 	}
 	_swingIcon(e, t = !1) {
-		return t ? At[e] ?? kt[e] ?? "mdi:arrow-expand-horizontal" : kt[e] ?? "mdi:arrow-oscillating";
+		return t ? Nt[e] ?? Mt[e] ?? "mdi:arrow-expand-horizontal" : Mt[e] ?? "mdi:arrow-oscillating";
 	}
 	_swingLabel(e) {
 		let t = T(this.language, `main.swing.${e}`);
@@ -7026,14 +2666,14 @@ var Bt = class extends w {
 		}));
 	}
 	async _selectVerticalMode(e) {
-		!this.hass || !this.config || (await yt({
+		!this.hass || !this.config || (await St({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e), this._dispatchClose());
 	}
 	async _selectHorizontalMode(e) {
-		!this.hass || !this.config || (await bt({
+		!this.hass || !this.config || (await Ct({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -7120,10 +2760,10 @@ var Bt = class extends w {
     `;
 	}
 };
-customElements.get("eq-swing-dialog") || customElements.define("eq-swing-dialog", Bt);
+customElements.get("eq-swing-dialog") || customElements.define("eq-swing-dialog", Ut);
 //#endregion
 //#region src/components/eq-preset-dialog.ts
-var Vt = [
+var Wt = [
 	"frost",
 	"eco",
 	"away",
@@ -7132,7 +2772,7 @@ var Vt = [
 	"sleep",
 	"activity",
 	"boost"
-], Ht = {
+], Gt = {
 	frost: "mdi:snowflake",
 	eco: "mdi:tree-outline",
 	away: "mdi:home-export-outline",
@@ -7141,7 +2781,7 @@ var Vt = [
 	sleep: "mdi:sleep",
 	activity: "mdi:motion-sensor",
 	boost: "mdi:rocket-launch-outline"
-}, Ut = class extends w {
+}, Kt = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -7501,7 +3141,7 @@ var Vt = [
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.presetModes ?? [], t = this.viewModel?.climate.hvacMode;
-		return Vt.filter((n) => e.includes(n) && Ht[n] && n !== "none" && !(n === "frost" && t !== "heat"));
+		return Wt.filter((n) => e.includes(n) && Gt[n] && n !== "none" && !(n === "frost" && t !== "heat"));
 	}
 	_presetLabel(e) {
 		let t = T(this.language, `main.preset.${e}`);
@@ -7518,7 +3158,7 @@ var Vt = [
 		}));
 	}
 	async _selectPreset(e) {
-		!this.hass || !this.config || (await _t({
+		!this.hass || !this.config || (await bt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -7546,7 +3186,7 @@ var Vt = [
                 aria-label=${this._presetLabel(e)}
               >
                 <span class="option-icon" tone=${this._presetTone(e)}>
-                  <ha-icon .icon=${Ht[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                  <ha-icon .icon=${Gt[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${this._presetLabel(e)}</span>
               </button>
@@ -7557,7 +3197,7 @@ var Vt = [
             ${e.map((e) => S`
                 <ha-md-list-item type="button" ?active=${e === t} @click=${() => this._selectPreset(e)}>
                   <span class="option-icon" tone=${this._presetTone(e)} slot="start">
-                    <ha-icon .icon=${Ht[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                    <ha-icon .icon=${Gt[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._presetLabel(e)}</span>
                   ${e === t ? S`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : C}
@@ -7569,10 +3209,10 @@ var Vt = [
     `;
 	}
 };
-customElements.get("eq-preset-dialog") || customElements.define("eq-preset-dialog", Ut);
+customElements.get("eq-preset-dialog") || customElements.define("eq-preset-dialog", Kt);
 //#endregion
 //#region src/components/eq-menu-dialog.ts
-var Wt = class extends w {
+var qt = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -7714,10 +3354,10 @@ var Wt = class extends w {
     `;
 	}
 };
-customElements.get("eq-menu-dialog") || customElements.define("eq-menu-dialog", Wt);
+customElements.get("eq-menu-dialog") || customElements.define("eq-menu-dialog", qt);
 //#endregion
 //#region src/components/eq-boost-dialog.ts
-var Gt = 60, Kt = [
+var Jt = 60, Yt = [
 	15,
 	30,
 	45,
@@ -7739,9 +3379,9 @@ var Gt = 60, Kt = [
 	960,
 	1200,
 	1440
-], qt = class extends w {
+], Xt = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1, this._durationMinutes = Gt;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1, this._durationMinutes = Jt;
 	}
 	static {
 		this.properties = {
@@ -7980,11 +3620,11 @@ var Gt = 60, Kt = [
 		return !this.hass || !this.config || this.viewModel?.climate.availability !== "available" || this.viewModel?.vt?.lock.isUserLocked === !0;
 	}
 	_setDuration(e) {
-		Kt.includes(e) && (this._durationMinutes = e);
+		Yt.includes(e) && (this._durationMinutes = e);
 	}
 	_onDurationChange(e) {
 		let t = Number(e.detail.value);
-		Number.isFinite(t) && this._setDuration(Kt[Math.round(t)] ?? Gt);
+		Number.isFinite(t) && this._setDuration(Yt[Math.round(t)] ?? Jt);
 	}
 	async _startBoost() {
 		if (!this.hass || !this.config) return;
@@ -7993,18 +3633,18 @@ var Gt = 60, Kt = [
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		};
-		(this._hasTimedPreset() ? await xt(e, "boost", this._durationMinutes) : await _t(e, "boost")).ok && this._dispatchClose();
+		(this._hasTimedPreset() ? await wt(e, "boost", this._durationMinutes) : await bt(e, "boost")).ok && this._dispatchClose();
 	}
 	async _stopBoost() {
-		!this.hass || !this.config || (await St({
+		!this.hass || !this.config || (await Tt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		})).ok && this._dispatchClose();
 	}
 	_durationIndex(e) {
-		let t = Kt.indexOf(e);
-		return t >= 0 ? t : Kt.reduce((t, n, r) => Math.abs(n - e) < Math.abs(Kt[t] - e) ? r : t, 0);
+		let t = Yt.indexOf(e);
+		return t >= 0 ? t : Yt.reduce((t, n, r) => Math.abs(n - e) < Math.abs(Yt[t] - e) ? r : t, 0);
 	}
 	_formatDuration(e) {
 		if (e < 60) return {
@@ -8042,7 +3682,7 @@ var Gt = 60, Kt = [
                     class="boost-wheel"
                     .mode=${"start"}
                     .min=${0}
-                    .max=${Kt.length - 1}
+                    .max=${Yt.length - 1}
                     .step=${1}
                     .value=${this._durationIndex(a)}
                     ?disabled=${r || n}
@@ -8065,44 +3705,44 @@ var Gt = 60, Kt = [
     `;
 	}
 };
-customElements.get("eq-boost-dialog") || customElements.define("eq-boost-dialog", qt);
+customElements.get("eq-boost-dialog") || customElements.define("eq-boost-dialog", Xt);
 //#endregion
 //#region ../ha-better-history/node_modules/@lit/reactive-element/css-tag.js
-var Jt = globalThis, Yt = Jt.ShadowRoot && (Jt.ShadyCSS === void 0 || Jt.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, Xt = Symbol(), Zt = /* @__PURE__ */ new WeakMap(), Qt = class {
+var Zt = globalThis, Qt = Zt.ShadowRoot && (Zt.ShadyCSS === void 0 || Zt.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, $t = Symbol(), en = /* @__PURE__ */ new WeakMap(), tn = class {
 	constructor(e, t, n) {
-		if (this._$cssResult$ = !0, n !== Xt) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+		if (this._$cssResult$ = !0, n !== $t) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
 	}
 	get styleSheet() {
 		let e = this.o, t = this.t;
-		if (Yt && e === void 0) {
+		if (Qt && e === void 0) {
 			let n = t !== void 0 && t.length === 1;
-			n && (e = Zt.get(t)), e === void 0 && ((this.o = e = new CSSStyleSheet()).replaceSync(this.cssText), n && Zt.set(t, e));
+			n && (e = en.get(t)), e === void 0 && ((this.o = e = new CSSStyleSheet()).replaceSync(this.cssText), n && en.set(t, e));
 		}
 		return e;
 	}
 	toString() {
 		return this.cssText;
 	}
-}, $t = (e) => new Qt(typeof e == "string" ? e : e + "", void 0, Xt), en = (e, ...t) => new Qt(e.length === 1 ? e[0] : t.reduce((t, n, r) => t + ((e) => {
+}, nn = (e) => new tn(typeof e == "string" ? e : e + "", void 0, $t), rn = (e, ...t) => new tn(e.length === 1 ? e[0] : t.reduce((t, n, r) => t + ((e) => {
 	if (!0 === e._$cssResult$) return e.cssText;
 	if (typeof e == "number") return e;
 	throw Error("Value passed to 'css' function must be a 'css' function result: " + e + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-})(n) + e[r + 1], e[0]), e, Xt), tn = (e, t) => {
-	if (Yt) e.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
+})(n) + e[r + 1], e[0]), e, $t), an = (e, t) => {
+	if (Qt) e.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
 	else for (let n of t) {
-		let t = document.createElement("style"), r = Jt.litNonce;
+		let t = document.createElement("style"), r = Zt.litNonce;
 		r !== void 0 && t.setAttribute("nonce", r), t.textContent = n.cssText, e.appendChild(t);
 	}
-}, nn = Yt ? (e) => e : (e) => e instanceof CSSStyleSheet ? ((e) => {
+}, on = Qt ? (e) => e : (e) => e instanceof CSSStyleSheet ? ((e) => {
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
-	return $t(t);
-})(e) : e, { is: rn, defineProperty: an, getOwnPropertyDescriptor: on, getOwnPropertyNames: sn, getOwnPropertySymbols: cn, getPrototypeOf: ln } = Object, un = globalThis, dn = un.trustedTypes, fn = dn ? dn.emptyScript : "", pn = un.reactiveElementPolyfillSupport, mn = (e, t) => e, hn = {
+	return nn(t);
+})(e) : e, { is: sn, defineProperty: cn, getOwnPropertyDescriptor: ln, getOwnPropertyNames: un, getOwnPropertySymbols: dn, getPrototypeOf: fn } = Object, pn = globalThis, mn = pn.trustedTypes, hn = mn ? mn.emptyScript : "", gn = pn.reactiveElementPolyfillSupport, _n = (e, t) => e, vn = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? fn : null;
+				e = e ? hn : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -8127,30 +3767,30 @@ var Jt = globalThis, Yt = Jt.ShadowRoot && (Jt.ShadyCSS === void 0 || Jt.ShadyCS
 		}
 		return n;
 	}
-}, gn = (e, t) => !rn(e, t), _n = {
+}, yn = (e, t) => !sn(e, t), bn = {
 	attribute: !0,
 	type: String,
-	converter: hn,
+	converter: vn,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: gn
+	hasChanged: yn
 };
-Symbol.metadata ??= Symbol("metadata"), un.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var vn = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), pn.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var xn = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = _n) {
+	static createProperty(e, t = bn) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
-			r !== void 0 && an(this.prototype, e, r);
+			r !== void 0 && cn(this.prototype, e, r);
 		}
 	}
 	static getPropertyDescriptor(e, t, n) {
-		let { get: r, set: i } = on(this.prototype, e) ?? {
+		let { get: r, set: i } = ln(this.prototype, e) ?? {
 			get() {
 				return this[t];
 			},
@@ -8169,17 +3809,17 @@ var vn = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? _n;
+		return this.elementProperties.get(e) ?? bn;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(mn("elementProperties"))) return;
-		let e = ln(this);
+		if (this.hasOwnProperty(_n("elementProperties"))) return;
+		let e = fn(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(mn("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(mn("properties"))) {
-			let e = this.properties, t = [...sn(e), ...cn(e)];
+		if (this.hasOwnProperty(_n("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(_n("properties"))) {
+			let e = this.properties, t = [...un(e), ...dn(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
 		let e = this[Symbol.metadata];
@@ -8198,8 +3838,8 @@ var vn = class extends HTMLElement {
 		let t = [];
 		if (Array.isArray(e)) {
 			let n = new Set(e.flat(Infinity).reverse());
-			for (let e of n) t.unshift(nn(e));
-		} else e !== void 0 && t.push(nn(e));
+			for (let e of n) t.unshift(on(e));
+		} else e !== void 0 && t.push(on(e));
 		return t;
 	}
 	static _$Eu(e, t) {
@@ -8225,7 +3865,7 @@ var vn = class extends HTMLElement {
 	}
 	createRenderRoot() {
 		let e = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
-		return tn(e, this.constructor.elementStyles), e;
+		return an(e, this.constructor.elementStyles), e;
 	}
 	connectedCallback() {
 		this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(!0), this._$EO?.forEach((e) => e.hostConnected?.());
@@ -8240,14 +3880,14 @@ var vn = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? hn : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? vn : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? hn : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? vn : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -8256,7 +3896,7 @@ var vn = class extends HTMLElement {
 	requestUpdate(e, t, n, r = !1, i) {
 		if (e !== void 0) {
 			let a = this.constructor;
-			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? gn)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
+			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? yn)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -8320,63 +3960,63 @@ var vn = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-vn.elementStyles = [], vn.shadowRootOptions = { mode: "open" }, vn[mn("elementProperties")] = /* @__PURE__ */ new Map(), vn[mn("finalized")] = /* @__PURE__ */ new Map(), pn?.({ ReactiveElement: vn }), (un.reactiveElementVersions ??= []).push("2.1.2");
+xn.elementStyles = [], xn.shadowRootOptions = { mode: "open" }, xn[_n("elementProperties")] = /* @__PURE__ */ new Map(), xn[_n("finalized")] = /* @__PURE__ */ new Map(), gn?.({ ReactiveElement: xn }), (pn.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region ../ha-better-history/node_modules/lit-html/lit-html.js
-var yn = globalThis, bn = (e) => e, xn = yn.trustedTypes, Sn = xn ? xn.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, Cn = "$lit$", j = `lit$${Math.random().toFixed(9).slice(2)}$`, wn = "?" + j, Tn = `<${wn}>`, En = document, Dn = () => En.createComment(""), On = (e) => e === null || typeof e != "object" && typeof e != "function", kn = Array.isArray, An = (e) => kn(e) || typeof e?.[Symbol.iterator] == "function", jn = "[ 	\n\f\r]", Mn = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Nn = /-->/g, Pn = />/g, Fn = RegExp(`>|${jn}(?:([^\\s"'>=/]+)(${jn}*=${jn}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), In = /'/g, Ln = /"/g, Rn = /^(?:script|style|textarea|title)$/i, zn = (e) => (t, ...n) => ({
+var Sn = globalThis, Cn = (e) => e, wn = Sn.trustedTypes, Tn = wn ? wn.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, En = "$lit$", j = `lit$${Math.random().toFixed(9).slice(2)}$`, Dn = "?" + j, On = `<${Dn}>`, M = document, kn = () => M.createComment(""), An = (e) => e === null || typeof e != "object" && typeof e != "function", jn = Array.isArray, Mn = (e) => jn(e) || typeof e?.[Symbol.iterator] == "function", Nn = "[ 	\n\f\r]", Pn = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Fn = /-->/g, In = />/g, Ln = RegExp(`>|${Nn}(?:([^\\s"'>=/]+)(${Nn}*=${Nn}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), Rn = /'/g, zn = /"/g, Bn = /^(?:script|style|textarea|title)$/i, Vn = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}), M = zn(1), N = zn(2), Bn = Symbol.for("lit-noChange"), P = Symbol.for("lit-nothing"), Vn = /* @__PURE__ */ new WeakMap(), F = En.createTreeWalker(En, 129);
-function Hn(e, t) {
-	if (!kn(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return Sn === void 0 ? t : Sn.createHTML(t);
+}), N = Vn(1), P = Vn(2), Hn = Symbol.for("lit-noChange"), F = Symbol.for("lit-nothing"), Un = /* @__PURE__ */ new WeakMap(), Wn = M.createTreeWalker(M, 129);
+function Gn(e, t) {
+	if (!jn(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return Tn === void 0 ? t : Tn.createHTML(t);
 }
-var Un = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = Mn;
+var Kn = (e, t) => {
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = Pn;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === Mn ? c[1] === "!--" ? o = Nn : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = Fn) : (Rn.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = Fn) : o = Pn : o === Fn ? c[0] === ">" ? (o = i ?? Mn, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? Fn : c[3] === "\"" ? Ln : In) : o === Ln || o === In ? o = Fn : o === Nn || o === Pn ? o = Mn : (o = Fn, i = void 0);
-		let d = o === Fn && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === Mn ? n + Tn : l >= 0 ? (r.push(s), n.slice(0, l) + Cn + n.slice(l) + j + d) : n + j + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === Pn ? c[1] === "!--" ? o = Fn : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = Ln) : (Bn.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = Ln) : o = In : o === Ln ? c[0] === ">" ? (o = i ?? Pn, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? Ln : c[3] === "\"" ? zn : Rn) : o === zn || o === Rn ? o = Ln : o === Fn || o === In ? o = Pn : (o = Ln, i = void 0);
+		let d = o === Ln && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === Pn ? n + On : l >= 0 ? (r.push(s), n.slice(0, l) + En + n.slice(l) + j + d) : n + j + (l === -2 ? t : d);
 	}
-	return [Hn(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
-}, Wn = class e {
+	return [Gn(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
+}, qn = class e {
 	constructor({ strings: t, _$litType$: n }, r) {
 		let i;
 		this.parts = [];
-		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = Un(t, n);
-		if (this.el = e.createElement(l, r), F.currentNode = this.el.content, n === 2 || n === 3) {
+		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = Kn(t, n);
+		if (this.el = e.createElement(l, r), Wn.currentNode = this.el.content, n === 2 || n === 3) {
 			let e = this.el.content.firstChild;
 			e.replaceWith(...e.childNodes);
 		}
-		for (; (i = F.nextNode()) !== null && c.length < s;) {
+		for (; (i = Wn.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(Cn)) {
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(En)) {
 					let t = u[o++], n = i.getAttribute(e).split(j), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
 						name: r[2],
 						strings: n,
-						ctor: r[1] === "." ? Yn : r[1] === "?" ? Xn : r[1] === "@" ? Zn : Jn
+						ctor: r[1] === "." ? Qn : r[1] === "?" ? $n : r[1] === "@" ? er : Zn
 					}), i.removeAttribute(e);
 				} else e.startsWith(j) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (Rn.test(i.tagName)) {
+				if (Bn.test(i.tagName)) {
 					let e = i.textContent.split(j), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = xn ? xn.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], Dn()), F.nextNode(), c.push({
+						i.textContent = wn ? wn.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], kn()), Wn.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], Dn());
+						i.append(e[t], kn());
 					}
 				}
-			} else if (i.nodeType === 8) if (i.data === wn) c.push({
+			} else if (i.nodeType === 8) if (i.data === Dn) c.push({
 				type: 2,
 				index: a
 			});
@@ -8391,16 +4031,16 @@ var Un = (e, t) => {
 		}
 	}
 	static createElement(e, t) {
-		let n = En.createElement("template");
+		let n = M.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
-function Gn(e, t, n = e, r) {
-	if (t === Bn) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = On(t) ? void 0 : t._$litDirective$;
-	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = Gn(e, i._$AS(e, t.values), i, r)), t;
+function Jn(e, t, n = e, r) {
+	if (t === Hn) return t;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = An(t) ? void 0 : t._$litDirective$;
+	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = Jn(e, i._$AS(e, t.values), i, r)), t;
 }
-var Kn = class {
+var Yn = class {
 	constructor(e, t) {
 		this._$AV = [], this._$AN = void 0, this._$AD = e, this._$AM = t;
 	}
@@ -8411,28 +4051,28 @@ var Kn = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? En).importNode(t, !0);
-		F.currentNode = r;
-		let i = F.nextNode(), a = 0, o = 0, s = n[0];
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? M).importNode(t, !0);
+		Wn.currentNode = r;
+		let i = Wn.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
 			if (a === s.index) {
 				let t;
-				s.type === 2 ? t = new qn(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Qn(i, this, e)), this._$AV.push(t), s = n[++o];
+				s.type === 2 ? t = new Xn(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new tr(i, this, e)), this._$AV.push(t), s = n[++o];
 			}
-			a !== s?.index && (i = F.nextNode(), a++);
+			a !== s?.index && (i = Wn.nextNode(), a++);
 		}
-		return F.currentNode = En, r;
+		return Wn.currentNode = M, r;
 	}
 	p(e) {
 		let t = 0;
 		for (let n of this._$AV) n !== void 0 && (n.strings === void 0 ? n._$AI(e[t]) : (n._$AI(e, n, t), t += n.strings.length - 2)), t++;
 	}
-}, qn = class e {
+}, Xn = class e {
 	get _$AU() {
 		return this._$AM?._$AU ?? this._$Cv;
 	}
 	constructor(e, t, n, r) {
-		this.type = 2, this._$AH = P, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
+		this.type = 2, this._$AH = F, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
 	}
 	get parentNode() {
 		let e = this._$AA.parentNode, t = this._$AM;
@@ -8445,7 +4085,7 @@ var Kn = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = Gn(this, e, t), On(e) ? e === P || e == null || e === "" ? (this._$AH !== P && this._$AR(), this._$AH = P) : e !== this._$AH && e !== Bn && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? An(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = Jn(this, e, t), An(e) ? e === F || e == null || e === "" ? (this._$AH !== F && this._$AR(), this._$AH = F) : e !== this._$AH && e !== Hn && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? Mn(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -8454,36 +4094,36 @@ var Kn = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== P && On(this._$AH) ? this._$AA.nextSibling.data = e : this.T(En.createTextNode(e)), this._$AH = e;
+		this._$AH !== F && An(this._$AH) ? this._$AA.nextSibling.data = e : this.T(M.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
-		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = Wn.createElement(Hn(n.h, n.h[0]), this.options)), n);
+		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = qn.createElement(Gn(n.h, n.h[0]), this.options)), n);
 		if (this._$AH?._$AD === r) this._$AH.p(t);
 		else {
-			let e = new Kn(r, this), n = e.u(this.options);
+			let e = new Yn(r, this), n = e.u(this.options);
 			e.p(t), this.T(n), this._$AH = e;
 		}
 	}
 	_$AC(e) {
-		let t = Vn.get(e.strings);
-		return t === void 0 && Vn.set(e.strings, t = new Wn(e)), t;
+		let t = Un.get(e.strings);
+		return t === void 0 && Un.set(e.strings, t = new qn(e)), t;
 	}
 	k(t) {
-		kn(this._$AH) || (this._$AH = [], this._$AR());
+		jn(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(Dn()), this.O(Dn()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(kn()), this.O(kn()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
 		for (this._$AP?.(!1, !0, t); e !== this._$AB;) {
-			let t = bn(e).nextSibling;
-			bn(e).remove(), e = t;
+			let t = Cn(e).nextSibling;
+			Cn(e).remove(), e = t;
 		}
 	}
 	setConnected(e) {
 		this._$AM === void 0 && (this._$Cv = e, this._$AP?.(e));
 	}
-}, Jn = class {
+}, Zn = class {
 	get tagName() {
 		return this.element.tagName;
 	}
@@ -8491,47 +4131,47 @@ var Kn = class {
 		return this._$AM._$AU;
 	}
 	constructor(e, t, n, r, i) {
-		this.type = 1, this._$AH = P, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = P;
+		this.type = 1, this._$AH = F, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = F;
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = Gn(this, e, t, 0), a = !On(e) || e !== this._$AH && e !== Bn, a && (this._$AH = e);
+		if (i === void 0) e = Jn(this, e, t, 0), a = !An(e) || e !== this._$AH && e !== Hn, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = Gn(this, r[n + o], t, o), s === Bn && (s = this._$AH[o]), a ||= !On(s) || s !== this._$AH[o], s === P ? e = P : e !== P && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = Jn(this, r[n + o], t, o), s === Hn && (s = this._$AH[o]), a ||= !An(s) || s !== this._$AH[o], s === F ? e = F : e !== F && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
 	j(e) {
-		e === P ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
+		e === F ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
 	}
-}, Yn = class extends Jn {
+}, Qn = class extends Zn {
 	constructor() {
 		super(...arguments), this.type = 3;
 	}
 	j(e) {
-		this.element[this.name] = e === P ? void 0 : e;
+		this.element[this.name] = e === F ? void 0 : e;
 	}
-}, Xn = class extends Jn {
+}, $n = class extends Zn {
 	constructor() {
 		super(...arguments), this.type = 4;
 	}
 	j(e) {
-		this.element.toggleAttribute(this.name, !!e && e !== P);
+		this.element.toggleAttribute(this.name, !!e && e !== F);
 	}
-}, Zn = class extends Jn {
+}, er = class extends Zn {
 	constructor(e, t, n, r, i) {
 		super(e, t, n, r, i), this.type = 5;
 	}
 	_$AI(e, t = this) {
-		if ((e = Gn(this, e, t, 0) ?? P) === Bn) return;
-		let n = this._$AH, r = e === P && n !== P || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== P && (n === P || r);
+		if ((e = Jn(this, e, t, 0) ?? F) === Hn) return;
+		let n = this._$AH, r = e === F && n !== F || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== F && (n === F || r);
 		r && this.element.removeEventListener(this.name, this, n), i && this.element.addEventListener(this.name, this, e), this._$AH = e;
 	}
 	handleEvent(e) {
 		typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, e) : this._$AH.handleEvent(e);
 	}
-}, Qn = class {
+}, tr = class {
 	constructor(e, t, n) {
 		this.element = e, this.type = 6, this._$AN = void 0, this._$AM = t, this.options = n;
 	}
@@ -8539,18 +4179,18 @@ var Kn = class {
 		return this._$AM._$AU;
 	}
 	_$AI(e) {
-		Gn(this, e);
+		Jn(this, e);
 	}
-}, $n = yn.litHtmlPolyfillSupport;
-$n?.(Wn, qn), (yn.litHtmlVersions ??= []).push("3.3.2");
-var er = (e, t, n) => {
+}, nr = Sn.litHtmlPolyfillSupport;
+nr?.(qn, Xn), (Sn.litHtmlVersions ??= []).push("3.3.2");
+var rr = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new qn(t.insertBefore(Dn(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new Xn(t.insertBefore(kn(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, tr = globalThis, nr = class extends vn {
+}, ir = globalThis, ar = class extends xn {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -8560,7 +4200,7 @@ var er = (e, t, n) => {
 	}
 	update(e) {
 		let t = this.render();
-		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = er(t, this.renderRoot, this.renderOptions);
+		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = rr(t, this.renderRoot, this.renderOptions);
 	}
 	connectedCallback() {
 		super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -8569,21 +4209,21 @@ var er = (e, t, n) => {
 		super.disconnectedCallback(), this._$Do?.setConnected(!1);
 	}
 	render() {
-		return Bn;
+		return Hn;
 	}
 };
-nr._$litElement$ = !0, nr.finalized = !0, tr.litElementHydrateSupport?.({ LitElement: nr });
-var rr = tr.litElementPolyfillSupport;
-rr?.({ LitElement: nr }), (tr.litElementVersions ??= []).push("4.2.2");
+ar._$litElement$ = !0, ar.finalized = !0, ir.litElementHydrateSupport?.({ LitElement: ar });
+var or = ir.litElementPolyfillSupport;
+or?.({ LitElement: ar }), (ir.litElementVersions ??= []).push("4.2.2");
 //#endregion
 //#region ../ha-better-history/node_modules/@lit/reactive-element/decorators/property.js
-var ir = {
+var sr = {
 	attribute: !0,
 	type: String,
-	converter: hn,
+	converter: vn,
 	reflect: !1,
-	hasChanged: gn
-}, ar = (e = ir, t, n) => {
+	hasChanged: yn
+}, cr = (e = sr, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
 		let { name: r } = n;
@@ -8607,7 +4247,7 @@ var ir = {
 	throw Error("Unsupported decorator location: " + r);
 };
 function I(e) {
-	return (t, n) => typeof n == "object" ? ar(e, t, n) : ((e, t, n) => {
+	return (t, n) => typeof n == "object" ? cr(e, t, n) : ((e, t, n) => {
 		let r = t.hasOwnProperty(n);
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
@@ -8623,7 +4263,7 @@ function L(e) {
 }
 //#endregion
 //#region ../ha-better-history/node_modules/@kipk/load-ha-components/dist/load-ha-components.js
-var or = [
+var lr = [
 	"ha-form",
 	"ha-icon",
 	"ha-icon-button",
@@ -8642,8 +4282,8 @@ var or = [
 	"ha-badge",
 	"ha-sankey-chart",
 	"mwc-button"
-], sr = async (e) => {
-	let t = e || or;
+], ur = async (e) => {
+	let t = e || lr;
 	try {
 		if (t.every((e) => customElements.get(e))) return;
 		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout waiting for partial-panel-resolver")), 1e4))]);
@@ -8677,15 +4317,15 @@ var or = [
 			console.error("Fallback loading method failed:", e);
 		}
 	}
-}, cr = new Set(["unknown", "unavailable"]);
-function lr(e) {
-	return e == null || typeof e == "string" && cr.has(e);
+}, dr = new Set(["unknown", "unavailable"]);
+function fr(e) {
+	return e == null || typeof e == "string" && dr.has(e);
 }
-function ur(e) {
-	if (!(lr(e) || typeof e != "string" || e.trim() === "")) return e;
+function pr(e) {
+	if (!(fr(e) || typeof e != "string" || e.trim() === "")) return e;
 }
-function dr(e) {
-	if (lr(e)) return;
+function mr(e) {
+	if (fr(e)) return;
 	if (typeof e == "number") return Number.isFinite(e) ? e : void 0;
 	if (typeof e != "string" || e.trim() === "") return;
 	let t = Number(e);
@@ -8697,7 +4337,7 @@ function R() {
 function z(e, t, n) {
 	e && console.debug("[ha-better-history][perf]", t, n);
 }
-async function fr(e, t = {}) {
+async function hr(e, t = {}) {
 	let n = Math.max(1, Math.floor(t.concurrency ?? 1)), r = [], i = 0, a = 0, o = 0, s = (n, r) => {
 		t.onEvent?.({
 			event: n,
@@ -8730,8 +4370,8 @@ async function fr(e, t = {}) {
 	}
 	return await Promise.all(Array.from({ length: Math.min(n, e.length) }, () => c())), r;
 }
-var pr = 6e4, mr = 3, hr = 350, gr = 360 * 60 * 1e3, _r = 3600 * 1e3, vr = 720 * 60 * 1e3, yr = 2500, br = 8e3, xr = 15e3, Sr = 300, Cr = 700, wr = 1100, Tr = 80;
-function Er(e) {
+var gr = 6e4, _r = 3, vr = 350, yr = 360 * 60 * 1e3, br = 3600 * 1e3, xr = 720 * 60 * 1e3, Sr = 2500, Cr = 8e3, wr = 15e3, Tr = 300, Er = 700, Dr = 1100, Or = 80;
+function kr(e) {
 	if (e.length <= 2) return e;
 	let t = [e[0]];
 	for (let n = 1; n < e.length - 1; n++) {
@@ -8740,70 +4380,70 @@ function Er(e) {
 	}
 	return t.push(e[e.length - 1]), t;
 }
-var Dr = class extends Error {
+var Ar = class extends Error {
 	constructor(e) {
 		super(`History chunk timed out after ${e}ms`), this.name = "HistoryChunkTimeoutError";
 	}
 };
-function Or(e) {
+function jr(e) {
 	return typeof e == "object" && !!e && !Array.isArray(e);
 }
-function kr(e, t) {
-	return t.reduce((e, t) => Or(e) ? e[t] : void 0, e);
+function Mr(e, t) {
+	return t.reduce((e, t) => jr(e) ? e[t] : void 0, e);
 }
-function Ar(e) {
+function Nr(e) {
 	return e[e.length - 1] ?? "";
 }
-function jr(e) {
+function Pr(e) {
 	return e instanceof Error ? e.message : String(e);
 }
-function Mr(e) {
-	if (!Or(e)) return;
+function Fr(e) {
+	if (!jr(e)) return;
 	let t = e.status ?? e.statusCode ?? e.status_code;
 	return typeof t == "number" ? t : void 0;
 }
-function Nr(e) {
-	if (!Or(e)) return "";
+function Ir(e) {
+	if (!jr(e)) return "";
 	let t = e.code;
 	return typeof t == "string" ? t.toLowerCase() : "";
 }
-function Pr(e) {
-	if (e instanceof Dr) return !0;
-	let t = Mr(e);
+function Lr(e) {
+	if (e instanceof Ar) return !0;
+	let t = Fr(e);
 	if (t !== void 0) return t === 408 || t === 429 || t >= 500;
-	let n = jr(e).toLowerCase(), r = `${Nr(e)} ${n}`;
+	let n = Pr(e).toLowerCase(), r = `${Ir(e)} ${n}`;
 	return r.includes("timeout") || r.includes("timed out") || r.includes("network") || r.includes("failed to fetch") || r.includes("connection") || r.includes("temporarily unavailable") || r.includes("unavailable") || r.includes("aborted");
 }
-function Fr(e, t) {
+function Rr(e, t) {
 	let n = Math.floor(Math.random() * Math.max(1, t));
 	return t * 2 ** Math.max(0, e - 1) + n;
 }
-function Ir(e) {
+function zr(e) {
 	return new Promise((t) => setTimeout(t, e));
 }
-function Lr(e = 80) {
+function Br(e = 80) {
 	let t = globalThis.requestIdleCallback;
 	return t ? new Promise((n) => t(() => n(), { timeout: e })) : new Promise((e) => {
 		typeof requestAnimationFrame == "function" ? requestAnimationFrame(() => e()) : setTimeout(e, 0);
 	});
 }
-async function Rr(e, t) {
+async function Vr(e, t) {
 	let n;
 	try {
 		return await Promise.race([e, new Promise((e, r) => {
-			n = setTimeout(() => r(new Dr(t)), t);
+			n = setTimeout(() => r(new Ar(t)), t);
 		})]);
 	} finally {
 		n !== void 0 && clearTimeout(n);
 	}
 }
-function zr(e) {
+function Hr(e) {
 	if (typeof e == "number" && Number.isFinite(e)) return "number";
 	if (typeof e == "boolean") return "boolean";
 	if (typeof e == "string" && e !== "") return "string";
 }
-function Br(e) {
-	let t = zr(Number.isFinite(Number(e.state)) ? Number(e.state) : e.state), n = e.attributes.unit_of_measurement;
+function Ur(e) {
+	let t = Hr(Number.isFinite(Number(e.state)) ? Number(e.state) : e.state), n = e.attributes.unit_of_measurement;
 	if (t) return {
 		id: `state:${e.entity_id}`,
 		kind: "entity_state",
@@ -8813,30 +4453,30 @@ function Br(e) {
 		unit: t === "number" && typeof n == "string" && n !== "" ? n : void 0
 	};
 }
-function Vr(e, t, n) {
-	let r = zr(kr(e.attributes, t));
+function Wr(e, t, n) {
+	let r = Hr(Mr(e.attributes, t));
 	if (r) return {
 		id: `attr:${e.entity_id}:${t.join(".")}`,
 		kind: "entity_attribute",
 		entityId: e.entity_id,
-		label: n ?? Ar(t),
+		label: n ?? Nr(t),
 		path: t,
 		valueType: r
 	};
 }
-function Hr(e, t) {
-	return t === "number" ? dr(e) : t === "boolean" ? typeof e == "boolean" ? e : void 0 : ur(e);
+function Gr(e, t) {
+	return t === "number" ? mr(e) : t === "boolean" ? typeof e == "boolean" ? e : void 0 : pr(e);
 }
-function Ur(e, t) {
+function Kr(e, t) {
 	let n = e.attributes ?? e.a ?? {};
-	return Hr(t.kind === "entity_state" ? e.state ?? e.s : kr(n, t.path ?? []), t.valueType);
+	return Gr(t.kind === "entity_state" ? e.state ?? e.s : Mr(n, t.path ?? []), t.valueType);
 }
-function Wr(e) {
+function qr(e) {
 	if (typeof e.lu == "number") return e.lu * 1e3;
 	let t = e.last_changed ?? e.last_updated;
 	return t ? Date.parse(t) : NaN;
 }
-function Gr(e, t, n) {
+function Jr(e, t, n) {
 	if (e.length === 0) return e;
 	let r = t.getTime(), i = Math.min(n.getTime(), Date.now()), a = [...e].sort((e, t) => e.time - t.time), o = a[0], s = a[a.length - 1];
 	return [
@@ -8851,7 +4491,7 @@ function Gr(e, t, n) {
 		}] : []
 	];
 }
-function Kr(e, t) {
+function Yr(e, t) {
 	let n = /* @__PURE__ */ new Map();
 	if (Array.isArray(e)) return e.forEach((e, r) => {
 		let i = e[0]?.entity_id ?? t[r];
@@ -8860,7 +4500,7 @@ function Kr(e, t) {
 	for (let [t, r] of Object.entries(e)) Array.isArray(r) && n.set(t, r);
 	return n;
 }
-function qr(e, t, n = Date.now()) {
+function Xr(e, t, n = Date.now()) {
 	let r = e.states[t.entityId];
 	if (!r) return;
 	let i = {
@@ -8869,14 +4509,14 @@ function qr(e, t, n = Date.now()) {
 		last_changed: r.last_changed,
 		last_updated: r.last_updated,
 		attributes: r.attributes
-	}, a = Ur(i, t), o = Wr(i), s = Number.isFinite(o) ? o : n;
+	}, a = Kr(i, t), o = qr(i), s = Number.isFinite(o) ? o : n;
 	return a === void 0 || !Number.isFinite(s) ? void 0 : {
 		time: s,
 		value: a
 	};
 }
-function Jr(e, t, n, r) {
-	let i = qr(e, t, n.getTime());
+function Zr(e, t, n, r) {
+	let i = Xr(e, t, n.getTime());
 	return i ? [{
 		time: n.getTime(),
 		value: i.value
@@ -8885,7 +4525,7 @@ function Jr(e, t, n, r) {
 		value: i.value
 	}] : [];
 }
-var Yr = class {
+var Qr = class {
 	constructor() {
 		this._entities = /* @__PURE__ */ new Map();
 	}
@@ -8898,11 +4538,11 @@ var Yr = class {
 	}
 	hasCoverage(e, t, n, r) {
 		let i = this._entities.get(e);
-		return i ? Zr(r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage], t.getTime(), n.getTime()) : !1;
+		return i ? ei(r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage], t.getTime(), n.getTime()) : !1;
 	}
 	missingIntervals(e, t, n, r) {
 		let i = this._entities.get(e);
-		return $r(i ? r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage] : [], t.getTime(), n.getTime()).map((e) => ({
+		return ni(i ? r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage] : [], t.getTime(), n.getTime()).map((e) => ({
 			start: new Date(e.startTime),
 			end: new Date(e.endTime)
 		}));
@@ -8913,24 +4553,24 @@ var Yr = class {
 			stateCoverage: [],
 			fullCoverage: []
 		};
-		a.states = ei([...a.states, ...t]), a.stateCoverage = Xr([...a.stateCoverage, {
+		a.states = ri([...a.states, ...t]), a.stateCoverage = $r([...a.stateCoverage, {
 			startTime: n.getTime(),
 			endTime: r.getTime()
-		}]), i === "full" && (a.fullCoverage = Xr([...a.fullCoverage, {
+		}]), i === "full" && (a.fullCoverage = $r([...a.fullCoverage, {
 			startTime: n.getTime(),
 			endTime: r.getTime()
 		}])), this._entities.set(e, a);
 	}
 	buildSeries(e, t, n, r) {
 		let i = e.kind === "entity_attribute" ? "full" : "state", a = this.coverageEnd(e.entityId, n, r, i);
-		return ai(e, this._entities.get(e.entityId)?.states ?? [], t, n, new Date(a));
+		return ci(e, this._entities.get(e.entityId)?.states ?? [], t, n, new Date(a));
 	}
 	coverageEnd(e, t, n, r) {
 		let i = this._entities.get(e);
-		return i ? Qr(r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage], t.getTime(), n.getTime()) : n.getTime();
+		return i ? ti(r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage], t.getTime(), n.getTime()) : n.getTime();
 	}
 };
-function Xr(e) {
+function $r(e) {
 	let t = e.filter((e) => e.endTime > e.startTime).sort((e, t) => e.startTime - t.startTime), n = [];
 	for (let e of t) {
 		let t = n[n.length - 1];
@@ -8938,22 +4578,22 @@ function Xr(e) {
 	}
 	return n;
 }
-function Zr(e, t, n) {
-	return Qr(e, t, n) >= n - 1;
+function ei(e, t, n) {
+	return ti(e, t, n) >= n - 1;
 }
-function Qr(e, t, n) {
+function ti(e, t, n) {
 	if (n <= t) return n;
 	let r = t;
-	for (let t of Xr(e)) if (!(t.endTime < r)) {
+	for (let t of $r(e)) if (!(t.endTime < r)) {
 		if (t.startTime > r + 1) break;
 		if (r = Math.max(r, t.endTime), r >= n - 1) return n;
 	}
 	return r;
 }
-function $r(e, t, n) {
+function ni(e, t, n) {
 	if (n <= t) return [];
 	let r = [], i = t;
-	for (let t of Xr(e)) if (!(t.endTime <= i) && (t.startTime > i + 1 && r.push({
+	for (let t of $r(e)) if (!(t.endTime <= i) && (t.startTime > i + 1 && r.push({
 		startTime: i,
 		endTime: Math.min(t.startTime, n)
 	}), i = Math.max(i, t.endTime), i >= n)) break;
@@ -8962,28 +4602,28 @@ function $r(e, t, n) {
 		endTime: n
 	}), r;
 }
-function ei(e) {
+function ri(e) {
 	let t = /* @__PURE__ */ new Map();
 	for (let n of e) {
-		let e = Wr(n);
+		let e = qr(n);
 		Number.isFinite(e) && t.set(e, n);
 	}
 	return [...t.entries()].sort(([e], [t]) => e - t).map(([, e]) => e);
 }
-function ti(e, t) {
-	let n = t.normalizeDurationMs + t.mergeDurationMs + t.buildDurationMs, r = t.stateCount >= xr || t.requestDurationMs >= wr, i = r || t.stateCount >= br || t.requestDurationMs >= Cr || n >= Tr, a = t.stateCount <= yr && t.requestDurationMs <= Sr && n <= Tr / 2;
-	return i && e > _r ? {
-		nextChunkMs: Math.max(_r, Math.floor(e / (r ? 4 : 2))),
+function ii(e, t) {
+	let n = t.normalizeDurationMs + t.mergeDurationMs + t.buildDurationMs, r = t.stateCount >= wr || t.requestDurationMs >= Dr, i = r || t.stateCount >= Cr || t.requestDurationMs >= Er || n >= Or, a = t.stateCount <= Sr && t.requestDurationMs <= Tr && n <= Or / 2;
+	return i && e > br ? {
+		nextChunkMs: Math.max(br, Math.floor(e / (r ? 4 : 2))),
 		reason: "decrease"
-	} : a && e < vr ? {
-		nextChunkMs: Math.min(vr, e * 2),
+	} : a && e < xr ? {
+		nextChunkMs: Math.min(xr, e * 2),
 		reason: "increase"
 	} : {
 		nextChunkMs: e,
 		reason: "keep"
 	};
 }
-async function ni(e, t, n, r, i, a, o) {
+async function ai(e, t, n, r, i, a, o) {
 	if (e.callWS) return e.callWS({
 		type: "history/history_during_period",
 		start_time: n.toISOString(),
@@ -8999,7 +4639,7 @@ async function ni(e, t, n, r, i, a, o) {
 	});
 	return i && s.set("minimal_response", "1"), a && s.set("no_attributes", "1"), o && s.set("significant_changes_only", "1"), e.callApi("GET", `history/period/${encodeURIComponent(n.toISOString())}?${s.toString()}`);
 }
-async function ri(e, t) {
+async function oi(e, t) {
 	let n = 1;
 	for (;;) {
 		if (t.isCancelled?.()) throw Error("History request cancelled");
@@ -9014,7 +4654,7 @@ async function ri(e, t) {
 					timeoutMs: t.timeoutMs
 				}
 			});
-			let i = await Rr(e(), t.timeoutMs);
+			let i = await Vr(e(), t.timeoutMs);
 			return t.onPerformance?.({
 				event: "history.chunk_success",
 				details: {
@@ -9024,7 +4664,7 @@ async function ri(e, t) {
 				}
 			}), i;
 		} catch (e) {
-			let i = Pr(e), a = i && n < t.maxAttempts && !t.isCancelled?.();
+			let i = Lr(e), a = i && n < t.maxAttempts && !t.isCancelled?.();
 			if (t.onPerformance?.({
 				event: a ? "history.chunk_retry" : "history.chunk_error",
 				details: {
@@ -9032,17 +4672,17 @@ async function ri(e, t) {
 					attempt: n,
 					maxAttempts: t.maxAttempts,
 					retryable: i,
-					error: jr(e),
+					error: Pr(e),
 					durationMs: Math.round(R() - r)
 				}
 			}), !a) throw e;
-			await Ir(Fr(n, t.retryBaseDelayMs)), n += 1;
+			await zr(Rr(n, t.retryBaseDelayMs)), n += 1;
 		}
 	}
 }
-async function ii(e, t, n, r, i, a, o = {}) {
+async function si(e, t, n, r, i, a, o = {}) {
 	if (!e.callWS && !e.callApi) throw Error("Home Assistant history API is unavailable");
-	let s = [...new Set(t.map((e) => e.entityId))], c = new Set(t.filter((e) => e.kind === "entity_attribute").map((e) => e.entityId)), l = s.filter((e) => !c.has(e)), u = s.filter((e) => c.has(e)), d = o.accumulator ?? new Yr(), f = [], p = Math.max(1, Math.floor(o.chunkTimeoutMs ?? pr)), m = Math.max(1, Math.floor(o.maxChunkAttempts ?? mr)), h = Math.max(0, Math.floor(o.chunkRetryBaseDelayMs ?? hr)), g = (e, t) => ri(t, {
+	let s = [...new Set(t.map((e) => e.entityId))], c = new Set(t.filter((e) => e.kind === "entity_attribute").map((e) => e.entityId)), l = s.filter((e) => !c.has(e)), u = s.filter((e) => c.has(e)), d = o.accumulator ?? new Qr(), f = [], p = Math.max(1, Math.floor(o.chunkTimeoutMs ?? gr)), m = Math.max(1, Math.floor(o.maxChunkAttempts ?? _r)), h = Math.max(0, Math.floor(o.chunkRetryBaseDelayMs ?? vr)), g = (e, t) => oi(t, {
 		taskId: e,
 		timeoutMs: p,
 		maxAttempts: m,
@@ -9076,7 +4716,7 @@ async function ii(e, t, n, r, i, a, o = {}) {
 	});
 	let te = v.reduce((e, t) => {
 		let n = t.end.getTime() - t.start.getTime();
-		return e + Math.max(1, Math.ceil(n / gr));
+		return e + Math.max(1, Math.ceil(n / yr));
 	}, 0), ne = _.size + te, re = 0, y = /* @__PURE__ */ new Set(), ie = async (s, c, l) => {
 		let u = re;
 		if (re += 1, o.isCancelled?.()) return {
@@ -9086,8 +4726,8 @@ async function ii(e, t, n, r, i, a, o = {}) {
 			mergeDurationMs: 0,
 			buildDurationMs: 0
 		};
-		await Lr();
-		let f = R(), p = Kr(c, s.entityIds), m = R() - f, h = [...p.values()].reduce((e, t) => e + t.length, 0);
+		await Br();
+		let f = R(), p = Yr(c, s.entityIds), m = R() - f, h = [...p.values()].reduce((e, t) => e + t.length, 0);
 		a?.({
 			event: "history.batch",
 			details: {
@@ -9113,10 +4753,10 @@ async function ii(e, t, n, r, i, a, o = {}) {
 		});
 		let v = 0;
 		if (i) {
-			await Lr();
+			await Br();
 			let o = R();
-			for (let i of t) (_.has(i.entityId) || !b.has(i.id)) && (i.kind === "entity_attribute" ? d.hasFullStates(i.entityId) : d.hasStates(i.entityId)) && b.set(i.id, d.buildSeries(i, e, n, r));
-			let s = t.map((e) => b.get(e.id)).filter((e) => e !== void 0);
+			for (let i of t) (_.has(i.entityId) || !ae.has(i.id)) && (i.kind === "entity_attribute" ? d.hasFullStates(i.entityId) : d.hasStates(i.entityId)) && ae.set(i.id, d.buildSeries(i, e, n, r));
+			let s = t.map((e) => ae.get(e.id)).filter((e) => e !== void 0);
 			v = R() - o, a?.({
 				event: "history.progress_series",
 				details: {
@@ -9125,7 +4765,7 @@ async function ii(e, t, n, r, i, a, o = {}) {
 					pointCount: s.reduce((e, t) => e + t.points.length, 0),
 					buildDurationMs: Math.round(v)
 				}
-			}), i(s), await Lr(120);
+			}), i(s), await Br(120);
 		}
 		return {
 			stateCount: h,
@@ -9143,7 +4783,7 @@ async function ii(e, t, n, r, i, a, o = {}) {
 			start: t.start,
 			end: t.end,
 			coverageKind: t.coverageKind,
-			run: () => g(i, () => ni(e, r, t.start, t.end, t.minimalResponse, t.noAttributes, t.significantChangesOnly))
+			run: () => g(i, () => ai(e, r, t.start, t.end, t.minimalResponse, t.noAttributes, t.significantChangesOnly))
 		});
 	}
 	a?.({
@@ -9152,9 +4792,9 @@ async function ii(e, t, n, r, i, a, o = {}) {
 			sourceCount: t.length,
 			entityCount: s.length,
 			batchCount: ne,
-			attributeChunkHours: gr / 36e5,
-			minAttributeChunkHours: _r / 36e5,
-			maxAttributeChunkHours: vr / 36e5,
+			attributeChunkHours: yr / 36e5,
+			minAttributeChunkHours: br / 36e5,
+			maxAttributeChunkHours: xr / 36e5,
 			adaptiveAttributeChunks: v.length > 0,
 			cachedSourceCount: t.filter((e) => d.hasCoverage(e.entityId, n, r, e.kind === "entity_attribute" ? "full" : "state")).length,
 			chunkTimeoutMs: p,
@@ -9162,9 +4802,9 @@ async function ii(e, t, n, r, i, a, o = {}) {
 			rangeHours: Math.round((r.getTime() - n.getTime()) / 36e3) / 100
 		}
 	});
-	let b = /* @__PURE__ */ new Map();
-	for (let i of t) (i.kind === "entity_attribute" ? d.hasFullStates(i.entityId) : d.hasStates(i.entityId)) && b.set(i.id, d.buildSeries(i, e, n, r));
-	await fr(f, {
+	let ae = /* @__PURE__ */ new Map();
+	for (let i of t) (i.kind === "entity_attribute" ? d.hasFullStates(i.entityId) : d.hasStates(i.entityId)) && ae.set(i.id, d.buildSeries(i, e, n, r));
+	await hr(f, {
 		concurrency: o.concurrency ?? 1,
 		isCancelled: o.isCancelled,
 		onEvent: (e) => {
@@ -9182,9 +4822,9 @@ async function ii(e, t, n, r, i, a, o = {}) {
 			await ie(e, t, n);
 		}
 	});
-	let ae = 0;
+	let b = 0;
 	for (let t of v) {
-		let n = gr;
+		let n = yr;
 		for (let r = t.start.getTime(); r < t.end.getTime() && !o.isCancelled?.();) {
 			let i = new Date(r), o = new Date(Math.min(r + n, t.end.getTime())), s = o.getTime() - i.getTime(), c = `attr:${t.entityId}:${i.toISOString()}:${o.toISOString()}`;
 			a?.({
@@ -9193,17 +4833,17 @@ async function ii(e, t, n, r, i, a, o = {}) {
 					taskId: c,
 					queuedCount: void 0,
 					activeCount: 1,
-					completedCount: ae
+					completedCount: b
 				}
 			});
-			let l = R(), u = await g(c, () => ni(e, [t.entityId], i, o, !1, !1, !1)), d = R() - l;
-			ae += 1, a?.({
+			let l = R(), u = await g(c, () => ai(e, [t.entityId], i, o, !1, !1, !1)), d = R() - l;
+			b += 1, a?.({
 				event: "history.queue.task_complete",
 				details: {
 					taskId: c,
 					queuedCount: void 0,
 					activeCount: 0,
-					completedCount: ae
+					completedCount: b
 				}
 			});
 			let f = await ie({
@@ -9212,7 +4852,7 @@ async function ii(e, t, n, r, i, a, o = {}) {
 				start: i,
 				end: o,
 				coverageKind: "full"
-			}, u, d), p = ti(n, f);
+			}, u, d), p = ii(n, f);
 			a?.({
 				event: "history.adaptive_chunk",
 				details: {
@@ -9229,7 +4869,7 @@ async function ii(e, t, n, r, i, a, o = {}) {
 		}
 	}
 	let oe = a ? R() : 0, se = t.map((t) => {
-		let i = b.get(t.id);
+		let i = ae.get(t.id);
 		return i && !y.has(t.entityId) ? i : d.buildSeries(t, e, n, r);
 	}), x = a ? R() - oe : 0;
 	return a?.({
@@ -9241,9 +4881,9 @@ async function ii(e, t, n, r, i, a, o = {}) {
 		}
 	}), se;
 }
-function ai(e, t, n, r, i) {
+function ci(e, t, n, r, i) {
 	let a = t.flatMap((t) => {
-		let n = Ur(t, e), r = Wr(t);
+		let n = Kr(t, e), r = qr(t);
 		return n !== void 0 && Number.isFinite(r) ? [{
 			time: r,
 			value: n
@@ -9251,20 +4891,20 @@ function ai(e, t, n, r, i) {
 	});
 	return {
 		source: e,
-		points: Er(a.length > 0 ? Gr(a, r, i) : Jr(n, e, r, i))
+		points: kr(a.length > 0 ? Jr(a, r, i) : Zr(n, e, r, i))
 	};
 }
-var oi = 6e4, si = 48;
-function ci(e) {
+var li = 6e4, ui = 48;
+function di(e) {
 	requestAnimationFrame(() => requestAnimationFrame(e));
 }
-function li(e) {
+function fi(e) {
 	return e instanceof Error ? e.message : String(e);
 }
-function ui(e) {
+function pi(e) {
 	return `${e.kind === "entity_attribute" ? "full" : "state"}:${e.entityId}`;
 }
-function di(e, t) {
+function mi(e, t) {
 	if (e.length !== t.length) return !1;
 	for (let n = 0; n < e.length; n++) {
 		let r = e[n], i = t[n];
@@ -9276,7 +4916,7 @@ function di(e, t) {
 	}
 	return !0;
 }
-function fi(e, t) {
+function hi(e, t) {
 	let n = e.findIndex((e) => e.time === t.time);
 	if (n !== -1) {
 		if (e[n].value === t.value) return e;
@@ -9285,7 +4925,7 @@ function fi(e, t) {
 	}
 	return [...e].reverse().find((e) => e.time < t.time)?.value === t.value ? e : [...e, t].sort((e, t) => e.time - t.time);
 }
-var pi = class {
+var gi = class {
 	constructor(e) {
 		this.series = [], this.loading = !1, this.error = "", this.debugPerformance = !1, this._prevKey = "", this._nextSessionId = 0, this._progressUpdateScheduled = !1, this._lastProgressUpdateMs = 0, this.host = e, e.addController(this);
 	}
@@ -9302,7 +4942,7 @@ var pi = class {
 			sources: [...e],
 			sourceStates: new Map(e.map((e) => [e.id, "queued"])),
 			activeEntityLoads: /* @__PURE__ */ new Map(),
-			accumulator: new Yr()
+			accumulator: new Qr()
 		};
 		return this._session = r, r;
 	}
@@ -9318,20 +4958,20 @@ var pi = class {
 		for (let r of t) n.has(r.id) || (n.add(r.id), e.sources.push(r));
 	}
 	_hasActiveEntityLoad(e, t) {
-		return (e.activeEntityLoads.get(ui(t)) ?? 0) > 0;
+		return (e.activeEntityLoads.get(pi(t)) ?? 0) > 0;
 	}
 	_beginLoad(e, t) {
 		e.activeLoads += 1;
 		for (let n of t) {
 			e.sourceStates.set(n.id, "loading");
-			let t = ui(n);
+			let t = pi(n);
 			e.activeEntityLoads.set(t, (e.activeEntityLoads.get(t) ?? 0) + 1);
 		}
 	}
 	_completeLoad(e, t) {
 		e.activeLoads = Math.max(0, e.activeLoads - 1);
 		for (let n of t) {
-			let t = ui(n), r = Math.max(0, (e.activeEntityLoads.get(t) ?? 0) - 1);
+			let t = pi(n), r = Math.max(0, (e.activeEntityLoads.get(t) ?? 0) - 1);
 			r > 0 ? e.activeEntityLoads.set(t, r) : e.activeEntityLoads.delete(t);
 		}
 		this.loading = e.activeLoads > 0;
@@ -9350,7 +4990,7 @@ var pi = class {
 	_requestProgressUpdate(e) {
 		if (this._progressUpdateScheduled) return;
 		this._progressUpdateScheduled = !0;
-		let t = R() - this._lastProgressUpdateMs, n = Math.max(0, si - t);
+		let t = R() - this._lastProgressUpdateMs, n = Math.max(0, ui - t);
 		setTimeout(() => {
 			requestAnimationFrame(() => {
 				this._progressUpdateScheduled = !1, this._isCurrentSession(e) && (this._lastProgressUpdateMs = R(), this.host.requestUpdate());
@@ -9369,7 +5009,7 @@ var pi = class {
 			sessionId: a.id,
 			sourceCount: t.length,
 			rangeHours: Math.round((r.getTime() - n.getTime()) / 36e3) / 100
-		}), this.host.requestUpdate(), ii(e, a.sources, n, r, (t) => {
+		}), this.host.requestUpdate(), si(e, a.sources, n, r, (t) => {
 			if (!this._isCurrentSession(a)) return;
 			let i = R(), o = this._availableSessionSeries(a, e, n, r, t);
 			this.series = this._mergeSeries(this.series.filter((e) => !a.sources.some((t) => t.id === e.source.id)), o);
@@ -9384,13 +5024,13 @@ var pi = class {
 			z(this.debugPerformance, e.event, e.details);
 		} : void 0, {
 			isCancelled: () => !this._isCurrentSession(a),
-			chunkTimeoutMs: oi,
+			chunkTimeoutMs: li,
 			accumulator: a.accumulator
 		}).then((i) => {
-			this._isCurrentSession(a) && ci(() => {
+			this._isCurrentSession(a) && di(() => {
 				if (!this._isCurrentSession(a)) return;
 				let s = R(), c = this._availableSessionSeries(a, e, n, r, i), l = this._mergeSeries(this.series.filter((e) => !a.sources.some((t) => t.id === e.source.id)), c);
-				di(this.series, l) || (this.series = l);
+				mi(this.series, l) || (this.series = l);
 				for (let e of c) a.sourceStates.set(e.source.id, "ready");
 				this._completeLoad(a, t), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.fetch_complete", {
 					sessionId: a.id,
@@ -9403,7 +5043,7 @@ var pi = class {
 		}).catch((e) => {
 			if (this._isCurrentSession(a)) {
 				for (let e of t) a.sourceStates.set(e.id, "error");
-				this.error = li(e), this._completeLoad(a, t), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.fetch_error", {
+				this.error = fi(e), this._completeLoad(a, t), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.fetch_error", {
 					sessionId: a.id,
 					totalDurationMs: Math.round(R() - o),
 					error: this.error
@@ -9417,7 +5057,7 @@ var pi = class {
 		if (o.length === 0) return;
 		let s = new Set(i.activeEntityLoads.keys());
 		this._addSessionSources(i, o);
-		let c = o.filter((e) => !this._hasActiveEntityLoad(i, e)), l = new Set(c.map((e) => e.id)), u = i.sources.filter((e) => l.has(e.id) || !s.has(ui(e))), d = R();
+		let c = o.filter((e) => !this._hasActiveEntityLoad(i, e)), l = new Set(c.map((e) => e.id)), u = i.sources.filter((e) => l.has(e.id) || !s.has(pi(e))), d = R();
 		for (let e of o) i.sourceStates.set(e.id, c.includes(e) ? "queued" : "loading");
 		if (c.length === 0) {
 			let t = this._availableSessionSeries(i, e, n, r, []);
@@ -9438,7 +5078,7 @@ var pi = class {
 			joinedActiveSourceCount: o.length - c.length,
 			existingSourceCount: this.series.length,
 			rangeHours: Math.round((r.getTime() - n.getTime()) / 36e3) / 100
-		}), this.host.requestUpdate(), ii(e, u, n, r, (t) => {
+		}), this.host.requestUpdate(), si(e, u, n, r, (t) => {
 			if (!this._isCurrentSession(i)) return;
 			let a = R(), o = this._availableSessionSeries(i, e, n, r, t);
 			this._mergePartial(o);
@@ -9453,13 +5093,13 @@ var pi = class {
 			z(this.debugPerformance, e.event, e.details);
 		} : void 0, {
 			isCancelled: () => !this._isCurrentSession(i),
-			chunkTimeoutMs: oi,
+			chunkTimeoutMs: li,
 			accumulator: i.accumulator
 		}).then((t) => {
-			this._isCurrentSession(i) && ci(() => {
+			this._isCurrentSession(i) && di(() => {
 				if (!this._isCurrentSession(i)) return;
 				let a = R(), o = this._availableSessionSeries(i, e, n, r, t), s = this._mergeSeries(this.series, o);
-				di(this.series, s) || (this.series = s);
+				mi(this.series, s) || (this.series = s);
 				for (let e of o) i.sourceStates.set(e.source.id, "ready");
 				this._completeLoad(i, c), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_complete", {
 					sessionId: i.id,
@@ -9472,7 +5112,7 @@ var pi = class {
 		}).catch((e) => {
 			if (this._isCurrentSession(i)) {
 				for (let e of c) i.sourceStates.set(e.id, "error");
-				this.error = li(e), this._completeLoad(i, c), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_error", {
+				this.error = fi(e), this._completeLoad(i, c), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_error", {
 					sessionId: i.id,
 					totalDurationMs: Math.round(R() - d),
 					error: this.error
@@ -9485,12 +5125,12 @@ var pi = class {
 		let i = n.getTime(), a = r.getTime(), o = !1, s = new Map(t.map((e) => [e.id, e])), c = this.series.map((t) => {
 			let n = s.get(t.source.id);
 			if (!n) return t;
-			let r = qr(e, n, a);
+			let r = Xr(e, n, a);
 			if (!r) return t;
 			let c = {
 				...r,
 				time: Math.min(Math.max(r.time, i), a)
-			}, l = fi(t.points, c);
+			}, l = hi(t.points, c);
 			return l === t.points ? t : (o = !0, {
 				...t,
 				points: l
@@ -9516,43 +5156,43 @@ var pi = class {
 		for (let t of e) this._session?.sourceStates.delete(t);
 		this._prevKey = this.series.map((e) => e.source.id).join("|") + "|", this.host.requestUpdate();
 	}
-}, mi = [
+}, _i = [
 	"#ff9800",
 	"#42a5f5",
 	"#66bb6a",
 	"#ec407a",
 	"#ab47bc",
 	"#26a69a"
-], hi = {
+], vi = {
 	current_temperature: "#42a5f5",
 	temperature: "#ff9800"
-}, gi = new Set(Object.values(hi)), _i = mi.filter((e) => !gi.has(e));
-function vi(e) {
-	return _i[e % _i.length];
-}
-function yi(e) {
-	return e.trim().toLowerCase();
-}
-function bi(e) {
-	return `hsl(${(e * 137.508 % 360).toFixed(1)} 68% 52%)`;
-}
-function xi(e, t, n) {
-	if (!t.has(yi(e))) return e;
-	let r = [
-		..._i.slice(n % _i.length),
-		..._i.slice(0, n % _i.length),
-		...mi
-	];
-	for (let e of r) if (!t.has(yi(e))) return e;
-	let i = n, a = bi(i);
-	for (; t.has(yi(a));) i += 1, a = bi(i);
-	return a;
+}, yi = new Set(Object.values(vi)), bi = _i.filter((e) => !yi.has(e));
+function xi(e) {
+	return bi[e % bi.length];
 }
 function Si(e) {
-	return yi(e);
+	return e.trim().toLowerCase();
 }
-var Ci = 214;
-function wi(e) {
+function Ci(e) {
+	return `hsl(${(e * 137.508 % 360).toFixed(1)} 68% 52%)`;
+}
+function wi(e, t, n) {
+	if (!t.has(Si(e))) return e;
+	let r = [
+		...bi.slice(n % bi.length),
+		...bi.slice(0, n % bi.length),
+		..._i
+	];
+	for (let e of r) if (!t.has(Si(e))) return e;
+	let i = n, a = Ci(i);
+	for (; t.has(Si(a));) i += 1, a = Ci(i);
+	return a;
+}
+function Ti(e) {
+	return Si(e);
+}
+var Ei = 214;
+function Di(e) {
 	if (!Number.isFinite(e) || Number.isInteger(e)) return 0;
 	let t = e.toString().toLowerCase();
 	if (t.includes("e-")) {
@@ -9561,28 +5201,28 @@ function wi(e) {
 	}
 	return Math.min(t.split(".")[1]?.length ?? 0, 4);
 }
-function Ti(e, t) {
+function Oi(e, t) {
 	let n = 10 ** t;
 	return Math.round(e * n) / n;
 }
-function Ei(e, t, n = 5) {
+function ki(e, t, n = 5) {
 	if (!Number.isFinite(e) || !Number.isFinite(t)) return [e, t];
 	let r = Math.abs(t - e);
 	if (r < 1e-10) return [e];
-	let i = Di(r / (Math.max(n, 2) - 1)), a = Math.floor(e / i) * i, o = Math.ceil(t / i) * i, s = i * 1e-8, c = [];
-	for (let e = a; e <= o + s; e += i) c.push(Oi(e, i));
+	let i = Ai(r / (Math.max(n, 2) - 1)), a = Math.floor(e / i) * i, o = Math.ceil(t / i) * i, s = i * 1e-8, c = [];
+	for (let e = a; e <= o + s; e += i) c.push(ji(e, i));
 	return c;
 }
-function Di(e) {
+function Ai(e) {
 	if (e <= 0) return 1;
 	let t = Math.floor(Math.log10(Math.abs(e))), n = e / 10 ** t, r;
 	return r = n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10, r * 10 ** t;
 }
-function Oi(e, t) {
+function ji(e, t) {
 	let n = Math.max(0, -Math.floor(Math.log10(Math.abs(t) || 1)) + 1);
 	return parseFloat(e.toFixed(n));
 }
-function ki(e) {
+function Mi(e) {
 	let t = 0;
 	for (let n of e) {
 		let e = String(n), r = e.indexOf(".");
@@ -9590,78 +5230,78 @@ function ki(e) {
 	}
 	return t;
 }
-function Ai(e, t, n) {
+function Ni(e, t, n) {
 	let r = t - e;
 	if (r < 1e-6) {
 		let r = Math.max(Math.abs(t) * .05, 1);
 		return {
-			min: Ti(e - r, n),
-			max: Ti(t + r, n)
+			min: Oi(e - r, n),
+			max: Oi(t + r, n)
 		};
 	}
 	let i = Math.max(r * .08, 10 ** -n), a = 10 ** n, o = Math.ceil(i * a) / a;
 	return {
-		min: Ti(e - o, n),
-		max: Ti(t + o, n)
+		min: Oi(e - o, n),
+		max: Oi(t + o, n)
 	};
 }
-function ji(e) {
-	return 28 + (Math.max(e, 1) - 1) * Ci + 180 + 18;
-}
-var Mi = .15, Ni = 8;
 function Pi(e) {
+	return 28 + (Math.max(e, 1) - 1) * Ei + 180 + 18;
+}
+var Fi = .15, Ii = 8;
+function Li(e) {
 	return Math.max(e.max - e.min, 1e-9);
 }
-function Fi(e) {
+function Ri(e) {
 	return (e.min + e.max) / 2;
 }
-function Ii(e) {
+function zi(e) {
 	return Math.log10(Math.max(Math.abs(e), 1e-9));
 }
-function Li(e, t) {
-	let n = Math.abs(Ii(Pi(e)) - Ii(Pi(t))), r = Math.abs(Ii(Fi(e)) - Ii(Fi(t))), i = e.unit && t.unit && e.unit !== t.unit ? .4 : 0;
+function Bi(e, t) {
+	let n = Math.abs(zi(Li(e)) - zi(Li(t))), r = Math.abs(zi(Ri(e)) - zi(Ri(t))), i = e.unit && t.unit && e.unit !== t.unit ? .4 : 0;
 	return n + r * .6 + i;
 }
-function Ri(e) {
+function Vi(e) {
 	if (e.length < 2) return !1;
 	let t = Math.min(...e.map((e) => e.min)), n = Math.max(...e.map((e) => e.max)), r = Math.max(n - t, 1e-9), i = e.map((e) => e.max - e.min).filter((e) => e > 1e-6);
 	if (i.length < 2) return !1;
 	let a = Math.min(...i), o = Math.max(...i);
-	return Math.min(...i.map((e) => e / r)) <= Mi && (o / Math.max(a, 1e-9) >= Ni || r / a >= Ni);
+	return Math.min(...i.map((e) => e / r)) <= Fi && (o / Math.max(a, 1e-9) >= Ii || r / a >= Ii);
 }
-function zi(e) {
+function Hi(e) {
 	let t = e[0], n = e[1], r = -Infinity;
 	for (let i = 0; i < e.length; i++) for (let a = i + 1; a < e.length; a++) {
-		let o = Li(e[i], e[a]);
+		let o = Bi(e[i], e[a]);
 		o > r && (r = o, t = e[i], n = e[a]);
 	}
 	return t.order <= n.order ? [t, n] : [n, t];
 }
-function Bi(e) {
-	if (!Ri(e)) return [e, []];
-	let [t, n] = zi(e), r = [], i = [];
-	for (let a of e) a.id === t.id ? r.push(a) : a.id === n.id ? i.push(a) : Li(a, t) <= Li(a, n) ? r.push(a) : i.push(a);
+function Ui(e) {
+	if (!Vi(e)) return [e, []];
+	let [t, n] = Hi(e), r = [], i = [];
+	for (let a of e) a.id === t.id ? r.push(a) : a.id === n.id ? i.push(a) : Bi(a, t) <= Bi(a, n) ? r.push(a) : i.push(a);
 	return [r, i];
 }
-function Vi(e, t, n, r) {
-	let i = Math.min(...n.map((e) => e.min)), a = Math.max(...n.map((e) => e.max)), o = Math.max(...n.map((e) => e.precision)), s = Ai(i, a, o), c = Ei(s.min, s.max);
+function Wi(e, t, n, r) {
+	let i = Math.min(...n.map((e) => e.min)), a = Math.max(...n.map((e) => e.max)), o = Math.max(...n.map((e) => e.precision)), s = Ni(i, a, o), c = ki(s.min, s.max);
 	return {
 		ids: new Set(n.map((e) => e.id)),
 		graphKey: e,
 		axis: t,
 		min: s.min,
 		max: s.max,
-		precision: Math.max(o, ki(c)),
+		precision: Math.max(o, Mi(c)),
 		ticks: c,
 		top: r,
 		height: 180
 	};
 }
-function Hi(e) {
+function Gi(e) {
 	let t = [];
 	for (let [n, r] of e.entries()) {
 		if (r.valueType !== "number" && r.valueType !== "boolean") continue;
-		let e = r.points.map((e) => Number(e.value)).filter((e) => Number.isFinite(e)), i = r.scaleMode === "manual" && r.scaleMin !== void 0 ? r.scaleMin : 0, a = r.scaleMode === "manual" && r.scaleMax !== void 0 ? r.scaleMax : 1, o = r.valueType === "boolean" ? 0 : e.length > 0 ? Math.min(...e) : Math.min(i, a), s = r.valueType === "boolean" ? 1 : e.length > 0 ? Math.max(...e) : Math.max(i, a), c = r.valueType === "boolean" || e.length === 0 ? 0 : Math.max(...e.map((e) => wi(e))), l = r.valueType === "boolean" ? "group:boolean" : r.scaleGroupKey, u = t.find((e) => e.key === l);
+		let e = r.points.map((e) => Number(e.value)).filter((e) => Number.isFinite(e)), i = r.scaleMode === "manual" && r.scaleMin !== void 0 ? r.scaleMin : 0, a = r.scaleMode === "manual" && r.scaleMax !== void 0 ? r.scaleMax : 1, o = r.valueType === "boolean" ? 0 : e.length > 0 ? Math.min(...e) : Math.min(i, a), s = r.valueType === "boolean" ? 1 : e.length > 0 ? Math.max(...e) : Math.max(i, a), c = r.valueType === "boolean" || e.length === 0 ? 0 : Math.max(...e.map((e) => Di(e))), l = r.valueType === "boolean" ? "group:boolean" : r.scaleGroupKey, u = t.find((e) => e.key === l);
 		u || (u = {
 			key: l,
 			series: []
@@ -9675,11 +5315,11 @@ function Hi(e) {
 		});
 	}
 	return t.flatMap((e, t) => {
-		let [n, r] = e.key === "group:boolean" ? [e.series, []] : Bi(e.series), i = 28 + t * Ci, a = Vi(e.key, "left", n, i);
-		return r.length > 0 ? [a, Vi(e.key, "right", r, i)] : [a];
+		let [n, r] = e.key === "group:boolean" ? [e.series, []] : Ui(e.series), i = 28 + t * Ei, a = Wi(e.key, "left", n, i);
+		return r.length > 0 ? [a, Wi(e.key, "right", r, i)] : [a];
 	});
 }
-function Ui(e, t, n, r) {
+function Ki(e, t, n, r) {
 	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
@@ -9711,16 +5351,16 @@ function Ui(e, t, n, r) {
 		value: t
 	}));
 }
-function Wi(e, t) {
+function qi(e, t) {
 	return 40 + (e - t.start) / (t.end - t.start) * 640;
 }
-function Gi(e, t) {
+function Ji(e, t) {
 	let n = t.max - t.min;
 	if (n < 1e-6) return t.top + t.height / 2;
 	let r = t.height - 10;
 	return t.top + 5 + r - (e - t.min) / n * r;
 }
-function Ki(e, t) {
+function Yi(e, t) {
 	if (e.length === 0) return;
 	if (t <= e[0].time) return e[0].value;
 	let n = e[e.length - 1];
@@ -9733,7 +5373,7 @@ function Ki(e, t) {
 		}
 	}
 }
-function qi(e) {
+function Xi(e) {
 	let t = /* @__PURE__ */ new Map();
 	for (let n of e) {
 		if (!n.id.startsWith("attr:")) continue;
@@ -9749,8 +5389,8 @@ function qi(e) {
 		hvacId: e.hvac
 	};
 }
-function Ji(e, t, n) {
-	let r = qi(e);
+function Zi(e, t, n) {
+	let r = Xi(e);
 	if (!r) return [];
 	let i = e.find((e) => e.id === r.tempId), a = e.find((e) => e.id === r.hvacId);
 	if (!i || !a) return [];
@@ -9760,7 +5400,7 @@ function Ji(e, t, n) {
 		time: e.time,
 		value: Number(e.value)
 	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time);
-	return s.length === 0 ? [] : Yi(a.points, n).filter((e) => e.value === "heating").reduce((e, t) => {
+	return s.length === 0 ? [] : Qi(a.points, n).filter((e) => e.value === "heating").reduce((e, t) => {
 		let n = e[e.length - 1];
 		return n && Math.abs(n.end - t.start) < 1 ? n.end = t.end : e.push({
 			start: t.start,
@@ -9770,19 +5410,19 @@ function Ji(e, t, n) {
 		let i = [
 			{
 				time: e,
-				value: Ki(s, e)
+				value: Yi(s, e)
 			},
 			...s.filter((n) => n.time > e && n.time < t),
 			{
 				time: t,
-				value: Ki(s, t)
+				value: Yi(s, t)
 			}
 		].filter((e) => e.value !== void 0);
 		if (i.length === 0) return [];
 		let c = o.top + o.height, l = [
-			`${Wi(e, n).toFixed(1)},${c.toFixed(1)}`,
-			...i.map((e) => `${Wi(e.time, n).toFixed(1)},${Gi(e.value, o).toFixed(1)}`),
-			`${Wi(t, n).toFixed(1)},${c.toFixed(1)}`
+			`${qi(e, n).toFixed(1)},${c.toFixed(1)}`,
+			...i.map((e) => `${qi(e.time, n).toFixed(1)},${Ji(e.value, o).toFixed(1)}`),
+			`${qi(t, n).toFixed(1)},${c.toFixed(1)}`
 		].join(" ");
 		return [{
 			id: `${a.id}:heat:${r}`,
@@ -9790,7 +5430,7 @@ function Ji(e, t, n) {
 		}];
 	});
 }
-function Yi(e, t) {
+function Qi(e, t) {
 	let n = Date.now();
 	return e.flatMap((r, i) => {
 		let a = Math.max(r.time, t.start), o = Math.min(e[i + 1]?.time ?? t.end, t.end, n);
@@ -9801,7 +5441,7 @@ function Yi(e, t) {
 		}] : [];
 	});
 }
-var Xi = 16;
+var $i = 16;
 function B(e, t) {
 	return 40 + (e - t.start) / (t.end - t.start) * 640;
 }
@@ -9811,10 +5451,10 @@ function V(e, t) {
 	let r = t.height - 10;
 	return t.top + 5 + r - (e - t.min) / n * r;
 }
-function Zi(e, t) {
+function ea(e, t) {
 	return t.find((t) => t.ids.has(e.id));
 }
-function Qi(e, t) {
+function ta(e, t) {
 	let n = Date.now();
 	return e.points.flatMap((r, i) => {
 		let a = Math.max(r.time, t.start), o = Math.min(e.points[i + 1]?.time ?? t.end, t.end, n);
@@ -9825,26 +5465,26 @@ function Qi(e, t) {
 		}] : [];
 	});
 }
-var $i = new Set([
+var na = new Set([
 	"off",
 	"idle",
 	"none",
 	"false"
 ]);
-function ea(e, t, n, r) {
+function ra(e, t, n, r) {
 	if (typeof e == "boolean") return e ? t : "var(--better-history-muted-color, var(--secondary-text-color, #888))";
 	let i = String(e);
-	return $i.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, mi[(r + n.size) % mi.length]), n.get(i));
+	return na.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, _i[(r + n.size) % _i.length]), n.get(i));
 }
-function ta(e, t) {
+function ia(e, t) {
 	return e + 34 + Math.max(t - 1, 0) * 14;
 }
-function na(e, t, n, r) {
+function aa(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
-		let i = Zi(e, t);
+		let i = ea(e, t);
 		if (!i) return [];
-		let a = Ui(ra(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? la(a, n, i) : ca(a, n, i);
+		let a = Ki(oa(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? fa(a, n, i) : da(a, n, i);
 		return [{
 			id: e.id,
 			color: e.color,
@@ -9854,7 +5494,7 @@ function na(e, t, n, r) {
 		}];
 	});
 }
-function ra(e, t, n, r) {
+function oa(e, t, n, r) {
 	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
@@ -9869,16 +5509,16 @@ function ra(e, t, n, r) {
 		value: c.value
 	}] : s;
 }
-function ia(e) {
+function sa(e) {
 	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
 }
-function aa(e, t, n) {
+function ca(e, t, n) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode !== "column") return [];
-		let r = Zi(e, t);
+		let r = ea(e, t);
 		if (!r) return [];
-		let i = V(ia(r), r);
-		return Qi(e, n).flatMap((t, a) => {
+		let i = V(sa(r), r);
+		return ta(e, n).flatMap((t, a) => {
 			let o = Number(t.value);
 			if (!Number.isFinite(o)) return [];
 			let s = B(t.start, n), c = B(t.end, n), l = V(o, r), u = Math.max(c - s, 1);
@@ -9893,15 +5533,15 @@ function aa(e, t, n) {
 		});
 	});
 }
-function oa(e, t, n) {
+function la(e, t, n) {
 	let r = t + 10, i = 0;
 	return e.flatMap((e, t) => {
 		if (e.valueType === "number" || e.valueType === "boolean") return [];
 		let a = r + i * 14;
 		i += 1;
 		let o = /* @__PURE__ */ new Map();
-		return Qi(e, n).reduce((n, r) => {
-			let i = ea(r.value, e.color, o, t), a = n[n.length - 1];
+		return ta(e, n).reduce((n, r) => {
+			let i = ra(r.value, e.color, o, t), a = n[n.length - 1];
 			return a && a.fill === i && Math.abs(a.end - r.start) < 1 ? a.end = r.end : n.push({
 				start: r.start,
 				end: r.end,
@@ -9919,16 +5559,16 @@ function oa(e, t, n) {
 		});
 	});
 }
-function sa(e) {
+function ua(e) {
 	return e.flatMap((e) => {
 		let t = e.height - 10;
 		return e.ticks.map((n) => ({
 			y: e.top + 5 + t - (n - e.min) / (e.max - e.min) * t,
-			value: ua(n, e.precision)
+			value: pa(n, e.precision)
 		}));
 	});
 }
-function ca(e, t, n) {
+function da(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -9947,7 +5587,7 @@ function ca(e, t, n) {
 		pathLength: i
 	};
 }
-function la(e, t, n) {
+function fa(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -9964,16 +5604,16 @@ function la(e, t, n) {
 		pathLength: r
 	};
 }
-function ua(e, t) {
+function pa(e, t) {
 	if (t <= 0 && Number.isInteger(e)) return String(e);
 	let n = e.toFixed(t);
 	return n = n.replace(/\.?0+$/, ""), n;
 }
-var da = 60 * 1e3, H = 60 * da, U = 24 * H, fa = [
-	10 * da,
-	15 * da,
-	20 * da,
-	30 * da,
+var ma = 60 * 1e3, H = 60 * ma, U = 24 * H, ha = [
+	10 * ma,
+	15 * ma,
+	20 * ma,
+	30 * ma,
 	H,
 	2 * H,
 	3 * H,
@@ -9990,14 +5630,14 @@ var da = 60 * 1e3, H = 60 * da, U = 24 * H, fa = [
 	60 * U,
 	90 * U
 ];
-function pa(e, t) {
-	for (let n of fa) if (e / n <= t) return n;
-	return fa[fa.length - 1];
+function ga(e, t) {
+	for (let n of ha) if (e / n <= t) return n;
+	return ha[ha.length - 1];
 }
-function ma(e, t, n = 12) {
+function _a(e, t, n = 12) {
 	let r = t - e;
 	if (r <= 0) return [];
-	let i = pa(r, n), a = [], o = Math.ceil(e / i) * i;
+	let i = ga(r, n), a = [], o = Math.ceil(e / i) * i;
 	for (let e = o; e < t; e += i) {
 		let t = new Date(e);
 		a.push({
@@ -10007,7 +5647,7 @@ function ma(e, t, n = 12) {
 	}
 	return a;
 }
-function ha(e, t) {
+function va(e, t) {
 	let n = new Date(e), r = t / U;
 	if (r > 88) {
 		let e = n.toLocaleString("default", { month: "short" }), t = n.getFullYear();
@@ -10022,7 +5662,7 @@ function ha(e, t) {
 	let i = String(n.getHours()).padStart(2, "0"), a = String(n.getMinutes()).padStart(2, "0");
 	return r > .5 ? `${i}:${a}` : `${i}:${a}:${String(n.getSeconds()).padStart(2, "0")}`;
 }
-function ga(e, t) {
+function ya(e, t) {
 	let n = [], r;
 	for (let i of e) {
 		if (i.time < t.start) {
@@ -10034,31 +5674,31 @@ function ga(e, t) {
 	}
 	return r ? [r, ...n] : n;
 }
-function _a(e, t) {
+function ba(e, t) {
 	return e.map((e) => ({
 		...e,
-		points: ga(e.points, t)
+		points: ya(e.points, t)
 	}));
 }
-function va(e) {
+function xa(e) {
 	return e.valueType === "boolean" ? "group:boolean" : e.scaleGroupKey;
 }
-function ya(e, t, n) {
+function Sa(e, t, n) {
 	let r = /* @__PURE__ */ new Map(), i = /* @__PURE__ */ new Map();
 	for (let t of e) {
 		if (t.valueType !== "number" && t.valueType !== "boolean") continue;
-		let e = va(t);
+		let e = xa(t);
 		i.set(e, [...i.get(e) ?? [], t]);
 	}
 	for (let e of t) {
 		if (e.valueType !== "number" && e.valueType !== "boolean") continue;
-		let t = va(e);
+		let t = xa(e);
 		r.set(t, [...r.get(t) ?? [], e]);
 	}
-	return [...i.entries()].flatMap(([e, t]) => _a(r.get(e) ?? t, n));
+	return [...i.entries()].flatMap(([e, t]) => ba(r.get(e) ?? t, n));
 }
-function ba(e, t, n, r = !1, i = 12, a = !0) {
-	let o = { extendStairToEnd: a }, s = Hi(ya(e, t, n)), c = new Set(s.map((e) => e.graphKey)).size, l = ji(c), u = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, d = ma(n.start, n.end, i), f = n.end - n.start;
+function Ca(e, t, n, r = !1, i = 12, a = !0) {
+	let o = { extendStairToEnd: a }, s = Gi(Sa(e, t, n)), c = new Set(s.map((e) => e.graphKey)).size, l = Pi(c), u = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, d = _a(n.start, n.end, i), f = n.end - n.start;
 	return {
 		allSeries: e,
 		visibleSeries: t,
@@ -10066,27 +5706,27 @@ function ba(e, t, n, r = !1, i = 12, a = !0) {
 		extendStairToEnd: a,
 		numericScales: s,
 		plotBottom: l,
-		chartHeight: ta(l, u),
-		numericLines: na(t, s, n, o),
-		numericColumns: aa(t, s, n),
-		segments: oa(t, l, n),
-		heatingAreas: r ? [] : Ji(t, s, n),
-		yAxisLabels: sa(s),
+		chartHeight: ia(l, u),
+		numericLines: aa(t, s, n, o),
+		numericColumns: ca(t, s, n),
+		segments: la(t, l, n),
+		heatingAreas: r ? [] : Zi(t, s, n),
+		yAxisLabels: ua(s),
 		xAxisLabels: d.map((e) => ({
 			x: B(e.time, n),
-			label: ha(e.time, f),
+			label: va(e.time, f),
 			bold: e.bold
 		}))
 	};
 }
-function xa(e, t, n, r) {
+function wa(e, t, n, r) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
-		let i = Zi(e, t);
+		let i = ea(e, t);
 		if (!i) return [];
 		let a = {
 			...i,
 			top: 28
-		}, o = Ui(ra(e.points, n, e.lineMode, r), n, 40, 640), { points: s, pathLength: c } = e.lineMode === "line" ? la(o, n, a) : ca(o, n, a);
+		}, o = Ki(oa(e.points, n, e.lineMode, r), n, 40, 640), { points: s, pathLength: c } = e.lineMode === "line" ? fa(o, n, a) : da(o, n, a);
 		return {
 			id: e.id,
 			color: e.color,
@@ -10096,15 +5736,15 @@ function xa(e, t, n, r) {
 		};
 	});
 }
-function Sa(e, t, n) {
+function Ta(e, t, n) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode === "column").flatMap((e) => {
-		let r = Zi(e, t);
+		let r = ea(e, t);
 		if (!r) return [];
 		let i = {
 			...r,
 			top: 28
-		}, a = V(ia(i), i);
-		return Qi(e, n).flatMap((t, r) => {
+		}, a = V(sa(i), i);
+		return ta(e, n).flatMap((t, r) => {
 			let o = Number(t.value);
 			if (!Number.isFinite(o)) return [];
 			let s = B(t.start, n), c = B(t.end, n), l = V(o, i);
@@ -10119,11 +5759,11 @@ function Sa(e, t, n) {
 		});
 	});
 }
-function Ca(e, t, n) {
+function Ea(e, t, n) {
 	return e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").flatMap((e, r) => {
 		let i = t + r * 14, a = /* @__PURE__ */ new Map();
-		return Qi(e, n).reduce((t, n) => {
-			let i = ea(n.value, e.color, a, r), o = t[t.length - 1];
+		return ta(e, n).reduce((t, n) => {
+			let i = ra(n.value, e.color, a, r), o = t[t.length - 1];
 			return o && o.fill === i && Math.abs(o.end - n.start) < 1 ? o.end = n.end : t.push({
 				start: n.start,
 				end: n.end,
@@ -10141,25 +5781,25 @@ function Ca(e, t, n) {
 		});
 	});
 }
-function wa(e) {
+function Da(e) {
 	let t = e.height - 10;
 	return e.ticks.map((n) => ({
 		y: 33 + t - (n - e.min) / (e.max - e.min) * t,
-		value: ua(n, e.precision)
+		value: pa(n, e.precision)
 	}));
 }
-function Ta(e, t) {
+function Oa(e, t) {
 	return t === 0 ? e : e.split(" ").map((e) => {
 		let [n, r] = e.split(",");
 		return `${n},${(parseFloat(r) + t).toFixed(1)}`;
 	}).join(" ");
 }
-function Ea(e, t, n) {
+function ka(e, t, n) {
 	let r = /* @__PURE__ */ new Set(), i = /* @__PURE__ */ new Map();
 	return {
 		allSeries: e.map((e, t) => {
-			let a = xi(e.color, r, n * mi.length + t);
-			return r.add(Si(a)), i.set(e.id, a), a === e.color ? e : {
+			let a = wi(e.color, r, n * _i.length + t);
+			return r.add(Ti(a)), i.set(e.id, a), a === e.color ? e : {
 				...e,
 				color: a
 			};
@@ -10173,14 +5813,14 @@ function Ea(e, t, n) {
 		})
 	};
 }
-function Da(e, t = 12) {
-	let n = [], r = e.timeBounds, i = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), a = e.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), o = r.end - r.start, s = ma(r.start, r.end, t).map((e) => ({
+function Aa(e, t = 12) {
+	let n = [], r = e.timeBounds, i = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), a = e.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), o = r.end - r.start, s = _a(r.start, r.end, t).map((e) => ({
 		x: B(e.time, r),
-		label: ha(e.time, o),
+		label: va(e.time, o),
 		bold: e.bold
 	}));
 	if (e.numericScales.length === 0 && i.length > 0) {
-		let e = a.length, t = 208 + (e > 0 ? 10 + e * 14 : 0) + 18, o = t + Xi, c = Ea(i, a, 0);
+		let e = a.length, t = 208 + (e > 0 ? 10 + e * 14 : 0) + 18, o = t + $i, c = ka(i, a, 0);
 		n.push({
 			series: c.visibleSeries,
 			allSeries: c.allSeries,
@@ -10189,7 +5829,7 @@ function Da(e, t = 12) {
 			canvasHeight: o,
 			lines: [],
 			columns: [],
-			segments: Ca(c.visibleSeries, 218, r),
+			segments: Ea(c.visibleSeries, 218, r),
 			yLabels: [],
 			rightYLabels: [],
 			xLabels: s,
@@ -10198,7 +5838,7 @@ function Da(e, t = 12) {
 	}
 	let c = [...new Set(e.numericScales.map((e) => e.graphKey))];
 	for (let t = 0; t < c.length; t++) {
-		let o = c[t], l = e.numericScales.filter((e) => e.graphKey === o), u = l.find((e) => e.axis === "left") ?? l[0], d = l.find((e) => e.axis === "right"), f = new Set(l.flatMap((e) => [...e.ids])), p = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && va(e) === o), m = e.visibleSeries.filter((e) => f.has(e.id)), h = t === 0 ? [...m, ...a] : m, g = Ea(t === 0 ? [...p, ...i] : p, h, t), _ = g.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), ee = _.length, v = 208 + (ee > 0 ? 10 + ee * 14 : 0) + 18, te = v + Xi, ne = 28 - u.top;
+		let o = c[t], l = e.numericScales.filter((e) => e.graphKey === o), u = l.find((e) => e.axis === "left") ?? l[0], d = l.find((e) => e.axis === "right"), f = new Set(l.flatMap((e) => [...e.ids])), p = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && xa(e) === o), m = e.visibleSeries.filter((e) => f.has(e.id)), h = t === 0 ? [...m, ...a] : m, g = ka(t === 0 ? [...p, ...i] : p, h, t), _ = g.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), ee = _.length, v = 208 + (ee > 0 ? 10 + ee * 14 : 0) + 18, te = v + $i, ne = 28 - u.top;
 		n.push({
 			series: g.visibleSeries,
 			allSeries: g.allSeries,
@@ -10206,21 +5846,21 @@ function Da(e, t = 12) {
 			scales: l,
 			svgHeight: v,
 			canvasHeight: te,
-			lines: xa(g.visibleSeries, l, r, { extendStairToEnd: e.extendStairToEnd }),
-			columns: Sa(g.visibleSeries, l, r),
-			segments: Ca(_, 218, r),
-			yLabels: wa(u),
-			rightYLabels: d ? wa(d) : [],
+			lines: wa(g.visibleSeries, l, r, { extendStairToEnd: e.extendStairToEnd }),
+			columns: Ta(g.visibleSeries, l, r),
+			segments: Ea(_, 218, r),
+			yLabels: Da(u),
+			rightYLabels: d ? Da(d) : [],
 			xLabels: s,
 			heatingAreas: t === 0 ? e.heatingAreas.map((e) => ({
 				id: e.id,
-				points: Ta(e.points, ne)
+				points: Oa(e.points, ne)
 			})) : []
 		});
 	}
 	return n;
 }
-var Oa = class {
+var ja = class {
 	constructor(e) {
 		this.tooltip = void 0, this._series = [], this._cacheKey = "", this._timeBounds = {
 			start: 0,
@@ -10368,16 +6008,16 @@ var Oa = class {
 		};
 	}
 	renderTooltip() {
-		if (!this.tooltip) return P;
+		if (!this.tooltip) return F;
 		let e = this.tooltip.x / 720 * 100, t = this.tooltip.tooltipX / 720 * 100, n = this.tooltip.placement === "above" ? "translate(-50%, calc(-100% - 10px))" : "translate(-50%, 10px)";
-		return M`
+		return N`
       <div class="tooltip-axis-pointer" style=${`left:${e}%;top:${this.tooltip.activeTop.toFixed(1)}px;height:${this.tooltip.activeHeight.toFixed(1)}px;`}></div>
       <div
         class="tooltip"
         style=${`left:clamp(150px,${t}%,calc(100% - 150px));top:${this.tooltip.y.toFixed(1)}px;transform:${n};`}
       >
         <div class="tooltip-time">${new Date(this.tooltip.time).toLocaleString()}</div>
-        ${this.tooltip.values.map((e) => M`
+        ${this.tooltip.values.map((e) => N`
             <div class="tooltip-row">
               <span class="tooltip-dot" style=${`background:${e.color}`}></span>
               <span class="tooltip-label">${e.label}</span>
@@ -10387,19 +6027,19 @@ var Oa = class {
       </div>
     `;
 	}
-}, ka = "temperature";
-function Aa(e) {
+}, Ma = "temperature";
+function Na(e) {
 	return e.join(".");
 }
-function ja(e) {
-	return e?.toLowerCase() === ka;
+function Pa(e) {
+	return e?.toLowerCase() === Ma;
 }
-function Ma(e, t) {
+function Fa(e, t) {
 	if (!e || !t) return;
-	let n = t[Aa(e)];
+	let n = t[Na(e)];
 	return typeof n == "string" && n !== "" ? n : void 0;
 }
-function Na(e) {
+function Ia(e) {
 	return {
 		id: e.id,
 		kind: e.attribute ? "entity_attribute" : "entity_state",
@@ -10410,73 +6050,73 @@ function Na(e) {
 		unit: e.unit
 	};
 }
-var Pa = 24, Fa = "2.5", Ia = [
+var La = 24, Ra = "2.5", za = [
 	"current_temperature",
 	"temperature",
 	"hvac_action"
-], La = /°[CF]|[CFK]$/;
-function Ra(e) {
-	return La.test(e);
-}
-function za(e) {
-	return e.scaleMode === "manual" && (e.scaleMin !== void 0 || e.scaleMax !== void 0);
-}
-function Ba(e) {
-	return /* @__PURE__ */ new Date(Math.floor(e.getTime() / 1e3) * 1e3);
-}
+], Ba = /°[CF]|[CFK]$/;
 function Va(e) {
-	if (e !== void 0) return Array.isArray(e) ? e : e.split(".");
+	return Ba.test(e);
 }
 function Ha(e) {
-	return e === "line" || e === "column" ? e : "stair";
+	return e.scaleMode === "manual" && (e.scaleMin !== void 0 || e.scaleMax !== void 0);
 }
 function Ua(e) {
-	return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : Fa : typeof e == "string" && e.trim() !== "" ? e.trim() : Fa;
+	return /* @__PURE__ */ new Date(Math.floor(e.getTime() / 1e3) * 1e3);
 }
-function Wa(e, t) {
-	return t ? `attr:${e}:${t.join(".")}` : `state:${e}`;
+function Wa(e) {
+	if (e !== void 0) return Array.isArray(e) ? e : e.split(".");
 }
 function Ga(e) {
+	return e === "line" || e === "column" ? e : "stair";
+}
+function Ka(e) {
+	return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : Ra : typeof e == "string" && e.trim() !== "" ? e.trim() : Ra;
+}
+function qa(e, t) {
+	return t ? `attr:${e}:${t.join(".")}` : `state:${e}`;
+}
+function Ja(e) {
 	return e[e.length - 1] ?? "";
 }
-function Ka(e, t, n) {
+function Ya(e, t, n) {
 	let r = e?.states[t];
-	return r ? n ? Vr(r, n)?.valueType ?? "string" : Br(r)?.valueType ?? "string" : "number";
+	return r ? n ? Wr(r, n)?.valueType ?? "string" : Ur(r)?.valueType ?? "string" : "number";
 }
-function qa(e, t, n, r) {
+function Xa(e, t, n, r) {
 	if (r) return r;
-	if (n) return Ga(n);
+	if (n) return Ja(n);
 	let i = e?.states[t]?.attributes.friendly_name;
 	return typeof i == "string" && i !== "" ? i : t;
 }
-function Ja(e, t, n, r, i) {
+function Za(e, t, n, r, i) {
 	if (r !== void 0) return r || void 0;
-	if (n) return Ma(n, i);
+	if (n) return Fa(n, i);
 	let a = e?.states[t]?.attributes.unit_of_measurement;
 	return typeof a == "string" && a !== "" ? a : void 0;
 }
-function Ya(e, t, n, r) {
+function Qa(e, t, n, r) {
 	return n ? `group:${n}` : r === "number" && t ? `unit:${t}` : `series:${e}`;
 }
-function Xa(e, t, n, r, i, a) {
-	let o = Va(e.attribute), s = Wa(e.entity, o), c = Ka(n, e.entity, o), l = Ja(n, e.entity, o, e.unit, r);
+function $a(e, t, n, r, i, a) {
+	let o = Wa(e.attribute), s = qa(e.entity, o), c = Ya(n, e.entity, o), l = Za(n, e.entity, o, e.unit, r);
 	return {
 		id: s,
 		entity: e.entity,
 		attribute: o,
-		label: qa(n, e.entity, o, e.label),
-		color: e.color ?? vi(t),
+		label: Xa(n, e.entity, o, e.label),
+		color: e.color ?? xi(t),
 		unit: l,
-		scaleGroupKey: Ya(s, l, e.scaleGroup, c),
+		scaleGroupKey: Qa(s, l, e.scaleGroup, c),
 		scaleMode: e.scaleMode ?? "auto",
 		scaleMin: e.scaleMin,
 		scaleMax: e.scaleMax,
-		lineMode: Ha(e.lineMode ?? i),
-		lineWidth: Ua(e.lineWidth ?? a),
+		lineMode: Ga(e.lineMode ?? i),
+		lineWidth: Ka(e.lineWidth ?? a),
 		valueType: c
 	};
 }
-function Za(e, t, n, r, i) {
+function eo(e, t, n, r, i) {
 	let a = n?.states[e];
 	if (!a) {
 		let n = `state:${e}`;
@@ -10484,29 +6124,29 @@ function Za(e, t, n, r, i) {
 			id: n,
 			entity: e,
 			label: e,
-			color: vi(t),
+			color: xi(t),
 			scaleGroupKey: `series:${n}`,
 			scaleMode: "auto",
-			lineMode: Ha(r),
-			lineWidth: Ua(i),
+			lineMode: Ga(r),
+			lineWidth: Ka(i),
 			valueType: "number"
 		};
 	}
-	let o = Br(a);
+	let o = Ur(a);
 	if (o) return {
 		id: o.id,
 		entity: e,
 		label: o.label,
-		color: vi(t),
+		color: xi(t),
 		unit: o.unit,
-		scaleGroupKey: Ya(o.id, o.unit, void 0, o.valueType),
+		scaleGroupKey: Qa(o.id, o.unit, void 0, o.valueType),
 		scaleMode: "auto",
-		lineMode: Ha(r),
-		lineWidth: Ua(i),
+		lineMode: Ga(r),
+		lineWidth: Ka(i),
 		valueType: o.valueType
 	};
 }
-function Qa(e, t) {
+function to(e, t) {
 	let n = t?.states[e];
 	if (!n) return;
 	let r = n.attributes, i = r.temperature_unit;
@@ -10514,11 +6154,11 @@ function Qa(e, t) {
 	let a = r.unit_of_measurement;
 	if (typeof a == "string" && a !== "") return a;
 }
-function $a(e, t, n) {
+function no(e, t, n) {
 	if (e.attribute || !e.entity.startsWith("climate.") || !n?.states[e.entity]) return [e];
-	let r = Qa(e.entity, n);
-	return [e, ...Ia.map((i) => {
-		let a = [i], o = Wa(e.entity, a), s = Ka(n, e.entity, a), c = hi[i] ?? vi(t()), l = i === "current_temperature" || i === "temperature" ? r : void 0, u = i === "hvac_action" ? void 0 : "temperature";
+	let r = to(e.entity, n);
+	return [e, ...za.map((i) => {
+		let a = [i], o = qa(e.entity, a), s = Ya(n, e.entity, a), c = vi[i] ?? xi(t()), l = i === "current_temperature" || i === "temperature" ? r : void 0, u = i === "hvac_action" ? void 0 : "temperature";
 		return {
 			id: o,
 			entity: e.entity,
@@ -10526,7 +6166,7 @@ function $a(e, t, n) {
 			label: i,
 			color: c,
 			unit: l,
-			scaleGroupKey: Ya(o, l, u, s),
+			scaleGroupKey: Qa(o, l, u, s),
 			scaleMode: "auto",
 			lineMode: e.lineMode,
 			lineWidth: e.lineWidth,
@@ -10534,27 +6174,27 @@ function $a(e, t, n) {
 		};
 	})];
 }
-function eo(e) {
-	return e.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && Ra(e.unit))?.unit ?? e.find((e) => e.unit && Ra(e.unit))?.unit;
+function ro(e) {
+	return e.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && Va(e.unit))?.unit ?? e.find((e) => e.unit && Va(e.unit))?.unit;
 }
-function to(e) {
-	let t = eo(e), n = e.some((e) => e.scaleGroupKey === "group:temperature");
+function io(e) {
+	let t = ro(e), n = e.some((e) => e.scaleGroupKey === "group:temperature");
 	return e.map((e) => {
-		let r = ja(e.unit), i = r && t ? t : e.unit, a = r && i && e.scaleGroupKey === "unit:temperature" ? `unit:${i}` : e.scaleGroupKey;
-		return n && e.valueType === "number" && i && Ra(i) && a.startsWith("unit:") && !za(e) && (a = "group:temperature"), i !== e.unit || a !== e.scaleGroupKey ? {
+		let r = Pa(e.unit), i = r && t ? t : e.unit, a = r && i && e.scaleGroupKey === "unit:temperature" ? `unit:${i}` : e.scaleGroupKey;
+		return n && e.valueType === "number" && i && Va(i) && a.startsWith("unit:") && !Ha(e) && (a = "group:temperature"), i !== e.unit || a !== e.scaleGroupKey ? {
 			...e,
 			unit: i,
 			scaleGroupKey: a
 		} : e;
 	});
 }
-function no(e) {
-	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? Pa, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s = t?.lineMode ?? e.lineMode, c = t?.lineWidth ?? e.lineWidth, l;
-	l = t?.series && t.series.length > 0 ? t.series.map((e, t) => Xa(e, t, n, r, s, c)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => Za(e, t, n, s, c)).filter((e) => e !== void 0);
+function ao(e) {
+	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? La, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s = t?.lineMode ?? e.lineMode, c = t?.lineWidth ?? e.lineWidth, l;
+	l = t?.series && t.series.length > 0 ? t.series.map((e, t) => $a(e, t, n, r, s, c)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => eo(e, t, n, s, c)).filter((e) => e !== void 0);
 	let u = l.length;
-	return l = l.flatMap((e) => $a(e, () => u++, n)), l = to(l), {
-		startDate: Ba(o),
-		endDate: Ba(i),
+	return l = l.flatMap((e) => no(e, () => u++, n)), l = io(l), {
+		startDate: Ua(o),
+		endDate: Ua(i),
 		showDatePicker: t?.showDatePicker ?? e.showDatePicker ?? !1,
 		showEntityPicker: t?.showEntityPicker ?? e.showEntityPicker ?? !1,
 		showLegend: t?.showLegend ?? e.showLegend ?? !0,
@@ -10571,14 +6211,14 @@ function no(e) {
 		disableClimateOverlay: t?.disableClimateOverlay ?? !1
 	};
 }
-var ro = {
+var oo = {
 	loading: "ui.common.loading",
 	empty: "ui.components.history_charts.no_history_found",
 	error: "ui.components.history_charts.error",
 	add_target: "ui.components.target-picker.add_target",
 	attributes: "ui.dialogs.more_info_control.attributes",
 	back: "ui.common.back"
-}, io = {
+}, so = {
 	en: {
 		no_series: "No series configured",
 		no_entity_selected: "No entity selected",
@@ -10607,10 +6247,10 @@ var ro = {
 	}
 };
 function W(e, t) {
-	let n = ro[t];
-	return n && e?.localize ? e.localize(n) : io[e?.locale?.language?.split("-")[0] ?? e?.language?.split("-")[0] ?? "en"]?.[t] ?? io.en?.[t] ?? t;
+	let n = oo[t];
+	return n && e?.localize ? e.localize(n) : so[e?.locale?.language?.split("-")[0] ?? e?.language?.split("-")[0] ?? "en"]?.[t] ?? so.en?.[t] ?? t;
 }
-var ao = en`
+var co = rn`
   :host {
     display: flex;
     flex-direction: column;
@@ -11605,7 +7245,7 @@ var ao = en`
     font-size: 13px;
     text-align: center;
   }
-`, oo = [
+`, lo = [
 	"ha-icon",
 	"ha-icon-button",
 	"ha-svg-icon",
@@ -11615,15 +7255,15 @@ var ao = en`
 	"ha-input-chip",
 	"ha-assist-chip",
 	"ha-generic-picker"
-], so;
-function co() {
-	return so ??= sr(oo), so;
+], uo;
+function fo() {
+	return uo ??= ur(lo), uo;
 }
-var lo;
-function uo() {
-	return lo ??= fo(), lo;
+var po;
+function mo() {
+	return po ??= ho(), po;
 }
-async function fo() {
+async function ho() {
 	if (!customElements.get("ha-date-range-picker")) try {
 		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("timeout")), 1e4))]);
 		let e = document.createElement("partial-panel-resolver");
@@ -11635,14 +7275,14 @@ async function fo() {
 		console.warn("[ha-better-history] Failed to load ha-date-range-picker:", e);
 	}
 }
-function po() {
+function go() {
 	return customElements.get("ha-date-range-picker") !== void 0;
 }
-async function mo() {
-	await uo();
+async function _o() {
+	await mo();
 }
-function ho(e, t, n, r) {
-	return M`
+function vo(e, t, n, r) {
+	return N`
     <div class="date-picker-wrapper">
       <ha-date-range-picker
         .hass=${e}
@@ -11658,32 +7298,32 @@ function ho(e, t, n, r) {
     </div>
   `;
 }
-function go(e) {
+function yo(e) {
 	return typeof e == "object" && !!e && !Array.isArray(e);
 }
-function _o(e) {
+function bo(e) {
 	return typeof e.attributes.friendly_name == "string" ? e.attributes.friendly_name : e.entity_id;
 }
-var vo = !1;
-async function yo() {
-	vo || (vo = !0, await co());
+var xo = !1;
+async function So() {
+	xo || (xo = !0, await fo());
 }
-function bo() {
+function Co() {
 	return customElements.get("ha-generic-picker") !== void 0;
 }
-function xo(e) {
+function wo(e) {
 	let t = e.selectedEntityId && e.hass ? e.hass.states[e.selectedEntityId] : void 0;
-	return M`
+	return N`
     <div class="entity-picker"
       @picker-opened=${e.onEntityPickerOpened}
       @picker-closed=${e.onEntityPickerClosed}
     >
       <div class="entity-menu" ?open=${e.menuOpen} @click=${(e) => e.stopPropagation()}>
         <div class="entity-menu-top">
-          <span class="entity-menu-title">${t ? _o(t) : ""}</span>
+          <span class="entity-menu-title">${t ? bo(t) : ""}</span>
           <button class="entity-menu-close" @click=${e.onCloseMenu}>&#x2715;</button>
         </div>
-        ${To(e)}
+        ${Oo(e)}
       </div>
       <ha-generic-picker
         class="entity-trigger"
@@ -11697,25 +7337,25 @@ function xo(e) {
 		n && e.onEntitySelected(n);
 	}}
       ></ha-generic-picker>
-      ${e.loading ? M`
+      ${e.loading ? N`
             <div class="history-loading-indicator" role="status" aria-label=${W(e.hass, "loading")}>
               <span class="history-loading-spinner"></span>
               <span class="history-loading-text">${W(e.hass, "loading")}</span>
             </div>
-          ` : P}
-      ${e.selectedSources.length > 0 ? M`
+          ` : F}
+      ${e.selectedSources.length > 0 ? N`
         <div
           class="entity-row"
           @dragover=${(t) => e.onSourceDragOver(void 0, t)}
           @drop=${(t) => e.onSourceDrop(void 0, t)}
         >
-          ${e.selectedSources.map((t) => Co(t, e))}
+          ${e.selectedSources.map((t) => Eo(t, e))}
         </div>
-      ` : P}
+      ` : F}
     </div>
   `;
 }
-function So(e) {
+function To(e) {
 	let t = e.attributes.icon;
 	return typeof t == "string" && t ? t : {
 		climate: "mdi:thermostat",
@@ -11741,9 +7381,9 @@ function So(e) {
 		timer: "mdi:timer"
 	}[e.entity_id.split(".")[0]] ?? "mdi:bookmark";
 }
-function Co(e, t) {
+function Eo(e, t) {
 	let n = t.resolved?.series.some((t) => t.id === e.id) ?? !1, r = e.kind === "entity_state", i = t.hass?.states[e.entityId], a = r ? "entity-source-chip" : "attr-source-chip", o = t.draggingSourceId === e.id;
-	return M`
+	return N`
     <div
       class="source-chip ${a}"
       draggable=${!n}
@@ -11756,10 +7396,10 @@ function Co(e, t) {
       @drop=${(n) => t.onSourceDrop(e.id, n)}
     >
       <span class="source-chip-icon">
-        ${r && i ? M`<ha-icon .icon=${So(i)}></ha-icon>` : M`<ha-icon .icon=${wo(e.valueType)}></ha-icon>`}
+        ${r && i ? N`<ha-icon .icon=${To(i)}></ha-icon>` : N`<ha-icon .icon=${Do(e.valueType)}></ha-icon>`}
       </span>
       <span class="source-chip-label">${e.label}</span>
-      ${n ? P : M`<button
+      ${n ? F : N`<button
             class="source-chip-remove"
             @click=${(n) => {
 		n.preventDefault(), t.onSourceRemoved(e.id);
@@ -11768,7 +7408,7 @@ function Co(e, t) {
     </div>
   `;
 }
-function wo(e) {
+function Do(e) {
 	switch (e) {
 		case "number": return "mdi:chart-line";
 		case "string": return "mdi:text";
@@ -11776,114 +7416,114 @@ function wo(e) {
 		default: return "mdi:code-tags";
 	}
 }
-function To(e) {
+function Oo(e) {
 	let t = e.selectedEntityId && e.hass ? e.hass.states[e.selectedEntityId] : void 0, n = e.path, r = t ? (() => {
 		if (n.length === 0) return t.attributes;
 		let e = t.attributes;
 		for (let t of n) {
-			if (!go(e)) return;
+			if (!yo(e)) return;
 			e = e[t];
 		}
 		return e;
 	})() : void 0;
-	return M`
+	return N`
     <div class="entity-browser">
-      ${Eo(t, e)}
+      ${ko(t, e)}
       <div class="entity-browser-list">
-        ${t ? Do(t, n, go(r) ? r : {}, e) : M`<div class="entity-browser-empty">${W(e.hass, "no_entity_selected")}</div>`}
+        ${t ? Ao(t, n, yo(r) ? r : {}, e) : N`<div class="entity-browser-empty">${W(e.hass, "no_entity_selected")}</div>`}
       </div>
     </div>
   `;
 }
-function Eo(e, t) {
-	return !e || t.path.length === 0 ? M`` : M`
+function ko(e, t) {
+	return !e || t.path.length === 0 ? N`` : N`
     <div class="entity-breadcrumb">
-      ${t.path.map((e, n) => M`
-          ${n > 0 ? M`<span class="entity-breadcrumb-sep">/</span>` : P}
+      ${t.path.map((e, n) => N`
+          ${n > 0 ? N`<span class="entity-breadcrumb-sep">/</span>` : F}
           <button class="entity-crumb" @click=${() => t.onBreadcrumbClick(t.path.slice(0, n + 1))}>${e}</button>
         `)}
     </div>
   `;
 }
-function Do(e, t, n, r) {
-	let i = Object.entries(n).sort(([e], [t]) => e.localeCompare(t)), a = i.some(([n, r]) => go(r) ? !0 : zr(r) !== void 0 && !!Vr(e, [...t, n]));
-	return M`
+function Ao(e, t, n, r) {
+	let i = Object.entries(n).sort(([e], [t]) => e.localeCompare(t)), a = i.some(([n, r]) => yo(r) ? !0 : Hr(r) !== void 0 && !!Wr(e, [...t, n]));
+	return N`
     <div class="entity-browser-entries">
-      ${t.length > 0 ? M`
+      ${t.length > 0 ? N`
             <div class="entity-browser-back" @click=${() => r.onBreadcrumbClick(t.slice(0, -1))}>
               &#x2190; ${W(r.hass, "back")}
             </div>
-          ` : M`
-            ${Mo(e, r)}
-            ${a ? M`<div class="entity-browser-section-title">${W(r.hass, "attributes")}</div>` : P}
+          ` : N`
+            ${Fo(e, r)}
+            ${a ? N`<div class="entity-browser-section-title">${W(r.hass, "attributes")}</div>` : F}
           `}
-      ${i.map(([n, i]) => No(e, n, i, t, r))}
+      ${i.map(([n, i]) => Io(e, n, i, t, r))}
     </div>
   `;
 }
-function Oo(e, t) {
+function jo(e, t) {
 	return t.selectedSources.some((t) => t.id === e);
 }
-function ko(e, t) {
+function Mo(e, t) {
 	return (t.resolved?.series ?? []).some((t) => t.id === e);
 }
-function Ao(e, t) {
+function No(e, t) {
 	let n = t.selectedSources.some((t) => t.entityId === e), r = (t.resolved?.series ?? []).some((t) => t.entity === e);
 	return n || r;
 }
-function jo(e, t) {
+function Po(e, t) {
 	if (!e.entity_id.startsWith("climate.")) return !1;
 	let n = t.selectedSources.some((t) => t.entityId.startsWith("climate.") && t.entityId !== e.entity_id), r = (t.resolved?.series ?? []).some((t) => t.entity.startsWith("climate.") && t.entity !== e.entity_id);
 	return n || r;
 }
-function Mo(e, t) {
-	let n = Br(e);
-	return n ? jo(e, t) ? M`
+function Fo(e, t) {
+	let n = Ur(e);
+	return n ? Po(e, t) ? N`
       <div class="entity-browser-entity entity-browser-entity--disabled">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : Oo(n.id, t) ? M`
+    ` : jo(n.id, t) ? N`
       <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--removable" @click=${() => t.onSourceRemoved(n.id)}>
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : ko(n.id, t) ? M`
+    ` : Mo(n.id, t) ? N`
       <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--forced">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : Ao(e.entity_id, t) ? M`
+    ` : No(e.entity_id, t) ? N`
       <div class="entity-browser-entity entity-browser-entity--disabled">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : M`
+    ` : N`
     <div class="entity-browser-entity" @click=${() => t.onSourceAdded(n)}>
       <span class="entity-browser-entry-label">${e.entity_id}</span>
     </div>
-  ` : P;
+  ` : F;
 }
-function No(e, t, n, r, i) {
-	if (go(n)) return M`
+function Io(e, t, n, r, i) {
+	if (yo(n)) return N`
       <div class="entity-browser-entry" @click=${() => i.onBreadcrumbClick([...r, t])}>
         <span class="entity-browser-entry-label">${t}</span>
         <span class="entity-browser-entry-arrow">&#x203A;</span>
       </div>
     `;
-	let a = zr(n), o = [...r, t], s = a ? Vr(e, o) : void 0;
-	return s ? Oo(s.id, i) ? M`
+	let a = Hr(n), o = [...r, t], s = a ? Wr(e, o) : void 0;
+	return s ? jo(s.id, i) ? N`
       <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--removable" @click=${() => i.onSourceRemoved(s.id)}>
         <span class="entity-browser-entry-label">${t}</span>
         <span class="entity-browser-entry-type">${a}</span>
       </div>
-    ` : ko(s.id, i) ? M`
+    ` : Mo(s.id, i) ? N`
       <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--forced">
         <span class="entity-browser-entry-label">${t}</span>
         <span class="entity-browser-entry-type">${a}</span>
       </div>
-    ` : M`
+    ` : N`
     <div class="entity-browser-entry" @click=${() => i.onSourceAdded(s)}>
       <span class="entity-browser-entry-label">${t}</span>
       <span class="entity-browser-entry-type">${a}</span>
     </div>
-  ` : P;
+  ` : F;
 }
 function G(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
@@ -11891,22 +7531,22 @@ function G(e, t, n, r) {
 	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
 	return i > 3 && a && Object.defineProperty(t, n, a), a;
 }
-var Po = /°[CF]|[CFK]$/, Fo = 60, Io = 1e3;
-function Lo(e) {
-	return Po.test(e);
+var Lo = /°[CF]|[CFK]$/, Ro = 60, zo = 1e3;
+function Bo(e) {
+	return Lo.test(e);
 }
-var K = class extends nr {
+var K = class extends ar {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new pi(this), this._tooltip = new Oa(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new gi(this), this._tooltip = new ja(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
 			id: e.entity_id,
-			primary: _o(e),
+			primary: bo(e),
 			secondary: e.entity_id
 		})), this._getAdditionalEntityPickerItems = (e) => {
 			if (!this.hass || !e?.trim()) return [];
 			let t = e.toLowerCase(), n = new Set(this._pickerEntities().map((e) => e.entity_id));
 			return Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !n.has(e.entity_id)).filter((e) => e.entity_id.toLowerCase().includes(t) || typeof e.attributes.friendly_name == "string" && e.attributes.friendly_name.toLowerCase().includes(t)).slice(0, 20).map((e) => ({
 				id: e.entity_id,
-				primary: _o(e),
+				primary: bo(e),
 				secondary: e.entity_id
 			}));
 		}, this._handleDocumentPointerDown = (e) => {
@@ -11916,10 +7556,10 @@ var K = class extends nr {
 		};
 	}
 	static {
-		this.styles = ao;
+		this.styles = co;
 	}
 	connectedCallback() {
-		super.connectedCallback(), co(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("mousedown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), this._resizeObserver = new ResizeObserver((e) => {
+		super.connectedCallback(), fo(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("mousedown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), this._resizeObserver = new ResizeObserver((e) => {
 			let t = e[0]?.contentRect.width ?? 0;
 			t !== this._containerWidth && (this._containerWidth = t);
 		}), this._resizeObserver.observe(this);
@@ -11955,9 +7595,9 @@ var K = class extends nr {
 				this._stopLiveClock();
 				return;
 			}
-			let e = this._effectiveEndDate().getTime(), t = !this._viewEnd || Math.abs(this._viewEnd.getTime() - e) <= Io * 2, n = Date.now();
+			let e = this._effectiveEndDate().getTime(), t = !this._viewEnd || Math.abs(this._viewEnd.getTime() - e) <= zo * 2, n = Date.now();
 			this._liveNow = n, t && (this._viewEnd = new Date(n));
-		}, Io);
+		}, zo);
 	}
 	_stopLiveClock() {
 		this._liveNowTimer !== void 0 && (clearInterval(this._liveNowTimer), this._liveNowTimer = void 0);
@@ -11980,7 +7620,7 @@ var K = class extends nr {
 	}
 	_fetchSources() {
 		let e = [], t = /* @__PURE__ */ new Set();
-		if (this._resolved) for (let n of this._resolved.series) t.has(n.id) || (t.add(n.id), e.push(Na(n)));
+		if (this._resolved) for (let n of this._resolved.series) t.has(n.id) || (t.add(n.id), e.push(Ia(n)));
 		for (let n of this._selectedSources) {
 			let r = this._sourceWithAttributeUnit(n);
 			t.has(r.id) || (t.add(r.id), e.push(r));
@@ -11991,7 +7631,7 @@ var K = class extends nr {
 		return (this._resolved?.series ?? []).some((t) => t.id === e.id);
 	}
 	_resolvedTemperatureUnit() {
-		return this._resolved?.series.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && Lo(e.unit))?.unit;
+		return this._resolved?.series.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && Bo(e.unit))?.unit;
 	}
 	willUpdate(e) {
 		this._data.debugPerformance = this.debugPerformance || this.config?.debugPerformance === !0;
@@ -12010,7 +7650,7 @@ var K = class extends nr {
 				if (e === this._lastHassResolveTime && this._lastFetchKey) return;
 				this._lastHassResolveTime = e;
 			}
-			let t = no({
+			let t = ao({
 				config: this.config,
 				entities: this.entities,
 				hours: this.hours,
@@ -12042,10 +7682,10 @@ var K = class extends nr {
 					i.length > 0 && o.length === 0 ? (this._lastFetchKey = a, this._lastFetchSources = n, this._data.addSources(this.hass, i, t.startDate, t.endDate)) : o.length > 0 && i.length === 0 ? (this._lastFetchKey = a, this._lastFetchSources = n, this._data.removeSources(o)) : (this._lastFetchKey = a, this._lastFetchSources = n, this._data.fetch(this.hass, n, t.startDate, t.endDate));
 				} else this._lastFetchKey = a, this._lastFetchSources = n, this._data.fetch(this.hass, n, t.startDate, t.endDate);
 			}
-			t.showDatePicker && !this._datePickerReady && mo().then(() => {
-				this._datePickerReady = po(), this.requestUpdate();
-			}), t.showEntityPicker && !this._entityComponentsReady && yo().then(() => {
-				this._entityComponentsReady = bo(), this.requestUpdate();
+			t.showDatePicker && !this._datePickerReady && _o().then(() => {
+				this._datePickerReady = go(), this.requestUpdate();
+			}), t.showEntityPicker && !this._entityComponentsReady && So().then(() => {
+				this._entityComponentsReady = Co(), this.requestUpdate();
 			});
 		}
 	}
@@ -12076,7 +7716,7 @@ var K = class extends nr {
 			let t = this._resolved?.series.find((t) => t.unit === e.unit && t.valueType === "number");
 			if (t) return t.scaleGroupKey;
 			let n = this._resolved?.series.find((e) => e.scaleGroupKey === "group:temperature");
-			if (n && Lo(e.unit)) return n.scaleGroupKey;
+			if (n && Bo(e.unit)) return n.scaleGroupKey;
 		}
 		return e.unit ? `unit:${e.unit}` : `series:${e.id}`;
 	}
@@ -12116,7 +7756,7 @@ var K = class extends nr {
 			e.push({
 				id: n.id,
 				label: n.label,
-				color: vi(i),
+				color: xi(i),
 				unit: n.unit,
 				scaleGroupKey: a,
 				scaleMode: "auto",
@@ -12160,7 +7800,7 @@ var K = class extends nr {
 		let c = this._maxXTicks(), l = this._buildRenderSeries(), u = l.filter((e) => !this._hiddenSeriesIds.includes(e.id)), d = {
 			start: i,
 			end: Math.max(a, i + 1)
-		}, f = this._data.debugPerformance, p = f ? R() : 0, m = ba(l, u, d, this._resolved?.disableClimateOverlay ?? !1, c, s), h = f ? R() - p : 0;
+		}, f = this._data.debugPerformance, p = f ? R() : 0, m = Ca(l, u, d, this._resolved?.disableClimateOverlay ?? !1, c, s), h = f ? R() - p : 0;
 		return f && z(f, "chart.build_data", {
 			allSeriesCount: l.length,
 			visibleSeriesCount: u.length,
@@ -12183,7 +7823,7 @@ var K = class extends nr {
 	_graphGroups(e) {
 		let t = this._maxXTicks(), n = this._graphGroupRenderCache;
 		if (n && n.dataRef === e && n.maxXTicks === t) return n.groups;
-		let r = Da(e, t);
+		let r = Aa(e, t);
 		return this._graphGroupRenderCache = {
 			dataRef: e,
 			maxXTicks: t,
@@ -12192,7 +7832,7 @@ var K = class extends nr {
 	}
 	_renderGraphGroup(e) {
 		let t = this._resolved?.showLegend ?? !0;
-		return M`
+		return N`
       <div class="graph-section">
         <div class="graph-canvas" data-series-ids=${e.series.map((e) => e.id).join("|")} style="height:${e.canvasHeight}px">
           <svg
@@ -12200,63 +7840,63 @@ var K = class extends nr {
             height="${e.svgHeight}"
             preserveAspectRatio="none"
           >
-            ${e.xLabels.map((t) => N`
+            ${e.xLabels.map((t) => P`
                 <line class="grid-line grid-line--vertical" x1=${t.x.toFixed(1)} y1=${18} x2=${t.x.toFixed(1)} y2=${e.svgHeight - 18}></line>
               `)}
-            ${e.yLabels.map((e) => N`
+            ${e.yLabels.map((e) => P`
                 <line class="grid-line grid-line--horizontal" x1=${40} y1=${e.y.toFixed(1)} x2=${680} y2=${e.y.toFixed(1)}></line>
               `)}
             <defs>
               ${e.lines.map((t) => {
 			let n = t.id.replace(/[^a-zA-Z0-9]/g, "_");
-			return N`
+			return P`
                   <clipPath id=${`clip-${n}`}>
                     <rect id=${`rect-${n}`} x="0" y="0" width="0" height=${e.svgHeight}></rect>
                   </clipPath>
                 `;
 		})}
             </defs>
-            ${e.heatingAreas.map((e) => N`<polygon class="climate-heating-area" points=${e.points}></polygon>`)}
-            ${e.columns.map((e) => N`<rect class="column" x=${e.x.toFixed(1)} y=${e.y.toFixed(1)} width=${e.width.toFixed(1)} height=${e.height.toFixed(1)} fill=${e.fill}></rect>`)}
+            ${e.heatingAreas.map((e) => P`<polygon class="climate-heating-area" points=${e.points}></polygon>`)}
+            ${e.columns.map((e) => P`<rect class="column" x=${e.x.toFixed(1)} y=${e.y.toFixed(1)} width=${e.width.toFixed(1)} height=${e.height.toFixed(1)} fill=${e.fill}></rect>`)}
             ${e.lines.map((e) => {
 			let t = `clip-${e.id.replace(/[^a-zA-Z0-9]/g, "_")}`, n = e.points.split(" "), r = n[n.length - 1], i = r ? parseFloat(r.split(",")[0]) : 0, a = this._prevClipX.get(e.id) ?? 0, o = !this._suppressLineAnimation && i > a;
-			return N`<polyline class="line" clip-path="url(#${t})" data-line-id=${e.id} data-animate-clip=${o ? "true" : P} data-target-x=${i} points=${e.points} stroke=${e.color} stroke-width=${e.lineWidth}></polyline>`;
+			return P`<polyline class="line" clip-path="url(#${t})" data-line-id=${e.id} data-animate-clip=${o ? "true" : F} data-target-x=${i} points=${e.points} stroke=${e.color} stroke-width=${e.lineWidth}></polyline>`;
 		})}
-            ${e.segments.map((e) => N`<rect class="segment" x=${e.x} y=${e.y} width=${e.width} height="9" fill=${e.fill}></rect>`)}
-            ${e.series.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").map((e, t) => N`<rect class="segment-border" x=${40} y=${218 + t * 14} width=${640} height="9" fill="none" stroke=${e.color}></rect>`)}
+            ${e.segments.map((e) => P`<rect class="segment" x=${e.x} y=${e.y} width=${e.width} height="9" fill=${e.fill}></rect>`)}
+            ${e.series.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").map((e, t) => P`<rect class="segment-border" x=${40} y=${218 + t * 14} width=${640} height="9" fill="none" stroke=${e.color}></rect>`)}
             <line class="axis" x1=${40} y1=${18} x2=${40} y2=${e.svgHeight - 18}></line>
-            ${e.rightYLabels.length > 0 ? N`<line class="axis" x1=${680} y1=${18} x2=${680} y2=${e.svgHeight - 18}></line>` : P}
+            ${e.rightYLabels.length > 0 ? P`<line class="axis" x1=${680} y1=${18} x2=${680} y2=${e.svgHeight - 18}></line>` : F}
             <line class="axis" x1=${40} y1=${e.svgHeight - 18} x2=${680} y2=${e.svgHeight - 18}></line>
-            ${e.scale ? e.yLabels.map((e) => N`
+            ${e.scale ? e.yLabels.map((e) => P`
                     <line class="axis tick" x1=${36} y1=${e.y.toFixed(1)} x2=${40} y2=${e.y.toFixed(1)}></line>
-                  `) : P}
-            ${e.rightYLabels.map((e) => N`
+                  `) : F}
+            ${e.rightYLabels.map((e) => P`
                 <line class="axis tick" x1=${680} y1=${e.y.toFixed(1)} x2=${684} y2=${e.y.toFixed(1)}></line>
               `)}
           </svg>
           ${e.yLabels.map((e) => {
 			let t = (40 / 720 * 100).toFixed(2);
-			return M`<span class="y-axis-label" style="top:${e.y.toFixed(1)}px;left:0;width:${t}%;text-align:right;padding-right:6px;">${e.value}</span>`;
+			return N`<span class="y-axis-label" style="top:${e.y.toFixed(1)}px;left:0;width:${t}%;text-align:right;padding-right:6px;">${e.value}</span>`;
 		})}
           ${e.rightYLabels.map((e) => {
 			let t = (680 / 720 * 100).toFixed(2), n = (100 - Number(t)).toFixed(2);
-			return M`<span class="y-axis-label" style="top:${e.y.toFixed(1)}px;left:${t}%;width:${n}%;text-align:left;padding-left:6px;">${e.value}</span>`;
+			return N`<span class="y-axis-label" style="top:${e.y.toFixed(1)}px;left:${t}%;width:${n}%;text-align:left;padding-left:6px;">${e.value}</span>`;
 		})}
           ${e.xLabels.map((t) => {
 			let n = (t.x / 720 * 100).toFixed(2);
-			return M`<span class="x-axis-label ${t.bold ? "x-axis-label--bold" : ""}" style="left:${n}%;top:${e.svgHeight + 3}px;">${t.label}</span>`;
+			return N`<span class="x-axis-label ${t.bold ? "x-axis-label--bold" : ""}" style="left:${n}%;top:${e.svgHeight + 3}px;">${t.label}</span>`;
 		})}
         </div>
-        ${t && e.allSeries.length > 0 ? M`
+        ${t && e.allSeries.length > 0 ? N`
             <div class="graph-legend">
-              ${e.allSeries.map((e) => M`
+              ${e.allSeries.map((e) => N`
                   <button class="legend-item" ?hidden-series=${this._hiddenSeriesIds.includes(e.id)} @click=${() => this._toggleSeries(e.id)}>
                     <span class="swatch" style=${e.valueType === "string" ? `background:color-mix(in srgb,${e.color} 30%,transparent);border:1px solid ${e.color};` : `background:${e.color};`}></span>
                     <span class="legend-label">${e.label}</span>
                   </button>
                 `)}
             </div>
-          ` : P}
+          ` : F}
       </div>
     `;
 	}
@@ -12283,9 +7923,9 @@ var K = class extends nr {
 	_renderChartBody() {
 		if (this._data.error) {
 			let e = /timed?\s*out/i.test(this._data.error);
-			return M`<div class="error">${W(this.hass, e ? "error_timeout" : "error")}</div>`;
+			return N`<div class="error">${W(this.hass, e ? "error_timeout" : "error")}</div>`;
 		}
-		if (!this._resolved || this._resolved.series.length === 0 && this._selectedSources.length === 0) return M`<div class="empty">${W(this.hass, "no_series")}</div>`;
+		if (!this._resolved || this._resolved.series.length === 0 && this._selectedSources.length === 0) return N`<div class="empty">${W(this.hass, "no_series")}</div>`;
 		let e = this._chartData(), t = e.visibleSeries.some((e) => e.points.length > 0), n = this._resolved.showTooltip, r = this._graphGroups(e), i = r.length > 0 && (t || this._data.loading);
 		this._suppressLineAnimation = this._wasLoading && !this._data.loading;
 		let a = r.reduce((e, t) => e + t.canvasHeight, 0);
@@ -12297,21 +7937,21 @@ var K = class extends nr {
 			})));
 			this._tooltip.sync(t, this._data.series, this._hiddenSeriesIds, a, e.timeBounds);
 		}
-		return M`
+		return N`
       <div class="chart-surface">
-        ${i ? M`
+        ${i ? N`
               <div class="chart-graphs"
-                @pointermove=${n ? (e) => this._tooltip.handlePointerMove(e) : P}
-                @pointerleave=${n ? () => this._tooltip.handlePointerLeave() : P}
+                @pointermove=${n ? (e) => this._tooltip.handlePointerMove(e) : F}
+                @pointerleave=${n ? () => this._tooltip.handlePointerLeave() : F}
               >
                 ${r.map((e) => this._renderGraphGroup(e))}
-                ${n ? this._tooltip.renderTooltip() : P}
-              </div>` : this._data.loading ? P : M`<div class="empty">${W(this.hass, "empty")}</div>`}
+                ${n ? this._tooltip.renderTooltip() : F}
+              </div>` : this._data.loading ? F : N`<div class="empty">${W(this.hass, "empty")}</div>`}
       </div>
     `;
 	}
 	_renderEntityPickerUI() {
-		return !this._resolved?.showEntityPicker || !this._entityComponentsReady ? P : xo({
+		return !this._resolved?.showEntityPicker || !this._entityComponentsReady ? F : wo({
 			hass: this.hass,
 			menuOpen: this._attributeMenuOpen,
 			entityPickerOpen: this._entityPickerOpen,
@@ -12450,9 +8090,9 @@ var K = class extends nr {
 		a.href = i, a.download = `ha-better-history-${o}.json`, a.click(), URL.revokeObjectURL(i);
 	}
 	_renderToolsPanel() {
-		if (!this.toolsOpen || !this._resolved) return P;
+		if (!this.toolsOpen || !this._resolved) return F;
 		let e = this._effectiveViewRange(), t = this._rangePercent(this._viewStart, this._resolved.startDate), n = this._rangePercent(this._viewEnd, this._resolved.endDate), r = (t + n) / 20, i = this._defaultLineMode();
-		return M`
+		return N`
       <div class="tools-panel">
         <div class="tool-range">
           <div class="tool-range-head">
@@ -12497,7 +8137,7 @@ var K = class extends nr {
 				"mdi:chart-bar",
 				"mode_column"
 			]
-		].map(([e, t, n]) => M`
+		].map(([e, t, n]) => N`
               <button
                 class="mode-button"
                 ?active=${i === e}
@@ -12522,13 +8162,13 @@ var K = class extends nr {
 			this._resolved?.titleFontSize ? `font-size:${this._resolved.titleFontSize};` : "",
 			this._resolved?.titleColor ? `color:${this._resolved.titleColor};` : ""
 		].join("");
-		return M`
+		return N`
       <div class="root" style="width:${e};background:${t};">
-        ${n ? M`<div class="graph-title" style=${r}>${n}</div>` : P}
-        ${this.showControls ? M`<div class="controls-bar">
+        ${n ? N`<div class="graph-title" style=${r}>${n}</div>` : F}
+        ${this.showControls ? N`<div class="controls-bar">
               ${this._renderDatePicker()}
               ${this._renderEntityPickerUI()}
-            </div>` : P}
+            </div>` : F}
         ${this._renderToolsPanel()}
         <div class="chart-area">
           ${this._renderChartBody()}
@@ -12548,7 +8188,7 @@ var K = class extends nr {
 		}));
 	}
 	_renderDatePicker() {
-		return !this._resolved?.showDatePicker || !this._datePickerReady ? P : ho(this.hass, this._resolved.startDate, this._resolved.endDate, (e, t) => this._onDateRangeChanged(e, t));
+		return !this._resolved?.showDatePicker || !this._datePickerReady ? F : vo(this.hass, this._resolved.startDate, this._resolved.endDate, (e, t) => this._onDateRangeChanged(e, t));
 	}
 	_positionEntityMenu() {
 		let e = this.renderRoot?.querySelector(".entity-trigger"), t = this.renderRoot?.querySelector(".entity-menu");
@@ -12585,7 +8225,7 @@ var K = class extends nr {
 	}
 	_sourceWithAttributeUnit(e) {
 		if (e.kind !== "entity_attribute" || !e.path) return e;
-		let t = Ma(e.path, this.attributeUnits ?? this.config?.attributeUnits), n = ja(t) ? this._resolvedTemperatureUnit() ?? t : t;
+		let t = Fa(e.path, this.attributeUnits ?? this.config?.attributeUnits), n = Pa(t) ? this._resolvedTemperatureUnit() ?? t : t;
 		return !n || e.unit === n ? e : {
 			...e,
 			unit: n
@@ -12598,7 +8238,7 @@ var K = class extends nr {
 			detail: { source: t },
 			bubbles: !0,
 			composed: !0
-		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), Fo);
+		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), Ro);
 	}
 	_flushPendingAddedSources() {
 		if (this._sourceAddBatchTimer = void 0, this._pendingAddedSources.length === 0) return;
@@ -12682,25 +8322,25 @@ G([I({ attribute: !1 })], K.prototype, "hass", void 0), G([I({ attribute: !1 })]
 })], K.prototype, "toolsOpen", void 0), G([L()], K.prototype, "_resolved", void 0), G([L()], K.prototype, "_hiddenSeriesIds", void 0), G([L()], K.prototype, "_rangeStart", void 0), G([L()], K.prototype, "_rangeEnd", void 0), G([L()], K.prototype, "_viewStart", void 0), G([L()], K.prototype, "_viewEnd", void 0), G([L()], K.prototype, "_liveNow", void 0), G([L()], K.prototype, "_datePickerReady", void 0), G([L()], K.prototype, "_entityComponentsReady", void 0), G([L()], K.prototype, "_runtimeLineMode", void 0), G([L()], K.prototype, "_attributeMenuOpen", void 0), G([L()], K.prototype, "_selectedEntityId", void 0), G([L()], K.prototype, "_path", void 0), G([L()], K.prototype, "_selectedSources", void 0), G([L()], K.prototype, "_customEntityIds", void 0), G([L()], K.prototype, "_entityPickerOpen", void 0), G([L()], K.prototype, "_draggingSourceId", void 0), G([L()], K.prototype, "_containerWidth", void 0), customElements.get("ha-better-history") || customElements.define("ha-better-history", K);
 //#endregion
 //#region src/data/attribute-units.ts
-var Ro = "attributes.json", zo = {}, Bo;
-function Vo() {
-	return new URL(Ro, import.meta.url).toString();
+var Vo = "attributes.json", Ho = {}, Uo;
+function Wo() {
+	return new URL(Vo, import.meta.url).toString();
 }
-function Ho(e) {
-	if (typeof e != "object" || !e || Array.isArray(e)) return zo;
+function Go(e) {
+	if (typeof e != "object" || !e || Array.isArray(e)) return Ho;
 	let t = {};
 	for (let [n, r] of Object.entries(e)) n !== "" && typeof r == "string" && r !== "" && (t[n] = r);
 	return t;
 }
-function Uo() {
-	return Bo ??= fetch(Vo()).then((e) => e.ok ? e.json() : zo).then(Ho).catch(() => zo), Bo;
+function Ko() {
+	return Uo ??= fetch(Wo()).then((e) => e.ok ? e.json() : Ho).then(Go).catch(() => Ho), Uo;
 }
-function Wo(e) {
-	return e ?? zo;
+function qo(e) {
+	return e ?? Ho;
 }
 //#endregion
 //#region src/components/eq-history-dialog.ts
-var Go = class extends w {
+var Jo = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._attributeUnitsLoadStarted = !1, this._historyPickerOverlayOpen = !1, this._suppressNextDialogClose = !1, this._handleDocumentPointerDown = () => {
 			!this.open || !this._historyPickerOverlayOpen || (this._suppressNextDialogClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
@@ -12778,7 +8418,7 @@ var Go = class extends w {
 		this._fullscreen = !this._fullscreen;
 	}
 	_loadAttributeUnits() {
-		this._attributeUnitsLoadStarted || (this._attributeUnitsLoadStarted = !0, Uo().then((e) => {
+		this._attributeUnitsLoadStarted || (this._attributeUnitsLoadStarted = !0, Ko().then((e) => {
 			this._staticAttributeUnits = e, this.requestUpdate();
 		}));
 	}
@@ -12854,7 +8494,7 @@ var Go = class extends w {
         ${this.open ? S`<ha-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
-              .attributeUnits=${Wo(this._staticAttributeUnits)}
+              .attributeUnits=${qo(this._staticAttributeUnits)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
@@ -12865,10 +8505,10 @@ var Go = class extends w {
     `;
 	}
 };
-customElements.get("eq-history-dialog") || customElements.define("eq-history-dialog", Go);
+customElements.get("eq-history-dialog") || customElements.define("eq-history-dialog", Jo);
 //#endregion
 //#region src/components/eq-lock-dialog.ts
-var Ko = 4, qo = [
+var Yo = 4, Xo = [
 	"1",
 	"2",
 	"3",
@@ -12881,10 +8521,10 @@ var Ko = 4, qo = [
 	"spacer",
 	"0",
 	"backspace"
-], Jo = class extends w {
+], Zo = class extends w {
 	constructor(...e) {
 		super(...e), this.open = !1, this.entityId = "", this.isLocking = !0, this._code = "", this._error = !1, this._loading = !1, this._onKeyDown = (e) => {
-			this.open && (e.key >= "0" && e.key <= "9" ? this._pressDigit(e.key) : e.key === "Backspace" ? this._pressBackspace() : e.key === "Escape" ? this._cancel() : e.key === "Enter" && this._code.length === Ko && this._validate());
+			this.open && (e.key >= "0" && e.key <= "9" ? this._pressDigit(e.key) : e.key === "Backspace" ? this._pressBackspace() : e.key === "Escape" ? this._cancel() : e.key === "Enter" && this._code.length === Yo && this._validate());
 		};
 	}
 	static {
@@ -13100,7 +8740,7 @@ var Ko = 4, qo = [
           <span>${e} — ${t}</span>
         </div>
         <div class="dots" ?error=${this._error}>
-          ${Array.from({ length: Ko }, (e, t) => S`
+          ${Array.from({ length: Yo }, (e, t) => S`
             <div
               class="dot"
               ?filled=${t < this._code.length && !this._error}
@@ -13110,7 +8750,7 @@ var Ko = 4, qo = [
         </div>
         <div class="error-msg">${this._error ? n : C}</div>
         <div class="keypad">
-          ${qo.map((e) => this._renderKey(e))}
+          ${Xo.map((e) => this._renderKey(e))}
         </div>
         <button class="cancel" @click=${this._cancel}>${r}</button>
       </div>
@@ -13128,7 +8768,7 @@ var Ko = 4, qo = [
       ` : e === "spacer" ? S`<div></div>` : S`
       <button
         class="key"
-        ?disabled=${this._loading || this._code.length >= Ko}
+        ?disabled=${this._loading || this._code.length >= Yo}
         @click=${() => this._pressDigit(e)}
       >
         ${e}
@@ -13136,13 +8776,13 @@ var Ko = 4, qo = [
     `;
 	}
 	_pressDigit(e) {
-		this._loading || this._code.length >= Ko || (this._error = !1, this._code += e, this._code.length === Ko && this._validate());
+		this._loading || this._code.length >= Yo || (this._error = !1, this._code += e, this._code.length === Yo && this._validate());
 	}
 	_pressBackspace() {
 		this._loading || this._code.length === 0 || (this._error = !1, this._code = this._code.slice(0, -1));
 	}
 	async _validate() {
-		if (this._loading || !this.hass || this._code.length < Ko) return;
+		if (this._loading || !this.hass || this._code.length < Yo) return;
 		this._loading = !0;
 		let e = this.isLocking ? "lock" : "unlock";
 		try {
@@ -13166,10 +8806,10 @@ var Ko = 4, qo = [
 		}));
 	}
 };
-customElements.get("eq-lock-dialog") || customElements.define("eq-lock-dialog", Jo);
+customElements.get("eq-lock-dialog") || customElements.define("eq-lock-dialog", Zo);
 //#endregion
 //#region src/components/eq-main-card.ts
-var Yo = [
+var Qo = [
 	"frost",
 	"eco",
 	"away",
@@ -13178,7 +8818,7 @@ var Yo = [
 	"sleep",
 	"activity",
 	"boost"
-], Xo = {
+], $o = {
 	frost: "mdi:snowflake",
 	eco: "mdi:tree-outline",
 	away: "mdi:home-export-outline",
@@ -13187,7 +8827,7 @@ var Yo = [
 	sleep: "mdi:sleep",
 	activity: "mdi:motion-sensor",
 	boost: "mdi:rocket-launch-outline"
-}, Zo = [
+}, es = [
 	{
 		key: "hasOverpowering",
 		icon: "mdi:flash-alert",
@@ -13215,7 +8855,7 @@ var Yo = [
 		tone: "boost",
 		messageKeys: ["target_temp_timed_preset"]
 	}
-], Qo = {
+], ts = {
 	safety_detected: {
 		icon: "mdi:thermometer-alert",
 		tone: "danger"
@@ -13292,7 +8932,7 @@ var Yo = [
 		icon: "mdi:alert-box-outline",
 		tone: "warning"
 	}
-}, $o = {
+}, ns = {
 	preheating: {
 		icon: "mdi:timer-sand",
 		tone: "heat"
@@ -13330,11 +8970,11 @@ var Yo = [
 function q(e) {
 	return typeof e == "number" && Number.isFinite(e);
 }
-function es(e, t) {
+function rs(e, t) {
 	let n = [...new Set(e)], r = t.filter((e) => n.includes(e)), i = n.filter((e) => !t.includes(e));
 	return [...r, ...i];
 }
-var ts = class extends w {
+var is = class extends w {
 	constructor(...e) {
 		super(...e), this._activeDialog = null, this._powerInfoPinned = !1, this._lockDialogOpen = !1, this._lockIsLocking = !1, this._handleMouseLeave = () => {
 			this._activeDialog === "menu" && (this._activeDialog = null);
@@ -13363,8 +9003,8 @@ var ts = class extends w {
 	}
 	static {
 		this.styles = [
-			Nt,
-			Pt,
+			It,
+			Lt,
 			o`
       :host {
         display: block;
@@ -14331,7 +9971,7 @@ var ts = class extends w {
         transition: opacity 0.2s;
       }
     `,
-			Ft
+			Rt
 		];
 	}
 	connectedCallback() {
@@ -14538,7 +10178,7 @@ var ts = class extends w {
     `;
 	}
 	_renderHvacStateIcon() {
-		let e = this.viewModel?.climate.hvacAction, t = e ? $o[e] : void 0, n = this.viewModel?.climate.hvacMode;
+		let e = this.viewModel?.climate.hvacAction, t = e ? ns[e] : void 0, n = this.viewModel?.climate.hvacMode;
 		if (n === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return C;
 		let r = t?.icon || (n ? A[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? T(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
 		return r ? S`
@@ -14553,10 +10193,10 @@ var ts = class extends w {
 	_renderEvents() {
 		let e = this.viewModel?.vt?.events, t = this.viewModel?.vt?.messages ?? [];
 		if (!e) return [];
-		let n = new Set(Zo.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])), r = t.map((e) => {
+		let n = new Set(es.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])), r = t.map((e) => {
 			let t = n.has(e.key) ? (e) => this._openBoost(e) : void 0;
 			return this._renderMessageIcon(e, t);
-		}), i = Zo.filter((n) => {
+		}), i = es.filter((n) => {
 			let r = n.messageKeys ?? [];
 			return e[n.key] && !r.some((e) => t.some((t) => t.key === e));
 		}).map((e) => {
@@ -14611,7 +10251,7 @@ var ts = class extends w {
     `;
 	}
 	_messageIcon(e) {
-		return Qo[e] ?? {
+		return ts[e] ?? {
 			icon: "mdi:information-outline",
 			tone: "info"
 		};
@@ -14765,7 +10405,7 @@ var ts = class extends w {
     `;
 	}
 	_renderHvacModes() {
-		let e = es(this.viewModel?.climate.hvacModes ?? [], Et).filter((e) => A[e]);
+		let e = rs(this.viewModel?.climate.hvacModes ?? [], kt).filter((e) => A[e]);
 		return e.length === 0 ? C : S`<div class="segments" style=${e.length < 3 ? `width: calc(100% / 3 * ${e.length}); margin-inline: auto;` : ""}>${e.map((e) => this._renderHvacButton(e))}</div>`;
 	}
 	_renderHvacButton(e) {
@@ -14785,7 +10425,7 @@ var ts = class extends w {
     `;
 	}
 	_renderPresets() {
-		let e = es(this.viewModel?.climate.presetModes ?? [], Yo).filter((e) => e !== "none" && Xo[e] && !this._hidePreset(e));
+		let e = rs(this.viewModel?.climate.presetModes ?? [], Qo).filter((e) => e !== "none" && $o[e] && !this._hidePreset(e));
 		return e.length === 0 ? C : S`<div class="segments">${e.map((e) => this._renderPresetButton(e))}</div>`;
 	}
 	_renderPresetButton(e) {
@@ -14799,13 +10439,13 @@ var ts = class extends w {
         @click=${() => this._setPresetMode(e)}
       >
         <span class="btn-icon" tone=${this._presetTone(e)}>
-          <ha-icon .icon=${Xo[e]}></ha-icon>
+          <ha-icon .icon=${$o[e]}></ha-icon>
         </span>
       </ha-control-button>
     `;
 	}
 	_renderCompactSelectors() {
-		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = es(this.viewModel?.climate.hvacModes ?? [], Et).filter((e) => A[e]), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = (this.viewModel?.climate.presetModes ?? []).filter((e) => e !== "none" && Xo[e]).length > 0, o = t && t !== "none" && Xo[t] ? Xo[t] : "mdi:knob", s = !!t && t !== "none" && !!Xo[t], c = this._hasFanControl(), l = this._hasSwingControl(), u = +!!i + +!!a + +!!c + +!!l;
+		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = rs(this.viewModel?.climate.hvacModes ?? [], kt).filter((e) => A[e]), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = (this.viewModel?.climate.presetModes ?? []).filter((e) => e !== "none" && $o[e]).length > 0, o = t && t !== "none" && $o[t] ? $o[t] : "mdi:knob", s = !!t && t !== "none" && !!$o[t], c = this._hasFanControl(), l = this._hasSwingControl(), u = +!!i + +!!a + +!!c + +!!l;
 		return u === 0 ? C : S`
       <div class="compact-selectors" style=${u < 4 ? `width: calc(100% / 3 * ${u}); margin-inline: auto;` : ""}>
         ${i ? S`
@@ -14986,7 +10626,7 @@ var ts = class extends w {
 		if (e === "cooling" || e === "cool") return "cool";
 	}
 	_modeTone(e) {
-		return e ? Dt[e] ?? "" : "";
+		return e ? At[e] ?? "" : "";
 	}
 	_presetTone(e) {
 		let t = this.viewModel?.climate.hvacMode;
@@ -14998,7 +10638,7 @@ var ts = class extends w {
 	}
 	_fanIcon() {
 		let e = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
-		return e ? jt[e] ?? "mdi:fan-speed-2" : "mdi:fan-speed-2";
+		return e ? Pt[e] ?? "mdi:fan-speed-2" : "mdi:fan-speed-2";
 	}
 	_fanIconClass() {
 		let e = this._fanIcon();
@@ -15010,7 +10650,7 @@ var ts = class extends w {
 	}
 	_swingIcon() {
 		let e = this.viewModel?.climate.swingMode, t = this.viewModel?.climate.swingHorizontalMode;
-		return e ? kt[e] ?? "mdi:arrow-oscillating" : t ? At[t] ?? kt[t] ?? "mdi:arrow-expand-horizontal" : "mdi:arrow-oscillating";
+		return e ? Mt[e] ?? "mdi:arrow-oscillating" : t ? Nt[t] ?? Mt[t] ?? "mdi:arrow-expand-horizontal" : "mdi:arrow-oscillating";
 	}
 	_swingLabel() {
 		let e = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode;
@@ -15094,7 +10734,7 @@ var ts = class extends w {
 		t.value = new Intl.NumberFormat(this._language(), {
 			minimumFractionDigits: i,
 			maximumFractionDigits: i
-		}).format(a), ht({
+		}).format(a), vt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -15115,7 +10755,7 @@ var ts = class extends w {
 		t.value = new Intl.NumberFormat(this._language(), {
 			minimumFractionDigits: o,
 			maximumFractionDigits: o
-		}).format(a[n]), ht({
+		}).format(a[n]), vt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -15127,7 +10767,7 @@ var ts = class extends w {
 	_changeTemperature(e) {
 		if (!this.hass || !this.config || !this.viewModel || !q(this.viewModel.climate.targetTemperature)) return;
 		let t = this.viewModel.climate.targetTempStep ?? .5, n = this._clampTemperature(this.viewModel.climate.targetTemperature + t * e);
-		ht({
+		vt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -15138,7 +10778,7 @@ var ts = class extends w {
 		let n = this.viewModel.climate.targetTemperatureRange?.[e];
 		if (!q(n)) return;
 		let r = this.viewModel.climate.targetTempStep ?? .5, i = this._rangeWith(e, n + r * t);
-		i && ht({
+		i && vt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -15167,14 +10807,14 @@ var ts = class extends w {
 		return Number(i.toFixed(2));
 	}
 	_setHvacMode(e) {
-		!this.hass || !this.config || !this.viewModel || gt({
+		!this.hass || !this.config || !this.viewModel || yt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e);
 	}
 	_setPresetMode(e) {
-		!this.hass || !this.config || !this.viewModel || _t({
+		!this.hass || !this.config || !this.viewModel || bt({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -15202,30 +10842,30 @@ var ts = class extends w {
 			viewModel: this.viewModel
 		};
 		if (this.viewModel.vt.lock.isLocked) {
-			Tt(e);
+			Ot(e);
 			return;
 		}
-		wt(e);
+		Dt(e);
 	}
 };
-customElements.get("eq-main-card") || customElements.define("eq-main-card", ts);
+customElements.get("eq-main-card") || customElements.define("eq-main-card", is);
 //#endregion
 //#region src/data/format.ts
-var ns = new Set(["unknown", "unavailable"]);
-function rs(e) {
-	return e == null || typeof e == "string" && ns.has(e);
+var as = new Set(["unknown", "unavailable"]);
+function os(e) {
+	return e == null || typeof e == "string" && as.has(e);
 }
 function J(e) {
-	if (!(rs(e) || typeof e != "string" || e.trim() === "")) return e;
+	if (!(os(e) || typeof e != "string" || e.trim() === "")) return e;
 }
 function Y(e) {
-	if (rs(e)) return;
+	if (os(e)) return;
 	if (typeof e == "number") return Number.isFinite(e) ? e : void 0;
 	if (typeof e != "string" || e.trim() === "") return;
 	let t = Number(e);
 	return Number.isFinite(t) ? t : void 0;
 }
-function is(e) {
+function ss(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : [];
 }
 function X(...e) {
@@ -15242,13 +10882,13 @@ function Q(e, t) {
 function $(e) {
 	return e === !0;
 }
-function as(e) {
+function cs(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : typeof e == "string" && e.trim() !== "" ? [e] : [];
 }
-function os(e) {
+function ls(e) {
 	return e === "safety_detected" || e === "heating_failure" || e === "cooling_failure" ? "danger" : e === "overpowering_detected" || e === "not_initialized" ? "alert" : "info";
 }
-function ss(e) {
+function us(e) {
 	return {
 		isPresenceConfigured: $(e.is_presence_configured),
 		isPowerConfigured: $(e.is_power_configured),
@@ -15261,28 +10901,28 @@ function ss(e) {
 		isRepairIncorrectStateConfigured: $(e.is_repair_incorrect_state_configured)
 	};
 }
-function cs(e) {
+function ds(e) {
 	let t = J(Q(e, ["configuration", "type"])), n = [];
 	return (e.is_over_switch === !0 || t === "over_switch") && n.push("over_switch"), (e.is_over_valve === !0 || t === "over_valve") && n.push("over_valve"), (e.is_over_climate === !0 || t === "over_climate") && n.push("over_climate"), (Q(e, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0 || Q(e, ["configuration", "have_valve_regulation"]) === !0) && n.push("over_climate_valve"), n;
 }
-function ls(e) {
-	let t = as(Q(e, ["specific_states", "messages"]));
+function fs(e) {
+	let t = cs(Q(e, ["specific_states", "messages"]));
 	return Q(e, ["safety_manager", "safety_state"]) === "on" && t.push("safety_detected"), Q(e, ["heating_failure_detection_manager", "heating_failure_state"]) === "on" && t.push("heating_failure"), Q(e, ["heating_failure_detection_manager", "cooling_failure_state"]) === "on" && t.push("cooling_failure"), Q(e, ["power_manager", "overpowering_state"]) === "on" && t.push("overpowering_detected"), [...new Set(t)].map((e) => ({
 		key: e,
-		severity: os(e)
+		severity: ls(e)
 	}));
 }
-function us(e) {
+function ps(e) {
 	return X(J(Q(e, ["configuration", "proportional_function"])), J(Q(e, ["vtherm_over_valve", "function"])), J(Q(e, [
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"function"
 	])), J(Q(e, ["specific_states", "proportional_function"])));
 }
-function ds(e, t, n) {
-	let r = n.attributes, i = Z(r.specific_states), a = cs(r);
+function ms(e, t, n) {
+	let r = n.attributes, i = Z(r.specific_states), a = ds(r);
 	if (!(a.length > 0 || i !== void 0 || Z(r.configuration) !== void 0)) return;
-	let o = ss(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
+	let o = us(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
 		"vtherm_over_climate",
 		"valve_regulation",
 		"power_percent"
@@ -15290,13 +10930,13 @@ function ds(e, t, n) {
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"valve_open_percent"
-	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = ls(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
+	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = fs(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
 	return {
 		isVt: !0,
 		types: a,
 		configuration: {
 			type: J(Q(r, ["configuration", "type"])),
-			proportionalFunction: us(r),
+			proportionalFunction: ps(r),
 			haveValveRegulation: Q(r, ["configuration", "have_valve_regulation"]) === !0 || Q(r, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0
 		},
 		flags: o,
@@ -15354,22 +10994,22 @@ function ds(e, t, n) {
 }
 //#endregion
 //#region src/data/climate-state.ts
-function fs(e) {
+function hs(e) {
 	return typeof e == "object" && e ? e : void 0;
 }
-function ps(e, t) {
-	return t.reduce((e, t) => fs(e)?.[t], e);
+function gs(e, t) {
+	return t.reduce((e, t) => hs(e)?.[t], e);
 }
-function ms(e) {
+function _s(e) {
 	return e.state === "unavailable" ? "unavailable" : e.state === "unknown" ? "unknown" : "available";
 }
-function hs(e, t, n) {
+function vs(e, t, n) {
 	return X(Y(n.humidity), e.humidity_entity ? Y(t.states[e.humidity_entity]?.state) : void 0);
 }
-function gs(e, t) {
+function ys(e, t) {
 	if (!e.temperature_entity) return;
 	let n = t.states[e.temperature_entity]?.state;
-	if (!n || rs(n)) return;
+	if (!n || os(n)) return;
 	let r = parseFloat(n);
 	if (!Number.isFinite(r)) return;
 	let i = n.indexOf(".");
@@ -15379,7 +11019,7 @@ function gs(e, t) {
 		entityId: e.temperature_entity
 	};
 }
-function _s(e, t) {
+function bs(e, t) {
 	if (!e.power_entity) return {};
 	let n = t.states[e.power_entity];
 	return {
@@ -15387,65 +11027,65 @@ function _s(e, t) {
 		instantPowerUnit: J(n?.attributes.unit_of_measurement)
 	};
 }
-function vs(e, t, n) {
-	let r = n.attributes, i = gs(e, t), a = X(rs(n.state) ? void 0 : n.state, J(r.hvac_mode), J(ps(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(ps(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
+function xs(e, t, n) {
+	let r = n.attributes, i = ys(e, t), a = X(os(n.state) ? void 0 : n.state, J(r.hvac_mode), J(gs(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(gs(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
 	return {
 		entityId: n.entity_id,
 		name: e.name ?? J(r.friendly_name),
-		availability: ms(n),
+		availability: _s(n),
 		hvacMode: a,
 		hvacAction: J(r.hvac_action),
-		targetTemperature: X(Y(r.temperature), Y(ps(r, ["current_state", "target_temperature"]))),
+		targetTemperature: X(Y(r.temperature), Y(gs(r, ["current_state", "target_temperature"]))),
 		currentTemperature: i?.value ?? Y(r.current_temperature),
 		currentTemperatureDecimals: i?.decimals,
 		temperatureEntityId: i?.entityId,
-		currentHumidity: hs(e, t, r),
-		hvacModes: is(r.hvac_modes),
-		presetModes: is(r.preset_modes),
+		currentHumidity: vs(e, t, r),
+		hvacModes: ss(r.hvac_modes),
+		presetModes: ss(r.preset_modes),
 		presetMode: s,
 		fanMode: J(r.fan_mode),
-		fanModes: is(r.fan_modes),
+		fanModes: ss(r.fan_modes),
 		swingMode: J(r.swing_mode),
-		swingModes: is(r.swing_modes),
+		swingModes: ss(r.swing_modes),
 		swingHorizontalMode: J(r.swing_horizontal_mode),
-		swingHorizontalModes: is(r.swing_horizontal_modes),
+		swingHorizontalModes: ss(r.swing_horizontal_modes),
 		minTemp: Y(r.min_temp),
 		maxTemp: Y(r.max_temp),
-		targetTempStep: X(Y(r.target_temp_step), Y(ps(r, ["configuration", "target_temperature_step"])), .5),
+		targetTempStep: X(Y(r.target_temp_step), Y(gs(r, ["configuration", "target_temperature_step"])), .5),
 		targetTemperatureRange: {
 			low: Y(r.target_temp_low),
 			high: Y(r.target_temp_high)
 		},
-		..._s(e, t)
+		...bs(e, t)
 	};
 }
-function ys(e, t, n) {
+function Ss(e, t, n) {
 	return {
-		climate: vs(e, t, n),
-		vt: ds(e, t, n)
+		climate: xs(e, t, n),
+		vt: ms(e, t, n)
 	};
 }
 //#endregion
 //#region src/data/config.ts
-function bs(e) {
+function Cs(e) {
 	return typeof e == "string";
 }
-function xs(e, t) {
-	return bs(t) && e.includes(t);
+function ws(e, t) {
+	return Cs(t) && e.includes(t);
 }
-function Ss(e) {
+function Ts(e) {
 	return e.startsWith("climate.");
 }
-function Cs(e) {
+function Es(e) {
 	let t = {
-		...lt,
+		...ft,
 		...e,
 		type: He
 	};
-	return delete t.card_height, !bs(t.entity) || t.entity.trim() === "" ? {
+	return delete t.card_height, !Cs(t.entity) || t.entity.trim() === "" ? {
 		config: t,
 		error: "missing_entity"
-	} : (t.entity = t.entity.trim(), Ss(t.entity) ? xs(it, t.theme) ? xs(at, t.display_mode) ? xs(ot, t.primary_display) ? xs(st, t.additional_dashboards) ? xs(ct, t.state_icons_layout) ? { config: t } : {
+	} : (t.entity = t.entity.trim(), Ts(t.entity) ? ws(st, t.theme) ? ws(ct, t.display_mode) ? ws(lt, t.primary_display) ? ws(ut, t.additional_dashboards) ? ws(dt, t.state_icons_layout) ? { config: t } : {
 		config: t,
 		error: "invalid_state_icons_layout"
 	} : {
@@ -15467,7 +11107,7 @@ function Cs(e) {
 }
 //#endregion
 //#region src/equinox-card.ts
-var ws = class extends w {
+var Ds = class extends w {
 	static {
 		this.properties = {
 			hass: { attribute: !1 },
@@ -15505,7 +11145,7 @@ var ws = class extends w {
 		};
 	}
 	setConfig(e) {
-		this._validation = Cs(e);
+		this._validation = Es(e);
 	}
 	willUpdate() {
 		this._viewModel = this._buildViewModel();
@@ -15541,7 +11181,7 @@ var ws = class extends w {
 	_buildViewModel() {
 		if (!this.hass || !this._validation || this._validation.error) return;
 		let e = this._validation.config, t = this.hass.states[e.entity];
-		if (t) return ys(e, this.hass, t);
+		if (t) return Ss(e, this.hass, t);
 	}
 	_renderMessage(e, t = !1) {
 		return S`
@@ -15551,15 +11191,15 @@ var ws = class extends w {
     `;
 	}
 };
-customElements.get("equinox-card") || customElements.define(Ue, ws), window.customCards = window.customCards ?? [];
-var Ts = window.customCards;
-Ts.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
-	Ts.splice(Ts.indexOf(e), 1);
-}), Ts.push({
+customElements.get("equinox-card") || customElements.define(Ue, Ds), window.customCards = window.customCards ?? [];
+var Os = window.customCards;
+Os.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
+	Os.splice(Os.indexOf(e), 1);
+}), Os.push({
 	type: Ue,
 	name: Ve,
 	description: T(navigator.language, "card.description"),
 	preview: !0
 });
 //#endregion
-export { ws as EquinoxCard };
+export { Ds as EquinoxCard };

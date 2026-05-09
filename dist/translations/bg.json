@@ -1,0 +1,237 @@
+{
+  "card": {
+    "description": "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
+    "missing_entity": "Конфигурирайте климатичен елемент.",
+    "invalid_entity": "Конфигурираният елемент трябва да принадлежи към климатичния домейн.",
+    "invalid_theme": "Конфигурираната тема не е налична.",
+    "invalid_display_mode": "Конфигурираният режим на показване не е наличен.",
+    "invalid_primary_display": "Конфигурираният приоритет на показване не е наличен.",
+    "invalid_additional_dashboards": "Конфигурираният режим на панелите не е наличен.",
+    "invalid_state_icons_layout": "Конфигурираният макет на икони на състояние не е наличен.",
+    "entity_not_found": "Елемент не е намерен: {entity}",
+    "placeholder": "Equinox е готин за {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Отопление активно",
+      "cooling": "Охлаждане активно",
+      "auto": "Автоматичен",
+      "heat": "Отопление",
+      "cool": "Охлаждане",
+      "heat_cool": "Автоматичен",
+      "dry": "Сушене",
+      "fan_only": "Само вентилатор",
+      "off": "Изключено",
+      "boost": "Временен импулс",
+      "unavailable": "Недостъпно"
+    },
+    "hvac": {
+      "heat": "Отопление",
+      "cool": "Охлаждане",
+      "heat_cool": "Отопление/Охлаждане",
+      "auto": "Автоматичен",
+      "dry": "Сушене",
+      "fan_only": "Само вентилатор",
+      "off": "Изключено"
+    },
+    "hvac_action": {
+      "off": "Изключено",
+      "preheating": "Предварително загряване",
+      "heating": "Отопление активно",
+      "cooling": "Охлаждане активно",
+      "drying": "Сушене активно",
+      "fan": "Вентилатор активен",
+      "idle": "Неактивен",
+      "defrosting": "Разстойване"
+    },
+    "preset": {
+      "none": "Без предустановка",
+      "frost": "Защита от замръзване",
+      "eco": "Eco",
+      "away": "Отсъстващ",
+      "comfort": "Комфорт",
+      "home": "Дом",
+      "sleep": "Сън",
+      "activity": "Активност",
+      "boost": "Импулс"
+    },
+    "fan": {
+      "on": "Включено",
+      "auto": "Автоматичен",
+      "low": "Нисък",
+      "medium": "Среден",
+      "middle": "Среда",
+      "high": "Висок",
+      "top": "Горен",
+      "off": "Изключено",
+      "focus": "Фокус",
+      "diffuse": "Дифузия",
+      "auto_fan_none": "Нищо",
+      "auto_fan_low": "Нисък",
+      "auto_fan_medium": "Среден",
+      "auto_fan_high": "Висок",
+      "auto_fan_turbo": "Турбо",
+      "None": "Нищо",
+      "Turbo": "Турбо",
+      "unavailable": "Вентилатор"
+    },
+    "swing": {
+      "off": "Изключено",
+      "on": "Включено",
+      "vertical": "Вертикална",
+      "horizontal": "Хоризонтална",
+      "both": "И двете",
+      "unavailable": "Люлеене"
+    },
+    "lock": {
+      "locked": "Заключено",
+      "unlocked": "Отключено",
+      "code_required": "Изисква се код",
+      "enter_code": "Въведете код",
+      "wrong_code": "Неправилен код"
+    },
+    "events": {
+      "hasDanger": "Критично предупреждение",
+      "hasAlert": "Предупреждение",
+      "hasOverpowering": "Претоварване",
+      "hasOpenWindow": "Прозорец е отворен",
+      "hasPresence": "Присъствието е открито",
+      "hasTimer": "Таймерът е активен"
+    },
+    "messages": {
+      "hvac_off_manual": "Ръчно изключено",
+      "hvac_off_auto_start_stop": "Изключено чрез автоматичен старт/стоп",
+      "hvac_off_window_detection": "Изключено чрез откриване на прозорец",
+      "hvac_off_sleep_mode": "Изключено чрез режим на сън",
+      "hvac_off_safety_detection": "Изключено чрез режим на безопасност",
+      "hvac_off_central_mode": "Изключено чрез централен режим",
+      "safety_detected": "Режимът на безопасност е открит",
+      "overpowering_detected": "Претоварването е открито",
+      "target_temp_window_eco": "Цел. темп.: прозорец eco",
+      "target_temp_window_frost": "Цел. темп.: прозорец мраз",
+      "target_temp_power": "Цел. темп.: мощност",
+      "target_temp_central_mode": "Цел. темп.: централен режим",
+      "target_temp_activity_detected": "Цел. темп.: активност открита",
+      "target_temp_activity_not_detected": "Цел. темп.: без активност",
+      "target_temp_absence_detected": "Цел. темп.: отсъствието е открито",
+      "target_temp_timed_preset": "Синхронизирана предустановка активна",
+      "not_initialized": "Грешка при инициализация",
+      "heating_failure": "Открита е грешка при отопление",
+      "cooling_failure": "Открита е грешка при охлаждане"
+    },
+    "actions": {
+      "decrease_temperature": "Намалете зададената температура",
+      "increase_temperature": "Увеличете зададената температура",
+      "low_temperature": "Нисък",
+      "high_temperature": "Висок",
+      "open_fan": "Отворете вентилатор",
+      "open_swing": "Отворете люлеене",
+      "open_menu": "Отворете меню",
+      "open_power_info": "Показване на индикаторите на мощност"
+    }
+  },
+  "dialog": {
+    "close": "Затворете",
+    "back": "Назад",
+    "fan": {
+      "title": "Вентилация",
+      "description_auto": "Автоматичният режим автоматично приспособява вентилацията към потребностите на отопление."
+    },
+    "swing": {
+      "title": "Люлеене",
+      "vertical": "Вертикална",
+      "horizontal": "Хоризонтална"
+    },
+    "hvac": {
+      "title": "Режим"
+    },
+    "preset": {
+      "title": "Предустановка"
+    },
+    "message": {
+      "title": "Съобщение"
+    },
+    "menu": {
+      "title": "Меню",
+      "regulation": "Регулация",
+      "boost": "Временен импулс",
+      "history": "История"
+    },
+    "history": {
+      "title": "История",
+      "load": "Зареждане",
+      "add": "Добавяне",
+      "add_entity": "Добавяне на елемент",
+      "loading": "Зареждане на история...",
+      "empty": "Няма история за този период.",
+      "no_attributes": "Няма избираем атрибут.",
+      "tools": "Инструменти",
+      "show_controls": "Показване на контролите на историята",
+      "hide_controls": "Скриване на контролите на историята",
+      "fullscreen": "Цял екран",
+      "exit_fullscreen": "Излизане от цял екран",
+      "sources": {
+        "current_temperature": "Текуща температура",
+        "temperature": "Целева температура",
+        "hvac_action": "Действие на HVAC"
+      }
+    },
+    "boost": {
+      "title": "Временен импулс",
+      "duration": "Продължителност в минути",
+      "minutes": "мин",
+      "hours": "ч",
+      "start": "Начало",
+      "stop": "Стоп",
+      "active": "Импулсът е активен",
+      "remaining_unknown": "Оставащото време е недостъпно",
+      "preset": "Синхронизирана предустановка",
+      "original_preset": "Предишна предустановка",
+      "start_description": "Когато обратното броене завърши, термостатът ще се върне в предишния режим.",
+      "active_description": "Когато обратното броене завърши, термостатът ще се върне в предишния режим.",
+      "active_description_with_preset": "Когато обратното броене завърши, термостатът ще се върне в предишния режим ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Елемент",
+    "name": "Име",
+    "diagnostic_entity": "Диагностичен елемент",
+    "power_entity": "Елемент на мощност",
+    "humidity_entity": "Елемент на влажност",
+    "temperature_entity": "Елемент на температура",
+    "theme": "Тема",
+    "display_mode": "Формат",
+    "primary_display": "Приоритет на показване",
+    "disable_name": "Скриване на име",
+    "hide_lock_button": "Скриване на бутона за заключване",
+    "additional_dashboards": "Допълнителни панели",
+    "state_icons_layout": "Икони на състояние",
+    "tabs": {
+      "general": "Общи",
+      "presentation": "Презентация"
+    },
+    "options": {
+      "theme": {
+        "flat": "Равен",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Класически",
+        "compact": "Компактен"
+      },
+      "primary_display": {
+        "setpoint": "Зададена температура",
+        "sensors": "Сензори"
+      },
+      "layout_orientation": {
+        "horizontal": "Хоризонтална",
+        "vertical": "Вертикална"
+      },
+      "additional_dashboards": {
+        "auto": "Автоматичен",
+        "custom": "Персонализиран",
+        "disabled": "Деактивирано"
+      }
+    }
+  }
+}

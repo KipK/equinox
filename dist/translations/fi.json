@@ -1,0 +1,237 @@
+{
+  "card": {
+    "description": "Lovelace-kortti Versatile Thermostat- ja vakioilmastoentiteeteille.",
+    "missing_entity": "Määritä ilmastoentiteetti.",
+    "invalid_entity": "Määritellyn entiteetin tulee kuulua ilmaston verkkotunnukseen.",
+    "invalid_theme": "Määriteltyä teemaa ei ole saatavilla.",
+    "invalid_display_mode": "Määriteltyä näyttötilaa ei ole saatavilla.",
+    "invalid_primary_display": "Määriteltyä näyttöprioriteetia ei ole saatavilla.",
+    "invalid_additional_dashboards": "Määriteltyä koontinäyttötilaa ei ole saatavilla.",
+    "invalid_state_icons_layout": "Määriteltyä tilapainikkeiston asettelua ei ole saatavilla.",
+    "entity_not_found": "Entiteettiä ei löydy: {entity}",
+    "placeholder": "Equinox on valmis {entity}:lle."
+  },
+  "main": {
+    "status": {
+      "heating": "Lämmitys aktiivinen",
+      "cooling": "Jäähdytys aktiivinen",
+      "auto": "Automaattinen",
+      "heat": "Lämmitys",
+      "cool": "Jäähdytys",
+      "heat_cool": "Automaattinen",
+      "dry": "Kuivaus",
+      "fan_only": "Vain puhaltimen",
+      "off": "Pois",
+      "boost": "Väliaikainen tehonkohennos",
+      "unavailable": "Ei saatavilla"
+    },
+    "hvac": {
+      "heat": "Lämmitys",
+      "cool": "Jäähdytys",
+      "heat_cool": "Lämmitys/Jäähdytys",
+      "auto": "Automaattinen",
+      "dry": "Kuivaus",
+      "fan_only": "Vain puhaltimen",
+      "off": "Pois"
+    },
+    "hvac_action": {
+      "off": "Pois",
+      "preheating": "Eslämmitys",
+      "heating": "Lämmitys aktiivinen",
+      "cooling": "Jäähdytys aktiivinen",
+      "drying": "Kuivaus aktiivinen",
+      "fan": "Puhallinen aktiivinen",
+      "idle": "Käyttämätön",
+      "defrosting": "Sulaminen"
+    },
+    "preset": {
+      "none": "Ei esiasetus",
+      "frost": "Pakkassuoja",
+      "eco": "Eco",
+      "away": "Poissa",
+      "comfort": "Mukavuus",
+      "home": "Koti",
+      "sleep": "Uni",
+      "activity": "Aktiviteetti",
+      "boost": "Tehonkohennos"
+    },
+    "fan": {
+      "on": "Päällä",
+      "auto": "Automaattinen",
+      "low": "Matala",
+      "medium": "Keskitaso",
+      "middle": "Keski",
+      "high": "Korkea",
+      "top": "Yläosa",
+      "off": "Pois",
+      "focus": "Kohdistus",
+      "diffuse": "Hajallaan",
+      "auto_fan_none": "Ei mitään",
+      "auto_fan_low": "Matala",
+      "auto_fan_medium": "Keskitaso",
+      "auto_fan_high": "Korkea",
+      "auto_fan_turbo": "Turbo",
+      "None": "Ei mitään",
+      "Turbo": "Turbo",
+      "unavailable": "Puhallinen"
+    },
+    "swing": {
+      "off": "Pois",
+      "on": "Päällä",
+      "vertical": "Pystysuora",
+      "horizontal": "Vaakasuora",
+      "both": "Molemmat",
+      "unavailable": "Heilunta"
+    },
+    "lock": {
+      "locked": "Lukittu",
+      "unlocked": "Lukittu auki",
+      "code_required": "Koodi vaaditaan",
+      "enter_code": "Syötä koodi",
+      "wrong_code": "Väärä koodi"
+    },
+    "events": {
+      "hasDanger": "Kriittinen varoitus",
+      "hasAlert": "Varoitus",
+      "hasOverpowering": "Ylikuorma",
+      "hasOpenWindow": "Ikkuna auki",
+      "hasPresence": "Läsnäolo havaittu",
+      "hasTimer": "Ajastin aktiivinen"
+    },
+    "messages": {
+      "hvac_off_manual": "Sammutettu manuaalisesti",
+      "hvac_off_auto_start_stop": "Sammutettu automaattisella käynnistyksellä/pysäytyksellä",
+      "hvac_off_window_detection": "Sammutettu ikkunan havainnolla",
+      "hvac_off_sleep_mode": "Sammutettu uniilla",
+      "hvac_off_safety_detection": "Sammutettu turvatilalla",
+      "hvac_off_central_mode": "Sammutettu keskustilalla",
+      "safety_detected": "Turvatila havaittu",
+      "overpowering_detected": "Ylikuorma havaittu",
+      "target_temp_window_eco": "Koht. lämp.: ikkuna eco",
+      "target_temp_window_frost": "Koht. lämp.: ikkuna pakkanen",
+      "target_temp_power": "Koht. lämp.: teho",
+      "target_temp_central_mode": "Koht. lämp.: keskustila",
+      "target_temp_activity_detected": "Koht. lämp.: aktiviteetti havaittu",
+      "target_temp_activity_not_detected": "Koht. lämp.: ei aktiviteettia",
+      "target_temp_absence_detected": "Koht. lämp.: poissaolo havaittu",
+      "target_temp_timed_preset": "Ajastettu esiasetus aktiivinen",
+      "not_initialized": "Alustusvirhe",
+      "heating_failure": "Lämmitysvirhe havaittu",
+      "cooling_failure": "Jäähdytysvirhe havaittu"
+    },
+    "actions": {
+      "decrease_temperature": "Pienennä asetusarvoa",
+      "increase_temperature": "Suurenna asetusarvoa",
+      "low_temperature": "Matala",
+      "high_temperature": "Korkea",
+      "open_fan": "Avaa puhallinen",
+      "open_swing": "Avaa heilunta",
+      "open_menu": "Avaa valikko",
+      "open_power_info": "Näytä tehoindikaattorit"
+    }
+  },
+  "dialog": {
+    "close": "Sulje",
+    "back": "Takaisin",
+    "fan": {
+      "title": "Tuuletus",
+      "description_auto": "Automaattinen tila mukauttaa automaattisesti tuuletusta lämmitystarpeisiin."
+    },
+    "swing": {
+      "title": "Heilunta",
+      "vertical": "Pystysuora",
+      "horizontal": "Vaakasuora"
+    },
+    "hvac": {
+      "title": "Tila"
+    },
+    "preset": {
+      "title": "Esiasetus"
+    },
+    "message": {
+      "title": "Viesti"
+    },
+    "menu": {
+      "title": "Valikko",
+      "regulation": "Säätö",
+      "boost": "Väliaikainen tehonkohennos",
+      "history": "Historia"
+    },
+    "history": {
+      "title": "Historia",
+      "load": "Lataa",
+      "add": "Lisää",
+      "add_entity": "Lisää entiteetti",
+      "loading": "Ladataan historiaa...",
+      "empty": "Ei historiaa tälle ajanjaksolle.",
+      "no_attributes": "Ei valittavaa attribuuttia.",
+      "tools": "Työkalut",
+      "show_controls": "Näytä historian ohjaimet",
+      "hide_controls": "Piilota historian ohjaimet",
+      "fullscreen": "Koko näyttö",
+      "exit_fullscreen": "Poistu koko näytöstä",
+      "sources": {
+        "current_temperature": "Nykyinen lämpötila",
+        "temperature": "Tavoitelämpötila",
+        "hvac_action": "HVAC-toiminta"
+      }
+    },
+    "boost": {
+      "title": "Väliaikainen tehonkohennos",
+      "duration": "Kesto minuutteina",
+      "minutes": "min",
+      "hours": "h",
+      "start": "Aloita",
+      "stop": "Pysäytä",
+      "active": "Tehonkohennos aktiivinen",
+      "remaining_unknown": "Jäljellä oleva aika ei ole saatavilla",
+      "preset": "Ajastettu esiasetus",
+      "original_preset": "Edellinen esiasetus",
+      "start_description": "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan.",
+      "active_description": "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan.",
+      "active_description_with_preset": "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Entiteetti",
+    "name": "Nimi",
+    "diagnostic_entity": "Diagnostinen entiteetti",
+    "power_entity": "Tehotoiminto",
+    "humidity_entity": "Kosteuden entiteetti",
+    "temperature_entity": "Lämpötilan entiteetti",
+    "theme": "Teema",
+    "display_mode": "Muoto",
+    "primary_display": "Näyttöprioriteetti",
+    "disable_name": "Piilota nimi",
+    "hide_lock_button": "Piilota lukituspainike",
+    "additional_dashboards": "Lisäkoontinäytöt",
+    "state_icons_layout": "Tilakuvakkeet",
+    "tabs": {
+      "general": "Yleinen",
+      "presentation": "Esittely"
+    },
+    "options": {
+      "theme": {
+        "flat": "Litteä",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Klassinen",
+        "compact": "Kompakti"
+      },
+      "primary_display": {
+        "setpoint": "Asetusarvo",
+        "sensors": "Anturit"
+      },
+      "layout_orientation": {
+        "horizontal": "Vaakasuora",
+        "vertical": "Pystysuora"
+      },
+      "additional_dashboards": {
+        "auto": "Automaattinen",
+        "custom": "Mukautettu",
+        "disabled": "Poistettu käytöstä"
+      }
+    }
+  }
+}

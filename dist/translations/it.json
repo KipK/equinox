@@ -1,0 +1,237 @@
+{
+  "card": {
+    "description": "Scheda Lovelace per Termostato Versatile e entità climatiche standard.",
+    "missing_entity": "Configurare un'entità climatica.",
+    "invalid_entity": "L'entità configurata deve appartenere al dominio climatico.",
+    "invalid_theme": "Il tema configurato non è disponibile.",
+    "invalid_display_mode": "La modalità di visualizzazione configurata non è disponibile.",
+    "invalid_primary_display": "La priorità di visualizzazione configurata non è disponibile.",
+    "invalid_additional_dashboards": "La modalità dashboard configurata non è disponibile.",
+    "invalid_state_icons_layout": "Il layout delle icone di stato configurato non è disponibile.",
+    "entity_not_found": "Entità non trovata: {entity}",
+    "placeholder": "Equinox è pronto per {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Riscaldamento attivo",
+      "cooling": "Raffreddamento attivo",
+      "auto": "Automatico",
+      "heat": "Riscaldamento",
+      "cool": "Raffreddamento",
+      "heat_cool": "Automatico",
+      "dry": "Secco",
+      "fan_only": "Solo ventilatore",
+      "off": "Spento",
+      "boost": "Potenziamento temporaneo",
+      "unavailable": "Non disponibile"
+    },
+    "hvac": {
+      "heat": "Riscaldamento",
+      "cool": "Raffreddamento",
+      "heat_cool": "Riscaldamento/Raffreddamento",
+      "auto": "Automatico",
+      "dry": "Secco",
+      "fan_only": "Solo ventilatore",
+      "off": "Spento"
+    },
+    "hvac_action": {
+      "off": "Spento",
+      "preheating": "Preriscaldamento",
+      "heating": "Riscaldamento attivo",
+      "cooling": "Raffreddamento attivo",
+      "drying": "Essiccazione attiva",
+      "fan": "Ventilatore attivo",
+      "idle": "Inattivo",
+      "defrosting": "Sbrinamento"
+    },
+    "preset": {
+      "none": "Nessun preset",
+      "frost": "Protezione dal gelo",
+      "eco": "Eco",
+      "away": "Assente",
+      "comfort": "Comfort",
+      "home": "Casa",
+      "sleep": "Riposo",
+      "activity": "Attività",
+      "boost": "Potenziamento"
+    },
+    "fan": {
+      "on": "Acceso",
+      "auto": "Automatico",
+      "low": "Basso",
+      "medium": "Medio",
+      "middle": "Mezzo",
+      "high": "Alto",
+      "top": "Superiore",
+      "off": "Spento",
+      "focus": "Fuoco",
+      "diffuse": "Diffuso",
+      "auto_fan_none": "Nessuno",
+      "auto_fan_low": "Basso",
+      "auto_fan_medium": "Medio",
+      "auto_fan_high": "Alto",
+      "auto_fan_turbo": "Turbo",
+      "None": "Nessuno",
+      "Turbo": "Turbo",
+      "unavailable": "Ventilatore"
+    },
+    "swing": {
+      "off": "Spento",
+      "on": "Acceso",
+      "vertical": "Verticale",
+      "horizontal": "Orizzontale",
+      "both": "Entrambi",
+      "unavailable": "Oscillazione"
+    },
+    "lock": {
+      "locked": "Bloccato",
+      "unlocked": "Sbloccato",
+      "code_required": "Codice richiesto",
+      "enter_code": "Inserisci codice",
+      "wrong_code": "Codice errato"
+    },
+    "events": {
+      "hasDanger": "Avviso critico",
+      "hasAlert": "Avviso",
+      "hasOverpowering": "Sovraccarico",
+      "hasOpenWindow": "Finestra aperta",
+      "hasPresence": "Presenza rilevata",
+      "hasTimer": "Timer attivo"
+    },
+    "messages": {
+      "hvac_off_manual": "Spento manualmente",
+      "hvac_off_auto_start_stop": "Spento da avvio/arresto automatico",
+      "hvac_off_window_detection": "Spento dal rilevamento finestra",
+      "hvac_off_sleep_mode": "Spento da modalità riposo",
+      "hvac_off_safety_detection": "Spento da modalità sicurezza",
+      "hvac_off_central_mode": "Spento da modalità centrale",
+      "safety_detected": "Modalità sicurezza rilevata",
+      "overpowering_detected": "Sovraccarico rilevato",
+      "target_temp_window_eco": "Temp. obiettivo: finestra eco",
+      "target_temp_window_frost": "Temp. obiettivo: finestra gelo",
+      "target_temp_power": "Temp. obiettivo: potenza",
+      "target_temp_central_mode": "Temp. obiettivo: modalità centrale",
+      "target_temp_activity_detected": "Temp. obiettivo: attività rilevata",
+      "target_temp_activity_not_detected": "Temp. obiettivo: nessuna attività",
+      "target_temp_absence_detected": "Temp. obiettivo: assenza rilevata",
+      "target_temp_timed_preset": "Preset programmato attivo",
+      "not_initialized": "Errore di inizializzazione",
+      "heating_failure": "Errore di riscaldamento rilevato",
+      "cooling_failure": "Errore di raffreddamento rilevato"
+    },
+    "actions": {
+      "decrease_temperature": "Diminuisci consegna",
+      "increase_temperature": "Aumenta consegna",
+      "low_temperature": "Basso",
+      "high_temperature": "Alto",
+      "open_fan": "Apri ventilatore",
+      "open_swing": "Apri oscillazione",
+      "open_menu": "Apri menu",
+      "open_power_info": "Mostra indicatori di potenza"
+    }
+  },
+  "dialog": {
+    "close": "Chiudi",
+    "back": "Indietro",
+    "fan": {
+      "title": "Ventilazione",
+      "description_auto": "La modalità automatica adatta automaticamente la ventilazione alle esigenze di riscaldamento."
+    },
+    "swing": {
+      "title": "Oscillazione",
+      "vertical": "Verticale",
+      "horizontal": "Orizzontale"
+    },
+    "hvac": {
+      "title": "Modalità"
+    },
+    "preset": {
+      "title": "Preset"
+    },
+    "message": {
+      "title": "Messaggio"
+    },
+    "menu": {
+      "title": "Menu",
+      "regulation": "Regolazione",
+      "boost": "Potenziamento temporaneo",
+      "history": "Cronologia"
+    },
+    "history": {
+      "title": "Cronologia",
+      "load": "Carica",
+      "add": "Aggiungi",
+      "add_entity": "Aggiungi un'entità",
+      "loading": "Caricamento cronologia...",
+      "empty": "Nessuna cronologia per questo periodo.",
+      "no_attributes": "Nessun attributo selezionabile.",
+      "tools": "Strumenti",
+      "show_controls": "Mostra controlli cronologia",
+      "hide_controls": "Nascondi controlli cronologia",
+      "fullscreen": "Schermo intero",
+      "exit_fullscreen": "Esci da schermo intero",
+      "sources": {
+        "current_temperature": "Temperatura attuale",
+        "temperature": "Temperatura obiettivo",
+        "hvac_action": "Azione HVAC"
+      }
+    },
+    "boost": {
+      "title": "Potenziamento temporaneo",
+      "duration": "Durata in minuti",
+      "minutes": "min",
+      "hours": "h",
+      "start": "Avvia",
+      "stop": "Arresta",
+      "active": "Potenziamento attivo",
+      "remaining_unknown": "Tempo rimanente non disponibile",
+      "preset": "Preset programmato",
+      "original_preset": "Preset precedente",
+      "start_description": "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente.",
+      "active_description": "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente.",
+      "active_description_with_preset": "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Entità",
+    "name": "Nome",
+    "diagnostic_entity": "Entità diagnostica",
+    "power_entity": "Entità potenza",
+    "humidity_entity": "Entità umidità",
+    "temperature_entity": "Entità temperatura",
+    "theme": "Tema",
+    "display_mode": "Formato",
+    "primary_display": "Priorità visualizzazione",
+    "disable_name": "Nascondi nome",
+    "hide_lock_button": "Nascondi pulsante blocco",
+    "additional_dashboards": "Dashboard aggiuntivi",
+    "state_icons_layout": "Icone di stato",
+    "tabs": {
+      "general": "Generale",
+      "presentation": "Presentazione"
+    },
+    "options": {
+      "theme": {
+        "flat": "Piatto",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Classico",
+        "compact": "Compatto"
+      },
+      "primary_display": {
+        "setpoint": "Consegna",
+        "sensors": "Sensori"
+      },
+      "layout_orientation": {
+        "horizontal": "Orizzontale",
+        "vertical": "Verticale"
+      },
+      "additional_dashboards": {
+        "auto": "Automatico",
+        "custom": "Personalizzato",
+        "disabled": "Disabilitato"
+      }
+    }
+  }
+}

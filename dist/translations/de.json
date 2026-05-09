@@ -1,0 +1,237 @@
+{
+  "card": {
+    "description": "Lovelace-Karte für Versatile Thermostat und Standard-Klimageräte.",
+    "missing_entity": "Konfigurieren Sie ein Klimagerät.",
+    "invalid_entity": "Das konfigurierte Gerät muss zur Klimadomäne gehören.",
+    "invalid_theme": "Das konfigurierte Design ist nicht verfügbar.",
+    "invalid_display_mode": "Der konfigurierte Anzeigemodus ist nicht verfügbar.",
+    "invalid_primary_display": "Die konfigurierte Anzeigepriorität ist nicht verfügbar.",
+    "invalid_additional_dashboards": "Der konfigurierte Dashboard-Modus ist nicht verfügbar.",
+    "invalid_state_icons_layout": "Das konfigurierte Zustandssymbollayout ist nicht verfügbar.",
+    "entity_not_found": "Gerät nicht gefunden: {entity}",
+    "placeholder": "Equinox ist bereit für {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Heizung aktiv",
+      "cooling": "Kühlung aktiv",
+      "auto": "Automatisch",
+      "heat": "Heizen",
+      "cool": "Kühlen",
+      "heat_cool": "Automatisch",
+      "dry": "Trocknung",
+      "fan_only": "Nur Lüfter",
+      "off": "Aus",
+      "boost": "Temporärer Boost",
+      "unavailable": "Nicht verfügbar"
+    },
+    "hvac": {
+      "heat": "Heizen",
+      "cool": "Kühlen",
+      "heat_cool": "Heizen/Kühlen",
+      "auto": "Automatisch",
+      "dry": "Trocknung",
+      "fan_only": "Nur Lüfter",
+      "off": "Aus"
+    },
+    "hvac_action": {
+      "off": "Aus",
+      "preheating": "Vorwärmung",
+      "heating": "Heizung aktiv",
+      "cooling": "Kühlung aktiv",
+      "drying": "Trocknung aktiv",
+      "fan": "Lüfter aktiv",
+      "idle": "Bereit",
+      "defrosting": "Enteisen"
+    },
+    "preset": {
+      "none": "Kein Preset",
+      "frost": "Frostschutz",
+      "eco": "Öko",
+      "away": "Abwesend",
+      "comfort": "Komfort",
+      "home": "Zuhause",
+      "sleep": "Schlaf",
+      "activity": "Aktivität",
+      "boost": "Boost"
+    },
+    "fan": {
+      "on": "An",
+      "auto": "Automatisch",
+      "low": "Niedrig",
+      "medium": "Mittel",
+      "middle": "Mitte",
+      "high": "Hoch",
+      "top": "Oben",
+      "off": "Aus",
+      "focus": "Fokus",
+      "diffuse": "Diffus",
+      "auto_fan_none": "Keine",
+      "auto_fan_low": "Niedrig",
+      "auto_fan_medium": "Mittel",
+      "auto_fan_high": "Hoch",
+      "auto_fan_turbo": "Turbo",
+      "None": "Keine",
+      "Turbo": "Turbo",
+      "unavailable": "Lüfter"
+    },
+    "swing": {
+      "off": "Aus",
+      "on": "An",
+      "vertical": "Vertikal",
+      "horizontal": "Horizontal",
+      "both": "Beide",
+      "unavailable": "Lüfterschwung"
+    },
+    "lock": {
+      "locked": "Gesperrt",
+      "unlocked": "Entsperrt",
+      "code_required": "Code erforderlich",
+      "enter_code": "Code eingeben",
+      "wrong_code": "Falscher Code"
+    },
+    "events": {
+      "hasDanger": "Kritische Warnung",
+      "hasAlert": "Warnung",
+      "hasOverpowering": "Überlastung",
+      "hasOpenWindow": "Fenster offen",
+      "hasPresence": "Präsenz erkannt",
+      "hasTimer": "Timer aktiv"
+    },
+    "messages": {
+      "hvac_off_manual": "Manuell ausgeschaltet",
+      "hvac_off_auto_start_stop": "Von Auto-Start/Stop ausgeschaltet",
+      "hvac_off_window_detection": "Von Fenstererkennung ausgeschaltet",
+      "hvac_off_sleep_mode": "Von Schlafmodus ausgeschaltet",
+      "hvac_off_safety_detection": "Von Sicherheitsmodus ausgeschaltet",
+      "hvac_off_central_mode": "Von Zentralmodus ausgeschaltet",
+      "safety_detected": "Sicherheitsmodus erkannt",
+      "overpowering_detected": "Überlastung erkannt",
+      "target_temp_window_eco": "Zieltemp.: Fenster-Öko",
+      "target_temp_window_frost": "Zieltemp.: Fenster-Frost",
+      "target_temp_power": "Zieltemp.: Leistung",
+      "target_temp_central_mode": "Zieltemp.: Zentralmodus",
+      "target_temp_activity_detected": "Zieltemp.: Aktivität erkannt",
+      "target_temp_activity_not_detected": "Zieltemp.: Keine Aktivität",
+      "target_temp_absence_detected": "Zieltemp.: Abwesenheit erkannt",
+      "target_temp_timed_preset": "Zeitgesteuertes Preset aktiv",
+      "not_initialized": "Initialisierungsfehler",
+      "heating_failure": "Heizfehler erkannt",
+      "cooling_failure": "Kühlungsfehler erkannt"
+    },
+    "actions": {
+      "decrease_temperature": "Sollwert senken",
+      "increase_temperature": "Sollwert erhöhen",
+      "low_temperature": "Niedrig",
+      "high_temperature": "Hoch",
+      "open_fan": "Lüfter öffnen",
+      "open_swing": "Lüfterschwung öffnen",
+      "open_menu": "Menü öffnen",
+      "open_power_info": "Leistungsindikatoren anzeigen"
+    }
+  },
+  "dialog": {
+    "close": "Schließen",
+    "back": "Zurück",
+    "fan": {
+      "title": "Belüftung",
+      "description_auto": "Der Automatikmodus passt die Belüftung automatisch an die Heizanforderungen an."
+    },
+    "swing": {
+      "title": "Lüfterschwung",
+      "vertical": "Vertikal",
+      "horizontal": "Horizontal"
+    },
+    "hvac": {
+      "title": "Modus"
+    },
+    "preset": {
+      "title": "Preset"
+    },
+    "message": {
+      "title": "Nachricht"
+    },
+    "menu": {
+      "title": "Menü",
+      "regulation": "Regelung",
+      "boost": "Temporärer Boost",
+      "history": "Verlauf"
+    },
+    "history": {
+      "title": "Verlauf",
+      "load": "Laden",
+      "add": "Hinzufügen",
+      "add_entity": "Gerät hinzufügen",
+      "loading": "Verlauf wird geladen...",
+      "empty": "Kein Verlauf für diesen Zeitraum.",
+      "no_attributes": "Kein wählbares Attribut.",
+      "tools": "Werkzeuge",
+      "show_controls": "Verlaufssteuerelemente anzeigen",
+      "hide_controls": "Verlaufssteuerelemente ausblenden",
+      "fullscreen": "Vollbild",
+      "exit_fullscreen": "Vollbild beenden",
+      "sources": {
+        "current_temperature": "Aktuelle Temperatur",
+        "temperature": "Solltemperatur",
+        "hvac_action": "HVAC-Aktion"
+      }
+    },
+    "boost": {
+      "title": "Temporärer Boost",
+      "duration": "Dauer in Minuten",
+      "minutes": "min",
+      "hours": "h",
+      "start": "Start",
+      "stop": "Stop",
+      "active": "Boost aktiv",
+      "remaining_unknown": "Verbleibende Zeit nicht verfügbar",
+      "preset": "Zeitgesteuertes Preset",
+      "original_preset": "Vorheriges Preset",
+      "start_description": "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
+      "active_description": "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
+      "active_description_with_preset": "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Gerät",
+    "name": "Name",
+    "diagnostic_entity": "Diagnose-Gerät",
+    "power_entity": "Leistungs-Gerät",
+    "humidity_entity": "Feuchte-Gerät",
+    "temperature_entity": "Temperatur-Gerät",
+    "theme": "Design",
+    "display_mode": "Format",
+    "primary_display": "Anzeigepriorität",
+    "disable_name": "Name ausblenden",
+    "hide_lock_button": "Sperrschaltfläche ausblenden",
+    "additional_dashboards": "Zusätzliche Dashboards",
+    "state_icons_layout": "Statussymbole",
+    "tabs": {
+      "general": "Allgemein",
+      "presentation": "Präsentation"
+    },
+    "options": {
+      "theme": {
+        "flat": "Flach",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Klassisch",
+        "compact": "Kompakt"
+      },
+      "primary_display": {
+        "setpoint": "Sollwert",
+        "sensors": "Sensoren"
+      },
+      "layout_orientation": {
+        "horizontal": "Horizontal",
+        "vertical": "Vertikal"
+      },
+      "additional_dashboards": {
+        "auto": "Automatisch",
+        "custom": "Benutzerdefiniert",
+        "disabled": "Deaktiviert"
+      }
+    }
+  }
+}

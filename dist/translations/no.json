@@ -1,0 +1,237 @@
+{
+  "card": {
+    "description": "Lovelace-kort for Versatile Thermostat og standard klimaenheter.",
+    "missing_entity": "Konfigurer en klimaenhet.",
+    "invalid_entity": "Den konfigurerte enheten må tilhøre klimadomenet.",
+    "invalid_theme": "Det konfigurerte temaet er ikke tilgjengelig.",
+    "invalid_display_mode": "Den konfigurerte visningsmodus er ikke tilgjengelig.",
+    "invalid_primary_display": "Den konfigurerte visningsprioriteten er ikke tilgjengelig.",
+    "invalid_additional_dashboards": "Den konfigurerte dashbordmodus er ikke tilgjengelig.",
+    "invalid_state_icons_layout": "Den konfigurerte tilstandsikonoppsettingen er ikke tilgjengelig.",
+    "entity_not_found": "Enhet ikke funnet: {entity}",
+    "placeholder": "Equinox er klar for {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Oppvarming aktiv",
+      "cooling": "Kjøling aktiv",
+      "auto": "Automatisk",
+      "heat": "Oppvarming",
+      "cool": "Kjøling",
+      "heat_cool": "Automatisk",
+      "dry": "Tørking",
+      "fan_only": "Kun vifte",
+      "off": "Av",
+      "boost": "Midlertidig boost",
+      "unavailable": "Utilgjengelig"
+    },
+    "hvac": {
+      "heat": "Oppvarming",
+      "cool": "Kjøling",
+      "heat_cool": "Oppvarming/Kjøling",
+      "auto": "Automatisk",
+      "dry": "Tørking",
+      "fan_only": "Kun vifte",
+      "off": "Av"
+    },
+    "hvac_action": {
+      "off": "Av",
+      "preheating": "Forvarmning",
+      "heating": "Oppvarming aktiv",
+      "cooling": "Kjøling aktiv",
+      "drying": "Tørking aktiv",
+      "fan": "Vifte aktiv",
+      "idle": "Inaktiv",
+      "defrosting": "Avising"
+    },
+    "preset": {
+      "none": "Ingen forhåndsinnstilling",
+      "frost": "Frostbeskyttelse",
+      "eco": "Eco",
+      "away": "Borte",
+      "comfort": "Komfort",
+      "home": "Hjem",
+      "sleep": "Søvn",
+      "activity": "Aktivitet",
+      "boost": "Boost"
+    },
+    "fan": {
+      "on": "På",
+      "auto": "Automatisk",
+      "low": "Lav",
+      "medium": "Medium",
+      "middle": "Midt",
+      "high": "Høy",
+      "top": "Topp",
+      "off": "Av",
+      "focus": "Fokus",
+      "diffuse": "Diffus",
+      "auto_fan_none": "Ingen",
+      "auto_fan_low": "Lav",
+      "auto_fan_medium": "Medium",
+      "auto_fan_high": "Høy",
+      "auto_fan_turbo": "Turbo",
+      "None": "Ingen",
+      "Turbo": "Turbo",
+      "unavailable": "Vifte"
+    },
+    "swing": {
+      "off": "Av",
+      "on": "På",
+      "vertical": "Vertikal",
+      "horizontal": "Horisontal",
+      "both": "Begge",
+      "unavailable": "Swing"
+    },
+    "lock": {
+      "locked": "Låst",
+      "unlocked": "Ulåst",
+      "code_required": "Kode påkrevd",
+      "enter_code": "Skriv inn kode",
+      "wrong_code": "Feil kode"
+    },
+    "events": {
+      "hasDanger": "Kritisk advarsel",
+      "hasAlert": "Advarsel",
+      "hasOverpowering": "Overbelastning",
+      "hasOpenWindow": "Vindu åpent",
+      "hasPresence": "Tilstedeværelse oppdaget",
+      "hasTimer": "Timer aktiv"
+    },
+    "messages": {
+      "hvac_off_manual": "Slått av manuelt",
+      "hvac_off_auto_start_stop": "Slått av av automatisk start/stopp",
+      "hvac_off_window_detection": "Slått av av vindusdeteksjon",
+      "hvac_off_sleep_mode": "Slått av av søvnmodus",
+      "hvac_off_safety_detection": "Slått av av sikkerhetsmodus",
+      "hvac_off_central_mode": "Slått av av sentral modus",
+      "safety_detected": "Sikkerhetsmodus oppdaget",
+      "overpowering_detected": "Overbelastning oppdaget",
+      "target_temp_window_eco": "Mål temp.: vindu eco",
+      "target_temp_window_frost": "Mål temp.: vindu frost",
+      "target_temp_power": "Mål temp.: kraft",
+      "target_temp_central_mode": "Mål temp.: sentral modus",
+      "target_temp_activity_detected": "Mål temp.: aktivitet oppdaget",
+      "target_temp_activity_not_detected": "Mål temp.: ingen aktivitet",
+      "target_temp_absence_detected": "Mål temp.: fravær oppdaget",
+      "target_temp_timed_preset": "Tidsinnstilt forhåndsinnstilling aktiv",
+      "not_initialized": "Initialiseringsfeil",
+      "heating_failure": "Oppvarmingsfeil oppdaget",
+      "cooling_failure": "Kjølingsfeil oppdaget"
+    },
+    "actions": {
+      "decrease_temperature": "Senk innstillingspunktet",
+      "increase_temperature": "Hev innstillingspunktet",
+      "low_temperature": "Lav",
+      "high_temperature": "Høy",
+      "open_fan": "Åpne vifte",
+      "open_swing": "Åpne swing",
+      "open_menu": "Åpne meny",
+      "open_power_info": "Vis stromindikatorer"
+    }
+  },
+  "dialog": {
+    "close": "Lukk",
+    "back": "Tilbake",
+    "fan": {
+      "title": "Ventilasjon",
+      "description_auto": "Automatisk modus tilpasser automatisk ventilasjon til oppvarmingsbehov."
+    },
+    "swing": {
+      "title": "Swing",
+      "vertical": "Vertikal",
+      "horizontal": "Horisontal"
+    },
+    "hvac": {
+      "title": "Modus"
+    },
+    "preset": {
+      "title": "Forhåndsinnstilling"
+    },
+    "message": {
+      "title": "Melding"
+    },
+    "menu": {
+      "title": "Meny",
+      "regulation": "Regulering",
+      "boost": "Midlertidig boost",
+      "history": "Historie"
+    },
+    "history": {
+      "title": "Historie",
+      "load": "Last inn",
+      "add": "Legg til",
+      "add_entity": "Legg til enhet",
+      "loading": "Laster inn historie...",
+      "empty": "Ingen historie for denne perioden.",
+      "no_attributes": "Ingen valgbar attributt.",
+      "tools": "Verktøy",
+      "show_controls": "Vis historiekontroller",
+      "hide_controls": "Skjul historiekontroller",
+      "fullscreen": "Fullskjerm",
+      "exit_fullscreen": "Avslutt fullskjerm",
+      "sources": {
+        "current_temperature": "Gjeldende temperatur",
+        "temperature": "Måltemperatur",
+        "hvac_action": "HVAC-handling"
+      }
+    },
+    "boost": {
+      "title": "Midlertidig boost",
+      "duration": "Varighet i minutter",
+      "minutes": "min",
+      "hours": "h",
+      "start": "Start",
+      "stop": "Stopp",
+      "active": "Boost aktiv",
+      "remaining_unknown": "Gjenstående tid utilgjengelig",
+      "preset": "Tidsinnstilt forhåndsinnstilling",
+      "original_preset": "Forrige forhåndsinnstilling",
+      "start_description": "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
+      "active_description": "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
+      "active_description_with_preset": "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Enhet",
+    "name": "Navn",
+    "diagnostic_entity": "Diagnostisk enhet",
+    "power_entity": "Kraftenhet",
+    "humidity_entity": "Fuktighets-enhet",
+    "temperature_entity": "Temperaturenhet",
+    "theme": "Tema",
+    "display_mode": "Format",
+    "primary_display": "Visningsprioritet",
+    "disable_name": "Skjul navn",
+    "hide_lock_button": "Skjul låseknapp",
+    "additional_dashboards": "Tilleggssamler",
+    "state_icons_layout": "Tilstands ikoner",
+    "tabs": {
+      "general": "Generelt",
+      "presentation": "Presentasjon"
+    },
+    "options": {
+      "theme": {
+        "flat": "Flat",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Klassisk",
+        "compact": "Kompakt"
+      },
+      "primary_display": {
+        "setpoint": "Innstillingspunkt",
+        "sensors": "Sensorer"
+      },
+      "layout_orientation": {
+        "horizontal": "Horisontal",
+        "vertical": "Vertikal"
+      },
+      "additional_dashboards": {
+        "auto": "Automatisk",
+        "custom": "Tilpasset",
+        "disabled": "Deaktivert"
+      }
+    }
+  }
+}
