@@ -1,0 +1,267 @@
+{
+  "card": {
+    "description": "Κάρτα Lovelace για Versatile Thermostat και τυπικές οντότητες κλίματος.",
+    "missing_entity": "Διαμορφώστε μια οντότητα κλίματος.",
+    "invalid_entity": "Η διαμορφωμένη οντότητα πρέπει να ανήκει στο πεδίο κλίματος.",
+    "invalid_theme": "Το διαμορφωμένο θέμα δεν είναι διαθέσιμο.",
+    "invalid_display_mode": "Η διαμορφωμένη λειτουργία εμφάνισης δεν είναι διαθέσιμη.",
+    "invalid_primary_display": "Η διαμορφωμένη προτεραιότητα εμφάνισης δεν είναι διαθέσιμη.",
+    "invalid_additional_dashboards": "Η διαμορφωμένη λειτουργία πίνακα δεν είναι διαθέσιμη.",
+    "invalid_state_icons_layout": "Η διαμορφωμένη διάταξη εικονιδίων κατάστασης δεν είναι διαθέσιμη.",
+    "entity_not_found": "Οντότητα δεν βρέθηκε: {entity}",
+    "placeholder": "Το Equinox είναι έτοιμο για {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Θέρμανση ενεργή",
+      "cooling": "Ψύξη ενεργή",
+      "auto": "Αυτόματο",
+      "heat": "Θέρμανση",
+      "cool": "Ψύξη",
+      "heat_cool": "Αυτόματο",
+      "dry": "Ξήρανση",
+      "fan_only": "Μόνο ανεμιστήρας",
+      "off": "Απενεργοποιημένο",
+      "boost": "Προσωρινή ενίσχυση",
+      "unavailable": "Μη διαθέσιμο"
+    },
+    "hvac": {
+      "heat": "Θέρμανση",
+      "cool": "Ψύξη",
+      "heat_cool": "Θέρμανση/Ψύξη",
+      "auto": "Αυτόματο",
+      "dry": "Ξήρανση",
+      "fan_only": "Μόνο ανεμιστήρας",
+      "off": "Απενεργοποιημένο"
+    },
+    "hvac_action": {
+      "off": "Απενεργοποιημένο",
+      "preheating": "Προθέρμανση",
+      "heating": "Θέρμανση ενεργή",
+      "cooling": "Ψύξη ενεργή",
+      "drying": "Ξήρανση ενεργή",
+      "fan": "Ανεμιστήρας ενεργός",
+      "idle": "Αδράνεια",
+      "defrosting": "Απόψυξη"
+    },
+    "preset": {
+      "none": "Χωρίς προρύθμιση",
+      "frost": "Προστασία από παγετό",
+      "eco": "Eco",
+      "away": "Απόντας",
+      "comfort": "Άνεση",
+      "home": "Σπίτι",
+      "sleep": "Ύπνος",
+      "activity": "Δραστηριότητα",
+      "boost": "Ενίσχυση"
+    },
+    "fan": {
+      "on": "Ενεργό",
+      "On": "Ενεργό",
+      "FAN_ON": "Ενεργό",
+      "auto": "Αυτόματο",
+      "Auto": "Αυτόματο",
+      "FAN_AUTO": "Αυτόματο",
+      "low": "Χαμηλό",
+      "FAN_LOW": "Χαμηλό",
+      "medium": "Μεσαίο",
+      "FAN_MEDIUM": "Μεσαίο",
+      "middle": "Μέση",
+      "Middle": "Μέση",
+      "FAN_MIDDLE": "Μέση",
+      "high": "Υψηλό",
+      "FAN_HIGH": "Υψηλό",
+      "top": "Κορυφή",
+      "Top": "Κορυφή",
+      "FAN_TOP": "Κορυφή",
+      "off": "Απενεργοποιημένο",
+      "Off": "Απενεργοποιημένο",
+      "FAN_OFF": "Απενεργοποιημένο",
+      "focus": "Εστίαση",
+      "Focus": "Εστίαση",
+      "FAN_FOCUS": "Εστίαση",
+      "diffuse": "Διάχυση",
+      "Diffuse": "Διάχυση",
+      "FAN_DIFFUSE": "Διάχυση",
+      "auto_fan_none": "Κανένα",
+      "auto_fan_low": "Χαμηλό",
+      "auto_fan_medium": "Μεσαίο",
+      "auto_fan_high": "Υψηλό",
+      "auto_fan_turbo": "Turbo",
+      "None": "Κανένα",
+      "Low": "Χαμηλό",
+      "Medium": "Μεσαίο",
+      "High": "Υψηλό",
+      "Turbo": "Turbo",
+      "unavailable": "Ανεμιστήρας"
+    },
+    "swing": {
+      "off": "Απενεργοποιημένο",
+      "Off": "Απενεργοποιημένο",
+      "SWING_OFF": "Απενεργοποιημένο",
+      "on": "Ενεργό",
+      "On": "Ενεργό",
+      "SWING_ON": "Ενεργό",
+      "vertical": "Κάθετη",
+      "Vertical": "Κάθετη",
+      "SWING_VERTICAL": "Κάθετη",
+      "horizontal": "Οριζόντια",
+      "Horizontal": "Οριζόντια",
+      "SWING_HORIZONTAL": "Οριζόντια",
+      "both": "Και οι δύο",
+      "Both": "Και οι δύο",
+      "SWING_BOTH": "Και οι δύο",
+      "unavailable": "Ταλάντωση"
+    },
+    "lock": {
+      "locked": "Κλειδωμένο",
+      "unlocked": "Ξεκλείδωτο",
+      "code_required": "Απαιτείται κωδικός",
+      "enter_code": "Εισαγάγετε κωδικό",
+      "wrong_code": "Λανθασμένος κωδικός"
+    },
+    "events": {
+      "hasDanger": "Κρίσιμη ειδοποίηση",
+      "hasAlert": "Ειδοποίηση",
+      "hasOverpowering": "Υπερφόρτωση",
+      "hasOpenWindow": "Παράθυρο ανοικτό",
+      "hasPresence": "Παρουσία ανιχνεύθηκε",
+      "hasTimer": "Χρονόμετρο ενεργό"
+    },
+    "messages": {
+      "hvac_off_manual": "Απενεργοποιήθηκε χειροκίνητα",
+      "hvac_off_auto_start_stop": "Απενεργοποιήθηκε με αυτόματη έναρξη/διακοπή",
+      "hvac_off_window_detection": "Απενεργοποιήθηκε με ανίχνευση παραθύρου",
+      "hvac_off_sleep_mode": "Απενεργοποιήθηκε σε λειτουργία ύπνου",
+      "hvac_off_safety_detection": "Απενεργοποιήθηκε σε λειτουργία ασφαλείας",
+      "hvac_off_central_mode": "Απενεργοποιήθηκε σε κεντρική λειτουργία",
+      "safety_detected": "Ανιχνεύθηκε λειτουργία ασφαλείας",
+      "overpowering_detected": "Ανιχνεύθηκε υπερφόρτωση",
+      "target_temp_window_eco": "Θερμ. στόχου: παράθυρο eco",
+      "target_temp_window_frost": "Θερμ. στόχου: παράθυρο παγετό",
+      "target_temp_power": "Θερμ. στόχου: ισχύς",
+      "target_temp_central_mode": "Θερμ. στόχου: κεντρική λειτουργία",
+      "target_temp_activity_detected": "Θερμ. στόχου: δραστηριότητα ανιχνεύθηκε",
+      "target_temp_activity_not_detected": "Θερμ. στόχου: χωρίς δραστηριότητα",
+      "target_temp_absence_detected": "Θερμ. στόχου: απουσία ανιχνεύθηκε",
+      "target_temp_timed_preset": "Χρονοδιάγραμμα προρύθμισης ενεργό",
+      "not_initialized": "Σφάλμα αρχικοποίησης",
+      "heating_failure": "Ανιχνεύθηκε σφάλμα θέρμανσης",
+      "cooling_failure": "Ανιχνεύθηκε σφάλμα ψύξης"
+    },
+    "actions": {
+      "decrease_temperature": "Μείωση σημείου ρύθμισης",
+      "increase_temperature": "Αύξηση σημείου ρύθμισης",
+      "low_temperature": "Χαμηλό",
+      "high_temperature": "Υψηλό",
+      "open_fan": "Ανοίξτε ανεμιστήρα",
+      "open_swing": "Ανοίξτε ταλάντωση",
+      "open_menu": "Ανοίξτε μενού",
+      "open_power_info": "Εμφάνιση δεικτών ισχύος"
+    }
+  },
+  "dialog": {
+    "close": "Κλείσιμο",
+    "back": "Πίσω",
+    "fan": {
+      "title": "Εξαερισμός",
+      "description_auto": "Η λειτουργία αυτόματης προσαρμογής τροποποιεί αυτόματα τον εξαερισμό στις ανάγκες θέρμανσης."
+    },
+    "swing": {
+      "title": "Ταλάντωση",
+      "vertical": "Κάθετη",
+      "horizontal": "Οριζόντια"
+    },
+    "hvac": {
+      "title": "Λειτουργία"
+    },
+    "preset": {
+      "title": "Προρύθμιση"
+    },
+    "message": {
+      "title": "Μήνυμα"
+    },
+    "menu": {
+      "title": "Μενού",
+      "regulation": "Ρύθμιση",
+      "boost": "Προσωρινή ενίσχυση",
+      "history": "Ιστορικό"
+    },
+    "history": {
+      "title": "Ιστορικό",
+      "load": "Φόρτωση",
+      "add": "Προσθήκη",
+      "add_entity": "Προσθήκη οντότητας",
+      "loading": "Φόρτωση ιστορικού...",
+      "empty": "Κανένα ιστορικό για αυτήν την περίοδο.",
+      "no_attributes": "Κανένα επιλεγμένο χαρακτηριστικό.",
+      "tools": "Εργαλεία",
+      "show_controls": "Εμφάνιση στοιχείων ελέγχου ιστορικού",
+      "hide_controls": "Απόκρυψη στοιχείων ελέγχου ιστορικού",
+      "fullscreen": "Πλήρης οθόνη",
+      "exit_fullscreen": "Έξοδος από πλήρη οθόνη",
+      "sources": {
+        "current_temperature": "Τρέχουσα θερμοκρασία",
+        "temperature": "Θερμοκρασία στόχου",
+        "hvac_action": "Ενέργεια HVAC"
+      }
+    },
+    "boost": {
+      "title": "Προσωρινή ενίσχυση",
+      "duration": "Διάρκεια σε λεπτά",
+      "minutes": "λ",
+      "hours": "ώ",
+      "start": "Έναρξη",
+      "stop": "Διακοπή",
+      "active": "Ενίσχυση ενεργή",
+      "remaining_unknown": "Υπολειπόμενος χρόνος μη διαθέσιμος",
+      "preset": "Χρονοδιάγραμμα προρύθμισης",
+      "original_preset": "Προηγούμενη προρύθμιση",
+      "start_description": "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
+      "active_description": "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
+      "active_description_with_preset": "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Οντότητα",
+    "name": "Όνομα",
+    "diagnostic_entity": "Δεδομένα διάγνωσης",
+    "power_entity": "Οντότητα ισχύος",
+    "humidity_entity": "Οντότητα υγρασίας",
+    "temperature_entity": "Οντότητα θερμοκρασίας",
+    "theme": "Θέμα",
+    "display_mode": "Μορφή",
+    "primary_display": "Προτεραιότητα εμφάνισης",
+    "disable_name": "Απόκρυψη ονόματος",
+    "hide_lock_button": "Απόκρυψη κουμπιού κλειδώματος",
+    "additional_dashboards": "Πρόσθετα ταμπλό",
+    "state_icons_layout": "Εικονίδια κατάστασης",
+    "tabs": {
+      "general": "Γενικά",
+      "presentation": "Παρουσίαση"
+    },
+    "options": {
+      "theme": {
+        "flat": "Επίπεδη",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Κλασσικό",
+        "compact": "Συμπαγής"
+      },
+      "primary_display": {
+        "setpoint": "Σημείο ρύθμισης",
+        "sensors": "Αισθητήρες"
+      },
+      "layout_orientation": {
+        "horizontal": "Οριζόντια",
+        "vertical": "Κάθετη"
+      },
+      "additional_dashboards": {
+        "auto": "Αυτόματο",
+        "custom": "Προσαρμοσμένο",
+        "disabled": "Απενεργοποιημένο"
+      }
+    }
+  }
+}

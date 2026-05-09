@@ -1,0 +1,267 @@
+{
+  "card": {
+    "description": "Карточка Lovelace для Versatile Thermostat и стандартных сущностей климата.",
+    "missing_entity": "Настройте сущность климата.",
+    "invalid_entity": "Настроенная сущность должна принадлежать домену климата.",
+    "invalid_theme": "Настроенная тема недоступна.",
+    "invalid_display_mode": "Настроенный режим отображения недоступен.",
+    "invalid_primary_display": "Настроенный приоритет отображения недоступен.",
+    "invalid_additional_dashboards": "Настроенный режим панели недоступен.",
+    "invalid_state_icons_layout": "Настроенный макет значков состояния недоступен.",
+    "entity_not_found": "Сущность не найдена: {entity}",
+    "placeholder": "Equinox готов к {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Отопление активно",
+      "cooling": "Охлаждение активно",
+      "auto": "Автоматический",
+      "heat": "Отопление",
+      "cool": "Охлаждение",
+      "heat_cool": "Автоматический",
+      "dry": "Осушка",
+      "fan_only": "Только вентилятор",
+      "off": "Выключено",
+      "boost": "Временное ускорение",
+      "unavailable": "Недоступно"
+    },
+    "hvac": {
+      "heat": "Отопление",
+      "cool": "Охлаждение",
+      "heat_cool": "Отопление/Охлаждение",
+      "auto": "Автоматический",
+      "dry": "Осушка",
+      "fan_only": "Только вентилятор",
+      "off": "Выключено"
+    },
+    "hvac_action": {
+      "off": "Выключено",
+      "preheating": "Предварительный нагрев",
+      "heating": "Отопление активно",
+      "cooling": "Охлаждение активно",
+      "drying": "Осушка активна",
+      "fan": "Вентилятор активен",
+      "idle": "Ожидание",
+      "defrosting": "Разморозка"
+    },
+    "preset": {
+      "none": "Нет предустановки",
+      "frost": "Защита от мороза",
+      "eco": "Эко",
+      "away": "В отсутствии",
+      "comfort": "Комфорт",
+      "home": "Дом",
+      "sleep": "Сон",
+      "activity": "Активность",
+      "boost": "Ускорение"
+    },
+    "fan": {
+      "on": "Включено",
+      "On": "Включено",
+      "FAN_ON": "Включено",
+      "auto": "Автоматический",
+      "Auto": "Автоматический",
+      "FAN_AUTO": "Автоматический",
+      "low": "Низко",
+      "FAN_LOW": "Низко",
+      "medium": "Среднее",
+      "FAN_MEDIUM": "Среднее",
+      "middle": "Середина",
+      "Middle": "Середина",
+      "FAN_MIDDLE": "Середина",
+      "high": "Высоко",
+      "FAN_HIGH": "Высоко",
+      "top": "Верхний",
+      "Top": "Верхний",
+      "FAN_TOP": "Верхний",
+      "off": "Выключено",
+      "Off": "Выключено",
+      "FAN_OFF": "Выключено",
+      "focus": "Фокус",
+      "Focus": "Фокус",
+      "FAN_FOCUS": "Фокус",
+      "diffuse": "Диффузия",
+      "Diffuse": "Диффузия",
+      "FAN_DIFFUSE": "Диффузия",
+      "auto_fan_none": "Нет",
+      "auto_fan_low": "Низко",
+      "auto_fan_medium": "Среднее",
+      "auto_fan_high": "Высоко",
+      "auto_fan_turbo": "Турбо",
+      "None": "Нет",
+      "Low": "Низко",
+      "Medium": "Среднее",
+      "High": "Высоко",
+      "Turbo": "Турбо",
+      "unavailable": "Вентилятор"
+    },
+    "swing": {
+      "off": "Выключено",
+      "Off": "Выключено",
+      "SWING_OFF": "Выключено",
+      "on": "Включено",
+      "On": "Включено",
+      "SWING_ON": "Включено",
+      "vertical": "Вертикально",
+      "Vertical": "Вертикально",
+      "SWING_VERTICAL": "Вертикально",
+      "horizontal": "Горизонтально",
+      "Horizontal": "Горизонтально",
+      "SWING_HORIZONTAL": "Горизонтально",
+      "both": "Оба",
+      "Both": "Оба",
+      "SWING_BOTH": "Оба",
+      "unavailable": "Колебание"
+    },
+    "lock": {
+      "locked": "Заблокировано",
+      "unlocked": "Разблокировано",
+      "code_required": "Требуется код",
+      "enter_code": "Введите код",
+      "wrong_code": "Неправильный код"
+    },
+    "events": {
+      "hasDanger": "Критическое предупреждение",
+      "hasAlert": "Предупреждение",
+      "hasOverpowering": "Перегрузка",
+      "hasOpenWindow": "Окно открыто",
+      "hasPresence": "Обнаружено присутствие",
+      "hasTimer": "Таймер активен"
+    },
+    "messages": {
+      "hvac_off_manual": "Выключено вручную",
+      "hvac_off_auto_start_stop": "Выключено автоматическим запуском/остановом",
+      "hvac_off_window_detection": "Выключено обнаружением окна",
+      "hvac_off_sleep_mode": "Выключено режимом сна",
+      "hvac_off_safety_detection": "Выключено режимом безопасности",
+      "hvac_off_central_mode": "Выключено центральным режимом",
+      "safety_detected": "Обнаружен режим безопасности",
+      "overpowering_detected": "Обнаружена перегрузка",
+      "target_temp_window_eco": "Целевая темп.: окно эко",
+      "target_temp_window_frost": "Целевая темп.: окно мороз",
+      "target_temp_power": "Целевая темп.: питание",
+      "target_temp_central_mode": "Целевая темп.: центральный режим",
+      "target_temp_activity_detected": "Целевая темп.: активность обнаружена",
+      "target_temp_activity_not_detected": "Целевая темп.: активность не обнаружена",
+      "target_temp_absence_detected": "Целевая темп.: отсутствие обнаружено",
+      "target_temp_timed_preset": "Временная предустановка активна",
+      "not_initialized": "Ошибка инициализации",
+      "heating_failure": "Обнаружена ошибка отопления",
+      "cooling_failure": "Обнаружена ошибка охлаждения"
+    },
+    "actions": {
+      "decrease_temperature": "Уменьшить уставку",
+      "increase_temperature": "Увеличить уставку",
+      "low_temperature": "Низко",
+      "high_temperature": "Высоко",
+      "open_fan": "Открыть вентилятор",
+      "open_swing": "Открыть колебание",
+      "open_menu": "Открыть меню",
+      "open_power_info": "Показать индикаторы питания"
+    }
+  },
+  "dialog": {
+    "close": "Закрыть",
+    "back": "Назад",
+    "fan": {
+      "title": "Вентиляция",
+      "description_auto": "Автоматический режим автоматически адаптирует вентиляцию к потребностям отопления."
+    },
+    "swing": {
+      "title": "Колебание",
+      "vertical": "Вертикально",
+      "horizontal": "Горизонтально"
+    },
+    "hvac": {
+      "title": "Режим"
+    },
+    "preset": {
+      "title": "Предустановка"
+    },
+    "message": {
+      "title": "Сообщение"
+    },
+    "menu": {
+      "title": "Меню",
+      "regulation": "Регуляция",
+      "boost": "Временное ускорение",
+      "history": "История"
+    },
+    "history": {
+      "title": "История",
+      "load": "Загрузить",
+      "add": "Добавить",
+      "add_entity": "Добавить сущность",
+      "loading": "Загрузка истории...",
+      "empty": "Нет истории для этого периода.",
+      "no_attributes": "Нет выбираемого атрибута.",
+      "tools": "Инструменты",
+      "show_controls": "Показать элементы управления историей",
+      "hide_controls": "Скрыть элементы управления историей",
+      "fullscreen": "Полный экран",
+      "exit_fullscreen": "Выход из полного экрана",
+      "sources": {
+        "current_temperature": "Текущая температура",
+        "temperature": "Целевая температура",
+        "hvac_action": "Действие HVAC"
+      }
+    },
+    "boost": {
+      "title": "Временное ускорение",
+      "duration": "Продолжительность в минутах",
+      "minutes": "мин",
+      "hours": "ч",
+      "start": "Начать",
+      "stop": "Остановить",
+      "active": "Ускорение активно",
+      "remaining_unknown": "Оставшееся время недоступно",
+      "preset": "Временная предустановка",
+      "original_preset": "Предыдущая предустановка",
+      "start_description": "По окончании обратного отсчета термостат вернется в предыдущий режим.",
+      "active_description": "По окончании обратного отсчета термостат вернется в предыдущий режим.",
+      "active_description_with_preset": "По окончании обратного отсчета термостат вернется в предыдущий режим ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Сущность",
+    "name": "Название",
+    "diagnostic_entity": "Сущность диагностики",
+    "power_entity": "Сущность питания",
+    "humidity_entity": "Сущность влажности",
+    "temperature_entity": "Сущность температуры",
+    "theme": "Тема",
+    "display_mode": "Формат",
+    "primary_display": "Приоритет отображения",
+    "disable_name": "Скрыть название",
+    "hide_lock_button": "Скрыть кнопку блокировки",
+    "additional_dashboards": "Дополнительные панели",
+    "state_icons_layout": "Значки состояния",
+    "tabs": {
+      "general": "Общие",
+      "presentation": "Презентация"
+    },
+    "options": {
+      "theme": {
+        "flat": "Плоский",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Классический",
+        "compact": "Компактный"
+      },
+      "primary_display": {
+        "setpoint": "Уставка",
+        "sensors": "Датчики"
+      },
+      "layout_orientation": {
+        "horizontal": "Горизонтально",
+        "vertical": "Вертикально"
+      },
+      "additional_dashboards": {
+        "auto": "Автоматический",
+        "custom": "Пользовательский",
+        "disabled": "Отключено"
+      }
+    }
+  }
+}

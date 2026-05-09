@@ -1101,6 +1101,4443 @@ var et = {
 				}
 			}
 		}
+	},
+	de: {
+		card: {
+			description: "Lovelace-Karte für Versatile Thermostat und Standard-Klimageräte.",
+			missing_entity: "Konfigurieren Sie ein Klimagerät.",
+			invalid_entity: "Das konfigurierte Gerät muss zur Klimadomäne gehören.",
+			invalid_theme: "Das konfigurierte Design ist nicht verfügbar.",
+			invalid_display_mode: "Der konfigurierte Anzeigemodus ist nicht verfügbar.",
+			invalid_primary_display: "Die konfigurierte Anzeigepriorität ist nicht verfügbar.",
+			invalid_additional_dashboards: "Der konfigurierte Dashboard-Modus ist nicht verfügbar.",
+			invalid_state_icons_layout: "Das konfigurierte Zustandssymbollayout ist nicht verfügbar.",
+			entity_not_found: "Gerät nicht gefunden: {entity}",
+			placeholder: "Equinox ist bereit für {entity}."
+		},
+		main: {
+			status: {
+				heating: "Heizung aktiv",
+				cooling: "Kühlung aktiv",
+				auto: "Automatisch",
+				heat: "Heizen",
+				cool: "Kühlen",
+				heat_cool: "Automatisch",
+				dry: "Trocknung",
+				fan_only: "Nur Lüfter",
+				off: "Aus",
+				boost: "Temporärer Boost",
+				unavailable: "Nicht verfügbar"
+			},
+			hvac: {
+				heat: "Heizen",
+				cool: "Kühlen",
+				heat_cool: "Heizen/Kühlen",
+				auto: "Automatisch",
+				dry: "Trocknung",
+				fan_only: "Nur Lüfter",
+				off: "Aus"
+			},
+			hvac_action: {
+				off: "Aus",
+				preheating: "Vorwärmung",
+				heating: "Heizung aktiv",
+				cooling: "Kühlung aktiv",
+				drying: "Trocknung aktiv",
+				fan: "Lüfter aktiv",
+				idle: "Bereit",
+				defrosting: "Enteisen"
+			},
+			preset: {
+				none: "Kein Preset",
+				frost: "Frostschutz",
+				eco: "Öko",
+				away: "Abwesend",
+				comfort: "Komfort",
+				home: "Zuhause",
+				sleep: "Schlaf",
+				activity: "Aktivität",
+				boost: "Boost"
+			},
+			fan: {
+				on: "An",
+				On: "An",
+				FAN_ON: "An",
+				auto: "Automatisch",
+				Auto: "Automatisch",
+				FAN_AUTO: "Automatisch",
+				low: "Niedrig",
+				FAN_LOW: "Niedrig",
+				medium: "Mittel",
+				FAN_MEDIUM: "Mittel",
+				middle: "Mitte",
+				Middle: "Mitte",
+				FAN_MIDDLE: "Mitte",
+				high: "Hoch",
+				FAN_HIGH: "Hoch",
+				top: "Oben",
+				Top: "Oben",
+				FAN_TOP: "Oben",
+				off: "Aus",
+				Off: "Aus",
+				FAN_OFF: "Aus",
+				focus: "Fokus",
+				Focus: "Fokus",
+				FAN_FOCUS: "Fokus",
+				diffuse: "Diffus",
+				Diffuse: "Diffus",
+				FAN_DIFFUSE: "Diffus",
+				auto_fan_none: "Keine",
+				auto_fan_low: "Niedrig",
+				auto_fan_medium: "Mittel",
+				auto_fan_high: "Hoch",
+				auto_fan_turbo: "Turbo",
+				None: "Keine",
+				Low: "Niedrig",
+				Medium: "Mittel",
+				High: "Hoch",
+				Turbo: "Turbo",
+				unavailable: "Lüfter"
+			},
+			swing: {
+				off: "Aus",
+				Off: "Aus",
+				SWING_OFF: "Aus",
+				on: "An",
+				On: "An",
+				SWING_ON: "An",
+				vertical: "Vertikal",
+				Vertical: "Vertikal",
+				SWING_VERTICAL: "Vertikal",
+				horizontal: "Horizontal",
+				Horizontal: "Horizontal",
+				SWING_HORIZONTAL: "Horizontal",
+				both: "Beide",
+				Both: "Beide",
+				SWING_BOTH: "Beide",
+				unavailable: "Lüfterschwung"
+			},
+			lock: {
+				locked: "Gesperrt",
+				unlocked: "Entsperrt",
+				code_required: "Code erforderlich",
+				enter_code: "Code eingeben",
+				wrong_code: "Falscher Code"
+			},
+			events: {
+				hasDanger: "Kritische Warnung",
+				hasAlert: "Warnung",
+				hasOverpowering: "Überlastung",
+				hasOpenWindow: "Fenster offen",
+				hasPresence: "Präsenz erkannt",
+				hasTimer: "Timer aktiv"
+			},
+			messages: {
+				hvac_off_manual: "Manuell ausgeschaltet",
+				hvac_off_auto_start_stop: "Von Auto-Start/Stop ausgeschaltet",
+				hvac_off_window_detection: "Von Fenstererkennung ausgeschaltet",
+				hvac_off_sleep_mode: "Von Schlafmodus ausgeschaltet",
+				hvac_off_safety_detection: "Von Sicherheitsmodus ausgeschaltet",
+				hvac_off_central_mode: "Von Zentralmodus ausgeschaltet",
+				safety_detected: "Sicherheitsmodus erkannt",
+				overpowering_detected: "Überlastung erkannt",
+				target_temp_window_eco: "Zieltemp.: Fenster-Öko",
+				target_temp_window_frost: "Zieltemp.: Fenster-Frost",
+				target_temp_power: "Zieltemp.: Leistung",
+				target_temp_central_mode: "Zieltemp.: Zentralmodus",
+				target_temp_activity_detected: "Zieltemp.: Aktivität erkannt",
+				target_temp_activity_not_detected: "Zieltemp.: Keine Aktivität",
+				target_temp_absence_detected: "Zieltemp.: Abwesenheit erkannt",
+				target_temp_timed_preset: "Zeitgesteuertes Preset aktiv",
+				not_initialized: "Initialisierungsfehler",
+				heating_failure: "Heizfehler erkannt",
+				cooling_failure: "Kühlungsfehler erkannt"
+			},
+			actions: {
+				decrease_temperature: "Sollwert senken",
+				increase_temperature: "Sollwert erhöhen",
+				low_temperature: "Niedrig",
+				high_temperature: "Hoch",
+				open_fan: "Lüfter öffnen",
+				open_swing: "Lüfterschwung öffnen",
+				open_menu: "Menü öffnen",
+				open_power_info: "Leistungsindikatoren anzeigen"
+			}
+		},
+		dialog: {
+			close: "Schließen",
+			back: "Zurück",
+			fan: {
+				title: "Belüftung",
+				description_auto: "Der Automatikmodus passt die Belüftung automatisch an die Heizanforderungen an."
+			},
+			swing: {
+				title: "Lüfterschwung",
+				vertical: "Vertikal",
+				horizontal: "Horizontal"
+			},
+			hvac: { title: "Modus" },
+			preset: { title: "Preset" },
+			message: { title: "Nachricht" },
+			menu: {
+				title: "Menü",
+				regulation: "Regelung",
+				boost: "Temporärer Boost",
+				history: "Verlauf"
+			},
+			history: {
+				title: "Verlauf",
+				load: "Laden",
+				add: "Hinzufügen",
+				add_entity: "Gerät hinzufügen",
+				loading: "Verlauf wird geladen...",
+				empty: "Kein Verlauf für diesen Zeitraum.",
+				no_attributes: "Kein wählbares Attribut.",
+				tools: "Werkzeuge",
+				show_controls: "Verlaufssteuerelemente anzeigen",
+				hide_controls: "Verlaufssteuerelemente ausblenden",
+				fullscreen: "Vollbild",
+				exit_fullscreen: "Vollbild beenden",
+				sources: {
+					current_temperature: "Aktuelle Temperatur",
+					temperature: "Solltemperatur",
+					hvac_action: "HVAC-Aktion"
+				}
+			},
+			boost: {
+				title: "Temporärer Boost",
+				duration: "Dauer in Minuten",
+				minutes: "min",
+				hours: "h",
+				start: "Start",
+				stop: "Stop",
+				active: "Boost aktiv",
+				remaining_unknown: "Verbleibende Zeit nicht verfügbar",
+				preset: "Zeitgesteuertes Preset",
+				original_preset: "Vorheriges Preset",
+				start_description: "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
+				active_description: "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
+				active_description_with_preset: "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück ({preset})."
+			}
+		},
+		editor: {
+			entity: "Gerät",
+			name: "Name",
+			diagnostic_entity: "Diagnose-Gerät",
+			power_entity: "Leistungs-Gerät",
+			humidity_entity: "Feuchte-Gerät",
+			temperature_entity: "Temperatur-Gerät",
+			theme: "Design",
+			display_mode: "Format",
+			primary_display: "Anzeigepriorität",
+			disable_name: "Name ausblenden",
+			hide_lock_button: "Sperrschaltfläche ausblenden",
+			additional_dashboards: "Zusätzliche Dashboards",
+			state_icons_layout: "Statussymbole",
+			tabs: {
+				general: "Allgemein",
+				presentation: "Präsentation"
+			},
+			options: {
+				theme: {
+					flat: "Flach",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klassisch",
+					compact: "Kompakt"
+				},
+				primary_display: {
+					setpoint: "Sollwert",
+					sensors: "Sensoren"
+				},
+				layout_orientation: {
+					horizontal: "Horizontal",
+					vertical: "Vertikal"
+				},
+				additional_dashboards: {
+					auto: "Automatisch",
+					custom: "Benutzerdefiniert",
+					disabled: "Deaktiviert"
+				}
+			}
+		}
+	},
+	cs: {
+		card: {
+			description: "Karta Lovelace pro Versatile Thermostat a standardní entity klimatizace.",
+			missing_entity: "Nakonfigurujte entitu klimatizace.",
+			invalid_entity: "Nakonfigurovaná entita musí patřit do domény klimatizace.",
+			invalid_theme: "Nakonfigurované téma není dostupné.",
+			invalid_display_mode: "Nakonfigurovaný režim zobrazení není dostupný.",
+			invalid_primary_display: "Nakonfigurovaná priorita zobrazení není dostupná.",
+			invalid_additional_dashboards: "Nakonfigurovaný režim přístupového panelu není dostupný.",
+			invalid_state_icons_layout: "Nakonfigurované rozložení ikon stavu není dostupné.",
+			entity_not_found: "Entita nenalezena: {entity}",
+			placeholder: "Equinox je připraven pro {entity}."
+		},
+		main: {
+			status: {
+				heating: "Topení aktivní",
+				cooling: "Chlazení aktivní",
+				auto: "Automatické",
+				heat: "Topení",
+				cool: "Chlazení",
+				heat_cool: "Automatické",
+				dry: "Sušení",
+				fan_only: "Pouze ventilátor",
+				off: "Vypnuto",
+				boost: "Dočasný boost",
+				unavailable: "Nedostupné"
+			},
+			hvac: {
+				heat: "Topení",
+				cool: "Chlazení",
+				heat_cool: "Topení/Chlazení",
+				auto: "Automatické",
+				dry: "Sušení",
+				fan_only: "Pouze ventilátor",
+				off: "Vypnuto"
+			},
+			hvac_action: {
+				off: "Vypnuto",
+				preheating: "Předehřívání",
+				heating: "Topení aktivní",
+				cooling: "Chlazení aktivní",
+				drying: "Sušení aktivní",
+				fan: "Ventilátor aktivní",
+				idle: "Nečinný",
+				defrosting: "Odmrazování"
+			},
+			preset: {
+				none: "Bez předvolby",
+				frost: "Ochrana před mrazem",
+				eco: "Eco",
+				away: "Pryč",
+				comfort: "Komfort",
+				home: "Domů",
+				sleep: "Spánek",
+				activity: "Aktivita",
+				boost: "Boost"
+			},
+			fan: {
+				on: "Zapnuto",
+				On: "Zapnuto",
+				FAN_ON: "Zapnuto",
+				auto: "Automatické",
+				Auto: "Automatické",
+				FAN_AUTO: "Automatické",
+				low: "Nízko",
+				FAN_LOW: "Nízko",
+				medium: "Střední",
+				FAN_MEDIUM: "Střední",
+				middle: "Střed",
+				Middle: "Střed",
+				FAN_MIDDLE: "Střed",
+				high: "Vysoko",
+				FAN_HIGH: "Vysoko",
+				top: "Horní",
+				Top: "Horní",
+				FAN_TOP: "Horní",
+				off: "Vypnuto",
+				Off: "Vypnuto",
+				FAN_OFF: "Vypnuto",
+				focus: "Zaměření",
+				Focus: "Zaměření",
+				FAN_FOCUS: "Zaměření",
+				diffuse: "Rozptyl",
+				Diffuse: "Rozptyl",
+				FAN_DIFFUSE: "Rozptyl",
+				auto_fan_none: "Žádný",
+				auto_fan_low: "Nízko",
+				auto_fan_medium: "Střední",
+				auto_fan_high: "Vysoko",
+				auto_fan_turbo: "Turbo",
+				None: "Žádný",
+				Low: "Nízko",
+				Medium: "Střední",
+				High: "Vysoko",
+				Turbo: "Turbo",
+				unavailable: "Ventilátor"
+			},
+			swing: {
+				off: "Vypnuto",
+				Off: "Vypnuto",
+				SWING_OFF: "Vypnuto",
+				on: "Zapnuto",
+				On: "Zapnuto",
+				SWING_ON: "Zapnuto",
+				vertical: "Vertikální",
+				Vertical: "Vertikální",
+				SWING_VERTICAL: "Vertikální",
+				horizontal: "Horizontální",
+				Horizontal: "Horizontální",
+				SWING_HORIZONTAL: "Horizontální",
+				both: "Oba",
+				Both: "Oba",
+				SWING_BOTH: "Oba",
+				unavailable: "Kyv"
+			},
+			lock: {
+				locked: "Zamčeno",
+				unlocked: "Odemčeno",
+				code_required: "Vyžadován kód",
+				enter_code: "Zadejte kód",
+				wrong_code: "Nesprávný kód"
+			},
+			events: {
+				hasDanger: "Kritické upozornění",
+				hasAlert: "Upozornění",
+				hasOverpowering: "Přetížení",
+				hasOpenWindow: "Okno otevřeno",
+				hasPresence: "Přítomnost zjištěna",
+				hasTimer: "Časovač aktivní"
+			},
+			messages: {
+				hvac_off_manual: "Ručně vypnuto",
+				hvac_off_auto_start_stop: "Vypnuto automatickým spuštěním/zastavením",
+				hvac_off_window_detection: "Vypnuto detekcí okna",
+				hvac_off_sleep_mode: "Vypnuto režimem spánku",
+				hvac_off_safety_detection: "Vypnuto režimem bezpečnosti",
+				hvac_off_central_mode: "Vypnuto centrálním režimem",
+				safety_detected: "Režim bezpečnosti zjištěn",
+				overpowering_detected: "Přetížení zjištěno",
+				target_temp_window_eco: "Cíl. teplota: okno eco",
+				target_temp_window_frost: "Cíl. teplota: okno mraz",
+				target_temp_power: "Cíl. teplota: výkon",
+				target_temp_central_mode: "Cíl. teplota: centrální režim",
+				target_temp_activity_detected: "Cíl. teplota: aktivita zjištěna",
+				target_temp_activity_not_detected: "Cíl. teplota: bez aktivity",
+				target_temp_absence_detected: "Cíl. teplota: absence zjištěna",
+				target_temp_timed_preset: "Časovaná předvolba aktivní",
+				not_initialized: "Chyba inicializace",
+				heating_failure: "Chyba topení zjištěna",
+				cooling_failure: "Chyba chlazení zjištěna"
+			},
+			actions: {
+				decrease_temperature: "Snížit zadanou teplotu",
+				increase_temperature: "Zvýšit zadanou teplotu",
+				low_temperature: "Nízko",
+				high_temperature: "Vysoko",
+				open_fan: "Otevřít ventilátor",
+				open_swing: "Otevřít kyv",
+				open_menu: "Otevřít menu",
+				open_power_info: "Zobrazit indikátory výkonu"
+			}
+		},
+		dialog: {
+			close: "Zavřít",
+			back: "Zpět",
+			fan: {
+				title: "Ventilace",
+				description_auto: "Automatický režim automaticky přizpůsobuje ventilaci potřebám topení."
+			},
+			swing: {
+				title: "Kyv",
+				vertical: "Vertikální",
+				horizontal: "Horizontální"
+			},
+			hvac: { title: "Režim" },
+			preset: { title: "Předvolba" },
+			message: { title: "Zpráva" },
+			menu: {
+				title: "Menu",
+				regulation: "Regulace",
+				boost: "Dočasný boost",
+				history: "Historie"
+			},
+			history: {
+				title: "Historie",
+				load: "Načíst",
+				add: "Přidat",
+				add_entity: "Přidat entitu",
+				loading: "Načítání historie...",
+				empty: "Žádná historie pro toto období.",
+				no_attributes: "Žádný volitelný atribut.",
+				tools: "Nástroje",
+				show_controls: "Zobrazit ovládací prvky historie",
+				hide_controls: "Skrýt ovládací prvky historie",
+				fullscreen: "Celá obrazovka",
+				exit_fullscreen: "Opustit celou obrazovku",
+				sources: {
+					current_temperature: "Aktuální teplota",
+					temperature: "Cílová teplota",
+					hvac_action: "Akce HVAC"
+				}
+			},
+			boost: {
+				title: "Dočasný boost",
+				duration: "Doba trvání v minutách",
+				minutes: "min",
+				hours: "h",
+				start: "Spustit",
+				stop: "Zastavit",
+				active: "Boost aktivní",
+				remaining_unknown: "Zbývající čas není dostupný",
+				preset: "Časovaná předvolba",
+				original_preset: "Předchozí předvolba",
+				start_description: "Když se odpočet skončí, termostat se vrátí do předchozího režimu.",
+				active_description: "Když se odpočet skončí, termostat se vrátí do předchozího režimu.",
+				active_description_with_preset: "Když se odpočet skončí, termostat se vrátí do předchozího režimu ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entita",
+			name: "Název",
+			diagnostic_entity: "Diagnostická entita",
+			power_entity: "Entita výkonu",
+			humidity_entity: "Entita vlhkosti",
+			temperature_entity: "Entita teploty",
+			theme: "Téma",
+			display_mode: "Formát",
+			primary_display: "Priorita zobrazení",
+			disable_name: "Skrýt název",
+			hide_lock_button: "Skrýt tlačítko zámku",
+			additional_dashboards: "Další přístupové panely",
+			state_icons_layout: "Ikony stavu",
+			tabs: {
+				general: "Obecné",
+				presentation: "Prezentace"
+			},
+			options: {
+				theme: {
+					flat: "Plochý",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klasický",
+					compact: "Kompaktní"
+				},
+				primary_display: {
+					setpoint: "Zadaná teplota",
+					sensors: "Senzory"
+				},
+				layout_orientation: {
+					horizontal: "Horizontální",
+					vertical: "Vertikální"
+				},
+				additional_dashboards: {
+					auto: "Automatické",
+					custom: "Vlastní",
+					disabled: "Zakázáno"
+				}
+			}
+		}
+	},
+	el: {
+		card: {
+			description: "Κάρτα Lovelace για Versatile Thermostat και τυπικές οντότητες κλίματος.",
+			missing_entity: "Διαμορφώστε μια οντότητα κλίματος.",
+			invalid_entity: "Η διαμορφωμένη οντότητα πρέπει να ανήκει στο πεδίο κλίματος.",
+			invalid_theme: "Το διαμορφωμένο θέμα δεν είναι διαθέσιμο.",
+			invalid_display_mode: "Η διαμορφωμένη λειτουργία εμφάνισης δεν είναι διαθέσιμη.",
+			invalid_primary_display: "Η διαμορφωμένη προτεραιότητα εμφάνισης δεν είναι διαθέσιμη.",
+			invalid_additional_dashboards: "Η διαμορφωμένη λειτουργία πίνακα δεν είναι διαθέσιμη.",
+			invalid_state_icons_layout: "Η διαμορφωμένη διάταξη εικονιδίων κατάστασης δεν είναι διαθέσιμη.",
+			entity_not_found: "Οντότητα δεν βρέθηκε: {entity}",
+			placeholder: "Το Equinox είναι έτοιμο για {entity}."
+		},
+		main: {
+			status: {
+				heating: "Θέρμανση ενεργή",
+				cooling: "Ψύξη ενεργή",
+				auto: "Αυτόματο",
+				heat: "Θέρμανση",
+				cool: "Ψύξη",
+				heat_cool: "Αυτόματο",
+				dry: "Ξήρανση",
+				fan_only: "Μόνο ανεμιστήρας",
+				off: "Απενεργοποιημένο",
+				boost: "Προσωρινή ενίσχυση",
+				unavailable: "Μη διαθέσιμο"
+			},
+			hvac: {
+				heat: "Θέρμανση",
+				cool: "Ψύξη",
+				heat_cool: "Θέρμανση/Ψύξη",
+				auto: "Αυτόματο",
+				dry: "Ξήρανση",
+				fan_only: "Μόνο ανεμιστήρας",
+				off: "Απενεργοποιημένο"
+			},
+			hvac_action: {
+				off: "Απενεργοποιημένο",
+				preheating: "Προθέρμανση",
+				heating: "Θέρμανση ενεργή",
+				cooling: "Ψύξη ενεργή",
+				drying: "Ξήρανση ενεργή",
+				fan: "Ανεμιστήρας ενεργός",
+				idle: "Αδράνεια",
+				defrosting: "Απόψυξη"
+			},
+			preset: {
+				none: "Χωρίς προρύθμιση",
+				frost: "Προστασία από παγετό",
+				eco: "Eco",
+				away: "Απόντας",
+				comfort: "Άνεση",
+				home: "Σπίτι",
+				sleep: "Ύπνος",
+				activity: "Δραστηριότητα",
+				boost: "Ενίσχυση"
+			},
+			fan: {
+				on: "Ενεργό",
+				On: "Ενεργό",
+				FAN_ON: "Ενεργό",
+				auto: "Αυτόματο",
+				Auto: "Αυτόματο",
+				FAN_AUTO: "Αυτόματο",
+				low: "Χαμηλό",
+				FAN_LOW: "Χαμηλό",
+				medium: "Μεσαίο",
+				FAN_MEDIUM: "Μεσαίο",
+				middle: "Μέση",
+				Middle: "Μέση",
+				FAN_MIDDLE: "Μέση",
+				high: "Υψηλό",
+				FAN_HIGH: "Υψηλό",
+				top: "Κορυφή",
+				Top: "Κορυφή",
+				FAN_TOP: "Κορυφή",
+				off: "Απενεργοποιημένο",
+				Off: "Απενεργοποιημένο",
+				FAN_OFF: "Απενεργοποιημένο",
+				focus: "Εστίαση",
+				Focus: "Εστίαση",
+				FAN_FOCUS: "Εστίαση",
+				diffuse: "Διάχυση",
+				Diffuse: "Διάχυση",
+				FAN_DIFFUSE: "Διάχυση",
+				auto_fan_none: "Κανένα",
+				auto_fan_low: "Χαμηλό",
+				auto_fan_medium: "Μεσαίο",
+				auto_fan_high: "Υψηλό",
+				auto_fan_turbo: "Turbo",
+				None: "Κανένα",
+				Low: "Χαμηλό",
+				Medium: "Μεσαίο",
+				High: "Υψηλό",
+				Turbo: "Turbo",
+				unavailable: "Ανεμιστήρας"
+			},
+			swing: {
+				off: "Απενεργοποιημένο",
+				Off: "Απενεργοποιημένο",
+				SWING_OFF: "Απενεργοποιημένο",
+				on: "Ενεργό",
+				On: "Ενεργό",
+				SWING_ON: "Ενεργό",
+				vertical: "Κάθετη",
+				Vertical: "Κάθετη",
+				SWING_VERTICAL: "Κάθετη",
+				horizontal: "Οριζόντια",
+				Horizontal: "Οριζόντια",
+				SWING_HORIZONTAL: "Οριζόντια",
+				both: "Και οι δύο",
+				Both: "Και οι δύο",
+				SWING_BOTH: "Και οι δύο",
+				unavailable: "Ταλάντωση"
+			},
+			lock: {
+				locked: "Κλειδωμένο",
+				unlocked: "Ξεκλείδωτο",
+				code_required: "Απαιτείται κωδικός",
+				enter_code: "Εισαγάγετε κωδικό",
+				wrong_code: "Λανθασμένος κωδικός"
+			},
+			events: {
+				hasDanger: "Κρίσιμη ειδοποίηση",
+				hasAlert: "Ειδοποίηση",
+				hasOverpowering: "Υπερφόρτωση",
+				hasOpenWindow: "Παράθυρο ανοικτό",
+				hasPresence: "Παρουσία ανιχνεύθηκε",
+				hasTimer: "Χρονόμετρο ενεργό"
+			},
+			messages: {
+				hvac_off_manual: "Απενεργοποιήθηκε χειροκίνητα",
+				hvac_off_auto_start_stop: "Απενεργοποιήθηκε με αυτόματη έναρξη/διακοπή",
+				hvac_off_window_detection: "Απενεργοποιήθηκε με ανίχνευση παραθύρου",
+				hvac_off_sleep_mode: "Απενεργοποιήθηκε σε λειτουργία ύπνου",
+				hvac_off_safety_detection: "Απενεργοποιήθηκε σε λειτουργία ασφαλείας",
+				hvac_off_central_mode: "Απενεργοποιήθηκε σε κεντρική λειτουργία",
+				safety_detected: "Ανιχνεύθηκε λειτουργία ασφαλείας",
+				overpowering_detected: "Ανιχνεύθηκε υπερφόρτωση",
+				target_temp_window_eco: "Θερμ. στόχου: παράθυρο eco",
+				target_temp_window_frost: "Θερμ. στόχου: παράθυρο παγετό",
+				target_temp_power: "Θερμ. στόχου: ισχύς",
+				target_temp_central_mode: "Θερμ. στόχου: κεντρική λειτουργία",
+				target_temp_activity_detected: "Θερμ. στόχου: δραστηριότητα ανιχνεύθηκε",
+				target_temp_activity_not_detected: "Θερμ. στόχου: χωρίς δραστηριότητα",
+				target_temp_absence_detected: "Θερμ. στόχου: απουσία ανιχνεύθηκε",
+				target_temp_timed_preset: "Χρονοδιάγραμμα προρύθμισης ενεργό",
+				not_initialized: "Σφάλμα αρχικοποίησης",
+				heating_failure: "Ανιχνεύθηκε σφάλμα θέρμανσης",
+				cooling_failure: "Ανιχνεύθηκε σφάλμα ψύξης"
+			},
+			actions: {
+				decrease_temperature: "Μείωση σημείου ρύθμισης",
+				increase_temperature: "Αύξηση σημείου ρύθμισης",
+				low_temperature: "Χαμηλό",
+				high_temperature: "Υψηλό",
+				open_fan: "Ανοίξτε ανεμιστήρα",
+				open_swing: "Ανοίξτε ταλάντωση",
+				open_menu: "Ανοίξτε μενού",
+				open_power_info: "Εμφάνιση δεικτών ισχύος"
+			}
+		},
+		dialog: {
+			close: "Κλείσιμο",
+			back: "Πίσω",
+			fan: {
+				title: "Εξαερισμός",
+				description_auto: "Η λειτουργία αυτόματης προσαρμογής τροποποιεί αυτόματα τον εξαερισμό στις ανάγκες θέρμανσης."
+			},
+			swing: {
+				title: "Ταλάντωση",
+				vertical: "Κάθετη",
+				horizontal: "Οριζόντια"
+			},
+			hvac: { title: "Λειτουργία" },
+			preset: { title: "Προρύθμιση" },
+			message: { title: "Μήνυμα" },
+			menu: {
+				title: "Μενού",
+				regulation: "Ρύθμιση",
+				boost: "Προσωρινή ενίσχυση",
+				history: "Ιστορικό"
+			},
+			history: {
+				title: "Ιστορικό",
+				load: "Φόρτωση",
+				add: "Προσθήκη",
+				add_entity: "Προσθήκη οντότητας",
+				loading: "Φόρτωση ιστορικού...",
+				empty: "Κανένα ιστορικό για αυτήν την περίοδο.",
+				no_attributes: "Κανένα επιλεγμένο χαρακτηριστικό.",
+				tools: "Εργαλεία",
+				show_controls: "Εμφάνιση στοιχείων ελέγχου ιστορικού",
+				hide_controls: "Απόκρυψη στοιχείων ελέγχου ιστορικού",
+				fullscreen: "Πλήρης οθόνη",
+				exit_fullscreen: "Έξοδος από πλήρη οθόνη",
+				sources: {
+					current_temperature: "Τρέχουσα θερμοκρασία",
+					temperature: "Θερμοκρασία στόχου",
+					hvac_action: "Ενέργεια HVAC"
+				}
+			},
+			boost: {
+				title: "Προσωρινή ενίσχυση",
+				duration: "Διάρκεια σε λεπτά",
+				minutes: "λ",
+				hours: "ώ",
+				start: "Έναρξη",
+				stop: "Διακοπή",
+				active: "Ενίσχυση ενεργή",
+				remaining_unknown: "Υπολειπόμενος χρόνος μη διαθέσιμος",
+				preset: "Χρονοδιάγραμμα προρύθμισης",
+				original_preset: "Προηγούμενη προρύθμιση",
+				start_description: "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
+				active_description: "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
+				active_description_with_preset: "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία ({preset})."
+			}
+		},
+		editor: {
+			entity: "Οντότητα",
+			name: "Όνομα",
+			diagnostic_entity: "Δεδομένα διάγνωσης",
+			power_entity: "Οντότητα ισχύος",
+			humidity_entity: "Οντότητα υγρασίας",
+			temperature_entity: "Οντότητα θερμοκρασίας",
+			theme: "Θέμα",
+			display_mode: "Μορφή",
+			primary_display: "Προτεραιότητα εμφάνισης",
+			disable_name: "Απόκρυψη ονόματος",
+			hide_lock_button: "Απόκρυψη κουμπιού κλειδώματος",
+			additional_dashboards: "Πρόσθετα ταμπλό",
+			state_icons_layout: "Εικονίδια κατάστασης",
+			tabs: {
+				general: "Γενικά",
+				presentation: "Παρουσίαση"
+			},
+			options: {
+				theme: {
+					flat: "Επίπεδη",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Κλασσικό",
+					compact: "Συμπαγής"
+				},
+				primary_display: {
+					setpoint: "Σημείο ρύθμισης",
+					sensors: "Αισθητήρες"
+				},
+				layout_orientation: {
+					horizontal: "Οριζόντια",
+					vertical: "Κάθετη"
+				},
+				additional_dashboards: {
+					auto: "Αυτόματο",
+					custom: "Προσαρμοσμένο",
+					disabled: "Απενεργοποιημένο"
+				}
+			}
+		}
+	},
+	it: {
+		card: {
+			description: "Scheda Lovelace per Termostato Versatile e entità climatiche standard.",
+			missing_entity: "Configurare un'entità climatica.",
+			invalid_entity: "L'entità configurata deve appartenere al dominio climatico.",
+			invalid_theme: "Il tema configurato non è disponibile.",
+			invalid_display_mode: "La modalità di visualizzazione configurata non è disponibile.",
+			invalid_primary_display: "La priorità di visualizzazione configurata non è disponibile.",
+			invalid_additional_dashboards: "La modalità dashboard configurata non è disponibile.",
+			invalid_state_icons_layout: "Il layout delle icone di stato configurato non è disponibile.",
+			entity_not_found: "Entità non trovata: {entity}",
+			placeholder: "Equinox è pronto per {entity}."
+		},
+		main: {
+			status: {
+				heating: "Riscaldamento attivo",
+				cooling: "Raffreddamento attivo",
+				auto: "Automatico",
+				heat: "Riscaldamento",
+				cool: "Raffreddamento",
+				heat_cool: "Automatico",
+				dry: "Secco",
+				fan_only: "Solo ventilatore",
+				off: "Spento",
+				boost: "Potenziamento temporaneo",
+				unavailable: "Non disponibile"
+			},
+			hvac: {
+				heat: "Riscaldamento",
+				cool: "Raffreddamento",
+				heat_cool: "Riscaldamento/Raffreddamento",
+				auto: "Automatico",
+				dry: "Secco",
+				fan_only: "Solo ventilatore",
+				off: "Spento"
+			},
+			hvac_action: {
+				off: "Spento",
+				preheating: "Preriscaldamento",
+				heating: "Riscaldamento attivo",
+				cooling: "Raffreddamento attivo",
+				drying: "Essiccazione attiva",
+				fan: "Ventilatore attivo",
+				idle: "Inattivo",
+				defrosting: "Sbrinamento"
+			},
+			preset: {
+				none: "Nessun preset",
+				frost: "Protezione dal gelo",
+				eco: "Eco",
+				away: "Assente",
+				comfort: "Comfort",
+				home: "Casa",
+				sleep: "Riposo",
+				activity: "Attività",
+				boost: "Potenziamento"
+			},
+			fan: {
+				on: "Acceso",
+				On: "Acceso",
+				FAN_ON: "Acceso",
+				auto: "Automatico",
+				Auto: "Automatico",
+				FAN_AUTO: "Automatico",
+				low: "Basso",
+				FAN_LOW: "Basso",
+				medium: "Medio",
+				FAN_MEDIUM: "Medio",
+				middle: "Mezzo",
+				Middle: "Mezzo",
+				FAN_MIDDLE: "Mezzo",
+				high: "Alto",
+				FAN_HIGH: "Alto",
+				top: "Superiore",
+				Top: "Superiore",
+				FAN_TOP: "Superiore",
+				off: "Spento",
+				Off: "Spento",
+				FAN_OFF: "Spento",
+				focus: "Fuoco",
+				Focus: "Fuoco",
+				FAN_FOCUS: "Fuoco",
+				diffuse: "Diffuso",
+				Diffuse: "Diffuso",
+				FAN_DIFFUSE: "Diffuso",
+				auto_fan_none: "Nessuno",
+				auto_fan_low: "Basso",
+				auto_fan_medium: "Medio",
+				auto_fan_high: "Alto",
+				auto_fan_turbo: "Turbo",
+				None: "Nessuno",
+				Low: "Basso",
+				Medium: "Medio",
+				High: "Alto",
+				Turbo: "Turbo",
+				unavailable: "Ventilatore"
+			},
+			swing: {
+				off: "Spento",
+				Off: "Spento",
+				SWING_OFF: "Spento",
+				on: "Acceso",
+				On: "Acceso",
+				SWING_ON: "Acceso",
+				vertical: "Verticale",
+				Vertical: "Verticale",
+				SWING_VERTICAL: "Verticale",
+				horizontal: "Orizzontale",
+				Horizontal: "Orizzontale",
+				SWING_HORIZONTAL: "Orizzontale",
+				both: "Entrambi",
+				Both: "Entrambi",
+				SWING_BOTH: "Entrambi",
+				unavailable: "Oscillazione"
+			},
+			lock: {
+				locked: "Bloccato",
+				unlocked: "Sbloccato",
+				code_required: "Codice richiesto",
+				enter_code: "Inserisci codice",
+				wrong_code: "Codice errato"
+			},
+			events: {
+				hasDanger: "Avviso critico",
+				hasAlert: "Avviso",
+				hasOverpowering: "Sovraccarico",
+				hasOpenWindow: "Finestra aperta",
+				hasPresence: "Presenza rilevata",
+				hasTimer: "Timer attivo"
+			},
+			messages: {
+				hvac_off_manual: "Spento manualmente",
+				hvac_off_auto_start_stop: "Spento da avvio/arresto automatico",
+				hvac_off_window_detection: "Spento dal rilevamento finestra",
+				hvac_off_sleep_mode: "Spento da modalità riposo",
+				hvac_off_safety_detection: "Spento da modalità sicurezza",
+				hvac_off_central_mode: "Spento da modalità centrale",
+				safety_detected: "Modalità sicurezza rilevata",
+				overpowering_detected: "Sovraccarico rilevato",
+				target_temp_window_eco: "Temp. obiettivo: finestra eco",
+				target_temp_window_frost: "Temp. obiettivo: finestra gelo",
+				target_temp_power: "Temp. obiettivo: potenza",
+				target_temp_central_mode: "Temp. obiettivo: modalità centrale",
+				target_temp_activity_detected: "Temp. obiettivo: attività rilevata",
+				target_temp_activity_not_detected: "Temp. obiettivo: nessuna attività",
+				target_temp_absence_detected: "Temp. obiettivo: assenza rilevata",
+				target_temp_timed_preset: "Preset programmato attivo",
+				not_initialized: "Errore di inizializzazione",
+				heating_failure: "Errore di riscaldamento rilevato",
+				cooling_failure: "Errore di raffreddamento rilevato"
+			},
+			actions: {
+				decrease_temperature: "Diminuisci consegna",
+				increase_temperature: "Aumenta consegna",
+				low_temperature: "Basso",
+				high_temperature: "Alto",
+				open_fan: "Apri ventilatore",
+				open_swing: "Apri oscillazione",
+				open_menu: "Apri menu",
+				open_power_info: "Mostra indicatori di potenza"
+			}
+		},
+		dialog: {
+			close: "Chiudi",
+			back: "Indietro",
+			fan: {
+				title: "Ventilazione",
+				description_auto: "La modalità automatica adatta automaticamente la ventilazione alle esigenze di riscaldamento."
+			},
+			swing: {
+				title: "Oscillazione",
+				vertical: "Verticale",
+				horizontal: "Orizzontale"
+			},
+			hvac: { title: "Modalità" },
+			preset: { title: "Preset" },
+			message: { title: "Messaggio" },
+			menu: {
+				title: "Menu",
+				regulation: "Regolazione",
+				boost: "Potenziamento temporaneo",
+				history: "Cronologia"
+			},
+			history: {
+				title: "Cronologia",
+				load: "Carica",
+				add: "Aggiungi",
+				add_entity: "Aggiungi un'entità",
+				loading: "Caricamento cronologia...",
+				empty: "Nessuna cronologia per questo periodo.",
+				no_attributes: "Nessun attributo selezionabile.",
+				tools: "Strumenti",
+				show_controls: "Mostra controlli cronologia",
+				hide_controls: "Nascondi controlli cronologia",
+				fullscreen: "Schermo intero",
+				exit_fullscreen: "Esci da schermo intero",
+				sources: {
+					current_temperature: "Temperatura attuale",
+					temperature: "Temperatura obiettivo",
+					hvac_action: "Azione HVAC"
+				}
+			},
+			boost: {
+				title: "Potenziamento temporaneo",
+				duration: "Durata in minuti",
+				minutes: "min",
+				hours: "h",
+				start: "Avvia",
+				stop: "Arresta",
+				active: "Potenziamento attivo",
+				remaining_unknown: "Tempo rimanente non disponibile",
+				preset: "Preset programmato",
+				original_preset: "Preset precedente",
+				start_description: "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente.",
+				active_description: "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente.",
+				active_description_with_preset: "Al termine del conto alla rovescia, il termostato tornerà alla modalità precedente ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entità",
+			name: "Nome",
+			diagnostic_entity: "Entità diagnostica",
+			power_entity: "Entità potenza",
+			humidity_entity: "Entità umidità",
+			temperature_entity: "Entità temperatura",
+			theme: "Tema",
+			display_mode: "Formato",
+			primary_display: "Priorità visualizzazione",
+			disable_name: "Nascondi nome",
+			hide_lock_button: "Nascondi pulsante blocco",
+			additional_dashboards: "Dashboard aggiuntivi",
+			state_icons_layout: "Icone di stato",
+			tabs: {
+				general: "Generale",
+				presentation: "Presentazione"
+			},
+			options: {
+				theme: {
+					flat: "Piatto",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Classico",
+					compact: "Compatto"
+				},
+				primary_display: {
+					setpoint: "Consegna",
+					sensors: "Sensori"
+				},
+				layout_orientation: {
+					horizontal: "Orizzontale",
+					vertical: "Verticale"
+				},
+				additional_dashboards: {
+					auto: "Automatico",
+					custom: "Personalizzato",
+					disabled: "Disabilitato"
+				}
+			}
+		}
+	},
+	pl: {
+		card: {
+			description: "Karta Lovelace dla Versatile Thermostat i standardowych jednostek klimatyzacyjnych.",
+			missing_entity: "Skonfiguruj jednostkę klimatyzacyjną.",
+			invalid_entity: "Skonfigurowana jednostka musi należeć do domeny klimatyzacyjnej.",
+			invalid_theme: "Skonfigurowany motyw nie jest dostępny.",
+			invalid_display_mode: "Skonfigurowany tryb wyświetlania nie jest dostępny.",
+			invalid_primary_display: "Skonfigurowany priorytet wyświetlania nie jest dostępny.",
+			invalid_additional_dashboards: "Skonfigurowany tryb pulpitu nawigacyjnego nie jest dostępny.",
+			invalid_state_icons_layout: "Skonfigurowany układ ikon stanu nie jest dostępny.",
+			entity_not_found: "Jednostka nie znaleziona: {entity}",
+			placeholder: "Equinox jest gotowy dla {entity}."
+		},
+		main: {
+			status: {
+				heating: "Grzewanie aktywne",
+				cooling: "Chłodzenie aktywne",
+				auto: "Automatyczne",
+				heat: "Grzewanie",
+				cool: "Chłodzenie",
+				heat_cool: "Automatyczne",
+				dry: "Suszenie",
+				fan_only: "Tylko wentylator",
+				off: "Wyłączony",
+				boost: "Tymczasowe przyspieszenie",
+				unavailable: "Niedostępne"
+			},
+			hvac: {
+				heat: "Grzewanie",
+				cool: "Chłodzenie",
+				heat_cool: "Grzewanie/Chłodzenie",
+				auto: "Automatyczne",
+				dry: "Suszenie",
+				fan_only: "Tylko wentylator",
+				off: "Wyłączony"
+			},
+			hvac_action: {
+				off: "Wyłączony",
+				preheating: "Wstępne podgrzewanie",
+				heating: "Grzewanie aktywne",
+				cooling: "Chłodzenie aktywne",
+				drying: "Suszenie aktywne",
+				fan: "Wentylator aktywny",
+				idle: "Bezczynny",
+				defrosting: "Odmrażanie"
+			},
+			preset: {
+				none: "Brak predefiniowanego",
+				frost: "Ochrona przed mrozem",
+				eco: "Eco",
+				away: "Nieobecny",
+				comfort: "Komfort",
+				home: "Dom",
+				sleep: "Sen",
+				activity: "Aktywność",
+				boost: "Przyspieszenie"
+			},
+			fan: {
+				on: "Włączony",
+				On: "Włączony",
+				FAN_ON: "Włączony",
+				auto: "Automatyczne",
+				Auto: "Automatyczne",
+				FAN_AUTO: "Automatyczne",
+				low: "Niskie",
+				FAN_LOW: "Niskie",
+				medium: "Średnie",
+				FAN_MEDIUM: "Średnie",
+				middle: "Pośrednie",
+				Middle: "Pośrednie",
+				FAN_MIDDLE: "Pośrednie",
+				high: "Wysokie",
+				FAN_HIGH: "Wysokie",
+				top: "Górne",
+				Top: "Górne",
+				FAN_TOP: "Górne",
+				off: "Wyłączony",
+				Off: "Wyłączony",
+				FAN_OFF: "Wyłączony",
+				focus: "Skupienie",
+				Focus: "Skupienie",
+				FAN_FOCUS: "Skupienie",
+				diffuse: "Rozproszone",
+				Diffuse: "Rozproszone",
+				FAN_DIFFUSE: "Rozproszone",
+				auto_fan_none: "Brak",
+				auto_fan_low: "Niskie",
+				auto_fan_medium: "Średnie",
+				auto_fan_high: "Wysokie",
+				auto_fan_turbo: "Turbo",
+				None: "Brak",
+				Low: "Niskie",
+				Medium: "Średnie",
+				High: "Wysokie",
+				Turbo: "Turbo",
+				unavailable: "Wentylator"
+			},
+			swing: {
+				off: "Wyłączony",
+				Off: "Wyłączony",
+				SWING_OFF: "Wyłączony",
+				on: "Włączony",
+				On: "Włączony",
+				SWING_ON: "Włączony",
+				vertical: "Pionowa",
+				Vertical: "Pionowa",
+				SWING_VERTICAL: "Pionowa",
+				horizontal: "Pozioma",
+				Horizontal: "Pozioma",
+				SWING_HORIZONTAL: "Pozioma",
+				both: "Obie",
+				Both: "Obie",
+				SWING_BOTH: "Obie",
+				unavailable: "Oscylacja"
+			},
+			lock: {
+				locked: "Zablokowany",
+				unlocked: "Odblokowany",
+				code_required: "Wymagany kod",
+				enter_code: "Wpisz kod",
+				wrong_code: "Nieprawidłowy kod"
+			},
+			events: {
+				hasDanger: "Alert krytyczny",
+				hasAlert: "Alert",
+				hasOverpowering: "Przeciążenie",
+				hasOpenWindow: "Okno otwarte",
+				hasPresence: "Wykryta obecność",
+				hasTimer: "Czasomierz aktywny"
+			},
+			messages: {
+				hvac_off_manual: "Wyłączony ręcznie",
+				hvac_off_auto_start_stop: "Wyłączony przez automatyczne uruchamianie/zatrzymywanie",
+				hvac_off_window_detection: "Wyłączony przez detekcję okna",
+				hvac_off_sleep_mode: "Wyłączony przez tryb snu",
+				hvac_off_safety_detection: "Wyłączony przez tryb bezpieczeństwa",
+				hvac_off_central_mode: "Wyłączony przez tryb centralny",
+				safety_detected: "Wykryty tryb bezpieczeństwa",
+				overpowering_detected: "Wykryto przeciążenie",
+				target_temp_window_eco: "Docel. temp.: okno eco",
+				target_temp_window_frost: "Docel. temp.: okno mróz",
+				target_temp_power: "Docel. temp.: moc",
+				target_temp_central_mode: "Docel. temp.: tryb centralny",
+				target_temp_activity_detected: "Docel. temp.: aktywność wykryta",
+				target_temp_activity_not_detected: "Docel. temp.: brak aktywności",
+				target_temp_absence_detected: "Docel. temp.: nieobecność wykryta",
+				target_temp_timed_preset: "Zaplanowana predefiniowana aktywna",
+				not_initialized: "Błąd inicjalizacji",
+				heating_failure: "Wykryto błąd grzewania",
+				cooling_failure: "Wykryto błąd chłodzenia"
+			},
+			actions: {
+				decrease_temperature: "Zmniejsz punkt zadany",
+				increase_temperature: "Zwiększ punkt zadany",
+				low_temperature: "Niskie",
+				high_temperature: "Wysokie",
+				open_fan: "Otwórz wentylator",
+				open_swing: "Otwórz oscylację",
+				open_menu: "Otwórz menu",
+				open_power_info: "Pokaż wskaźniki mocy"
+			}
+		},
+		dialog: {
+			close: "Zamknij",
+			back: "Wróć",
+			fan: {
+				title: "Wentylacja",
+				description_auto: "Tryb automatyczny automatycznie dostosowuje wentylację do potrzeb grzewania."
+			},
+			swing: {
+				title: "Oscylacja",
+				vertical: "Pionowa",
+				horizontal: "Pozioma"
+			},
+			hvac: { title: "Tryb" },
+			preset: { title: "Predefiniowana" },
+			message: { title: "Wiadomość" },
+			menu: {
+				title: "Menu",
+				regulation: "Regulacja",
+				boost: "Tymczasowe przyspieszenie",
+				history: "Historia"
+			},
+			history: {
+				title: "Historia",
+				load: "Załaduj",
+				add: "Dodaj",
+				add_entity: "Dodaj jednostkę",
+				loading: "Ładowanie historii...",
+				empty: "Brak historii dla tego okresu.",
+				no_attributes: "Brak atrybutu do wyboru.",
+				tools: "Narzędzia",
+				show_controls: "Pokaż kontrolki historii",
+				hide_controls: "Ukryj kontrolki historii",
+				fullscreen: "Pełny ekran",
+				exit_fullscreen: "Zamknij pełny ekran",
+				sources: {
+					current_temperature: "Bieżąca temperatura",
+					temperature: "Temperatura docelowa",
+					hvac_action: "Działanie HVAC"
+				}
+			},
+			boost: {
+				title: "Tymczasowe przyspieszenie",
+				duration: "Czas trwania w minutach",
+				minutes: "min",
+				hours: "h",
+				start: "Start",
+				stop: "Stop",
+				active: "Przyspieszenie aktywne",
+				remaining_unknown: "Pozostały czas niedostępny",
+				preset: "Zaplanowana predefiniowana",
+				original_preset: "Poprzednia predefiniowana",
+				start_description: "Po zakończeniu odliczania termostat powróci do poprzedniego trybu.",
+				active_description: "Po zakończeniu odliczania termostat powróci do poprzedniego trybu.",
+				active_description_with_preset: "Po zakończeniu odliczania termostat powróci do poprzedniego trybu ({preset})."
+			}
+		},
+		editor: {
+			entity: "Jednostka",
+			name: "Nazwa",
+			diagnostic_entity: "Jednostka diagnostyki",
+			power_entity: "Jednostka mocy",
+			humidity_entity: "Jednostka wilgotności",
+			temperature_entity: "Jednostka temperatury",
+			theme: "Motyw",
+			display_mode: "Format",
+			primary_display: "Priorytet wyświetlania",
+			disable_name: "Ukryj nazwę",
+			hide_lock_button: "Ukryj przycisk blokady",
+			additional_dashboards: "Dodatkowe pulpity nawigacyjne",
+			state_icons_layout: "Ikony stanu",
+			tabs: {
+				general: "Ogólne",
+				presentation: "Prezentacja"
+			},
+			options: {
+				theme: {
+					flat: "Płaski",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klasyczny",
+					compact: "Kompaktowy"
+				},
+				primary_display: {
+					setpoint: "Punkt zadany",
+					sensors: "Czujniki"
+				},
+				layout_orientation: {
+					horizontal: "Pozioma",
+					vertical: "Pionowa"
+				},
+				additional_dashboards: {
+					auto: "Automatyczne",
+					custom: "Niestandardowy",
+					disabled: "Wyłączony"
+				}
+			}
+		}
+	},
+	ru: {
+		card: {
+			description: "Карточка Lovelace для Versatile Thermostat и стандартных сущностей климата.",
+			missing_entity: "Настройте сущность климата.",
+			invalid_entity: "Настроенная сущность должна принадлежать домену климата.",
+			invalid_theme: "Настроенная тема недоступна.",
+			invalid_display_mode: "Настроенный режим отображения недоступен.",
+			invalid_primary_display: "Настроенный приоритет отображения недоступен.",
+			invalid_additional_dashboards: "Настроенный режим панели недоступен.",
+			invalid_state_icons_layout: "Настроенный макет значков состояния недоступен.",
+			entity_not_found: "Сущность не найдена: {entity}",
+			placeholder: "Equinox готов к {entity}."
+		},
+		main: {
+			status: {
+				heating: "Отопление активно",
+				cooling: "Охлаждение активно",
+				auto: "Автоматический",
+				heat: "Отопление",
+				cool: "Охлаждение",
+				heat_cool: "Автоматический",
+				dry: "Осушка",
+				fan_only: "Только вентилятор",
+				off: "Выключено",
+				boost: "Временное ускорение",
+				unavailable: "Недоступно"
+			},
+			hvac: {
+				heat: "Отопление",
+				cool: "Охлаждение",
+				heat_cool: "Отопление/Охлаждение",
+				auto: "Автоматический",
+				dry: "Осушка",
+				fan_only: "Только вентилятор",
+				off: "Выключено"
+			},
+			hvac_action: {
+				off: "Выключено",
+				preheating: "Предварительный нагрев",
+				heating: "Отопление активно",
+				cooling: "Охлаждение активно",
+				drying: "Осушка активна",
+				fan: "Вентилятор активен",
+				idle: "Ожидание",
+				defrosting: "Разморозка"
+			},
+			preset: {
+				none: "Нет предустановки",
+				frost: "Защита от мороза",
+				eco: "Эко",
+				away: "В отсутствии",
+				comfort: "Комфорт",
+				home: "Дом",
+				sleep: "Сон",
+				activity: "Активность",
+				boost: "Ускорение"
+			},
+			fan: {
+				on: "Включено",
+				On: "Включено",
+				FAN_ON: "Включено",
+				auto: "Автоматический",
+				Auto: "Автоматический",
+				FAN_AUTO: "Автоматический",
+				low: "Низко",
+				FAN_LOW: "Низко",
+				medium: "Среднее",
+				FAN_MEDIUM: "Среднее",
+				middle: "Середина",
+				Middle: "Середина",
+				FAN_MIDDLE: "Середина",
+				high: "Высоко",
+				FAN_HIGH: "Высоко",
+				top: "Верхний",
+				Top: "Верхний",
+				FAN_TOP: "Верхний",
+				off: "Выключено",
+				Off: "Выключено",
+				FAN_OFF: "Выключено",
+				focus: "Фокус",
+				Focus: "Фокус",
+				FAN_FOCUS: "Фокус",
+				diffuse: "Диффузия",
+				Diffuse: "Диффузия",
+				FAN_DIFFUSE: "Диффузия",
+				auto_fan_none: "Нет",
+				auto_fan_low: "Низко",
+				auto_fan_medium: "Среднее",
+				auto_fan_high: "Высоко",
+				auto_fan_turbo: "Турбо",
+				None: "Нет",
+				Low: "Низко",
+				Medium: "Среднее",
+				High: "Высоко",
+				Turbo: "Турбо",
+				unavailable: "Вентилятор"
+			},
+			swing: {
+				off: "Выключено",
+				Off: "Выключено",
+				SWING_OFF: "Выключено",
+				on: "Включено",
+				On: "Включено",
+				SWING_ON: "Включено",
+				vertical: "Вертикально",
+				Vertical: "Вертикально",
+				SWING_VERTICAL: "Вертикально",
+				horizontal: "Горизонтально",
+				Horizontal: "Горизонтально",
+				SWING_HORIZONTAL: "Горизонтально",
+				both: "Оба",
+				Both: "Оба",
+				SWING_BOTH: "Оба",
+				unavailable: "Колебание"
+			},
+			lock: {
+				locked: "Заблокировано",
+				unlocked: "Разблокировано",
+				code_required: "Требуется код",
+				enter_code: "Введите код",
+				wrong_code: "Неправильный код"
+			},
+			events: {
+				hasDanger: "Критическое предупреждение",
+				hasAlert: "Предупреждение",
+				hasOverpowering: "Перегрузка",
+				hasOpenWindow: "Окно открыто",
+				hasPresence: "Обнаружено присутствие",
+				hasTimer: "Таймер активен"
+			},
+			messages: {
+				hvac_off_manual: "Выключено вручную",
+				hvac_off_auto_start_stop: "Выключено автоматическим запуском/остановом",
+				hvac_off_window_detection: "Выключено обнаружением окна",
+				hvac_off_sleep_mode: "Выключено режимом сна",
+				hvac_off_safety_detection: "Выключено режимом безопасности",
+				hvac_off_central_mode: "Выключено центральным режимом",
+				safety_detected: "Обнаружен режим безопасности",
+				overpowering_detected: "Обнаружена перегрузка",
+				target_temp_window_eco: "Целевая темп.: окно эко",
+				target_temp_window_frost: "Целевая темп.: окно мороз",
+				target_temp_power: "Целевая темп.: питание",
+				target_temp_central_mode: "Целевая темп.: центральный режим",
+				target_temp_activity_detected: "Целевая темп.: активность обнаружена",
+				target_temp_activity_not_detected: "Целевая темп.: активность не обнаружена",
+				target_temp_absence_detected: "Целевая темп.: отсутствие обнаружено",
+				target_temp_timed_preset: "Временная предустановка активна",
+				not_initialized: "Ошибка инициализации",
+				heating_failure: "Обнаружена ошибка отопления",
+				cooling_failure: "Обнаружена ошибка охлаждения"
+			},
+			actions: {
+				decrease_temperature: "Уменьшить уставку",
+				increase_temperature: "Увеличить уставку",
+				low_temperature: "Низко",
+				high_temperature: "Высоко",
+				open_fan: "Открыть вентилятор",
+				open_swing: "Открыть колебание",
+				open_menu: "Открыть меню",
+				open_power_info: "Показать индикаторы питания"
+			}
+		},
+		dialog: {
+			close: "Закрыть",
+			back: "Назад",
+			fan: {
+				title: "Вентиляция",
+				description_auto: "Автоматический режим автоматически адаптирует вентиляцию к потребностям отопления."
+			},
+			swing: {
+				title: "Колебание",
+				vertical: "Вертикально",
+				horizontal: "Горизонтально"
+			},
+			hvac: { title: "Режим" },
+			preset: { title: "Предустановка" },
+			message: { title: "Сообщение" },
+			menu: {
+				title: "Меню",
+				regulation: "Регуляция",
+				boost: "Временное ускорение",
+				history: "История"
+			},
+			history: {
+				title: "История",
+				load: "Загрузить",
+				add: "Добавить",
+				add_entity: "Добавить сущность",
+				loading: "Загрузка истории...",
+				empty: "Нет истории для этого периода.",
+				no_attributes: "Нет выбираемого атрибута.",
+				tools: "Инструменты",
+				show_controls: "Показать элементы управления историей",
+				hide_controls: "Скрыть элементы управления историей",
+				fullscreen: "Полный экран",
+				exit_fullscreen: "Выход из полного экрана",
+				sources: {
+					current_temperature: "Текущая температура",
+					temperature: "Целевая температура",
+					hvac_action: "Действие HVAC"
+				}
+			},
+			boost: {
+				title: "Временное ускорение",
+				duration: "Продолжительность в минутах",
+				minutes: "мин",
+				hours: "ч",
+				start: "Начать",
+				stop: "Остановить",
+				active: "Ускорение активно",
+				remaining_unknown: "Оставшееся время недоступно",
+				preset: "Временная предустановка",
+				original_preset: "Предыдущая предустановка",
+				start_description: "По окончании обратного отсчета термостат вернется в предыдущий режим.",
+				active_description: "По окончании обратного отсчета термостат вернется в предыдущий режим.",
+				active_description_with_preset: "По окончании обратного отсчета термостат вернется в предыдущий режим ({preset})."
+			}
+		},
+		editor: {
+			entity: "Сущность",
+			name: "Название",
+			diagnostic_entity: "Сущность диагностики",
+			power_entity: "Сущность питания",
+			humidity_entity: "Сущность влажности",
+			temperature_entity: "Сущность температуры",
+			theme: "Тема",
+			display_mode: "Формат",
+			primary_display: "Приоритет отображения",
+			disable_name: "Скрыть название",
+			hide_lock_button: "Скрыть кнопку блокировки",
+			additional_dashboards: "Дополнительные панели",
+			state_icons_layout: "Значки состояния",
+			tabs: {
+				general: "Общие",
+				presentation: "Презентация"
+			},
+			options: {
+				theme: {
+					flat: "Плоский",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Классический",
+					compact: "Компактный"
+				},
+				primary_display: {
+					setpoint: "Уставка",
+					sensors: "Датчики"
+				},
+				layout_orientation: {
+					horizontal: "Горизонтально",
+					vertical: "Вертикально"
+				},
+				additional_dashboards: {
+					auto: "Автоматический",
+					custom: "Пользовательский",
+					disabled: "Отключено"
+				}
+			}
+		}
+	},
+	sk: {
+		card: {
+			description: "Karta Lovelace pre Versatile Thermostat a štandardné klimatizačné entity.",
+			missing_entity: "Nakonfigurujte klimatizačnú entitu.",
+			invalid_entity: "Nakonfigurovaná entita musí patriť do klimatizačnej domény.",
+			invalid_theme: "Nakonfigurovaná téma nie je dostupná.",
+			invalid_display_mode: "Nakonfigurovaný režim zobrazenia nie je dostupný.",
+			invalid_primary_display: "Nakonfigurovaná priorita zobrazenia nie je dostupná.",
+			invalid_additional_dashboards: "Nakonfigurovaný režim panelu nie je dostupný.",
+			invalid_state_icons_layout: "Nakonfigurované rozloženie ikon stavu nie je dostupné.",
+			entity_not_found: "Entita nenájdená: {entity}",
+			placeholder: "Equinox je pripravený pre {entity}."
+		},
+		main: {
+			status: {
+				heating: "Vykurovanie aktívne",
+				cooling: "Chladenie aktívne",
+				auto: "Automatické",
+				heat: "Vykurovanie",
+				cool: "Chladenie",
+				heat_cool: "Automatické",
+				dry: "Sušenie",
+				fan_only: "Iba ventilátor",
+				off: "Vypnuté",
+				boost: "Dočasný boost",
+				unavailable: "Nedostupné"
+			},
+			hvac: {
+				heat: "Vykurovanie",
+				cool: "Chladenie",
+				heat_cool: "Vykurovanie/Chladenie",
+				auto: "Automatické",
+				dry: "Sušenie",
+				fan_only: "Iba ventilátor",
+				off: "Vypnuté"
+			},
+			hvac_action: {
+				off: "Vypnuté",
+				preheating: "Predohrev",
+				heating: "Vykurovanie aktívne",
+				cooling: "Chladenie aktívne",
+				drying: "Sušenie aktívne",
+				fan: "Ventilátor aktívny",
+				idle: "Nečinný",
+				defrosting: "Odmrazovanie"
+			},
+			preset: {
+				none: "Bez prednastavenia",
+				frost: "Ochrana pred mrazom",
+				eco: "Eco",
+				away: "Preč",
+				comfort: "Komfort",
+				home: "Domov",
+				sleep: "Spánok",
+				activity: "Aktivita",
+				boost: "Boost"
+			},
+			fan: {
+				on: "Zapnuté",
+				On: "Zapnuté",
+				FAN_ON: "Zapnuté",
+				auto: "Automatické",
+				Auto: "Automatické",
+				FAN_AUTO: "Automatické",
+				low: "Nízko",
+				FAN_LOW: "Nízko",
+				medium: "Stredné",
+				FAN_MEDIUM: "Stredné",
+				middle: "Stred",
+				Middle: "Stred",
+				FAN_MIDDLE: "Stred",
+				high: "Vysoko",
+				FAN_HIGH: "Vysoko",
+				top: "Horný",
+				Top: "Horný",
+				FAN_TOP: "Horný",
+				off: "Vypnuté",
+				Off: "Vypnuté",
+				FAN_OFF: "Vypnuté",
+				focus: "Zameranie",
+				Focus: "Zameranie",
+				FAN_FOCUS: "Zameranie",
+				diffuse: "Rozptyl",
+				Diffuse: "Rozptyl",
+				FAN_DIFFUSE: "Rozptyl",
+				auto_fan_none: "Žiadny",
+				auto_fan_low: "Nízko",
+				auto_fan_medium: "Stredné",
+				auto_fan_high: "Vysoko",
+				auto_fan_turbo: "Turbo",
+				None: "Žiadny",
+				Low: "Nízko",
+				Medium: "Stredné",
+				High: "Vysoko",
+				Turbo: "Turbo",
+				unavailable: "Ventilátor"
+			},
+			swing: {
+				off: "Vypnuté",
+				Off: "Vypnuté",
+				SWING_OFF: "Vypnuté",
+				on: "Zapnuté",
+				On: "Zapnuté",
+				SWING_ON: "Zapnuté",
+				vertical: "Vertikálne",
+				Vertical: "Vertikálne",
+				SWING_VERTICAL: "Vertikálne",
+				horizontal: "Horizontálne",
+				Horizontal: "Horizontálne",
+				SWING_HORIZONTAL: "Horizontálne",
+				both: "Oboje",
+				Both: "Oboje",
+				SWING_BOTH: "Oboje",
+				unavailable: "Kyv"
+			},
+			lock: {
+				locked: "Zamknuté",
+				unlocked: "Odomknuté",
+				code_required: "Vyžaduje sa kód",
+				enter_code: "Zadajte kód",
+				wrong_code: "Nesprávny kód"
+			},
+			events: {
+				hasDanger: "Kritické upozornenie",
+				hasAlert: "Upozornenie",
+				hasOverpowering: "Preťaženie",
+				hasOpenWindow: "Okno otvorené",
+				hasPresence: "Prítomnosť zistená",
+				hasTimer: "Časovač aktívny"
+			},
+			messages: {
+				hvac_off_manual: "Ručne vypnuté",
+				hvac_off_auto_start_stop: "Vypnuté automatickým spustením/zastavením",
+				hvac_off_window_detection: "Vypnuté detekciou okna",
+				hvac_off_sleep_mode: "Vypnuté režimom spánku",
+				hvac_off_safety_detection: "Vypnuté režimom bezpečnosti",
+				hvac_off_central_mode: "Vypnuté centrálnym režimom",
+				safety_detected: "Režim bezpečnosti zistený",
+				overpowering_detected: "Preťaženie zistené",
+				target_temp_window_eco: "Cieľ. teplota: okno eco",
+				target_temp_window_frost: "Cieľ. teplota: okno mráz",
+				target_temp_power: "Cieľ. teplota: výkon",
+				target_temp_central_mode: "Cieľ. teplota: centrálny režim",
+				target_temp_activity_detected: "Cieľ. teplota: aktivita zistená",
+				target_temp_activity_not_detected: "Cieľ. teplota: bez aktivity",
+				target_temp_absence_detected: "Cieľ. teplota: neprítomnosť zistená",
+				target_temp_timed_preset: "Načasované prednastavenie aktívne",
+				not_initialized: "Chyba inicializácie",
+				heating_failure: "Zistená chyba vykurovania",
+				cooling_failure: "Zistená chyba chladenia"
+			},
+			actions: {
+				decrease_temperature: "Znížiť nastavenú teplotu",
+				increase_temperature: "Zvýšiť nastavenú teplotu",
+				low_temperature: "Nízko",
+				high_temperature: "Vysoko",
+				open_fan: "Otvoriť ventilátor",
+				open_swing: "Otvoriť kyv",
+				open_menu: "Otvoriť menu",
+				open_power_info: "Zobraziť indikátory výkonu"
+			}
+		},
+		dialog: {
+			close: "Zatvoriť",
+			back: "Späť",
+			fan: {
+				title: "Ventilacia",
+				description_auto: "Automatický režim automaticky prispôsobuje ventilciu potrebám vykurovania."
+			},
+			swing: {
+				title: "Kyv",
+				vertical: "Vertikálne",
+				horizontal: "Horizontálne"
+			},
+			hvac: { title: "Režim" },
+			preset: { title: "Prednastavenie" },
+			message: { title: "Správa" },
+			menu: {
+				title: "Menu",
+				regulation: "Regulácia",
+				boost: "Dočasný boost",
+				history: "História"
+			},
+			history: {
+				title: "História",
+				load: "Načítať",
+				add: "Pridať",
+				add_entity: "Pridať entitu",
+				loading: "Načítavanie histórie...",
+				empty: "Žiadna história za toto obdobie.",
+				no_attributes: "Žiadny voliteľný atribút.",
+				tools: "Nástroje",
+				show_controls: "Zobraziť ovládacie prvky histórie",
+				hide_controls: "Skryť ovládacie prvky histórie",
+				fullscreen: "Celá obrazovka",
+				exit_fullscreen: "Opustiť celú obrazovku",
+				sources: {
+					current_temperature: "Aktuálna teplota",
+					temperature: "Cieľová teplota",
+					hvac_action: "Akcia HVAC"
+				}
+			},
+			boost: {
+				title: "Dočasný boost",
+				duration: "Trvanie v minútach",
+				minutes: "min",
+				hours: "h",
+				start: "Spustiť",
+				stop: "Zastaviť",
+				active: "Boost aktívny",
+				remaining_unknown: "Zvyšný čas nie je dostupný",
+				preset: "Načasované prednastavenie",
+				original_preset: "Predchádzajúce prednastavenie",
+				start_description: "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
+				active_description: "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
+				active_description_with_preset: "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entita",
+			name: "Názov",
+			diagnostic_entity: "Diagnostická entita",
+			power_entity: "Entita výkonu",
+			humidity_entity: "Entita vlhkosti",
+			temperature_entity: "Entita teploty",
+			theme: "Téma",
+			display_mode: "Formát",
+			primary_display: "Priorita zobrazenia",
+			disable_name: "Skryť názov",
+			hide_lock_button: "Skryť tlačítko zámku",
+			additional_dashboards: "Ďalšie panely",
+			state_icons_layout: "Ikony stavu",
+			tabs: {
+				general: "Všeobecné",
+				presentation: "Prezentácia"
+			},
+			options: {
+				theme: {
+					flat: "Plochý",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klasický",
+					compact: "Kompaktný"
+				},
+				primary_display: {
+					setpoint: "Nastavená teplota",
+					sensors: "Senzory"
+				},
+				layout_orientation: {
+					horizontal: "Horizontálne",
+					vertical: "Vertikálne"
+				},
+				additional_dashboards: {
+					auto: "Automatické",
+					custom: "Vlastný",
+					disabled: "Zakázané"
+				}
+			}
+		}
+	},
+	bg: {
+		card: {
+			description: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
+			missing_entity: "Конфигурирайте климатичен елемент.",
+			invalid_entity: "Конфигурираният елемент трябва да принадлежи към климатичния домейн.",
+			invalid_theme: "Конфигурираната тема не е налична.",
+			invalid_display_mode: "Конфигурираният режим на показване не е наличен.",
+			invalid_primary_display: "Конфигурираният приоритет на показване не е наличен.",
+			invalid_additional_dashboards: "Конфигурираният режим на панелите не е наличен.",
+			invalid_state_icons_layout: "Конфигурираният макет на икони на състояние не е наличен.",
+			entity_not_found: "Елемент не е намерен: {entity}",
+			placeholder: "Equinox е готин за {entity}."
+		},
+		main: {
+			status: {
+				heating: "Отопление активно",
+				cooling: "Охлаждане активно",
+				auto: "Автоматичен",
+				heat: "Отопление",
+				cool: "Охлаждане",
+				heat_cool: "Автоматичен",
+				dry: "Сушене",
+				fan_only: "Само вентилатор",
+				off: "Изключено",
+				boost: "Временен импулс",
+				unavailable: "Недостъпно"
+			},
+			hvac: {
+				heat: "Отопление",
+				cool: "Охлаждане",
+				heat_cool: "Отопление/Охлаждане",
+				auto: "Автоматичен",
+				dry: "Сушене",
+				fan_only: "Само вентилатор",
+				off: "Изключено"
+			},
+			hvac_action: {
+				off: "Изключено",
+				preheating: "Предварително загряване",
+				heating: "Отопление активно",
+				cooling: "Охлаждане активно",
+				drying: "Сушене активно",
+				fan: "Вентилатор активен",
+				idle: "Неактивен",
+				defrosting: "Разстойване"
+			},
+			preset: {
+				none: "Без предустановка",
+				frost: "Защита от замръзване",
+				eco: "Eco",
+				away: "Отсъстващ",
+				comfort: "Комфорт",
+				home: "Дом",
+				sleep: "Сън",
+				activity: "Активност",
+				boost: "Импулс"
+			},
+			fan: {
+				on: "Включено",
+				On: "Включено",
+				FAN_ON: "Включено",
+				auto: "Автоматичен",
+				Auto: "Автоматичен",
+				FAN_AUTO: "Автоматичен",
+				low: "Нисък",
+				FAN_LOW: "Нисък",
+				medium: "Среден",
+				FAN_MEDIUM: "Среден",
+				middle: "Среда",
+				Middle: "Среда",
+				FAN_MIDDLE: "Среда",
+				high: "Висок",
+				FAN_HIGH: "Висок",
+				top: "Горен",
+				Top: "Горен",
+				FAN_TOP: "Горен",
+				off: "Изключено",
+				Off: "Изключено",
+				FAN_OFF: "Изключено",
+				focus: "Фокус",
+				Focus: "Фокус",
+				FAN_FOCUS: "Фокус",
+				diffuse: "Дифузия",
+				Diffuse: "Дифузия",
+				FAN_DIFFUSE: "Дифузия",
+				auto_fan_none: "Нищо",
+				auto_fan_low: "Нисък",
+				auto_fan_medium: "Среден",
+				auto_fan_high: "Висок",
+				auto_fan_turbo: "Турбо",
+				None: "Нищо",
+				Low: "Нисък",
+				Medium: "Среден",
+				High: "Висок",
+				Turbo: "Турбо",
+				unavailable: "Вентилатор"
+			},
+			swing: {
+				off: "Изключено",
+				Off: "Изключено",
+				SWING_OFF: "Изключено",
+				on: "Включено",
+				On: "Включено",
+				SWING_ON: "Включено",
+				vertical: "Вертикална",
+				Vertical: "Вертикална",
+				SWING_VERTICAL: "Вертикална",
+				horizontal: "Хоризонтална",
+				Horizontal: "Хоризонтална",
+				SWING_HORIZONTAL: "Хоризонтална",
+				both: "И двете",
+				Both: "И двете",
+				SWING_BOTH: "И двете",
+				unavailable: "Люлеене"
+			},
+			lock: {
+				locked: "Заключено",
+				unlocked: "Отключено",
+				code_required: "Изисква се код",
+				enter_code: "Въведете код",
+				wrong_code: "Неправилен код"
+			},
+			events: {
+				hasDanger: "Критично предупреждение",
+				hasAlert: "Предупреждение",
+				hasOverpowering: "Претоварване",
+				hasOpenWindow: "Прозорец е отворен",
+				hasPresence: "Присъствието е открито",
+				hasTimer: "Таймерът е активен"
+			},
+			messages: {
+				hvac_off_manual: "Ръчно изключено",
+				hvac_off_auto_start_stop: "Изключено чрез автоматичен старт/стоп",
+				hvac_off_window_detection: "Изключено чрез откриване на прозорец",
+				hvac_off_sleep_mode: "Изключено чрез режим на сън",
+				hvac_off_safety_detection: "Изключено чрез режим на безопасност",
+				hvac_off_central_mode: "Изключено чрез централен режим",
+				safety_detected: "Режимът на безопасност е открит",
+				overpowering_detected: "Претоварването е открито",
+				target_temp_window_eco: "Цел. темп.: прозорец eco",
+				target_temp_window_frost: "Цел. темп.: прозорец мраз",
+				target_temp_power: "Цел. темп.: мощност",
+				target_temp_central_mode: "Цел. темп.: централен режим",
+				target_temp_activity_detected: "Цел. темп.: активност открита",
+				target_temp_activity_not_detected: "Цел. темп.: без активност",
+				target_temp_absence_detected: "Цел. темп.: отсъствието е открито",
+				target_temp_timed_preset: "Синхронизирана предустановка активна",
+				not_initialized: "Грешка при инициализация",
+				heating_failure: "Открита е грешка при отопление",
+				cooling_failure: "Открита е грешка при охлаждане"
+			},
+			actions: {
+				decrease_temperature: "Намалете зададената температура",
+				increase_temperature: "Увеличете зададената температура",
+				low_temperature: "Нисък",
+				high_temperature: "Висок",
+				open_fan: "Отворете вентилатор",
+				open_swing: "Отворете люлеене",
+				open_menu: "Отворете меню",
+				open_power_info: "Показване на индикаторите на мощност"
+			}
+		},
+		dialog: {
+			close: "Затворете",
+			back: "Назад",
+			fan: {
+				title: "Вентилация",
+				description_auto: "Автоматичният режим автоматично приспособява вентилацията към потребностите на отопление."
+			},
+			swing: {
+				title: "Люлеене",
+				vertical: "Вертикална",
+				horizontal: "Хоризонтална"
+			},
+			hvac: { title: "Режим" },
+			preset: { title: "Предустановка" },
+			message: { title: "Съобщение" },
+			menu: {
+				title: "Меню",
+				regulation: "Регулация",
+				boost: "Временен импулс",
+				history: "История"
+			},
+			history: {
+				title: "История",
+				load: "Зареждане",
+				add: "Добавяне",
+				add_entity: "Добавяне на елемент",
+				loading: "Зареждане на история...",
+				empty: "Няма история за този период.",
+				no_attributes: "Няма избираем атрибут.",
+				tools: "Инструменти",
+				show_controls: "Показване на контролите на историята",
+				hide_controls: "Скриване на контролите на историята",
+				fullscreen: "Цял екран",
+				exit_fullscreen: "Излизане от цял екран",
+				sources: {
+					current_temperature: "Текуща температура",
+					temperature: "Целева температура",
+					hvac_action: "Действие на HVAC"
+				}
+			},
+			boost: {
+				title: "Временен импулс",
+				duration: "Продължителност в минути",
+				minutes: "мин",
+				hours: "ч",
+				start: "Начало",
+				stop: "Стоп",
+				active: "Импулсът е активен",
+				remaining_unknown: "Оставащото време е недостъпно",
+				preset: "Синхронизирана предустановка",
+				original_preset: "Предишна предустановка",
+				start_description: "Когато обратното броене завърши, термостатът ще се върне в предишния режим.",
+				active_description: "Когато обратното броене завърши, термостатът ще се върне в предишния режим.",
+				active_description_with_preset: "Когато обратното броене завърши, термостатът ще се върне в предишния режим ({preset})."
+			}
+		},
+		editor: {
+			entity: "Елемент",
+			name: "Име",
+			diagnostic_entity: "Диагностичен елемент",
+			power_entity: "Елемент на мощност",
+			humidity_entity: "Елемент на влажност",
+			temperature_entity: "Елемент на температура",
+			theme: "Тема",
+			display_mode: "Формат",
+			primary_display: "Приоритет на показване",
+			disable_name: "Скриване на име",
+			hide_lock_button: "Скриване на бутона за заключване",
+			additional_dashboards: "Допълнителни панели",
+			state_icons_layout: "Икони на състояние",
+			tabs: {
+				general: "Общи",
+				presentation: "Презентация"
+			},
+			options: {
+				theme: {
+					flat: "Равен",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Класически",
+					compact: "Компактен"
+				},
+				primary_display: {
+					setpoint: "Зададена температура",
+					sensors: "Сензори"
+				},
+				layout_orientation: {
+					horizontal: "Хоризонтална",
+					vertical: "Вертикална"
+				},
+				additional_dashboards: {
+					auto: "Автоматичен",
+					custom: "Персонализиран",
+					disabled: "Деактивирано"
+				}
+			}
+		}
+	},
+	ca: {
+		card: {
+			description: "Lovelace card for Versatile Thermostat and standard climate entities.",
+			missing_entity: "Configure a climate entity.",
+			invalid_entity: "The configured entity must belong to the climate domain.",
+			invalid_theme: "The configured theme is not available.",
+			invalid_display_mode: "The configured display mode is not available.",
+			invalid_primary_display: "The configured display priority is not available.",
+			invalid_additional_dashboards: "The configured dashboard mode is not available.",
+			invalid_state_icons_layout: "The configured state icon layout is not available.",
+			entity_not_found: "Entity not found: {entity}",
+			placeholder: "Equinox is ready for {entity}."
+		},
+		main: {
+			status: {
+				heating: "Heating active",
+				cooling: "Cooling active",
+				auto: "Auto",
+				heat: "Heating",
+				cool: "Cooling",
+				heat_cool: "Auto",
+				dry: "Dry",
+				fan_only: "Fan only",
+				off: "Off",
+				boost: "Temporary boost",
+				unavailable: "Unavailable"
+			},
+			hvac: {
+				heat: "Heat",
+				cool: "Cool",
+				heat_cool: "Heat/cool",
+				auto: "Auto",
+				dry: "Dry",
+				fan_only: "Fan only",
+				off: "Off"
+			},
+			hvac_action: {
+				off: "Off",
+				preheating: "Preheating",
+				heating: "Heating active",
+				cooling: "Cooling active",
+				drying: "Drying active",
+				fan: "Fan active",
+				idle: "Idle",
+				defrosting: "Defrosting"
+			},
+			preset: {
+				none: "No preset",
+				frost: "Frost protection",
+				eco: "Eco",
+				away: "Away",
+				comfort: "Comfort",
+				home: "Home",
+				sleep: "Sleep",
+				activity: "Activity",
+				boost: "Boost"
+			},
+			fan: {
+				on: "On",
+				On: "On",
+				FAN_ON: "On",
+				auto: "Auto",
+				Auto: "Auto",
+				FAN_AUTO: "Auto",
+				low: "Low",
+				FAN_LOW: "Low",
+				medium: "Medium",
+				FAN_MEDIUM: "Medium",
+				middle: "Middle",
+				Middle: "Middle",
+				FAN_MIDDLE: "Middle",
+				high: "High",
+				FAN_HIGH: "High",
+				top: "Top",
+				Top: "Top",
+				FAN_TOP: "Top",
+				off: "Off",
+				Off: "Off",
+				FAN_OFF: "Off",
+				focus: "Focus",
+				Focus: "Focus",
+				FAN_FOCUS: "Focus",
+				diffuse: "Diffuse",
+				Diffuse: "Diffuse",
+				FAN_DIFFUSE: "Diffuse",
+				auto_fan_none: "None",
+				auto_fan_low: "Low",
+				auto_fan_medium: "Medium",
+				auto_fan_high: "High",
+				auto_fan_turbo: "Turbo",
+				None: "None",
+				Low: "Low",
+				Medium: "Medium",
+				High: "High",
+				Turbo: "Turbo",
+				unavailable: "Fan"
+			},
+			swing: {
+				off: "Off",
+				Off: "Off",
+				SWING_OFF: "Off",
+				on: "On",
+				On: "On",
+				SWING_ON: "On",
+				vertical: "Vertical",
+				Vertical: "Vertical",
+				SWING_VERTICAL: "Vertical",
+				horizontal: "Horizontal",
+				Horizontal: "Horizontal",
+				SWING_HORIZONTAL: "Horizontal",
+				both: "Both",
+				Both: "Both",
+				SWING_BOTH: "Both",
+				unavailable: "Swing"
+			},
+			lock: {
+				locked: "Locked",
+				unlocked: "Unlocked",
+				code_required: "Code required",
+				enter_code: "Enter code",
+				wrong_code: "Incorrect code"
+			},
+			events: {
+				hasDanger: "Critical alert",
+				hasAlert: "Alert",
+				hasOverpowering: "Overpowering",
+				hasOpenWindow: "Open window",
+				hasPresence: "Presence detected",
+				hasTimer: "Active timer"
+			},
+			messages: {
+				hvac_off_manual: "Turned off manually",
+				hvac_off_auto_start_stop: "Turned off by auto-start/stop",
+				hvac_off_window_detection: "Turned off by window detection",
+				hvac_off_sleep_mode: "Turned off by sleep mode",
+				hvac_off_safety_detection: "Turned off by safety mode",
+				hvac_off_central_mode: "Turned off by central mode",
+				safety_detected: "Safety mode detected",
+				overpowering_detected: "Overpowering detected",
+				target_temp_window_eco: "Target temp.: window eco",
+				target_temp_window_frost: "Target temp.: window frost",
+				target_temp_power: "Target temp.: power",
+				target_temp_central_mode: "Target temp.: central mode",
+				target_temp_activity_detected: "Target temp.: activity detected",
+				target_temp_activity_not_detected: "Target temp.: activity not detected",
+				target_temp_absence_detected: "Target temp.: absence detected",
+				target_temp_timed_preset: "Timed preset active",
+				not_initialized: "Initialisation error",
+				heating_failure: "Heating failure detected",
+				cooling_failure: "Cooling failure detected"
+			},
+			actions: {
+				decrease_temperature: "Decrease setpoint",
+				increase_temperature: "Increase setpoint",
+				low_temperature: "Low",
+				high_temperature: "High",
+				open_fan: "Open fan",
+				open_swing: "Open swing",
+				open_menu: "Open menu",
+				open_power_info: "Show power indicators"
+			}
+		},
+		dialog: {
+			close: "Close",
+			back: "Back",
+			fan: {
+				title: "Ventilation",
+				description_auto: "Auto mode automatically adapts ventilation to heating needs."
+			},
+			swing: {
+				title: "Swing",
+				vertical: "Vertical",
+				horizontal: "Horizontal"
+			},
+			hvac: { title: "Mode" },
+			preset: { title: "Preset" },
+			message: { title: "Message" },
+			menu: {
+				title: "Menu",
+				regulation: "Regulation",
+				boost: "Temporary boost",
+				history: "History"
+			},
+			history: {
+				title: "History",
+				load: "Load",
+				add: "Add",
+				add_entity: "Add an entity",
+				loading: "Loading history...",
+				empty: "No history for this period.",
+				no_attributes: "No selectable attribute.",
+				tools: "Tools",
+				show_controls: "Show history controls",
+				hide_controls: "Hide history controls",
+				fullscreen: "Fullscreen",
+				exit_fullscreen: "Exit fullscreen",
+				sources: {
+					current_temperature: "Current temperature",
+					temperature: "Target temperature",
+					hvac_action: "HVAC action"
+				}
+			},
+			boost: {
+				title: "Temporary boost",
+				duration: "Duration in minutes",
+				minutes: "min",
+				hours: "h",
+				start: "Start",
+				stop: "Stop",
+				active: "Boost active",
+				remaining_unknown: "Remaining time unavailable",
+				preset: "Timed preset",
+				original_preset: "Previous preset",
+				start_description: "When the countdown ends, the thermostat will return to the previous mode.",
+				active_description: "When the countdown ends, the thermostat will return to the previous mode.",
+				active_description_with_preset: "When the countdown ends, the thermostat will return to the previous mode ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entity",
+			name: "Name",
+			diagnostic_entity: "Diagnostic entity",
+			power_entity: "Power entity",
+			humidity_entity: "Humidity entity",
+			temperature_entity: "Temperature entity",
+			theme: "Theme",
+			display_mode: "Format",
+			primary_display: "Display priority",
+			disable_name: "Hide name",
+			hide_lock_button: "Hide lock button",
+			additional_dashboards: "Additional dashboards",
+			state_icons_layout: "State icons",
+			tabs: {
+				general: "General",
+				presentation: "Presentation"
+			},
+			options: {
+				theme: {
+					flat: "Flat",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Classic",
+					compact: "Compact"
+				},
+				primary_display: {
+					setpoint: "Setpoint",
+					sensors: "Sensors"
+				},
+				layout_orientation: {
+					horizontal: "Horizontal",
+					vertical: "Vertical"
+				},
+				additional_dashboards: {
+					auto: "Auto",
+					custom: "Custom",
+					disabled: "Disabled"
+				}
+			}
+		}
+	},
+	cn: {
+		card: {
+			description: "Lovelace card for Versatile Thermostat and standard climate entities.",
+			missing_entity: "Configure a climate entity.",
+			invalid_entity: "The configured entity must belong to the climate domain.",
+			invalid_theme: "The configured theme is not available.",
+			invalid_display_mode: "The configured display mode is not available.",
+			invalid_primary_display: "The configured display priority is not available.",
+			invalid_additional_dashboards: "The configured dashboard mode is not available.",
+			invalid_state_icons_layout: "The configured state icon layout is not available.",
+			entity_not_found: "Entity not found: {entity}",
+			placeholder: "Equinox is ready for {entity}."
+		},
+		main: {
+			status: {
+				heating: "Heating active",
+				cooling: "Cooling active",
+				auto: "Auto",
+				heat: "Heating",
+				cool: "Cooling",
+				heat_cool: "Auto",
+				dry: "Dry",
+				fan_only: "Fan only",
+				off: "Off",
+				boost: "Temporary boost",
+				unavailable: "Unavailable"
+			},
+			hvac: {
+				heat: "Heat",
+				cool: "Cool",
+				heat_cool: "Heat/cool",
+				auto: "Auto",
+				dry: "Dry",
+				fan_only: "Fan only",
+				off: "Off"
+			},
+			hvac_action: {
+				off: "Off",
+				preheating: "Preheating",
+				heating: "Heating active",
+				cooling: "Cooling active",
+				drying: "Drying active",
+				fan: "Fan active",
+				idle: "Idle",
+				defrosting: "Defrosting"
+			},
+			preset: {
+				none: "No preset",
+				frost: "Frost protection",
+				eco: "Eco",
+				away: "Away",
+				comfort: "Comfort",
+				home: "Home",
+				sleep: "Sleep",
+				activity: "Activity",
+				boost: "Boost"
+			},
+			fan: {
+				on: "On",
+				On: "On",
+				FAN_ON: "On",
+				auto: "Auto",
+				Auto: "Auto",
+				FAN_AUTO: "Auto",
+				low: "Low",
+				FAN_LOW: "Low",
+				medium: "Medium",
+				FAN_MEDIUM: "Medium",
+				middle: "Middle",
+				Middle: "Middle",
+				FAN_MIDDLE: "Middle",
+				high: "High",
+				FAN_HIGH: "High",
+				top: "Top",
+				Top: "Top",
+				FAN_TOP: "Top",
+				off: "Off",
+				Off: "Off",
+				FAN_OFF: "Off",
+				focus: "Focus",
+				Focus: "Focus",
+				FAN_FOCUS: "Focus",
+				diffuse: "Diffuse",
+				Diffuse: "Diffuse",
+				FAN_DIFFUSE: "Diffuse",
+				auto_fan_none: "None",
+				auto_fan_low: "Low",
+				auto_fan_medium: "Medium",
+				auto_fan_high: "High",
+				auto_fan_turbo: "Turbo",
+				None: "None",
+				Low: "Low",
+				Medium: "Medium",
+				High: "High",
+				Turbo: "Turbo",
+				unavailable: "Fan"
+			},
+			swing: {
+				off: "Off",
+				Off: "Off",
+				SWING_OFF: "Off",
+				on: "On",
+				On: "On",
+				SWING_ON: "On",
+				vertical: "Vertical",
+				Vertical: "Vertical",
+				SWING_VERTICAL: "Vertical",
+				horizontal: "Horizontal",
+				Horizontal: "Horizontal",
+				SWING_HORIZONTAL: "Horizontal",
+				both: "Both",
+				Both: "Both",
+				SWING_BOTH: "Both",
+				unavailable: "Swing"
+			},
+			lock: {
+				locked: "Locked",
+				unlocked: "Unlocked",
+				code_required: "Code required",
+				enter_code: "Enter code",
+				wrong_code: "Incorrect code"
+			},
+			events: {
+				hasDanger: "Critical alert",
+				hasAlert: "Alert",
+				hasOverpowering: "Overpowering",
+				hasOpenWindow: "Open window",
+				hasPresence: "Presence detected",
+				hasTimer: "Active timer"
+			},
+			messages: {
+				hvac_off_manual: "Turned off manually",
+				hvac_off_auto_start_stop: "Turned off by auto-start/stop",
+				hvac_off_window_detection: "Turned off by window detection",
+				hvac_off_sleep_mode: "Turned off by sleep mode",
+				hvac_off_safety_detection: "Turned off by safety mode",
+				hvac_off_central_mode: "Turned off by central mode",
+				safety_detected: "Safety mode detected",
+				overpowering_detected: "Overpowering detected",
+				target_temp_window_eco: "Target temp.: window eco",
+				target_temp_window_frost: "Target temp.: window frost",
+				target_temp_power: "Target temp.: power",
+				target_temp_central_mode: "Target temp.: central mode",
+				target_temp_activity_detected: "Target temp.: activity detected",
+				target_temp_activity_not_detected: "Target temp.: activity not detected",
+				target_temp_absence_detected: "Target temp.: absence detected",
+				target_temp_timed_preset: "Timed preset active",
+				not_initialized: "Initialisation error",
+				heating_failure: "Heating failure detected",
+				cooling_failure: "Cooling failure detected"
+			},
+			actions: {
+				decrease_temperature: "Decrease setpoint",
+				increase_temperature: "Increase setpoint",
+				low_temperature: "Low",
+				high_temperature: "High",
+				open_fan: "Open fan",
+				open_swing: "Open swing",
+				open_menu: "Open menu",
+				open_power_info: "Show power indicators"
+			}
+		},
+		dialog: {
+			close: "Close",
+			back: "Back",
+			fan: {
+				title: "Ventilation",
+				description_auto: "Auto mode automatically adapts ventilation to heating needs."
+			},
+			swing: {
+				title: "Swing",
+				vertical: "Vertical",
+				horizontal: "Horizontal"
+			},
+			hvac: { title: "Mode" },
+			preset: { title: "Preset" },
+			message: { title: "Message" },
+			menu: {
+				title: "Menu",
+				regulation: "Regulation",
+				boost: "Temporary boost",
+				history: "History"
+			},
+			history: {
+				title: "History",
+				load: "Load",
+				add: "Add",
+				add_entity: "Add an entity",
+				loading: "Loading history...",
+				empty: "No history for this period.",
+				no_attributes: "No selectable attribute.",
+				tools: "Tools",
+				show_controls: "Show history controls",
+				hide_controls: "Hide history controls",
+				fullscreen: "Fullscreen",
+				exit_fullscreen: "Exit fullscreen",
+				sources: {
+					current_temperature: "Current temperature",
+					temperature: "Target temperature",
+					hvac_action: "HVAC action"
+				}
+			},
+			boost: {
+				title: "Temporary boost",
+				duration: "Duration in minutes",
+				minutes: "min",
+				hours: "h",
+				start: "Start",
+				stop: "Stop",
+				active: "Boost active",
+				remaining_unknown: "Remaining time unavailable",
+				preset: "Timed preset",
+				original_preset: "Previous preset",
+				start_description: "When the countdown ends, the thermostat will return to the previous mode.",
+				active_description: "When the countdown ends, the thermostat will return to the previous mode.",
+				active_description_with_preset: "When the countdown ends, the thermostat will return to the previous mode ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entity",
+			name: "Name",
+			diagnostic_entity: "Diagnostic entity",
+			power_entity: "Power entity",
+			humidity_entity: "Humidity entity",
+			temperature_entity: "Temperature entity",
+			theme: "Theme",
+			display_mode: "Format",
+			primary_display: "Display priority",
+			disable_name: "Hide name",
+			hide_lock_button: "Hide lock button",
+			additional_dashboards: "Additional dashboards",
+			state_icons_layout: "State icons",
+			tabs: {
+				general: "General",
+				presentation: "Presentation"
+			},
+			options: {
+				theme: {
+					flat: "Flat",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Classic",
+					compact: "Compact"
+				},
+				primary_display: {
+					setpoint: "Setpoint",
+					sensors: "Sensors"
+				},
+				layout_orientation: {
+					horizontal: "Horizontal",
+					vertical: "Vertical"
+				},
+				additional_dashboards: {
+					auto: "Auto",
+					custom: "Custom",
+					disabled: "Disabled"
+				}
+			}
+		}
+	},
+	da: {
+		card: {
+			description: "Lovelace card for Versatile Thermostat and standard climate entities.",
+			missing_entity: "Configure a climate entity.",
+			invalid_entity: "The configured entity must belong to the climate domain.",
+			invalid_theme: "The configured theme is not available.",
+			invalid_display_mode: "The configured display mode is not available.",
+			invalid_primary_display: "The configured display priority is not available.",
+			invalid_additional_dashboards: "The configured dashboard mode is not available.",
+			invalid_state_icons_layout: "The configured state icon layout is not available.",
+			entity_not_found: "Entity not found: {entity}",
+			placeholder: "Equinox is ready for {entity}."
+		},
+		main: {
+			status: {
+				heating: "Heating active",
+				cooling: "Cooling active",
+				auto: "Auto",
+				heat: "Heating",
+				cool: "Cooling",
+				heat_cool: "Auto",
+				dry: "Dry",
+				fan_only: "Fan only",
+				off: "Off",
+				boost: "Temporary boost",
+				unavailable: "Unavailable"
+			},
+			hvac: {
+				heat: "Heat",
+				cool: "Cool",
+				heat_cool: "Heat/cool",
+				auto: "Auto",
+				dry: "Dry",
+				fan_only: "Fan only",
+				off: "Off"
+			},
+			hvac_action: {
+				off: "Off",
+				preheating: "Preheating",
+				heating: "Heating active",
+				cooling: "Cooling active",
+				drying: "Drying active",
+				fan: "Fan active",
+				idle: "Idle",
+				defrosting: "Defrosting"
+			},
+			preset: {
+				none: "No preset",
+				frost: "Frost protection",
+				eco: "Eco",
+				away: "Away",
+				comfort: "Comfort",
+				home: "Home",
+				sleep: "Sleep",
+				activity: "Activity",
+				boost: "Boost"
+			},
+			fan: {
+				on: "On",
+				On: "On",
+				FAN_ON: "On",
+				auto: "Auto",
+				Auto: "Auto",
+				FAN_AUTO: "Auto",
+				low: "Low",
+				FAN_LOW: "Low",
+				medium: "Medium",
+				FAN_MEDIUM: "Medium",
+				middle: "Middle",
+				Middle: "Middle",
+				FAN_MIDDLE: "Middle",
+				high: "High",
+				FAN_HIGH: "High",
+				top: "Top",
+				Top: "Top",
+				FAN_TOP: "Top",
+				off: "Off",
+				Off: "Off",
+				FAN_OFF: "Off",
+				focus: "Focus",
+				Focus: "Focus",
+				FAN_FOCUS: "Focus",
+				diffuse: "Diffuse",
+				Diffuse: "Diffuse",
+				FAN_DIFFUSE: "Diffuse",
+				auto_fan_none: "None",
+				auto_fan_low: "Low",
+				auto_fan_medium: "Medium",
+				auto_fan_high: "High",
+				auto_fan_turbo: "Turbo",
+				None: "None",
+				Low: "Low",
+				Medium: "Medium",
+				High: "High",
+				Turbo: "Turbo",
+				unavailable: "Fan"
+			},
+			swing: {
+				off: "Off",
+				Off: "Off",
+				SWING_OFF: "Off",
+				on: "On",
+				On: "On",
+				SWING_ON: "On",
+				vertical: "Vertical",
+				Vertical: "Vertical",
+				SWING_VERTICAL: "Vertical",
+				horizontal: "Horizontal",
+				Horizontal: "Horizontal",
+				SWING_HORIZONTAL: "Horizontal",
+				both: "Both",
+				Both: "Both",
+				SWING_BOTH: "Both",
+				unavailable: "Swing"
+			},
+			lock: {
+				locked: "Locked",
+				unlocked: "Unlocked",
+				code_required: "Code required",
+				enter_code: "Enter code",
+				wrong_code: "Incorrect code"
+			},
+			events: {
+				hasDanger: "Critical alert",
+				hasAlert: "Alert",
+				hasOverpowering: "Overpowering",
+				hasOpenWindow: "Open window",
+				hasPresence: "Presence detected",
+				hasTimer: "Active timer"
+			},
+			messages: {
+				hvac_off_manual: "Turned off manually",
+				hvac_off_auto_start_stop: "Turned off by auto-start/stop",
+				hvac_off_window_detection: "Turned off by window detection",
+				hvac_off_sleep_mode: "Turned off by sleep mode",
+				hvac_off_safety_detection: "Turned off by safety mode",
+				hvac_off_central_mode: "Turned off by central mode",
+				safety_detected: "Safety mode detected",
+				overpowering_detected: "Overpowering detected",
+				target_temp_window_eco: "Target temp.: window eco",
+				target_temp_window_frost: "Target temp.: window frost",
+				target_temp_power: "Target temp.: power",
+				target_temp_central_mode: "Target temp.: central mode",
+				target_temp_activity_detected: "Target temp.: activity detected",
+				target_temp_activity_not_detected: "Target temp.: activity not detected",
+				target_temp_absence_detected: "Target temp.: absence detected",
+				target_temp_timed_preset: "Timed preset active",
+				not_initialized: "Initialisation error",
+				heating_failure: "Heating failure detected",
+				cooling_failure: "Cooling failure detected"
+			},
+			actions: {
+				decrease_temperature: "Decrease setpoint",
+				increase_temperature: "Increase setpoint",
+				low_temperature: "Low",
+				high_temperature: "High",
+				open_fan: "Open fan",
+				open_swing: "Open swing",
+				open_menu: "Open menu",
+				open_power_info: "Show power indicators"
+			}
+		},
+		dialog: {
+			close: "Close",
+			back: "Back",
+			fan: {
+				title: "Ventilation",
+				description_auto: "Auto mode automatically adapts ventilation to heating needs."
+			},
+			swing: {
+				title: "Swing",
+				vertical: "Vertical",
+				horizontal: "Horizontal"
+			},
+			hvac: { title: "Mode" },
+			preset: { title: "Preset" },
+			message: { title: "Message" },
+			menu: {
+				title: "Menu",
+				regulation: "Regulation",
+				boost: "Temporary boost",
+				history: "History"
+			},
+			history: {
+				title: "History",
+				load: "Load",
+				add: "Add",
+				add_entity: "Add an entity",
+				loading: "Loading history...",
+				empty: "No history for this period.",
+				no_attributes: "No selectable attribute.",
+				tools: "Tools",
+				show_controls: "Show history controls",
+				hide_controls: "Hide history controls",
+				fullscreen: "Fullscreen",
+				exit_fullscreen: "Exit fullscreen",
+				sources: {
+					current_temperature: "Current temperature",
+					temperature: "Target temperature",
+					hvac_action: "HVAC action"
+				}
+			},
+			boost: {
+				title: "Temporary boost",
+				duration: "Duration in minutes",
+				minutes: "min",
+				hours: "h",
+				start: "Start",
+				stop: "Stop",
+				active: "Boost active",
+				remaining_unknown: "Remaining time unavailable",
+				preset: "Timed preset",
+				original_preset: "Previous preset",
+				start_description: "When the countdown ends, the thermostat will return to the previous mode.",
+				active_description: "When the countdown ends, the thermostat will return to the previous mode.",
+				active_description_with_preset: "When the countdown ends, the thermostat will return to the previous mode ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entity",
+			name: "Name",
+			diagnostic_entity: "Diagnostic entity",
+			power_entity: "Power entity",
+			humidity_entity: "Humidity entity",
+			temperature_entity: "Temperature entity",
+			theme: "Theme",
+			display_mode: "Format",
+			primary_display: "Display priority",
+			disable_name: "Hide name",
+			hide_lock_button: "Hide lock button",
+			additional_dashboards: "Additional dashboards",
+			state_icons_layout: "State icons",
+			tabs: {
+				general: "General",
+				presentation: "Presentation"
+			},
+			options: {
+				theme: {
+					flat: "Flat",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Classic",
+					compact: "Compact"
+				},
+				primary_display: {
+					setpoint: "Setpoint",
+					sensors: "Sensors"
+				},
+				layout_orientation: {
+					horizontal: "Horizontal",
+					vertical: "Vertical"
+				},
+				additional_dashboards: {
+					auto: "Auto",
+					custom: "Custom",
+					disabled: "Disabled"
+				}
+			}
+		}
+	},
+	es: {
+		card: {
+			description: "Tarjeta Lovelace para Termostato Versátil y entidades climáticas estándar.",
+			missing_entity: "Configure una entidad climática.",
+			invalid_entity: "La entidad configurada debe pertenecer al dominio climático.",
+			invalid_theme: "El tema configurado no está disponible.",
+			invalid_display_mode: "El modo de visualización configurado no está disponible.",
+			invalid_primary_display: "La prioridad de visualización configurada no está disponible.",
+			invalid_additional_dashboards: "El modo de panel configurado no está disponible.",
+			invalid_state_icons_layout: "El diseño de iconos de estado configurado no está disponible.",
+			entity_not_found: "Entidad no encontrada: {entity}",
+			placeholder: "Equinox está listo para {entity}."
+		},
+		main: {
+			status: {
+				heating: "Calefacción activa",
+				cooling: "Refrigeración activa",
+				auto: "Automático",
+				heat: "Calefacción",
+				cool: "Refrigeración",
+				heat_cool: "Automático",
+				dry: "Secado",
+				fan_only: "Solo ventilador",
+				off: "Apagado",
+				boost: "Impulso temporal",
+				unavailable: "No disponible"
+			},
+			hvac: {
+				heat: "Calefacción",
+				cool: "Refrigeración",
+				heat_cool: "Calefacción/Refrigeración",
+				auto: "Automático",
+				dry: "Secado",
+				fan_only: "Solo ventilador",
+				off: "Apagado"
+			},
+			hvac_action: {
+				off: "Apagado",
+				preheating: "Precalentamiento",
+				heating: "Calefacción activa",
+				cooling: "Refrigeración activa",
+				drying: "Secado activo",
+				fan: "Ventilador activo",
+				idle: "Inactivo",
+				defrosting: "Descongelación"
+			},
+			preset: {
+				none: "Sin preset",
+				frost: "Protección anticongelante",
+				eco: "Eco",
+				away: "Ausente",
+				comfort: "Confort",
+				home: "Inicio",
+				sleep: "Sueño",
+				activity: "Actividad",
+				boost: "Impulso"
+			},
+			fan: {
+				on: "Encendido",
+				On: "Encendido",
+				FAN_ON: "Encendido",
+				auto: "Automático",
+				Auto: "Automático",
+				FAN_AUTO: "Automático",
+				low: "Bajo",
+				FAN_LOW: "Bajo",
+				medium: "Medio",
+				FAN_MEDIUM: "Medio",
+				middle: "Medio",
+				Middle: "Medio",
+				FAN_MIDDLE: "Medio",
+				high: "Alto",
+				FAN_HIGH: "Alto",
+				top: "Arriba",
+				Top: "Arriba",
+				FAN_TOP: "Arriba",
+				off: "Apagado",
+				Off: "Apagado",
+				FAN_OFF: "Apagado",
+				focus: "Enfoque",
+				Focus: "Enfoque",
+				FAN_FOCUS: "Enfoque",
+				diffuse: "Difuso",
+				Diffuse: "Difuso",
+				FAN_DIFFUSE: "Difuso",
+				auto_fan_none: "Ninguno",
+				auto_fan_low: "Bajo",
+				auto_fan_medium: "Medio",
+				auto_fan_high: "Alto",
+				auto_fan_turbo: "Turbo",
+				None: "Ninguno",
+				Low: "Bajo",
+				Medium: "Medio",
+				High: "Alto",
+				Turbo: "Turbo",
+				unavailable: "Ventilador"
+			},
+			swing: {
+				off: "Apagado",
+				Off: "Apagado",
+				SWING_OFF: "Apagado",
+				on: "Encendido",
+				On: "Encendido",
+				SWING_ON: "Encendido",
+				vertical: "Vertical",
+				Vertical: "Vertical",
+				SWING_VERTICAL: "Vertical",
+				horizontal: "Horizontal",
+				Horizontal: "Horizontal",
+				SWING_HORIZONTAL: "Horizontal",
+				both: "Ambos",
+				Both: "Ambos",
+				SWING_BOTH: "Ambos",
+				unavailable: "Oscilación"
+			},
+			lock: {
+				locked: "Bloqueado",
+				unlocked: "Desbloqueado",
+				code_required: "Código requerido",
+				enter_code: "Ingrese código",
+				wrong_code: "Código incorrecto"
+			},
+			events: {
+				hasDanger: "Alerta crítica",
+				hasAlert: "Alerta",
+				hasOverpowering: "Sobrecarga",
+				hasOpenWindow: "Ventana abierta",
+				hasPresence: "Presencia detectada",
+				hasTimer: "Temporizador activo"
+			},
+			messages: {
+				hvac_off_manual: "Apagado manualmente",
+				hvac_off_auto_start_stop: "Apagado por auto-inicio/parada",
+				hvac_off_window_detection: "Apagado por detección de ventana",
+				hvac_off_sleep_mode: "Apagado por modo de sueño",
+				hvac_off_safety_detection: "Apagado por modo de seguridad",
+				hvac_off_central_mode: "Apagado por modo central",
+				safety_detected: "Modo de seguridad detectado",
+				overpowering_detected: "Sobrecarga detectada",
+				target_temp_window_eco: "Temp. obj.: ventana eco",
+				target_temp_window_frost: "Temp. obj.: ventana anticongelante",
+				target_temp_power: "Temp. obj.: potencia",
+				target_temp_central_mode: "Temp. obj.: modo central",
+				target_temp_activity_detected: "Temp. obj.: actividad detectada",
+				target_temp_activity_not_detected: "Temp. obj.: sin actividad",
+				target_temp_absence_detected: "Temp. obj.: ausencia detectada",
+				target_temp_timed_preset: "Preset temporizado activo",
+				not_initialized: "Error de inicialización",
+				heating_failure: "Fallo de calefacción detectado",
+				cooling_failure: "Fallo de refrigeración detectado"
+			},
+			actions: {
+				decrease_temperature: "Disminuir consigna",
+				increase_temperature: "Aumentar consigna",
+				low_temperature: "Bajo",
+				high_temperature: "Alto",
+				open_fan: "Abrir ventilador",
+				open_swing: "Abrir oscilación",
+				open_menu: "Abrir menú",
+				open_power_info: "Mostrar indicadores de potencia"
+			}
+		},
+		dialog: {
+			close: "Cerrar",
+			back: "Atrás",
+			fan: {
+				title: "Ventilación",
+				description_auto: "El modo automático adapta automáticamente la ventilación a las necesidades de calefacción."
+			},
+			swing: {
+				title: "Oscilación",
+				vertical: "Vertical",
+				horizontal: "Horizontal"
+			},
+			hvac: { title: "Modo" },
+			preset: { title: "Preset" },
+			message: { title: "Mensaje" },
+			menu: {
+				title: "Menú",
+				regulation: "Regulación",
+				boost: "Impulso temporal",
+				history: "Historial"
+			},
+			history: {
+				title: "Historial",
+				load: "Cargar",
+				add: "Añadir",
+				add_entity: "Añadir una entidad",
+				loading: "Cargando historial...",
+				empty: "Sin historial para este período.",
+				no_attributes: "Sin atributo seleccionable.",
+				tools: "Herramientas",
+				show_controls: "Mostrar controles de historial",
+				hide_controls: "Ocultar controles de historial",
+				fullscreen: "Pantalla completa",
+				exit_fullscreen: "Salir de pantalla completa",
+				sources: {
+					current_temperature: "Temperatura actual",
+					temperature: "Temperatura objetivo",
+					hvac_action: "Acción HVAC"
+				}
+			},
+			boost: {
+				title: "Impulso temporal",
+				duration: "Duración en minutos",
+				minutes: "min",
+				hours: "h",
+				start: "Iniciar",
+				stop: "Detener",
+				active: "Impulso activo",
+				remaining_unknown: "Tiempo restante no disponible",
+				preset: "Preset temporizado",
+				original_preset: "Preset anterior",
+				start_description: "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior.",
+				active_description: "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior.",
+				active_description_with_preset: "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entidad",
+			name: "Nombre",
+			diagnostic_entity: "Entidad de diagnóstico",
+			power_entity: "Entidad de potencia",
+			humidity_entity: "Entidad de humedad",
+			temperature_entity: "Entidad de temperatura",
+			theme: "Tema",
+			display_mode: "Formato",
+			primary_display: "Prioridad de visualización",
+			disable_name: "Ocultar nombre",
+			hide_lock_button: "Ocultar botón de bloqueo",
+			additional_dashboards: "Paneles adicionales",
+			state_icons_layout: "Iconos de estado",
+			tabs: {
+				general: "General",
+				presentation: "Presentación"
+			},
+			options: {
+				theme: {
+					flat: "Plano",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Clásico",
+					compact: "Compacto"
+				},
+				primary_display: {
+					setpoint: "Consigna",
+					sensors: "Sensores"
+				},
+				layout_orientation: {
+					horizontal: "Horizontal",
+					vertical: "Vertical"
+				},
+				additional_dashboards: {
+					auto: "Automático",
+					custom: "Personalizado",
+					disabled: "Deshabilitado"
+				}
+			}
+		}
+	},
+	fi: {
+		card: {
+			description: "Lovelace-kortti Versatile Thermostat- ja vakioilmastoentiteeteille.",
+			missing_entity: "Määritä ilmastoentiteetti.",
+			invalid_entity: "Määritellyn entiteetin tulee kuulua ilmaston verkkotunnukseen.",
+			invalid_theme: "Määriteltyä teemaa ei ole saatavilla.",
+			invalid_display_mode: "Määriteltyä näyttötilaa ei ole saatavilla.",
+			invalid_primary_display: "Määriteltyä näyttöprioriteetia ei ole saatavilla.",
+			invalid_additional_dashboards: "Määriteltyä koontinäyttötilaa ei ole saatavilla.",
+			invalid_state_icons_layout: "Määriteltyä tilapainikkeiston asettelua ei ole saatavilla.",
+			entity_not_found: "Entiteettiä ei löydy: {entity}",
+			placeholder: "Equinox on valmis {entity}:lle."
+		},
+		main: {
+			status: {
+				heating: "Lämmitys aktiivinen",
+				cooling: "Jäähdytys aktiivinen",
+				auto: "Automaattinen",
+				heat: "Lämmitys",
+				cool: "Jäähdytys",
+				heat_cool: "Automaattinen",
+				dry: "Kuivaus",
+				fan_only: "Vain puhaltimen",
+				off: "Pois",
+				boost: "Väliaikainen tehonkohennos",
+				unavailable: "Ei saatavilla"
+			},
+			hvac: {
+				heat: "Lämmitys",
+				cool: "Jäähdytys",
+				heat_cool: "Lämmitys/Jäähdytys",
+				auto: "Automaattinen",
+				dry: "Kuivaus",
+				fan_only: "Vain puhaltimen",
+				off: "Pois"
+			},
+			hvac_action: {
+				off: "Pois",
+				preheating: "Eslämmitys",
+				heating: "Lämmitys aktiivinen",
+				cooling: "Jäähdytys aktiivinen",
+				drying: "Kuivaus aktiivinen",
+				fan: "Puhallinen aktiivinen",
+				idle: "Käyttämätön",
+				defrosting: "Sulaminen"
+			},
+			preset: {
+				none: "Ei esiasetus",
+				frost: "Pakkassuoja",
+				eco: "Eco",
+				away: "Poissa",
+				comfort: "Mukavuus",
+				home: "Koti",
+				sleep: "Uni",
+				activity: "Aktiviteetti",
+				boost: "Tehonkohennos"
+			},
+			fan: {
+				on: "Päällä",
+				On: "Päällä",
+				FAN_ON: "Päällä",
+				auto: "Automaattinen",
+				Auto: "Automaattinen",
+				FAN_AUTO: "Automaattinen",
+				low: "Matala",
+				FAN_LOW: "Matala",
+				medium: "Keskitaso",
+				FAN_MEDIUM: "Keskitaso",
+				middle: "Keski",
+				Middle: "Keski",
+				FAN_MIDDLE: "Keski",
+				high: "Korkea",
+				FAN_HIGH: "Korkea",
+				top: "Yläosa",
+				Top: "Yläosa",
+				FAN_TOP: "Yläosa",
+				off: "Pois",
+				Off: "Pois",
+				FAN_OFF: "Pois",
+				focus: "Kohdistus",
+				Focus: "Kohdistus",
+				FAN_FOCUS: "Kohdistus",
+				diffuse: "Hajallaan",
+				Diffuse: "Hajallaan",
+				FAN_DIFFUSE: "Hajallaan",
+				auto_fan_none: "Ei mitään",
+				auto_fan_low: "Matala",
+				auto_fan_medium: "Keskitaso",
+				auto_fan_high: "Korkea",
+				auto_fan_turbo: "Turbo",
+				None: "Ei mitään",
+				Low: "Matala",
+				Medium: "Keskitaso",
+				High: "Korkea",
+				Turbo: "Turbo",
+				unavailable: "Puhallinen"
+			},
+			swing: {
+				off: "Pois",
+				Off: "Pois",
+				SWING_OFF: "Pois",
+				on: "Päällä",
+				On: "Päällä",
+				SWING_ON: "Päällä",
+				vertical: "Pystysuora",
+				Vertical: "Pystysuora",
+				SWING_VERTICAL: "Pystysuora",
+				horizontal: "Vaakasuora",
+				Horizontal: "Vaakasuora",
+				SWING_HORIZONTAL: "Vaakasuora",
+				both: "Molemmat",
+				Both: "Molemmat",
+				SWING_BOTH: "Molemmat",
+				unavailable: "Heilunta"
+			},
+			lock: {
+				locked: "Lukittu",
+				unlocked: "Lukittu auki",
+				code_required: "Koodi vaaditaan",
+				enter_code: "Syötä koodi",
+				wrong_code: "Väärä koodi"
+			},
+			events: {
+				hasDanger: "Kriittinen varoitus",
+				hasAlert: "Varoitus",
+				hasOverpowering: "Ylikuorma",
+				hasOpenWindow: "Ikkuna auki",
+				hasPresence: "Läsnäolo havaittu",
+				hasTimer: "Ajastin aktiivinen"
+			},
+			messages: {
+				hvac_off_manual: "Sammutettu manuaalisesti",
+				hvac_off_auto_start_stop: "Sammutettu automaattisella käynnistyksellä/pysäytyksellä",
+				hvac_off_window_detection: "Sammutettu ikkunan havainnolla",
+				hvac_off_sleep_mode: "Sammutettu uniilla",
+				hvac_off_safety_detection: "Sammutettu turvatilalla",
+				hvac_off_central_mode: "Sammutettu keskustilalla",
+				safety_detected: "Turvatila havaittu",
+				overpowering_detected: "Ylikuorma havaittu",
+				target_temp_window_eco: "Koht. lämp.: ikkuna eco",
+				target_temp_window_frost: "Koht. lämp.: ikkuna pakkanen",
+				target_temp_power: "Koht. lämp.: teho",
+				target_temp_central_mode: "Koht. lämp.: keskustila",
+				target_temp_activity_detected: "Koht. lämp.: aktiviteetti havaittu",
+				target_temp_activity_not_detected: "Koht. lämp.: ei aktiviteettia",
+				target_temp_absence_detected: "Koht. lämp.: poissaolo havaittu",
+				target_temp_timed_preset: "Ajastettu esiasetus aktiivinen",
+				not_initialized: "Alustusvirhe",
+				heating_failure: "Lämmitysvirhe havaittu",
+				cooling_failure: "Jäähdytysvirhe havaittu"
+			},
+			actions: {
+				decrease_temperature: "Pienennä asetusarvoa",
+				increase_temperature: "Suurenna asetusarvoa",
+				low_temperature: "Matala",
+				high_temperature: "Korkea",
+				open_fan: "Avaa puhallinen",
+				open_swing: "Avaa heilunta",
+				open_menu: "Avaa valikko",
+				open_power_info: "Näytä tehoindikaattorit"
+			}
+		},
+		dialog: {
+			close: "Sulje",
+			back: "Takaisin",
+			fan: {
+				title: "Tuuletus",
+				description_auto: "Automaattinen tila mukauttaa automaattisesti tuuletusta lämmitystarpeisiin."
+			},
+			swing: {
+				title: "Heilunta",
+				vertical: "Pystysuora",
+				horizontal: "Vaakasuora"
+			},
+			hvac: { title: "Tila" },
+			preset: { title: "Esiasetus" },
+			message: { title: "Viesti" },
+			menu: {
+				title: "Valikko",
+				regulation: "Säätö",
+				boost: "Väliaikainen tehonkohennos",
+				history: "Historia"
+			},
+			history: {
+				title: "Historia",
+				load: "Lataa",
+				add: "Lisää",
+				add_entity: "Lisää entiteetti",
+				loading: "Ladataan historiaa...",
+				empty: "Ei historiaa tälle ajanjaksolle.",
+				no_attributes: "Ei valittavaa attribuuttia.",
+				tools: "Työkalut",
+				show_controls: "Näytä historian ohjaimet",
+				hide_controls: "Piilota historian ohjaimet",
+				fullscreen: "Koko näyttö",
+				exit_fullscreen: "Poistu koko näytöstä",
+				sources: {
+					current_temperature: "Nykyinen lämpötila",
+					temperature: "Tavoitelämpötila",
+					hvac_action: "HVAC-toiminta"
+				}
+			},
+			boost: {
+				title: "Väliaikainen tehonkohennos",
+				duration: "Kesto minuutteina",
+				minutes: "min",
+				hours: "h",
+				start: "Aloita",
+				stop: "Pysäytä",
+				active: "Tehonkohennos aktiivinen",
+				remaining_unknown: "Jäljellä oleva aika ei ole saatavilla",
+				preset: "Ajastettu esiasetus",
+				original_preset: "Edellinen esiasetus",
+				start_description: "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan.",
+				active_description: "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan.",
+				active_description_with_preset: "Kun taaksepäin laskeminen päättyy, termostaatti palaa edelliseen tilaan ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entiteetti",
+			name: "Nimi",
+			diagnostic_entity: "Diagnostinen entiteetti",
+			power_entity: "Tehotoiminto",
+			humidity_entity: "Kosteuden entiteetti",
+			temperature_entity: "Lämpötilan entiteetti",
+			theme: "Teema",
+			display_mode: "Muoto",
+			primary_display: "Näyttöprioriteetti",
+			disable_name: "Piilota nimi",
+			hide_lock_button: "Piilota lukituspainike",
+			additional_dashboards: "Lisäkoontinäytöt",
+			state_icons_layout: "Tilakuvakkeet",
+			tabs: {
+				general: "Yleinen",
+				presentation: "Esittely"
+			},
+			options: {
+				theme: {
+					flat: "Litteä",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klassinen",
+					compact: "Kompakti"
+				},
+				primary_display: {
+					setpoint: "Asetusarvo",
+					sensors: "Anturit"
+				},
+				layout_orientation: {
+					horizontal: "Vaakasuora",
+					vertical: "Pystysuora"
+				},
+				additional_dashboards: {
+					auto: "Automaattinen",
+					custom: "Mukautettu",
+					disabled: "Poistettu käytöstä"
+				}
+			}
+		}
+	},
+	hu: {
+		card: {
+			description: "Lovelace kártya a sokoldalú termosztáthoz és standard klímaentitásokhoz.",
+			missing_entity: "Konfigurálja a klímaentitást.",
+			invalid_entity: "A konfigurált entitásnak a klíma tartományba kell tartoznia.",
+			invalid_theme: "A konfigurált téma nem érhető el.",
+			invalid_display_mode: "A konfigurált megjelenítési mód nem érhető el.",
+			invalid_primary_display: "A konfigurált megjelenítési prioritás nem érhető el.",
+			invalid_additional_dashboards: "A konfigurált irányítópult mód nem érhető el.",
+			invalid_state_icons_layout: "A konfigurált állapot ikon elrendezés nem érhető el.",
+			entity_not_found: "Entitás nem található: {entity}",
+			placeholder: "Az Equinox készen áll a {entity}hez."
+		},
+		main: {
+			status: {
+				heating: "Fűtés aktív",
+				cooling: "Hűtés aktív",
+				auto: "Automatikus",
+				heat: "Fűtés",
+				cool: "Hűtés",
+				heat_cool: "Automatikus",
+				dry: "Szárítás",
+				fan_only: "Csak ventilátor",
+				off: "Kikapcsolva",
+				boost: "Ideiglenes erősítés",
+				unavailable: "Nem elérhető"
+			},
+			hvac: {
+				heat: "Fűtés",
+				cool: "Hűtés",
+				heat_cool: "Fűtés/Hűtés",
+				auto: "Automatikus",
+				dry: "Szárítás",
+				fan_only: "Csak ventilátor",
+				off: "Kikapcsolva"
+			},
+			hvac_action: {
+				off: "Kikapcsolva",
+				preheating: "Előfűtés",
+				heating: "Fűtés aktív",
+				cooling: "Hűtés aktív",
+				drying: "Szárítás aktív",
+				fan: "Ventilátor aktív",
+				idle: "Tétlen",
+				defrosting: "Leolvasztás"
+			},
+			preset: {
+				none: "Nincs előbeállítás",
+				frost: "Fagyálló védelme",
+				eco: "Eco",
+				away: "Távolléte",
+				comfort: "Kényelem",
+				home: "Otthon",
+				sleep: "Alvás",
+				activity: "Aktivitás",
+				boost: "Erősítés"
+			},
+			fan: {
+				on: "Be",
+				On: "Be",
+				FAN_ON: "Be",
+				auto: "Automatikus",
+				Auto: "Automatikus",
+				FAN_AUTO: "Automatikus",
+				low: "Alacsony",
+				FAN_LOW: "Alacsony",
+				medium: "Közepes",
+				FAN_MEDIUM: "Közepes",
+				middle: "Közép",
+				Middle: "Közép",
+				FAN_MIDDLE: "Közép",
+				high: "Magas",
+				FAN_HIGH: "Magas",
+				top: "Felső",
+				Top: "Felső",
+				FAN_TOP: "Felső",
+				off: "Ki",
+				Off: "Ki",
+				FAN_OFF: "Ki",
+				focus: "Fókusz",
+				Focus: "Fókusz",
+				FAN_FOCUS: "Fókusz",
+				diffuse: "Szórt",
+				Diffuse: "Szórt",
+				FAN_DIFFUSE: "Szórt",
+				auto_fan_none: "Nincs",
+				auto_fan_low: "Alacsony",
+				auto_fan_medium: "Közepes",
+				auto_fan_high: "Magas",
+				auto_fan_turbo: "Turbo",
+				None: "Nincs",
+				Low: "Alacsony",
+				Medium: "Közepes",
+				High: "Magas",
+				Turbo: "Turbo",
+				unavailable: "Ventilátor"
+			},
+			swing: {
+				off: "Ki",
+				Off: "Ki",
+				SWING_OFF: "Ki",
+				on: "Be",
+				On: "Be",
+				SWING_ON: "Be",
+				vertical: "Függőleges",
+				Vertical: "Függőleges",
+				SWING_VERTICAL: "Függőleges",
+				horizontal: "Vízszintes",
+				Horizontal: "Vízszintes",
+				SWING_HORIZONTAL: "Vízszintes",
+				both: "Mindkettő",
+				Both: "Mindkettő",
+				SWING_BOTH: "Mindkettő",
+				unavailable: "Lengés"
+			},
+			lock: {
+				locked: "Zárva",
+				unlocked: "Nyitva",
+				code_required: "Kód szükséges",
+				enter_code: "Írja be a kódot",
+				wrong_code: "Hibás kód"
+			},
+			events: {
+				hasDanger: "Kritikus figyelmeztetés",
+				hasAlert: "Figyelmeztetés",
+				hasOverpowering: "Túlterhelés",
+				hasOpenWindow: "Ablak nyitva",
+				hasPresence: "Jelenlét észlelhető",
+				hasTimer: "Időzítő aktív"
+			},
+			messages: {
+				hvac_off_manual: "Manuálisan kikapcsolva",
+				hvac_off_auto_start_stop: "Kikapcsolva automatikus indítás/leállítással",
+				hvac_off_window_detection: "Ablakérzékelés által kikapcsolva",
+				hvac_off_sleep_mode: "Alvási mód által kikapcsolva",
+				hvac_off_safety_detection: "Biztonsági mód által kikapcsolva",
+				hvac_off_central_mode: "Központi mód által kikapcsolva",
+				safety_detected: "Biztonsági mód észlelve",
+				overpowering_detected: "Túlterhelés észlelve",
+				target_temp_window_eco: "Cél hőm.: ablak eco",
+				target_temp_window_frost: "Cél hőm.: ablak fagy",
+				target_temp_power: "Cél hőm.: teljesítmény",
+				target_temp_central_mode: "Cél hőm.: központi mód",
+				target_temp_activity_detected: "Cél hőm.: aktivitás észlelve",
+				target_temp_activity_not_detected: "Cél hőm.: nincs aktivitás",
+				target_temp_absence_detected: "Cél hőm.: hiányzás észlelve",
+				target_temp_timed_preset: "Időzített előbeállítás aktív",
+				not_initialized: "Inicializálási hiba",
+				heating_failure: "Fűtési hiba észlelve",
+				cooling_failure: "Hűtési hiba észlelve"
+			},
+			actions: {
+				decrease_temperature: "Csökkentse a beállított értéket",
+				increase_temperature: "Növelje a beállított értéket",
+				low_temperature: "Alacsony",
+				high_temperature: "Magas",
+				open_fan: "Nyissa meg a ventilátort",
+				open_swing: "Nyissa meg a lengést",
+				open_menu: "Nyissa meg a menüt",
+				open_power_info: "Teljesítménymutató megjelenítése"
+			}
+		},
+		dialog: {
+			close: "Bezárás",
+			back: "Vissza",
+			fan: {
+				title: "Szellőztetés",
+				description_auto: "Az automatikus mód automatikusan igazítja a szellőztetést a fűtési igényekhez."
+			},
+			swing: {
+				title: "Lengés",
+				vertical: "Függőleges",
+				horizontal: "Vízszintes"
+			},
+			hvac: { title: "Mód" },
+			preset: { title: "Előbeállítás" },
+			message: { title: "Üzenet" },
+			menu: {
+				title: "Menü",
+				regulation: "Szabályozás",
+				boost: "Ideiglenes erősítés",
+				history: "Előzmények"
+			},
+			history: {
+				title: "Előzmények",
+				load: "Betöltés",
+				add: "Hozzáadás",
+				add_entity: "Entitás hozzáadása",
+				loading: "Előzmények betöltése...",
+				empty: "Nincsenek előzmények erre az időszakra.",
+				no_attributes: "Nincs választható attribútum.",
+				tools: "Eszközök",
+				show_controls: "Az előzmények vezérlőelemei megjelenítése",
+				hide_controls: "Az előzmények vezérlőelemei elrejtése",
+				fullscreen: "Teljes képernyő",
+				exit_fullscreen: "Teljes képernyő bezárása",
+				sources: {
+					current_temperature: "Jelenlegi hőmérséklet",
+					temperature: "Cél hőmérséklet",
+					hvac_action: "HVAC művelet"
+				}
+			},
+			boost: {
+				title: "Ideiglenes erősítés",
+				duration: "Időtartam percben",
+				minutes: "min",
+				hours: "h",
+				start: "Indítás",
+				stop: "Leállítás",
+				active: "Erősítés aktív",
+				remaining_unknown: "Hátralévő idő nem érhető el",
+				preset: "Időzített előbeállítás",
+				original_preset: "Előző előbeállítás",
+				start_description: "A visszaszámlálás végénél a termosztát visszatér az előző módhoz.",
+				active_description: "A visszaszámlálás végénél a termosztát visszatér az előző módhoz.",
+				active_description_with_preset: "A visszaszámlálás végénél a termosztát visszatér az előző módhoz ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entitás",
+			name: "Név",
+			diagnostic_entity: "Diagnosztikai entitás",
+			power_entity: "Teljesítmény entitás",
+			humidity_entity: "Páratartalom entitás",
+			temperature_entity: "Hőmérséklet entitás",
+			theme: "Téma",
+			display_mode: "Formátum",
+			primary_display: "Megjelenítési prioritás",
+			disable_name: "Név elrejtése",
+			hide_lock_button: "Zárolási gomb elrejtése",
+			additional_dashboards: "További irányítópultok",
+			state_icons_layout: "Állapot ikonok",
+			tabs: {
+				general: "Általános",
+				presentation: "Bemutató"
+			},
+			options: {
+				theme: {
+					flat: "Lapos",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klasszikus",
+					compact: "Kompakt"
+				},
+				primary_display: {
+					setpoint: "Beállított érték",
+					sensors: "Érzékelők"
+				},
+				layout_orientation: {
+					horizontal: "Vízszintes",
+					vertical: "Függőleges"
+				},
+				additional_dashboards: {
+					auto: "Automatikus",
+					custom: "Egyéni",
+					disabled: "Letiltva"
+				}
+			}
+		}
+	},
+	nl: {
+		card: {
+			description: "Lovelace-kaart voor Versatile Thermostat en standaard klimaatentiteiten.",
+			missing_entity: "Configureer een klimaatentiteit.",
+			invalid_entity: "De geconfigureerde entiteit moet tot het klimaatdomein behoren.",
+			invalid_theme: "Het geconfigureerde thema is niet beschikbaar.",
+			invalid_display_mode: "De geconfigureerde weergavemodus is niet beschikbaar.",
+			invalid_primary_display: "De geconfigureerde weergaveprioriteit is niet beschikbaar.",
+			invalid_additional_dashboards: "De geconfigureerde dashboardmodus is niet beschikbaar.",
+			invalid_state_icons_layout: "De geconfigureerde statusiconindeling is niet beschikbaar.",
+			entity_not_found: "Entiteit niet gevonden: {entity}",
+			placeholder: "Equinox is klaar voor {entity}."
+		},
+		main: {
+			status: {
+				heating: "Verwarming actief",
+				cooling: "Koeling actief",
+				auto: "Automatisch",
+				heat: "Verwarming",
+				cool: "Koeling",
+				heat_cool: "Automatisch",
+				dry: "Drogen",
+				fan_only: "Alleen ventilator",
+				off: "Uit",
+				boost: "Tijdelijke verhoging",
+				unavailable: "Niet beschikbaar"
+			},
+			hvac: {
+				heat: "Verwarming",
+				cool: "Koeling",
+				heat_cool: "Verwarming/Koeling",
+				auto: "Automatisch",
+				dry: "Drogen",
+				fan_only: "Alleen ventilator",
+				off: "Uit"
+			},
+			hvac_action: {
+				off: "Uit",
+				preheating: "Voorverwarmen",
+				heating: "Verwarming actief",
+				cooling: "Koeling actief",
+				drying: "Drogen actief",
+				fan: "Ventilator actief",
+				idle: "Inactief",
+				defrosting: "Ontdooien"
+			},
+			preset: {
+				none: "Geen voorinstelling",
+				frost: "Vorstbescherming",
+				eco: "Eco",
+				away: "Weg",
+				comfort: "Comfort",
+				home: "Thuis",
+				sleep: "Slaap",
+				activity: "Activiteit",
+				boost: "Verhoging"
+			},
+			fan: {
+				on: "Aan",
+				On: "Aan",
+				FAN_ON: "Aan",
+				auto: "Automatisch",
+				Auto: "Automatisch",
+				FAN_AUTO: "Automatisch",
+				low: "Laag",
+				FAN_LOW: "Laag",
+				medium: "Gemiddeld",
+				FAN_MEDIUM: "Gemiddeld",
+				middle: "Midden",
+				Middle: "Midden",
+				FAN_MIDDLE: "Midden",
+				high: "Hoog",
+				FAN_HIGH: "Hoog",
+				top: "Bovenkant",
+				Top: "Bovenkant",
+				FAN_TOP: "Bovenkant",
+				off: "Uit",
+				Off: "Uit",
+				FAN_OFF: "Uit",
+				focus: "Scherpstelling",
+				Focus: "Scherpstelling",
+				FAN_FOCUS: "Scherpstelling",
+				diffuse: "Diffuus",
+				Diffuse: "Diffuus",
+				FAN_DIFFUSE: "Diffuus",
+				auto_fan_none: "Geen",
+				auto_fan_low: "Laag",
+				auto_fan_medium: "Gemiddeld",
+				auto_fan_high: "Hoog",
+				auto_fan_turbo: "Turbo",
+				None: "Geen",
+				Low: "Laag",
+				Medium: "Gemiddeld",
+				High: "Hoog",
+				Turbo: "Turbo",
+				unavailable: "Ventilator"
+			},
+			swing: {
+				off: "Uit",
+				Off: "Uit",
+				SWING_OFF: "Uit",
+				on: "Aan",
+				On: "Aan",
+				SWING_ON: "Aan",
+				vertical: "Verticaal",
+				Vertical: "Verticaal",
+				SWING_VERTICAL: "Verticaal",
+				horizontal: "Horizontaal",
+				Horizontal: "Horizontaal",
+				SWING_HORIZONTAL: "Horizontaal",
+				both: "Beide",
+				Both: "Beide",
+				SWING_BOTH: "Beide",
+				unavailable: "Swing"
+			},
+			lock: {
+				locked: "Vergrendeld",
+				unlocked: "Ontgrendeld",
+				code_required: "Code vereist",
+				enter_code: "Voer code in",
+				wrong_code: "Onjuiste code"
+			},
+			events: {
+				hasDanger: "Kritische waarschuwing",
+				hasAlert: "Waarschuwing",
+				hasOverpowering: "Overbelasting",
+				hasOpenWindow: "Raam open",
+				hasPresence: "Aanwezigheid gedetecteerd",
+				hasTimer: "Timer actief"
+			},
+			messages: {
+				hvac_off_manual: "Handmatig uitgeschakeld",
+				hvac_off_auto_start_stop: "Uitgeschakeld door automatisch starten/stoppen",
+				hvac_off_window_detection: "Uitgeschakeld door raamdetectie",
+				hvac_off_sleep_mode: "Uitgeschakeld door slaapmodus",
+				hvac_off_safety_detection: "Uitgeschakeld door veiligheidsmodus",
+				hvac_off_central_mode: "Uitgeschakeld door centrale modus",
+				safety_detected: "Veiligheidsmodus gedetecteerd",
+				overpowering_detected: "Overbelasting gedetecteerd",
+				target_temp_window_eco: "Doel temp.: raam eco",
+				target_temp_window_frost: "Doel temp.: raam vorst",
+				target_temp_power: "Doel temp.: vermogen",
+				target_temp_central_mode: "Doel temp.: centrale modus",
+				target_temp_activity_detected: "Doel temp.: activiteit gedetecteerd",
+				target_temp_activity_not_detected: "Doel temp.: geen activiteit",
+				target_temp_absence_detected: "Doel temp.: afwezigheid gedetecteerd",
+				target_temp_timed_preset: "Getimede voorinstelling actief",
+				not_initialized: "Initialisatiefout",
+				heating_failure: "Verwarmingsfout gedetecteerd",
+				cooling_failure: "Koelfout gedetecteerd"
+			},
+			actions: {
+				decrease_temperature: "Zet punt verlagen",
+				increase_temperature: "Zet punt verhogen",
+				low_temperature: "Laag",
+				high_temperature: "Hoog",
+				open_fan: "Open ventilator",
+				open_swing: "Open swing",
+				open_menu: "Menu openen",
+				open_power_info: "Stromindicatoren weergeven"
+			}
+		},
+		dialog: {
+			close: "Sluiten",
+			back: "Terug",
+			fan: {
+				title: "Ventilatie",
+				description_auto: "Automatische modus past ventilatie automatisch aan aan verwarmingsbehoeften."
+			},
+			swing: {
+				title: "Swing",
+				vertical: "Verticaal",
+				horizontal: "Horizontaal"
+			},
+			hvac: { title: "Modus" },
+			preset: { title: "Voorinstelling" },
+			message: { title: "Bericht" },
+			menu: {
+				title: "Menu",
+				regulation: "Regeling",
+				boost: "Tijdelijke verhoging",
+				history: "Geschiedenis"
+			},
+			history: {
+				title: "Geschiedenis",
+				load: "Laden",
+				add: "Toevoegen",
+				add_entity: "Entiteit toevoegen",
+				loading: "Geschiedenis laden...",
+				empty: "Geen geschiedenis voor deze periode.",
+				no_attributes: "Geen selecteerbaar attribuut.",
+				tools: "Gereedschappen",
+				show_controls: "Geschiedenisbesturingselementen weergeven",
+				hide_controls: "Geschiedenisbesturingselementen verbergen",
+				fullscreen: "Volledig scherm",
+				exit_fullscreen: "Volledig scherm afsluiten",
+				sources: {
+					current_temperature: "Huidige temperatuur",
+					temperature: "Doeltemperatuur",
+					hvac_action: "HVAC-actie"
+				}
+			},
+			boost: {
+				title: "Tijdelijke verhoging",
+				duration: "Duur in minuten",
+				minutes: "min",
+				hours: "h",
+				start: "Start",
+				stop: "Stop",
+				active: "Verhoging actief",
+				remaining_unknown: "Resterende tijd niet beschikbaar",
+				preset: "Getimede voorinstelling",
+				original_preset: "Vorige voorinstelling",
+				start_description: "Wanneer de aftelling eindigt, keert de thermostaat terug naar de vorige modus.",
+				active_description: "Wanneer de aftelling eindigt, keert de thermostaat terug naar de vorige modus.",
+				active_description_with_preset: "Wanneer de aftelling eindigt, keert de thermostaat terug naar de vorige modus ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entiteit",
+			name: "Naam",
+			diagnostic_entity: "Diagnostische entiteit",
+			power_entity: "Vermogenentiteit",
+			humidity_entity: "Vochtigheidsentiteit",
+			temperature_entity: "Temperatuurentiteit",
+			theme: "Thema",
+			display_mode: "Indeling",
+			primary_display: "Weergaveprioriteit",
+			disable_name: "Naam verbergen",
+			hide_lock_button: "Vergrendelingsknop verbergen",
+			additional_dashboards: "Aanvullende dashboards",
+			state_icons_layout: "Statuspictogrammen",
+			tabs: {
+				general: "Algemeen",
+				presentation: "Presentatie"
+			},
+			options: {
+				theme: {
+					flat: "Plat",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klassiek",
+					compact: "Compact"
+				},
+				primary_display: {
+					setpoint: "Zet punt",
+					sensors: "Sensoren"
+				},
+				layout_orientation: {
+					horizontal: "Horizontaal",
+					vertical: "Verticaal"
+				},
+				additional_dashboards: {
+					auto: "Automatisch",
+					custom: "Aangepast",
+					disabled: "Uitgeschakeld"
+				}
+			}
+		}
+	},
+	no: {
+		card: {
+			description: "Lovelace-kort for Versatile Thermostat og standard klimaenheter.",
+			missing_entity: "Konfigurer en klimaenhet.",
+			invalid_entity: "Den konfigurerte enheten må tilhøre klimadomenet.",
+			invalid_theme: "Det konfigurerte temaet er ikke tilgjengelig.",
+			invalid_display_mode: "Den konfigurerte visningsmodus er ikke tilgjengelig.",
+			invalid_primary_display: "Den konfigurerte visningsprioriteten er ikke tilgjengelig.",
+			invalid_additional_dashboards: "Den konfigurerte dashbordmodus er ikke tilgjengelig.",
+			invalid_state_icons_layout: "Den konfigurerte tilstandsikonoppsettingen er ikke tilgjengelig.",
+			entity_not_found: "Enhet ikke funnet: {entity}",
+			placeholder: "Equinox er klar for {entity}."
+		},
+		main: {
+			status: {
+				heating: "Oppvarming aktiv",
+				cooling: "Kjøling aktiv",
+				auto: "Automatisk",
+				heat: "Oppvarming",
+				cool: "Kjøling",
+				heat_cool: "Automatisk",
+				dry: "Tørking",
+				fan_only: "Kun vifte",
+				off: "Av",
+				boost: "Midlertidig boost",
+				unavailable: "Utilgjengelig"
+			},
+			hvac: {
+				heat: "Oppvarming",
+				cool: "Kjøling",
+				heat_cool: "Oppvarming/Kjøling",
+				auto: "Automatisk",
+				dry: "Tørking",
+				fan_only: "Kun vifte",
+				off: "Av"
+			},
+			hvac_action: {
+				off: "Av",
+				preheating: "Forvarmning",
+				heating: "Oppvarming aktiv",
+				cooling: "Kjøling aktiv",
+				drying: "Tørking aktiv",
+				fan: "Vifte aktiv",
+				idle: "Inaktiv",
+				defrosting: "Avising"
+			},
+			preset: {
+				none: "Ingen forhåndsinnstilling",
+				frost: "Frostbeskyttelse",
+				eco: "Eco",
+				away: "Borte",
+				comfort: "Komfort",
+				home: "Hjem",
+				sleep: "Søvn",
+				activity: "Aktivitet",
+				boost: "Boost"
+			},
+			fan: {
+				on: "På",
+				On: "På",
+				FAN_ON: "På",
+				auto: "Automatisk",
+				Auto: "Automatisk",
+				FAN_AUTO: "Automatisk",
+				low: "Lav",
+				FAN_LOW: "Lav",
+				medium: "Medium",
+				FAN_MEDIUM: "Medium",
+				middle: "Midt",
+				Middle: "Midt",
+				FAN_MIDDLE: "Midt",
+				high: "Høy",
+				FAN_HIGH: "Høy",
+				top: "Topp",
+				Top: "Topp",
+				FAN_TOP: "Topp",
+				off: "Av",
+				Off: "Av",
+				FAN_OFF: "Av",
+				focus: "Fokus",
+				Focus: "Fokus",
+				FAN_FOCUS: "Fokus",
+				diffuse: "Diffus",
+				Diffuse: "Diffus",
+				FAN_DIFFUSE: "Diffus",
+				auto_fan_none: "Ingen",
+				auto_fan_low: "Lav",
+				auto_fan_medium: "Medium",
+				auto_fan_high: "Høy",
+				auto_fan_turbo: "Turbo",
+				None: "Ingen",
+				Low: "Lav",
+				Medium: "Medium",
+				High: "Høy",
+				Turbo: "Turbo",
+				unavailable: "Vifte"
+			},
+			swing: {
+				off: "Av",
+				Off: "Av",
+				SWING_OFF: "Av",
+				on: "På",
+				On: "På",
+				SWING_ON: "På",
+				vertical: "Vertikal",
+				Vertical: "Vertikal",
+				SWING_VERTICAL: "Vertikal",
+				horizontal: "Horisontal",
+				Horizontal: "Horisontal",
+				SWING_HORIZONTAL: "Horisontal",
+				both: "Begge",
+				Both: "Begge",
+				SWING_BOTH: "Begge",
+				unavailable: "Swing"
+			},
+			lock: {
+				locked: "Låst",
+				unlocked: "Ulåst",
+				code_required: "Kode påkrevd",
+				enter_code: "Skriv inn kode",
+				wrong_code: "Feil kode"
+			},
+			events: {
+				hasDanger: "Kritisk advarsel",
+				hasAlert: "Advarsel",
+				hasOverpowering: "Overbelastning",
+				hasOpenWindow: "Vindu åpent",
+				hasPresence: "Tilstedeværelse oppdaget",
+				hasTimer: "Timer aktiv"
+			},
+			messages: {
+				hvac_off_manual: "Slått av manuelt",
+				hvac_off_auto_start_stop: "Slått av av automatisk start/stopp",
+				hvac_off_window_detection: "Slått av av vindusdeteksjon",
+				hvac_off_sleep_mode: "Slått av av søvnmodus",
+				hvac_off_safety_detection: "Slått av av sikkerhetsmodus",
+				hvac_off_central_mode: "Slått av av sentral modus",
+				safety_detected: "Sikkerhetsmodus oppdaget",
+				overpowering_detected: "Overbelastning oppdaget",
+				target_temp_window_eco: "Mål temp.: vindu eco",
+				target_temp_window_frost: "Mål temp.: vindu frost",
+				target_temp_power: "Mål temp.: kraft",
+				target_temp_central_mode: "Mål temp.: sentral modus",
+				target_temp_activity_detected: "Mål temp.: aktivitet oppdaget",
+				target_temp_activity_not_detected: "Mål temp.: ingen aktivitet",
+				target_temp_absence_detected: "Mål temp.: fravær oppdaget",
+				target_temp_timed_preset: "Tidsinnstilt forhåndsinnstilling aktiv",
+				not_initialized: "Initialiseringsfeil",
+				heating_failure: "Oppvarmingsfeil oppdaget",
+				cooling_failure: "Kjølingsfeil oppdaget"
+			},
+			actions: {
+				decrease_temperature: "Senk innstillingspunktet",
+				increase_temperature: "Hev innstillingspunktet",
+				low_temperature: "Lav",
+				high_temperature: "Høy",
+				open_fan: "Åpne vifte",
+				open_swing: "Åpne swing",
+				open_menu: "Åpne meny",
+				open_power_info: "Vis stromindikatorer"
+			}
+		},
+		dialog: {
+			close: "Lukk",
+			back: "Tilbake",
+			fan: {
+				title: "Ventilasjon",
+				description_auto: "Automatisk modus tilpasser automatisk ventilasjon til oppvarmingsbehov."
+			},
+			swing: {
+				title: "Swing",
+				vertical: "Vertikal",
+				horizontal: "Horisontal"
+			},
+			hvac: { title: "Modus" },
+			preset: { title: "Forhåndsinnstilling" },
+			message: { title: "Melding" },
+			menu: {
+				title: "Meny",
+				regulation: "Regulering",
+				boost: "Midlertidig boost",
+				history: "Historie"
+			},
+			history: {
+				title: "Historie",
+				load: "Last inn",
+				add: "Legg til",
+				add_entity: "Legg til enhet",
+				loading: "Laster inn historie...",
+				empty: "Ingen historie for denne perioden.",
+				no_attributes: "Ingen valgbar attributt.",
+				tools: "Verktøy",
+				show_controls: "Vis historiekontroller",
+				hide_controls: "Skjul historiekontroller",
+				fullscreen: "Fullskjerm",
+				exit_fullscreen: "Avslutt fullskjerm",
+				sources: {
+					current_temperature: "Gjeldende temperatur",
+					temperature: "Måltemperatur",
+					hvac_action: "HVAC-handling"
+				}
+			},
+			boost: {
+				title: "Midlertidig boost",
+				duration: "Varighet i minutter",
+				minutes: "min",
+				hours: "h",
+				start: "Start",
+				stop: "Stopp",
+				active: "Boost aktiv",
+				remaining_unknown: "Gjenstående tid utilgjengelig",
+				preset: "Tidsinnstilt forhåndsinnstilling",
+				original_preset: "Forrige forhåndsinnstilling",
+				start_description: "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
+				active_description: "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
+				active_description_with_preset: "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus ({preset})."
+			}
+		},
+		editor: {
+			entity: "Enhet",
+			name: "Navn",
+			diagnostic_entity: "Diagnostisk enhet",
+			power_entity: "Kraftenhet",
+			humidity_entity: "Fuktighets-enhet",
+			temperature_entity: "Temperaturenhet",
+			theme: "Tema",
+			display_mode: "Format",
+			primary_display: "Visningsprioritet",
+			disable_name: "Skjul navn",
+			hide_lock_button: "Skjul låseknapp",
+			additional_dashboards: "Tilleggssamler",
+			state_icons_layout: "Tilstands ikoner",
+			tabs: {
+				general: "Generelt",
+				presentation: "Presentasjon"
+			},
+			options: {
+				theme: {
+					flat: "Flat",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Klassisk",
+					compact: "Kompakt"
+				},
+				primary_display: {
+					setpoint: "Innstillingspunkt",
+					sensors: "Sensorer"
+				},
+				layout_orientation: {
+					horizontal: "Horisontal",
+					vertical: "Vertikal"
+				},
+				additional_dashboards: {
+					auto: "Automatisk",
+					custom: "Tilpasset",
+					disabled: "Deaktivert"
+				}
+			}
+		}
+	},
+	pt: {
+		card: {
+			description: "Placa Lovelace para Termostato Versátil e entidades climáticas padrão.",
+			missing_entity: "Configure uma entidade climática.",
+			invalid_entity: "A entidade configurada deve pertencer ao domínio climático.",
+			invalid_theme: "O tema configurado não está disponível.",
+			invalid_display_mode: "O modo de exibição configurado não está disponível.",
+			invalid_primary_display: "A prioridade de exibição configurada não está disponível.",
+			invalid_additional_dashboards: "O modo de painel configurado não está disponível.",
+			invalid_state_icons_layout: "O layout de ícones de estado configurado não está disponível.",
+			entity_not_found: "Entidade não encontrada: {entity}",
+			placeholder: "Equinox está pronto para {entity}."
+		},
+		main: {
+			status: {
+				heating: "Aquecimento ativo",
+				cooling: "Resfriamento ativo",
+				auto: "Automático",
+				heat: "Aquecimento",
+				cool: "Resfriamento",
+				heat_cool: "Automático",
+				dry: "Secagem",
+				fan_only: "Apenas ventilador",
+				off: "Desligado",
+				boost: "Impulso temporário",
+				unavailable: "Indisponível"
+			},
+			hvac: {
+				heat: "Aquecimento",
+				cool: "Resfriamento",
+				heat_cool: "Aquecimento/Resfriamento",
+				auto: "Automático",
+				dry: "Secagem",
+				fan_only: "Apenas ventilador",
+				off: "Desligado"
+			},
+			hvac_action: {
+				off: "Desligado",
+				preheating: "Pré-aquecimento",
+				heating: "Aquecimento ativo",
+				cooling: "Resfriamento ativo",
+				drying: "Secagem ativa",
+				fan: "Ventilador ativo",
+				idle: "Inativo",
+				defrosting: "Descongelação"
+			},
+			preset: {
+				none: "Sem preset",
+				frost: "Proteção contra congelamento",
+				eco: "Eco",
+				away: "Fora",
+				comfort: "Conforto",
+				home: "Casa",
+				sleep: "Dormir",
+				activity: "Atividade",
+				boost: "Impulso"
+			},
+			fan: {
+				on: "Ligado",
+				On: "Ligado",
+				FAN_ON: "Ligado",
+				auto: "Automático",
+				Auto: "Automático",
+				FAN_AUTO: "Automático",
+				low: "Baixo",
+				FAN_LOW: "Baixo",
+				medium: "Médio",
+				FAN_MEDIUM: "Médio",
+				middle: "Meio",
+				Middle: "Meio",
+				FAN_MIDDLE: "Meio",
+				high: "Alto",
+				FAN_HIGH: "Alto",
+				top: "Superior",
+				Top: "Superior",
+				FAN_TOP: "Superior",
+				off: "Desligado",
+				Off: "Desligado",
+				FAN_OFF: "Desligado",
+				focus: "Foco",
+				Focus: "Foco",
+				FAN_FOCUS: "Foco",
+				diffuse: "Difuso",
+				Diffuse: "Difuso",
+				FAN_DIFFUSE: "Difuso",
+				auto_fan_none: "Nenhum",
+				auto_fan_low: "Baixo",
+				auto_fan_medium: "Médio",
+				auto_fan_high: "Alto",
+				auto_fan_turbo: "Turbo",
+				None: "Nenhum",
+				Low: "Baixo",
+				Medium: "Médio",
+				High: "Alto",
+				Turbo: "Turbo",
+				unavailable: "Ventilador"
+			},
+			swing: {
+				off: "Desligado",
+				Off: "Desligado",
+				SWING_OFF: "Desligado",
+				on: "Ligado",
+				On: "Ligado",
+				SWING_ON: "Ligado",
+				vertical: "Vertical",
+				Vertical: "Vertical",
+				SWING_VERTICAL: "Vertical",
+				horizontal: "Horizontal",
+				Horizontal: "Horizontal",
+				SWING_HORIZONTAL: "Horizontal",
+				both: "Ambos",
+				Both: "Ambos",
+				SWING_BOTH: "Ambos",
+				unavailable: "Balanço"
+			},
+			lock: {
+				locked: "Bloqueado",
+				unlocked: "Desbloqueado",
+				code_required: "Código obrigatório",
+				enter_code: "Insira o código",
+				wrong_code: "Código incorreto"
+			},
+			events: {
+				hasDanger: "Alerta crítico",
+				hasAlert: "Alerta",
+				hasOverpowering: "Sobrecarga",
+				hasOpenWindow: "Janela aberta",
+				hasPresence: "Presença detectada",
+				hasTimer: "Temporizador ativo"
+			},
+			messages: {
+				hvac_off_manual: "Desligado manualmente",
+				hvac_off_auto_start_stop: "Desligado por início/parada automática",
+				hvac_off_window_detection: "Desligado por detecção de janela",
+				hvac_off_sleep_mode: "Desligado pelo modo dormir",
+				hvac_off_safety_detection: "Desligado pelo modo de segurança",
+				hvac_off_central_mode: "Desligado pelo modo central",
+				safety_detected: "Modo de segurança detectado",
+				overpowering_detected: "Sobrecarga detectada",
+				target_temp_window_eco: "Temp. alvo: janela eco",
+				target_temp_window_frost: "Temp. alvo: janela congelada",
+				target_temp_power: "Temp. alvo: energia",
+				target_temp_central_mode: "Temp. alvo: modo central",
+				target_temp_activity_detected: "Temp. alvo: atividade detectada",
+				target_temp_activity_not_detected: "Temp. alvo: sem atividade",
+				target_temp_absence_detected: "Temp. alvo: ausência detectada",
+				target_temp_timed_preset: "Preset cronometrado ativo",
+				not_initialized: "Erro de inicialização",
+				heating_failure: "Falha de aquecimento detectada",
+				cooling_failure: "Falha de resfriamento detectada"
+			},
+			actions: {
+				decrease_temperature: "Diminuir setpoint",
+				increase_temperature: "Aumentar setpoint",
+				low_temperature: "Baixo",
+				high_temperature: "Alto",
+				open_fan: "Abrir ventilador",
+				open_swing: "Abrir balanço",
+				open_menu: "Abrir menu",
+				open_power_info: "Mostrar indicadores de energia"
+			}
+		},
+		dialog: {
+			close: "Fechar",
+			back: "Voltar",
+			fan: {
+				title: "Ventilação",
+				description_auto: "O modo automático adapta automaticamente a ventilação às necessidades de aquecimento."
+			},
+			swing: {
+				title: "Balanço",
+				vertical: "Vertical",
+				horizontal: "Horizontal"
+			},
+			hvac: { title: "Modo" },
+			preset: { title: "Preset" },
+			message: { title: "Mensagem" },
+			menu: {
+				title: "Menu",
+				regulation: "Regulação",
+				boost: "Impulso temporário",
+				history: "Histórico"
+			},
+			history: {
+				title: "Histórico",
+				load: "Carregar",
+				add: "Adicionar",
+				add_entity: "Adicionar uma entidade",
+				loading: "Carregando histórico...",
+				empty: "Nenhum histórico para este período.",
+				no_attributes: "Nenhum atributo selecionável.",
+				tools: "Ferramentas",
+				show_controls: "Mostrar controles de histórico",
+				hide_controls: "Ocultar controles de histórico",
+				fullscreen: "Tela cheia",
+				exit_fullscreen: "Sair da tela cheia",
+				sources: {
+					current_temperature: "Temperatura atual",
+					temperature: "Temperatura alvo",
+					hvac_action: "Ação HVAC"
+				}
+			},
+			boost: {
+				title: "Impulso temporário",
+				duration: "Duração em minutos",
+				minutes: "min",
+				hours: "h",
+				start: "Iniciar",
+				stop: "Parar",
+				active: "Impulso ativo",
+				remaining_unknown: "Tempo restante indisponível",
+				preset: "Preset cronometrado",
+				original_preset: "Preset anterior",
+				start_description: "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior.",
+				active_description: "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior.",
+				active_description_with_preset: "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior ({preset})."
+			}
+		},
+		editor: {
+			entity: "Entidade",
+			name: "Nome",
+			diagnostic_entity: "Entidade de diagnóstico",
+			power_entity: "Entidade de energia",
+			humidity_entity: "Entidade de umidade",
+			temperature_entity: "Entidade de temperatura",
+			theme: "Tema",
+			display_mode: "Formato",
+			primary_display: "Prioridade de exibição",
+			disable_name: "Ocultar nome",
+			hide_lock_button: "Ocultar botão de bloqueio",
+			additional_dashboards: "Painéis adicionais",
+			state_icons_layout: "Ícones de estado",
+			tabs: {
+				general: "Geral",
+				presentation: "Apresentação"
+			},
+			options: {
+				theme: {
+					flat: "Plano",
+					liquid_glow: "Liquid Glow"
+				},
+				display_mode: {
+					classic: "Clássico",
+					compact: "Compacto"
+				},
+				primary_display: {
+					setpoint: "Setpoint",
+					sensors: "Sensores"
+				},
+				layout_orientation: {
+					horizontal: "Horizontal",
+					vertical: "Vertical"
+				},
+				additional_dashboards: {
+					auto: "Automático",
+					custom: "Personalizado",
+					disabled: "Desabilitado"
+				}
+			}
+		}
 	}
 };
 function tt(e) {

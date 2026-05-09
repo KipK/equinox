@@ -1,12 +1,46 @@
 import en from "./languages/en.json";
 import fr from "./languages/fr.json";
+import de from "./languages/de.json";
+import cs from "./languages/cs.json";
+import el from "./languages/el.json";
+import it from "./languages/it.json";
+import pl from "./languages/pl.json";
+import ru from "./languages/ru.json";
+import sk from "./languages/sk.json";
+import bg from "./languages/bg.json";
+import ca from "./languages/ca.json";
+import cn from "./languages/cn.json";
+import da from "./languages/da.json";
+import es from "./languages/es.json";
+import fi from "./languages/fi.json";
+import hu from "./languages/hu.json";
+import nl from "./languages/nl.json";
+import no from "./languages/no.json";
+import pt from "./languages/pt.json";
 
 type TranslationTree = string | { [key: string]: TranslationTree };
 type TranslationMap = Record<string, TranslationTree>;
 
 const languages: Record<string, TranslationMap> = {
   en,
-  fr
+  fr,
+  de,
+  cs,
+  el,
+  it,
+  pl,
+  ru,
+  sk,
+  bg,
+  ca,
+  cn,
+  da,
+  es,
+  fi,
+  hu,
+  nl,
+  no,
+  pt
 };
 
 function normalizeLanguage(language?: string): string {

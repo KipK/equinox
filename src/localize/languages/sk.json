@@ -1,0 +1,267 @@
+{
+  "card": {
+    "description": "Karta Lovelace pre Versatile Thermostat a štandardné klimatizačné entity.",
+    "missing_entity": "Nakonfigurujte klimatizačnú entitu.",
+    "invalid_entity": "Nakonfigurovaná entita musí patriť do klimatizačnej domény.",
+    "invalid_theme": "Nakonfigurovaná téma nie je dostupná.",
+    "invalid_display_mode": "Nakonfigurovaný režim zobrazenia nie je dostupný.",
+    "invalid_primary_display": "Nakonfigurovaná priorita zobrazenia nie je dostupná.",
+    "invalid_additional_dashboards": "Nakonfigurovaný režim panelu nie je dostupný.",
+    "invalid_state_icons_layout": "Nakonfigurované rozloženie ikon stavu nie je dostupné.",
+    "entity_not_found": "Entita nenájdená: {entity}",
+    "placeholder": "Equinox je pripravený pre {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Vykurovanie aktívne",
+      "cooling": "Chladenie aktívne",
+      "auto": "Automatické",
+      "heat": "Vykurovanie",
+      "cool": "Chladenie",
+      "heat_cool": "Automatické",
+      "dry": "Sušenie",
+      "fan_only": "Iba ventilátor",
+      "off": "Vypnuté",
+      "boost": "Dočasný boost",
+      "unavailable": "Nedostupné"
+    },
+    "hvac": {
+      "heat": "Vykurovanie",
+      "cool": "Chladenie",
+      "heat_cool": "Vykurovanie/Chladenie",
+      "auto": "Automatické",
+      "dry": "Sušenie",
+      "fan_only": "Iba ventilátor",
+      "off": "Vypnuté"
+    },
+    "hvac_action": {
+      "off": "Vypnuté",
+      "preheating": "Predohrev",
+      "heating": "Vykurovanie aktívne",
+      "cooling": "Chladenie aktívne",
+      "drying": "Sušenie aktívne",
+      "fan": "Ventilátor aktívny",
+      "idle": "Nečinný",
+      "defrosting": "Odmrazovanie"
+    },
+    "preset": {
+      "none": "Bez prednastavenia",
+      "frost": "Ochrana pred mrazom",
+      "eco": "Eco",
+      "away": "Preč",
+      "comfort": "Komfort",
+      "home": "Domov",
+      "sleep": "Spánok",
+      "activity": "Aktivita",
+      "boost": "Boost"
+    },
+    "fan": {
+      "on": "Zapnuté",
+      "On": "Zapnuté",
+      "FAN_ON": "Zapnuté",
+      "auto": "Automatické",
+      "Auto": "Automatické",
+      "FAN_AUTO": "Automatické",
+      "low": "Nízko",
+      "FAN_LOW": "Nízko",
+      "medium": "Stredné",
+      "FAN_MEDIUM": "Stredné",
+      "middle": "Stred",
+      "Middle": "Stred",
+      "FAN_MIDDLE": "Stred",
+      "high": "Vysoko",
+      "FAN_HIGH": "Vysoko",
+      "top": "Horný",
+      "Top": "Horný",
+      "FAN_TOP": "Horný",
+      "off": "Vypnuté",
+      "Off": "Vypnuté",
+      "FAN_OFF": "Vypnuté",
+      "focus": "Zameranie",
+      "Focus": "Zameranie",
+      "FAN_FOCUS": "Zameranie",
+      "diffuse": "Rozptyl",
+      "Diffuse": "Rozptyl",
+      "FAN_DIFFUSE": "Rozptyl",
+      "auto_fan_none": "Žiadny",
+      "auto_fan_low": "Nízko",
+      "auto_fan_medium": "Stredné",
+      "auto_fan_high": "Vysoko",
+      "auto_fan_turbo": "Turbo",
+      "None": "Žiadny",
+      "Low": "Nízko",
+      "Medium": "Stredné",
+      "High": "Vysoko",
+      "Turbo": "Turbo",
+      "unavailable": "Ventilátor"
+    },
+    "swing": {
+      "off": "Vypnuté",
+      "Off": "Vypnuté",
+      "SWING_OFF": "Vypnuté",
+      "on": "Zapnuté",
+      "On": "Zapnuté",
+      "SWING_ON": "Zapnuté",
+      "vertical": "Vertikálne",
+      "Vertical": "Vertikálne",
+      "SWING_VERTICAL": "Vertikálne",
+      "horizontal": "Horizontálne",
+      "Horizontal": "Horizontálne",
+      "SWING_HORIZONTAL": "Horizontálne",
+      "both": "Oboje",
+      "Both": "Oboje",
+      "SWING_BOTH": "Oboje",
+      "unavailable": "Kyv"
+    },
+    "lock": {
+      "locked": "Zamknuté",
+      "unlocked": "Odomknuté",
+      "code_required": "Vyžaduje sa kód",
+      "enter_code": "Zadajte kód",
+      "wrong_code": "Nesprávny kód"
+    },
+    "events": {
+      "hasDanger": "Kritické upozornenie",
+      "hasAlert": "Upozornenie",
+      "hasOverpowering": "Preťaženie",
+      "hasOpenWindow": "Okno otvorené",
+      "hasPresence": "Prítomnosť zistená",
+      "hasTimer": "Časovač aktívny"
+    },
+    "messages": {
+      "hvac_off_manual": "Ručne vypnuté",
+      "hvac_off_auto_start_stop": "Vypnuté automatickým spustením/zastavením",
+      "hvac_off_window_detection": "Vypnuté detekciou okna",
+      "hvac_off_sleep_mode": "Vypnuté režimom spánku",
+      "hvac_off_safety_detection": "Vypnuté režimom bezpečnosti",
+      "hvac_off_central_mode": "Vypnuté centrálnym režimom",
+      "safety_detected": "Režim bezpečnosti zistený",
+      "overpowering_detected": "Preťaženie zistené",
+      "target_temp_window_eco": "Cieľ. teplota: okno eco",
+      "target_temp_window_frost": "Cieľ. teplota: okno mráz",
+      "target_temp_power": "Cieľ. teplota: výkon",
+      "target_temp_central_mode": "Cieľ. teplota: centrálny režim",
+      "target_temp_activity_detected": "Cieľ. teplota: aktivita zistená",
+      "target_temp_activity_not_detected": "Cieľ. teplota: bez aktivity",
+      "target_temp_absence_detected": "Cieľ. teplota: neprítomnosť zistená",
+      "target_temp_timed_preset": "Načasované prednastavenie aktívne",
+      "not_initialized": "Chyba inicializácie",
+      "heating_failure": "Zistená chyba vykurovania",
+      "cooling_failure": "Zistená chyba chladenia"
+    },
+    "actions": {
+      "decrease_temperature": "Znížiť nastavenú teplotu",
+      "increase_temperature": "Zvýšiť nastavenú teplotu",
+      "low_temperature": "Nízko",
+      "high_temperature": "Vysoko",
+      "open_fan": "Otvoriť ventilátor",
+      "open_swing": "Otvoriť kyv",
+      "open_menu": "Otvoriť menu",
+      "open_power_info": "Zobraziť indikátory výkonu"
+    }
+  },
+  "dialog": {
+    "close": "Zatvoriť",
+    "back": "Späť",
+    "fan": {
+      "title": "Ventilacia",
+      "description_auto": "Automatický režim automaticky prispôsobuje ventilciu potrebám vykurovania."
+    },
+    "swing": {
+      "title": "Kyv",
+      "vertical": "Vertikálne",
+      "horizontal": "Horizontálne"
+    },
+    "hvac": {
+      "title": "Režim"
+    },
+    "preset": {
+      "title": "Prednastavenie"
+    },
+    "message": {
+      "title": "Správa"
+    },
+    "menu": {
+      "title": "Menu",
+      "regulation": "Regulácia",
+      "boost": "Dočasný boost",
+      "history": "História"
+    },
+    "history": {
+      "title": "História",
+      "load": "Načítať",
+      "add": "Pridať",
+      "add_entity": "Pridať entitu",
+      "loading": "Načítavanie histórie...",
+      "empty": "Žiadna história za toto obdobie.",
+      "no_attributes": "Žiadny voliteľný atribút.",
+      "tools": "Nástroje",
+      "show_controls": "Zobraziť ovládacie prvky histórie",
+      "hide_controls": "Skryť ovládacie prvky histórie",
+      "fullscreen": "Celá obrazovka",
+      "exit_fullscreen": "Opustiť celú obrazovku",
+      "sources": {
+        "current_temperature": "Aktuálna teplota",
+        "temperature": "Cieľová teplota",
+        "hvac_action": "Akcia HVAC"
+      }
+    },
+    "boost": {
+      "title": "Dočasný boost",
+      "duration": "Trvanie v minútach",
+      "minutes": "min",
+      "hours": "h",
+      "start": "Spustiť",
+      "stop": "Zastaviť",
+      "active": "Boost aktívny",
+      "remaining_unknown": "Zvyšný čas nie je dostupný",
+      "preset": "Načasované prednastavenie",
+      "original_preset": "Predchádzajúce prednastavenie",
+      "start_description": "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
+      "active_description": "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
+      "active_description_with_preset": "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Entita",
+    "name": "Názov",
+    "diagnostic_entity": "Diagnostická entita",
+    "power_entity": "Entita výkonu",
+    "humidity_entity": "Entita vlhkosti",
+    "temperature_entity": "Entita teploty",
+    "theme": "Téma",
+    "display_mode": "Formát",
+    "primary_display": "Priorita zobrazenia",
+    "disable_name": "Skryť názov",
+    "hide_lock_button": "Skryť tlačítko zámku",
+    "additional_dashboards": "Ďalšie panely",
+    "state_icons_layout": "Ikony stavu",
+    "tabs": {
+      "general": "Všeobecné",
+      "presentation": "Prezentácia"
+    },
+    "options": {
+      "theme": {
+        "flat": "Plochý",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Klasický",
+        "compact": "Kompaktný"
+      },
+      "primary_display": {
+        "setpoint": "Nastavená teplota",
+        "sensors": "Senzory"
+      },
+      "layout_orientation": {
+        "horizontal": "Horizontálne",
+        "vertical": "Vertikálne"
+      },
+      "additional_dashboards": {
+        "auto": "Automatické",
+        "custom": "Vlastný",
+        "disabled": "Zakázané"
+      }
+    }
+  }
+}

@@ -1,0 +1,267 @@
+{
+  "card": {
+    "description": "Placa Lovelace para Termostato Versátil e entidades climáticas padrão.",
+    "missing_entity": "Configure uma entidade climática.",
+    "invalid_entity": "A entidade configurada deve pertencer ao domínio climático.",
+    "invalid_theme": "O tema configurado não está disponível.",
+    "invalid_display_mode": "O modo de exibição configurado não está disponível.",
+    "invalid_primary_display": "A prioridade de exibição configurada não está disponível.",
+    "invalid_additional_dashboards": "O modo de painel configurado não está disponível.",
+    "invalid_state_icons_layout": "O layout de ícones de estado configurado não está disponível.",
+    "entity_not_found": "Entidade não encontrada: {entity}",
+    "placeholder": "Equinox está pronto para {entity}."
+  },
+  "main": {
+    "status": {
+      "heating": "Aquecimento ativo",
+      "cooling": "Resfriamento ativo",
+      "auto": "Automático",
+      "heat": "Aquecimento",
+      "cool": "Resfriamento",
+      "heat_cool": "Automático",
+      "dry": "Secagem",
+      "fan_only": "Apenas ventilador",
+      "off": "Desligado",
+      "boost": "Impulso temporário",
+      "unavailable": "Indisponível"
+    },
+    "hvac": {
+      "heat": "Aquecimento",
+      "cool": "Resfriamento",
+      "heat_cool": "Aquecimento/Resfriamento",
+      "auto": "Automático",
+      "dry": "Secagem",
+      "fan_only": "Apenas ventilador",
+      "off": "Desligado"
+    },
+    "hvac_action": {
+      "off": "Desligado",
+      "preheating": "Pré-aquecimento",
+      "heating": "Aquecimento ativo",
+      "cooling": "Resfriamento ativo",
+      "drying": "Secagem ativa",
+      "fan": "Ventilador ativo",
+      "idle": "Inativo",
+      "defrosting": "Descongelação"
+    },
+    "preset": {
+      "none": "Sem preset",
+      "frost": "Proteção contra congelamento",
+      "eco": "Eco",
+      "away": "Fora",
+      "comfort": "Conforto",
+      "home": "Casa",
+      "sleep": "Dormir",
+      "activity": "Atividade",
+      "boost": "Impulso"
+    },
+    "fan": {
+      "on": "Ligado",
+      "On": "Ligado",
+      "FAN_ON": "Ligado",
+      "auto": "Automático",
+      "Auto": "Automático",
+      "FAN_AUTO": "Automático",
+      "low": "Baixo",
+      "FAN_LOW": "Baixo",
+      "medium": "Médio",
+      "FAN_MEDIUM": "Médio",
+      "middle": "Meio",
+      "Middle": "Meio",
+      "FAN_MIDDLE": "Meio",
+      "high": "Alto",
+      "FAN_HIGH": "Alto",
+      "top": "Superior",
+      "Top": "Superior",
+      "FAN_TOP": "Superior",
+      "off": "Desligado",
+      "Off": "Desligado",
+      "FAN_OFF": "Desligado",
+      "focus": "Foco",
+      "Focus": "Foco",
+      "FAN_FOCUS": "Foco",
+      "diffuse": "Difuso",
+      "Diffuse": "Difuso",
+      "FAN_DIFFUSE": "Difuso",
+      "auto_fan_none": "Nenhum",
+      "auto_fan_low": "Baixo",
+      "auto_fan_medium": "Médio",
+      "auto_fan_high": "Alto",
+      "auto_fan_turbo": "Turbo",
+      "None": "Nenhum",
+      "Low": "Baixo",
+      "Medium": "Médio",
+      "High": "Alto",
+      "Turbo": "Turbo",
+      "unavailable": "Ventilador"
+    },
+    "swing": {
+      "off": "Desligado",
+      "Off": "Desligado",
+      "SWING_OFF": "Desligado",
+      "on": "Ligado",
+      "On": "Ligado",
+      "SWING_ON": "Ligado",
+      "vertical": "Vertical",
+      "Vertical": "Vertical",
+      "SWING_VERTICAL": "Vertical",
+      "horizontal": "Horizontal",
+      "Horizontal": "Horizontal",
+      "SWING_HORIZONTAL": "Horizontal",
+      "both": "Ambos",
+      "Both": "Ambos",
+      "SWING_BOTH": "Ambos",
+      "unavailable": "Balanço"
+    },
+    "lock": {
+      "locked": "Bloqueado",
+      "unlocked": "Desbloqueado",
+      "code_required": "Código obrigatório",
+      "enter_code": "Insira o código",
+      "wrong_code": "Código incorreto"
+    },
+    "events": {
+      "hasDanger": "Alerta crítico",
+      "hasAlert": "Alerta",
+      "hasOverpowering": "Sobrecarga",
+      "hasOpenWindow": "Janela aberta",
+      "hasPresence": "Presença detectada",
+      "hasTimer": "Temporizador ativo"
+    },
+    "messages": {
+      "hvac_off_manual": "Desligado manualmente",
+      "hvac_off_auto_start_stop": "Desligado por início/parada automática",
+      "hvac_off_window_detection": "Desligado por detecção de janela",
+      "hvac_off_sleep_mode": "Desligado pelo modo dormir",
+      "hvac_off_safety_detection": "Desligado pelo modo de segurança",
+      "hvac_off_central_mode": "Desligado pelo modo central",
+      "safety_detected": "Modo de segurança detectado",
+      "overpowering_detected": "Sobrecarga detectada",
+      "target_temp_window_eco": "Temp. alvo: janela eco",
+      "target_temp_window_frost": "Temp. alvo: janela congelada",
+      "target_temp_power": "Temp. alvo: energia",
+      "target_temp_central_mode": "Temp. alvo: modo central",
+      "target_temp_activity_detected": "Temp. alvo: atividade detectada",
+      "target_temp_activity_not_detected": "Temp. alvo: sem atividade",
+      "target_temp_absence_detected": "Temp. alvo: ausência detectada",
+      "target_temp_timed_preset": "Preset cronometrado ativo",
+      "not_initialized": "Erro de inicialização",
+      "heating_failure": "Falha de aquecimento detectada",
+      "cooling_failure": "Falha de resfriamento detectada"
+    },
+    "actions": {
+      "decrease_temperature": "Diminuir setpoint",
+      "increase_temperature": "Aumentar setpoint",
+      "low_temperature": "Baixo",
+      "high_temperature": "Alto",
+      "open_fan": "Abrir ventilador",
+      "open_swing": "Abrir balanço",
+      "open_menu": "Abrir menu",
+      "open_power_info": "Mostrar indicadores de energia"
+    }
+  },
+  "dialog": {
+    "close": "Fechar",
+    "back": "Voltar",
+    "fan": {
+      "title": "Ventilação",
+      "description_auto": "O modo automático adapta automaticamente a ventilação às necessidades de aquecimento."
+    },
+    "swing": {
+      "title": "Balanço",
+      "vertical": "Vertical",
+      "horizontal": "Horizontal"
+    },
+    "hvac": {
+      "title": "Modo"
+    },
+    "preset": {
+      "title": "Preset"
+    },
+    "message": {
+      "title": "Mensagem"
+    },
+    "menu": {
+      "title": "Menu",
+      "regulation": "Regulação",
+      "boost": "Impulso temporário",
+      "history": "Histórico"
+    },
+    "history": {
+      "title": "Histórico",
+      "load": "Carregar",
+      "add": "Adicionar",
+      "add_entity": "Adicionar uma entidade",
+      "loading": "Carregando histórico...",
+      "empty": "Nenhum histórico para este período.",
+      "no_attributes": "Nenhum atributo selecionável.",
+      "tools": "Ferramentas",
+      "show_controls": "Mostrar controles de histórico",
+      "hide_controls": "Ocultar controles de histórico",
+      "fullscreen": "Tela cheia",
+      "exit_fullscreen": "Sair da tela cheia",
+      "sources": {
+        "current_temperature": "Temperatura atual",
+        "temperature": "Temperatura alvo",
+        "hvac_action": "Ação HVAC"
+      }
+    },
+    "boost": {
+      "title": "Impulso temporário",
+      "duration": "Duração em minutos",
+      "minutes": "min",
+      "hours": "h",
+      "start": "Iniciar",
+      "stop": "Parar",
+      "active": "Impulso ativo",
+      "remaining_unknown": "Tempo restante indisponível",
+      "preset": "Preset cronometrado",
+      "original_preset": "Preset anterior",
+      "start_description": "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior.",
+      "active_description": "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior.",
+      "active_description_with_preset": "Quando a contagem regressiva terminar, o termostato voltará ao modo anterior ({preset})."
+    }
+  },
+  "editor": {
+    "entity": "Entidade",
+    "name": "Nome",
+    "diagnostic_entity": "Entidade de diagnóstico",
+    "power_entity": "Entidade de energia",
+    "humidity_entity": "Entidade de umidade",
+    "temperature_entity": "Entidade de temperatura",
+    "theme": "Tema",
+    "display_mode": "Formato",
+    "primary_display": "Prioridade de exibição",
+    "disable_name": "Ocultar nome",
+    "hide_lock_button": "Ocultar botão de bloqueio",
+    "additional_dashboards": "Painéis adicionais",
+    "state_icons_layout": "Ícones de estado",
+    "tabs": {
+      "general": "Geral",
+      "presentation": "Apresentação"
+    },
+    "options": {
+      "theme": {
+        "flat": "Plano",
+        "liquid_glow": "Liquid Glow"
+      },
+      "display_mode": {
+        "classic": "Clássico",
+        "compact": "Compacto"
+      },
+      "primary_display": {
+        "setpoint": "Setpoint",
+        "sensors": "Sensores"
+      },
+      "layout_orientation": {
+        "horizontal": "Horizontal",
+        "vertical": "Vertical"
+      },
+      "additional_dashboards": {
+        "auto": "Automático",
+        "custom": "Personalizado",
+        "disabled": "Desabilitado"
+      }
+    }
+  }
+}
