@@ -6,13 +6,44 @@ import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
 import { localize } from "./localize/localize";
+import { ensureLanguage } from "./localize/loader.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
 import type { EquinoxViewModel } from "./types/view-model";
+
+// card.description is the only translation kept inlined; it is consumed at module load before fetch can complete.
+const CARD_DESCRIPTIONS: Record<string, string> = {
+  bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
+  ca: "Lovelace card for Versatile Thermostat and standard climate entities.",
+  cn: "Lovelace card for Versatile Thermostat and standard climate entities.",
+  cs: "Karta Lovelace pro Versatile Thermostat a standardní entity klimatizace.",
+  da: "Lovelace card for Versatile Thermostat and standard climate entities.",
+  de: "Lovelace-Karte für Versatile Thermostat und Standard-Klimageräte.",
+  el: "Κάρτα Lovelace για Versatile Thermostat και τυπικές οντότητες κλίματος.",
+  en: "Lovelace card for Versatile Thermostat and standard climate entities.",
+  es: "Tarjeta Lovelace para Termostato Versátil y entidades climáticas estándar.",
+  fi: "Lovelace-kortti Versatile Thermostat- ja vakioilmastoentiteeteille.",
+  fr: "Carte Lovelace pour Versatile Thermostat et les entités climate standard.",
+  hu: "Lovelace kártya a sokoldalú termosztáthoz és standard klímaentitásokhoz.",
+  it: "Scheda Lovelace per Termostato Versatile e entità climatiche standard.",
+  nl: "Lovelace-kaart voor Versatile Thermostat en standaard klimaatentiteiten.",
+  no: "Lovelace-kort for Versatile Thermostat og standard klimaenheter.",
+  pl: "Karta Lovelace dla Versatile Thermostat i standardowych jednostek klimatyzacyjnych.",
+  pt: "Placa Lovelace para Termostato Versátil e entidades climáticas padrão.",
+  ru: "Карточка Lovelace для Versatile Thermostat и стандартных сущностей климата.",
+  sk: "Karta Lovelace pre Versatile Thermostat a štandardné klimatizačné entity."
+};
+
+function cardDescription(lang: string): string {
+  const normalized = lang.toLowerCase().split("-")[0] || "en";
+  return CARD_DESCRIPTIONS[normalized] ?? CARD_DESCRIPTIONS.en;
+}
 
 export class EquinoxCard extends LitElement implements LovelaceCard {
   static properties = {
     hass: { attribute: false },
-    _validation: { state: true }
+    _validation: { state: true },
+    _translationsReady: { state: true },
+    _currentLang: { state: true }
   };
 
   static styles = css`
@@ -39,6 +70,10 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
   private _validation?: EquinoxConfigValidation;
   private _viewModel?: EquinoxViewModel;
+  private _translationsReady = false;
+  private _currentLang = "en";
+  // Tracks the language currently being fetched to avoid duplicate loads on rapid hass updates.
+  private _pendingLang: string | null = null;
 
   static getConfigElement(): HTMLElement {
     return document.createElement("equinox-card-editor");
@@ -59,6 +94,28 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
   protected willUpdate(): void {
     this._viewModel = this._buildViewModel();
+    this._syncTranslations();
+  }
+
+  private _syncTranslations(): void {
+    const raw = this.hass?.locale?.language ?? this.hass?.language ?? "en";
+    const activeLang = raw.toLowerCase().split("-")[0] || "en";
+
+    if (!this._translationsReady) {
+      // Load the active language plus the English fallback in parallel.
+      // ensureLanguage() is memoized, so repeat calls during hass updates are safe.
+      Promise.all([ensureLanguage(activeLang), ensureLanguage("en")]).then(() => {
+        this._translationsReady = true;
+        this._currentLang = activeLang;
+      });
+    } else if (activeLang !== this._currentLang && activeLang !== this._pendingLang) {
+      // Language changed at runtime: load in background, keep showing old language until ready.
+      this._pendingLang = activeLang;
+      ensureLanguage(activeLang).then(() => {
+        this._currentLang = activeLang;
+        this._pendingLang = null;
+      });
+    }
   }
 
   getCardSize(): number {
@@ -77,7 +134,12 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
   }
 
   protected render() {
-    const language = this.hass?.locale?.language ?? this.hass?.language;
+    // Hold rendering until the active language and English fallback are both available.
+    if (!this._translationsReady) {
+      return html`<ha-card style="visibility:hidden"></ha-card>`;
+    }
+
+    const language = this._currentLang;
 
     if (!this._validation) {
       return this._renderMessage(localize(language, "card.missing_entity"), true);
@@ -146,7 +208,7 @@ customCards
 customCards.push({
   type: CARD_TAG,
   name: CARD_NAME,
-  description: localize(navigator.language, "card.description"),
+  description: cardDescription(navigator.language),
   preview: true
 });
 
