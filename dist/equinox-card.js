@@ -10463,7 +10463,7 @@ var us = class extends w {
     `;
 	}
 	_renderCompactSelectors() {
-		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = ls(this.viewModel?.climate.hvacModes ?? [], Ft).filter((e) => A[e]), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = (this.viewModel?.climate.presetModes ?? []).filter((e) => e !== "none" && as[e]).length > 0, o = t && t !== "none" && as[t] ? as[t] : "mdi:knob", s = !!t && t !== "none" && !!as[t], c = this._hasFanControl(), l = this._hasSwingControl(), u = +!!i + +!!a + +!!c + +!!l;
+		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = ls(this.viewModel?.climate.hvacModes ?? [], Ft).filter((e) => A[e]), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = (this.viewModel?.climate.presetModes ?? []).filter((e) => e !== "none" && as[e]).length > 0, o = t && t !== "none" && as[t] ? as[t] : "mdi:hand-back-right-outline", s = !!t && t !== "none" && !!as[t], c = this._hasFanControl(), l = this._hasSwingControl(), u = +!!i + +!!a + +!!c + +!!l;
 		return u === 0 ? C : S`
       <div class="compact-selectors" style=${u < 4 ? `width: calc(100% / 3 * ${u}); margin-inline: auto;` : ""}>
         ${i ? S`

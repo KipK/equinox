@@ -1700,7 +1700,7 @@ export class EquinoxMainCard extends LitElement {
       (m) => m !== "none" && PRESET_ICONS[m]
     );
     const showPreset = availablePresets.length > 0;
-    const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:knob";
+    const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:hand-back-right-outline";
     const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
 
     const showFan = this._hasFanControl();
