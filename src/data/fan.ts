@@ -1,7 +1,7 @@
 export const FAN_MODE_ICONS: Record<string, string> = {
-  on: "mdi:fan",
-  On: "mdi:fan",
-  FAN_ON: "mdi:fan",
+  on: "mdi:fan-speed-2",
+  On: "mdi:fan-speed-2",
+  FAN_ON: "mdi:fan-speed-2",
   auto: "mdi:fan-auto",
   Auto: "mdi:fan-auto",
   FAN_AUTO: "mdi:fan-auto",
@@ -31,8 +31,8 @@ export const FAN_MODE_ICONS: Record<string, string> = {
   diffuse: "mdi:fan-chevron-down",
   Diffuse: "mdi:fan-chevron-down",
   FAN_DIFFUSE: "mdi:fan-chevron-down",
-  auto_fan_turbo: "mdi:fan",
-  Turbo: "mdi:fan"
+  auto_fan_turbo: "mdi:fan-speed-2",
+  Turbo: "mdi:fan-speed-2"
 };
 
 export const AUTO_FAN_MODES = ["auto_fan_none", "auto_fan_low", "auto_fan_medium", "auto_fan_high", "auto_fan_turbo"];

@@ -375,6 +375,11 @@ export const liquidGlowStyles = css`
     background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent);
   }
 
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan"] {
+    background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+    color: var(--primary-color);
+  }
+
   :host([theme="liquid_glow"]) ha-control-button[active][subtle] .btn-icon {
     background: transparent;
     box-shadow: none;

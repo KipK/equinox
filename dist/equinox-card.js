@@ -1380,9 +1380,9 @@ async function St(e, t) {
 //#endregion
 //#region src/data/fan.ts
 var Ct = {
-	on: "mdi:fan",
-	On: "mdi:fan",
-	FAN_ON: "mdi:fan",
+	on: "mdi:fan-speed-2",
+	On: "mdi:fan-speed-2",
+	FAN_ON: "mdi:fan-speed-2",
 	auto: "mdi:fan-auto",
 	Auto: "mdi:fan-auto",
 	FAN_AUTO: "mdi:fan-auto",
@@ -1412,8 +1412,8 @@ var Ct = {
 	diffuse: "mdi:fan-chevron-down",
 	Diffuse: "mdi:fan-chevron-down",
 	FAN_DIFFUSE: "mdi:fan-chevron-down",
-	auto_fan_turbo: "mdi:fan",
-	Turbo: "mdi:fan"
+	auto_fan_turbo: "mdi:fan-speed-2",
+	Turbo: "mdi:fan-speed-2"
 }, wt = [
 	"auto_fan_none",
 	"auto_fan_low",
@@ -1832,6 +1832,11 @@ var Ct = {
     background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent);
   }
 
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan"] {
+    background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+    color: var(--primary-color);
+  }
+
   :host([theme="liquid_glow"]) ha-control-button[active][subtle] .btn-icon {
     background: transparent;
     box-shadow: none;
@@ -2108,7 +2113,8 @@ var kt = class extends D {
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.10);
+      background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+      color: var(--primary-color);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2128,18 +2134,19 @@ var kt = class extends D {
     }
 
     :host([theme="liquid_glow"]) .fan-option[active] {
+      --equinox-fan-active-tone: var(--primary-color);
       position: relative;
       z-index: 1;
       box-sizing: border-box;
-      border: 1px solid color-mix(in srgb, var(--primary-color) 88%, transparent);
+      border: 1px solid color-mix(in srgb, var(--equinox-fan-active-tone) 88%, transparent);
       background:
-        linear-gradient(180deg, color-mix(in srgb, var(--primary-text-color) 10%, transparent) 0%, transparent 40%),
-        linear-gradient(180deg, color-mix(in srgb, var(--primary-color) 24%, transparent) 0%, transparent 58%),
-        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 86%, var(--primary-color) 14%));
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-fan-active-tone) 24%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 86%, var(--equinox-fan-active-tone) 14%));
       box-shadow:
-        inset 0 1px 0 color-mix(in srgb, var(--primary-text-color) 18%, transparent),
-        inset 0 -16px 24px color-mix(in srgb, var(--primary-color) 18%, transparent),
-        0 0 10px color-mix(in srgb, var(--primary-color) 28%, transparent);
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 18%, transparent),
+        inset 0 -16px 24px color-mix(in srgb, var(--equinox-fan-active-tone) 18%, transparent),
+        0 0 10px color-mix(in srgb, var(--equinox-fan-active-tone) 28%, transparent);
       /* .fan-option base height is 45px and .fan-grid has no explicit height,
          so calc(100% + 2px) collapses to auto. Use explicit base + 2px extension. */
       margin-block: -1px;
@@ -2168,7 +2175,7 @@ var kt = class extends D {
 
     :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon {
       background: transparent;
-      color: var(--primary-color);
+      color: var(--equinox-fan-active-tone);
     }
 
     :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
@@ -2177,15 +2184,15 @@ var kt = class extends D {
 
     @media (prefers-color-scheme: light) {
       :host([theme="liquid_glow"]) .fan-option[active] {
-        border-color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+        border-color: color-mix(in srgb, var(--equinox-fan-active-tone) 72%, transparent);
         background:
-          linear-gradient(180deg, color-mix(in srgb, var(--primary-text-color) 6%, transparent) 0%, transparent 40%),
-          linear-gradient(180deg, color-mix(in srgb, var(--primary-color) 16%, transparent) 0%, transparent 58%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--primary-color) 10%));
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent) 0%, transparent 58%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-fan-active-tone) 10%));
         box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--primary-text-color) 10%, transparent),
-          inset 0 -12px 20px color-mix(in srgb, var(--primary-color) 10%, transparent),
-          0 0 9px color-mix(in srgb, var(--primary-color) 16%, transparent);
+          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+          inset 0 -12px 20px color-mix(in srgb, var(--equinox-fan-active-tone) 10%, transparent),
+          0 0 9px color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent);
       }
 
       :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
@@ -2222,7 +2229,8 @@ var kt = class extends D {
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.10);
+      background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+      color: var(--primary-color);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2268,7 +2276,7 @@ var kt = class extends D {
 		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? this.viewModel.vt.fan.currentAutoFanMode : this.viewModel?.climate.fanMode;
 	}
 	_fanIcon(e) {
-		return Ct[e] ?? "mdi:fan";
+		return Ct[e] ?? "mdi:fan-speed-2";
 	}
 	_fanLabel(e) {
 		let t = O(this.language, `main.fan.${e}`);
@@ -2355,7 +2363,7 @@ var At = [
 	heat: "mdi:fire",
 	cool: "mdi:snowflake",
 	dry: "mdi:water-percent",
-	fan_only: "mdi:fan",
+	fan_only: "mdi:fan-speed-2",
 	off: "mdi:power"
 }, Mt = {
 	heat: "heat",
@@ -8711,7 +8719,7 @@ var Ho = [
 	heat: "mdi:fire",
 	cool: "mdi:snowflake",
 	dry: "mdi:water-percent",
-	fan_only: "mdi:fan",
+	fan_only: "mdi:fan-speed-2",
 	off: "mdi:power"
 }, Go = {
 	frost: "mdi:snowflake",
@@ -8845,7 +8853,7 @@ var Ho = [
 		tone: "cool"
 	},
 	fan: {
-		icon: "mdi:fan",
+		icon: "mdi:fan-speed-2",
 		tone: "auto"
 	},
 	idle: { tone: "muted" },
@@ -9517,7 +9525,21 @@ var Xo = class extends D {
       }
 
       .compact-selectors ha-control-button.fan-selector {
-        --control-button-icon-color: var(--equinox-text-color);
+        --control-button-icon-color: var(--primary-color);
+      }
+
+      .compact-selectors ha-control-button.fan-selector .btn-icon {
+        color: var(--primary-color);
+        background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+      }
+
+      .fan-icon-auto {
+        --mdc-icon-size: 22px;
+        transform: translate(-1px, -1px);
+      }
+
+      .fan .fan-icon-speed {
+        transform: translateY(-1px);
       }
 
       .btn-icon {
@@ -9554,8 +9576,8 @@ var Xo = class extends D {
         align-items: center;
         justify-content: center;
         border: 0;
-        background: transparent;
-        color: var(--equinox-text-color);
+        background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+        color: var(--primary-color);
         padding: 0;
         cursor: pointer;
       }
@@ -9606,7 +9628,7 @@ var Xo = class extends D {
 
       .menu:hover,
       .fan:hover {
-        background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
+        background: color-mix(in srgb, var(--primary-color) 22%, transparent);
       }
 
       .meter-legacy {
@@ -10172,8 +10194,8 @@ var Xo = class extends D {
                 ?disabled=${this._isControlDisabled()}
                 @click=${(e) => this._openDialog("fan", e)}
               >
-                <span class="btn-icon">
-                  <ha-icon .icon=${this._fanIcon()}></ha-icon>
+                <span class="btn-icon" tone="fan">
+                  <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
                 </span>
               </ha-control-button>
             ` : T}
@@ -10210,7 +10232,7 @@ var Xo = class extends D {
 	_renderFanButton() {
 		return w`
       <button class="fan" title=${O(this._language(), "main.actions.open_fan")} aria-label=${O(this._language(), "main.actions.open_fan")} @click=${(e) => this._openDialog("fan", e)}>
-        <ha-icon .icon=${this._fanIcon()}></ha-icon>
+        <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
         <span class="fan-label">${this._fanLabel()}</span>
       </button>
     `;
@@ -10305,7 +10327,11 @@ var Xo = class extends D {
 	}
 	_fanIcon() {
 		let e = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
-		return e ? Ct[e] ?? "mdi:fan" : "mdi:fan";
+		return e ? Ct[e] ?? "mdi:fan-speed-2" : "mdi:fan-speed-2";
+	}
+	_fanIconClass() {
+		let e = this._fanIcon();
+		return e === "mdi:fan-auto" ? "fan-icon-auto" : e === "mdi:fan-speed-2" ? "fan-icon-speed" : "";
 	}
 	_fanLabel() {
 		let e = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode ?? (this.viewModel?.climate.fanModes.includes("auto") ? "auto" : void 0);

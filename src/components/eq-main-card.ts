@@ -25,7 +25,7 @@ const HVAC_ICONS: Record<string, string> = {
   heat: "mdi:fire",
   cool: "mdi:snowflake",
   dry: "mdi:water-percent",
-  fan_only: "mdi:fan",
+  fan_only: "mdi:fan-speed-2",
   off: "mdi:power"
 };
 
@@ -86,7 +86,7 @@ const HVAC_ACTION_ICONS: Record<string, { icon?: string; tone: string }> = {
   heating: { icon: "mdi:fire", tone: "heat" },
   cooling: { icon: "mdi:snowflake", tone: "cool" },
   drying: { icon: "mdi:water-percent", tone: "cool" },
-  fan: { icon: "mdi:fan", tone: "auto" },
+  fan: { icon: "mdi:fan-speed-2", tone: "auto" },
   idle: { tone: "muted" },
   defrosting: { icon: "mdi:snowflake", tone: "cool" }
 };
@@ -744,7 +744,21 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .compact-selectors ha-control-button.fan-selector {
-        --control-button-icon-color: var(--equinox-text-color);
+        --control-button-icon-color: var(--primary-color);
+      }
+
+      .compact-selectors ha-control-button.fan-selector .btn-icon {
+        color: var(--primary-color);
+        background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+      }
+
+      .fan-icon-auto {
+        --mdc-icon-size: 22px;
+        transform: translate(-1px, -1px);
+      }
+
+      .fan .fan-icon-speed {
+        transform: translateY(-1px);
       }
 
       .btn-icon {
@@ -781,8 +795,8 @@ export class EquinoxMainCard extends LitElement {
         align-items: center;
         justify-content: center;
         border: 0;
-        background: transparent;
-        color: var(--equinox-text-color);
+        background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+        color: var(--primary-color);
         padding: 0;
         cursor: pointer;
       }
@@ -833,7 +847,7 @@ export class EquinoxMainCard extends LitElement {
 
       .menu:hover,
       .fan:hover {
-        background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
+        background: color-mix(in srgb, var(--primary-color) 22%, transparent);
       }
 
       .meter-legacy {
@@ -1559,8 +1573,8 @@ export class EquinoxMainCard extends LitElement {
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("fan", event)}
               >
-                <span class="btn-icon">
-                  <ha-icon .icon=${this._fanIcon()}></ha-icon>
+                <span class="btn-icon" tone="fan">
+                  <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
                 </span>
               </ha-control-button>
             `
@@ -1630,7 +1644,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderFanButton(): TemplateResult {
     return html`
       <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${(event: Event) => this._openDialog("fan", event)}>
-        <ha-icon .icon=${this._fanIcon()}></ha-icon>
+        <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
         <span class="fan-label">${this._fanLabel()}</span>
       </button>
     `;
@@ -1847,7 +1861,17 @@ export class EquinoxMainCard extends LitElement {
   private _fanIcon(): string {
     const mode = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
 
-    return mode ? (FAN_MODE_ICONS[mode] ?? "mdi:fan") : "mdi:fan";
+    return mode ? (FAN_MODE_ICONS[mode] ?? "mdi:fan-speed-2") : "mdi:fan-speed-2";
+  }
+
+  private _fanIconClass(): string {
+    const icon = this._fanIcon();
+
+    if (icon === "mdi:fan-auto") {
+      return "fan-icon-auto";
+    }
+
+    return icon === "mdi:fan-speed-2" ? "fan-icon-speed" : "";
   }
 
   private _fanLabel(): string {

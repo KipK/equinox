@@ -12,7 +12,7 @@ const HVAC_ICONS: Record<string, string> = {
   heat: "mdi:fire",
   cool: "mdi:snowflake",
   dry: "mdi:water-percent",
-  fan_only: "mdi:fan",
+  fan_only: "mdi:fan-speed-2",
   off: "mdi:power"
 };
 

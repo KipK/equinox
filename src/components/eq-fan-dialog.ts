@@ -59,7 +59,8 @@ export class EquinoxFanDialog extends LitElement {
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.10);
+      background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+      color: var(--primary-color);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -79,18 +80,19 @@ export class EquinoxFanDialog extends LitElement {
     }
 
     :host([theme="liquid_glow"]) .fan-option[active] {
+      --equinox-fan-active-tone: var(--primary-color);
       position: relative;
       z-index: 1;
       box-sizing: border-box;
-      border: 1px solid color-mix(in srgb, var(--primary-color) 88%, transparent);
+      border: 1px solid color-mix(in srgb, var(--equinox-fan-active-tone) 88%, transparent);
       background:
-        linear-gradient(180deg, color-mix(in srgb, var(--primary-text-color) 10%, transparent) 0%, transparent 40%),
-        linear-gradient(180deg, color-mix(in srgb, var(--primary-color) 24%, transparent) 0%, transparent 58%),
-        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 86%, var(--primary-color) 14%));
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--equinox-fan-active-tone) 24%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 86%, var(--equinox-fan-active-tone) 14%));
       box-shadow:
-        inset 0 1px 0 color-mix(in srgb, var(--primary-text-color) 18%, transparent),
-        inset 0 -16px 24px color-mix(in srgb, var(--primary-color) 18%, transparent),
-        0 0 10px color-mix(in srgb, var(--primary-color) 28%, transparent);
+        inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 18%, transparent),
+        inset 0 -16px 24px color-mix(in srgb, var(--equinox-fan-active-tone) 18%, transparent),
+        0 0 10px color-mix(in srgb, var(--equinox-fan-active-tone) 28%, transparent);
       /* .fan-option base height is 45px and .fan-grid has no explicit height,
          so calc(100% + 2px) collapses to auto. Use explicit base + 2px extension. */
       margin-block: -1px;
@@ -119,7 +121,7 @@ export class EquinoxFanDialog extends LitElement {
 
     :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon {
       background: transparent;
-      color: var(--primary-color);
+      color: var(--equinox-fan-active-tone);
     }
 
     :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
@@ -128,15 +130,15 @@ export class EquinoxFanDialog extends LitElement {
 
     @media (prefers-color-scheme: light) {
       :host([theme="liquid_glow"]) .fan-option[active] {
-        border-color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+        border-color: color-mix(in srgb, var(--equinox-fan-active-tone) 72%, transparent);
         background:
-          linear-gradient(180deg, color-mix(in srgb, var(--primary-text-color) 6%, transparent) 0%, transparent 40%),
-          linear-gradient(180deg, color-mix(in srgb, var(--primary-color) 16%, transparent) 0%, transparent 58%),
-          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--primary-color) 10%));
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 6%, transparent) 0%, transparent 40%),
+          linear-gradient(180deg, color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent) 0%, transparent 58%),
+          linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 90%, var(--equinox-fan-active-tone) 10%));
         box-shadow:
-          inset 0 1px 0 color-mix(in srgb, var(--primary-text-color) 10%, transparent),
-          inset 0 -12px 20px color-mix(in srgb, var(--primary-color) 10%, transparent),
-          0 0 9px color-mix(in srgb, var(--primary-color) 16%, transparent);
+          inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 10%, transparent),
+          inset 0 -12px 20px color-mix(in srgb, var(--equinox-fan-active-tone) 10%, transparent),
+          0 0 9px color-mix(in srgb, var(--equinox-fan-active-tone) 16%, transparent);
       }
 
       :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
@@ -173,7 +175,8 @@ export class EquinoxFanDialog extends LitElement {
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba(128, 128, 128, 0.10);
+      background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+      color: var(--primary-color);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -239,7 +242,7 @@ export class EquinoxFanDialog extends LitElement {
   }
 
   private _fanIcon(mode: string): string {
-    return FAN_MODE_ICONS[mode] ?? "mdi:fan";
+    return FAN_MODE_ICONS[mode] ?? "mdi:fan-speed-2";
   }
 
   private _fanLabel(mode: string): string {
