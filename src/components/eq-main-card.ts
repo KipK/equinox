@@ -1120,6 +1120,7 @@ export class EquinoxMainCard extends LitElement {
         .config=${this.config}
         .language=${this._language()}
         .floating=${true}
+        .closeOnLeave=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-fan-dialog>
@@ -1130,6 +1131,7 @@ export class EquinoxMainCard extends LitElement {
         .config=${this.config}
         .language=${this._language()}
         .floating=${true}
+        .closeOnLeave=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-swing-dialog>
@@ -1140,6 +1142,7 @@ export class EquinoxMainCard extends LitElement {
         .config=${this.config}
         .language=${this._language()}
         .floating=${true}
+        .closeOnLeave=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-hvac-dialog>
@@ -1150,6 +1153,7 @@ export class EquinoxMainCard extends LitElement {
         .config=${this.config}
         .language=${this._language()}
         .floating=${true}
+        .closeOnLeave=${true}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-preset-dialog>

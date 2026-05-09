@@ -27,6 +27,7 @@ export class EquinoxPresetDialog extends LitElement {
     config: { attribute: false },
     language: {},
     floating: { type: Boolean },
+    closeOnLeave: { type: Boolean },
     anchor: { attribute: false }
   };
 
@@ -374,6 +375,7 @@ export class EquinoxPresetDialog extends LitElement {
   config?: EquinoxCardConfig;
   language?: string;
   floating = false;
+  closeOnLeave = false;
   anchor?: { element: HTMLElement };
 
   protected willUpdate(): void {
@@ -456,6 +458,7 @@ export class EquinoxPresetDialog extends LitElement {
         .title=${title}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >

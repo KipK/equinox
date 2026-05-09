@@ -2145,10 +2145,18 @@ var Et = [
 		super.connectedCallback(), document.addEventListener("keydown", this._handleKeyDown), window.addEventListener("resize", this._handleResize), window.addEventListener("scroll", this._handleScroll, !0);
 	}
 	disconnectedCallback() {
-		super.disconnectedCallback(), document.removeEventListener("keydown", this._handleKeyDown), window.removeEventListener("resize", this._handleResize), window.removeEventListener("scroll", this._handleScroll, !0);
+		super.disconnectedCallback(), this._clearCloseOnLeaveTimer(), document.removeEventListener("keydown", this._handleKeyDown), window.removeEventListener("resize", this._handleResize), window.removeEventListener("scroll", this._handleScroll, !0);
+	}
+	_clearCloseOnLeaveTimer() {
+		this._closeOnLeaveTimer !== void 0 && (window.clearTimeout(this._closeOnLeaveTimer), this._closeOnLeaveTimer = void 0);
+	}
+	_scheduleCloseOnLeave() {
+		this.closeOnLeave && (this._clearCloseOnLeaveTimer(), this._closeOnLeaveTimer = window.setTimeout(() => {
+			this._closeOnLeaveTimer = void 0, this._dispatchClose();
+		}, 500));
 	}
 	_dispatchClose() {
-		this.dispatchEvent(new CustomEvent("eq-dialog-close", {
+		this._clearCloseOnLeaveTimer(), this.dispatchEvent(new CustomEvent("eq-dialog-close", {
 			bubbles: !0,
 			composed: !0
 		}));
@@ -2160,7 +2168,7 @@ var Et = [
 		}));
 	}
 	updated() {
-		this.open && this.floating && this.updateComplete.then(() => this._positionPopover());
+		this.open || this._clearCloseOnLeaveTimer(), this.open && this.floating && this.updateComplete.then(() => this._positionPopover());
 	}
 	_positionPopover() {
 		let e = this.renderRoot.querySelector(".panel.popover");
@@ -2184,7 +2192,13 @@ var Et = [
 		let e = T(this.language, "dialog.close"), t = T(this.language, "dialog.back"), n = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", r = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
 		return S`
       <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
-      <div class=${r} style=${n} @click=${(e) => e.stopPropagation()} @mouseleave=${this.closeOnLeave ? this._dispatchClose : void 0}>
+      <div
+        class=${r}
+        style=${n}
+        @click=${(e) => e.stopPropagation()}
+        @mouseenter=${() => this._clearCloseOnLeaveTimer()}
+        @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : void 0}
+      >
         <div class="header">
           ${this.showBack ? S`
                 <ha-icon-button class="back-btn" .label=${t} @click=${this._dispatchBack}>
@@ -2208,7 +2222,7 @@ customElements.get("eq-dialog") || customElements.define("eq-dialog", It);
 //#region src/components/eq-fan-dialog.ts
 var Lt = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
 	static {
 		this.properties = {
@@ -2218,6 +2232,7 @@ var Lt = class extends w {
 			config: { attribute: !1 },
 			language: {},
 			floating: { type: Boolean },
+			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 }
 		};
 	}
@@ -2453,6 +2468,7 @@ var Lt = class extends w {
         .title=${n}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
@@ -2503,7 +2519,7 @@ customElements.get("eq-fan-dialog") || customElements.define("eq-fan-dialog", Lt
 //#region src/components/eq-hvac-dialog.ts
 var Rt = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
 	static {
 		this.properties = {
@@ -2513,6 +2529,7 @@ var Rt = class extends w {
 			config: { attribute: !1 },
 			language: {},
 			floating: { type: Boolean },
+			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 }
 		};
 	}
@@ -2875,6 +2892,7 @@ var Rt = class extends w {
         .title=${n}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
@@ -2920,7 +2938,7 @@ function zt(e) {
 }
 var Bt = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
 	static {
 		this.properties = {
@@ -2930,6 +2948,7 @@ var Bt = class extends w {
 			config: { attribute: !1 },
 			language: {},
 			floating: { type: Boolean },
+			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 }
 		};
 	}
@@ -3188,6 +3207,7 @@ var Bt = class extends w {
         .title=${r}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
@@ -3248,7 +3268,7 @@ var Vt = [
 	boost: "mdi:rocket-launch-outline"
 }, Ut = class extends w {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
 	static {
 		this.properties = {
@@ -3258,6 +3278,7 @@ var Vt = [
 			config: { attribute: !1 },
 			language: {},
 			floating: { type: Boolean },
+			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 }
 		};
 	}
@@ -3636,6 +3657,7 @@ var Vt = [
         .title=${n}
         .language=${this.language}
         .floating=${this.floating}
+        .closeOnLeave=${this.closeOnLeave}
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
@@ -10440,6 +10462,7 @@ var ts = class extends w {
         .config=${this.config}
         .language=${this._language()}
         .floating=${!0}
+        .closeOnLeave=${!0}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => {
 			this._activeDialog = null;
@@ -10452,6 +10475,7 @@ var ts = class extends w {
         .config=${this.config}
         .language=${this._language()}
         .floating=${!0}
+        .closeOnLeave=${!0}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => {
 			this._activeDialog = null;
@@ -10464,6 +10488,7 @@ var ts = class extends w {
         .config=${this.config}
         .language=${this._language()}
         .floating=${!0}
+        .closeOnLeave=${!0}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => {
 			this._activeDialog = null;
@@ -10476,6 +10501,7 @@ var ts = class extends w {
         .config=${this.config}
         .language=${this._language()}
         .floating=${!0}
+        .closeOnLeave=${!0}
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => {
 			this._activeDialog = null;

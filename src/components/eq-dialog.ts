@@ -119,6 +119,7 @@ export class EquinoxDialog extends LitElement {
   floating = false;
   closeOnLeave = false;
   anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
+  private _closeOnLeaveTimer?: number;
 
   private readonly _handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && this.open) {
@@ -147,12 +148,35 @@ export class EquinoxDialog extends LitElement {
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
+    this._clearCloseOnLeaveTimer();
     document.removeEventListener("keydown", this._handleKeyDown);
     window.removeEventListener("resize", this._handleResize);
     window.removeEventListener("scroll", this._handleScroll, true);
   }
 
+  private _clearCloseOnLeaveTimer(): void {
+    if (this._closeOnLeaveTimer === undefined) {
+      return;
+    }
+
+    window.clearTimeout(this._closeOnLeaveTimer);
+    this._closeOnLeaveTimer = undefined;
+  }
+
+  private _scheduleCloseOnLeave(): void {
+    if (!this.closeOnLeave) {
+      return;
+    }
+
+    this._clearCloseOnLeaveTimer();
+    this._closeOnLeaveTimer = window.setTimeout(() => {
+      this._closeOnLeaveTimer = undefined;
+      this._dispatchClose();
+    }, 500);
+  }
+
   private _dispatchClose(): void {
+    this._clearCloseOnLeaveTimer();
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
   }
 
@@ -161,6 +185,10 @@ export class EquinoxDialog extends LitElement {
   }
 
   protected updated(): void {
+    if (!this.open) {
+      this._clearCloseOnLeaveTimer();
+    }
+
     if (this.open && this.floating) {
       void this.updateComplete.then(() => this._positionPopover());
     }
@@ -236,15 +264,21 @@ export class EquinoxDialog extends LitElement {
 
     return html`
       <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
-      <div class=${panelClass} style=${popoverStyle} @click=${(e: Event) => e.stopPropagation()} @mouseleave=${this.closeOnLeave ? this._dispatchClose : undefined}>
+      <div
+        class=${panelClass}
+        style=${popoverStyle}
+        @click=${(e: Event) => e.stopPropagation()}
+        @mouseenter=${() => this._clearCloseOnLeaveTimer()}
+        @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : undefined}
+      >
         <div class="header">
           ${this.showBack
-            ? html`
+        ? html`
                 <ha-icon-button class="back-btn" .label=${backLabel} @click=${this._dispatchBack}>
                   <ha-icon icon="mdi:chevron-left"></ha-icon>
                 </ha-icon-button>
               `
-            : nothing}
+        : nothing}
           <span class="header-title">${this.title}</span>
           <ha-icon-button class="close-btn" .label=${closeLabel} @click=${this._dispatchClose}>
             <ha-icon icon="mdi:close"></ha-icon>
