@@ -3,7 +3,7 @@ import { css } from "lit";
 export const liquidGlowStyles = css`
   :host([theme="liquid_glow"]) {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
-    --equinox-panel-bg: var(--equinox-liquid-panel-bg, var(--secondary-background-color));
+    --equinox-panel-bg: var(var(--secondary-background-color));
     --equinox-control-bg: var(--equinox-liquid-control-bg, var(--secondary-background-color));
     --equinox-control-active-bg: var(--equinox-liquid-control-active-bg, var(--primary-color));
     --equinox-border-color: var(--equinox-liquid-border-color, var(--divider-color));
@@ -138,6 +138,8 @@ export const liquidGlowStyles = css`
       --equinox-liquid-line-opacity-min: 0.82;
       --equinox-liquid-halo-opacity-min: 0.36;
       --equinox-liquid-halo-opacity-max: 0.72;
+      --equinox-panel-bg: var(--equinox-card-bg);
+      --equinox-control-bg: var(--equinox-card-bg);
     }
 
     :host([theme="liquid_glow"]) ha-card::after {

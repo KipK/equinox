@@ -21,4 +21,11 @@ export const flatStyles = css`
     --equinox-control-radius: 8px;
     --equinox-shadow: var(--ha-card-box-shadow, 0 1px 2px rgb(0 0 0 / 34%));
   }
+
+  @media (prefers-color-scheme: light) {
+    :host {
+      --equinox-panel-bg: var(--equinox-card-bg);
+      --equinox-control-bg: var(--equinox-card-bg);
+    }
+  }
 `;
