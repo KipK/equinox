@@ -71,6 +71,9 @@
       "FAN_MIDDLE": "Middle",
       "high": "High",
       "FAN_HIGH": "High",
+      "top": "Top",
+      "Top": "Top",
+      "FAN_TOP": "Top",
       "off": "Off",
       "Off": "Off",
       "FAN_OFF": "Off",
@@ -91,6 +94,24 @@
       "High": "High",
       "Turbo": "Turbo",
       "unavailable": "Fan"
+    },
+    "swing": {
+      "off": "Off",
+      "Off": "Off",
+      "SWING_OFF": "Off",
+      "on": "On",
+      "On": "On",
+      "SWING_ON": "On",
+      "vertical": "Vertical",
+      "Vertical": "Vertical",
+      "SWING_VERTICAL": "Vertical",
+      "horizontal": "Horizontal",
+      "Horizontal": "Horizontal",
+      "SWING_HORIZONTAL": "Horizontal",
+      "both": "Both",
+      "Both": "Both",
+      "SWING_BOTH": "Both",
+      "unavailable": "Swing"
     },
     "lock": {
       "locked": "Locked",
@@ -131,7 +152,10 @@
     "actions": {
       "decrease_temperature": "Decrease setpoint",
       "increase_temperature": "Increase setpoint",
+      "low_temperature": "Low",
+      "high_temperature": "High",
       "open_fan": "Open fan",
+      "open_swing": "Open swing",
       "open_menu": "Open menu",
       "open_power_info": "Show power indicators"
     }
@@ -142,6 +166,11 @@
     "fan": {
       "title": "Ventilation",
       "description_auto": "Auto mode automatically adapts ventilation to heating needs."
+    },
+    "swing": {
+      "title": "Swing",
+      "vertical": "Vertical",
+      "horizontal": "Horizontal"
     },
     "hvac": {
       "title": "Mode"

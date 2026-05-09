@@ -22,8 +22,11 @@ Equinox is in early implementation. The current codebase provides:
 - MVP configuration typing and validation;
 - a minimal placeholder card render.
 
-The complete thermostat UI, climate state mapping, VT-specific state mapping,
-service actions, overlays, and dashboards are implemented step by step.
+The thermostat UI, climate state mapping, VT-specific state mapping, service
+actions, overlays, and dashboards are implemented step by step. Standard
+Home Assistant climate entities can expose only the controls they support:
+HVAC modes, presets, fan modes, swing modes, and heat/cool target ranges are
+rendered conditionally from the entity attributes.
 
 ## Build
 

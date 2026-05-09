@@ -115,6 +115,10 @@ export function buildClimateViewModel(
     presetMode,
     fanMode: asString(attributes.fan_mode),
     fanModes: asStringArray(attributes.fan_modes),
+    swingMode: asString(attributes.swing_mode),
+    swingModes: asStringArray(attributes.swing_modes),
+    swingHorizontalMode: asString(attributes.swing_horizontal_mode),
+    swingHorizontalModes: asStringArray(attributes.swing_horizontal_modes),
     minTemp: asNumber(attributes.min_temp),
     maxTemp: asNumber(attributes.max_temp),
     targetTempStep: firstDefined(

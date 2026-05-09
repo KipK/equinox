@@ -134,6 +134,39 @@ export async function setFanMode(context: EquinoxActionContext, fanMode: string)
   });
 }
 
+export async function setSwingMode(context: EquinoxActionContext, swingMode: string): Promise<EquinoxActionResult> {
+  if (isLocked(context)) {
+    return lockedResult();
+  }
+
+  if (!context.viewModel?.climate.swingModes.includes(swingMode)) {
+    return unsupportedResult();
+  }
+
+  return callService(context, "climate", "set_swing_mode", {
+    entity_id: context.entityId,
+    swing_mode: swingMode
+  });
+}
+
+export async function setSwingHorizontalMode(
+  context: EquinoxActionContext,
+  swingMode: string
+): Promise<EquinoxActionResult> {
+  if (isLocked(context)) {
+    return lockedResult();
+  }
+
+  if (!context.viewModel?.climate.swingHorizontalModes.includes(swingMode)) {
+    return unsupportedResult();
+  }
+
+  return callService(context, "climate", "set_swing_horizontal_mode", {
+    entity_id: context.entityId,
+    swing_horizontal_mode: swingMode
+  });
+}
+
 export async function setTimedPreset(
   context: EquinoxActionContext,
   preset: string,

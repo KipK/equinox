@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unlock as unlockThermostat } from "../data/actions";
+import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
 import { FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
@@ -11,6 +12,7 @@ import type { EquinoxVtMessage } from "../types/vt";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-fan-dialog";
 import "./eq-hvac-dialog";
+import "./eq-swing-dialog";
 import "./eq-preset-dialog";
 import "./eq-menu-dialog";
 import "./eq-boost-dialog";
@@ -18,16 +20,7 @@ import "./eq-history-dialog";
 import "./eq-lock-dialog";
 import "./eq-dialog";
 
-const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
 const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
-
-const HVAC_ICONS: Record<string, string> = {
-  heat: "mdi:fire",
-  cool: "mdi:snowflake",
-  dry: "mdi:water-percent",
-  fan_only: "mdi:fan-speed-2",
-  off: "mdi:power"
-};
 
 const PRESET_ICONS: Record<string, string> = {
   frost: "mdi:snowflake",
@@ -354,8 +347,10 @@ export class EquinoxMainCard extends LitElement {
 
       .state-rail .lock,
       .state-rail .fan,
+      .state-rail .swing,
       .state-rail .menu,
       .left-rail .fan,
+      .left-rail .swing,
       .left-rail .power-info,
       .state-rail .power-info {
         flex: 0 0 auto;
@@ -365,7 +360,9 @@ export class EquinoxMainCard extends LitElement {
       .state-rail .action-icon,
       .state-rail .lock,
       .state-rail .fan,
+      .state-rail .swing,
       .left-rail .fan,
+      .left-rail .swing,
       .left-rail .power-info-button,
       .state-rail .power-info-button {
         width: var(--rail-icon-size);
@@ -381,8 +378,10 @@ export class EquinoxMainCard extends LitElement {
       .state-rail .action-icon ha-icon,
       .state-rail .lock ha-icon,
       .state-rail .fan ha-icon,
+      .state-rail .swing ha-icon,
       .state-rail .menu ha-icon,
       .left-rail .fan ha-icon,
+      .left-rail .swing ha-icon,
       .left-rail .power-info-button ha-icon,
       .state-rail .power-info-button ha-icon {
         --mdc-icon-size: var(--rail-icon-inner-size);
@@ -447,6 +446,49 @@ export class EquinoxMainCard extends LitElement {
         --mdc-icon-size: 18px;
         width: 18px;
         height: 18px;
+      }
+
+      .range-setpoint-control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(8px, 3cqi, 14px);
+        min-width: 0;
+      }
+
+      .range-bound {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .range-label {
+        color: var(--equinox-muted-color);
+        font-size: clamp(9px, 3cqi, 11px);
+        font-weight: var(--ha-font-weight-medium, 500);
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .range-bound .setpoint-control {
+        gap: clamp(3px, 1.2cqi, 5px);
+      }
+
+      .range-bound .step {
+        width: clamp(24px, 7cqi, 30px);
+        height: clamp(24px, 7cqi, 30px);
+      }
+
+      .range-bound .step ha-icon {
+        --mdc-icon-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+
+      .range-bound .target {
+        font-size: clamp(18px, 6.5cqi, 26px);
       }
 
       .target {
@@ -743,11 +785,13 @@ export class EquinoxMainCard extends LitElement {
         overflow: hidden;
       }
 
-      .compact-selectors ha-control-button.fan-selector {
+      .compact-selectors ha-control-button.fan-selector,
+      .compact-selectors ha-control-button.swing-selector {
         --control-button-icon-color: var(--primary-color);
       }
 
-      .compact-selectors ha-control-button.fan-selector .btn-icon {
+      .compact-selectors ha-control-button.fan-selector .btn-icon,
+      .compact-selectors ha-control-button.swing-selector .btn-icon {
         color: var(--primary-color);
         background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       }
@@ -788,7 +832,8 @@ export class EquinoxMainCard extends LitElement {
         min-height: 47px;
       }
 
-      .fan {
+      .fan,
+      .swing {
         width: 36px;
         height: 40px;
         display: inline-flex;
@@ -801,12 +846,14 @@ export class EquinoxMainCard extends LitElement {
         cursor: pointer;
       }
 
-      .status .fan {
+      .status .fan,
+      .status .swing {
         width: 26px;
         height: 26px;
       }
 
-      .fan-label {
+      .fan-label,
+      .swing-label {
         display: none;
       }
 
@@ -841,12 +888,14 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .menu,
-      .fan {
+      .fan,
+      .swing {
         border-radius: var(--equinox-control-radius);
       }
 
       .menu:hover,
-      .fan:hover {
+      .fan:hover,
+      .swing:hover {
         background: color-mix(in srgb, var(--primary-color) 22%, transparent);
       }
 
@@ -986,7 +1035,7 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
-  private _activeDialog: "fan" | "hvac" | "preset" | "menu" | "boost" | "history" | null = null;
+  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "menu" | "boost" | "history" | null = null;
   private _dialogAnchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _activeMessageKey?: string;
   private _powerInfoPinned = false;
@@ -1054,6 +1103,16 @@ export class EquinoxMainCard extends LitElement {
         .anchor=${this._dialogAnchor}
         @eq-dialog-close=${() => { this._activeDialog = null; }}
       ></eq-fan-dialog>
+      <eq-swing-dialog
+        .open=${this._activeDialog === 'swing'}
+        .hass=${this.hass}
+        .viewModel=${this.viewModel}
+        .config=${this.config}
+        .language=${this._language()}
+        .floating=${true}
+        .anchor=${this._dialogAnchor}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+      ></eq-swing-dialog>
       <eq-hvac-dialog
         .open=${this._activeDialog === 'hvac'}
         .hass=${this.hass}
@@ -1153,10 +1212,12 @@ export class EquinoxMainCard extends LitElement {
       ? localize(this._language(), "main.lock.locked")
       : localize(this._language(), "main.lock.unlocked");
     const showFan = this.config?.display_mode !== "compact" && this._hasFanControl();
+    const showSwing = this.config?.display_mode !== "compact" && this._hasSwingControl();
 
     return html`
       <div class="status">
         ${showFan ? this._renderFanButton() : nothing}
+        ${showSwing ? this._renderSwingButton() : nothing}
         ${this._renderPowerInfoButton()}
         <span class="status-spacer"></span>
         <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
@@ -1184,6 +1245,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderLeftRail(): Array<TemplateResult | typeof nothing> {
     return [
       ...(this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : []),
+      ...(this.config?.display_mode !== "compact" && this._hasSwingControl() ? [this._renderSwingButton()] : []),
       this._renderPowerInfoButton()
     ];
   }
@@ -1332,7 +1394,7 @@ export class EquinoxMainCard extends LitElement {
       return this._renderSensorFocus();
     }
 
-    return html`<div class="setpoint">${this._renderSetpointControl(false)}</div>`;
+    return html`<div class="setpoint">${this._renderTemperatureControl(false)}</div>`;
   }
 
   private _renderSensorFocus(): TemplateResult {
@@ -1361,9 +1423,15 @@ export class EquinoxMainCard extends LitElement {
               `
         : nothing}
         </div>
-        ${this._renderSetpointControl(true)}
+        ${this._renderTemperatureControl(true)}
       </div>
     `;
+  }
+
+  private _renderTemperatureControl(compact: boolean): TemplateResult {
+    return this._hasTemperatureRangeControl()
+      ? this._renderRangeSetpointControl(compact)
+      : this._renderSetpointControl(compact);
   }
 
   private _renderSetpointControl(compact: boolean): TemplateResult {
@@ -1405,6 +1473,66 @@ export class EquinoxMainCard extends LitElement {
         >
           <ha-icon icon="mdi:plus"></ha-icon>
         </ha-control-button>
+      </div>
+    `;
+  }
+
+  private _renderRangeSetpointControl(compact: boolean): TemplateResult {
+    const range = this.viewModel?.climate.targetTemperatureRange;
+
+    return html`
+      <div class="range-setpoint-control" ?compact=${compact}>
+        ${this._renderRangeBound("low", range?.low, compact)}
+        ${this._renderRangeBound("high", range?.high, compact)}
+      </div>
+    `;
+  }
+
+  private _renderRangeBound(bound: "low" | "high", value: number | undefined, compact: boolean): TemplateResult {
+    const disabled = this._isControlDisabled() || !finite(value);
+    const labelKey = bound === "low" ? "main.actions.low_temperature" : "main.actions.high_temperature";
+    const label = localize(this._language(), labelKey);
+    const rawValue = this._rangeSetpointFallback(bound);
+    const inputWidth = rawValue.length || 4;
+
+    return html`
+      <div class="range-bound">
+        <span class="range-label">${label}</span>
+        <div class="setpoint-control" ?compact=${compact}>
+          <ha-control-button
+            class="step"
+            .label=${localize(this._language(), "main.actions.decrease_temperature")}
+            ?disabled=${disabled}
+            @click=${() => this._changeRangeTemperature(bound, -1)}
+          >
+            <ha-icon icon="mdi:minus"></ha-icon>
+          </ha-control-button>
+          <div class="target" mode=${this._targetTone()} ?compact=${compact}>
+            <span class="setpoint-unit" aria-hidden="true" style="visibility: hidden">°</span>
+            <input
+              class="setpoint-input"
+              type="text"
+              inputmode="decimal"
+              .value=${rawValue}
+              placeholder="--.-"
+              style="width: ${inputWidth}ch"
+              ?disabled=${disabled}
+              data-range-bound=${bound}
+              @focus=${this._onSetpointFocus}
+              @blur=${this._onRangeSetpointBlur}
+              @keydown=${this._onSetpointKeyDown}
+            >
+            <span class="setpoint-unit">°</span>
+          </div>
+          <ha-control-button
+            class="step"
+            .label=${localize(this._language(), "main.actions.increase_temperature")}
+            ?disabled=${disabled}
+            @click=${() => this._changeRangeTemperature(bound, 1)}
+          >
+            <ha-icon icon="mdi:plus"></ha-icon>
+          </ha-control-button>
+        </div>
       </div>
     `;
   }
@@ -1503,7 +1631,7 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  // Renders the compact single-row selector bar (HVAC + optional preset + optional fan).
+  // Renders the compact single-row selector bar (HVAC + optional preset + optional fan/swing).
   private _renderCompactSelectors(): TemplateResult | typeof nothing {
     const hvacMode = this.viewModel?.climate.hvacMode;
     const preset = this.viewModel?.climate.presetMode;
@@ -1519,18 +1647,16 @@ export class EquinoxMainCard extends LitElement {
     const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:knob";
     const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
 
-    // Show fan button if the climate has fan modes OR VT exposes auto-fan.
-    const showFan =
-      (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
-      this.viewModel?.vt?.fan.hasAutoFan === true;
+    const showFan = this._hasFanControl();
+    const showSwing = this._hasSwingControl();
 
-    const btnCount = (showHvac ? 1 : 0) + (showPreset ? 1 : 0) + (showFan ? 1 : 0);
+    const btnCount = (showHvac ? 1 : 0) + (showPreset ? 1 : 0) + (showFan ? 1 : 0) + (showSwing ? 1 : 0);
 
     if (btnCount === 0) {
       return nothing;
     }
 
-    const compactStyle = btnCount < 3
+    const compactStyle = btnCount < 4
       ? `width: calc(100% / 3 * ${btnCount}); margin-inline: auto;`
       : "";
 
@@ -1576,6 +1702,20 @@ export class EquinoxMainCard extends LitElement {
               >
                 <span class="btn-icon" tone="fan">
                   <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
+                </span>
+              </ha-control-button>
+            `
+        : nothing}
+        ${showSwing
+        ? html`
+              <ha-control-button
+                class="swing-selector"
+                .label=${this._swingLabel()}
+                ?disabled=${this._isControlDisabled()}
+                @click=${(event: Event) => this._openDialog("swing", event)}
+              >
+                <span class="btn-icon" tone="swing">
+                  <ha-icon .icon=${this._swingIcon()}></ha-icon>
                 </span>
               </ha-control-button>
             `
@@ -1651,8 +1791,26 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
+  private _renderSwingButton(): TemplateResult {
+    const label = localize(this._language(), "main.actions.open_swing");
+
+    return html`
+      <button class="swing" title=${label} aria-label=${label} @click=${(event: Event) => this._openDialog("swing", event)}>
+        <ha-icon .icon=${this._swingIcon()}></ha-icon>
+        <span class="swing-label">${this._swingLabel()}</span>
+      </button>
+    `;
+  }
+
   private _hasFanControl(): boolean {
     return (this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === true;
+  }
+
+  private _hasSwingControl(): boolean {
+    return (
+      (this.viewModel?.climate.swingModes?.length ?? 0) > 0 ||
+      (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0
+    );
   }
 
   private _renderPowerValve(): TemplateResult | typeof nothing {
@@ -1684,7 +1842,7 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _openDialog(dialog: "fan" | "hvac" | "preset" | "menu", event: Event): void {
+  private _openDialog(dialog: "fan" | "swing" | "hvac" | "preset" | "menu", event: Event): void {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
 
     if (target) {
@@ -1796,23 +1954,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _modeTone(mode?: string): string {
-    if (mode === "heat") {
-      return "heat";
-    }
-
-    if (mode === "cool") {
-      return "cool";
-    }
-
-    if (mode === "heat_cool" || mode === "auto") {
-      return "auto";
-    }
-
-    if (mode === "off") {
-      return "off";
-    }
-
-    return "";
+    return mode ? HVAC_TONES[mode] ?? "" : "";
   }
 
   private _presetTone(preset: string): string {
@@ -1884,6 +2026,27 @@ export class EquinoxMainCard extends LitElement {
     return mode ? this._optionLabel("main.fan", mode) : localize(this._language(), "main.fan.unavailable");
   }
 
+  private _swingIcon(): string {
+    const verticalMode = this.viewModel?.climate.swingMode;
+    const horizontalMode = this.viewModel?.climate.swingHorizontalMode;
+
+    if (verticalMode) {
+      return SWING_MODE_ICONS[verticalMode] ?? "mdi:arrow-oscillating";
+    }
+
+    if (horizontalMode) {
+      return SWING_HORIZONTAL_MODE_ICONS[horizontalMode] ?? SWING_MODE_ICONS[horizontalMode] ?? "mdi:arrow-expand-horizontal";
+    }
+
+    return "mdi:arrow-oscillating";
+  }
+
+  private _swingLabel(): string {
+    const mode = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode;
+
+    return mode ? this._optionLabel("main.swing", mode) : localize(this._language(), "main.swing.unavailable");
+  }
+
   private _hvacLabel(mode?: string): string {
     if (!mode || this.viewModel?.climate.availability !== "available") {
       return localize(this._language(), "main.status.unavailable");
@@ -1946,6 +2109,13 @@ export class EquinoxMainCard extends LitElement {
     return s.includes('.') ? (s.split('.')[1]?.length ?? 0) : 0;
   }
 
+  private _hasTemperatureRangeControl(): boolean {
+    const mode = this.viewModel?.climate.hvacMode;
+    const range = this.viewModel?.climate.targetTemperatureRange;
+
+    return (mode === "heat_cool" || mode === "auto") && (finite(range?.low) || finite(range?.high));
+  }
+
   private _setpointFallback(): string {
     const dec = this._stepDecimals();
     if (!finite(this.viewModel?.climate.targetTemperature)) return "";
@@ -1953,6 +2123,20 @@ export class EquinoxMainCard extends LitElement {
       minimumFractionDigits: dec,
       maximumFractionDigits: dec
     }).format(this.viewModel!.climate.targetTemperature);
+  }
+
+  private _rangeSetpointFallback(bound: "low" | "high"): string {
+    const dec = this._stepDecimals();
+    const value = this.viewModel?.climate.targetTemperatureRange?.[bound];
+
+    if (!finite(value)) {
+      return "";
+    }
+
+    return new Intl.NumberFormat(this._language(), {
+      minimumFractionDigits: dec,
+      maximumFractionDigits: dec
+    }).format(value);
   }
 
   private _onSetpointFocus(e: Event): void {
@@ -1994,6 +2178,35 @@ export class EquinoxMainCard extends LitElement {
     );
   }
 
+  private _onRangeSetpointBlur(e: Event): void {
+    const input = e.target as HTMLInputElement;
+    const bound = input.dataset.rangeBound === "high" ? "high" : "low";
+    const fallback = this._rangeSetpointFallback(bound);
+    const val = parseFloat(input.value.trim().replace(',', '.'));
+
+    if (!Number.isFinite(val) || !this._isValidStep(val) || !this.hass || !this.config || !this.viewModel) {
+      input.value = fallback;
+      return;
+    }
+
+    const next = this._rangeWith(bound, val);
+
+    if (!next) {
+      input.value = fallback;
+      return;
+    }
+
+    const dec = this._stepDecimals();
+    input.value = new Intl.NumberFormat(this._language(), {
+      minimumFractionDigits: dec,
+      maximumFractionDigits: dec
+    }).format(next[bound]);
+    void setTemperature(
+      { hass: this.hass, entityId: this.config.entity, viewModel: this.viewModel },
+      { targetTempLow: next.low, targetTempHigh: next.high }
+    );
+  }
+
   private _changeTemperature(direction: -1 | 1): void {
     if (!this.hass || !this.config || !this.viewModel || !finite(this.viewModel.climate.targetTemperature)) {
       return;
@@ -2010,6 +2223,53 @@ export class EquinoxMainCard extends LitElement {
       },
       { temperature: next }
     );
+  }
+
+  private _changeRangeTemperature(bound: "low" | "high", direction: -1 | 1): void {
+    if (!this.hass || !this.config || !this.viewModel) {
+      return;
+    }
+
+    const currentValue = this.viewModel.climate.targetTemperatureRange?.[bound];
+
+    if (!finite(currentValue)) {
+      return;
+    }
+
+    const step = this.viewModel.climate.targetTempStep ?? 0.5;
+    const next = this._rangeWith(bound, currentValue + step * direction);
+
+    if (!next) {
+      return;
+    }
+
+    void setTemperature(
+      {
+        hass: this.hass,
+        entityId: this.config.entity,
+        viewModel: this.viewModel
+      },
+      { targetTempLow: next.low, targetTempHigh: next.high }
+    );
+  }
+
+  private _rangeWith(bound: "low" | "high", value: number): { low: number; high: number } | undefined {
+    const range = this.viewModel?.climate.targetTemperatureRange;
+    const low = bound === "low" ? this._clampTemperature(value) : range?.low;
+    const high = bound === "high" ? this._clampTemperature(value) : range?.high;
+
+    if (!finite(low) || !finite(high)) {
+      return undefined;
+    }
+
+    const normalized = bound === "low"
+      ? { low: Math.min(low, high), high }
+      : { low, high: Math.max(high, low) };
+
+    return {
+      low: Number(normalized.low.toFixed(2)),
+      high: Number(normalized.high.toFixed(2))
+    };
   }
 
   private _clampTemperature(value: number): number {

@@ -71,6 +71,9 @@
       "FAN_MIDDLE": "Moyenne",
       "high": "Forte",
       "FAN_HIGH": "Forte",
+      "top": "Maximale",
+      "Top": "Maximale",
+      "FAN_TOP": "Maximale",
       "off": "Éteinte",
       "Off": "Éteinte",
       "FAN_OFF": "Éteinte",
@@ -91,6 +94,24 @@
       "High": "Forte",
       "Turbo": "Turbo",
       "unavailable": "Ventilation"
+    },
+    "swing": {
+      "off": "Éteint",
+      "Off": "Éteint",
+      "SWING_OFF": "Éteint",
+      "on": "Activé",
+      "On": "Activé",
+      "SWING_ON": "Activé",
+      "vertical": "Vertical",
+      "Vertical": "Vertical",
+      "SWING_VERTICAL": "Vertical",
+      "horizontal": "Horizontal",
+      "Horizontal": "Horizontal",
+      "SWING_HORIZONTAL": "Horizontal",
+      "both": "Complet",
+      "Both": "Complet",
+      "SWING_BOTH": "Complet",
+      "unavailable": "Oscillation"
     },
     "lock": {
       "locked": "Verrouillé",
@@ -131,7 +152,10 @@
     "actions": {
       "decrease_temperature": "Baisser la consigne",
       "increase_temperature": "Augmenter la consigne",
+      "low_temperature": "Basse",
+      "high_temperature": "Haute",
       "open_fan": "Ouvrir la ventilation",
+      "open_swing": "Ouvrir l'oscillation",
       "open_menu": "Ouvrir le menu",
       "open_power_info": "Afficher les indicateurs de puissance"
     }
@@ -142,6 +166,11 @@
     "fan": {
       "title": "Ventilation",
       "description_auto": "Le mode Auto adapte automatiquement la ventilation selon les besoins."
+    },
+    "swing": {
+      "title": "Oscillation",
+      "vertical": "Verticale",
+      "horizontal": "Horizontale"
     },
     "hvac": {
       "title": "Mode"

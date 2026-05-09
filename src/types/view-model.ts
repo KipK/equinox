@@ -23,6 +23,10 @@ export interface EquinoxClimateViewModel {
   presetMode?: string;
   fanMode?: string;
   fanModes: string[];
+  swingMode?: string;
+  swingModes: string[];
+  swingHorizontalMode?: string;
+  swingHorizontalModes: string[];
   minTemp?: number;
   maxTemp?: number;
   targetTempStep?: number;

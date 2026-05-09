@@ -1,28 +1,11 @@
 import { LitElement, css, html, nothing } from "lit";
 import { setHvacMode } from "../data/actions";
+import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES } from "../data/climate-modes";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
-
-const HVAC_ORDER = ["heat", "cool", "dry", "fan_only", "off"];
-
-const HVAC_ICONS: Record<string, string> = {
-  heat: "mdi:fire",
-  cool: "mdi:snowflake",
-  dry: "mdi:water-percent",
-  fan_only: "mdi:fan-speed-2",
-  off: "mdi:power"
-};
-
-const HVAC_TONES: Record<string, string> = {
-  heat: "heat",
-  cool: "cool",
-  dry: "cool",
-  fan_only: "auto",
-  off: "off"
-};
 
 export class EquinoxHvacDialog extends LitElement {
   static properties = {
