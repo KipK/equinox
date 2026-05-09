@@ -18,7 +18,7 @@ Equinox is in early implementation. The current codebase provides:
 - a Vite + Lit + TypeScript scaffold;
 - the `equinox-card` custom element;
 - the `equinox-card-editor` Lovelace editor;
-- FR/EN localization files;
+- 19-language runtime-loaded localization (bg, ca, cn, cs, da, de, el, en, es, fi, fr, hu, it, nl, no, pl, pt, ru, sk);
 - MVP configuration typing and validation;
 - a minimal placeholder card render.
 
@@ -112,11 +112,22 @@ additional_dashboards: auto
 
 ## Development Notes
 
-- User-visible text must go through `src/localize/languages/fr.json` and
-  `src/localize/languages/en.json`.
+- User-visible text must go through `src/localize/languages/{lang}.json` (19
+  languages). The English file (`en.json`) is the reference; other languages
+  fall back to it for missing keys.
 - The card must remain compatible with a standard Home Assistant `climate`
   entity.
 - VT-specific features are displayed only when the required data or capability
   is available.
 - The source of truth for implementation details is
   `plans/equinox-cahier-des-charges.md`.
+
+## Adding a language
+
+1. Add `src/localize/languages/{code}.json` using `en.json` as a template.
+2. Add the language code to `SUPPORTED_LANGUAGES` in
+   `src/localize/loader.ts`.
+3. Add the `card.description` string to the `CARD_DESCRIPTIONS` map in
+   `src/equinox-card.ts`.
+4. Run `npm run build` — Vite copies the new file to `dist/translations/`
+   automatically.
