@@ -13,6 +13,10 @@ export const liquidGlowStyles = css`
     --equinox-shadow: var(--ha-card-box-shadow, 0 1px 2px rgb(0 0 0 / 34%));
     --equinox-liquid-glow-color: rgb(115 160 190 / 44%);
     --equinox-liquid-glow-soft: rgb(115 160 190 / 10%);
+    --equinox-liquid-line-opacity-min: 0.76;
+    --equinox-liquid-line-opacity-max: 1;
+    --equinox-liquid-halo-opacity-min: 0.62;
+    --equinox-liquid-halo-opacity-max: 1;
   }
 
   :host([theme="liquid_glow"]) ha-card {
@@ -33,6 +37,32 @@ export const liquidGlowStyles = css`
     position: absolute;
     pointer-events: none;
     border-radius: inherit;
+  }
+
+  @keyframes equinox-liquid-line-pulse {
+    0%,
+    100% {
+      opacity: var(--equinox-liquid-line-opacity-min);
+      filter: brightness(0.96) saturate(0.98);
+    }
+
+    50% {
+      opacity: var(--equinox-liquid-line-opacity-max);
+      filter: brightness(1.32) saturate(1.18) drop-shadow(0 0 3px var(--equinox-liquid-glow-color));
+    }
+  }
+
+  @keyframes equinox-liquid-halo-pulse {
+    0%,
+    100% {
+      opacity: var(--equinox-liquid-halo-opacity-min);
+      filter: brightness(0.94) saturate(0.96);
+    }
+
+    50% {
+      opacity: var(--equinox-liquid-halo-opacity-max);
+      filter: brightness(1.34) saturate(1.18);
+    }
   }
 
   /* The pseudo-element covers the card's border-box exactly via inset: -1px (the
@@ -64,6 +94,8 @@ export const liquidGlowStyles = css`
         transparent 95%
       ) right 0 top 0 / 1px 100% no-repeat;
     box-shadow: none;
+    opacity: var(--equinox-liquid-line-opacity-min);
+    filter: brightness(0.96) saturate(0.98);
   }
 
   /* Halo extends 4px beyond each side of the card; gradient origin sits exactly on
@@ -83,14 +115,32 @@ export const liquidGlowStyles = css`
         color-mix(in oklab, var(--equinox-liquid-glow-color) 14%, transparent) 55%,
         transparent 100%
       );
-    opacity: 0.85;
+    opacity: var(--equinox-liquid-halo-opacity-min);
+    filter: brightness(0.94) saturate(0.96);
+  }
+
+  :host([theme="liquid_glow"]) ha-card[active-action="heat"]::before,
+  :host([theme="liquid_glow"]) ha-card[active-action="cool"]::before {
+    animation: equinox-liquid-line-pulse 5.5s ease-in-out infinite;
+    will-change: opacity, filter;
+  }
+
+  :host([theme="liquid_glow"]) ha-card[active-action="heat"]::after,
+  :host([theme="liquid_glow"]) ha-card[active-action="cool"]::after {
+    animation: equinox-liquid-halo-pulse 5.5s ease-in-out infinite;
+    will-change: opacity, filter;
   }
 
   /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
      The line itself remains visible, only the surrounding diffusion is reduced. */
   @media (prefers-color-scheme: light) {
+    :host([theme="liquid_glow"]) {
+      --equinox-liquid-line-opacity-min: 0.82;
+      --equinox-liquid-halo-opacity-min: 0.36;
+      --equinox-liquid-halo-opacity-max: 0.72;
+    }
+
     :host([theme="liquid_glow"]) ha-card::after {
-      opacity: 0.5;
       background:
         radial-gradient(ellipse 8px 60% at left 4px center,
           color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
@@ -101,7 +151,16 @@ export const liquidGlowStyles = css`
           color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
           color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
           transparent 100%
-        );
+      );
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :host([theme="liquid_glow"]) ha-card[active-action="heat"]::before,
+    :host([theme="liquid_glow"]) ha-card[active-action="cool"]::before,
+    :host([theme="liquid_glow"]) ha-card[active-action="heat"]::after,
+    :host([theme="liquid_glow"]) ha-card[active-action="cool"]::after {
+      animation: none;
     }
   }
 

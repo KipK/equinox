@@ -1011,9 +1011,10 @@ export class EquinoxMainCard extends LitElement {
     const lockEffectActive =
       this.viewModel.vt?.lock.isConfigured === true &&
       this.viewModel.vt.lock.isUserLocked === true;
+    const activeHvacAction = this._activeHvacAction();
 
     return html`
-      <ha-card ?locked=${lockEffectActive} tone=${this._cardTone()}>
+      <ha-card ?locked=${lockEffectActive} tone=${this._cardTone()} active-action=${activeHvacAction ?? nothing}>
         <div class="card">
           ${this._renderName()}
           ${stateIconsVertical ? nothing : this._renderStatus()}
@@ -1761,6 +1762,20 @@ export class EquinoxMainCard extends LitElement {
     }
 
     return this._modeTone(mode);
+  }
+
+  private _activeHvacAction(): "heat" | "cool" | undefined {
+    const action = this.viewModel?.climate.hvacAction;
+
+    if (action === "heating" || action === "heat") {
+      return "heat";
+    }
+
+    if (action === "cooling" || action === "cool") {
+      return "cool";
+    }
+
+    return undefined;
   }
 
   private _modeTone(mode?: string): string {
