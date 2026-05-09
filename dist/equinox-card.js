@@ -2043,6 +2043,62 @@ var kt = class extends D {
       color: var(--primary-color);
     }
 
+    /* Liquid Glow theme: same active treatment as the segments in liquid-glow.ts —
+       active option's frame extends to the fan-grid outer border via negative margin
+       + height/width grown by 2px, with gradient + glow.
+       Color stays --primary-color so the visual identity matches flat mode. */
+    :host([theme="liquid_glow"]) .fan-grid {
+      overflow: visible;
+    }
+
+    :host([theme="liquid_glow"]) .fan-option[active] {
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box;
+      border: 1px solid color-mix(in srgb, var(--primary-color) 88%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--primary-text-color) 10%, transparent) 0%, transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--primary-color) 24%, transparent) 0%, transparent 58%),
+        linear-gradient(180deg, var(--equinox-control-bg, transparent), color-mix(in srgb, var(--equinox-control-bg, transparent) 86%, var(--primary-color) 14%));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--primary-text-color) 18%, transparent),
+        inset 0 -16px 24px color-mix(in srgb, var(--primary-color) 18%, transparent),
+        0 0 10px color-mix(in srgb, var(--primary-color) 28%, transparent);
+      /* .fan-option base height is 45px and .fan-grid has no explicit height,
+         so calc(100% + 2px) collapses to auto. Use explicit base + 2px extension. */
+      margin-block: -1px;
+      height: calc(45px + 2px);
+    }
+
+    :host([theme="liquid_glow"]) .fan-option[active]:first-child {
+      margin-inline-start: -1px;
+      width: calc(100% + 1px);
+      border-start-start-radius: var(--equinox-control-radius, 8px);
+      border-end-start-radius: var(--equinox-control-radius, 8px);
+    }
+
+    :host([theme="liquid_glow"]) .fan-option[active]:last-child {
+      margin-inline-end: -1px;
+      width: calc(100% + 1px);
+      border-start-end-radius: var(--equinox-control-radius, 8px);
+      border-end-end-radius: var(--equinox-control-radius, 8px);
+    }
+
+    :host([theme="liquid_glow"]) .fan-option[active]:only-child {
+      margin: -1px;
+      width: calc(100% + 2px);
+      border-radius: var(--equinox-control-radius, 8px);
+    }
+
+    :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon {
+      background: transparent;
+      color: var(--primary-color);
+    }
+
+    :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
+      filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
+    }
+
     .fan-option-label {
       display: none;
     }
@@ -2107,6 +2163,9 @@ var kt = class extends D {
       }
     }
   `;
+	}
+	willUpdate() {
+		this.setAttribute("theme", this.config?.theme ?? "flat");
 	}
 	_getOptions() {
 		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? wt : this.viewModel?.climate.fanModes ?? [];
