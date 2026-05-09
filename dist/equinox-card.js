@@ -7450,23 +7450,23 @@ var K = class extends Yn {
 				primary: lo(e),
 				secondary: e.entity_id
 			}));
+		}, this._handleDocumentPointerDown = (e) => {
+			this._attributeMenuOpen && (this._isEventInsideAttributeOverlay(e) || (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation()));
 		}, this._handleDocumentClick = (e) => {
-			if (!this._attributeMenuOpen || this._entityPickerOpen) return;
-			let t = this.renderRoot?.querySelector(".entity-menu");
-			t && e.composedPath().includes(t) || (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu());
+			this._attributeMenuOpen && (this._isEventInsideAttributeOverlay(e) || (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu()));
 		};
 	}
 	static {
 		this.styles = Qa;
 	}
 	connectedCallback() {
-		super.connectedCallback(), to(), document.addEventListener("click", this._handleDocumentClick, !0), this._resizeObserver = new ResizeObserver((e) => {
+		super.connectedCallback(), to(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("mousedown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), this._resizeObserver = new ResizeObserver((e) => {
 			let t = e[0]?.contentRect.width ?? 0;
 			t !== this._containerWidth && (this._containerWidth = t);
 		}), this._resizeObserver.observe(this);
 	}
 	disconnectedCallback() {
-		super.disconnectedCallback(), document.removeEventListener("click", this._handleDocumentClick, !0), this._resizeObserver?.disconnect(), this._resizeObserver = void 0, this._sourceAddBatchTimer !== void 0 && (clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = void 0), this._stopLiveClock();
+		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.removeEventListener("mousedown", this._handleDocumentPointerDown, !0), document.removeEventListener("click", this._handleDocumentClick, !0), this._resizeObserver?.disconnect(), this._resizeObserver = void 0, this._sourceAddBatchTimer !== void 0 && (clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = void 0), this._stopLiveClock();
 	}
 	_maxXTicks() {
 		return this._containerWidth <= 0 ? 12 : Math.max(3, Math.floor(this._containerWidth * 640 / (720 * 50)));
@@ -8106,13 +8106,23 @@ var K = class extends Yn {
 		this._attributeMenuOpen = !1, this._entityPickerOpen = !1;
 	}
 	_onEntitySelected(e) {
-		new Set(this._pickerEntities().map((e) => e.entity_id)).has(e) || (this._customEntityIds = [...this._customEntityIds, e]), this._selectedEntityId = e, this._path = [], this._attributeMenuOpen = !0;
+		new Set(this._pickerEntities().map((e) => e.entity_id)).has(e) || (this._customEntityIds = [...this._customEntityIds, e]), this._selectedEntityId = e, this._path = [], this._entityPickerOpen = !1, this._attributeMenuOpen = !0;
 	}
 	_onEntityPickerOpened() {
 		this._entityPickerOpen = !0, this._attributeMenuOpen = !1;
 	}
 	_onEntityPickerClosed() {
 		this._entityPickerOpen = !1;
+	}
+	_isEventInsideAttributeOverlay(e) {
+		let t = e.composedPath(), n = this.renderRoot?.querySelector(".entity-menu");
+		if (n && t.includes(n)) return !0;
+		for (let e of t) {
+			if (!(e instanceof HTMLElement)) continue;
+			let t = e.localName;
+			if (t === "ha-generic-picker" || t === "ha-combo-box" || t === "vaadin-combo-box-overlay" || t === "mwc-menu-surface" || t === "ha-md-list" || t === "md-menu") return !0;
+		}
+		return !1;
 	}
 	_sourceWithAttributeUnit(e) {
 		if (e.kind !== "entity_attribute" || !e.path) return e;
