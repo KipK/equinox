@@ -2188,7 +2188,7 @@ var kt = class extends D {
     }
 
     :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
-      filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
+      filter: drop-shadow(0 0 4px currentColor);
     }
 
     @media (prefers-color-scheme: light) {
@@ -2205,7 +2205,7 @@ var kt = class extends D {
       }
 
       :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon ha-icon {
-        filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
+        filter: drop-shadow(0 0 2px currentColor);
       }
     }
 
