@@ -1475,7 +1475,10 @@ var Ct = {
   :host([theme="liquid_glow"]) ha-card {
     position: relative;
     isolation: isolate;
+    /* Transparent on the side edges where our gradient line sits — keep top/bottom intact. */
     border-color: color-mix(in srgb, var(--equinox-border-color) 56%, transparent);
+    border-left-color: transparent;
+    border-right-color: transparent;
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 5%, transparent),
       var(--equinox-shadow);
@@ -1489,44 +1492,74 @@ var Ct = {
     border-radius: inherit;
   }
 
+  /* The pseudo-element covers the card's border-box exactly via inset: -1px (the
+     containing block for absolutely-positioned children is the padding-box, so -1px
+     pushes back through the 1px border zone to the outer edge). The 1px-offset
+     keyword position then puts each line on the outermost 1px of the card box. */
   :host([theme="liquid_glow"]) ha-card::before {
     inset: -1px;
     z-index: 0;
     background:
       linear-gradient(
         180deg,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 14%, transparent) 0%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 24%, transparent) 26%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 18%, transparent) 39%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 48%, transparent) 50%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 18%, transparent) 61%,
-        transparent 100%
-      ) 0.5px 0 / 1px 100% no-repeat,
+        transparent 5%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 22%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 38%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 88%, transparent) 50%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 62%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 78%,
+        transparent 95%
+      ) left 0 top 0 / 1px 100% no-repeat,
       linear-gradient(
         180deg,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 12%, transparent) 0%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 22%, transparent) 28%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 14%, transparent) 41%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 38%, transparent) 50%,
-        color-mix(in srgb, var(--equinox-liquid-glow-color) 14%, transparent) 62%,
-        transparent 100%
-      ) calc(100% - 1.5px) 0 / 1px 100% no-repeat,
-      radial-gradient(ellipse 2px 32px at 0.5px 50%, color-mix(in srgb, var(--equinox-text-color) 10%, var(--equinox-liquid-glow-color)) 0%, color-mix(in srgb, var(--equinox-liquid-glow-color) 68%, transparent) 32%, transparent 76%),
-      radial-gradient(ellipse 2px 28px at calc(100% - 0.5px) 50%, color-mix(in srgb, var(--equinox-text-color) 8%, var(--equinox-liquid-glow-color)) 0%, color-mix(in srgb, var(--equinox-liquid-glow-color) 48%, transparent) 32%, transparent 76%);
-    box-shadow:
-      -6px 0 16px -14px var(--equinox-liquid-glow-color),
-      6px 0 16px -14px var(--equinox-liquid-glow-color),
-      inset 5px 0 14px -16px var(--equinox-liquid-glow-color),
-      inset -5px 0 14px -16px var(--equinox-liquid-glow-color);
+        transparent 5%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 22%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 38%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 88%, transparent) 50%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 62%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 78%,
+        transparent 95%
+      ) right 0 top 0 / 1px 100% no-repeat;
+    box-shadow: none;
   }
 
+  /* Halo extends 4px beyond each side of the card; gradient origin sits exactly on
+     the outer edge of the card so the halo bleeds equally outside and inside. */
   :host([theme="liquid_glow"]) ha-card::after {
-    inset: -1px;
+    inset: -1px -5px;
+    border-radius: 0;
     z-index: 0;
     background:
-      radial-gradient(ellipse 12px 78px at 0.5px 50%, var(--equinox-liquid-glow-soft) 0%, transparent 74%),
-      radial-gradient(ellipse 10px 70px at calc(100% - 0.5px) 50%, var(--equinox-liquid-glow-soft) 0%, transparent 76%);
-    opacity: 0.58;
+      radial-gradient(ellipse 10px 65% at left 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 42%, transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 14%, transparent) 55%,
+        transparent 100%
+      ),
+      radial-gradient(ellipse 10px 65% at right 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 42%, transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) 14%, transparent) 55%,
+        transparent 100%
+      );
+    opacity: 0.85;
+  }
+
+  /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
+     The line itself remains visible, only the surrounding diffusion is reduced. */
+  @media (prefers-color-scheme: light) {
+    :host([theme="liquid_glow"]) ha-card::after {
+      opacity: 0.5;
+      background:
+        radial-gradient(ellipse 8px 60% at left 4px center,
+          color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
+          color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
+          transparent 100%
+        ),
+        radial-gradient(ellipse 8px 60% at right 4px center,
+          color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
+          color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
+          transparent 100%
+        );
+    }
   }
 
   :host([theme="liquid_glow"]) .card {
@@ -1534,25 +1567,31 @@ var Ct = {
     z-index: 1;
   }
 
+  /* No glow when HVAC is off or the entity is unavailable. */
+  :host([theme="liquid_glow"]) ha-card[tone="off"]::before,
+  :host([theme="liquid_glow"]) ha-card[tone="off"]::after {
+    display: none;
+  }
+
   :host([theme="liquid_glow"]) ha-card[tone="heat"] {
     --equinox-liquid-glow-color: var(--equinox-heat-color);
-    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-heat-color) 7%, transparent);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-heat-color) 28%, transparent);
   }
 
   :host([theme="liquid_glow"]) ha-card[tone="cool"] {
     --equinox-liquid-glow-color: var(--equinox-cool-color);
-    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-cool-color) 7%, transparent);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-cool-color) 28%, transparent);
   }
 
   :host([theme="liquid_glow"]) ha-card[tone="boost"],
   :host([theme="liquid_glow"]) ha-card[tone="cool-boost"] {
     --equinox-liquid-glow-color: var(--equinox-boost-color);
-    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-boost-color) 8%, transparent);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-boost-color) 30%, transparent);
   }
 
   :host([theme="liquid_glow"]) ha-card[tone="auto"] {
     --equinox-liquid-glow-color: var(--equinox-auto-color);
-    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-auto-color) 6%, transparent);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-auto-color) 22%, transparent);
   }
 
   :host([theme="liquid_glow"]) .segments,
