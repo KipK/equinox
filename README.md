@@ -13,23 +13,6 @@ type: custom:equinox-card
 
 ![Equinox Lovelace climate cards in classic and compact layouts](assets/screens/cards.png)
 
-## Status
-
-Equinox is in early implementation. The current codebase provides:
-
-- a Vite + Lit + TypeScript scaffold;
-- the `equinox-card` custom element;
-- the `equinox-card-editor` Lovelace editor;
-- 19-language runtime-loaded localization (bg, ca, cn, cs, da, de, el, en, es, fi, fr, hu, it, nl, no, pl, pt, ru, sk);
-- MVP configuration typing and validation;
-- a minimal placeholder card render.
-
-The thermostat UI, climate state mapping, VT-specific state mapping, service
-actions, overlays, and dashboards are implemented step by step. Standard
-Home Assistant climate entities can expose only the controls they support:
-HVAC modes, presets, fan modes, swing modes, and heat/cool target ranges are
-rendered conditionally from the entity attributes.
-
 ## Build
 
 Install dependencies:
@@ -109,19 +92,19 @@ additional_dashboards: auto
 
 ## Configuration
 
-| Option | Required | Default | Description |
-| --- | --- | --- | --- |
-| `entity` | yes | - | Climate entity to display. Must use the `climate` domain. |
-| `name` | no | Entity friendly name | Display name. |
-| `diagnostic_entity` | no | - | Diagnostic sensor for algorithm dashboards. |
-| `power_entity` | no | - | Sensor or input number for instant power. |
-| `humidity_entity` | no | - | External humidity sensor when climate humidity is unavailable. |
-| `theme` | no | `flat` | Visual theme: `flat` or `liquid_glow`. |
-| `display_mode` | no | `classic` | Display format: `classic` or `compact`. |
-| `primary_display` | no | `setpoint` | Main emphasis: `setpoint` or `sensors`. |
-| `disable_name` | no | `false` | Hide the header name. |
-| `enable_lock` | no | `true` | Enable lock UI when supported by VT. |
-| `additional_dashboards` | no | `auto` | Dashboard mode: `auto`, `custom`, or `disabled`. |
+| Option                  | Required | Default              | Description                                                    |
+| ----------------------- | -------- | -------------------- | -------------------------------------------------------------- |
+| `entity`                | yes      | -                    | Climate entity to display. Must use the `climate` domain.      |
+| `name`                  | no       | Entity friendly name | Display name.                                                  |
+| `diagnostic_entity`     | no       | -                    | Diagnostic sensor for algorithm dashboards.                    |
+| `power_entity`          | no       | -                    | Sensor or input number for instant power.                      |
+| `humidity_entity`       | no       | -                    | External humidity sensor when climate humidity is unavailable. |
+| `theme`                 | no       | `flat`               | Visual theme: `flat` or `liquid_glow`.                         |
+| `display_mode`          | no       | `classic`            | Display format: `classic` or `compact`.                        |
+| `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`.                        |
+| `disable_name`          | no       | `false`              | Hide the header name.                                          |
+| `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
+| `additional_dashboards` | no       | `auto`               | Dashboard mode: `auto`, `custom`, or `disabled`.               |
 
 ## Development Notes
 
