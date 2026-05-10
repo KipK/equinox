@@ -1237,6 +1237,9 @@ var Lt = class {
 		};
 		return this._session = r, r;
 	}
+	_cancelSession() {
+		this._session && (this._session.cancelled = !0), this._session = void 0, this._progressUpdateScheduled = !1;
+	}
 	_activeSession(e, t) {
 		let n = this._session;
 		if (!(!n || n.cancelled)) return n.startTime === e.getTime() && n.endTime === t.getTime() ? n : void 0;
@@ -1341,6 +1344,12 @@ var Lt = class {
 				});
 			}
 		});
+	}
+	setImportedSeries(e, t, n) {
+		this._cancelSession(), this.series = e, this.loading = !1, this.error = "", this._prevKey = `${e.map((e) => e.source.id).join("|")}|${t.getTime()}|${n.getTime()}`, this.host.requestUpdate();
+	}
+	setError(e) {
+		this._cancelSession(), this.loading = !1, this.error = e, this.host.requestUpdate();
 	}
 	addSources(e, t, n, r) {
 		if (!e || t.length === 0) return;
@@ -2522,6 +2531,7 @@ var Tr = {
 		mode_line: "Line",
 		mode_column: "Columns",
 		export_data: "Export",
+		import_data: "Import",
 		search_attributes: "Search attributes",
 		no_matching_attributes: "No matching attributes",
 		attribute_results_limited: "Showing first 50 matches"
@@ -2538,6 +2548,7 @@ var Tr = {
 		mode_line: "Ligne",
 		mode_column: "Colonnes",
 		export_data: "Exporter",
+		import_data: "Importer",
 		search_attributes: "Rechercher des attributs",
 		no_matching_attributes: "Aucun attribut correspondant",
 		attribute_results_limited: "50 premiers résultats affichés"
@@ -2554,6 +2565,7 @@ var Tr = {
 		mode_line: "Čára",
 		mode_column: "Sloupce",
 		export_data: "Exportovat",
+		import_data: "Importovat",
 		search_attributes: "Hledat atributy",
 		no_matching_attributes: "Žádné odpovídající atributy",
 		attribute_results_limited: "Zobrazuje se prvních 50 shod"
@@ -2570,6 +2582,7 @@ var Tr = {
 		mode_line: "Linie",
 		mode_column: "Spalten",
 		export_data: "Exportieren",
+		import_data: "Importieren",
 		search_attributes: "Attribute suchen",
 		no_matching_attributes: "Keine passenden Attribute",
 		attribute_results_limited: "Die ersten 50 Treffer werden angezeigt"
@@ -2586,6 +2599,7 @@ var Tr = {
 		mode_line: "Γραμμή",
 		mode_column: "Στήλες",
 		export_data: "Εξαγωγή",
+		import_data: "Εισαγωγή",
 		search_attributes: "Αναζήτηση χαρακτηριστικών",
 		no_matching_attributes: "Δεν βρέθηκαν χαρακτηριστικά",
 		attribute_results_limited: "Εμφανίζονται οι πρώτες 50 αντιστοιχίες"
@@ -2602,6 +2616,7 @@ var Tr = {
 		mode_line: "Linea",
 		mode_column: "Colonne",
 		export_data: "Esporta",
+		import_data: "Importa",
 		search_attributes: "Cerca attributi",
 		no_matching_attributes: "Nessun attributo corrispondente",
 		attribute_results_limited: "Mostrate le prime 50 corrispondenze"
@@ -2618,6 +2633,7 @@ var Tr = {
 		mode_line: "Linia",
 		mode_column: "Kolumny",
 		export_data: "Eksportuj",
+		import_data: "Importuj",
 		search_attributes: "Szukaj atrybutów",
 		no_matching_attributes: "Brak pasujących atrybutów",
 		attribute_results_limited: "Pokazano pierwsze 50 wyników"
@@ -2634,6 +2650,7 @@ var Tr = {
 		mode_line: "Линия",
 		mode_column: "Столбцы",
 		export_data: "Экспорт",
+		import_data: "Импорт",
 		search_attributes: "Поиск атрибутов",
 		no_matching_attributes: "Подходящие атрибуты не найдены",
 		attribute_results_limited: "Показаны первые 50 совпадений"
@@ -2650,6 +2667,7 @@ var Tr = {
 		mode_line: "Čiara",
 		mode_column: "Stĺpce",
 		export_data: "Exportovať",
+		import_data: "Importovať",
 		search_attributes: "Hľadať atribúty",
 		no_matching_attributes: "Žiadne zodpovedajúce atribúty",
 		attribute_results_limited: "Zobrazuje sa prvých 50 zhôd"
@@ -4090,7 +4108,7 @@ function fi(e) {
 }
 var $ = class extends R {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new Lt(this), this._tooltip = new Xn(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showLegend = !0, this.showTooltip = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new Lt(this), this._tooltip = new Xn(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => this._pickerEntities().map((e) => ({
 			id: e.entity_id,
 			primary: Br(e),
 			secondary: e.entity_id
@@ -4173,7 +4191,7 @@ var $ = class extends R {
 	}
 	_fetchSources() {
 		let e = [], t = /* @__PURE__ */ new Set();
-		if (this._resolved) for (let n of this._resolved.series) t.has(n.id) || (t.add(n.id), e.push(tr(n)));
+		if (this._resolved && !this._importedDataActive) for (let n of this._resolved.series) t.has(n.id) || (t.add(n.id), e.push(tr(n)));
 		for (let n of this._selectedSources) {
 			let r = this._sourceWithAttributeUnit(n);
 			t.has(r.id) || (t.add(r.id), e.push(r));
@@ -4194,7 +4212,8 @@ var $ = class extends R {
 		(i || a) && (r && i && !a && !o || this._prevClipX.clear(), this._prevStartTime = t, this._prevEndTime = n, this._prevContainerWidth = this._containerWidth), this._data.loading && this._data.series.length === 0 && this._prevClipX.clear();
 		let s = /* @__PURE__ */ "_rangeStart._rangeEnd._selectedSources.hass.config.entities.hours.startDate.endDate.showDatePicker.showEntityPicker.showLegend.showTooltip.width.height.lineMode.lineWidth.backgroundColor.graphTitle.titleFontFamily.titleFontSize.titleColor.language.debugPerformance.attributeUnits._runtimeLineMode".split(".");
 		if (s.some((t) => e.has(t))) {
-			if (!s.some((t) => t !== "hass" && e.has(t))) {
+			let t = !s.some((t) => t !== "hass" && e.has(t));
+			if ((e.has("config") || e.has("entities")) && (this._importedDataActive = !1, this._importedSeriesMeta.clear()), t) {
 				let e = Math.floor(Date.now() / 1e3) * 1e3;
 				if (r && this._lastFetchKey) {
 					this._lastHassResolveTime = e;
@@ -4203,7 +4222,7 @@ var $ = class extends R {
 				if (e === this._lastHassResolveTime && this._lastFetchKey) return;
 				this._lastHassResolveTime = e;
 			}
-			let t = wr({
+			let n = wr({
 				config: this.config,
 				entities: this.entities,
 				hours: this.hours,
@@ -4226,18 +4245,18 @@ var $ = class extends R {
 				hass: this.hass,
 				attributeUnits: this.attributeUnits
 			});
-			this._resolved = t, !this._rangeStart && !this._rangeEnd && (this._rangeStart = t.startDate, this._rangeEnd = t.endDate), !this._viewStart && !this._viewEnd && (this._viewStart = t.startDate, this._viewEnd = t.endDate);
-			let n = this._fetchSources(), i = n.map((e) => e.id).sort().join("|"), a = `${i}|${t.startDate.getTime()}|${t.endDate.getTime()}`;
-			if (a !== this._lastFetchKey) {
-				let e = i === this._lastFetchKey.split("|").slice(0, -2).join("|") && this._lastFetchKey !== "";
+			this._resolved = n, !this._rangeStart && !this._rangeEnd && (this._rangeStart = n.startDate, this._rangeEnd = n.endDate), !this._viewStart && !this._viewEnd && (this._viewStart = n.startDate, this._viewEnd = n.endDate);
+			let i = this._fetchSources(), a = i.map((e) => e.id).sort().join("|"), o = `${a}|${n.startDate.getTime()}|${n.endDate.getTime()}`;
+			if (o !== this._lastFetchKey) {
+				let e = a === this._lastFetchKey.split("|").slice(0, -2).join("|") && this._lastFetchKey !== "";
 				if (this._lastFetchSources.length > 0 && !e) {
-					let e = new Set(this._lastFetchSources.map((e) => e.id)), r = new Set(n.map((e) => e.id)), i = n.filter((t) => !e.has(t.id)), o = this._lastFetchSources.filter((e) => !r.has(e.id)).map((e) => e.id);
-					i.length > 0 && o.length === 0 ? (this._lastFetchKey = a, this._lastFetchSources = n, this._data.addSources(this.hass, i, t.startDate, t.endDate)) : o.length > 0 && i.length === 0 ? (this._lastFetchKey = a, this._lastFetchSources = n, this._data.removeSources(o)) : (this._lastFetchKey = a, this._lastFetchSources = n, this._data.fetch(this.hass, n, t.startDate, t.endDate));
-				} else this._lastFetchKey = a, this._lastFetchSources = n, this._data.fetch(this.hass, n, t.startDate, t.endDate);
+					let e = new Set(this._lastFetchSources.map((e) => e.id)), t = new Set(i.map((e) => e.id)), r = i.filter((t) => !e.has(t.id)), a = this._lastFetchSources.filter((e) => !t.has(e.id)).map((e) => e.id);
+					r.length > 0 && a.length === 0 ? (this._lastFetchKey = o, this._lastFetchSources = i, this._data.addSources(this.hass, r, n.startDate, n.endDate)) : a.length > 0 && r.length === 0 ? (this._lastFetchKey = o, this._lastFetchSources = i, this._data.removeSources(a)) : (this._lastFetchKey = o, this._lastFetchSources = i, this._data.fetch(this.hass, i, n.startDate, n.endDate));
+				} else this._lastFetchKey = o, this._lastFetchSources = i, this._data.fetch(this.hass, i, n.startDate, n.endDate);
 			}
-			t.showDatePicker && !this._datePickerReady && Fr().then(() => {
+			n.showDatePicker && !this._datePickerReady && Fr().then(() => {
 				this._datePickerReady = Pr(), this.requestUpdate();
-			}), t.showEntityPicker && !this._entityComponentsReady && Hr().then(() => {
+			}), n.showEntityPicker && !this._entityComponentsReady && Hr().then(() => {
 				this._entityComponentsReady = Ur(), this.requestUpdate();
 			});
 		}
@@ -4281,9 +4300,12 @@ var $ = class extends R {
 		let e = this.config?.lineWidth ?? this.lineWidth;
 		return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : "2.5" : typeof e == "string" && e.trim() !== "" ? e.trim() : "2.5";
 	}
+	_showImportButton() {
+		return this.showImportButton || this.config?.showImportButton === !0;
+	}
 	_buildRenderSeries() {
 		if (!this._resolved) return [];
-		let e = this._resolved.series.flatMap((e) => {
+		let e = this._importedDataActive ? [] : this._resolved.series.flatMap((e) => {
 			let t = this._data.series.find((t) => t.source.id === e.id);
 			return [{
 				id: e.id,
@@ -4309,11 +4331,11 @@ var $ = class extends R {
 			e.push({
 				id: n.id,
 				label: n.label,
-				color: K(i),
+				color: this._importedSeriesMeta.get(n.id)?.color ?? K(i),
 				unit: n.unit,
 				scaleGroupKey: a,
 				scaleMode: "auto",
-				lineMode: this._defaultLineMode(),
+				lineMode: this._runtimeLineMode ?? this._importedSeriesMeta.get(n.id)?.lineMode ?? this._defaultLineMode(),
 				lineWidth: this._defaultLineWidth(),
 				valueType: n.valueType,
 				points: r?.points ?? []
@@ -4646,6 +4668,84 @@ var $ = class extends R {
 		}, r = new Blob([JSON.stringify(n, null, 2)], { type: "application/json" }), i = URL.createObjectURL(r), a = document.createElement("a"), o = (/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-");
 		a.href = i, a.download = `ha-better-history-${o}.json`, a.click(), URL.revokeObjectURL(i);
 	}
+	_importData() {
+		let e = document.createElement("input");
+		e.type = "file", e.accept = "application/json,.json", e.addEventListener("change", () => {
+			let t = e.files?.[0];
+			t && t.text().then((e) => this._applyImportedData(JSON.parse(e))).catch(() => this._data.setError("Invalid import file"));
+		}, { once: !0 }), e.click();
+	}
+	_applyImportedData(e) {
+		if (!this._isExportPayload(e)) {
+			this._data.setError("Unsupported import format");
+			return;
+		}
+		let t = this._parseImportedSeries(e.series ?? []);
+		if (!t) {
+			this._data.setError("Invalid import data");
+			return;
+		}
+		let n = this._parseDate(e.viewRange?.start), r = this._parseDate(e.viewRange?.end), i = this._parseDate(e.loadedRange?.start) ?? n, a = this._parseDate(e.loadedRange?.end) ?? r;
+		if (!n || !r || !i || !a || i.getTime() >= a.getTime()) {
+			this._data.setError("Invalid import range");
+			return;
+		}
+		this._importedSeriesMeta = t.meta, this._importedDataActive = !0, this._selectedSources = t.series.map((e) => e.source), this._rangeStart = i, this._rangeEnd = a, this._viewStart = n, this._viewEnd = r, this._hiddenSeriesIds = [], this._chartRenderCache = void 0, this._graphGroupRenderCache = void 0;
+		let o = this._selectedSources.map((e) => e.id).sort().join("|");
+		this._lastFetchKey = `${o}|${i.getTime()}|${a.getTime()}`, this._lastFetchSources = [...this._selectedSources], this._data.setImportedSeries(t.series, i, a), this.dispatchEvent(new CustomEvent("data-imported", {
+			detail: {
+				start: i,
+				end: a,
+				seriesCount: t.series.length
+			},
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	_isExportPayload(e) {
+		return typeof e == "object" && !!e && e.format === "ha-better-history-series-v1";
+	}
+	_parseImportedSeries(e) {
+		let t = [], n = /* @__PURE__ */ new Map();
+		for (let r of e) {
+			if (typeof r != "object" || !r) return;
+			let e = r, i = typeof e.id == "string" && e.id.trim() !== "" ? e.id : void 0, a = typeof e.entityId == "string" && e.entityId.trim() !== "" ? e.entityId : void 0, o = typeof e.label == "string" && e.label.trim() !== "" ? e.label : i, s = e.valueType === "number" || e.valueType === "boolean" || e.valueType === "string" ? e.valueType : void 0, c = Array.isArray(e.points) ? e.points : void 0;
+			if (!i || !a || !o || !s || !c) return;
+			let l = typeof e.attribute == "string" && e.attribute.trim() !== "" ? e.attribute : void 0, u = {
+				id: i,
+				kind: l ? "entity_attribute" : "entity_state",
+				entityId: a,
+				label: o,
+				path: l?.split("."),
+				valueType: s,
+				unit: typeof e.unit == "string" ? e.unit : void 0
+			}, d = c.map((e) => this._parseImportedPoint(e, s)).filter((e) => e !== void 0).sort((e, t) => e.time - t.time);
+			t.push({
+				source: u,
+				points: d
+			}), n.set(i, {
+				color: typeof e.color == "string" && e.color.trim() !== "" ? e.color : void 0,
+				lineMode: e.lineMode === "line" || e.lineMode === "column" || e.lineMode === "stair" ? e.lineMode : void 0
+			});
+		}
+		return {
+			series: t,
+			meta: n
+		};
+	}
+	_parseImportedPoint(e, t) {
+		if (typeof e != "object" || !e) return;
+		let n = e, r = Date.parse(String(n.timestamp ?? "")), i = n.value;
+		if (Number.isFinite(r) && (t === "number" && typeof i == "number" && Number.isFinite(i) || t === "boolean" && typeof i == "boolean" || t === "string" && typeof i == "string")) return {
+			time: r,
+			value: i
+		};
+	}
+	_parseDate(e) {
+		if (typeof e != "string") return;
+		let t = Date.parse(e);
+		return Number.isFinite(t) ? new Date(t) : void 0;
+	}
 	_renderToolsPanel() {
 		if (!this.toolsOpen || !this._resolved) return F;
 		let e = this._effectiveViewRange(), t = this._rangePercent(this._viewStart, this._resolved.startDate), n = this._rangePercent(this._viewEnd, this._resolved.endDate), r = (t + n) / 20, i = this._defaultLineMode();
@@ -4709,6 +4809,12 @@ var $ = class extends R {
             <ha-icon .icon=${"mdi:download"}></ha-icon>
             <span>${Z(this.hass, "export_data")}</span>
           </button>
+          ${this._showImportButton() ? M`
+              <button class="tool-action-button" @click=${() => this._importData()}>
+                <ha-icon .icon=${"mdi:upload"}></ha-icon>
+                <span>${Z(this.hass, "import_data")}</span>
+              </button>
+            ` : F}
         </div>
       </div>
     `;
@@ -4854,7 +4960,7 @@ var $ = class extends R {
 	}
 };
 //#endregion
-//#region node_modules/ha-better-history/dist/define.js
+//#region node_modules/@kipk/ha-better-history/dist/define.js
 Q([z({ attribute: !1 })], $.prototype, "hass", void 0), Q([z({ attribute: !1 })], $.prototype, "config", void 0), Q([z({ attribute: !1 })], $.prototype, "entities", void 0), Q([z({ attribute: !1 })], $.prototype, "attributeUnits", void 0), Q([z({ type: Number })], $.prototype, "hours", void 0), Q([z({ attribute: !1 })], $.prototype, "startDate", void 0), Q([z({ attribute: !1 })], $.prototype, "endDate", void 0), Q([z({
 	type: Boolean,
 	attribute: "show-date-picker"
@@ -4862,6 +4968,9 @@ Q([z({ attribute: !1 })], $.prototype, "hass", void 0), Q([z({ attribute: !1 })]
 	type: Boolean,
 	attribute: "show-entity-picker"
 })], $.prototype, "showEntityPicker", void 0), Q([z({
+	type: Boolean,
+	attribute: "show-import-button"
+})], $.prototype, "showImportButton", void 0), Q([z({
 	type: Boolean,
 	attribute: "show-legend"
 })], $.prototype, "showLegend", void 0), Q([z({

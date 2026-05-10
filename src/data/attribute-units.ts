@@ -1,4 +1,4 @@
-import type { AttributeUnitMap } from "ha-better-history";
+import type { AttributeUnitMap } from "@kipk/ha-better-history";
 
 const ATTRIBUTES_FILE = "attributes.json";
 const EMPTY_UNITS: AttributeUnitMap = {};

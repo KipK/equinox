@@ -21,10 +21,9 @@ Install dependencies:
 npm install
 ```
 
-`ha-better-history` is installed directly from
-`https://github.com/KipK/ha-better-history.git`. Its npm `prepare` script builds
-the package during install, so no local `lib/` checkout or extra install script
-is required.
+`@kipk/ha-better-history` is installed from npm. Its package exposes the built
+`dist/define.js` entry used by the Equinox build, so no local `lib/` checkout or
+extra install script is required.
 
 Build the distributable card:
 

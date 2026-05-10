@@ -6,14 +6,14 @@ import { spawnSync } from "node:child_process";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(SCRIPT_DIR, "..");
-const PACKAGE_ENTRY = join(PROJECT_ROOT, "node_modules/ha-better-history/dist/define.js");
+const PACKAGE_ENTRY = join(PROJECT_ROOT, "node_modules/@kipk/ha-better-history/dist/define.js");
 const OUT_DIR = join(PROJECT_ROOT, "dist/lib/ha-better-history");
 const TEMP_DIR = join(PROJECT_ROOT, "tmp/ha-better-history-build");
 const TEMP_CONFIG = join(TEMP_DIR, "vite.config.mjs");
 const VITE_BIN = join(PROJECT_ROOT, "node_modules/vite/bin/vite.js");
 
 if (!existsSync(PACKAGE_ENTRY)) {
-  throw new Error("Missing ha-better-history package build. Run `npm install` first.");
+  throw new Error("Missing @kipk/ha-better-history package build. Run `npm install` first.");
 }
 
 if (!existsSync(VITE_BIN)) {

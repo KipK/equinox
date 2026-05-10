@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
-import type { AttributeUnitMap, BetterHistoryConfig } from "ha-better-history";
+import type { AttributeUnitMap, BetterHistoryConfig } from "@kipk/ha-better-history";
 import { equinoxAttributeUnits, loadEquinoxStaticAttributeUnits } from "../data/attribute-units";
 
 const HISTORY_ELEMENT_URL = new URL(/* @vite-ignore */ "lib/ha-better-history/define.js", import.meta.url).toString();
