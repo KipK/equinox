@@ -11,6 +11,8 @@ card is registered as:
 type: custom:equinox-card
 ```
 
+![Equinox Lovelace climate cards in classic and compact layouts](assets/screens/cards.png)
+
 ## Status
 
 Equinox is in early implementation. The current codebase provides:
