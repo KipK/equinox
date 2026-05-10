@@ -11,7 +11,21 @@ card is registered as:
 type: custom:equinox-card
 ```
 
+If Equinox is useful in your Home Assistant setup, you can support development
+on [Buy Me a Coffee](https://buymeacoffee.com/kipk).
+
 ![Equinox Lovelace climate cards in classic and compact layouts](assets/screens/cards.png)
+
+## History Viewer
+
+Equinox embeds
+[`@kipk/ha-better-history`](https://www.npmjs.com/package/@kipk/ha-better-history),
+a standalone Home Assistant history web component also available on
+[GitHub](https://github.com/KipK/ha-better-history). It powers the history
+dialog with multi-series charts, no-refetch view zoom, display modes, entity and
+attribute series support, and portable JSON export/import.
+
+![ha-better-history viewer tools with chart zoom and display controls](assets/screens/ha-better-history-tools.png)
 
 ## Build
 
