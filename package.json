@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@kipk/load-ha-components": "^1.0.3",
-    "ha-better-history": "git+https://github.com/KipK/ha-better-history.git#main",
+    "ha-better-history": "github:KipK/ha-better-history#master",
     "lit": "^3.3.2"
   },
   "devDependencies": {
