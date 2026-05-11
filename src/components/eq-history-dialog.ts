@@ -56,6 +56,20 @@ export class EquinoxHistoryDialog extends LitElement {
       justify-content: center;
       min-height: 70vh;
     }
+
+    .history {
+      display: flex;
+      flex: 1 1 auto;
+      height: min(72vh, 58vw, 820px);
+      min-height: min(420px, calc(100vh - 128px));
+      min-width: 0;
+      width: 100%;
+    }
+
+    ha-dialog[fullscreen] .history {
+      height: min(76vh, 52vw, 860px);
+      min-height: min(460px, calc(100vh - 128px));
+    }
   `;
 
   open = false;
@@ -287,7 +301,7 @@ export class EquinoxHistoryDialog extends LitElement {
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
               @picker-overlay-changed=${(event: CustomEvent<{ open: boolean }>) => this._onHistoryPickerOverlayChanged(event)}
-              style="flex:1;min-height:70vh;"
+              class="history"
             ></ha-better-history>`
         : nothing}
       </ha-dialog>
