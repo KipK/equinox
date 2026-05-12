@@ -27,6 +27,29 @@ attribute series support, and portable JSON export/import.
 
 ![ha-better-history viewer tools with chart zoom and display controls](assets/screens/ha-better-history-tools.png)
 
+## Installation
+
+### Via HACS
+
+[![Add this repository to HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=KipK&repository=equinox&category=Plugin)
+
+
+1. Add this repository as a custom repository in HACS (type: **Dashboard**).
+2. Install **equinox** from HACS.
+3. Clear browser cache and reload Home Assistant.
+
+### Manual
+
+1. Download  the latest release.
+2. Copy content inside dist/ directory to `www/community/equinox/`.
+3. Add it as a Lovelace resource:
+
+```yaml
+url: /local/community/equinox/equinox-card.js
+type: module
+```
+
+
 ## Build
 
 Install dependencies:
