@@ -9841,6 +9841,18 @@ var Io = class extends O {
         min-width: 0;
       }
 
+      .range-setpoint-control[mode="heat-cool"] {
+        flex-direction: column;
+        gap: clamp(6px, 2cqi, 10px);
+      }
+
+      @container (min-width: 340px) {
+        .range-setpoint-control[mode="heat-cool"] {
+          flex-direction: row;
+          gap: clamp(8px, 3cqi, 14px);
+        }
+      }
+
       .range-bound {
         display: flex;
         flex-direction: column;
@@ -10818,19 +10830,24 @@ var Io = class extends O {
     `;
 	}
 	_renderRangeSetpointControl(e) {
-		let t = this.viewModel?.climate.targetTemperatureRange;
+		let t = this.viewModel?.climate.targetTemperatureRange, n = this.viewModel?.climate.hvacMode === "heat_cool";
 		return w`
-      <div class="range-setpoint-control" ?compact=${e}>
-        ${this._renderRangeBound("low", t?.low, e)}
-        ${this._renderRangeBound("high", t?.high, e)}
+      <div class="range-setpoint-control" mode=${n ? "heat-cool" : "range"} ?compact=${e}>
+        ${n ? w`
+              ${this._renderRangeBound("high", t?.high, e)}
+              ${this._renderRangeBound("low", t?.low, e)}
+            ` : w`
+              ${this._renderRangeBound("low", t?.low, e)}
+              ${this._renderRangeBound("high", t?.high, e)}
+            `}
       </div>
     `;
 	}
 	_renderRangeBound(e, t, n) {
-		let r = this._isControlDisabled() || !q(t), i = e === "low" ? "main.actions.low_temperature" : "main.actions.high_temperature", a = V(this._language(), i), o = this._rangeSetpointFallback(e), s = o.length || 4;
+		let r = this._isControlDisabled() || !q(t), i = this._rangeBoundLabel(e), a = this._rangeSetpointFallback(e), o = a.length || 4, s = this._rangeBoundTone(e);
 		return w`
       <div class="range-bound">
-        <span class="range-label">${a}</span>
+        ${i ? w`<span class="range-label">${i}</span>` : E}
         <div class="setpoint-control" ?compact=${n}>
           <ha-control-button
             class="step"
@@ -10840,15 +10857,15 @@ var Io = class extends O {
           >
             <ha-icon icon="mdi:minus"></ha-icon>
           </ha-control-button>
-          <div class="target" mode=${this._targetTone()} ?compact=${n}>
+          <div class="target" mode=${s} ?compact=${n}>
             <span class="setpoint-unit" aria-hidden="true" style="visibility: hidden">°</span>
             <input
               class="setpoint-input"
               type="text"
               inputmode="decimal"
-              .value=${o}
+              .value=${a}
               placeholder="--.-"
-              style="width: ${s}ch"
+              style="width: ${o}ch"
               ?disabled=${r}
               data-range-bound=${e}
               @focus=${this._onSetpointFocus}
@@ -10868,6 +10885,14 @@ var Io = class extends O {
         </div>
       </div>
     `;
+	}
+	_rangeBoundLabel(e) {
+		if (this.viewModel?.climate.hvacMode === "heat_cool") return "";
+		let t = e === "low" ? "main.actions.low_temperature" : "main.actions.high_temperature";
+		return V(this._language(), t);
+	}
+	_rangeBoundTone(e) {
+		return this.viewModel?.climate.hvacMode === "heat_cool" && this.viewModel.climate.availability === "available" ? e === "high" ? "cool" : "heat" : this._targetTone();
 	}
 	_renderConditions() {
 		if (this.config?.primary_display === "sensors") return E;

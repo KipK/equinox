@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Lovelace card for Home Assistant climate entities (Versatile Thermostat + standard).
-- **Climate controls**: HVAC mode selector, temperature setpoint and `heat_cool` low/high range controls.
+- **Climate controls**: HVAC mode selector, temperature setpoint and responsive color-coded `heat_cool` range controls.
 - **Preset selector** with Versatile Thermostat and standard preset support.
 - **Boost / timed preset dialog** with circular duration slider.
 - **Swing mode dialog** for `swing_mode` and `swing_horizontal_mode`.

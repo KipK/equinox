@@ -40,6 +40,8 @@ type EventIconDefinition = {
   messageKeys?: string[];
 };
 
+type TemperatureRangeBound = "low" | "high";
+
 const EVENT_ICONS: EventIconDefinition[] = [
   { key: "hasOverpowering", icon: "mdi:flash-alert", tone: "warning", messageKeys: ["overpowering_detected", "target_temp_power"] },
   {
@@ -460,6 +462,18 @@ export class EquinoxMainCard extends LitElement {
         justify-content: center;
         gap: clamp(8px, 3cqi, 14px);
         min-width: 0;
+      }
+
+      .range-setpoint-control[mode="heat-cool"] {
+        flex-direction: column;
+        gap: clamp(6px, 2cqi, 10px);
+      }
+
+      @container (min-width: 340px) {
+        .range-setpoint-control[mode="heat-cool"] {
+          flex-direction: row;
+          gap: clamp(8px, 3cqi, 14px);
+        }
       }
 
       .range-bound {
@@ -1535,25 +1549,33 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderRangeSetpointControl(compact: boolean): TemplateResult {
     const range = this.viewModel?.climate.targetTemperatureRange;
+    const isHeatCool = this.viewModel?.climate.hvacMode === "heat_cool";
 
     return html`
-      <div class="range-setpoint-control" ?compact=${compact}>
-        ${this._renderRangeBound("low", range?.low, compact)}
-        ${this._renderRangeBound("high", range?.high, compact)}
+      <div class="range-setpoint-control" mode=${isHeatCool ? "heat-cool" : "range"} ?compact=${compact}>
+        ${isHeatCool
+          ? html`
+              ${this._renderRangeBound("high", range?.high, compact)}
+              ${this._renderRangeBound("low", range?.low, compact)}
+            `
+          : html`
+              ${this._renderRangeBound("low", range?.low, compact)}
+              ${this._renderRangeBound("high", range?.high, compact)}
+            `}
       </div>
     `;
   }
 
-  private _renderRangeBound(bound: "low" | "high", value: number | undefined, compact: boolean): TemplateResult {
+  private _renderRangeBound(bound: TemperatureRangeBound, value: number | undefined, compact: boolean): TemplateResult {
     const disabled = this._isControlDisabled() || !finite(value);
-    const labelKey = bound === "low" ? "main.actions.low_temperature" : "main.actions.high_temperature";
-    const label = localize(this._language(), labelKey);
+    const label = this._rangeBoundLabel(bound);
     const rawValue = this._rangeSetpointFallback(bound);
     const inputWidth = rawValue.length || 4;
+    const tone = this._rangeBoundTone(bound);
 
     return html`
       <div class="range-bound">
-        <span class="range-label">${label}</span>
+        ${label ? html`<span class="range-label">${label}</span>` : nothing}
         <div class="setpoint-control" ?compact=${compact}>
           <ha-control-button
             class="step"
@@ -1563,7 +1585,7 @@ export class EquinoxMainCard extends LitElement {
           >
             <ha-icon icon="mdi:minus"></ha-icon>
           </ha-control-button>
-          <div class="target" mode=${this._targetTone()} ?compact=${compact}>
+          <div class="target" mode=${tone} ?compact=${compact}>
             <span class="setpoint-unit" aria-hidden="true" style="visibility: hidden">°</span>
             <input
               class="setpoint-input"
@@ -1591,6 +1613,24 @@ export class EquinoxMainCard extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  private _rangeBoundLabel(bound: TemperatureRangeBound): string {
+    if (this.viewModel?.climate.hvacMode === "heat_cool") {
+      return "";
+    }
+
+    const labelKey = bound === "low" ? "main.actions.low_temperature" : "main.actions.high_temperature";
+
+    return localize(this._language(), labelKey);
+  }
+
+  private _rangeBoundTone(bound: TemperatureRangeBound): string {
+    if (this.viewModel?.climate.hvacMode === "heat_cool" && this.viewModel.climate.availability === "available") {
+      return bound === "high" ? "cool" : "heat";
+    }
+
+    return this._targetTone();
   }
 
   private _renderConditions(): TemplateResult | typeof nothing {
@@ -2181,7 +2221,7 @@ export class EquinoxMainCard extends LitElement {
     }).format(this.viewModel!.climate.targetTemperature);
   }
 
-  private _rangeSetpointFallback(bound: "low" | "high"): string {
+  private _rangeSetpointFallback(bound: TemperatureRangeBound): string {
     const dec = this._stepDecimals();
     const value = this.viewModel?.climate.targetTemperatureRange?.[bound];
 
@@ -2281,7 +2321,7 @@ export class EquinoxMainCard extends LitElement {
     );
   }
 
-  private _changeRangeTemperature(bound: "low" | "high", direction: -1 | 1): void {
+  private _changeRangeTemperature(bound: TemperatureRangeBound, direction: -1 | 1): void {
     if (!this.hass || !this.config || !this.viewModel) {
       return;
     }
@@ -2309,7 +2349,7 @@ export class EquinoxMainCard extends LitElement {
     );
   }
 
-  private _rangeWith(bound: "low" | "high", value: number): { low: number; high: number } | undefined {
+  private _rangeWith(bound: TemperatureRangeBound, value: number): { low: number; high: number } | undefined {
     const range = this.viewModel?.climate.targetTemperatureRange;
     const low = bound === "low" ? this._clampTemperature(value) : range?.low;
     const high = bound === "high" ? this._clampTemperature(value) : range?.high;
