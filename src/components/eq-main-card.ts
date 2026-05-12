@@ -21,6 +21,12 @@ import "./eq-lock-dialog";
 import "./eq-dialog";
 
 const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
+const BROWSER_HISTORY_STATE_KEY = "equinox";
+
+interface BrowserHistoryEntry {
+  instanceId: string;
+  layer: "history-dialog";
+}
 
 const PRESET_ICONS: Record<string, string> = {
   frost: "mdi:snowflake",
@@ -1108,15 +1114,19 @@ export class EquinoxMainCard extends LitElement {
   private _powerInfoPressTimer?: number;
   private _lockDialogOpen = false;
   private _lockIsLocking = false;
+  private readonly _browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`;
+  private _syncingBrowserHistory = false;
 
   connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener("mouseleave", this._handleMouseLeave);
+    window.addEventListener("popstate", this._handleBrowserPopState);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener("mouseleave", this._handleMouseLeave);
+    window.removeEventListener("popstate", this._handleBrowserPopState);
     this._clearPowerInfoPressTimer();
   }
 
@@ -1125,6 +1135,76 @@ export class EquinoxMainCard extends LitElement {
       this._activeDialog = null;
     }
   };
+
+  private _browserHistoryEntry(state = window.history.state): BrowserHistoryEntry | undefined {
+    const entry = typeof state === "object" && state !== null
+      ? (state as Record<string, unknown>)[BROWSER_HISTORY_STATE_KEY]
+      : undefined;
+
+    if (typeof entry !== "object" || entry === null) return undefined;
+
+    const record = entry as Partial<BrowserHistoryEntry>;
+    if (record.instanceId !== this._browserHistoryInstanceId || record.layer !== "history-dialog") {
+      return undefined;
+    }
+
+    return { instanceId: record.instanceId, layer: record.layer };
+  }
+
+  private _browserHistoryState(): Record<string, unknown> {
+    const current = typeof window.history.state === "object" && window.history.state !== null
+      ? window.history.state as Record<string, unknown>
+      : {};
+
+    return {
+      ...current,
+      [BROWSER_HISTORY_STATE_KEY]: {
+        instanceId: this._browserHistoryInstanceId,
+        layer: "history-dialog"
+      }
+    };
+  }
+
+  private _pushHistoryDialogState(): void {
+    if (this._syncingBrowserHistory) return;
+    if (this._browserHistoryEntry()?.layer === "history-dialog") return;
+
+    window.history.pushState(this._browserHistoryState(), "", window.location.href);
+  }
+
+  private readonly _handleBrowserPopState = (event: PopStateEvent): void => {
+    const entry = this._browserHistoryEntry(event.state);
+
+    this._syncingBrowserHistory = true;
+    try {
+      if (entry?.layer === "history-dialog") {
+        this._activeDialog = "history";
+        this._activeMessageKey = undefined;
+        return;
+      }
+
+      if (this._activeDialog === "history") {
+        this._activeDialog = null;
+      }
+    } finally {
+      this._syncingBrowserHistory = false;
+    }
+  };
+
+  private _openHistoryDialog(): void {
+    this._activeDialog = "history";
+    this._activeMessageKey = undefined;
+    this._pushHistoryDialogState();
+  }
+
+  private _closeHistoryDialog(): void {
+    if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "history-dialog") {
+      window.history.back();
+      return;
+    }
+
+    this._activeDialog = null;
+  }
 
   protected willUpdate(): void {
     this.setAttribute("theme", this.config?.theme ?? "flat");
@@ -1215,7 +1295,7 @@ export class EquinoxMainCard extends LitElement {
         @eq-dialog-close=${() => { this._activeDialog = null; }}
         @equinox-open-regulation=${() => { this._activeDialog = null; }}
         @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
-        @equinox-open-history=${() => { this._activeDialog = "history"; }}
+        @equinox-open-history=${() => this._openHistoryDialog()}
       ></eq-menu-dialog>
       <eq-boost-dialog
         .open=${this._activeDialog === "boost"}
@@ -1234,7 +1314,7 @@ export class EquinoxMainCard extends LitElement {
         .hass=${this.hass}
         .config=${this.config}
         .language=${this._language()}
-        @eq-dialog-close=${() => { this._activeDialog = null; }}
+        @eq-dialog-close=${() => this._closeHistoryDialog()}
       ></eq-history-dialog>
       <eq-lock-dialog
         .open=${this._lockDialogOpen}
