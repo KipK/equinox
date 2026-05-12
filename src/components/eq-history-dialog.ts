@@ -5,8 +5,6 @@ import type { HomeAssistant } from "../types/ha";
 import type { AttributeUnitMap, BetterHistoryConfig } from "@kipk/ha-better-history";
 import { equinoxAttributeUnits, loadEquinoxStaticAttributeUnits } from "../data/attribute-units";
 
-const HISTORY_ELEMENT_URL = new URL(/* @vite-ignore */ "lib/ha-better-history/define.js", import.meta.url).toString();
-
 export class EquinoxHistoryDialog extends LitElement {
   static properties = {
     open: { type: Boolean },
@@ -17,7 +15,6 @@ export class EquinoxHistoryDialog extends LitElement {
     _controlsVisible: { state: true },
     _toolsOpen: { state: true },
     _staticAttributeUnits: { state: true },
-    _historyElementReady: { state: true }
   };
 
   static styles = css`
@@ -48,15 +45,6 @@ export class EquinoxHistoryDialog extends LitElement {
       }
     }
 
-    .history-loading {
-      align-items: center;
-      color: var(--secondary-text-color);
-      display: flex;
-      flex: 1;
-      justify-content: center;
-      min-height: 70vh;
-    }
-
     .history {
       display: flex;
       flex: 1 1 auto;
@@ -80,8 +68,6 @@ export class EquinoxHistoryDialog extends LitElement {
   private _controlsVisible = true;
   private _toolsOpen = false;
   private _staticAttributeUnits?: AttributeUnitMap;
-  private _historyElementReady = customElements.get("ha-better-history") !== undefined;
-  private _historyElementLoadStarted = false;
   private _attributeUnitsLoadStarted = false;
   private _historyPickerOverlayOpen = false;
   private _suppressNextDialogClose = false;
@@ -89,9 +75,6 @@ export class EquinoxHistoryDialog extends LitElement {
 
   protected updated(): void {
     this._styleDialogHeader();
-    if (this.open) {
-      void this._loadHistoryElement();
-    }
   }
 
   connectedCallback(): void {
@@ -156,20 +139,6 @@ export class EquinoxHistoryDialog extends LitElement {
       this._staticAttributeUnits = units;
       this.requestUpdate();
     });
-  }
-
-  private async _loadHistoryElement(): Promise<void> {
-    if (this._historyElementReady || this._historyElementLoadStarted) return;
-    this._historyElementLoadStarted = true;
-
-    try {
-      await import(/* @vite-ignore */ HISTORY_ELEMENT_URL);
-      await customElements.whenDefined("ha-better-history");
-      this._historyElementReady = true;
-    } catch (error) {
-      console.warn("[equinox] Failed to load ha-better-history:", error);
-      this._historyElementLoadStarted = false;
-    }
   }
 
   private _styleDialogHeader(): void {
@@ -287,12 +256,7 @@ export class EquinoxHistoryDialog extends LitElement {
         >
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
         </ha-icon-button>
-        ${this.open && !this._historyElementReady
-        ? html`<div class="history-loading">
-              ${localize(this.language, "dialog.history.loading")}
-            </div>`
-        : nothing}
-        ${this.open && this._historyElementReady
+        ${this.open
         ? html`<ha-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}

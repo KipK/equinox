@@ -1,4 +1,5 @@
 import { LitElement, css, html } from "lit";
+import "@kipk/ha-better-history";
 import "./equinox-card-editor";
 import "./components/eq-main-card";
 import { CARD_NAME, CARD_TAG, CARD_TYPE } from "./const";
