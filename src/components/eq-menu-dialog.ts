@@ -5,6 +5,8 @@ import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
 
+const REGULATION_MENU_ENABLED = false;
+
 export class EquinoxMenuDialog extends LitElement {
   static properties = {
     open: { type: Boolean },
@@ -90,7 +92,8 @@ export class EquinoxMenuDialog extends LitElement {
   }
 
   private _showRegulation(): boolean {
-    return this.config?.additional_dashboards !== "disabled";
+    // Temporarily hidden for the 0.1.0 release; keep the dormant menu code for reactivation.
+    return REGULATION_MENU_ENABLED && this.config?.additional_dashboards !== "disabled";
   }
 
   private _showBoost(): boolean {

@@ -20,7 +20,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Two display modes**: `classic` and `compact` (responsive with optional icon-only popups).
 - **Primary display**: `setpoint` (temperature emphasis) or `sensors` (sensor values emphasis).
 - **Power and humidity info**: optional external sensors with popover details.
-- **Dynamic dashboards**: auto-detected VT algorithm diagnostic panels.
 - **Responsive layout**: adapts to narrow cards, mobile-friendly.
 - **i18n**: 19 languages with runtime translation loading.
 - **Light mode fix**: detects HA theme dark mode instead of OS preference.

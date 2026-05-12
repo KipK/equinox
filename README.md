@@ -117,7 +117,7 @@ additional_dashboards: auto
 | `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`.                        |
 | `disable_name`          | no       | `false`              | Hide the header name.                                          |
 | `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
-| `additional_dashboards` | no       | `auto`               | Dashboard mode: `auto`, `custom`, or `disabled`.               |
+| `additional_dashboards` | no       | `auto`               | Reserved dashboard mode: `auto`, `custom`, or `disabled`.      |
 
 ## Development Notes
 
