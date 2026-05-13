@@ -210,8 +210,8 @@
     "tabs": {
       "general": "常规",
       "presentation": "外观",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "HVAC 模式",
+      "preset": "预设"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "禁用"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "HVAC 按钮",
+    "preset_modes": "预设按钮",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "取消勾选某个模式即可在不更改 Home Assistant 中 climate 实体能力的情况下隐藏其在 Equinox 中的按钮。",
+      "no_entity": "请先选择一个 climate 实体以加载受支持的模式。",
+      "no_hvac_modes": "此 climate 实体未报告受支持的 HVAC 模式。",
+      "no_presets": "此 climate 实体未报告受支持的预设。"
     }
   }
 }

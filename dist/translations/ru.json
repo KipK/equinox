@@ -210,8 +210,8 @@
     "tabs": {
       "general": "Общие",
       "presentation": "Презентация",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "Режимы HVAC",
+      "preset": "Предустановки"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Отключено"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "Кнопки HVAC",
+    "preset_modes": "Кнопки предустановок",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Снимите флажок с режима, чтобы скрыть его кнопку в Equinox, не меняя возможности сущности climate в Home Assistant.",
+      "no_entity": "Сначала выберите сущность climate, чтобы загрузить поддерживаемые режимы.",
+      "no_hvac_modes": "Эта сущность climate не сообщает поддерживаемые режимы HVAC.",
+      "no_presets": "Эта сущность climate не сообщает поддерживаемые предустановки."
     }
   }
 }

@@ -210,8 +210,8 @@
     "tabs": {
       "general": "Ogólne",
       "presentation": "Prezentacja",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "Tryby HVAC",
+      "preset": "Presety"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Wyłączony"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "Przyciski HVAC",
+    "preset_modes": "Przyciski preset",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Odznacz tryb, aby ukryć jego przycisk w Equinox bez zmiany możliwości encji climate w Home Assistant.",
+      "no_entity": "Najpierw wybierz encję climate, aby wczytać obsługiwane tryby.",
+      "no_hvac_modes": "Ta encja climate nie zgłasza obsługiwanych trybów HVAC.",
+      "no_presets": "Ta encja climate nie zgłasza obsługiwanych presetów."
     }
   }
 }

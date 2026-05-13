@@ -210,8 +210,8 @@
     "tabs": {
       "general": "Obecné",
       "presentation": "Prezentace",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "Režimy HVAC",
+      "preset": "Předvolby"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Zakázáno"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "Tlačítka HVAC",
+    "preset_modes": "Tlačítka předvoleb",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Vypněte režim, pokud chcete v Equinox skrýt jeho tlačítko, aniž se změní možnosti entity climate v Home Assistant.",
+      "no_entity": "Nejprve vyberte entitu climate, aby bylo možné načíst podporované režimy.",
+      "no_hvac_modes": "Tato entita climate neposkytuje žádné podporované režimy HVAC.",
+      "no_presets": "Tato entita climate neposkytuje žádné podporované předvolby."
     }
   }
 }

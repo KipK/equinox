@@ -210,8 +210,8 @@
     "tabs": {
       "general": "Általános",
       "presentation": "Bemutató",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "HVAC módok",
+      "preset": "Előbeállítások"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Letiltva"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "HVAC gombok",
+    "preset_modes": "Előbeállítás gombok",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Kapcsold ki a módot, hogy elrejtsd a gombját az Equinoxban anélkül, hogy a Home Assistant climate entitásának képességei megváltoznának.",
+      "no_entity": "Először válassz egy climate entitást a támogatott módok betöltéséhez.",
+      "no_hvac_modes": "Ez a climate entitás nem jelent be támogatott HVAC módokat.",
+      "no_presets": "Ez a climate entitás nem jelent be támogatott előbeállításokat."
     }
   }
 }

@@ -210,8 +210,8 @@
     "tabs": {
       "general": "General",
       "presentation": "Presentation",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "HVAC-tilstande",
+      "preset": "Forudindstillinger"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Disabled"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "HVAC-knapper",
+    "preset_modes": "Knapper til forudindstillinger",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Fjern markeringen af en tilstand for at skjule knappen i Equinox uden at ændre climate-enhedens egenskaber i Home Assistant.",
+      "no_entity": "Vælg først en climate-enhed for at indlæse understøttede tilstande.",
+      "no_hvac_modes": "Denne climate-enhed viser ingen understøttede HVAC-tilstande.",
+      "no_presets": "Denne climate-enhed viser ingen understøttede forudindstillinger."
     }
   }
 }

@@ -210,8 +210,8 @@
     "tabs": {
       "general": "Algemeen",
       "presentation": "Presentatie",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "HVAC-modi",
+      "preset": "Voorinstellingen"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Uitgeschakeld"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "HVAC-knoppen",
+    "preset_modes": "Knoppen voor voorinstellingen",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Schakel een modus uit om de knop ervan in Equinox te verbergen zonder de mogelijkheden van de climate-entiteit in Home Assistant te wijzigen.",
+      "no_entity": "Selecteer eerst een climate-entiteit om ondersteunde modi te laden.",
+      "no_hvac_modes": "Deze climate-entiteit meldt geen ondersteunde HVAC-modi.",
+      "no_presets": "Deze climate-entiteit meldt geen ondersteunde voorinstellingen."
     }
   }
 }

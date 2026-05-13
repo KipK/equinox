@@ -210,8 +210,8 @@
     "tabs": {
       "general": "Geral",
       "presentation": "Apresentação",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "Modos HVAC",
+      "preset": "Predefinições"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Desabilitado"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "Botões HVAC",
+    "preset_modes": "Botões de predefinição",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Desmarque um modo para ocultar o botão no Equinox sem alterar as capacidades da entidade climate no Home Assistant.",
+      "no_entity": "Selecione primeiro uma entidade climate para carregar os modos suportados.",
+      "no_hvac_modes": "Esta entidade climate não informa modos HVAC suportados.",
+      "no_presets": "Esta entidade climate não informa predefinições suportadas."
     }
   }
 }

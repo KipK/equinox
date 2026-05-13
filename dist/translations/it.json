@@ -210,8 +210,8 @@
     "tabs": {
       "general": "Generale",
       "presentation": "Presentazione",
-      "hvac": "HVAC modes",
-      "preset": "Presets"
+      "hvac": "Modalità HVAC",
+      "preset": "Preset"
     },
     "options": {
       "theme": {
@@ -236,13 +236,13 @@
         "disabled": "Disabilitato"
       }
     },
-    "hvac_modes": "HVAC buttons",
-    "preset_modes": "Preset buttons",
+    "hvac_modes": "Pulsanti HVAC",
+    "preset_modes": "Pulsanti preset",
     "visibility": {
-      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
-      "no_entity": "Select a climate entity first to load its supported modes.",
-      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
-      "no_presets": "This climate does not report any supported presets."
+      "help": "Deseleziona una modalità per nascondere il suo pulsante in Equinox senza cambiare le capacità dell'entità climate in Home Assistant.",
+      "no_entity": "Seleziona prima un'entità climate per caricare le modalità supportate.",
+      "no_hvac_modes": "Questa entità climate non segnala modalità HVAC supportate.",
+      "no_presets": "Questa entità climate non segnala preset supportati."
     }
   }
 }
