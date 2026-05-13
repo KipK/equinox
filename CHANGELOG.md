@@ -33,3 +33,4 @@ All notable changes to Equinox will be documented in this file.
 - use private custom-element tag to avoid versionning conflict with other card using history component
 - handle browser history
 - fix card should default to automatic height
+- improve Liquid Glow active heat/cool side glow while preserving the Home Assistant card border theme

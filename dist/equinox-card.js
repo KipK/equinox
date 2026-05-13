@@ -7110,15 +7110,20 @@ var bs = [
     --equinox-liquid-line-opacity-max: 1;
     --equinox-liquid-halo-opacity-min: 0.62;
     --equinox-liquid-halo-opacity-max: 1;
+    --equinox-liquid-line-edge-stop: 5%;
+    --equinox-liquid-line-soft-stop: 22%;
+    --equinox-liquid-line-mid-stop: 38%;
+    --equinox-liquid-line-edge-alpha: 32%;
+    --equinox-liquid-line-mid-alpha: 60%;
+    --equinox-liquid-line-peak-alpha: 88%;
+    --equinox-liquid-halo-size: 10px 65%;
+    --equinox-liquid-halo-alpha: 42%;
+    --equinox-liquid-halo-fade-alpha: 14%;
   }
 
   :host([theme="liquid_glow"]) ha-card {
     position: relative;
     isolation: isolate;
-    /* Transparent on the side edges where our gradient line sits — keep top/bottom intact. */
-    border-color: color-mix(in srgb, var(--equinox-border-color) 56%, transparent);
-    border-left-color: transparent;
-    border-right-color: transparent;
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 5%, transparent),
       var(--equinox-shadow);
@@ -7141,7 +7146,7 @@ var bs = [
 
     50% {
       opacity: var(--equinox-liquid-line-opacity-max);
-      filter: brightness(1.32) saturate(1.18) drop-shadow(0 0 3px var(--equinox-liquid-glow-color));
+      filter: brightness(1.46) saturate(1.24) drop-shadow(0 0 5px var(--equinox-liquid-glow-color));
     }
   }
 
@@ -7168,23 +7173,23 @@ var bs = [
     background:
       linear-gradient(
         180deg,
-        transparent 5%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 22%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 38%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 88%, transparent) 50%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 62%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 78%,
-        transparent 95%
+        transparent var(--equinox-liquid-line-edge-stop),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-edge-alpha), transparent) var(--equinox-liquid-line-soft-stop),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-mid-alpha), transparent) var(--equinox-liquid-line-mid-stop),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-peak-alpha), transparent) 50%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-mid-alpha), transparent) calc(100% - var(--equinox-liquid-line-mid-stop)),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-edge-alpha), transparent) calc(100% - var(--equinox-liquid-line-soft-stop)),
+        transparent calc(100% - var(--equinox-liquid-line-edge-stop))
       ) left 0 top 0 / 1px 100% no-repeat,
       linear-gradient(
         180deg,
-        transparent 5%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 22%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 38%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 88%, transparent) 50%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 60%, transparent) 62%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 32%, transparent) 78%,
-        transparent 95%
+        transparent var(--equinox-liquid-line-edge-stop),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-edge-alpha), transparent) var(--equinox-liquid-line-soft-stop),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-mid-alpha), transparent) var(--equinox-liquid-line-mid-stop),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-peak-alpha), transparent) 50%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-mid-alpha), transparent) calc(100% - var(--equinox-liquid-line-mid-stop)),
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-edge-alpha), transparent) calc(100% - var(--equinox-liquid-line-soft-stop)),
+        transparent calc(100% - var(--equinox-liquid-line-edge-stop))
       ) right 0 top 0 / 1px 100% no-repeat;
     box-shadow: none;
     opacity: var(--equinox-liquid-line-opacity-min);
@@ -7198,14 +7203,14 @@ var bs = [
     border-radius: 0;
     z-index: 0;
     background:
-      radial-gradient(ellipse 10px 65% at left 4px center,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 42%, transparent) 0%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 14%, transparent) 55%,
+      radial-gradient(ellipse var(--equinox-liquid-halo-size) at left 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-halo-alpha), transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-halo-fade-alpha), transparent) 55%,
         transparent 100%
       ),
-      radial-gradient(ellipse 10px 65% at right 4px center,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 42%, transparent) 0%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 14%, transparent) 55%,
+      radial-gradient(ellipse var(--equinox-liquid-halo-size) at right 4px center,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-halo-alpha), transparent) 0%,
+        color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-halo-fade-alpha), transparent) 55%,
         transparent 100%
       );
     opacity: var(--equinox-liquid-halo-opacity-min);
@@ -7214,12 +7219,21 @@ var bs = [
 
   :host([theme="liquid_glow"]) ha-card[active-action="heat"]::before,
   :host([theme="liquid_glow"]) ha-card[active-action="cool"]::before {
+    --equinox-liquid-line-edge-stop: 0%;
+    --equinox-liquid-line-soft-stop: 10%;
+    --equinox-liquid-line-mid-stop: 26%;
+    --equinox-liquid-line-edge-alpha: 22%;
+    --equinox-liquid-line-mid-alpha: 72%;
+    --equinox-liquid-line-peak-alpha: 100%;
     animation: equinox-liquid-line-pulse 5.5s ease-in-out infinite;
     will-change: opacity, filter;
   }
 
   :host([theme="liquid_glow"]) ha-card[active-action="heat"]::after,
   :host([theme="liquid_glow"]) ha-card[active-action="cool"]::after {
+    --equinox-liquid-halo-size: 14px 86%;
+    --equinox-liquid-halo-alpha: 54%;
+    --equinox-liquid-halo-fade-alpha: 20%;
     animation: equinox-liquid-halo-pulse 5.5s ease-in-out infinite;
     will-change: opacity, filter;
   }
@@ -7229,23 +7243,22 @@ var bs = [
   :host([theme="liquid_glow"][light]) {
     --equinox-liquid-line-opacity-min: 0.82;
     --equinox-liquid-halo-opacity-min: 0.36;
-    --equinox-liquid-halo-opacity-max: 0.72;
+    --equinox-liquid-halo-opacity-max: 0.82;
     --equinox-panel-bg: var(--equinox-card-bg);
     --equinox-control-bg: var(--equinox-card-bg);
   }
 
   :host([theme="liquid_glow"][light]) ha-card::after {
-    background:
-      radial-gradient(ellipse 8px 60% at left 4px center,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
-        transparent 100%
-      ),
-      radial-gradient(ellipse 8px 60% at right 4px center,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 30%, transparent) 0%,
-        color-mix(in oklab, var(--equinox-liquid-glow-color) 8%, transparent) 55%,
-        transparent 100%
-    );
+    --equinox-liquid-halo-size: 10px 72%;
+    --equinox-liquid-halo-alpha: 34%;
+    --equinox-liquid-halo-fade-alpha: 10%;
+  }
+
+  :host([theme="liquid_glow"][light]) ha-card[active-action="heat"]::after,
+  :host([theme="liquid_glow"][light]) ha-card[active-action="cool"]::after {
+    --equinox-liquid-halo-size: 12px 82%;
+    --equinox-liquid-halo-alpha: 42%;
+    --equinox-liquid-halo-fade-alpha: 14%;
   }
 
   :host([theme="liquid_glow"][light]) .segments ha-control-button[active][subtle],
