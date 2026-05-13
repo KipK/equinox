@@ -206,6 +206,7 @@
     "hide_lock_button": "Ocultar botão de bloqueio",
     "additional_dashboards": "Painéis adicionais",
     "state_icons_layout": "Ícones de estado",
+    "border_glow_on_action": "As bordas brilham apenas quando o HVAC está ativo",
     "tabs": {
       "general": "Geral",
       "presentation": "Apresentação"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "Plano",
-        "liquid_glow": "Liquid Glow"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "Clássico",

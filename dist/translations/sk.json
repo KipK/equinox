@@ -206,6 +206,7 @@
     "hide_lock_button": "Skryť tlačítko zámku",
     "additional_dashboards": "Ďalšie panely",
     "state_icons_layout": "Ikony stavu",
+    "border_glow_on_action": "Border glow on active action",
     "tabs": {
       "general": "Všeobecné",
       "presentation": "Prezentácia"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "Plochý",
-        "liquid_glow": "Liquid Glow"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "Klasický",

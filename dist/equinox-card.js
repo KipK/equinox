@@ -6637,7 +6637,8 @@ var Qo = ["flat", "liquid_glow"], $o = ["classic", "compact"], es = ["setpoint",
 	disable_name: !1,
 	hide_lock_button: !1,
 	additional_dashboards: No,
-	state_icons_layout: "horizontal"
+	state_icons_layout: "horizontal",
+	border_glow_on_action: !0
 };
 //#endregion
 //#region src/equinox-card-editor.ts
@@ -6767,8 +6768,7 @@ var as = class extends T {
 		}, {
 			value: "vertical",
 			label: V(e, "editor.options.layout_orientation.vertical")
-		}];
-		return [
+		}], n = [
 			{
 				name: "disable_name",
 				selector: { boolean: {} }
@@ -6824,6 +6824,10 @@ var as = class extends T {
 				selector: { boolean: {} }
 			}
 		];
+		return this._config.theme === "liquid_glow" && n.push({
+			name: "border_glow_on_action",
+			selector: { boolean: {} }
+		}), n;
 	}
 	_computeLabel(e) {
 		return (t) => V(e, `editor.${t.name}`);
@@ -7320,6 +7324,12 @@ var bs = [
   /* No glow when HVAC is off or the entity is unavailable. */
   :host([theme="liquid_glow"]) ha-card[tone="off"]::before,
   :host([theme="liquid_glow"]) ha-card[tone="off"]::after {
+    display: none;
+  }
+
+  /* When glow_on_action_only is set, hide glow unless there is active heating/cooling. */
+  :host([theme="liquid_glow"][border-glow-on-action]) ha-card:not([active-action])::before,
+  :host([theme="liquid_glow"][border-glow-on-action]) ha-card:not([active-action])::after {
     display: none;
   }
 
@@ -11465,7 +11475,7 @@ var sc = class extends T {
 		this._activeDialog = null;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode), this.toggleAttribute("border-glow-on-action", !!this.config?.border_glow_on_action);
 	}
 	render() {
 		if (!this.viewModel || !this.config) return w;

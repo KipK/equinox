@@ -32,6 +32,7 @@ export interface EquinoxCardConfig {
   hide_lock_button?: boolean;
   additional_dashboards?: EquinoxAdditionalDashboards;
   state_icons_layout?: EquinoxLayoutOrientation;
+  border_glow_on_action?: boolean;
 }
 
 export type EquinoxCardConfigInput = Partial<EquinoxCardConfig> & {
@@ -45,7 +46,8 @@ export const DEFAULT_CONFIG = {
   disable_name: false,
   hide_lock_button: false,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
-  state_icons_layout: "horizontal"
+  state_icons_layout: "horizontal",
+  border_glow_on_action: true
 } satisfies Pick<
   EquinoxCardConfig,
   | "theme"

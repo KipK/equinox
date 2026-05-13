@@ -206,6 +206,7 @@
     "hide_lock_button": "Skjul låseknapp",
     "additional_dashboards": "Tilleggssamler",
     "state_icons_layout": "Tilstands ikoner",
+    "border_glow_on_action": "Kantene lyser bare når HVAC er aktiv",
     "tabs": {
       "general": "Generelt",
       "presentation": "Presentasjon"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "Flat",
-        "liquid_glow": "Liquid Glow"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "Klassisk",

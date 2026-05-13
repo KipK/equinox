@@ -206,6 +206,7 @@
     "hide_lock_button": "Hide lock button",
     "additional_dashboards": "Additional dashboards",
     "state_icons_layout": "State icons",
+    "border_glow_on_action": "Les vores brillen només quan l'HVAC està actiu",
     "tabs": {
       "general": "General",
       "presentation": "Presentation"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "Flat",
-        "liquid_glow": "Liquid Glow"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "Classic",

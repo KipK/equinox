@@ -148,7 +148,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       { value: "vertical", label: localize(language, "editor.options.layout_orientation.vertical") }
     ];
 
-    return [
+    const schema: HaFormSchema[] = [
       {
         name: "disable_name",
         selector: {
@@ -207,6 +207,17 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       }
     ];
+
+    if (this._config.theme === "liquid_glow") {
+      schema.push({
+        name: "border_glow_on_action",
+        selector: {
+          boolean: {}
+        }
+      });
+    }
+
+    return schema;
   }
 
   private _computeLabel(language?: string): (schema: HaFormSchema) => string {

@@ -206,6 +206,7 @@
     "hide_lock_button": "隐藏锁定按钮",
     "additional_dashboards": "附加仪表板",
     "state_icons_layout": "状态图标",
+    "border_glow_on_action": "仅在 HVAC 处于活动状态时边框发光",
     "tabs": {
       "general": "常规",
       "presentation": "外观"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "扁平",
-        "liquid_glow": "液态光晕"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "经典",

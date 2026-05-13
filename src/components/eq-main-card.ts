@@ -1209,6 +1209,7 @@ export class EquinoxMainCard extends LitElement {
   protected willUpdate(): void {
     this.setAttribute("theme", this.config?.theme ?? "flat");
     this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+    this.toggleAttribute("border-glow-on-action", !!this.config?.border_glow_on_action);
   }
 
   protected render() {

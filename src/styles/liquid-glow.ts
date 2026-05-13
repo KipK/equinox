@@ -230,6 +230,12 @@ export const liquidGlowStyles = css`
     display: none;
   }
 
+  /* When glow_on_action_only is set, hide glow unless there is active heating/cooling. */
+  :host([theme="liquid_glow"][border-glow-on-action]) ha-card:not([active-action])::before,
+  :host([theme="liquid_glow"][border-glow-on-action]) ha-card:not([active-action])::after {
+    display: none;
+  }
+
   :host([theme="liquid_glow"]) ha-card[tone="heat"] {
     --equinox-liquid-glow-color: var(--equinox-heat-color);
     --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-heat-color) 28%, transparent);

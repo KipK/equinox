@@ -206,6 +206,7 @@
     "hide_lock_button": "Piilota lukituspainike",
     "additional_dashboards": "Lisäkoontinäytöt",
     "state_icons_layout": "Tilakuvakkeet",
+    "border_glow_on_action": "Reunat hehkuvat vain kun HVAC on aktiivinen",
     "tabs": {
       "general": "Yleinen",
       "presentation": "Esittely"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "Litteä",
-        "liquid_glow": "Liquid Glow"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "Klassinen",

@@ -206,6 +206,7 @@
     "hide_lock_button": "Скрыть кнопку блокировки",
     "additional_dashboards": "Дополнительные панели",
     "state_icons_layout": "Значки состояния",
+    "border_glow_on_action": "Border glow on active action",
     "tabs": {
       "general": "Общие",
       "presentation": "Презентация"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "Плоский",
-        "liquid_glow": "Liquid Glow"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "Классический",

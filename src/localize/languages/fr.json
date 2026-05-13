@@ -206,6 +206,7 @@
     "hide_lock_button": "Masquer le bouton de verrouillage",
     "additional_dashboards": "Dashboards additionnels",
     "state_icons_layout": "Icônes d'état",
+    "border_glow_on_action": "Les bordures brillent uniquement quand le HVAC est actif",
     "tabs": {
       "general": "Général",
       "presentation": "Présentation"
@@ -213,7 +214,7 @@
     "options": {
       "theme": {
         "flat": "Flat",
-        "liquid_glow": "Liquid Glow"
+        "liquid_glow": "Glow"
       },
       "display_mode": {
         "classic": "Classique",
