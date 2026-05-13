@@ -26,6 +26,8 @@ export const liquidGlowStyles = css`
     --equinox-liquid-halo-size: 10px 65%;
     --equinox-liquid-halo-alpha: 42%;
     --equinox-liquid-halo-fade-alpha: 14%;
+    --equinox-liquid-line-filter-min: brightness(0.96) saturate(0.98);
+    --equinox-liquid-line-filter-max: brightness(1.46) saturate(1.24) drop-shadow(0 0 5px var(--equinox-liquid-glow-color));
   }
 
   :host([theme="liquid_glow"]) ha-card {
@@ -48,12 +50,12 @@ export const liquidGlowStyles = css`
     0%,
     100% {
       opacity: var(--equinox-liquid-line-opacity-min);
-      filter: brightness(0.96) saturate(0.98);
+      filter: var(--equinox-liquid-line-filter-min);
     }
 
     50% {
       opacity: var(--equinox-liquid-line-opacity-max);
-      filter: brightness(1.46) saturate(1.24) drop-shadow(0 0 5px var(--equinox-liquid-glow-color));
+      filter: var(--equinox-liquid-line-filter-max);
     }
   }
 
@@ -100,7 +102,7 @@ export const liquidGlowStyles = css`
       ) right 0 top 0 / 1px 100% no-repeat;
     box-shadow: none;
     opacity: var(--equinox-liquid-line-opacity-min);
-    filter: brightness(0.96) saturate(0.98);
+    filter: var(--equinox-liquid-line-filter-min);
   }
 
   /* Halo extends 4px beyond each side of the card; gradient origin sits exactly on
@@ -148,11 +150,22 @@ export const liquidGlowStyles = css`
   /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
      Detected via hass.themes.darkMode reflected as a [light] attribute on :host. */
   :host([theme="liquid_glow"][light]) {
-    --equinox-liquid-line-opacity-min: 0.82;
-    --equinox-liquid-halo-opacity-min: 0.36;
-    --equinox-liquid-halo-opacity-max: 0.82;
+    --equinox-liquid-line-opacity-min: 0.88;
+    --equinox-liquid-halo-opacity-min: 0.4;
+    --equinox-liquid-halo-opacity-max: 0.88;
+    --equinox-liquid-line-filter-min: brightness(1.02) saturate(1.08);
+    --equinox-liquid-line-filter-max: brightness(1.72) saturate(1.42) drop-shadow(0 0 6px var(--equinox-liquid-glow-color));
     --equinox-panel-bg: var(--equinox-card-bg);
     --equinox-control-bg: var(--equinox-card-bg);
+  }
+
+  :host([theme="liquid_glow"][light]) ha-card[active-action="heat"]::before,
+  :host([theme="liquid_glow"][light]) ha-card[active-action="cool"]::before {
+    --equinox-liquid-line-soft-stop: 8%;
+    --equinox-liquid-line-mid-stop: 22%;
+    --equinox-liquid-line-edge-alpha: 40%;
+    --equinox-liquid-line-mid-alpha: 86%;
+    --equinox-liquid-line-peak-alpha: 100%;
   }
 
   :host([theme="liquid_glow"][light]) ha-card::after {
