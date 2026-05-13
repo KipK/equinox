@@ -257,7 +257,7 @@ export class EquinoxHistoryDialog extends LitElement {
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
         </ha-icon-button>
         ${this.open
-        ? html`<ha-better-history
+        ? html`<equinox-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
               .attributeUnits=${equinoxAttributeUnits(this._staticAttributeUnits)}
@@ -266,7 +266,7 @@ export class EquinoxHistoryDialog extends LitElement {
               .toolsOpen=${this._toolsOpen}
               @picker-overlay-changed=${(event: CustomEvent<{ open: boolean }>) => this._onHistoryPickerOverlayChanged(event)}
               class="history"
-            ></ha-better-history>`
+            ></equinox-better-history>`
         : nothing}
       </ha-dialog>
     `;

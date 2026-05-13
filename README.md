@@ -58,9 +58,10 @@ Install dependencies:
 npm install
 ```
 
-`@kipk/ha-better-history` is installed from npm. Its package exposes the built
-`dist/define.js` entry used by the Equinox build, so no local `lib/` checkout or
-extra install script is required.
+`@kipk/ha-better-history` is installed from npm and bundled into
+`equinox-card.js`. Equinox registers its embedded history component as
+`<equinox-better-history>` so local development can run alongside other cards
+that bundle different `ha-better-history` builds.
 
 Build the distributable card:
 
@@ -78,17 +79,14 @@ The build also copies the runtime attribute-unit map:
 
 ```text
 dist/attributes.json
-dist/lib/ha-better-history/define.js
 dist/equinox-card.js.gz
-dist/lib/ha-better-history/define.js.gz
 ```
 
 Release/HACS packages must include all generated `dist/` files. `equinox-card.js`
-loads `attributes.json` next to itself, and lazy-loads the history web component
-from `lib/ha-better-history/define.js` when the history dialog opens. Keep the
-generated directory structure intact. The `.gz` files are precompressed copies
-for Home Assistant deployments that serve them when the browser advertises gzip
-support.
+loads `attributes.json` next to itself and already contains the history web
+component. Keep the generated files together. The `.gz` file is a precompressed
+copy for Home Assistant deployments that serve it when the browser advertises
+gzip support.
 
 In `attributes.json`, use `"temperature"` for attributes that should follow the
 active Home Assistant temperature unit (`°C` or `°F`) instead of hard-coding a

@@ -1,8 +1,8 @@
 import { LitElement, css, html } from "lit";
-import "@kipk/ha-better-history";
+import { defineHaBetterHistory } from "@kipk/ha-better-history";
 import "./equinox-card-editor";
 import "./components/eq-main-card";
-import { CARD_NAME, CARD_TAG, CARD_TYPE } from "./const";
+import { CARD_NAME, CARD_TAG, CARD_TYPE, HISTORY_TAG } from "./const";
 import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
@@ -10,6 +10,8 @@ import { localize } from "./localize/localize";
 import { ensureLanguage } from "./localize/loader.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
 import type { EquinoxViewModel } from "./types/view-model";
+
+defineHaBetterHistory(HISTORY_TAG);
 
 // card.description is the only translation kept inlined; it is consumed at module load before fetch can complete.
 const CARD_DESCRIPTIONS: Record<string, string> = {
