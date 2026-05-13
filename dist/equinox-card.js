@@ -7121,6 +7121,8 @@ var bs = [
     --equinox-liquid-halo-fade-alpha: 14%;
     --equinox-liquid-line-filter-min: brightness(0.96) saturate(0.98);
     --equinox-liquid-line-filter-max: brightness(1.46) saturate(1.24) drop-shadow(0 0 5px var(--equinox-liquid-glow-color));
+    --equinox-liquid-line-height-min: 72%;
+    --equinox-liquid-line-height-max: 100%;
   }
 
   :host([theme="liquid_glow"]) ha-card {
@@ -7144,11 +7146,17 @@ var bs = [
     100% {
       opacity: var(--equinox-liquid-line-opacity-min);
       filter: var(--equinox-liquid-line-filter-min);
+      background-size:
+        1px var(--equinox-liquid-line-height-min),
+        1px var(--equinox-liquid-line-height-min);
     }
 
     50% {
       opacity: var(--equinox-liquid-line-opacity-max);
       filter: var(--equinox-liquid-line-filter-max);
+      background-size:
+        1px var(--equinox-liquid-line-height-max),
+        1px var(--equinox-liquid-line-height-max);
     }
   }
 
@@ -7157,11 +7165,13 @@ var bs = [
     100% {
       opacity: var(--equinox-liquid-halo-opacity-min);
       filter: brightness(0.94) saturate(0.96);
+      transform: scaleY(0.72);
     }
 
     50% {
       opacity: var(--equinox-liquid-halo-opacity-max);
       filter: brightness(1.34) saturate(1.18);
+      transform: scaleY(1);
     }
   }
 
@@ -7182,7 +7192,7 @@ var bs = [
         color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-mid-alpha), transparent) calc(100% - var(--equinox-liquid-line-mid-stop)),
         color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-edge-alpha), transparent) calc(100% - var(--equinox-liquid-line-soft-stop)),
         transparent calc(100% - var(--equinox-liquid-line-edge-stop))
-      ) left 0 top 0 / 1px 100% no-repeat,
+      ) left 0 center / 1px 100% no-repeat,
       linear-gradient(
         180deg,
         transparent var(--equinox-liquid-line-edge-stop),
@@ -7192,7 +7202,7 @@ var bs = [
         color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-mid-alpha), transparent) calc(100% - var(--equinox-liquid-line-mid-stop)),
         color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-line-edge-alpha), transparent) calc(100% - var(--equinox-liquid-line-soft-stop)),
         transparent calc(100% - var(--equinox-liquid-line-edge-stop))
-      ) right 0 top 0 / 1px 100% no-repeat;
+      ) right 0 center / 1px 100% no-repeat;
     box-shadow: none;
     opacity: var(--equinox-liquid-line-opacity-min);
     filter: var(--equinox-liquid-line-filter-min);
@@ -7214,9 +7224,10 @@ var bs = [
         color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-halo-alpha), transparent) 0%,
         color-mix(in oklab, var(--equinox-liquid-glow-color) var(--equinox-liquid-halo-fade-alpha), transparent) 55%,
         transparent 100%
-      );
+    );
     opacity: var(--equinox-liquid-halo-opacity-min);
     filter: brightness(0.94) saturate(0.96);
+    transform-origin: center;
   }
 
   :host([theme="liquid_glow"]) ha-card[active-action="heat"]::before,
@@ -7228,7 +7239,7 @@ var bs = [
     --equinox-liquid-line-mid-alpha: 72%;
     --equinox-liquid-line-peak-alpha: 100%;
     animation: equinox-liquid-line-pulse 5.5s ease-in-out infinite;
-    will-change: opacity, filter;
+    will-change: background-size, opacity, filter;
   }
 
   :host([theme="liquid_glow"]) ha-card[active-action="heat"]::after,
@@ -7237,7 +7248,7 @@ var bs = [
     --equinox-liquid-halo-alpha: 54%;
     --equinox-liquid-halo-fade-alpha: 20%;
     animation: equinox-liquid-halo-pulse 5.5s ease-in-out infinite;
-    will-change: opacity, filter;
+    will-change: transform, opacity, filter;
   }
 
   /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
@@ -7248,6 +7259,7 @@ var bs = [
     --equinox-liquid-halo-opacity-max: 0.88;
     --equinox-liquid-line-filter-min: brightness(1.02) saturate(1.08);
     --equinox-liquid-line-filter-max: brightness(1.72) saturate(1.42) drop-shadow(0 0 6px var(--equinox-liquid-glow-color));
+    --equinox-liquid-line-height-min: 66%;
     --equinox-panel-bg: var(--equinox-card-bg);
     --equinox-control-bg: var(--equinox-card-bg);
   }
