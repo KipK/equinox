@@ -4754,12 +4754,12 @@ var R = class extends D {
 		this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._attributeSearch = "";
 	}
 	_closeDatePickerOverlay() {
+		if (!this._datePickerOpen) return;
 		this._datePickerOpen = !1;
 		let e = this.renderRoot.querySelector("ha-date-range-picker");
 		e?.dispatchEvent(new KeyboardEvent("keydown", {
 			key: "Escape",
-			bubbles: !0,
-			composed: !0
+			bubbles: !0
 		})), e?.blur();
 		let t = this.getRootNode(), n = t instanceof Document || t instanceof ShadowRoot ? t.activeElement : void 0;
 		n instanceof HTMLElement && n.blur();
