@@ -206,10 +206,12 @@
     "hide_lock_button": "Hide lock button",
     "additional_dashboards": "Additional dashboards",
     "state_icons_layout": "State icons",
-    "border_glow_on_action": "Border glow on active action",
+    "border_glow_on_action": "Les vores brillen només quan l'HVAC està actiu",
     "tabs": {
       "general": "General",
-      "presentation": "Presentation"
+      "presentation": "Presentation",
+      "hvac": "HVAC modes",
+      "preset": "Presets"
     },
     "options": {
       "theme": {
@@ -233,6 +235,14 @@
         "custom": "Custom",
         "disabled": "Disabled"
       }
+    },
+    "hvac_modes": "HVAC buttons",
+    "preset_modes": "Preset buttons",
+    "visibility": {
+      "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
+      "no_entity": "Select a climate entity first to load its supported modes.",
+      "no_hvac_modes": "This climate does not report any supported HVAC modes.",
+      "no_presets": "This climate does not report any supported presets."
     }
   }
 }

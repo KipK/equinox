@@ -20,6 +20,19 @@ export const HVAC_TONES: Record<string, string> = {
   off: "off"
 };
 
+export const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
+
+export const PRESET_ICONS: Record<string, string> = {
+  frost: "mdi:snowflake",
+  eco: "mdi:tree-outline",
+  away: "mdi:home-export-outline",
+  comfort: "mdi:sofa-outline",
+  home: "mdi:home-outline",
+  sleep: "mdi:sleep",
+  activity: "mdi:motion-sensor",
+  boost: "mdi:rocket-launch-outline"
+};
+
 export const SWING_ORDER = ["off", "on", "vertical", "horizontal", "both"];
 
 export const SWING_MODE_ICONS: Record<string, string> = {

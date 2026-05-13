@@ -2257,16 +2257,16 @@ function Hr(e, t) {
 function P(e, t) {
 	return 40 + (e - t.start) / (t.end - t.start) * 640;
 }
-function Ur(e, t) {
+function F(e, t) {
 	let n = t.max - t.min;
 	if (n < 1e-6) return t.top + t.height / 2;
 	let r = t.height - 10;
 	return t.top + 5 + r - (e - t.min) / n * r;
 }
-function Wr(e, t) {
+function Ur(e, t) {
 	return t.find((t) => t.ids.has(e.id));
 }
-function Gr(e, t) {
+function Wr(e, t) {
 	let n = Date.now(), r = [...e.points].sort((e, t) => e.time - t.time), i = r.findIndex((e) => e.time >= t.start), a = i === -1 ? r.length : i, o = a > 0 ? r.slice(a - 1) : r;
 	return o.flatMap((e, r) => {
 		let i = Math.max(e.time, t.start), a = Math.min(o[r + 1]?.time ?? t.end, t.end, n);
@@ -2277,26 +2277,26 @@ function Gr(e, t) {
 		}] : [];
 	});
 }
-var Kr = new Set([
+var Gr = new Set([
 	"off",
 	"idle",
 	"none",
 	"false"
 ]);
-function qr(e, t, n, r) {
+function Kr(e, t, n, r) {
 	if (typeof e == "boolean") return e ? t : "var(--better-history-muted-color, var(--secondary-text-color, #888))";
 	let i = String(e);
-	return Kr.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, sr[(r + n.size) % sr.length]), n.get(i));
+	return Gr.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, sr[(r + n.size) % sr.length]), n.get(i));
 }
-function Jr(e, t) {
+function qr(e, t) {
 	return e + 34 + Math.max(t - 1, 0) * 14;
 }
-function Yr(e, t, n, r) {
+function Jr(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
-		let i = Wr(e, t);
+		let i = Ur(e, t);
 		if (!i) return [];
-		let a = Ir(Xr(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? ii(a, n, i) : ri(a, n, i);
+		let a = Ir(Yr(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? ri(a, n, i) : ni(a, n, i);
 		return [{
 			id: e.id,
 			color: e.color,
@@ -2306,12 +2306,12 @@ function Yr(e, t, n, r) {
 		}];
 	});
 }
-function Xr(e, t, n, r) {
+function Yr(e, t, n, r) {
 	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
 	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), a = i.filter((e) => e.time >= t.start && e.time <= t.end);
-	if (n === "line") return Qr(i, a, t);
+	if (n === "line") return Zr(i, a, t);
 	let o = [...i].reverse().find((e) => e.time < t.start), s = o && (a.length === 0 || a[0].time > t.start) ? [{
 		time: t.start,
 		value: o.value
@@ -2321,7 +2321,7 @@ function Xr(e, t, n, r) {
 		value: c.value
 	}] : s;
 }
-function Zr(e, t, n) {
+function Xr(e, t, n) {
 	if (!e || !t || e.time === t.time || e.time > n || t.time < n) return;
 	let r = (n - e.time) / (t.time - e.time);
 	return {
@@ -2329,27 +2329,27 @@ function Zr(e, t, n) {
 		value: e.value + (t.value - e.value) * r
 	};
 }
-function Qr(e, t, n) {
-	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Zr(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Zr(a, o, n.end);
+function Zr(e, t, n) {
+	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Xr(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Xr(a, o, n.end);
 	return [
 		s,
 		...t,
 		c
 	].filter((e) => e !== void 0);
 }
-function $r(e) {
+function Qr(e) {
 	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
 }
-function ei(e, t, n) {
+function $r(e, t, n) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode !== "column") return [];
-		let r = Wr(e, t);
+		let r = Ur(e, t);
 		if (!r) return [];
-		let i = Ur($r(r), r);
-		return Gr(e, n).flatMap((t, a) => {
+		let i = F(Qr(r), r);
+		return Wr(e, n).flatMap((t, a) => {
 			let o = Number(t.value);
 			if (!Number.isFinite(o)) return [];
-			let s = P(t.start, n), c = P(t.end, n), l = Ur(o, r), u = Math.max(c - s, 1);
+			let s = P(t.start, n), c = P(t.end, n), l = F(o, r), u = Math.max(c - s, 1);
 			return [{
 				id: `${e.id}:${a}`,
 				x: s,
@@ -2361,15 +2361,15 @@ function ei(e, t, n) {
 		});
 	});
 }
-function ti(e, t, n) {
+function ei(e, t, n) {
 	let r = t + 10, i = 0;
 	return e.flatMap((e, t) => {
 		if (e.valueType === "number" || e.valueType === "boolean") return [];
 		let a = r + i * 14;
 		i += 1;
 		let o = /* @__PURE__ */ new Map();
-		return Gr(e, n).reduce((n, r) => {
-			let i = qr(r.value, e.color, o, t), a = n[n.length - 1];
+		return Wr(e, n).reduce((n, r) => {
+			let i = Kr(r.value, e.color, o, t), a = n[n.length - 1];
 			return a && a.fill === i && Math.abs(a.end - r.start) < 1 ? a.end = r.end : n.push({
 				start: r.start,
 				end: r.end,
@@ -2387,27 +2387,27 @@ function ti(e, t, n) {
 		});
 	});
 }
-function ni(e) {
+function ti(e) {
 	return e.flatMap((e) => {
 		let t = e.height - 10;
 		return e.ticks.map((n) => ({
 			y: e.top + 5 + t - (n - e.min) / (e.max - e.min) * t,
-			value: ai(n, e.precision)
+			value: ii(n, e.precision)
 		}));
 	});
 }
-function ri(e, t, n) {
+function ni(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
 	};
 	if (e.length === 1) return {
-		points: `${P(e[0].time, t).toFixed(1)},${Ur(e[0].value, n).toFixed(1)}`,
+		points: `${P(e[0].time, t).toFixed(1)},${F(e[0].value, n).toFixed(1)}`,
 		pathLength: 0
 	};
 	let r = [], i = 0;
 	for (let a = 0; a < e.length - 1; a++) {
-		let o = e[a], s = e[a + 1], c = P(o.time, t), l = Ur(o.value, n), u = P(s.time, t), d = Ur(s.value, n);
+		let o = e[a], s = e[a + 1], c = P(o.time, t), l = F(o.value, n), u = P(s.time, t), d = F(s.value, n);
 		a === 0 && r.push(`${c.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${d.toFixed(1)}`), i += Math.abs(u - c) + Math.abs(d - l);
 	}
 	return {
@@ -2415,7 +2415,7 @@ function ri(e, t, n) {
 		pathLength: i
 	};
 }
-function ii(e, t, n) {
+function ri(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -2423,7 +2423,7 @@ function ii(e, t, n) {
 	let r = 0, i;
 	return {
 		points: e.map((e) => {
-			let a = P(e.time, t), o = Ur(e.value, n);
+			let a = P(e.time, t), o = F(e.value, n);
 			return i && (r += Math.hypot(a - i.x, o - i.y)), i = {
 				x: a,
 				y: o
@@ -2432,21 +2432,21 @@ function ii(e, t, n) {
 		pathLength: r
 	};
 }
-function ai(e, t) {
+function ii(e, t) {
 	return t <= 0 && Number.isInteger(e) ? String(e) : e.toFixed(t);
 }
-var oi = 60 * 1e3, F = 60 * oi, I = 24 * F, si = [
-	10 * oi,
-	15 * oi,
-	20 * oi,
-	30 * oi,
-	F,
-	2 * F,
-	3 * F,
-	4 * F,
-	6 * F,
-	8 * F,
-	12 * F,
+var ai = 60 * 1e3, oi = 60 * ai, I = 24 * oi, si = [
+	10 * ai,
+	15 * ai,
+	20 * ai,
+	30 * ai,
+	oi,
+	2 * oi,
+	3 * oi,
+	4 * oi,
+	6 * oi,
+	8 * oi,
+	12 * oi,
 	I,
 	2 * I,
 	3 * I,
@@ -2532,12 +2532,12 @@ function hi(e, t, n, r = !1, i = 12, a = !0) {
 		extendStairToEnd: a,
 		numericScales: s,
 		plotBottom: l,
-		chartHeight: Jr(l, u),
-		numericLines: Yr(t, s, n, o),
-		numericColumns: ei(t, s, n),
-		segments: ti(t, l, n),
+		chartHeight: qr(l, u),
+		numericLines: Jr(t, s, n, o),
+		numericColumns: $r(t, s, n),
+		segments: ei(t, l, n),
 		heatingAreas: r ? [] : Vr(t, s, n),
-		yAxisLabels: ni(s),
+		yAxisLabels: ti(s),
 		xAxisLabels: d.map((e) => ({
 			x: P(e.time, n),
 			label: ui(e.time, f),
@@ -2547,13 +2547,13 @@ function hi(e, t, n, r = !1, i = 12, a = !0) {
 }
 function gi(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
-		let a = Wr(e, t);
+		let a = Ur(e, t);
 		if (!a) return [];
 		let o = {
 			...a,
 			top: 28,
 			height: i
-		}, s = Ir(Xr(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? ii(s, n, o) : ri(s, n, o);
+		}, s = Ir(Yr(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? ri(s, n, o) : ni(s, n, o);
 		return {
 			id: e.id,
 			color: e.color,
@@ -2565,17 +2565,17 @@ function gi(e, t, n, r, i) {
 }
 function _i(e, t, n, r) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode === "column").flatMap((e) => {
-		let i = Wr(e, t);
+		let i = Ur(e, t);
 		if (!i) return [];
 		let a = {
 			...i,
 			top: 28,
 			height: r
-		}, o = Ur($r(a), a);
-		return Gr(e, n).flatMap((t, r) => {
+		}, o = F(Qr(a), a);
+		return Wr(e, n).flatMap((t, r) => {
 			let i = Number(t.value);
 			if (!Number.isFinite(i)) return [];
-			let s = P(t.start, n), c = P(t.end, n), l = Ur(i, a);
+			let s = P(t.start, n), c = P(t.end, n), l = F(i, a);
 			return [{
 				id: `${e.id}:${r}`,
 				x: s,
@@ -2590,8 +2590,8 @@ function _i(e, t, n, r) {
 function vi(e, t, n) {
 	return e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").flatMap((e, r) => {
 		let i = t + r * 14, a = /* @__PURE__ */ new Map();
-		return Gr(e, n).reduce((t, n) => {
-			let i = qr(n.value, e.color, a, r), o = t[t.length - 1];
+		return Wr(e, n).reduce((t, n) => {
+			let i = Kr(n.value, e.color, a, r), o = t[t.length - 1];
 			return o && o.fill === i && Math.abs(o.end - n.start) < 1 ? o.end = n.end : t.push({
 				start: n.start,
 				end: n.end,
@@ -2616,7 +2616,7 @@ function bi(e, t) {
 	let n = t - 10, r = yi(t), i = e.ticks.length <= r ? e.ticks : yr(e.min, e.max, r), a = e.ticks === i ? e.precision : Math.max(e.precision, Sr(i));
 	return i.map((t) => ({
 		y: 33 + n - (t - e.min) / (e.max - e.min) * n,
-		value: ai(t, a)
+		value: ii(t, a)
 	}));
 }
 function xi(e, t, n) {
@@ -6482,6 +6482,75 @@ function wo(e = "ha-better-history") {
 //#endregion
 //#region src/const.ts
 var To = "Equinox", Eo = "custom:equinox-card", Do = "equinox-card", Oo = "equinox-better-history", ko = "equinox-card-editor", Ao = "flat", jo = "classic", Mo = "setpoint", No = "auto", Po = [
+	"heat",
+	"cool",
+	"heat_cool",
+	"auto",
+	"dry",
+	"fan_only",
+	"off"
+], Fo = {
+	heat: "mdi:fire",
+	cool: "mdi:snowflake",
+	heat_cool: "mdi:sun-snowflake-variant",
+	auto: "mdi:thermostat-auto",
+	dry: "mdi:water-percent",
+	fan_only: "mdi:fan",
+	off: "mdi:power"
+}, Io = {
+	heat: "heat",
+	cool: "cool",
+	heat_cool: "heat-cool",
+	auto: "auto",
+	dry: "cool",
+	fan_only: "auto",
+	off: "off"
+}, Lo = [
+	"frost",
+	"eco",
+	"away",
+	"comfort",
+	"home",
+	"sleep",
+	"activity",
+	"boost"
+], V = {
+	frost: "mdi:snowflake",
+	eco: "mdi:tree-outline",
+	away: "mdi:home-export-outline",
+	comfort: "mdi:sofa-outline",
+	home: "mdi:home-outline",
+	sleep: "mdi:sleep",
+	activity: "mdi:motion-sensor",
+	boost: "mdi:rocket-launch-outline"
+}, Ro = [
+	"off",
+	"on",
+	"vertical",
+	"horizontal",
+	"both"
+], zo = {
+	off: "mdi:arrow-oscillating-off",
+	Off: "mdi:arrow-oscillating-off",
+	SWING_OFF: "mdi:arrow-oscillating-off",
+	on: "mdi:arrow-oscillating",
+	On: "mdi:arrow-oscillating",
+	SWING_ON: "mdi:arrow-oscillating",
+	vertical: "mdi:arrow-up-down",
+	Vertical: "mdi:arrow-up-down",
+	SWING_VERTICAL: "mdi:arrow-up-down",
+	horizontal: "mdi:arrow-left-right",
+	Horizontal: "mdi:arrow-left-right",
+	SWING_HORIZONTAL: "mdi:arrow-left-right",
+	both: "mdi:arrow-all",
+	Both: "mdi:arrow-all",
+	SWING_BOTH: "mdi:arrow-all"
+}, Bo = {
+	off: "mdi:arrow-oscillating-off",
+	Off: "mdi:arrow-oscillating-off",
+	on: "mdi:arrow-expand-horizontal",
+	On: "mdi:arrow-expand-horizontal"
+}, Vo = [
 	"ha-form",
 	"ha-icon",
 	"ha-icon-button",
@@ -6500,8 +6569,8 @@ var To = "Equinox", Eo = "custom:equinox-card", Do = "equinox-card", Oo = "equin
 	"ha-badge",
 	"ha-sankey-chart",
 	"mwc-button"
-], Fo = async (e) => {
-	let t = e || Po;
+], Ho = async (e) => {
+	let t = e || Vo;
 	try {
 		if (t.every((e) => customElements.get(e))) return;
 		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout waiting for partial-panel-resolver")), 1e4))]);
@@ -6535,7 +6604,7 @@ var To = "Equinox", Eo = "custom:equinox-card", Do = "equinox-card", Oo = "equin
 			console.error("Fallback loading method failed:", e);
 		}
 	}
-}, Io = [
+}, Uo = [
 	"ha-form",
 	"ha-icon",
 	"ha-entity-picker",
@@ -6546,13 +6615,13 @@ var To = "Equinox", Eo = "custom:equinox-card", Do = "equinox-card", Oo = "equin
 	"ha-md-list",
 	"ha-md-list-item",
 	"ha-input-chip"
-], Lo;
-function Ro() {
-	return Lo ??= Fo(Io), Lo;
+], Wo;
+function Go() {
+	return Wo ??= Ho(Uo), Wo;
 }
 //#endregion
 //#region src/localize/loader.ts
-var zo = [
+var Ko = [
 	"bg",
 	"ca",
 	"cs",
@@ -6572,38 +6641,38 @@ var zo = [
 	"ru",
 	"sk",
 	"zh"
-], Bo = /* @__PURE__ */ new Map(), Vo = /* @__PURE__ */ new Map(), Ho = new Set(zo);
-function Uo(e) {
+], qo = /* @__PURE__ */ new Map(), Jo = /* @__PURE__ */ new Map(), Yo = new Set(Ko);
+function Xo(e) {
 	return e.toLowerCase().split("-")[0] || "en";
 }
-var Wo = import.meta.url, Go = new URL("translations/", Wo).toString();
-function Ko(e) {
-	return Go + e + ".json";
+var Zo = import.meta.url, Qo = new URL("translations/", Zo).toString();
+function $o(e) {
+	return Qo + e + ".json";
 }
-function qo(e) {
-	return Bo.get(Uo(e));
+function es(e) {
+	return qo.get(Xo(e));
 }
-function Jo(e) {
-	let t = Uo(e);
-	if (!Ho.has(t) || Bo.has(t)) return Promise.resolve();
-	let n = Vo.get(t);
+function ts(e) {
+	let t = Xo(e);
+	if (!Yo.has(t) || qo.has(t)) return Promise.resolve();
+	let n = Jo.get(t);
 	if (n) return n;
-	let r = fetch(Ko(t)).then((e) => {
+	let r = fetch($o(t)).then((e) => {
 		if (!e.ok) throw Error(`HTTP ${e.status}`);
 		return e.json();
 	}).then((e) => {
-		typeof e == "object" && e && !Array.isArray(e) && Bo.set(t, e);
+		typeof e == "object" && e && !Array.isArray(e) && qo.set(t, e);
 	}).catch((e) => {
 		console.warn(`[equinox] Failed to load translations for "${t}":`, e);
 	});
-	return Vo.set(t, r), r;
+	return Jo.set(t, r), r;
 }
 //#endregion
 //#region src/localize/localize.ts
-function Yo(e) {
+function ns(e) {
 	return (e ?? "en").toLowerCase().split("-")[0] || "en";
 }
-function Xo(e, t) {
+function rs(e, t) {
 	let n = t.split("."), r = e;
 	for (let e = 0; e < n.length; e++) {
 		if (typeof r != "object" || !r) return;
@@ -6617,20 +6686,20 @@ function Xo(e, t) {
 	}
 	return typeof r == "string" ? r : void 0;
 }
-function Zo(e, t) {
+function is(e, t) {
 	return Object.entries(t).reduce((e, [t, n]) => e.replaceAll(`{${t}}`, String(n)), e);
 }
-function V(e, t, n = {}) {
-	let r = qo(Yo(e)), i = qo("en");
-	return Zo((r == null ? void 0 : Xo(r, t)) ?? (i == null ? void 0 : Xo(i, t)) ?? t, n);
+function H(e, t, n = {}) {
+	let r = es(ns(e)), i = es("en");
+	return is((r == null ? void 0 : rs(r, t)) ?? (i == null ? void 0 : rs(i, t)) ?? t, n);
 }
 //#endregion
 //#region src/types/config.ts
-var Qo = ["flat", "liquid_glow"], $o = ["classic", "compact"], es = ["setpoint", "sensors"], ts = [
+var as = ["flat", "liquid_glow"], os = ["classic", "compact"], ss = ["setpoint", "sensors"], cs = [
 	"auto",
 	"custom",
 	"disabled"
-], ns = ["horizontal", "vertical"], rs = {
+], ls = ["horizontal", "vertical"], us = {
 	theme: Ao,
 	display_mode: jo,
 	primary_display: Mo,
@@ -6642,12 +6711,12 @@ var Qo = ["flat", "liquid_glow"], $o = ["classic", "compact"], es = ["setpoint",
 };
 //#endregion
 //#region src/equinox-card-editor.ts
-Ro();
-function is(e) {
+Go();
+function ds(e) {
 	let t = { ...e };
-	return delete t.card_height, t;
+	return delete t.card_height, (!Array.isArray(t.hidden_hvac_modes) || t.hidden_hvac_modes.length === 0) && delete t.hidden_hvac_modes, (!Array.isArray(t.hidden_preset_modes) || t.hidden_preset_modes.length === 0) && delete t.hidden_preset_modes, t;
 }
-var as = class extends T {
+var fs = class extends T {
 	constructor(...e) {
 		super(...e), this._config = {}, this._activeTab = "general";
 	}
@@ -6665,6 +6734,7 @@ var as = class extends T {
       gap: 4px;
       margin-bottom: 12px;
       border-bottom: 1px solid var(--divider-color);
+      flex-wrap: wrap;
     }
 
     .tab {
@@ -6681,14 +6751,56 @@ var as = class extends T {
       border-bottom-color: var(--primary-color);
       color: var(--primary-text-color);
     }
+
+    .options-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .options-help,
+    .options-empty {
+      color: var(--secondary-text-color);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .checkbox-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--divider-color);
+      border-radius: 10px;
+      background: var(--card-background-color);
+      cursor: pointer;
+    }
+
+    .checkbox-item:hover {
+      border-color: var(--primary-color);
+    }
+
+    .checkbox-item input {
+      margin: 0;
+      accent-color: var(--primary-color);
+    }
+
+    .checkbox-label {
+      color: var(--primary-text-color);
+      font: inherit;
+    }
   `;
 	}
 	setConfig(e) {
-		this._config = is(e);
+		this._config = ds(e);
 	}
 	render() {
 		let e = this.hass?.locale?.language ?? this.hass?.language, t = {
-			...rs,
+			...us,
 			...this._config
 		};
 		return C`
@@ -6696,21 +6808,55 @@ var as = class extends T {
         <button class="tab" ?active=${this._activeTab === "general"} @click=${() => {
 			this._activeTab = "general";
 		}}>
-          ${V(e, "editor.tabs.general")}
+          ${H(e, "editor.tabs.general")}
         </button>
         <button class="tab" ?active=${this._activeTab === "presentation"} @click=${() => {
 			this._activeTab = "presentation";
 		}}>
-          ${V(e, "editor.tabs.presentation")}
+          ${H(e, "editor.tabs.presentation")}
+        </button>
+        <button class="tab" ?active=${this._activeTab === "hvac"} @click=${() => {
+			this._activeTab = "hvac";
+		}}>
+          ${H(e, "editor.tabs.hvac")}
+        </button>
+        <button class="tab" ?active=${this._activeTab === "preset"} @click=${() => {
+			this._activeTab = "preset";
+		}}>
+          ${H(e, "editor.tabs.preset")}
         </button>
       </div>
-      <ha-form
-        .hass=${this.hass}
-        .data=${t}
-        .schema=${this._activeTab === "presentation" ? this._presentationSchema(e) : this._generalSchema(e)}
-        .computeLabel=${this._computeLabel(e)}
-        @value-changed=${this._valueChanged}
-      ></ha-form>
+      ${this._activeTab === "general" || this._activeTab === "presentation" ? C`
+            <ha-form
+              .hass=${this.hass}
+              .data=${t}
+              .schema=${this._activeTab === "presentation" ? this._presentationSchema(e) : this._generalSchema(e)}
+              .computeLabel=${this._computeLabel(e)}
+              @value-changed=${this._valueChanged}
+            ></ha-form>
+          ` : this._renderVisibilityTab(e, this._activeTab)}
+    `;
+	}
+	_renderVisibilityTab(e, t) {
+		let n = t === "hvac" ? this._supportedHvacModes() : this._supportedPresetModes(), r = new Set(t === "hvac" ? this._config.hidden_hvac_modes ?? [] : this._config.hidden_preset_modes ?? []), i = t === "hvac" ? "editor.visibility.no_hvac_modes" : "editor.visibility.no_presets";
+		return C`
+      <div class="options-panel">
+        <div class="options-help">${H(e, "editor.visibility.help")}</div>
+        ${n.length === 0 ? C`<div class="options-empty">${H(e, this._config.entity ? i : "editor.visibility.no_entity")}</div>` : C`
+              <div class="checkbox-list">
+                ${n.map((n) => C`
+                    <label class="checkbox-item">
+                      <input
+                        type="checkbox"
+                        .checked=${!r.has(n)}
+                        @change=${(e) => this._toggleVisibility(t, n, e.currentTarget.checked)}
+                      />
+                      <span class="checkbox-label">${t === "hvac" ? this._hvacLabel(e, n) : this._presetLabel(e, n)}</span>
+                    </label>
+                  `)}
+              </div>
+            `}
+      </div>
     `;
 	}
 	_generalSchema(e) {
@@ -6746,15 +6892,15 @@ var as = class extends T {
 					options: [
 						{
 							value: "auto",
-							label: V(e, "editor.options.additional_dashboards.auto")
+							label: H(e, "editor.options.additional_dashboards.auto")
 						},
 						{
 							value: "custom",
-							label: V(e, "editor.options.additional_dashboards.custom")
+							label: H(e, "editor.options.additional_dashboards.custom")
 						},
 						{
 							value: "disabled",
-							label: V(e, "editor.options.additional_dashboards.disabled")
+							label: H(e, "editor.options.additional_dashboards.disabled")
 						}
 					]
 				} }
@@ -6764,10 +6910,10 @@ var as = class extends T {
 	_presentationSchema(e) {
 		let t = [{
 			value: "horizontal",
-			label: V(e, "editor.options.layout_orientation.horizontal")
+			label: H(e, "editor.options.layout_orientation.horizontal")
 		}, {
 			value: "vertical",
-			label: V(e, "editor.options.layout_orientation.vertical")
+			label: H(e, "editor.options.layout_orientation.vertical")
 		}], n = [
 			{
 				name: "disable_name",
@@ -6779,10 +6925,10 @@ var as = class extends T {
 					mode: "dropdown",
 					options: [{
 						value: "flat",
-						label: V(e, "editor.options.theme.flat")
+						label: H(e, "editor.options.theme.flat")
 					}, {
 						value: "liquid_glow",
-						label: V(e, "editor.options.theme.liquid_glow")
+						label: H(e, "editor.options.theme.liquid_glow")
 					}]
 				} }
 			},
@@ -6792,10 +6938,10 @@ var as = class extends T {
 					mode: "dropdown",
 					options: [{
 						value: "classic",
-						label: V(e, "editor.options.display_mode.classic")
+						label: H(e, "editor.options.display_mode.classic")
 					}, {
 						value: "compact",
-						label: V(e, "editor.options.display_mode.compact")
+						label: H(e, "editor.options.display_mode.compact")
 					}]
 				} }
 			},
@@ -6805,10 +6951,10 @@ var as = class extends T {
 					mode: "dropdown",
 					options: [{
 						value: "setpoint",
-						label: V(e, "editor.options.primary_display.setpoint")
+						label: H(e, "editor.options.primary_display.setpoint")
 					}, {
 						value: "sensors",
-						label: V(e, "editor.options.primary_display.sensors")
+						label: H(e, "editor.options.primary_display.sensors")
 					}]
 				} }
 			},
@@ -6829,52 +6975,86 @@ var as = class extends T {
 			selector: { boolean: {} }
 		}), n;
 	}
-	_computeLabel(e) {
-		return (t) => V(e, `editor.${t.name}`);
+	_climateEntity() {
+		let e = this._config.entity;
+		return e ? this.hass?.states[e] : void 0;
 	}
-	_valueChanged(e) {
-		this._config = is({
-			...this._config,
-			...e.detail.value
-		}), this.dispatchEvent(new CustomEvent("config-changed", {
+	_attributeModes(e) {
+		let t = this._climateEntity()?.attributes[e];
+		return Array.isArray(t) ? t.filter((e) => typeof e == "string") : [];
+	}
+	_supportedHvacModes() {
+		let e = new Set(this._attributeModes("hvac_modes"));
+		return Po.filter((t) => e.has(t) && Fo[t]);
+	}
+	_supportedPresetModes() {
+		let e = new Set(this._attributeModes("preset_modes"));
+		return Lo.filter((t) => e.has(t) && t !== "none" && V[t]);
+	}
+	_hvacLabel(e, t) {
+		let n = H(e, `main.hvac.${t}`);
+		return n === `main.hvac.${t}` ? t : n;
+	}
+	_presetLabel(e, t) {
+		let n = H(e, `main.preset.${t}`);
+		return n === `main.preset.${t}` ? t : n;
+	}
+	_computeLabel(e) {
+		return (t) => H(e, `editor.${t.name}`);
+	}
+	_emitConfigChanged() {
+		this.dispatchEvent(new CustomEvent("config-changed", {
 			detail: { config: this._config },
 			bubbles: !0,
 			composed: !0
 		}));
 	}
+	_toggleVisibility(e, t, n) {
+		let r = e === "hvac" ? "hidden_hvac_modes" : "hidden_preset_modes", i = new Set(this._config[r] ?? []);
+		n ? i.delete(t) : i.add(t), this._config = ds({
+			...this._config,
+			[r]: i.size > 0 ? [...i] : void 0
+		}), this._emitConfigChanged();
+	}
+	_valueChanged(e) {
+		this._config = ds({
+			...this._config,
+			...e.detail.value
+		}), this._emitConfigChanged();
+	}
 };
-customElements.get("equinox-card-editor") || customElements.define(ko, as);
+customElements.get("equinox-card-editor") || customElements.define(ko, fs);
 //#endregion
 //#region src/data/actions.ts
-var os = {
+var ps = {
 	auto_fan_none: "None",
 	auto_fan_low: "Low",
 	auto_fan_medium: "Medium",
 	auto_fan_high: "High",
 	auto_fan_turbo: "Turbo"
 };
-function H(e) {
+function U(e) {
 	return e.viewModel?.vt?.lock.isUserLocked === !0;
 }
-function U() {
+function W() {
 	return {
 		ok: !1,
 		error: "locked"
 	};
 }
-function W() {
+function G() {
 	return {
 		ok: !1,
 		error: "unsupported"
 	};
 }
-function ss() {
+function ms() {
 	return {
 		ok: !1,
 		error: "invalid_payload"
 	};
 }
-async function G(e, t, n, r) {
+async function K(e, t, n, r) {
 	try {
 		return await e.hass.callService(t, n, r), { ok: !0 };
 	} catch (e) {
@@ -6885,132 +7065,81 @@ async function G(e, t, n, r) {
 		};
 	}
 }
-function cs(e) {
+function hs(e) {
 	return typeof e == "number" && Number.isFinite(e);
 }
-async function ls(e, t) {
-	return H(e) ? U() : cs(t.targetTempLow) && cs(t.targetTempHigh) ? G(e, "climate", "set_temperature", {
+async function gs(e, t) {
+	return U(e) ? W() : hs(t.targetTempLow) && hs(t.targetTempHigh) ? K(e, "climate", "set_temperature", {
 		entity_id: e.entityId,
 		target_temp_low: t.targetTempLow,
 		target_temp_high: t.targetTempHigh
-	}) : cs(t.temperature) ? G(e, "climate", "set_temperature", {
+	}) : hs(t.temperature) ? K(e, "climate", "set_temperature", {
 		entity_id: e.entityId,
 		temperature: t.temperature
-	}) : ss();
+	}) : ms();
 }
-async function us(e, t) {
-	return H(e) ? U() : e.viewModel?.climate.hvacModes.includes(t) ? G(e, "climate", "set_hvac_mode", {
+async function _s(e, t) {
+	return U(e) ? W() : e.viewModel?.climate.hvacModes.includes(t) ? K(e, "climate", "set_hvac_mode", {
 		entity_id: e.entityId,
 		hvac_mode: t
-	}) : W();
+	}) : G();
 }
-async function ds(e, t) {
-	return H(e) ? U() : e.viewModel?.climate.presetModes.includes(t) ? G(e, "climate", "set_preset_mode", {
+async function vs(e, t) {
+	return U(e) ? W() : e.viewModel?.climate.presetModes.includes(t) ? K(e, "climate", "set_preset_mode", {
 		entity_id: e.entityId,
 		preset_mode: t
-	}) : W();
+	}) : G();
 }
-async function fs(e, t) {
-	return H(e) ? U() : e.viewModel?.climate.fanModes.includes(t) ? G(e, "climate", "set_fan_mode", {
+async function ys(e, t) {
+	return U(e) ? W() : e.viewModel?.climate.fanModes.includes(t) ? K(e, "climate", "set_fan_mode", {
 		entity_id: e.entityId,
 		fan_mode: t
-	}) : W();
+	}) : G();
 }
-async function ps(e, t) {
-	return H(e) ? U() : e.viewModel?.climate.swingModes.includes(t) ? G(e, "climate", "set_swing_mode", {
+async function bs(e, t) {
+	return U(e) ? W() : e.viewModel?.climate.swingModes.includes(t) ? K(e, "climate", "set_swing_mode", {
 		entity_id: e.entityId,
 		swing_mode: t
-	}) : W();
+	}) : G();
 }
-async function ms(e, t) {
-	return H(e) ? U() : e.viewModel?.climate.swingHorizontalModes.includes(t) ? G(e, "climate", "set_swing_horizontal_mode", {
+async function xs(e, t) {
+	return U(e) ? W() : e.viewModel?.climate.swingHorizontalModes.includes(t) ? K(e, "climate", "set_swing_horizontal_mode", {
 		entity_id: e.entityId,
 		swing_horizontal_mode: t
-	}) : W();
+	}) : G();
 }
-async function hs(e, t, n) {
-	return H(e) ? U() : !e.viewModel?.vt?.isVt || !e.viewModel.vt.timedPresetManager ? W() : !Number.isInteger(n) || n < 1 || n > 1440 || t.trim() === "" ? ss() : G(e, "versatile_thermostat", "set_timed_preset", {
+async function Ss(e, t, n) {
+	return U(e) ? W() : !e.viewModel?.vt?.isVt || !e.viewModel.vt.timedPresetManager ? G() : !Number.isInteger(n) || n < 1 || n > 1440 || t.trim() === "" ? ms() : K(e, "versatile_thermostat", "set_timed_preset", {
 		entity_id: e.entityId,
 		preset: t,
 		duration_minutes: n
 	});
 }
-async function gs(e) {
-	return H(e) ? U() : e.viewModel?.vt?.timedPreset.isActive ? G(e, "versatile_thermostat", "cancel_timed_preset", { entity_id: e.entityId }) : W();
+async function Cs(e) {
+	return U(e) ? W() : e.viewModel?.vt?.timedPreset.isActive ? K(e, "versatile_thermostat", "cancel_timed_preset", { entity_id: e.entityId }) : G();
 }
-async function _s(e, t) {
-	if (H(e)) return U();
-	if (!e.viewModel?.vt?.fan.hasAutoFan) return W();
-	let n = os[t];
-	return n ? G(e, "versatile_thermostat", "set_auto_fan_mode", {
+async function ws(e, t) {
+	if (U(e)) return W();
+	if (!e.viewModel?.vt?.fan.hasAutoFan) return G();
+	let n = ps[t];
+	return n ? K(e, "versatile_thermostat", "set_auto_fan_mode", {
 		entity_id: e.entityId,
 		auto_fan_mode: n
-	}) : ss();
+	}) : ms();
 }
-async function vs(e, t) {
-	if (!e.viewModel?.vt?.lock.isConfigured) return W();
+async function Ts(e, t) {
+	if (!e.viewModel?.vt?.lock.isConfigured) return G();
 	let n = { entity_id: e.entityId };
-	return t && (n.code = t), G(e, "versatile_thermostat", "lock", n);
+	return t && (n.code = t), K(e, "versatile_thermostat", "lock", n);
 }
-async function ys(e, t) {
-	if (!e.viewModel?.vt?.lock.isConfigured) return W();
+async function Es(e, t) {
+	if (!e.viewModel?.vt?.lock.isConfigured) return G();
 	let n = { entity_id: e.entityId };
-	return t && (n.code = t), G(e, "versatile_thermostat", "unlock", n);
+	return t && (n.code = t), K(e, "versatile_thermostat", "unlock", n);
 }
 //#endregion
-//#region src/data/climate-modes.ts
-var bs = [
-	"heat",
-	"cool",
-	"heat_cool",
-	"auto",
-	"dry",
-	"fan_only",
-	"off"
-], K = {
-	heat: "mdi:fire",
-	cool: "mdi:snowflake",
-	heat_cool: "mdi:sun-snowflake-variant",
-	auto: "mdi:thermostat-auto",
-	dry: "mdi:water-percent",
-	fan_only: "mdi:fan",
-	off: "mdi:power"
-}, xs = {
-	heat: "heat",
-	cool: "cool",
-	heat_cool: "heat-cool",
-	auto: "auto",
-	dry: "cool",
-	fan_only: "auto",
-	off: "off"
-}, Ss = [
-	"off",
-	"on",
-	"vertical",
-	"horizontal",
-	"both"
-], Cs = {
-	off: "mdi:arrow-oscillating-off",
-	Off: "mdi:arrow-oscillating-off",
-	SWING_OFF: "mdi:arrow-oscillating-off",
-	on: "mdi:arrow-oscillating",
-	On: "mdi:arrow-oscillating",
-	SWING_ON: "mdi:arrow-oscillating",
-	vertical: "mdi:arrow-up-down",
-	Vertical: "mdi:arrow-up-down",
-	SWING_VERTICAL: "mdi:arrow-up-down",
-	horizontal: "mdi:arrow-left-right",
-	Horizontal: "mdi:arrow-left-right",
-	SWING_HORIZONTAL: "mdi:arrow-left-right",
-	both: "mdi:arrow-all",
-	Both: "mdi:arrow-all",
-	SWING_BOTH: "mdi:arrow-all"
-}, ws = {
-	off: "mdi:arrow-oscillating-off",
-	Off: "mdi:arrow-oscillating-off",
-	on: "mdi:arrow-expand-horizontal",
-	On: "mdi:arrow-expand-horizontal"
-}, Ts = {
+//#region src/data/fan.ts
+var Ds = {
 	on: "mdi:fan",
 	On: "mdi:fan",
 	FAN_ON: "mdi:fan",
@@ -7048,13 +7177,13 @@ var bs = [
 	FAN_DIFFUSE: "mdi:fan-chevron-down",
 	auto_fan_turbo: "mdi:fan-speed-2",
 	Turbo: "mdi:fan-speed-2"
-}, Es = [
+}, Os = [
 	"auto_fan_none",
 	"auto_fan_low",
 	"auto_fan_medium",
 	"auto_fan_high",
 	"auto_fan_turbo"
-], Ds = o`
+], ks = o`
   :host {
     display: block;
     color: var(--equinox-text-color);
@@ -7070,7 +7199,7 @@ var bs = [
     width: 22px;
     height: 22px;
   }
-`, Os = o`
+`, As = o`
   :host {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
     --equinox-panel-bg: var(--equinox-flat-panel-bg, var(--secondary-background-color));
@@ -7097,7 +7226,7 @@ var bs = [
     --equinox-panel-bg: var(--equinox-card-bg);
     --equinox-control-bg: var(--equinox-card-bg);
   }
-`, ks = o`
+`, js = o`
   :host([theme="liquid_glow"]) {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
     --equinox-panel-bg: var(--secondary-background-color);
@@ -7570,7 +7699,7 @@ var bs = [
     background: transparent;
     color: var(--equinox-boost-color);
   }
-`, As = class extends T {
+`, Ms = class extends T {
 	constructor(...e) {
 		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this.closeOnLeave = !1, this._handleKeyDown = (e) => {
 			e.key === "Escape" && this.open && this._dispatchClose();
@@ -7743,7 +7872,7 @@ var bs = [
 	}
 	render() {
 		if (!this.open) return w;
-		let e = V(this.language, "dialog.close"), t = V(this.language, "dialog.back"), n = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", r = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
+		let e = H(this.language, "dialog.close"), t = H(this.language, "dialog.back"), n = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", r = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
 		return C`
       <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
       <div
@@ -7771,10 +7900,10 @@ var bs = [
     `;
 	}
 };
-customElements.get("eq-dialog") || customElements.define("eq-dialog", As);
+customElements.get("eq-dialog") || customElements.define("eq-dialog", Ms);
 //#endregion
 //#region src/components/eq-fan-dialog.ts
-var js = class extends T {
+var Ns = class extends T {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -7987,16 +8116,16 @@ var js = class extends T {
 		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
-		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? Es : this.viewModel?.climate.fanModes ?? [];
+		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? Os : this.viewModel?.climate.fanModes ?? [];
 	}
 	_getActiveMode() {
 		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? this.viewModel.vt.fan.currentAutoFanMode : this.viewModel?.climate.fanMode;
 	}
 	_fanIcon(e) {
-		return Ts[e] ?? "mdi:fan-speed-2";
+		return Ds[e] ?? "mdi:fan-speed-2";
 	}
 	_fanLabel(e) {
-		let t = V(this.language, `main.fan.${e}`);
+		let t = H(this.language, `main.fan.${e}`);
 		return t === `main.fan.${e}` ? e : t;
 	}
 	_dispatchClose() {
@@ -8012,10 +8141,10 @@ var js = class extends T {
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		};
-		this.viewModel?.vt?.fan.hasAutoFan === !0 ? await _s(t, e) : await fs(t, e), this._dispatchClose();
+		this.viewModel?.vt?.fan.hasAutoFan === !0 ? await ws(t, e) : await ys(t, e), this._dispatchClose();
 	}
 	render() {
-		let e = this._getOptions(), t = this._getActiveMode(), n = V(this.language, "dialog.fan.title");
+		let e = this._getOptions(), t = this._getActiveMode(), n = H(this.language, "dialog.fan.title");
 		return C`
       <eq-dialog
         .open=${this.open}
@@ -8068,10 +8197,10 @@ var js = class extends T {
     `;
 	}
 };
-customElements.get("eq-fan-dialog") || customElements.define("eq-fan-dialog", js);
+customElements.get("eq-fan-dialog") || customElements.define("eq-fan-dialog", Ns);
 //#endregion
 //#region src/components/eq-hvac-dialog.ts
-var Ms = class extends T {
+var Ps = class extends T {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -8418,11 +8547,11 @@ var Ms = class extends T {
 		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
-		let e = this.viewModel?.climate.hvacModes ?? [];
-		return bs.filter((t) => e.includes(t) && K[t]);
+		let e = this.viewModel?.climate.hvacModes ?? [], t = new Set(this.config?.hidden_hvac_modes ?? []);
+		return Po.filter((n) => e.includes(n) && Fo[n] && !t.has(n));
 	}
 	_modeLabel(e) {
-		let t = V(this.language, `main.hvac.${e}`);
+		let t = H(this.language, `main.hvac.${e}`);
 		return t === `main.hvac.${e}` ? e : t;
 	}
 	_dispatchClose() {
@@ -8432,14 +8561,14 @@ var Ms = class extends T {
 		}));
 	}
 	async _selectMode(e) {
-		!this.hass || !this.config || (await us({
+		!this.hass || !this.config || (await _s({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e), this._dispatchClose());
 	}
 	render() {
-		let e = this._getOptions(), t = this.viewModel?.climate.hvacMode, n = V(this.language, "dialog.hvac.title");
+		let e = this._getOptions(), t = this.viewModel?.climate.hvacMode, n = H(this.language, "dialog.hvac.title");
 		return C`
       <eq-dialog
         .open=${this.open}
@@ -8459,8 +8588,8 @@ var Ms = class extends T {
                 title=${this._modeLabel(e)}
                 aria-label=${this._modeLabel(e)}
               >
-                <span class="option-icon" tone=${xs[e] ?? ""}>
-                  <ha-icon .icon=${K[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                <span class="option-icon" tone=${Io[e] ?? ""}>
+                  <ha-icon .icon=${Fo[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${this._modeLabel(e)}</span>
               </button>
@@ -8470,8 +8599,8 @@ var Ms = class extends T {
           <ha-md-list class="option-list">
             ${e.map((e) => C`
                 <ha-md-list-item type="button" ?active=${e === t} @click=${() => this._selectMode(e)}>
-                  <span class="option-icon" tone=${xs[e] ?? ""} slot="start">
-                    <ha-icon .icon=${K[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                  <span class="option-icon" tone=${Io[e] ?? ""} slot="start">
+                    <ha-icon .icon=${Fo[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._modeLabel(e)}</span>
                   ${e === t ? C`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : w}
@@ -8483,14 +8612,14 @@ var Ms = class extends T {
     `;
 	}
 };
-customElements.get("eq-hvac-dialog") || customElements.define("eq-hvac-dialog", Ms);
+customElements.get("eq-hvac-dialog") || customElements.define("eq-hvac-dialog", Ps);
 //#endregion
 //#region src/components/eq-swing-dialog.ts
-function Ns(e) {
-	let t = [...new Set(e)], n = Ss.filter((e) => t.includes(e)), r = t.filter((e) => !Ss.includes(e));
+function Fs(e) {
+	let t = [...new Set(e)], n = Ro.filter((e) => t.includes(e)), r = t.filter((e) => !Ro.includes(e));
 	return [...n, ...r];
 }
-var Ps = class extends T {
+var Is = class extends T {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -8686,16 +8815,16 @@ var Ps = class extends T {
 		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_verticalOptions() {
-		return Ns(this.viewModel?.climate.swingModes ?? []);
+		return Fs(this.viewModel?.climate.swingModes ?? []);
 	}
 	_horizontalOptions() {
-		return Ns(this.viewModel?.climate.swingHorizontalModes ?? []);
+		return Fs(this.viewModel?.climate.swingHorizontalModes ?? []);
 	}
 	_swingIcon(e, t = !1) {
-		return t ? ws[e] ?? Cs[e] ?? "mdi:arrow-expand-horizontal" : Cs[e] ?? "mdi:arrow-oscillating";
+		return t ? Bo[e] ?? zo[e] ?? "mdi:arrow-expand-horizontal" : zo[e] ?? "mdi:arrow-oscillating";
 	}
 	_swingLabel(e) {
-		let t = V(this.language, `main.swing.${e}`);
+		let t = H(this.language, `main.swing.${e}`);
 		return t === `main.swing.${e}` ? e : t;
 	}
 	_dispatchClose() {
@@ -8705,14 +8834,14 @@ var Ps = class extends T {
 		}));
 	}
 	async _selectVerticalMode(e) {
-		!this.hass || !this.config || (await ps({
+		!this.hass || !this.config || (await bs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e), this._dispatchClose());
 	}
 	async _selectHorizontalMode(e) {
-		!this.hass || !this.config || (await ms({
+		!this.hass || !this.config || (await xs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -8754,7 +8883,7 @@ var Ps = class extends T {
     `;
 	}
 	render() {
-		let e = this._verticalOptions(), t = this._horizontalOptions(), n = e.length > 0 && t.length > 0, r = V(this.language, "dialog.swing.title");
+		let e = this._verticalOptions(), t = this._horizontalOptions(), n = e.length > 0 && t.length > 0, r = H(this.language, "dialog.swing.title");
 		return C`
       <eq-dialog
         .open=${this.open}
@@ -8769,13 +8898,13 @@ var Ps = class extends T {
           <div class="swing-desktop">
             ${e.length > 0 ? C`
                   <div class="group">
-                    ${n ? C`<span class="group-title">${V(this.language, "dialog.swing.vertical")}</span>` : w}
+                    ${n ? C`<span class="group-title">${H(this.language, "dialog.swing.vertical")}</span>` : w}
                     ${this._renderDesktopGroup(e, this.viewModel?.climate.swingMode, !1, (e) => this._selectVerticalMode(e))}
                   </div>
                 ` : w}
             ${t.length > 0 ? C`
                   <div class="group">
-                    ${n ? C`<span class="group-title">${V(this.language, "dialog.swing.horizontal")}</span>` : w}
+                    ${n ? C`<span class="group-title">${H(this.language, "dialog.swing.horizontal")}</span>` : w}
                     ${this._renderDesktopGroup(t, this.viewModel?.climate.swingHorizontalMode, !0, (e) => this._selectHorizontalMode(e))}
                   </div>
                 ` : w}
@@ -8783,13 +8912,13 @@ var Ps = class extends T {
           <div class="swing-mobile">
             ${e.length > 0 ? C`
                   <div class="group">
-                    ${n ? C`<span class="group-title">${V(this.language, "dialog.swing.vertical")}</span>` : w}
+                    ${n ? C`<span class="group-title">${H(this.language, "dialog.swing.vertical")}</span>` : w}
                     ${this._renderMobileGroup(e, this.viewModel?.climate.swingMode, !1, (e) => this._selectVerticalMode(e))}
                   </div>
                 ` : w}
             ${t.length > 0 ? C`
                   <div class="group">
-                    ${n ? C`<span class="group-title">${V(this.language, "dialog.swing.horizontal")}</span>` : w}
+                    ${n ? C`<span class="group-title">${H(this.language, "dialog.swing.horizontal")}</span>` : w}
                     ${this._renderMobileGroup(t, this.viewModel?.climate.swingHorizontalMode, !0, (e) => this._selectHorizontalMode(e))}
                   </div>
                 ` : w}
@@ -8799,28 +8928,10 @@ var Ps = class extends T {
     `;
 	}
 };
-customElements.get("eq-swing-dialog") || customElements.define("eq-swing-dialog", Ps);
+customElements.get("eq-swing-dialog") || customElements.define("eq-swing-dialog", Is);
 //#endregion
 //#region src/components/eq-preset-dialog.ts
-var Fs = [
-	"frost",
-	"eco",
-	"away",
-	"comfort",
-	"home",
-	"sleep",
-	"activity",
-	"boost"
-], Is = {
-	frost: "mdi:snowflake",
-	eco: "mdi:tree-outline",
-	away: "mdi:home-export-outline",
-	comfort: "mdi:sofa-outline",
-	home: "mdi:home-outline",
-	sleep: "mdi:sleep",
-	activity: "mdi:motion-sensor",
-	boost: "mdi:rocket-launch-outline"
-}, Ls = class extends T {
+var Ls = class extends T {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
@@ -9179,11 +9290,11 @@ var Fs = [
 		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
-		let e = this.viewModel?.climate.presetModes ?? [], t = this.viewModel?.climate.hvacMode;
-		return Fs.filter((n) => e.includes(n) && Is[n] && n !== "none" && !(n === "frost" && t !== "heat"));
+		let e = this.viewModel?.climate.presetModes ?? [], t = this.viewModel?.climate.hvacMode, n = new Set(this.config?.hidden_preset_modes ?? []);
+		return Lo.filter((r) => e.includes(r) && V[r] && r !== "none" && !(r === "frost" && t !== "heat") && !n.has(r));
 	}
 	_presetLabel(e) {
-		let t = V(this.language, `main.preset.${e}`);
+		let t = H(this.language, `main.preset.${e}`);
 		return t === `main.preset.${e}` ? e : t;
 	}
 	_presetTone(e) {
@@ -9197,14 +9308,14 @@ var Fs = [
 		}));
 	}
 	async _selectPreset(e) {
-		!this.hass || !this.config || (await ds({
+		!this.hass || !this.config || (await vs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e), this._dispatchClose());
 	}
 	render() {
-		let e = this._getOptions(), t = this.viewModel?.climate.presetMode, n = V(this.language, "dialog.preset.title");
+		let e = this._getOptions(), t = this.viewModel?.climate.presetMode, n = H(this.language, "dialog.preset.title");
 		return C`
       <eq-dialog
         .open=${this.open}
@@ -9225,7 +9336,7 @@ var Fs = [
                 aria-label=${this._presetLabel(e)}
               >
                 <span class="option-icon" tone=${this._presetTone(e)}>
-                  <ha-icon .icon=${Is[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                  <ha-icon .icon=${V[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${this._presetLabel(e)}</span>
               </button>
@@ -9236,7 +9347,7 @@ var Fs = [
             ${e.map((e) => C`
                 <ha-md-list-item type="button" ?active=${e === t} @click=${() => this._selectPreset(e)}>
                   <span class="option-icon" tone=${this._presetTone(e)} slot="start">
-                    <ha-icon .icon=${Is[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                    <ha-icon .icon=${V[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._presetLabel(e)}</span>
                   ${e === t ? C`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : w}
@@ -9343,7 +9454,7 @@ var Rs = !1, zs = class extends T {
 		return this.viewModel?.vt?.timedPreset.isActive === !0 || !!this.viewModel?.vt?.timedPresetManager;
 	}
 	render() {
-		let e = this._showRegulation(), t = this._showBoost(), n = this.viewModel?.vt?.timedPreset.isActive === !0, r = this.viewModel?.vt?.timedPreset.remainingTimeMin, i = V(this.language, "dialog.menu.title");
+		let e = this._showRegulation(), t = this._showBoost(), n = this.viewModel?.vt?.timedPreset.isActive === !0, r = this.viewModel?.vt?.timedPreset.remainingTimeMin, i = H(this.language, "dialog.menu.title");
 		return C`
       <eq-dialog
         .open=${this.open}
@@ -9360,7 +9471,7 @@ var Rs = !1, zs = class extends T {
                   <span class="option-icon" slot="start">
                     <ha-icon icon="mdi:chart-line" style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
-                  <span>${V(this.language, "dialog.menu.regulation")}</span>
+                  <span>${H(this.language, "dialog.menu.regulation")}</span>
                   <span class="option-trailing" slot="end">
                     <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
                   </span>
@@ -9372,7 +9483,7 @@ var Rs = !1, zs = class extends T {
                   <span class="option-icon" tone=${n ? "boost" : ""} slot="start">
                     <ha-icon icon="mdi:timer-outline" style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
-                  <span>${V(this.language, "dialog.menu.boost")}</span>
+                  <span>${H(this.language, "dialog.menu.boost")}</span>
                   <span class="option-trailing" slot="end">
                     ${n && typeof r == "number" ? C`<span class="boost-time">${r} min</span>` : C`<ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>`}
                   </span>
@@ -9383,7 +9494,7 @@ var Rs = !1, zs = class extends T {
             <span class="option-icon" slot="start">
               <ha-icon icon="mdi:chart-bar" style="--mdc-icon-size: 24px;"></ha-icon>
             </span>
-            <span>${V(this.language, "dialog.menu.history")}</span>
+            <span>${H(this.language, "dialog.menu.history")}</span>
             <span class="option-trailing" slot="end">
               <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
             </span>
@@ -9672,10 +9783,10 @@ var Bs = 60, Vs = [
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		};
-		(this._hasTimedPreset() ? await hs(e, "boost", this._durationMinutes) : await ds(e, "boost")).ok && this._dispatchClose();
+		(this._hasTimedPreset() ? await Ss(e, "boost", this._durationMinutes) : await vs(e, "boost")).ok && this._dispatchClose();
 	}
 	async _stopBoost() {
-		!this.hass || !this.config || (await gs({
+		!this.hass || !this.config || (await Cs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -9687,21 +9798,21 @@ var Bs = 60, Vs = [
 	}
 	_formatDuration(e) {
 		if (e < 60) return {
-			value: `${e}${V(this.language, "dialog.boost.minutes")}`,
+			value: `${e}${H(this.language, "dialog.boost.minutes")}`,
 			unit: ""
 		};
 		if (e % 60 == 0) return {
-			value: `${e / 60}${V(this.language, "dialog.boost.hours")}`,
+			value: `${e / 60}${H(this.language, "dialog.boost.hours")}`,
 			unit: ""
 		};
 		let t = Math.floor(e / 60), n = e % 60;
 		return {
-			value: `${t}${V(this.language, "dialog.boost.hours")}${n}`,
+			value: `${t}${H(this.language, "dialog.boost.hours")}${n}`,
 			unit: ""
 		};
 	}
 	render() {
-		let e = V(this.language, "dialog.boost.title"), t = this.viewModel?.vt?.timedPreset, n = t?.isActive === !0, r = this._isDisabled(), i = this._hasTimedPreset(), a = n && typeof t?.remainingTimeMin == "number" ? t.remainingTimeMin : this._durationMinutes, o = this._formatDuration(a);
+		let e = H(this.language, "dialog.boost.title"), t = this.viewModel?.vt?.timedPreset, n = t?.isActive === !0, r = this._isDisabled(), i = this._hasTimedPreset(), a = n && typeof t?.remainingTimeMin == "number" ? t.remainingTimeMin : this._durationMinutes, o = this._formatDuration(a);
 		return C`
       <eq-dialog
         .open=${this.open}
@@ -9736,7 +9847,7 @@ var Bs = 60, Vs = [
               ` : w}
           <button class="action-button" ?disabled=${r || n && !i} @click=${n ? this._stopBoost : this._startBoost}>
             <ha-icon aria-hidden="true" .icon=${n ? "mdi:timer-off-outline" : "mdi:rocket-launch-outline"}></ha-icon>
-            <span class="action-label">${V(this.language, n ? "dialog.boost.stop" : "dialog.boost.start")}</span>
+            <span class="action-label">${H(this.language, n ? "dialog.boost.stop" : "dialog.boost.start")}</span>
             <span aria-hidden="true"></span>
           </button>
         </div>
@@ -9895,7 +10006,7 @@ var Xs = class extends T {
 		return C`
       <ha-dialog
         .open=${this.open}
-        .headerTitle=${this.hass?.states[this.config?.entity ?? ""]?.attributes?.friendly_name ?? this.config?.entity ?? V(this.language, "dialog.history.title")}
+        .headerTitle=${this.hass?.states[this.config?.entity ?? ""]?.attributes?.friendly_name ?? this.config?.entity ?? H(this.language, "dialog.history.title")}
         width="large"
         flexcontent
         ?fullscreen=${this._fullscreen}
@@ -9904,7 +10015,7 @@ var Xs = class extends T {
         <ha-icon-button
           slot="headerActionItems"
           class="dialog-fullscreen-btn dialog-tools-btn"
-          .label=${V(this.language, "dialog.history.tools")}
+          .label=${H(this.language, "dialog.history.tools")}
           ?active=${this._toolsOpen}
           @click=${() => {
 			this._toolsOpen = !this._toolsOpen;
@@ -9915,7 +10026,7 @@ var Xs = class extends T {
         <ha-icon-button
           slot="headerActionItems"
           class="dialog-fullscreen-btn"
-          .label=${V(this.language, this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls")}
+          .label=${H(this.language, this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls")}
           @click=${() => {
 			this._controlsVisible = !this._controlsVisible;
 		}}
@@ -9925,7 +10036,7 @@ var Xs = class extends T {
         <ha-icon-button
           slot="headerActionItems"
           class="dialog-fullscreen-btn dialog-fs-toggle"
-          .label=${V(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
+          .label=${H(this.language, this._fullscreen ? "dialog.history.exit_fullscreen" : "dialog.history.fullscreen")}
           @click=${this._toggleFullscreen}
         >
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
@@ -10167,7 +10278,7 @@ var Zs = 4, Qs = [
 	}
 	render() {
 		if (!this.open) return w;
-		let e = this.isLocking ? V(this.language, "main.lock.locked") : V(this.language, "main.lock.unlocked"), t = V(this.language, "main.lock.enter_code"), n = V(this.language, "main.lock.wrong_code"), r = V(this.language, "dialog.close");
+		let e = this.isLocking ? H(this.language, "main.lock.locked") : H(this.language, "main.lock.unlocked"), t = H(this.language, "main.lock.enter_code"), n = H(this.language, "main.lock.wrong_code"), r = H(this.language, "dialog.close");
 		return C`
       <div class="backdrop" @click=${this._cancel}></div>
       <div class="dialog" role="dialog" aria-modal="true">
@@ -10248,25 +10359,7 @@ var Zs = 4, Qs = [
 customElements.get("eq-lock-dialog") || customElements.define("eq-lock-dialog", $s);
 //#endregion
 //#region src/components/eq-main-card.ts
-var ec = [
-	"frost",
-	"eco",
-	"away",
-	"comfort",
-	"home",
-	"sleep",
-	"activity",
-	"boost"
-], tc = "equinox", nc = {
-	frost: "mdi:snowflake",
-	eco: "mdi:tree-outline",
-	away: "mdi:home-export-outline",
-	comfort: "mdi:sofa-outline",
-	home: "mdi:home-outline",
-	sleep: "mdi:sleep",
-	activity: "mdi:motion-sensor",
-	boost: "mdi:rocket-launch-outline"
-}, rc = [
+var ec = "equinox", tc = [
 	{
 		key: "hasOverpowering",
 		icon: "mdi:flash-alert",
@@ -10294,7 +10387,7 @@ var ec = [
 		tone: "boost",
 		messageKeys: ["target_temp_timed_preset"]
 	}
-], ic = {
+], nc = {
 	safety_detected: {
 		icon: "mdi:thermometer-alert",
 		tone: "danger"
@@ -10371,7 +10464,7 @@ var ec = [
 		icon: "mdi:alert-box-outline",
 		tone: "warning"
 	}
-}, ac = {
+}, rc = {
 	preheating: {
 		icon: "mdi:timer-sand",
 		tone: "heat"
@@ -10409,11 +10502,11 @@ var ec = [
 function q(e) {
 	return typeof e == "number" && Number.isFinite(e);
 }
-function oc(e, t) {
+function ic(e, t) {
 	let n = [...new Set(e)], r = t.filter((e) => n.includes(e)), i = n.filter((e) => !t.includes(e));
 	return [...r, ...i];
 }
-var sc = class extends T {
+var ac = class extends T {
 	constructor(...e) {
 		super(...e), this._activeDialog = null, this._powerInfoPinned = !1, this._lockDialogOpen = !1, this._lockIsLocking = !1, this._browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`, this._syncingBrowserHistory = !1, this._handleMouseLeave = () => {
 			this._activeDialog === "menu" && (this._activeDialog = null);
@@ -10454,8 +10547,8 @@ var sc = class extends T {
 	}
 	static {
 		this.styles = [
-			Ds,
-			Os,
+			ks,
+			As,
 			o`
       :host {
         display: block;
@@ -11434,7 +11527,7 @@ var sc = class extends T {
         transition: opacity 0.2s;
       }
     `,
-			ks
+			js
 		];
 	}
 	connectedCallback() {
@@ -11444,7 +11537,7 @@ var sc = class extends T {
 		super.disconnectedCallback(), this.removeEventListener("mouseleave", this._handleMouseLeave), window.removeEventListener("popstate", this._handleBrowserPopState), this._clearPowerInfoPressTimer();
 	}
 	_browserHistoryEntry(e = window.history.state) {
-		let t = typeof e == "object" && e ? e[tc] : void 0;
+		let t = typeof e == "object" && e ? e[ec] : void 0;
 		if (typeof t != "object" || !t) return;
 		let n = t;
 		if (!(n.instanceId !== this._browserHistoryInstanceId || n.layer !== "history-dialog")) return {
@@ -11455,7 +11548,7 @@ var sc = class extends T {
 	_browserHistoryState() {
 		return {
 			...typeof window.history.state == "object" && window.history.state !== null ? window.history.state : {},
-			[tc]: {
+			[ec]: {
 				instanceId: this._browserHistoryInstanceId,
 				layer: "history-dialog"
 			}
@@ -11603,7 +11696,7 @@ var sc = class extends T {
       ></eq-lock-dialog>
       <eq-dialog
         .open=${this._activeMessageKey !== void 0}
-        .title=${V(this._language(), "dialog.message.title")}
+        .title=${H(this._language(), "dialog.message.title")}
         .language=${this._language()}
         .floating=${!0}
         .anchor=${this._dialogAnchor}
@@ -11625,7 +11718,7 @@ var sc = class extends T {
     `;
 	}
 	_renderStatus() {
-		let e = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, t = this.viewModel?.vt?.lock.isLocked ? V(this._language(), "main.lock.locked") : V(this._language(), "main.lock.unlocked"), n = this.config?.display_mode !== "compact" && this._hasFanControl(), r = this.config?.display_mode !== "compact" && this._hasSwingControl();
+		let e = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, t = this.viewModel?.vt?.lock.isLocked ? H(this._language(), "main.lock.locked") : H(this._language(), "main.lock.unlocked"), n = this.config?.display_mode !== "compact" && this._hasFanControl(), r = this.config?.display_mode !== "compact" && this._hasSwingControl();
 		return C`
       <div class="status">
         ${n ? this._renderFanButton() : w}
@@ -11639,7 +11732,7 @@ var sc = class extends T {
     `;
 	}
 	_renderStateRail() {
-		let e = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, t = this.viewModel?.vt?.lock.isLocked ? V(this._language(), "main.lock.locked") : V(this._language(), "main.lock.unlocked");
+		let e = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, t = this.viewModel?.vt?.lock.isLocked ? H(this._language(), "main.lock.locked") : H(this._language(), "main.lock.unlocked");
 		return [
 			...this.config?.disable_name ? [this._renderMenuButton()] : [],
 			...e ? [this._renderLockButton(t)] : [],
@@ -11668,9 +11761,9 @@ var sc = class extends T {
     `;
 	}
 	_renderHvacStateIcon() {
-		let e = this.viewModel?.climate.hvacAction, t = e ? ac[e] : void 0, n = this.viewModel?.climate.hvacMode;
+		let e = this.viewModel?.climate.hvacAction, t = e ? rc[e] : void 0, n = this.viewModel?.climate.hvacMode;
 		if (n === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return w;
-		let r = t?.icon || (n ? K[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? V(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
+		let r = t?.icon || (n ? Fo[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? H(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
 		return r ? C`
       <ha-icon
         class="action-icon"
@@ -11683,10 +11776,10 @@ var sc = class extends T {
 	_renderEvents() {
 		let e = this.viewModel?.vt?.events, t = this.viewModel?.vt?.messages ?? [];
 		if (!e) return [];
-		let n = new Set(rc.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])), r = t.map((e) => {
+		let n = new Set(tc.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])), r = t.map((e) => {
 			let t = n.has(e.key) ? (e) => this._openBoost(e) : void 0;
 			return this._renderMessageIcon(e, t);
-		}), i = rc.filter((n) => {
+		}), i = tc.filter((n) => {
 			let r = n.messageKeys ?? [];
 			return e[n.key] && !r.some((e) => t.some((t) => t.key === e));
 		}).map((e) => {
@@ -11696,7 +11789,7 @@ var sc = class extends T {
 		return [...r, ...i];
 	}
 	_renderEventIcon(e, t) {
-		let n = V(this._language(), `main.events.${e.key}`);
+		let n = H(this._language(), `main.events.${e.key}`);
 		return t ? C`
         <button
           class="event"
@@ -11741,13 +11834,13 @@ var sc = class extends T {
     `;
 	}
 	_messageIcon(e) {
-		return ic[e] ?? {
+		return nc[e] ?? {
 			icon: "mdi:information-outline",
 			tone: "info"
 		};
 	}
 	_messageLabel(e) {
-		return V(this._language(), `main.messages.${e}`);
+		return H(this._language(), `main.messages.${e}`);
 	}
 	_renderSetpoint() {
 		return this.config?.primary_display === "sensors" ? this._renderSensorFocus() : C`<div class="setpoint">${this._renderTemperatureControl(!1)}</div>`;
@@ -11786,7 +11879,7 @@ var sc = class extends T {
       <div class="setpoint-control" ?compact=${e}>
         <ha-control-button
           class="step"
-          .label=${V(this._language(), "main.actions.decrease_temperature")}
+          .label=${H(this._language(), "main.actions.decrease_temperature")}
           ?disabled=${t}
           @click=${() => this._changeTemperature(-1)}
         >
@@ -11810,7 +11903,7 @@ var sc = class extends T {
         </div>
         <ha-control-button
           class="step"
-          .label=${V(this._language(), "main.actions.increase_temperature")}
+          .label=${H(this._language(), "main.actions.increase_temperature")}
           ?disabled=${t}
           @click=${() => this._changeTemperature(1)}
         >
@@ -11841,7 +11934,7 @@ var sc = class extends T {
         <div class="setpoint-control" ?compact=${n}>
           <ha-control-button
             class="step"
-            .label=${V(this._language(), "main.actions.decrease_temperature")}
+            .label=${H(this._language(), "main.actions.decrease_temperature")}
             ?disabled=${r}
             @click=${() => this._changeRangeTemperature(e, -1)}
           >
@@ -11866,7 +11959,7 @@ var sc = class extends T {
           </div>
           <ha-control-button
             class="step"
-            .label=${V(this._language(), "main.actions.increase_temperature")}
+            .label=${H(this._language(), "main.actions.increase_temperature")}
             ?disabled=${r}
             @click=${() => this._changeRangeTemperature(e, 1)}
           >
@@ -11879,7 +11972,7 @@ var sc = class extends T {
 	_rangeBoundLabel(e) {
 		if (this.viewModel?.climate.hvacMode === "heat_cool") return "";
 		let t = e === "low" ? "main.actions.low_temperature" : "main.actions.high_temperature";
-		return V(this._language(), t);
+		return H(this._language(), t);
 	}
 	_rangeBoundTone(e) {
 		return this.viewModel?.climate.hvacMode === "heat_cool" && this.viewModel.climate.availability === "available" ? e === "high" ? "cool" : "heat" : this._targetTone();
@@ -11908,7 +12001,7 @@ var sc = class extends T {
     `;
 	}
 	_renderHvacModes() {
-		let e = oc(this.viewModel?.climate.hvacModes ?? [], bs).filter((e) => K[e]);
+		let e = this._visibleHvacModes();
 		return e.length === 0 ? w : C`<div class="segments" style=${e.length < 3 ? `width: calc(100% / 3 * ${e.length}); margin-inline: auto;` : ""}>${e.map((e) => this._renderHvacButton(e))}</div>`;
 	}
 	_renderHvacButton(e) {
@@ -11922,13 +12015,13 @@ var sc = class extends T {
         @click=${() => this._setHvacMode(e)}
       >
         <span class="btn-icon" tone=${this._modeTone(e)}>
-          <ha-icon .icon=${K[e]}></ha-icon>
+          <ha-icon .icon=${Fo[e]}></ha-icon>
         </span>
       </ha-control-button>
     `;
 	}
 	_renderPresets() {
-		let e = oc(this.viewModel?.climate.presetModes ?? [], ec).filter((e) => e !== "none" && nc[e] && !this._hidePreset(e));
+		let e = this._visiblePresetModes();
 		return e.length === 0 ? w : C`<div class="segments">${e.map((e) => this._renderPresetButton(e))}</div>`;
 	}
 	_renderPresetButton(e) {
@@ -11942,18 +12035,18 @@ var sc = class extends T {
         @click=${() => this._setPresetMode(e)}
       >
         <span class="btn-icon" tone=${this._presetTone(e)}>
-          <ha-icon .icon=${nc[e]}></ha-icon>
+          <ha-icon .icon=${V[e]}></ha-icon>
         </span>
       </ha-control-button>
     `;
 	}
 	_renderCompactSelectors() {
-		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = oc(this.viewModel?.climate.hvacModes ?? [], bs).filter((e) => K[e]), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = (this.viewModel?.climate.presetModes ?? []).filter((e) => e !== "none" && nc[e]).length > 0, o = t && t !== "none" && nc[t] ? nc[t] : "mdi:hand-back-right-outline", s = !!t && t !== "none" && !!nc[t], c = this._hasFanControl(), l = this._hasSwingControl(), u = +!!i + +!!a + +!!c + +!!l;
+		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = this._visibleHvacModes(), r = e && n.includes(e) ? e : void 0, i = n.length > 0, a = this._visiblePresetModes().length > 0, o = t && t !== "none" && V[t] ? V[t] : "mdi:hand-back-right-outline", s = !!t && t !== "none" && !!V[t], c = this._hasFanControl(), l = this._hasSwingControl(), u = +!!i + +!!a + +!!c + +!!l;
 		return u === 0 ? w : C`
       <div class="compact-selectors" style=${u < 4 ? `width: calc(100% / 3 * ${u}); margin-inline: auto;` : ""}>
         ${i ? C`
               <ha-control-button
-                .label=${r ? this._hvacLabel(r) : V(this._language(), "dialog.hvac.title")}
+                .label=${r ? this._hvacLabel(r) : H(this._language(), "dialog.hvac.title")}
                 tone=${this._modeTone(r)}
                 ?active=${r !== "off" && !!r}
                 ?subtle=${!0}
@@ -11961,13 +12054,13 @@ var sc = class extends T {
                 @click=${(e) => this._openDialog("hvac", e)}
               >
                 <span class="btn-icon" tone=${this._modeTone(r)}>
-                  <ha-icon .icon=${r ? K[r] : "mdi:thermostat"}></ha-icon>
+                  <ha-icon .icon=${r ? Fo[r] : "mdi:thermostat"}></ha-icon>
                 </span>
               </ha-control-button>
             ` : w}
         ${a ? C`
               <ha-control-button
-                .label=${t && t !== "none" ? this._presetLabel(t) : V(this._language(), "main.preset.none")}
+                .label=${t && t !== "none" ? this._presetLabel(t) : H(this._language(), "main.preset.none")}
                 tone=${s ? this._presetTone(t) : ""}
                 ?disabled=${this._isControlDisabled()}
                 @click=${(e) => this._openDialog("preset", e)}
@@ -12010,7 +12103,7 @@ var sc = class extends T {
 	}
 	_renderPowerInfoButton() {
 		if (!this._hasPowerInfo()) return w;
-		let e = V(this._language(), "main.actions.open_power_info");
+		let e = H(this._language(), "main.actions.open_power_info");
 		return C`
       <span class="power-info" ?open=${this._powerInfoPinned} @mouseleave=${this._closePowerInfo}>
         <button
@@ -12033,14 +12126,14 @@ var sc = class extends T {
 	}
 	_renderFanButton() {
 		return C`
-      <button class="fan" title=${V(this._language(), "main.actions.open_fan")} aria-label=${V(this._language(), "main.actions.open_fan")} @click=${(e) => this._openDialog("fan", e)}>
+      <button class="fan" title=${H(this._language(), "main.actions.open_fan")} aria-label=${H(this._language(), "main.actions.open_fan")} @click=${(e) => this._openDialog("fan", e)}>
         <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
         <span class="fan-label">${this._fanLabel()}</span>
       </button>
     `;
 	}
 	_renderSwingButton() {
-		let e = V(this._language(), "main.actions.open_swing");
+		let e = H(this._language(), "main.actions.open_swing");
 		return C`
       <button class="swing" title=${e} aria-label=${e} @click=${(e) => this._openDialog("swing", e)}>
         <ha-icon .icon=${this._swingIcon()}></ha-icon>
@@ -12065,7 +12158,7 @@ var sc = class extends T {
 	}
 	_renderMenuButton() {
 		return C`
-      <button class="menu" title=${V(this._language(), "main.actions.open_menu")} aria-label=${V(this._language(), "main.actions.open_menu")} @click=${(e) => this._openDialog("menu", e)}>
+      <button class="menu" title=${H(this._language(), "main.actions.open_menu")} aria-label=${H(this._language(), "main.actions.open_menu")} @click=${(e) => this._openDialog("menu", e)}>
         <ha-icon icon="mdi:dots-vertical"></ha-icon>
       </button>
     `;
@@ -12129,7 +12222,7 @@ var sc = class extends T {
 		if (e === "cooling" || e === "cool") return "cool";
 	}
 	_modeTone(e) {
-		return e ? xs[e] ?? "" : "";
+		return e ? Io[e] ?? "" : "";
 	}
 	_presetTone(e) {
 		let t = this.viewModel?.climate.hvacMode;
@@ -12139,9 +12232,17 @@ var sc = class extends T {
 		let t = this.viewModel?.climate.hvacMode;
 		return e === "frost" && t !== "heat";
 	}
+	_visibleHvacModes() {
+		let e = new Set(this.config?.hidden_hvac_modes ?? []);
+		return ic(this.viewModel?.climate.hvacModes ?? [], Po).filter((t) => Fo[t] && !e.has(t));
+	}
+	_visiblePresetModes() {
+		let e = new Set(this.config?.hidden_preset_modes ?? []);
+		return ic(this.viewModel?.climate.presetModes ?? [], Lo).filter((t) => t !== "none" && V[t] && !this._hidePreset(t) && !e.has(t));
+	}
 	_fanIcon() {
 		let e = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
-		return e ? Ts[e] ?? "mdi:fan-speed-2" : "mdi:fan-speed-2";
+		return e ? Ds[e] ?? "mdi:fan-speed-2" : "mdi:fan-speed-2";
 	}
 	_fanIconClass() {
 		let e = this._fanIcon();
@@ -12149,24 +12250,24 @@ var sc = class extends T {
 	}
 	_fanLabel() {
 		let e = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode ?? (this.viewModel?.climate.fanModes.includes("auto") ? "auto" : void 0);
-		return e ? this._optionLabel("main.fan", e) : V(this._language(), "main.fan.unavailable");
+		return e ? this._optionLabel("main.fan", e) : H(this._language(), "main.fan.unavailable");
 	}
 	_swingIcon() {
 		let e = this.viewModel?.climate.swingMode, t = this.viewModel?.climate.swingHorizontalMode;
-		return e ? Cs[e] ?? "mdi:arrow-oscillating" : t ? ws[t] ?? Cs[t] ?? "mdi:arrow-expand-horizontal" : "mdi:arrow-oscillating";
+		return e ? zo[e] ?? "mdi:arrow-oscillating" : t ? Bo[t] ?? zo[t] ?? "mdi:arrow-expand-horizontal" : "mdi:arrow-oscillating";
 	}
 	_swingLabel() {
 		let e = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode;
-		return e ? this._optionLabel("main.swing", e) : V(this._language(), "main.swing.unavailable");
+		return e ? this._optionLabel("main.swing", e) : H(this._language(), "main.swing.unavailable");
 	}
 	_hvacLabel(e) {
-		return !e || this.viewModel?.climate.availability !== "available" ? V(this._language(), "main.status.unavailable") : e === "off" ? V(this._language(), "main.status.off") : this._optionLabel("main.hvac", e);
+		return !e || this.viewModel?.climate.availability !== "available" ? H(this._language(), "main.status.unavailable") : e === "off" ? H(this._language(), "main.status.off") : this._optionLabel("main.hvac", e);
 	}
 	_presetLabel(e) {
 		return this._optionLabel("main.preset", e);
 	}
 	_optionLabel(e, t) {
-		let n = V(this._language(), `${e}.${t}`);
+		let n = H(this._language(), `${e}.${t}`);
 		return n === `${e}.${t}` ? t : n;
 	}
 	_formatCurrentTemp() {
@@ -12237,7 +12338,7 @@ var sc = class extends T {
 		t.value = new Intl.NumberFormat(this._language(), {
 			minimumFractionDigits: i,
 			maximumFractionDigits: i
-		}).format(a), ls({
+		}).format(a), gs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -12258,7 +12359,7 @@ var sc = class extends T {
 		t.value = new Intl.NumberFormat(this._language(), {
 			minimumFractionDigits: o,
 			maximumFractionDigits: o
-		}).format(a[n]), ls({
+		}).format(a[n]), gs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -12270,7 +12371,7 @@ var sc = class extends T {
 	_changeTemperature(e) {
 		if (!this.hass || !this.config || !this.viewModel || !q(this.viewModel.climate.targetTemperature)) return;
 		let t = this.viewModel.climate.targetTempStep ?? .5, n = this._clampTemperature(this.viewModel.climate.targetTemperature + t * e);
-		ls({
+		gs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -12281,7 +12382,7 @@ var sc = class extends T {
 		let n = this.viewModel.climate.targetTemperatureRange?.[e];
 		if (!q(n)) return;
 		let r = this.viewModel.climate.targetTempStep ?? .5, i = this._rangeWith(e, n + r * t);
-		i && ls({
+		i && gs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -12310,14 +12411,14 @@ var sc = class extends T {
 		return Number(i.toFixed(2));
 	}
 	_setHvacMode(e) {
-		!this.hass || !this.config || !this.viewModel || us({
+		!this.hass || !this.config || !this.viewModel || _s({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e);
 	}
 	_setPresetMode(e) {
-		!this.hass || !this.config || !this.viewModel || ds({
+		!this.hass || !this.config || !this.viewModel || vs({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -12345,30 +12446,30 @@ var sc = class extends T {
 			viewModel: this.viewModel
 		};
 		if (this.viewModel.vt.lock.isLocked) {
-			ys(e);
+			Es(e);
 			return;
 		}
-		vs(e);
+		Ts(e);
 	}
 };
-customElements.get("eq-main-card") || customElements.define("eq-main-card", sc);
+customElements.get("eq-main-card") || customElements.define("eq-main-card", ac);
 //#endregion
 //#region src/data/format.ts
-var cc = new Set(["unknown", "unavailable"]);
-function lc(e) {
-	return e == null || typeof e == "string" && cc.has(e);
+var oc = new Set(["unknown", "unavailable"]);
+function sc(e) {
+	return e == null || typeof e == "string" && oc.has(e);
 }
 function J(e) {
-	if (!(lc(e) || typeof e != "string" || e.trim() === "")) return e;
+	if (!(sc(e) || typeof e != "string" || e.trim() === "")) return e;
 }
 function Y(e) {
-	if (lc(e)) return;
+	if (sc(e)) return;
 	if (typeof e == "number") return Number.isFinite(e) ? e : void 0;
 	if (typeof e != "string" || e.trim() === "") return;
 	let t = Number(e);
 	return Number.isFinite(t) ? t : void 0;
 }
-function uc(e) {
+function cc(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : [];
 }
 function X(...e) {
@@ -12385,13 +12486,13 @@ function Q(e, t) {
 function $(e) {
 	return e === !0;
 }
-function dc(e) {
+function lc(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : typeof e == "string" && e.trim() !== "" ? [e] : [];
 }
-function fc(e) {
+function uc(e) {
 	return e === "safety_detected" || e === "heating_failure" || e === "cooling_failure" ? "danger" : e === "overpowering_detected" || e === "not_initialized" ? "alert" : "info";
 }
-function pc(e) {
+function dc(e) {
 	return {
 		isPresenceConfigured: $(e.is_presence_configured),
 		isPowerConfigured: $(e.is_power_configured),
@@ -12404,28 +12505,28 @@ function pc(e) {
 		isRepairIncorrectStateConfigured: $(e.is_repair_incorrect_state_configured)
 	};
 }
-function mc(e) {
+function fc(e) {
 	let t = J(Q(e, ["configuration", "type"])), n = [];
 	return (e.is_over_switch === !0 || t === "over_switch") && n.push("over_switch"), (e.is_over_valve === !0 || t === "over_valve") && n.push("over_valve"), (e.is_over_climate === !0 || t === "over_climate") && n.push("over_climate"), (Q(e, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0 || Q(e, ["configuration", "have_valve_regulation"]) === !0) && n.push("over_climate_valve"), n;
 }
-function hc(e) {
-	let t = dc(Q(e, ["specific_states", "messages"]));
+function pc(e) {
+	let t = lc(Q(e, ["specific_states", "messages"]));
 	return Q(e, ["safety_manager", "safety_state"]) === "on" && t.push("safety_detected"), Q(e, ["heating_failure_detection_manager", "heating_failure_state"]) === "on" && t.push("heating_failure"), Q(e, ["heating_failure_detection_manager", "cooling_failure_state"]) === "on" && t.push("cooling_failure"), Q(e, ["power_manager", "overpowering_state"]) === "on" && t.push("overpowering_detected"), [...new Set(t)].map((e) => ({
 		key: e,
-		severity: fc(e)
+		severity: uc(e)
 	}));
 }
-function gc(e) {
+function mc(e) {
 	return X(J(Q(e, ["configuration", "proportional_function"])), J(Q(e, ["vtherm_over_valve", "function"])), J(Q(e, [
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"function"
 	])), J(Q(e, ["specific_states", "proportional_function"])));
 }
-function _c(e, t, n) {
-	let r = n.attributes, i = Z(r.specific_states), a = mc(r);
+function hc(e, t, n) {
+	let r = n.attributes, i = Z(r.specific_states), a = fc(r);
 	if (!(a.length > 0 || i !== void 0 || Z(r.configuration) !== void 0)) return;
-	let o = pc(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
+	let o = dc(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
 		"vtherm_over_climate",
 		"valve_regulation",
 		"power_percent"
@@ -12433,13 +12534,13 @@ function _c(e, t, n) {
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"valve_open_percent"
-	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = hc(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
+	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = pc(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
 	return {
 		isVt: !0,
 		types: a,
 		configuration: {
 			type: J(Q(r, ["configuration", "type"])),
-			proportionalFunction: gc(r),
+			proportionalFunction: mc(r),
 			haveValveRegulation: Q(r, ["configuration", "have_valve_regulation"]) === !0 || Q(r, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0
 		},
 		flags: o,
@@ -12497,22 +12598,22 @@ function _c(e, t, n) {
 }
 //#endregion
 //#region src/data/climate-state.ts
-function vc(e) {
+function gc(e) {
 	return typeof e == "object" && e ? e : void 0;
 }
-function yc(e, t) {
-	return t.reduce((e, t) => vc(e)?.[t], e);
+function _c(e, t) {
+	return t.reduce((e, t) => gc(e)?.[t], e);
 }
-function bc(e) {
+function vc(e) {
 	return e.state === "unavailable" ? "unavailable" : e.state === "unknown" ? "unknown" : "available";
 }
-function xc(e, t, n) {
+function yc(e, t, n) {
 	return X(Y(n.humidity), e.humidity_entity ? Y(t.states[e.humidity_entity]?.state) : void 0);
 }
-function Sc(e, t) {
+function bc(e, t) {
 	if (!e.temperature_entity) return;
 	let n = t.states[e.temperature_entity]?.state;
-	if (!n || lc(n)) return;
+	if (!n || sc(n)) return;
 	let r = parseFloat(n);
 	if (!Number.isFinite(r)) return;
 	let i = n.indexOf(".");
@@ -12522,7 +12623,7 @@ function Sc(e, t) {
 		entityId: e.temperature_entity
 	};
 }
-function Cc(e, t) {
+function xc(e, t) {
 	if (!e.power_entity) return {};
 	let n = t.states[e.power_entity];
 	return {
@@ -12530,88 +12631,101 @@ function Cc(e, t) {
 		instantPowerUnit: J(n?.attributes.unit_of_measurement)
 	};
 }
-function wc(e, t, n) {
-	let r = n.attributes, i = Sc(e, t), a = X(lc(n.state) ? void 0 : n.state, J(r.hvac_mode), J(yc(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(yc(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
+function Sc(e, t, n) {
+	let r = n.attributes, i = bc(e, t), a = X(sc(n.state) ? void 0 : n.state, J(r.hvac_mode), J(_c(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(_c(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
 	return {
 		entityId: n.entity_id,
 		name: e.name ?? J(r.friendly_name),
-		availability: bc(n),
+		availability: vc(n),
 		hvacMode: a,
 		hvacAction: J(r.hvac_action),
-		targetTemperature: X(Y(r.temperature), Y(yc(r, ["current_state", "target_temperature"]))),
+		targetTemperature: X(Y(r.temperature), Y(_c(r, ["current_state", "target_temperature"]))),
 		currentTemperature: i?.value ?? Y(r.current_temperature),
 		currentTemperatureDecimals: i?.decimals,
 		temperatureEntityId: i?.entityId,
-		currentHumidity: xc(e, t, r),
-		hvacModes: uc(r.hvac_modes),
-		presetModes: uc(r.preset_modes),
+		currentHumidity: yc(e, t, r),
+		hvacModes: cc(r.hvac_modes),
+		presetModes: cc(r.preset_modes),
 		presetMode: s,
 		fanMode: J(r.fan_mode),
-		fanModes: uc(r.fan_modes),
+		fanModes: cc(r.fan_modes),
 		swingMode: J(r.swing_mode),
-		swingModes: uc(r.swing_modes),
+		swingModes: cc(r.swing_modes),
 		swingHorizontalMode: J(r.swing_horizontal_mode),
-		swingHorizontalModes: uc(r.swing_horizontal_modes),
+		swingHorizontalModes: cc(r.swing_horizontal_modes),
 		minTemp: Y(r.min_temp),
 		maxTemp: Y(r.max_temp),
-		targetTempStep: X(Y(r.target_temp_step), Y(yc(r, ["configuration", "target_temperature_step"])), .5),
+		targetTempStep: X(Y(r.target_temp_step), Y(_c(r, ["configuration", "target_temperature_step"])), .5),
 		targetTemperatureRange: {
 			low: Y(r.target_temp_low),
 			high: Y(r.target_temp_high)
 		},
-		...Cc(e, t)
+		...xc(e, t)
 	};
 }
-function Tc(e, t, n) {
+function Cc(e, t, n) {
 	return {
-		climate: wc(e, t, n),
-		vt: _c(e, t, n)
+		climate: Sc(e, t, n),
+		vt: hc(e, t, n)
 	};
 }
 //#endregion
 //#region src/data/config.ts
-function Ec(e) {
+function wc(e) {
 	return typeof e == "string";
 }
-function Dc(e, t) {
-	return Ec(t) && e.includes(t);
+function Tc(e, t) {
+	return wc(t) && e.includes(t);
 }
-function Oc(e) {
+function Ec(e) {
 	return e.startsWith("climate.");
 }
-function kc(e) {
+function Dc(e) {
+	if (!Array.isArray(e)) return;
+	let t = [...new Set(e.filter(wc).map((e) => e.trim()).filter((e) => e.length > 0))];
+	return t.length > 0 ? t : void 0;
+}
+function Oc(e) {
 	let t = {
-		...rs,
+		...us,
 		...e,
 		type: Eo
 	};
-	return delete t.card_height, !Ec(t.entity) || t.entity.trim() === "" ? {
+	if (delete t.card_height, !wc(t.entity) || t.entity.trim() === "") return {
 		config: t,
 		error: "missing_entity"
-	} : (t.entity = t.entity.trim(), Oc(t.entity) ? Dc(Qo, t.theme) ? Dc($o, t.display_mode) ? Dc(es, t.primary_display) ? Dc(ts, t.additional_dashboards) ? Dc(ns, t.state_icons_layout) ? { config: t } : {
-		config: t,
-		error: "invalid_state_icons_layout"
-	} : {
-		config: t,
-		error: "invalid_additional_dashboards"
-	} : {
-		config: t,
-		error: "invalid_primary_display"
-	} : {
-		config: t,
-		error: "invalid_display_mode"
-	} : {
-		config: t,
-		error: "invalid_theme"
-	} : {
+	};
+	if (t.entity = t.entity.trim(), !Ec(t.entity)) return {
 		config: t,
 		error: "invalid_entity"
-	});
+	};
+	if (!Tc(as, t.theme)) return {
+		config: t,
+		error: "invalid_theme"
+	};
+	if (!Tc(os, t.display_mode)) return {
+		config: t,
+		error: "invalid_display_mode"
+	};
+	if (!Tc(ss, t.primary_display)) return {
+		config: t,
+		error: "invalid_primary_display"
+	};
+	if (!Tc(cs, t.additional_dashboards)) return {
+		config: t,
+		error: "invalid_additional_dashboards"
+	};
+	if (!Tc(ls, t.state_icons_layout)) return {
+		config: t,
+		error: "invalid_state_icons_layout"
+	};
+	let n = Dc(t.hidden_hvac_modes), r = Dc(t.hidden_preset_modes);
+	return n ? t.hidden_hvac_modes = n : delete t.hidden_hvac_modes, r ? t.hidden_preset_modes = r : delete t.hidden_preset_modes, { config: t };
 }
 //#endregion
 //#region src/equinox-card.ts
 wo(Oo);
-var Ac = {
+var kc = {
 	bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
 	ca: "Lovelace card for Versatile Thermostat and standard climate entities.",
 	zh: "适用于 Versatile Thermostat 和标准气候实体的 Lovelace 卡片。",
@@ -12632,10 +12746,10 @@ var Ac = {
 	ru: "Карточка Lovelace для Versatile Thermostat и стандартных сущностей климата.",
 	sk: "Karta Lovelace pre Versatile Thermostat a štandardné klimatizačné entity."
 };
-function jc(e) {
-	return Ac[e.toLowerCase().split("-")[0] || "en"] ?? Ac.en;
+function Ac(e) {
+	return kc[e.toLowerCase().split("-")[0] || "en"] ?? kc.en;
 }
-var Mc = class extends T {
+var jc = class extends T {
 	constructor(...e) {
 		super(...e), this._translationsReady = !1, this._currentLang = "en", this._pendingLang = null;
 	}
@@ -12678,16 +12792,16 @@ var Mc = class extends T {
 		};
 	}
 	setConfig(e) {
-		this._validation = kc(e);
+		this._validation = Oc(e);
 	}
 	willUpdate() {
 		this._viewModel = this._buildViewModel(), this._syncTranslations();
 	}
 	_syncTranslations() {
 		let e = (this.hass?.locale?.language ?? this.hass?.language ?? "en").toLowerCase().split("-")[0] || "en";
-		this._translationsReady ? e !== this._currentLang && e !== this._pendingLang && (this._pendingLang = e, Jo(e).then(() => {
+		this._translationsReady ? e !== this._currentLang && e !== this._pendingLang && (this._pendingLang = e, ts(e).then(() => {
 			this._currentLang = e, this._pendingLang = null;
-		})) : Promise.all([Jo(e), Jo("en")]).then(() => {
+		})) : Promise.all([ts(e), ts("en")]).then(() => {
 			this._translationsReady = !0, this._currentLang = e;
 		});
 	}
@@ -12706,12 +12820,12 @@ var Mc = class extends T {
 	render() {
 		if (!this._translationsReady) return C`<ha-card style="visibility:hidden"></ha-card>`;
 		let e = this._currentLang;
-		if (!this._validation) return this._renderMessage(V(e, "card.missing_entity"), !0);
-		if (this._validation.error) return this._renderMessage(V(e, `card.${this._validation.error}`), !0);
+		if (!this._validation) return this._renderMessage(H(e, "card.missing_entity"), !0);
+		if (this._validation.error) return this._renderMessage(H(e, `card.${this._validation.error}`), !0);
 		let t = this._validation.config.entity;
-		if (!t) return this._renderMessage(V(e, "card.missing_entity"), !0);
+		if (!t) return this._renderMessage(H(e, "card.missing_entity"), !0);
 		let n = this.hass?.states[t];
-		return this.hass && !n ? this._renderMessage(V(e, "card.entity_not_found", { entity: t }), !0) : C`
+		return this.hass && !n ? this._renderMessage(H(e, "card.entity_not_found", { entity: t }), !0) : C`
       <eq-main-card
         .hass=${this.hass}
         .config=${this._validation.config}
@@ -12722,7 +12836,7 @@ var Mc = class extends T {
 	_buildViewModel() {
 		if (!this.hass || !this._validation || this._validation.error) return;
 		let e = this._validation.config, t = this.hass.states[e.entity];
-		if (t) return Tc(e, this.hass, t);
+		if (t) return Cc(e, this.hass, t);
 	}
 	_renderMessage(e, t = !1) {
 		return C`
@@ -12732,16 +12846,16 @@ var Mc = class extends T {
     `;
 	}
 };
-customElements.get("equinox-card") || customElements.define(Do, Mc), window.customCards = window.customCards ?? [];
-var Nc = window.customCards;
-Nc.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
-	Nc.splice(Nc.indexOf(e), 1);
-}), Nc.push({
+customElements.get("equinox-card") || customElements.define(Do, jc), window.customCards = window.customCards ?? [];
+var Mc = window.customCards;
+Mc.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
+	Mc.splice(Mc.indexOf(e), 1);
+}), Mc.push({
 	type: Do,
 	name: To,
-	description: jc(navigator.language),
+	description: Ac(navigator.language),
 	preview: !0,
 	documentationURL: "https://github.com/KipK/equinox#readme"
 });
 //#endregion
-export { Mc as EquinoxCard };
+export { jc as EquinoxCard };

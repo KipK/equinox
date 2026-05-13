@@ -204,12 +204,22 @@
     "primary_display": "Priorité d'affichage",
     "disable_name": "Masquer le nom",
     "hide_lock_button": "Masquer le bouton de verrouillage",
+    "hvac_modes": "Boutons HVAC",
+    "preset_modes": "Boutons preset",
     "additional_dashboards": "Dashboards additionnels",
     "state_icons_layout": "Icônes d'état",
     "border_glow_on_action": "Les bordures brillent uniquement quand le HVAC est actif",
     "tabs": {
       "general": "Général",
-      "presentation": "Présentation"
+      "presentation": "Présentation",
+      "hvac": "Modes HVAC",
+      "preset": "Presets"
+    },
+    "visibility": {
+      "help": "Décochez un mode pour masquer son bouton dans Equinox sans changer les capacités du climate dans Home Assistant.",
+      "no_entity": "Sélectionnez d'abord une entité climate pour charger les modes supportés.",
+      "no_hvac_modes": "Cette entité climate ne remonte aucun mode HVAC supporté.",
+      "no_presets": "Cette entité climate ne remonte aucun preset supporté."
     },
     "options": {
       "theme": {

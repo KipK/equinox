@@ -28,6 +28,16 @@ function isClimateEntity(entity: string): boolean {
   return entity.startsWith("climate.");
 }
 
+function normalizeStringList(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+
+  const normalized = [...new Set(value.filter(isString).map((entry) => entry.trim()).filter((entry) => entry.length > 0))];
+
+  return normalized.length > 0 ? normalized : undefined;
+}
+
 export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxConfigValidation {
   const config: EquinoxCardConfigInput = {
     ...DEFAULT_CONFIG,
@@ -64,6 +74,21 @@ export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxCon
 
   if (!isOneOf(EQUINOX_LAYOUT_ORIENTATIONS, config.state_icons_layout)) {
     return { config, error: "invalid_state_icons_layout" };
+  }
+
+  const hiddenHvacModes = normalizeStringList(config.hidden_hvac_modes);
+  const hiddenPresetModes = normalizeStringList(config.hidden_preset_modes);
+
+  if (hiddenHvacModes) {
+    config.hidden_hvac_modes = hiddenHvacModes;
+  } else {
+    delete config.hidden_hvac_modes;
+  }
+
+  if (hiddenPresetModes) {
+    config.hidden_preset_modes = hiddenPresetModes;
+  } else {
+    delete config.hidden_preset_modes;
   }
 
   return { config: config as EquinoxCardConfig };

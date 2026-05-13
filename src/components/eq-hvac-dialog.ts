@@ -361,8 +361,9 @@ export class EquinoxHvacDialog extends LitElement {
 
   private _getOptions(): string[] {
     const available = this.viewModel?.climate.hvacModes ?? [];
+    const hidden = new Set(this.config?.hidden_hvac_modes ?? []);
 
-    return HVAC_ORDER.filter((mode) => available.includes(mode) && HVAC_ICONS[mode]);
+    return HVAC_ORDER.filter((mode) => available.includes(mode) && HVAC_ICONS[mode] && !hidden.has(mode));
   }
 
   private _modeLabel(mode: string): string {

@@ -30,6 +30,8 @@ export interface EquinoxCardConfig {
   primary_display?: EquinoxPrimaryDisplay;
   disable_name?: boolean;
   hide_lock_button?: boolean;
+  hidden_hvac_modes?: string[];
+  hidden_preset_modes?: string[];
   additional_dashboards?: EquinoxAdditionalDashboards;
   state_icons_layout?: EquinoxLayoutOrientation;
   border_glow_on_action?: boolean;

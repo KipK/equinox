@@ -1,6 +1,6 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unlock as unlockThermostat } from "../data/actions";
-import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
+import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, PRESET_ICONS, PRESET_ORDER, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
 import { FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
@@ -20,24 +20,12 @@ import "./eq-history-dialog";
 import "./eq-lock-dialog";
 import "./eq-dialog";
 
-const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
 const BROWSER_HISTORY_STATE_KEY = "equinox";
 
 interface BrowserHistoryEntry {
   instanceId: string;
   layer: "history-dialog";
 }
-
-const PRESET_ICONS: Record<string, string> = {
-  frost: "mdi:snowflake",
-  eco: "mdi:tree-outline",
-  away: "mdi:home-export-outline",
-  comfort: "mdi:sofa-outline",
-  home: "mdi:home-outline",
-  sleep: "mdi:sleep",
-  activity: "mdi:motion-sensor",
-  boost: "mdi:rocket-launch-outline"
-};
 
 type EventIconDefinition = {
   key: keyof NonNullable<EquinoxViewModel["vt"]>["events"];
@@ -1748,7 +1736,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderHvacModes(): TemplateResult | typeof nothing {
-    const modes = uniqueOrdered(this.viewModel?.climate.hvacModes ?? [], HVAC_ORDER).filter((mode) => HVAC_ICONS[mode]);
+    const modes = this._visibleHvacModes();
 
     if (modes.length === 0) {
       return nothing;
@@ -1780,9 +1768,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderPresets(): TemplateResult | typeof nothing {
-    const presets = uniqueOrdered(this.viewModel?.climate.presetModes ?? [], PRESET_ORDER).filter(
-      (preset) => preset !== "none" && PRESET_ICONS[preset] && !this._hidePreset(preset)
-    );
+    const presets = this._visiblePresetModes();
 
     if (presets.length === 0) {
       return nothing;
@@ -1812,14 +1798,11 @@ export class EquinoxMainCard extends LitElement {
   private _renderCompactSelectors(): TemplateResult | typeof nothing {
     const hvacMode = this.viewModel?.climate.hvacMode;
     const preset = this.viewModel?.climate.presetMode;
-    const availableHvacModes = uniqueOrdered(this.viewModel?.climate.hvacModes ?? [], HVAC_ORDER).filter((mode) => HVAC_ICONS[mode]);
+    const availableHvacModes = this._visibleHvacModes();
     const currentHvacMode = hvacMode && availableHvacModes.includes(hvacMode) ? hvacMode : undefined;
     const showHvac = availableHvacModes.length > 0;
 
-    // Show preset button if the entity exposes any valid preset mode.
-    const availablePresets = (this.viewModel?.climate.presetModes ?? []).filter(
-      (m) => m !== "none" && PRESET_ICONS[m]
-    );
+    const availablePresets = this._visiblePresetModes();
     const showPreset = availablePresets.length > 0;
     const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:hand-back-right-outline";
     const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
@@ -2176,6 +2159,22 @@ export class EquinoxMainCard extends LitElement {
     const hvacMode = this.viewModel?.climate.hvacMode;
 
     return preset === "frost" && hvacMode !== "heat";
+  }
+
+  private _visibleHvacModes(): string[] {
+    const hidden = new Set(this.config?.hidden_hvac_modes ?? []);
+
+    return uniqueOrdered(this.viewModel?.climate.hvacModes ?? [], HVAC_ORDER).filter(
+      (mode) => HVAC_ICONS[mode] && !hidden.has(mode)
+    );
+  }
+
+  private _visiblePresetModes(): string[] {
+    const hidden = new Set(this.config?.hidden_preset_modes ?? []);
+
+    return uniqueOrdered(this.viewModel?.climate.presetModes ?? [], PRESET_ORDER).filter(
+      (preset) => preset !== "none" && PRESET_ICONS[preset] && !this._hidePreset(preset) && !hidden.has(preset)
+    );
   }
 
   private _fanIcon(): string {

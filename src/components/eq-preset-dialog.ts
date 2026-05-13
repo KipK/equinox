@@ -1,23 +1,11 @@
 import { LitElement, css, html, nothing } from "lit";
 import { setPresetMode } from "../data/actions";
+import { PRESET_ICONS, PRESET_ORDER } from "../data/climate-modes";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
-
-const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
-
-const PRESET_ICONS: Record<string, string> = {
-  frost: "mdi:snowflake",
-  eco: "mdi:tree-outline",
-  away: "mdi:home-export-outline",
-  comfort: "mdi:sofa-outline",
-  home: "mdi:home-outline",
-  sleep: "mdi:sleep",
-  activity: "mdi:motion-sensor",
-  boost: "mdi:rocket-launch-outline"
-};
 
 export class EquinoxPresetDialog extends LitElement {
   static properties = {
@@ -386,13 +374,15 @@ export class EquinoxPresetDialog extends LitElement {
   private _getOptions(): string[] {
     const available = this.viewModel?.climate.presetModes ?? [];
     const hvacMode = this.viewModel?.climate.hvacMode;
+    const hidden = new Set(this.config?.hidden_preset_modes ?? []);
 
     return PRESET_ORDER.filter(
       (preset) =>
         available.includes(preset) &&
         PRESET_ICONS[preset] &&
         preset !== "none" &&
-        !(preset === "frost" && hvacMode !== "heat")
+        !(preset === "frost" && hvacMode !== "heat") &&
+        !hidden.has(preset)
     );
   }
 
