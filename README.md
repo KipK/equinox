@@ -140,6 +140,12 @@ additional_dashboards: auto
 | `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
 | `additional_dashboards` | no       | `auto`               | Reserved dashboard mode: `auto`, `custom`, or `disabled`.      |
 
+## Dashboard sizing
+
+Equinox declares Home Assistant dashboard sizing hints for both masonry and
+sections views. In sections view, the default grid height is automatic so the
+card follows its rendered content instead of forcing a fixed row count.
+
 ## Development Notes
 
 - User-visible text must go through `src/localize/languages/{lang}.json` (19

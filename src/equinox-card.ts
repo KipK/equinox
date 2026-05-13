@@ -128,11 +128,10 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
   getGridOptions(): LovelaceCardGridOptions {
     return {
       columns: 12,
-      rows: 4,
+      rows: "auto",
       min_columns: 4,
       max_columns: 12,
-      min_rows: 3,
-      max_rows: 8
+      min_rows: 3
     };
   }
 
@@ -212,7 +211,8 @@ customCards.push({
   type: CARD_TAG,
   name: CARD_NAME,
   description: cardDescription(navigator.language),
-  preview: true
+  preview: true,
+  documentationURL: "https://github.com/KipK/equinox#readme"
 });
 
 declare global {
