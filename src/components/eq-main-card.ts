@@ -86,6 +86,25 @@ function finite(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
 }
 
+function cssColor(value: string | number[] | undefined): string | undefined {
+  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (!Array.isArray(value) || value.length < 3) return undefined;
+
+  const [r, g, b] = value.map((part) => Number(part));
+  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function normalizedOpacity(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+
+  const opacity = Number(value);
+  if (!Number.isFinite(opacity)) return undefined;
+
+  return Math.min(100, Math.max(0, opacity));
+}
+
 function uniqueOrdered(values: string[], preferredOrder: string[]): string[] {
   const unique = [...new Set(values)];
   const ordered = preferredOrder.filter((value) => unique.includes(value));
@@ -122,7 +141,7 @@ export class EquinoxMainCard extends LitElement {
         height: 100%;
         overflow: visible;
         border-radius: var(--equinox-radius);
-        background: var(--equinox-card-bg);
+        background: var(--equinox-config-card-bg, var(--equinox-card-bg));
         border: 1px solid var(--equinox-border-color);
         box-shadow: var(--equinox-shadow);
         color: var(--equinox-text-color);
@@ -1213,7 +1232,12 @@ export class EquinoxMainCard extends LitElement {
     const activeHvacAction = this._activeHvacAction();
 
     return html`
-      <ha-card ?locked=${lockEffectActive} tone=${this._cardTone()} active-action=${activeHvacAction ?? nothing}>
+      <ha-card
+        style=${this._cardStyle()}
+        ?locked=${lockEffectActive}
+        tone=${this._cardTone()}
+        active-action=${activeHvacAction ?? nothing}
+      >
         <div class="card">
           ${this._renderName()}
           ${stateIconsVertical ? nothing : this._renderStatus()}
@@ -1324,6 +1348,25 @@ export class EquinoxMainCard extends LitElement {
         ${this._renderMessageOverlay()}
       </eq-dialog>
     `;
+  }
+
+  private _cardStyle(): string {
+    const color = cssColor(this.config?.card_background_color);
+    const opacity = normalizedOpacity(this.config?.card_background_opacity);
+
+    if (color && opacity !== undefined) {
+      return `--equinox-config-card-bg: color-mix(in srgb, ${color} ${opacity}%, transparent);`;
+    }
+
+    if (color) {
+      return `--equinox-config-card-bg: ${color};`;
+    }
+
+    if (opacity !== undefined) {
+      return `--equinox-config-card-bg: color-mix(in srgb, var(--equinox-card-bg) ${opacity}%, transparent);`;
+    }
+
+    return "";
   }
 
   private _language(): string | undefined {

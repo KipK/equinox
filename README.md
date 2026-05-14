@@ -119,6 +119,8 @@ humidity_entity: sensor.salon_humidity
 theme: flat
 display_mode: classic
 primary_display: setpoint
+card_background_color: "#20242a"
+card_background_opacity: 92
 disable_name: false
 enable_lock: true
 additional_dashboards: auto
@@ -136,6 +138,8 @@ additional_dashboards: auto
 | `theme`                 | no       | `flat`               | Visual theme: `flat` or `liquid_glow`.                         |
 | `display_mode`          | no       | `classic`            | Display format: `classic` or `compact`.                        |
 | `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`.                        |
+| `card_background_color` | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. |
+| `card_background_opacity` | no     | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent. |
 | `disable_name`          | no       | `false`              | Hide the header name.                                          |
 | `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
 | `additional_dashboards` | no       | `auto`               | Reserved dashboard mode: `auto`, `custom`, or `disabled`.      |

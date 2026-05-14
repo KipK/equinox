@@ -9,6 +9,16 @@ import type { HaFormChangedEvent, HaFormSchema, HassEntity, HomeAssistant, Lovel
 
 void ensureHaComponents();
 
+function cssColor(value: string | number[] | undefined): string | undefined {
+  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (!Array.isArray(value) || value.length < 3) return undefined;
+
+  const [r, g, b] = value.map((part) => Number(part));
+  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 function cleanEditorConfig(config: EquinoxCardConfigInput): EquinoxCardConfigInput {
   const cleaned = { ...config };
   delete (cleaned as { card_height?: unknown }).card_height;
@@ -96,6 +106,18 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       color: var(--primary-text-color);
       font: inherit;
     }
+
+    .color-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin-top: 12px;
+    }
+
+    .color-picker {
+      max-width: 260px;
+      width: 100%;
+    }
   `;
 
   hass?: HomeAssistant;
@@ -126,17 +148,47 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
           ${localize(language, "editor.tabs.preset")}
         </button>
       </div>
-      ${this._activeTab === "general" || this._activeTab === "presentation"
+      ${this._activeTab === "presentation"
+        ? this._renderPresentationTab(language, data)
+        : this._activeTab === "general"
         ? html`
             <ha-form
               .hass=${this.hass}
               .data=${data}
-              .schema=${this._activeTab === "presentation" ? this._presentationSchema(language) : this._generalSchema(language)}
+              .schema=${this._generalSchema(language)}
               .computeLabel=${this._computeLabel(language)}
               @value-changed=${this._valueChanged}
             ></ha-form>
           `
         : this._renderVisibilityTab(language, this._activeTab)}
+    `;
+  }
+
+  private _renderPresentationTab(language: string | undefined, data: EquinoxCardConfigInput) {
+    const schema = this._presentationSchema(language);
+    const colorIndex = schema.findIndex((item) => item.name === "card_background_color");
+    const beforeColor = colorIndex >= 0 ? schema.slice(0, colorIndex) : schema;
+    const colorFields = schema.filter((item) => item.name === "card_background_color");
+    const afterColor = colorIndex >= 0 ? schema.slice(colorIndex + 1) : [];
+
+    return html`
+      <ha-form
+        .hass=${this.hass}
+        .data=${data}
+        .schema=${beforeColor}
+        .computeLabel=${this._computeLabel(language)}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
+      <div class="color-grid">
+        ${colorFields.map((item) => this._renderColorField(language, item))}
+      </div>
+      <ha-form
+        .hass=${this.hass}
+        .data=${data}
+        .schema=${afterColor}
+        .computeLabel=${this._computeLabel(language)}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
     `;
   }
 
@@ -295,6 +347,23 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       },
       {
+        name: "card_background_color",
+        selector: {
+          color_rgb: {}
+        }
+      },
+      {
+        name: "card_background_opacity",
+        selector: {
+          number: {
+            min: 0,
+            max: 100,
+            mode: "slider",
+            unit_of_measurement: "%"
+          }
+        }
+      },
+      {
         name: "hide_lock_button",
         selector: {
           boolean: {}
@@ -312,6 +381,36 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     }
 
     return schema;
+  }
+
+  private _renderColorField(language: string | undefined, schema: HaFormSchema) {
+    return html`
+      <ha-color-picker
+        class="color-picker"
+        .label=${this._computeLabel(language)(schema)}
+        .value=${this._colorValue(schema.name)}
+        @value-changed=${(event: CustomEvent<{ value?: string | number[] }>) => this._colorChanged(schema.name, event)}
+      ></ha-color-picker>
+    `;
+  }
+
+  private _colorValue(name: string): string | undefined {
+    const value = (this._config as Record<string, unknown>)[name];
+    return cssColor(value as string | number[] | undefined);
+  }
+
+  private _colorChanged(name: string, event: CustomEvent<{ value?: string | number[] }>): void {
+    const next = { ...this._config } as Record<string, unknown>;
+    const value = cssColor(event.detail.value);
+
+    if (value === undefined || value === "") {
+      delete next[name];
+    } else {
+      next[name] = value;
+    }
+
+    this._config = cleanEditorConfig(next as EquinoxCardConfigInput);
+    this._emitConfigChanged();
   }
 
   private _climateEntity(): HassEntity | undefined {

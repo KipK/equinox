@@ -39,6 +39,8 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.1.2
 
+- add card background color and opacity options in the visual editor
+
 - update ha-better-history to 0.2.0
   . now we can set units and scale group to attributes from the graph by right click/long press the attributes chips
   . some UI fixes

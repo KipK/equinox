@@ -202,6 +202,8 @@
     "theme": "Thème",
     "display_mode": "Format",
     "primary_display": "Priorité d'affichage",
+    "card_background_color": "Couleur du fond de carte",
+    "card_background_opacity": "Opacité du fond de carte",
     "disable_name": "Masquer le nom",
     "hide_lock_button": "Masquer le bouton de verrouillage",
     "hvac_modes": "Boutons HVAC",

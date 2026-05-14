@@ -28,6 +28,8 @@ export interface EquinoxCardConfig {
   theme?: EquinoxTheme;
   display_mode?: EquinoxDisplayMode;
   primary_display?: EquinoxPrimaryDisplay;
+  card_background_color?: string | number[];
+  card_background_opacity?: number;
   disable_name?: boolean;
   hide_lock_button?: boolean;
   hidden_hvac_modes?: string[];

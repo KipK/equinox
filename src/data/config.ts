@@ -38,6 +38,33 @@ function normalizeStringList(value: unknown): string[] | undefined {
   return normalized.length > 0 ? normalized : undefined;
 }
 
+function normalizeColor(value: unknown): string | number[] | undefined {
+  if (typeof value === "string") {
+    const color = value.trim();
+    return color.length > 0 ? color : undefined;
+  }
+
+  if (!Array.isArray(value) || value.length < 3) {
+    return undefined;
+  }
+
+  const [r, g, b] = value.map((part) => Number(part));
+  return [r, g, b].every((part) => Number.isFinite(part)) ? [r, g, b] : undefined;
+}
+
+function normalizePercent(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") {
+    return undefined;
+  }
+
+  const percent = Number(value);
+  if (!Number.isFinite(percent)) {
+    return undefined;
+  }
+
+  return Math.min(100, Math.max(0, percent));
+}
+
 export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxConfigValidation {
   const config: EquinoxCardConfigInput = {
     ...DEFAULT_CONFIG,
@@ -74,6 +101,20 @@ export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxCon
 
   if (!isOneOf(EQUINOX_LAYOUT_ORIENTATIONS, config.state_icons_layout)) {
     return { config, error: "invalid_state_icons_layout" };
+  }
+
+  const cardBackgroundColor = normalizeColor(config.card_background_color);
+  if (cardBackgroundColor) {
+    config.card_background_color = cardBackgroundColor;
+  } else {
+    delete config.card_background_color;
+  }
+
+  const cardBackgroundOpacity = normalizePercent(config.card_background_opacity);
+  if (cardBackgroundOpacity !== undefined) {
+    config.card_background_opacity = cardBackgroundOpacity;
+  } else {
+    delete config.card_background_opacity;
   }
 
   const hiddenHvacModes = normalizeStringList(config.hidden_hvac_modes);
