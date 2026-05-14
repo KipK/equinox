@@ -36,4 +36,10 @@ All notable changes to Equinox will be documented in this file.
 - improve Liquid Glow active heat/cool side glow with a center-out expanding pulse while preserving the Home Assistant card border theme
 - Add option to only display border glow when hvac is active ( default checked )
 - add editor tabs to hide specific HVAC mode and preset buttons based on the attached climate capabilities
-- 
+
+## 0.1.2
+
+- update ha-better-history to 0.2.0
+  . now we can set units and scale group to attributes from the graph by right click/long press the attributes chips
+  . some UI fixes
+
