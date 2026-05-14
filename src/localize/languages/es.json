@@ -202,6 +202,8 @@
     "theme": "Tema",
     "display_mode": "Formato",
     "primary_display": "Prioridad de visualización",
+    "card_background_color": "Color de fondo de la tarjeta",
+    "card_background_opacity": "Opacidad del fondo de la tarjeta",
     "disable_name": "Ocultar nombre",
     "hide_lock_button": "Ocultar botón de bloqueo",
     "additional_dashboards": "Paneles adicionales",

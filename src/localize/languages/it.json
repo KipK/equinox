@@ -202,6 +202,8 @@
     "theme": "Tema",
     "display_mode": "Formato",
     "primary_display": "Priorità visualizzazione",
+    "card_background_color": "Colore sfondo scheda",
+    "card_background_opacity": "Opacità sfondo scheda",
     "disable_name": "Nascondi nome",
     "hide_lock_button": "Nascondi pulsante blocco",
     "additional_dashboards": "Dashboard aggiuntivi",

@@ -202,6 +202,8 @@
     "theme": "Téma",
     "display_mode": "Formát",
     "primary_display": "Priorita zobrazení",
+    "card_background_color": "Barva pozadí karty",
+    "card_background_opacity": "Neprůhlednost pozadí karty",
     "disable_name": "Skrýt název",
     "hide_lock_button": "Skrýt tlačítko zámku",
     "additional_dashboards": "Další přístupové panely",

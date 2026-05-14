@@ -202,6 +202,8 @@
     "theme": "Theme",
     "display_mode": "Format",
     "primary_display": "Display priority",
+    "card_background_color": "Kortets baggrundsfarve",
+    "card_background_opacity": "Kortets baggrundsgennemsigtighed",
     "disable_name": "Hide name",
     "hide_lock_button": "Hide lock button",
     "additional_dashboards": "Additional dashboards",

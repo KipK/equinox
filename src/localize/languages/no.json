@@ -202,6 +202,8 @@
     "theme": "Tema",
     "display_mode": "Format",
     "primary_display": "Visningsprioritet",
+    "card_background_color": "Bakgrunnsfarge for kortet",
+    "card_background_opacity": "Kortets bakgrunnsopasitet",
     "disable_name": "Skjul navn",
     "hide_lock_button": "Skjul låseknapp",
     "additional_dashboards": "Tilleggssamler",
