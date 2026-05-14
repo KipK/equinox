@@ -46,4 +46,4 @@ All notable changes to Equinox will be documented in this file.
 ## 0.1.3
 
 - update ha-better-history to 0.2.1
-  ; set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
+  . set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
