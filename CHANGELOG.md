@@ -49,3 +49,8 @@ All notable changes to Equinox will be documented in this file.
 
 - update ha-better-history to 0.2.1
   . set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
+
+## 0.1.4
+
+- update ha-better-history to 0.2.2
+- add card background color and opacity style options
