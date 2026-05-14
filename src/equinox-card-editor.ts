@@ -112,6 +112,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       gap: 12px;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       margin-top: 12px;
+      margin-bottom: 16px;
     }
 
     .color-picker {
@@ -151,7 +152,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       ${this._activeTab === "presentation"
         ? this._renderPresentationTab(language, data)
         : this._activeTab === "general"
-        ? html`
+          ? html`
             <ha-form
               .hass=${this.hass}
               .data=${data}
@@ -160,7 +161,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
               @value-changed=${this._valueChanged}
             ></ha-form>
           `
-        : this._renderVisibilityTab(language, this._activeTab)}
+          : this._renderVisibilityTab(language, this._activeTab)}
     `;
   }
 
@@ -201,13 +202,13 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       <div class="options-panel">
         <div class="options-help">${localize(language, "editor.visibility.help")}</div>
         ${options.length === 0
-          ? html`<div class="options-empty">${localize(language, this._config.entity ? emptyKey : "editor.visibility.no_entity")}</div>`
-          : html`
+        ? html`<div class="options-empty">${localize(language, this._config.entity ? emptyKey : "editor.visibility.no_entity")}</div>`
+        : html`
               <div class="checkbox-list">
                 ${options.map((option) => {
-                  const checked = !hidden.has(option);
+          const checked = !hidden.has(option);
 
-                  return html`
+          return html`
                     <label class="checkbox-item">
                       <input
                         type="checkbox"
@@ -217,7 +218,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
                       <span class="checkbox-label">${tab === "hvac" ? this._hvacLabel(language, option) : this._presetLabel(language, option)}</span>
                     </label>
                   `;
-                })}
+        })}
               </div>
             `}
       </div>

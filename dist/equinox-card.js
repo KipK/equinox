@@ -7208,6 +7208,7 @@ var Cs = class extends w {
       gap: 12px;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       margin-top: 12px;
+      margin-bottom: 16px;
     }
 
     .color-picker {
