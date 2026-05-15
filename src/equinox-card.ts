@@ -26,6 +26,7 @@ const CARD_DESCRIPTIONS: Record<string, string> = {
   es: "Tarjeta Lovelace para Termostato Versátil y entidades climáticas estándar.",
   fi: "Lovelace-kortti Versatile Thermostat- ja vakioilmastoentiteeteille.",
   fr: "Carte Lovelace pour Versatile Thermostat et les entités climate standard.",
+  he: "כרטיס Lovelace עבור Versatile Thermostat וישויות climate סטנדרטיות.",
   hu: "Lovelace kártya a sokoldalú termosztáthoz és standard klímaentitásokhoz.",
   it: "Scheda Lovelace per Termostato Versatile e entità climatiche standard.",
   nl: "Lovelace-kaart voor Versatile Thermostat en standaard klimaatentiteiten.",
