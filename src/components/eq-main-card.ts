@@ -513,16 +513,16 @@ export class EquinoxMainCard extends LitElement {
         justify-content: center;
         --control-button-border-radius: 50%;
         --control-button-padding: 0;
-        --control-button-background-color: var(--equinox-control-bg);
+        --control-button-background-color: var(--equinox-mode-control-bg);
         --control-button-background-opacity: 1;
         --control-button-focus-color: var(--primary-color);
-        --control-button-icon-color: var(--equinox-text-color);
+        --control-button-icon-color: var(--equinox-mode-control-text);
         --mdc-icon-size: 24px;
         filter: drop-shadow(0 1px 3px rgb(0 0 0 / 18%));
       }
 
       .step:hover:not([disabled]) {
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 82%, var(--equinox-text-color) 18%);
+        --control-button-background-color: var(--equinox-mode-control-hover-bg);
       }
 
       .setpoint-control {

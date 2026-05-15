@@ -58,6 +58,7 @@ All notable changes to Equinox will be documented in this file.
 ## 0.1.5
 
 - make HVAC and preset selector surfaces follow the configured card background
+- make setpoint +/- buttons follow the configured card background
 - ha-better-history 0.2.3:
   . fix chart clipping on loading multiple sources
   . add colored dots near scales

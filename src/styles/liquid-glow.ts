@@ -274,8 +274,8 @@ export const liquidGlowStyles = css`
   }
 
   :host([theme="liquid_glow"]) .step {
-    --control-button-background-color: var(--equinox-control-bg);
-    --control-button-icon-color: var(--equinox-text-color);
+    --control-button-background-color: var(--equinox-mode-control-bg);
+    --control-button-icon-color: var(--equinox-mode-control-text);
     box-shadow: none;
     filter: none;
   }
