@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unlock as unlockThermostat } from "../data/actions";
 import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, PRESET_ICONS, PRESET_ORDER, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
+import { actionTone, fanTone, lockTone, presetTone, swingTone } from "../data/colors";
 import { FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
@@ -70,16 +71,21 @@ const MESSAGE_ICONS: Record<string, { icon: string; tone: string }> = {
   not_initialized: { icon: "mdi:alert-box-outline", tone: "warning" }
 };
 
+// Icons follow homeassistant/components/climate/icons.json (HA core);
+// tones follow CLIMATE_HVAC_ACTION_TO_MODE in src/data/colors.ts so the icon
+// hue matches HA's official tile/thermostat colorisation. `defrosting`
+// resolves to a heat-mapped tone (per HA) but uses the distinct
+// snowflake-melt glyph so it doesn't collide with cooling.
 const HVAC_ACTION_ICONS: Record<string, { icon?: string; tone: string }> = {
-  preheating: { icon: "mdi:timer-sand", tone: "heat" },
-  heat: { icon: "mdi:fire", tone: "heat" },
-  heating: { icon: "mdi:fire", tone: "heat" },
-  cool: { icon: "mdi:snowflake", tone: "cool" },
-  cooling: { icon: "mdi:snowflake", tone: "cool" },
-  drying: { icon: "mdi:water-percent", tone: "cool" },
-  fan: { icon: "mdi:fan-speed-2", tone: "auto" },
-  idle: { tone: "muted" },
-  defrosting: { icon: "mdi:snowflake", tone: "cool" }
+  preheating: { icon: "mdi:heat-wave", tone: actionTone("preheating") },
+  heat: { icon: "mdi:fire", tone: actionTone("heating") },
+  heating: { icon: "mdi:fire", tone: actionTone("heating") },
+  cool: { icon: "mdi:snowflake", tone: actionTone("cooling") },
+  cooling: { icon: "mdi:snowflake", tone: actionTone("cooling") },
+  drying: { icon: "mdi:water-percent", tone: actionTone("drying") },
+  fan: { icon: "mdi:fan", tone: actionTone("fan") },
+  idle: { icon: "mdi:clock-outline", tone: actionTone("idle") },
+  defrosting: { icon: "mdi:snowflake-melt", tone: actionTone("defrosting") }
 };
 
 function finite(value: unknown): value is number {
@@ -307,6 +313,18 @@ export class EquinoxMainCard extends LitElement {
 
       .action-icon[tone="off"] {
         color: var(--disabled-text-color, var(--equinox-muted-color));
+      }
+
+      .action-icon[tone="dry"] {
+        color: var(--equinox-dry-color);
+      }
+
+      .action-icon[tone="fan-only"] {
+        color: var(--equinox-fan-only-color);
+      }
+
+      .action-icon[tone="muted"] {
+        color: var(--equinox-muted-tone-color);
       }
 
       .layout {
@@ -894,12 +912,50 @@ export class EquinoxMainCard extends LitElement {
         line-height: 1;
       }
 
-      .btn-icon[tone="heat"] { background: color-mix(in srgb, var(--equinox-heat-color) 15%, transparent); }
-      .btn-icon[tone="cool"] { background: color-mix(in srgb, var(--equinox-cool-color) 15%, transparent); }
-      .btn-icon[tone="auto"] { background: color-mix(in srgb, var(--equinox-auto-color) 15%, transparent); }
-      .btn-icon[tone="heat-cool"] { background: color-mix(in srgb, var(--equinox-heat-cool-color) 15%, transparent); }
-      .btn-icon[tone="boost"] { background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent); }
-      .btn-icon[tone="cool-boost"] { background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent); }
+      .btn-icon[tone="heat"] { background: color-mix(in srgb, var(--equinox-heat-color) 15%, transparent); color: var(--equinox-heat-color); }
+      .btn-icon[tone="cool"] { background: color-mix(in srgb, var(--equinox-cool-color) 15%, transparent); color: var(--equinox-cool-color); }
+      .btn-icon[tone="auto"] { background: color-mix(in srgb, var(--equinox-auto-color) 15%, transparent); color: var(--equinox-auto-color); }
+      .btn-icon[tone="heat-cool"] { background: color-mix(in srgb, var(--equinox-heat-cool-color) 15%, transparent); color: var(--equinox-heat-cool-color); }
+      .btn-icon[tone="boost"] { background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent); color: var(--equinox-boost-color); }
+      .btn-icon[tone="cool-boost"] { background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent); color: var(--equinox-cool-boost-color); }
+
+      /* HA-aligned and equinox-derivative tones — each value sets --eq-tone-color
+         which the generic paint rule below consumes. Heat/cool/auto/heat-cool/boost
+         keep their explicit rules above so legacy CSS stays unchanged. */
+      .btn-icon[tone="dry"]             { --eq-tone-color: var(--equinox-dry-color); }
+      .btn-icon[tone="fan-only"]        { --eq-tone-color: var(--equinox-fan-only-color); }
+      .btn-icon[tone="muted"]           { --eq-tone-color: var(--equinox-muted-tone-color); }
+      .btn-icon[tone="preset-eco"]      { --eq-tone-color: var(--equinox-preset-eco-color); }
+      .btn-icon[tone="preset-away"]     { --eq-tone-color: var(--equinox-preset-away-color); }
+      .btn-icon[tone="preset-comfort"]  { --eq-tone-color: var(--equinox-preset-comfort-color); }
+      .btn-icon[tone="preset-home"]     { --eq-tone-color: var(--equinox-preset-home-color); }
+      .btn-icon[tone="preset-sleep"]    { --eq-tone-color: var(--equinox-preset-sleep-color); }
+      .btn-icon[tone="preset-frost"]    { --eq-tone-color: var(--equinox-preset-frost-color); }
+      .btn-icon[tone="preset-activity"] { --eq-tone-color: var(--equinox-preset-activity-color); }
+      .btn-icon[tone="fan-auto"]        { --eq-tone-color: var(--equinox-fan-auto-color); }
+      .btn-icon[tone="fan-low"]         { --eq-tone-color: var(--equinox-fan-low-color); }
+      .btn-icon[tone="fan-medium"]      { --eq-tone-color: var(--equinox-fan-medium-color); }
+      .btn-icon[tone="fan-high"]        { --eq-tone-color: var(--equinox-fan-high-color); }
+      .btn-icon[tone="fan-focus"]       { --eq-tone-color: var(--equinox-fan-focus-color); }
+      .btn-icon[tone="fan-diffuse"]     { --eq-tone-color: var(--equinox-fan-diffuse-color); }
+      .btn-icon[tone="swing-on"]        { --eq-tone-color: var(--equinox-swing-on-color); }
+      .btn-icon[tone="swing-vertical"]  { --eq-tone-color: var(--equinox-swing-vertical-color); }
+      .btn-icon[tone="swing-horizontal"]{ --eq-tone-color: var(--equinox-swing-horizontal-color); }
+      .btn-icon[tone="swing-both"]      { --eq-tone-color: var(--equinox-swing-both-color); }
+      .btn-icon[tone="fan-off"],
+      .btn-icon[tone="swing-off"]       { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
+      .btn-icon[tone="off"]             { --eq-tone-color: var(--disabled-text-color, var(--equinox-muted-color)); }
+
+      .btn-icon[tone^="preset-"],
+      .btn-icon[tone^="fan-"],
+      .btn-icon[tone^="swing-"],
+      .btn-icon[tone="dry"],
+      .btn-icon[tone="fan-only"],
+      .btn-icon[tone="muted"],
+      .btn-icon[tone="off"] {
+        background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
+        color: var(--eq-tone-color);
+      }
 
       ha-control-button[active] .btn-icon { background: transparent; }
 
@@ -923,6 +979,30 @@ export class EquinoxMainCard extends LitElement {
         color: var(--primary-color);
         padding: 0;
         cursor: pointer;
+      }
+
+      /* Per-mode tinting for the standalone fan/swing rail buttons —
+         mirrors .btn-icon palette. */
+      .fan[tone="fan-auto"], .swing[tone="fan-auto"]               { --eq-tone-color: var(--equinox-fan-auto-color); }
+      .fan[tone="fan-low"]                                          { --eq-tone-color: var(--equinox-fan-low-color); }
+      .fan[tone="fan-medium"]                                       { --eq-tone-color: var(--equinox-fan-medium-color); }
+      .fan[tone="fan-high"]                                         { --eq-tone-color: var(--equinox-fan-high-color); }
+      .fan[tone="fan-focus"]                                        { --eq-tone-color: var(--equinox-fan-focus-color); }
+      .fan[tone="fan-diffuse"]                                      { --eq-tone-color: var(--equinox-fan-diffuse-color); }
+      .fan[tone="fan-off"]                                          { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
+      .swing[tone="swing-on"]                                       { --eq-tone-color: var(--equinox-swing-on-color); }
+      .swing[tone="swing-vertical"]                                 { --eq-tone-color: var(--equinox-swing-vertical-color); }
+      .swing[tone="swing-horizontal"]                               { --eq-tone-color: var(--equinox-swing-horizontal-color); }
+      .swing[tone="swing-both"]                                     { --eq-tone-color: var(--equinox-swing-both-color); }
+      .swing[tone="swing-off"]                                      { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
+      .fan[tone="off"], .swing[tone="off"]                          { --eq-tone-color: var(--disabled-text-color, var(--equinox-muted-color)); }
+
+      .fan[tone^="fan-"],
+      .swing[tone^="swing-"],
+      .fan[tone="off"],
+      .swing[tone="off"] {
+        background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
+        color: var(--eq-tone-color);
       }
 
       .status .fan,
@@ -1096,8 +1176,14 @@ export class EquinoxMainCard extends LitElement {
 
       }
 
-      .lock[locked] {
-        color: var(--equinox-danger-color);
+      /* HA lock convention: locked = green (secure), unlocked = red (warning).
+         Mirrors --state-lock-{locked,unlocked}-color from the HA frontend. */
+      .lock[tone="lock-locked"] {
+        color: var(--equinox-lock-locked-color);
+      }
+
+      .lock[tone="lock-unlocked"] {
+        color: var(--equinox-lock-unlocked-color);
       }
 
       ha-card[locked] .setpoint-control,
@@ -1440,9 +1526,10 @@ export class EquinoxMainCard extends LitElement {
         title=${label}
         aria-label=${label}
         ?locked=${isLocked}
+        tone=${lockTone(isLocked)}
         @click=${this._toggleLock}
       >
-        <ha-icon .icon=${isLocked ? "mdi:lock" : "mdi:lock-open-outline"}></ha-icon>
+        <ha-icon .icon=${isLocked ? "mdi:lock" : "mdi:lock-open-variant"}></ha-icon>
       </button>
     `;
   }
@@ -1903,7 +1990,7 @@ export class EquinoxMainCard extends LitElement {
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("fan", event)}
               >
-                <span class="btn-icon" tone="fan">
+                <span class="btn-icon" tone=${this._fanRailTone()}>
                   <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
                 </span>
               </ha-control-button>
@@ -1917,7 +2004,7 @@ export class EquinoxMainCard extends LitElement {
                 ?disabled=${this._isControlDisabled()}
                 @click=${(event: Event) => this._openDialog("swing", event)}
               >
-                <span class="btn-icon" tone="swing">
+                <span class="btn-icon" tone=${this._swingRailTone()}>
                   <ha-icon .icon=${this._swingIcon()}></ha-icon>
                 </span>
               </ha-control-button>
@@ -1987,7 +2074,7 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderFanButton(): TemplateResult {
     return html`
-      <button class="fan" title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${(event: Event) => this._openDialog("fan", event)}>
+      <button class="fan" tone=${this._fanRailTone()} title=${localize(this._language(), "main.actions.open_fan")} aria-label=${localize(this._language(), "main.actions.open_fan")} @click=${(event: Event) => this._openDialog("fan", event)}>
         <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
         <span class="fan-label">${this._fanLabel()}</span>
       </button>
@@ -1998,7 +2085,7 @@ export class EquinoxMainCard extends LitElement {
     const label = localize(this._language(), "main.actions.open_swing");
 
     return html`
-      <button class="swing" title=${label} aria-label=${label} @click=${(event: Event) => this._openDialog("swing", event)}>
+      <button class="swing" tone=${this._swingRailTone()} title=${label} aria-label=${label} @click=${(event: Event) => this._openDialog("swing", event)}>
         <ha-icon .icon=${this._swingIcon()}></ha-icon>
         <span class="swing-label">${this._swingLabel()}</span>
       </button>
@@ -2161,41 +2248,11 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _presetTone(preset: string): string {
-    const hvacMode = this.viewModel?.climate.hvacMode;
-
-    if (preset === "frost") {
-      return "cool";
-    }
-
-    if (preset === "eco") {
-      return "auto";
-    }
-
-    if (preset === "away" || preset === "sleep") {
+    if (this.viewModel?.climate.availability !== "available") {
       return "off";
     }
 
-    if (preset === "comfort") {
-      if (hvacMode === "cool") {
-        return "cool";
-      }
-
-      return "heat";
-    }
-
-    if (preset === "home") {
-      return "auto";
-    }
-
-    if (preset === "boost" || preset === "activity") {
-      if (hvacMode === "cool") {
-        return "cool-boost";
-      }
-
-      return "boost";
-    }
-
-    return "";
+    return presetTone(preset, this.viewModel?.climate.hvacMode);
   }
 
   private _hidePreset(preset: string): boolean {
@@ -2224,6 +2281,18 @@ export class EquinoxMainCard extends LitElement {
     const mode = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
 
     return mode ? (FAN_MODE_ICONS[mode] ?? "mdi:fan-speed-2") : "mdi:fan-speed-2";
+  }
+
+  private _fanRailTone(): string {
+    if (this.viewModel?.climate.availability !== "available") return "off";
+    const mode = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
+    return mode ? fanTone(mode) : "fan";
+  }
+
+  private _swingRailTone(): string {
+    if (this.viewModel?.climate.availability !== "available") return "off";
+    const mode = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode;
+    return mode ? swingTone(mode) : "swing";
   }
 
   private _fanIconClass(): string {

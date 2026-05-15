@@ -202,6 +202,8 @@
     "theme": "Teema",
     "display_mode": "Muoto",
     "primary_display": "Näyttöprioriteetti",
+    "card_background_color": "Kortin taustaväri",
+    "card_background_opacity": "Kortin taustan läpinäkyvyys",
     "disable_name": "Piilota nimi",
     "hide_lock_button": "Piilota lukituspainike",
     "additional_dashboards": "Lisäkoontinäytöt",

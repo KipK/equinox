@@ -10,25 +10,32 @@ export const HVAC_ICONS: Record<string, string> = {
   off: "mdi:power"
 };
 
+// Tone names align with --state-climate-{mode}-color tokens. HA paints `dry`
+// orange and `fan_only` cyan — distinct from the old collapse onto cool/auto.
+// The `heat_cool` state maps to the `heat-cool` tone (hyphen) for CSS sanity.
 export const HVAC_TONES: Record<string, string> = {
   heat: "heat",
   cool: "cool",
   heat_cool: "heat-cool",
   auto: "auto",
-  dry: "cool",
-  fan_only: "auto",
+  dry: "dry",
+  fan_only: "fan-only",
   off: "off"
 };
 
 export const PRESET_ORDER = ["frost", "eco", "away", "comfort", "home", "sleep", "activity", "boost"];
 
+// Preset glyphs: aligned with HA core climate/icons.json where it's a
+// functional win (frost-alert resolves the snowflake collision with `cool`,
+// leaf/account-arrow-right/bed are HA canonical). home/comfort/boost keep
+// equinox's outlined variant for visual cohesion across the preset family.
 export const PRESET_ICONS: Record<string, string> = {
-  frost: "mdi:snowflake",
-  eco: "mdi:tree-outline",
-  away: "mdi:home-export-outline",
+  frost: "mdi:snowflake-alert",
+  eco: "mdi:leaf",
+  away: "mdi:account-arrow-right",
   comfort: "mdi:sofa-outline",
   home: "mdi:home-outline",
-  sleep: "mdi:sleep",
+  sleep: "mdi:bed",
   activity: "mdi:motion-sensor",
   boost: "mdi:rocket-launch-outline"
 };

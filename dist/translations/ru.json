@@ -202,6 +202,8 @@
     "theme": "Тема",
     "display_mode": "Формат",
     "primary_display": "Приоритет отображения",
+    "card_background_color": "Цвет фона карточки",
+    "card_background_opacity": "Непрозрачность фона карточки",
     "disable_name": "Скрыть название",
     "hide_lock_button": "Скрыть кнопку блокировки",
     "additional_dashboards": "Дополнительные панели",
