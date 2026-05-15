@@ -78,6 +78,14 @@ export class EquinoxHvacDialog extends LitElement {
       background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--disabled-text-color, rgba(128, 128, 128, 0.5)) 22%);
     }
 
+    .option-row[active]:has(.option-icon[tone="dry"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-dry-color, #ff9800) 22%);
+    }
+
+    .option-row[active]:has(.option-icon[tone="fan-only"]) {
+      background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-fan-only-color, #00bcd4) 22%);
+    }
+
     .option-row[active] .option-icon {
       background: transparent;
     }
@@ -109,6 +117,14 @@ export class EquinoxHvacDialog extends LitElement {
 
     :host([theme="liquid_glow"]) .option-icon[tone="off"] {
       background: rgba(128, 128, 128, 0.10);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="dry"] {
+      background: color-mix(in srgb, var(--equinox-dry-color, #ff9800) 15%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .option-icon[tone="fan-only"] {
+      background: color-mix(in srgb, var(--equinox-fan-only-color, #00bcd4) 15%, transparent);
     }
 
     :host([theme="liquid_glow"]) .option-row[active] {
@@ -150,6 +166,14 @@ export class EquinoxHvacDialog extends LitElement {
       border-color: var(--equinox-border-color, rgba(128, 128, 128, 0.2));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       box-shadow: none;
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="dry"]) {
+      --equinox-option-active-tone: var(--equinox-dry-color, #ff9800);
+    }
+
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="fan-only"]) {
+      --equinox-option-active-tone: var(--equinox-fan-only-color, #00bcd4);
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:first-child {
@@ -216,6 +240,14 @@ export class EquinoxHvacDialog extends LitElement {
       border-color: var(--equinox-border-color, rgba(128, 128, 128, 0.2));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       box-shadow: none;
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="dry"]) {
+      --equinox-option-active-tone: var(--equinox-dry-color, #ff9800);
+    }
+
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="fan-only"]) {
+      --equinox-option-active-tone: var(--equinox-fan-only-color, #00bcd4);
     }
 
     :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
@@ -296,6 +328,17 @@ export class EquinoxHvacDialog extends LitElement {
     .option-icon[tone="off"] {
       color: var(--disabled-text-color, #7e8792);
       background: rgba(128, 128, 128, 0.12);
+    }
+
+    /* HA-aligned dry and fan_only get their own palette entries. */
+    .option-icon[tone="dry"] {
+      color: var(--equinox-dry-color, #ff9800);
+      background: color-mix(in srgb, var(--equinox-dry-color, #ff9800) 15%, transparent);
+    }
+
+    .option-icon[tone="fan-only"] {
+      color: var(--equinox-fan-only-color, #00bcd4);
+      background: color-mix(in srgb, var(--equinox-fan-only-color, #00bcd4) 15%, transparent);
     }
 
     .option-label {
