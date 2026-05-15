@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from "lit";
 import { setPresetMode } from "../data/actions";
 import { PRESET_ICONS, PRESET_ORDER } from "../data/climate-modes";
+import { presetTone } from "../data/colors";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
@@ -81,6 +82,25 @@ export class EquinoxPresetDialog extends LitElement {
       background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--disabled-text-color, rgba(128, 128, 128, 0.5)) 22%);
     }
 
+    /* Per-preset tones — explicit per-tone rules. The active-row tint follows
+       the same color via :has(). HA has no native preset color tokens; the
+       --equinox-preset-* family is defined in src/styles/flat.ts. */
+    .option-icon[tone="preset-eco"]      { color: var(--equinox-preset-eco-color);      background: color-mix(in srgb, var(--equinox-preset-eco-color) 15%, transparent); }
+    .option-icon[tone="preset-away"]     { color: var(--equinox-preset-away-color);     background: color-mix(in srgb, var(--equinox-preset-away-color) 15%, transparent); }
+    .option-icon[tone="preset-comfort"]  { color: var(--equinox-preset-comfort-color);  background: color-mix(in srgb, var(--equinox-preset-comfort-color) 15%, transparent); }
+    .option-icon[tone="preset-home"]     { color: var(--equinox-preset-home-color);     background: color-mix(in srgb, var(--equinox-preset-home-color) 15%, transparent); }
+    .option-icon[tone="preset-sleep"]    { color: var(--equinox-preset-sleep-color);    background: color-mix(in srgb, var(--equinox-preset-sleep-color) 15%, transparent); }
+    .option-icon[tone="preset-frost"]    { color: var(--equinox-preset-frost-color);    background: color-mix(in srgb, var(--equinox-preset-frost-color) 15%, transparent); }
+    .option-icon[tone="preset-activity"] { color: var(--equinox-preset-activity-color); background: color-mix(in srgb, var(--equinox-preset-activity-color) 15%, transparent); }
+
+    .option-row[active]:has(.option-icon[tone="preset-eco"])      { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-preset-eco-color) 22%); }
+    .option-row[active]:has(.option-icon[tone="preset-away"])     { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-preset-away-color) 22%); }
+    .option-row[active]:has(.option-icon[tone="preset-comfort"])  { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-preset-comfort-color) 22%); }
+    .option-row[active]:has(.option-icon[tone="preset-home"])     { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-preset-home-color) 22%); }
+    .option-row[active]:has(.option-icon[tone="preset-sleep"])    { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-preset-sleep-color) 22%); }
+    .option-row[active]:has(.option-icon[tone="preset-frost"])    { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-preset-frost-color) 22%); }
+    .option-row[active]:has(.option-icon[tone="preset-activity"]) { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-preset-activity-color) 22%); }
+
     .option-row[active] .option-icon {
       background: transparent;
     }
@@ -158,6 +178,31 @@ export class EquinoxPresetDialog extends LitElement {
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       box-shadow: none;
     }
+
+    /* Liquid-glow icon tints for new preset tones. */
+    :host([theme="liquid_glow"]) .option-icon[tone="preset-eco"]      { background: color-mix(in srgb, var(--equinox-preset-eco-color) 15%, transparent); }
+    :host([theme="liquid_glow"]) .option-icon[tone="preset-away"]     { background: color-mix(in srgb, var(--equinox-preset-away-color) 15%, transparent); }
+    :host([theme="liquid_glow"]) .option-icon[tone="preset-comfort"]  { background: color-mix(in srgb, var(--equinox-preset-comfort-color) 15%, transparent); }
+    :host([theme="liquid_glow"]) .option-icon[tone="preset-home"]     { background: color-mix(in srgb, var(--equinox-preset-home-color) 15%, transparent); }
+    :host([theme="liquid_glow"]) .option-icon[tone="preset-sleep"]    { background: color-mix(in srgb, var(--equinox-preset-sleep-color) 15%, transparent); }
+    :host([theme="liquid_glow"]) .option-icon[tone="preset-frost"]    { background: color-mix(in srgb, var(--equinox-preset-frost-color) 15%, transparent); }
+    :host([theme="liquid_glow"]) .option-icon[tone="preset-activity"] { background: color-mix(in srgb, var(--equinox-preset-activity-color) 15%, transparent); }
+
+    /* Liquid-glow active-tone propagation for new preset tones. */
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-eco"])      { --equinox-option-active-tone: var(--equinox-preset-eco-color); }
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-away"])     { --equinox-option-active-tone: var(--equinox-preset-away-color); }
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-comfort"])  { --equinox-option-active-tone: var(--equinox-preset-comfort-color); }
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-home"])     { --equinox-option-active-tone: var(--equinox-preset-home-color); }
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-sleep"])    { --equinox-option-active-tone: var(--equinox-preset-sleep-color); }
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-frost"])    { --equinox-option-active-tone: var(--equinox-preset-frost-color); }
+    :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-activity"]) { --equinox-option-active-tone: var(--equinox-preset-activity-color); }
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-eco"])      { --equinox-option-active-tone: var(--equinox-preset-eco-color); }
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-away"])     { --equinox-option-active-tone: var(--equinox-preset-away-color); }
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-comfort"])  { --equinox-option-active-tone: var(--equinox-preset-comfort-color); }
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-home"])     { --equinox-option-active-tone: var(--equinox-preset-home-color); }
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-sleep"])    { --equinox-option-active-tone: var(--equinox-preset-sleep-color); }
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-frost"])    { --equinox-option-active-tone: var(--equinox-preset-frost-color); }
+    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-activity"]) { --equinox-option-active-tone: var(--equinox-preset-activity-color); }
 
     :host([theme="liquid_glow"]) .option-row[active]:first-child {
       margin-inline-start: -1px;
@@ -393,33 +438,7 @@ export class EquinoxPresetDialog extends LitElement {
   }
 
   private _presetTone(preset: string): string {
-    const hvacMode = this.viewModel?.climate.hvacMode;
-
-    if (preset === "frost") {
-      return "cool";
-    }
-
-    if (preset === "eco") {
-      return "auto";
-    }
-
-    if (preset === "away" || preset === "sleep") {
-      return "off";
-    }
-
-    if (preset === "comfort") {
-      return hvacMode === "cool" ? "cool" : "heat";
-    }
-
-    if (preset === "home") {
-      return "auto";
-    }
-
-    if (preset === "boost" || preset === "activity") {
-      return hvacMode === "cool" ? "cool-boost" : "boost";
-    }
-
-    return "";
+    return presetTone(preset, this.viewModel?.climate.hvacMode);
   }
 
   private _dispatchClose(): void {

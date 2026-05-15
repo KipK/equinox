@@ -262,6 +262,16 @@ export const liquidGlowStyles = css`
     --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-heat-cool-color) 24%, transparent);
   }
 
+  :host([theme="liquid_glow"]) ha-card[tone="dry"] {
+    --equinox-liquid-glow-color: var(--equinox-dry-color);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-dry-color) 24%, transparent);
+  }
+
+  :host([theme="liquid_glow"]) ha-card[tone="fan-only"] {
+    --equinox-liquid-glow-color: var(--equinox-fan-only-color);
+    --equinox-liquid-glow-soft: color-mix(in srgb, var(--equinox-fan-only-color) 24%, transparent);
+  }
+
   :host([theme="liquid_glow"]) .segments,
   :host([theme="liquid_glow"]) .compact-selectors ha-control-button {
     border-color: var(--equinox-mode-control-border-color);
@@ -325,6 +335,40 @@ export const liquidGlowStyles = css`
     --equinox-liquid-active-tone: var(--disabled-text-color, var(--equinox-muted-color));
     --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
     --control-button-background-color: var(--equinox-mode-control-bg);
+  }
+
+  /* HA-aligned dry/fan_only tones + preset/fan/swing palettes. The active-tone
+     CSS variable is set per attribute value, then a single generic rule below
+     paints the button background and icon color from that variable. */
+  :host([theme="liquid_glow"]) ha-control-button[tone="dry"][active][subtle]            { --equinox-liquid-active-tone: var(--equinox-dry-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-only"][active][subtle]       { --equinox-liquid-active-tone: var(--equinox-fan-only-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="preset-eco"][active][subtle]     { --equinox-liquid-active-tone: var(--equinox-preset-eco-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="preset-away"][active][subtle]    { --equinox-liquid-active-tone: var(--equinox-preset-away-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="preset-comfort"][active][subtle] { --equinox-liquid-active-tone: var(--equinox-preset-comfort-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="preset-home"][active][subtle]    { --equinox-liquid-active-tone: var(--equinox-preset-home-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="preset-sleep"][active][subtle]   { --equinox-liquid-active-tone: var(--equinox-preset-sleep-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="preset-frost"][active][subtle]   { --equinox-liquid-active-tone: var(--equinox-preset-frost-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="preset-activity"][active][subtle]{ --equinox-liquid-active-tone: var(--equinox-preset-activity-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-auto"][active][subtle]       { --equinox-liquid-active-tone: var(--equinox-fan-auto-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-low"][active][subtle]        { --equinox-liquid-active-tone: var(--equinox-fan-low-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-medium"][active][subtle]     { --equinox-liquid-active-tone: var(--equinox-fan-medium-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-high"][active][subtle]       { --equinox-liquid-active-tone: var(--equinox-fan-high-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-focus"][active][subtle]      { --equinox-liquid-active-tone: var(--equinox-fan-focus-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-diffuse"][active][subtle]    { --equinox-liquid-active-tone: var(--equinox-fan-diffuse-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="swing-on"][active][subtle]       { --equinox-liquid-active-tone: var(--equinox-swing-on-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="swing-vertical"][active][subtle] { --equinox-liquid-active-tone: var(--equinox-swing-vertical-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="swing-horizontal"][active][subtle] { --equinox-liquid-active-tone: var(--equinox-swing-horizontal-color); }
+  :host([theme="liquid_glow"]) ha-control-button[tone="swing-both"][active][subtle]     { --equinox-liquid-active-tone: var(--equinox-swing-both-color); }
+
+  /* Single generic paint rule for all new tones. Heat/cool/auto/heat-cool/boost/off
+     keep their dedicated rules above (with explicit icon-color and background). */
+  :host([theme="liquid_glow"]) ha-control-button[active][subtle][tone^="preset-"],
+  :host([theme="liquid_glow"]) ha-control-button[active][subtle][tone^="fan-"]:not([tone="fan-off"]),
+  :host([theme="liquid_glow"]) ha-control-button[active][subtle][tone^="swing-"]:not([tone="swing-off"]),
+  :host([theme="liquid_glow"]) ha-control-button[tone="dry"][active][subtle],
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-only"][active][subtle] {
+    --control-button-icon-color: var(--equinox-liquid-active-tone);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-liquid-active-tone) 22%);
   }
 
   :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle],
@@ -439,6 +483,44 @@ export const liquidGlowStyles = css`
     color: var(--primary-color);
   }
 
+  /* New tone group icons — set --eq-tone-color per attribute value, then
+     paint background and color from that variable in one shared rule. */
+  :host([theme="liquid_glow"]) .btn-icon[tone="dry"]                { --eq-tone-color: var(--equinox-dry-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-only"]           { --eq-tone-color: var(--equinox-fan-only-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="muted"]              { --eq-tone-color: var(--equinox-muted-tone-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="preset-eco"]         { --eq-tone-color: var(--equinox-preset-eco-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="preset-away"]        { --eq-tone-color: var(--equinox-preset-away-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="preset-comfort"]     { --eq-tone-color: var(--equinox-preset-comfort-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="preset-home"]        { --eq-tone-color: var(--equinox-preset-home-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="preset-sleep"]       { --eq-tone-color: var(--equinox-preset-sleep-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="preset-frost"]       { --eq-tone-color: var(--equinox-preset-frost-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="preset-activity"]    { --eq-tone-color: var(--equinox-preset-activity-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-auto"]           { --eq-tone-color: var(--equinox-fan-auto-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-low"]            { --eq-tone-color: var(--equinox-fan-low-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-medium"]         { --eq-tone-color: var(--equinox-fan-medium-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-high"]           { --eq-tone-color: var(--equinox-fan-high-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-focus"]          { --eq-tone-color: var(--equinox-fan-focus-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-diffuse"]        { --eq-tone-color: var(--equinox-fan-diffuse-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="swing-on"]           { --eq-tone-color: var(--equinox-swing-on-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="swing-vertical"]     { --eq-tone-color: var(--equinox-swing-vertical-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="swing-horizontal"]   { --eq-tone-color: var(--equinox-swing-horizontal-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="swing-both"]         { --eq-tone-color: var(--equinox-swing-both-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="lock-locked"]        { --eq-tone-color: var(--equinox-lock-locked-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="lock-unlocked"]      { --eq-tone-color: var(--equinox-lock-unlocked-color); }
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-off"],
+  :host([theme="liquid_glow"]) .btn-icon[tone="swing-off"]          { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
+
+  :host([theme="liquid_glow"]) .btn-icon[tone^="preset-"],
+  :host([theme="liquid_glow"]) .btn-icon[tone^="fan-"],
+  :host([theme="liquid_glow"]) .btn-icon[tone^="swing-"],
+  :host([theme="liquid_glow"]) .btn-icon[tone^="lock-"],
+  :host([theme="liquid_glow"]) .btn-icon[tone="dry"],
+  :host([theme="liquid_glow"]) .btn-icon[tone="fan-only"],
+  :host([theme="liquid_glow"]) .btn-icon[tone="muted"] {
+    background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
+    color: var(--eq-tone-color);
+  }
+
   :host([theme="liquid_glow"]) ha-control-button[active][subtle] .btn-icon {
     background: transparent;
     box-shadow: none;
@@ -472,5 +554,16 @@ export const liquidGlowStyles = css`
   :host([theme="liquid_glow"]) ha-control-button[tone="cool-boost"][active][subtle] .btn-icon {
     background: transparent;
     color: var(--equinox-boost-color);
+  }
+
+  /* Active state for new tone groups: icon inherits the per-tone color and
+     drops its tinted background (active state already provides the glow). */
+  :host([theme="liquid_glow"]) ha-control-button[tone^="preset-"][active][subtle] .btn-icon,
+  :host([theme="liquid_glow"]) ha-control-button[tone^="fan-"]:not([tone="fan-off"])[active][subtle] .btn-icon,
+  :host([theme="liquid_glow"]) ha-control-button[tone^="swing-"]:not([tone="swing-off"])[active][subtle] .btn-icon,
+  :host([theme="liquid_glow"]) ha-control-button[tone="dry"][active][subtle] .btn-icon,
+  :host([theme="liquid_glow"]) ha-control-button[tone="fan-only"][active][subtle] .btn-icon {
+    background: transparent;
+    color: var(--equinox-liquid-active-tone);
   }
 `;
