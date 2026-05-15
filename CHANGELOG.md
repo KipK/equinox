@@ -54,3 +54,15 @@ All notable changes to Equinox will be documented in this file.
 
 - update ha-better-history to 0.2.2
 - add card background color and opacity style options
+
+## 0.1.5
+
+- make HVAC and preset selector surfaces follow the configured card background
+- ha-better-history 0.2.3:
+  . fix chart clipping on loading multiple sources
+  . add colored dots near scales
+  . prevent scale ticks to appear above the chart.
+  . allow to manually split/join scales for same unit graphs by dragging colored dots to the wated scale side.
+  . auto scale splitting is more conservative
+  . prevent splitting when there's 2 different units ( forced to one scale per unit )
+  . prevent more than 2 different units per graph

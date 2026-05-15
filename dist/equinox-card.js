@@ -7335,11 +7335,11 @@ var wo = {
   :host([theme="liquid_glow"][light]) .compact-selectors ha-control-button[active][subtle] {
     border-color: color-mix(in srgb, var(--equinox-liquid-active-tone) 72%, transparent);
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 6%, transparent) 0%, transparent 40%),
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-mode-control-text) 6%, transparent) 0%, transparent 40%),
       linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent) 0%, transparent 58%),
-      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
+      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-mode-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 10%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-mode-control-text) 10%, transparent),
       inset 0 -12px 20px color-mix(in srgb, var(--equinox-liquid-active-tone) 10%, transparent),
       0 0 9px color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent);
   }
@@ -7402,13 +7402,13 @@ var wo = {
 
   :host([theme="liquid_glow"]) .segments,
   :host([theme="liquid_glow"]) .compact-selectors ha-control-button {
-    border-color: var(--equinox-border-color);
-    background: var(--equinox-control-bg);
+    border-color: var(--equinox-mode-control-border-color);
+    background: var(--equinox-mode-control-bg);
     box-shadow: none;
   }
 
   :host([theme="liquid_glow"]) .segments ha-control-button:not(:last-child) {
-    border-inline-end-color: var(--equinox-border-color);
+    border-inline-end-color: var(--equinox-mode-control-border-color);
   }
 
   :host([theme="liquid_glow"]) .step {
@@ -7419,11 +7419,11 @@ var wo = {
   }
 
   :host([theme="liquid_glow"]) ha-control-button[active][subtle] {
-    --equinox-liquid-active-tone: var(--equinox-text-color);
+    --equinox-liquid-active-tone: var(--equinox-mode-control-text);
     --control-button-background-color: var(--equinox-control-active-bg);
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, var(--equinox-liquid-active-tone) 58%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 18%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-mode-control-text) 18%, transparent),
       inset 0 -18px 28px color-mix(in srgb, var(--equinox-liquid-active-tone) 22%, transparent),
       0 0 16px color-mix(in srgb, var(--equinox-liquid-active-tone) 28%, transparent);
   }
@@ -7431,38 +7431,38 @@ var wo = {
   :host([theme="liquid_glow"]) ha-control-button[tone="heat"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-heat-color);
     --control-button-icon-color: var(--equinox-heat-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="cool"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-cool-color);
     --control-button-icon-color: var(--equinox-cool-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-cool-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="auto"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-auto-color);
     --control-button-icon-color: var(--equinox-auto-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-auto-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="heat-cool"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-heat-cool-color);
     --control-button-icon-color: var(--equinox-heat-cool-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="boost"][active][subtle],
   :host([theme="liquid_glow"]) ha-control-button[tone="cool-boost"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-boost-color);
     --control-button-icon-color: var(--equinox-boost-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-boost-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-boost-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="off"][active][subtle] {
     --equinox-liquid-active-tone: var(--disabled-text-color, var(--equinox-muted-color));
     --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
-    --control-button-background-color: var(--equinox-control-bg);
+    --control-button-background-color: var(--equinox-mode-control-bg);
   }
 
   :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle],
@@ -7472,15 +7472,15 @@ var wo = {
     box-sizing: border-box;
     border: 1px solid color-mix(in srgb, var(--equinox-liquid-active-tone) 88%, transparent);
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 10%, transparent) 0%, transparent 40%),
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-mode-control-text) 10%, transparent) 0%, transparent 40%),
       linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 24%, transparent) 0%, transparent 58%),
-      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 86%, var(--equinox-liquid-active-tone) 14%));
+      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-mode-control-bg) 86%, var(--equinox-liquid-active-tone) 14%));
     /* No inset 1px ring (avoids a "double frame" inside the border) and no outer
        0 0 0 1px ring (would render 1px past the segments outline now that the active
        button is extended to it via margin). The 1px border is enough; we keep the soft
        outer glow only. */
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 18%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-mode-control-text) 18%, transparent),
       inset 0 -16px 24px color-mix(in srgb, var(--equinox-liquid-active-tone) 18%, transparent),
       0 0 10px color-mix(in srgb, var(--equinox-liquid-active-tone) 28%, transparent);
   }
@@ -7516,8 +7516,8 @@ var wo = {
 
   :host([theme="liquid_glow"]) .segments ha-control-button[tone="off"][active][subtle],
   :host([theme="liquid_glow"]) .compact-selectors ha-control-button[tone="off"][active][subtle] {
-    border-color: var(--equinox-border-color);
-    background: var(--equinox-control-bg);
+    border-color: var(--equinox-mode-control-border-color);
+    background: var(--equinox-mode-control-bg);
     box-shadow: none;
   }
 
@@ -10425,15 +10425,64 @@ function ts(e) {
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
 function ns(e) {
+	if (Array.isArray(e) && e.length >= 3) {
+		let [t, n, r] = e.map((e) => Number(e));
+		return [
+			t,
+			n,
+			r
+		].every((e) => Number.isFinite(e)) ? {
+			r: Math.min(255, Math.max(0, t)),
+			g: Math.min(255, Math.max(0, n)),
+			b: Math.min(255, Math.max(0, r))
+		} : void 0;
+	}
+	if (typeof e != "string") return;
+	let t = e.trim(), n = t.match(/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i)?.[1];
+	if (n) return n.length === 3 ? {
+		r: parseInt(n[0] + n[0], 16),
+		g: parseInt(n[1] + n[1], 16),
+		b: parseInt(n[2] + n[2], 16)
+	} : {
+		r: parseInt(n.slice(0, 2), 16),
+		g: parseInt(n.slice(2, 4), 16),
+		b: parseInt(n.slice(4, 6), 16)
+	};
+	let r = t.match(/^rgba?\(\s*([\d.]+)(?:\s*,\s*|\s+)([\d.]+)(?:\s*,\s*|\s+)([\d.]+)/i);
+	if (!r) return;
+	let [, i, a, o] = r, s = [
+		i,
+		a,
+		o
+	].map((e) => Number(e));
+	if (s.every((e) => Number.isFinite(e))) return {
+		r: Math.min(255, Math.max(0, s[0])),
+		g: Math.min(255, Math.max(0, s[1])),
+		b: Math.min(255, Math.max(0, s[2]))
+	};
+}
+function rs({ r: e, g: t, b: n }) {
+	let r = (e) => {
+		let t = e / 255;
+		return t <= .03928 ? t / 12.92 : ((t + .055) / 1.055) ** 2.4;
+	};
+	return r(e) * .2126 + r(t) * .7152 + r(n) * .0722;
+}
+function is(e, t) {
+	if (t !== void 0 && t < 70) return;
+	let n = ns(e);
+	if (n) return rs(n) > .42 ? "#111418" : "#ffffff";
+}
+function as(e) {
 	if (e == null || e === "") return;
 	let t = Number(e);
 	if (Number.isFinite(t)) return Math.min(100, Math.max(0, t));
 }
-function rs(e, t) {
+function os(e, t) {
 	let n = [...new Set(e)], r = t.filter((e) => n.includes(e)), i = n.filter((e) => !t.includes(e));
 	return [...r, ...i];
 }
-var is = class extends D {
+var ss = class extends D {
 	constructor(...e) {
 		super(...e), this._activeDialog = null, this._powerInfoPinned = !1, this._lockDialogOpen = !1, this._lockIsLocking = !1, this._browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`, this._syncingBrowserHistory = !1, this._handleMouseLeave = () => {
 			this._activeDialog === "menu" && (this._activeDialog = null);
@@ -10482,13 +10531,19 @@ var is = class extends D {
         position: relative;
         container-type: inline-size;
         height: 100%;
+        --equinox-card-surface-bg: var(--equinox-config-card-bg, var(--equinox-card-bg));
+        --equinox-mode-control-bg: var(--equinox-config-card-bg, var(--equinox-control-bg));
+        --equinox-mode-control-text: var(--equinox-card-surface-text-color, var(--equinox-text-color));
+        --equinox-mode-control-muted: color-mix(in srgb, var(--equinox-mode-control-text) 68%, transparent);
+        --equinox-mode-control-border-color: color-mix(in srgb, var(--equinox-mode-control-text) 18%, transparent);
+        --equinox-mode-control-hover-bg: color-mix(in srgb, var(--equinox-mode-control-bg) 82%, var(--equinox-mode-control-text) 18%);
       }
 
       ha-card {
         height: 100%;
         overflow: visible;
         border-radius: var(--equinox-radius);
-        background: var(--equinox-config-card-bg, var(--equinox-card-bg));
+        background: var(--equinox-card-surface-bg);
         border: 1px solid var(--equinox-border-color);
         box-shadow: var(--equinox-shadow);
         color: var(--equinox-text-color);
@@ -11053,12 +11108,12 @@ var is = class extends D {
         border-radius: var(--equinox-control-radius);
         overflow: hidden;
         min-height: clamp(36px, 14cqi, 45px);
-        background: var(--equinox-control-bg);
-        border: 1px solid var(--equinox-border-color);
+        background: var(--equinox-mode-control-bg);
+        border: 1px solid var(--equinox-mode-control-border-color);
       }
 
       .segments ha-control-button:not(:last-child) {
-        border-inline-end: 1px solid var(--equinox-border-color);
+        border-inline-end: 1px solid var(--equinox-mode-control-border-color);
       }
 
       .segments ha-control-button,
@@ -11071,7 +11126,7 @@ var is = class extends D {
         --control-button-background-color: transparent;
         --control-button-background-opacity: 0;
         --control-button-focus-color: var(--primary-color);
-        --control-button-icon-color: var(--equinox-muted-color);
+        --control-button-icon-color: var(--equinox-mode-control-muted);
         --control-button-padding: 0;
       }
 
@@ -11091,26 +11146,26 @@ var is = class extends D {
         flex: 1;
         min-width: 0;
         height: clamp(36px, 14cqi, 45px);
-        border: 1px solid var(--equinox-border-color);
+        border: 1px solid var(--equinox-mode-control-border-color);
         border-radius: var(--equinox-control-radius);
-        background: var(--equinox-control-bg);
+        background: var(--equinox-mode-control-bg);
         overflow: hidden;
       }
 
       ha-control-button:hover:not([disabled]) {
-        --control-button-icon-color: var(--equinox-text-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 82%, var(--equinox-text-color) 18%);
+        --control-button-icon-color: var(--equinox-mode-control-text);
+        --control-button-background-color: var(--equinox-mode-control-hover-bg);
         --control-button-background-opacity: 1;
       }
 
       ha-control-button[active] {
-        --control-button-icon-color: var(--equinox-text-color);
+        --control-button-icon-color: var(--equinox-mode-control-text);
         --control-button-background-color: var(--equinox-control-active-bg);
         --control-button-background-opacity: 1;
       }
 
       ha-control-button[active][subtle] {
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 74%, var(--equinox-text-color) 10%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 74%, var(--equinox-mode-control-text) 10%);
       }
 
       ha-control-button[tone="heat"]:not([active]) {
@@ -11143,37 +11198,37 @@ var is = class extends D {
 
       ha-control-button[tone="heat"][active][subtle] {
         --control-button-icon-color: var(--equinox-heat-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-color) 22%);
       }
 
       ha-control-button[tone="cool"][active][subtle] {
         --control-button-icon-color: var(--equinox-cool-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-cool-color) 22%);
       }
 
       ha-control-button[tone="auto"][active][subtle] {
         --control-button-icon-color: var(--equinox-auto-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-auto-color) 22%);
       }
 
       ha-control-button[tone="heat-cool"][active][subtle] {
         --control-button-icon-color: var(--equinox-heat-cool-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
       }
 
       ha-control-button[tone="boost"][active][subtle] {
         --control-button-icon-color: var(--equinox-boost-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-boost-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-boost-color) 22%);
       }
 
       ha-control-button[tone="cool-boost"][active][subtle] {
         --control-button-icon-color: var(--equinox-cool-boost-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-boost-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-cool-boost-color) 22%);
       }
 
       ha-control-button[tone="off"][active][subtle] {
         --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--disabled-text-color, var(--equinox-muted-color)) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--disabled-text-color, var(--equinox-muted-color)) 22%);
       }
 
       .compact-selectors ha-control-button:not(.fan-selector) {
@@ -11639,8 +11694,8 @@ var is = class extends D {
     `;
 	}
 	_cardStyle() {
-		let e = ts(this.config?.card_background_color), t = ns(this.config?.card_background_opacity);
-		return e && t !== void 0 ? `--equinox-config-card-bg: color-mix(in srgb, ${e} ${t}%, transparent);` : e ? `--equinox-config-card-bg: ${e};` : t === void 0 ? "" : `--equinox-config-card-bg: color-mix(in srgb, var(--equinox-card-bg) ${t}%, transparent);`;
+		let e = ts(this.config?.card_background_color), t = as(this.config?.card_background_opacity), n = is(this.config?.card_background_color, t), r = e && t !== void 0 ? `color-mix(in srgb, ${e} ${t}%, transparent)` : e || (t === void 0 ? void 0 : `color-mix(in srgb, var(--equinox-card-bg) ${t}%, transparent)`), i = [];
+		return r && (i.push(`--equinox-config-card-bg: ${r}`), i.push(`--equinox-card-surface-bg: ${r}`), i.push(`--equinox-mode-control-bg: ${r}`)), n && i.push(`--equinox-card-surface-text-color: ${n}`), i.length > 0 ? `${i.join("; ")};` : "";
 	}
 	_language() {
 		return this.hass?.locale?.language ?? this.hass?.language;
@@ -12170,11 +12225,11 @@ var is = class extends D {
 	}
 	_visibleHvacModes() {
 		let e = new Set(this.config?.hidden_hvac_modes ?? []);
-		return rs(this.viewModel?.climate.hvacModes ?? [], Ma).filter((t) => B[t] && !e.has(t));
+		return os(this.viewModel?.climate.hvacModes ?? [], Ma).filter((t) => B[t] && !e.has(t));
 	}
 	_visiblePresetModes() {
 		let e = new Set(this.config?.hidden_preset_modes ?? []);
-		return rs(this.viewModel?.climate.presetModes ?? [], Pa).filter((t) => t !== "none" && V[t] && !this._hidePreset(t) && !e.has(t));
+		return os(this.viewModel?.climate.presetModes ?? [], Pa).filter((t) => t !== "none" && V[t] && !this._hidePreset(t) && !e.has(t));
 	}
 	_fanIcon() {
 		let e = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
@@ -12388,24 +12443,24 @@ var is = class extends D {
 		So(e);
 	}
 };
-customElements.get("eq-main-card") || customElements.define("eq-main-card", is);
+customElements.get("eq-main-card") || customElements.define("eq-main-card", ss);
 //#endregion
 //#region src/data/format.ts
-var as = new Set(["unknown", "unavailable"]);
-function os(e) {
-	return e == null || typeof e == "string" && as.has(e);
+var cs = new Set(["unknown", "unavailable"]);
+function ls(e) {
+	return e == null || typeof e == "string" && cs.has(e);
 }
 function J(e) {
-	if (!(os(e) || typeof e != "string" || e.trim() === "")) return e;
+	if (!(ls(e) || typeof e != "string" || e.trim() === "")) return e;
 }
 function Y(e) {
-	if (os(e)) return;
+	if (ls(e)) return;
 	if (typeof e == "number") return Number.isFinite(e) ? e : void 0;
 	if (typeof e != "string" || e.trim() === "") return;
 	let t = Number(e);
 	return Number.isFinite(t) ? t : void 0;
 }
-function ss(e) {
+function us(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : [];
 }
 function X(...e) {
@@ -12422,13 +12477,13 @@ function Q(e, t) {
 function $(e) {
 	return e === !0;
 }
-function cs(e) {
+function ds(e) {
 	return Array.isArray(e) ? e.filter((e) => typeof e == "string" && e.trim() !== "") : typeof e == "string" && e.trim() !== "" ? [e] : [];
 }
-function ls(e) {
+function fs(e) {
 	return e === "safety_detected" || e === "heating_failure" || e === "cooling_failure" ? "danger" : e === "overpowering_detected" || e === "not_initialized" ? "alert" : "info";
 }
-function us(e) {
+function ps(e) {
 	return {
 		isPresenceConfigured: $(e.is_presence_configured),
 		isPowerConfigured: $(e.is_power_configured),
@@ -12441,28 +12496,28 @@ function us(e) {
 		isRepairIncorrectStateConfigured: $(e.is_repair_incorrect_state_configured)
 	};
 }
-function ds(e) {
+function ms(e) {
 	let t = J(Q(e, ["configuration", "type"])), n = [];
 	return (e.is_over_switch === !0 || t === "over_switch") && n.push("over_switch"), (e.is_over_valve === !0 || t === "over_valve") && n.push("over_valve"), (e.is_over_climate === !0 || t === "over_climate") && n.push("over_climate"), (Q(e, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0 || Q(e, ["configuration", "have_valve_regulation"]) === !0) && n.push("over_climate_valve"), n;
 }
-function fs(e) {
-	let t = cs(Q(e, ["specific_states", "messages"]));
+function hs(e) {
+	let t = ds(Q(e, ["specific_states", "messages"]));
 	return Q(e, ["safety_manager", "safety_state"]) === "on" && t.push("safety_detected"), Q(e, ["heating_failure_detection_manager", "heating_failure_state"]) === "on" && t.push("heating_failure"), Q(e, ["heating_failure_detection_manager", "cooling_failure_state"]) === "on" && t.push("cooling_failure"), Q(e, ["power_manager", "overpowering_state"]) === "on" && t.push("overpowering_detected"), [...new Set(t)].map((e) => ({
 		key: e,
-		severity: ls(e)
+		severity: fs(e)
 	}));
 }
-function ps(e) {
+function gs(e) {
 	return X(J(Q(e, ["configuration", "proportional_function"])), J(Q(e, ["vtherm_over_valve", "function"])), J(Q(e, [
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"function"
 	])), J(Q(e, ["specific_states", "proportional_function"])));
 }
-function ms(e, t, n) {
-	let r = n.attributes, i = Z(r.specific_states), a = ds(r);
+function _s(e, t, n) {
+	let r = n.attributes, i = Z(r.specific_states), a = ms(r);
 	if (!(a.length > 0 || i !== void 0 || Z(r.configuration) !== void 0)) return;
-	let o = us(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
+	let o = ps(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
 		"vtherm_over_climate",
 		"valve_regulation",
 		"power_percent"
@@ -12470,13 +12525,13 @@ function ms(e, t, n) {
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"valve_open_percent"
-	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = fs(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
+	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = hs(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
 	return {
 		isVt: !0,
 		types: a,
 		configuration: {
 			type: J(Q(r, ["configuration", "type"])),
-			proportionalFunction: ps(r),
+			proportionalFunction: gs(r),
 			haveValveRegulation: Q(r, ["configuration", "have_valve_regulation"]) === !0 || Q(r, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0
 		},
 		flags: o,
@@ -12534,22 +12589,22 @@ function ms(e, t, n) {
 }
 //#endregion
 //#region src/data/climate-state.ts
-function hs(e) {
+function vs(e) {
 	return typeof e == "object" && e ? e : void 0;
 }
-function gs(e, t) {
-	return t.reduce((e, t) => hs(e)?.[t], e);
+function ys(e, t) {
+	return t.reduce((e, t) => vs(e)?.[t], e);
 }
-function _s(e) {
+function bs(e) {
 	return e.state === "unavailable" ? "unavailable" : e.state === "unknown" ? "unknown" : "available";
 }
-function vs(e, t, n) {
+function xs(e, t, n) {
 	return X(Y(n.humidity), e.humidity_entity ? Y(t.states[e.humidity_entity]?.state) : void 0);
 }
-function ys(e, t) {
+function Ss(e, t) {
 	if (!e.temperature_entity) return;
 	let n = t.states[e.temperature_entity]?.state;
-	if (!n || os(n)) return;
+	if (!n || ls(n)) return;
 	let r = parseFloat(n);
 	if (!Number.isFinite(r)) return;
 	let i = n.indexOf(".");
@@ -12559,7 +12614,7 @@ function ys(e, t) {
 		entityId: e.temperature_entity
 	};
 }
-function bs(e, t) {
+function Cs(e, t) {
 	if (!e.power_entity) return {};
 	let n = t.states[e.power_entity];
 	return {
@@ -12567,61 +12622,61 @@ function bs(e, t) {
 		instantPowerUnit: J(n?.attributes.unit_of_measurement)
 	};
 }
-function xs(e, t, n) {
-	let r = n.attributes, i = ys(e, t), a = X(os(n.state) ? void 0 : n.state, J(r.hvac_mode), J(gs(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(gs(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
+function ws(e, t, n) {
+	let r = n.attributes, i = Ss(e, t), a = X(ls(n.state) ? void 0 : n.state, J(r.hvac_mode), J(ys(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(ys(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
 	return {
 		entityId: n.entity_id,
 		name: e.name ?? J(r.friendly_name),
-		availability: _s(n),
+		availability: bs(n),
 		hvacMode: a,
 		hvacAction: J(r.hvac_action),
-		targetTemperature: X(Y(r.temperature), Y(gs(r, ["current_state", "target_temperature"]))),
+		targetTemperature: X(Y(r.temperature), Y(ys(r, ["current_state", "target_temperature"]))),
 		currentTemperature: i?.value ?? Y(r.current_temperature),
 		currentTemperatureDecimals: i?.decimals,
 		temperatureEntityId: i?.entityId,
-		currentHumidity: vs(e, t, r),
-		hvacModes: ss(r.hvac_modes),
-		presetModes: ss(r.preset_modes),
+		currentHumidity: xs(e, t, r),
+		hvacModes: us(r.hvac_modes),
+		presetModes: us(r.preset_modes),
 		presetMode: s,
 		fanMode: J(r.fan_mode),
-		fanModes: ss(r.fan_modes),
+		fanModes: us(r.fan_modes),
 		swingMode: J(r.swing_mode),
-		swingModes: ss(r.swing_modes),
+		swingModes: us(r.swing_modes),
 		swingHorizontalMode: J(r.swing_horizontal_mode),
-		swingHorizontalModes: ss(r.swing_horizontal_modes),
+		swingHorizontalModes: us(r.swing_horizontal_modes),
 		minTemp: Y(r.min_temp),
 		maxTemp: Y(r.max_temp),
-		targetTempStep: X(Y(r.target_temp_step), Y(gs(r, ["configuration", "target_temperature_step"])), .5),
+		targetTempStep: X(Y(r.target_temp_step), Y(ys(r, ["configuration", "target_temperature_step"])), .5),
 		targetTemperatureRange: {
 			low: Y(r.target_temp_low),
 			high: Y(r.target_temp_high)
 		},
-		...bs(e, t)
+		...Cs(e, t)
 	};
 }
-function Ss(e, t, n) {
+function Ts(e, t, n) {
 	return {
-		climate: xs(e, t, n),
-		vt: ms(e, t, n)
+		climate: ws(e, t, n),
+		vt: _s(e, t, n)
 	};
 }
 //#endregion
 //#region src/data/config.ts
-function Cs(e) {
+function Es(e) {
 	return typeof e == "string";
 }
-function ws(e, t) {
-	return Cs(t) && e.includes(t);
+function Ds(e, t) {
+	return Es(t) && e.includes(t);
 }
-function Ts(e) {
+function Os(e) {
 	return e.startsWith("climate.");
 }
-function Es(e) {
+function ks(e) {
 	if (!Array.isArray(e)) return;
-	let t = [...new Set(e.filter(Cs).map((e) => e.trim()).filter((e) => e.length > 0))];
+	let t = [...new Set(e.filter(Es).map((e) => e.trim()).filter((e) => e.length > 0))];
 	return t.length > 0 ? t : void 0;
 }
-function Ds(e) {
+function As(e) {
 	if (typeof e == "string") {
 		let t = e.trim();
 		return t.length > 0 ? t : void 0;
@@ -12638,56 +12693,56 @@ function Ds(e) {
 		r
 	] : void 0;
 }
-function Os(e) {
+function js(e) {
 	if (e == null || e === "") return;
 	let t = Number(e);
 	if (Number.isFinite(t)) return Math.min(100, Math.max(0, t));
 }
-function ks(e) {
+function Ms(e) {
 	let t = {
 		...ao,
 		...e,
 		type: wa
 	};
-	if (delete t.card_height, !Cs(t.entity) || t.entity.trim() === "") return {
+	if (delete t.card_height, !Es(t.entity) || t.entity.trim() === "") return {
 		config: t,
 		error: "missing_entity"
 	};
-	if (t.entity = t.entity.trim(), !Ts(t.entity)) return {
+	if (t.entity = t.entity.trim(), !Os(t.entity)) return {
 		config: t,
 		error: "invalid_entity"
 	};
-	if (!ws(eo, t.theme)) return {
+	if (!Ds(eo, t.theme)) return {
 		config: t,
 		error: "invalid_theme"
 	};
-	if (!ws(to, t.display_mode)) return {
+	if (!Ds(to, t.display_mode)) return {
 		config: t,
 		error: "invalid_display_mode"
 	};
-	if (!ws(no, t.primary_display)) return {
+	if (!Ds(no, t.primary_display)) return {
 		config: t,
 		error: "invalid_primary_display"
 	};
-	if (!ws(ro, t.additional_dashboards)) return {
+	if (!Ds(ro, t.additional_dashboards)) return {
 		config: t,
 		error: "invalid_additional_dashboards"
 	};
-	if (!ws(io, t.state_icons_layout)) return {
+	if (!Ds(io, t.state_icons_layout)) return {
 		config: t,
 		error: "invalid_state_icons_layout"
 	};
-	let n = Ds(t.card_background_color);
+	let n = As(t.card_background_color);
 	n ? t.card_background_color = n : delete t.card_background_color;
-	let r = Os(t.card_background_opacity);
+	let r = js(t.card_background_opacity);
 	r === void 0 ? delete t.card_background_opacity : t.card_background_opacity = r;
-	let i = Es(t.hidden_hvac_modes), a = Es(t.hidden_preset_modes);
+	let i = ks(t.hidden_hvac_modes), a = ks(t.hidden_preset_modes);
 	return i ? t.hidden_hvac_modes = i : delete t.hidden_hvac_modes, a ? t.hidden_preset_modes = a : delete t.hidden_preset_modes, { config: t };
 }
 //#endregion
 //#region src/equinox-card.ts
 Sa(Ea);
-var As = {
+var Ns = {
 	bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
 	ca: "Lovelace card for Versatile Thermostat and standard climate entities.",
 	zh: "适用于 Versatile Thermostat 和标准气候实体的 Lovelace 卡片。",
@@ -12708,10 +12763,10 @@ var As = {
 	ru: "Карточка Lovelace для Versatile Thermostat и стандартных сущностей климата.",
 	sk: "Karta Lovelace pre Versatile Thermostat a štandardné klimatizačné entity."
 };
-function js(e) {
-	return As[e.toLowerCase().split("-")[0] || "en"] ?? As.en;
+function Ps(e) {
+	return Ns[e.toLowerCase().split("-")[0] || "en"] ?? Ns.en;
 }
-var Ms = class extends D {
+var Fs = class extends D {
 	constructor(...e) {
 		super(...e), this._translationsReady = !1, this._currentLang = "en", this._pendingLang = null;
 	}
@@ -12754,7 +12809,7 @@ var Ms = class extends D {
 		};
 	}
 	setConfig(e) {
-		this._validation = ks(e);
+		this._validation = Ms(e);
 	}
 	willUpdate() {
 		this._viewModel = this._buildViewModel(), this._syncTranslations();
@@ -12798,7 +12853,7 @@ var Ms = class extends D {
 	_buildViewModel() {
 		if (!this.hass || !this._validation || this._validation.error) return;
 		let e = this._validation.config, t = this.hass.states[e.entity];
-		if (t) return Ss(e, this.hass, t);
+		if (t) return Ts(e, this.hass, t);
 	}
 	_renderMessage(e, t = !1) {
 		return w`
@@ -12808,16 +12863,16 @@ var Ms = class extends D {
     `;
 	}
 };
-customElements.get("equinox-card") || customElements.define(Ta, Ms), window.customCards = window.customCards ?? [];
-var Ns = window.customCards;
-Ns.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
-	Ns.splice(Ns.indexOf(e), 1);
-}), Ns.push({
+customElements.get("equinox-card") || customElements.define(Ta, Fs), window.customCards = window.customCards ?? [];
+var Is = window.customCards;
+Is.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
+	Is.splice(Is.indexOf(e), 1);
+}), Is.push({
 	type: Ta,
 	name: Ca,
-	description: js(navigator.language),
+	description: Ps(navigator.language),
 	preview: !0,
 	documentationURL: "https://github.com/KipK/equinox#readme"
 });
 //#endregion
-export { Ms as EquinoxCard };
+export { Fs as EquinoxCard };

@@ -202,6 +202,8 @@
     "theme": "主题",
     "display_mode": "格式",
     "primary_display": "显示优先级",
+    "card_background_color": "卡片背景颜色",
+    "card_background_opacity": "卡片背景不透明度",
     "disable_name": "隐藏名称",
     "hide_lock_button": "隐藏锁定按钮",
     "additional_dashboards": "附加仪表板",

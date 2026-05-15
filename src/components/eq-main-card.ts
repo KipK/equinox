@@ -36,6 +36,12 @@ type EventIconDefinition = {
 
 type TemperatureRangeBound = "low" | "high";
 
+type RgbColor = {
+  r: number;
+  g: number;
+  b: number;
+};
+
 const EVENT_ICONS: EventIconDefinition[] = [
   { key: "hasOverpowering", icon: "mdi:flash-alert", tone: "warning", messageKeys: ["overpowering_detected", "target_temp_power"] },
   {
@@ -96,6 +102,72 @@ function cssColor(value: string | number[] | undefined): string | undefined {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+function rgbColor(value: string | number[] | undefined): RgbColor | undefined {
+  if (Array.isArray(value) && value.length >= 3) {
+    const [r, g, b] = value.map((part) => Number(part));
+    if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+    return {
+      r: Math.min(255, Math.max(0, r)),
+      g: Math.min(255, Math.max(0, g)),
+      b: Math.min(255, Math.max(0, b))
+    };
+  }
+
+  if (typeof value !== "string") return undefined;
+
+  const color = value.trim();
+  const hex = color.match(/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i)?.[1];
+
+  if (hex) {
+    if (hex.length === 3) {
+      return {
+        r: parseInt(hex[0] + hex[0], 16),
+        g: parseInt(hex[1] + hex[1], 16),
+        b: parseInt(hex[2] + hex[2], 16)
+      };
+    }
+
+    return {
+      r: parseInt(hex.slice(0, 2), 16),
+      g: parseInt(hex.slice(2, 4), 16),
+      b: parseInt(hex.slice(4, 6), 16)
+    };
+  }
+
+  const rgb = color.match(/^rgba?\(\s*([\d.]+)(?:\s*,\s*|\s+)([\d.]+)(?:\s*,\s*|\s+)([\d.]+)/i);
+
+  if (!rgb) return undefined;
+
+  const [, r, g, b] = rgb;
+  const channels = [r, g, b].map((part) => Number(part));
+  if (!channels.every((part) => Number.isFinite(part))) return undefined;
+
+  return {
+    r: Math.min(255, Math.max(0, channels[0])),
+    g: Math.min(255, Math.max(0, channels[1])),
+    b: Math.min(255, Math.max(0, channels[2]))
+  };
+}
+
+function relativeLuminance({ r, g, b }: RgbColor): number {
+  const channel = (value: number) => {
+    const normalized = value / 255;
+    return normalized <= 0.03928 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+  };
+
+  return channel(r) * 0.2126 + channel(g) * 0.7152 + channel(b) * 0.0722;
+}
+
+function surfaceTextColor(color: string | number[] | undefined, opacity: number | undefined): string | undefined {
+  if (opacity !== undefined && opacity < 70) return undefined;
+
+  const rgb = rgbColor(color);
+  if (!rgb) return undefined;
+
+  return relativeLuminance(rgb) > 0.42 ? "#111418" : "#ffffff";
+}
+
 function normalizedOpacity(value: unknown): number | undefined {
   if (value === undefined || value === null || value === "") return undefined;
 
@@ -135,13 +207,19 @@ export class EquinoxMainCard extends LitElement {
         position: relative;
         container-type: inline-size;
         height: 100%;
+        --equinox-card-surface-bg: var(--equinox-config-card-bg, var(--equinox-card-bg));
+        --equinox-mode-control-bg: var(--equinox-config-card-bg, var(--equinox-control-bg));
+        --equinox-mode-control-text: var(--equinox-card-surface-text-color, var(--equinox-text-color));
+        --equinox-mode-control-muted: color-mix(in srgb, var(--equinox-mode-control-text) 68%, transparent);
+        --equinox-mode-control-border-color: color-mix(in srgb, var(--equinox-mode-control-text) 18%, transparent);
+        --equinox-mode-control-hover-bg: color-mix(in srgb, var(--equinox-mode-control-bg) 82%, var(--equinox-mode-control-text) 18%);
       }
 
       ha-card {
         height: 100%;
         overflow: visible;
         border-radius: var(--equinox-radius);
-        background: var(--equinox-config-card-bg, var(--equinox-card-bg));
+        background: var(--equinox-card-surface-bg);
         border: 1px solid var(--equinox-border-color);
         box-shadow: var(--equinox-shadow);
         color: var(--equinox-text-color);
@@ -706,12 +784,12 @@ export class EquinoxMainCard extends LitElement {
         border-radius: var(--equinox-control-radius);
         overflow: hidden;
         min-height: clamp(36px, 14cqi, 45px);
-        background: var(--equinox-control-bg);
-        border: 1px solid var(--equinox-border-color);
+        background: var(--equinox-mode-control-bg);
+        border: 1px solid var(--equinox-mode-control-border-color);
       }
 
       .segments ha-control-button:not(:last-child) {
-        border-inline-end: 1px solid var(--equinox-border-color);
+        border-inline-end: 1px solid var(--equinox-mode-control-border-color);
       }
 
       .segments ha-control-button,
@@ -724,7 +802,7 @@ export class EquinoxMainCard extends LitElement {
         --control-button-background-color: transparent;
         --control-button-background-opacity: 0;
         --control-button-focus-color: var(--primary-color);
-        --control-button-icon-color: var(--equinox-muted-color);
+        --control-button-icon-color: var(--equinox-mode-control-muted);
         --control-button-padding: 0;
       }
 
@@ -744,26 +822,26 @@ export class EquinoxMainCard extends LitElement {
         flex: 1;
         min-width: 0;
         height: clamp(36px, 14cqi, 45px);
-        border: 1px solid var(--equinox-border-color);
+        border: 1px solid var(--equinox-mode-control-border-color);
         border-radius: var(--equinox-control-radius);
-        background: var(--equinox-control-bg);
+        background: var(--equinox-mode-control-bg);
         overflow: hidden;
       }
 
       ha-control-button:hover:not([disabled]) {
-        --control-button-icon-color: var(--equinox-text-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 82%, var(--equinox-text-color) 18%);
+        --control-button-icon-color: var(--equinox-mode-control-text);
+        --control-button-background-color: var(--equinox-mode-control-hover-bg);
         --control-button-background-opacity: 1;
       }
 
       ha-control-button[active] {
-        --control-button-icon-color: var(--equinox-text-color);
+        --control-button-icon-color: var(--equinox-mode-control-text);
         --control-button-background-color: var(--equinox-control-active-bg);
         --control-button-background-opacity: 1;
       }
 
       ha-control-button[active][subtle] {
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 74%, var(--equinox-text-color) 10%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 74%, var(--equinox-mode-control-text) 10%);
       }
 
       ha-control-button[tone="heat"]:not([active]) {
@@ -796,37 +874,37 @@ export class EquinoxMainCard extends LitElement {
 
       ha-control-button[tone="heat"][active][subtle] {
         --control-button-icon-color: var(--equinox-heat-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-color) 22%);
       }
 
       ha-control-button[tone="cool"][active][subtle] {
         --control-button-icon-color: var(--equinox-cool-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-cool-color) 22%);
       }
 
       ha-control-button[tone="auto"][active][subtle] {
         --control-button-icon-color: var(--equinox-auto-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-auto-color) 22%);
       }
 
       ha-control-button[tone="heat-cool"][active][subtle] {
         --control-button-icon-color: var(--equinox-heat-cool-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
       }
 
       ha-control-button[tone="boost"][active][subtle] {
         --control-button-icon-color: var(--equinox-boost-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-boost-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-boost-color) 22%);
       }
 
       ha-control-button[tone="cool-boost"][active][subtle] {
         --control-button-icon-color: var(--equinox-cool-boost-color);
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-boost-color) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-cool-boost-color) 22%);
       }
 
       ha-control-button[tone="off"][active][subtle] {
         --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
-        --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--disabled-text-color, var(--equinox-muted-color)) 22%);
+        --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--disabled-text-color, var(--equinox-muted-color)) 22%);
       }
 
       .compact-selectors ha-control-button:not(.fan-selector) {
@@ -1353,20 +1431,27 @@ export class EquinoxMainCard extends LitElement {
   private _cardStyle(): string {
     const color = cssColor(this.config?.card_background_color);
     const opacity = normalizedOpacity(this.config?.card_background_opacity);
+    const textColor = surfaceTextColor(this.config?.card_background_color, opacity);
+    const configuredSurface = color && opacity !== undefined
+      ? `color-mix(in srgb, ${color} ${opacity}%, transparent)`
+      : color
+        ? color
+        : opacity !== undefined
+          ? `color-mix(in srgb, var(--equinox-card-bg) ${opacity}%, transparent)`
+          : undefined;
+    const declarations: string[] = [];
 
-    if (color && opacity !== undefined) {
-      return `--equinox-config-card-bg: color-mix(in srgb, ${color} ${opacity}%, transparent);`;
+    if (configuredSurface) {
+      declarations.push(`--equinox-config-card-bg: ${configuredSurface}`);
+      declarations.push(`--equinox-card-surface-bg: ${configuredSurface}`);
+      declarations.push(`--equinox-mode-control-bg: ${configuredSurface}`);
     }
 
-    if (color) {
-      return `--equinox-config-card-bg: ${color};`;
+    if (textColor) {
+      declarations.push(`--equinox-card-surface-text-color: ${textColor}`);
     }
 
-    if (opacity !== undefined) {
-      return `--equinox-config-card-bg: color-mix(in srgb, var(--equinox-card-bg) ${opacity}%, transparent);`;
-    }
-
-    return "";
+    return declarations.length > 0 ? `${declarations.join("; ")};` : "";
   }
 
   private _language(): string | undefined {

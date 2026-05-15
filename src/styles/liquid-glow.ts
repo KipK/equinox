@@ -197,11 +197,11 @@ export const liquidGlowStyles = css`
   :host([theme="liquid_glow"][light]) .compact-selectors ha-control-button[active][subtle] {
     border-color: color-mix(in srgb, var(--equinox-liquid-active-tone) 72%, transparent);
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 6%, transparent) 0%, transparent 40%),
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-mode-control-text) 6%, transparent) 0%, transparent 40%),
       linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent) 0%, transparent 58%),
-      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
+      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-mode-control-bg) 90%, var(--equinox-liquid-active-tone) 10%));
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 10%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-mode-control-text) 10%, transparent),
       inset 0 -12px 20px color-mix(in srgb, var(--equinox-liquid-active-tone) 10%, transparent),
       0 0 9px color-mix(in srgb, var(--equinox-liquid-active-tone) 16%, transparent);
   }
@@ -264,13 +264,13 @@ export const liquidGlowStyles = css`
 
   :host([theme="liquid_glow"]) .segments,
   :host([theme="liquid_glow"]) .compact-selectors ha-control-button {
-    border-color: var(--equinox-border-color);
-    background: var(--equinox-control-bg);
+    border-color: var(--equinox-mode-control-border-color);
+    background: var(--equinox-mode-control-bg);
     box-shadow: none;
   }
 
   :host([theme="liquid_glow"]) .segments ha-control-button:not(:last-child) {
-    border-inline-end-color: var(--equinox-border-color);
+    border-inline-end-color: var(--equinox-mode-control-border-color);
   }
 
   :host([theme="liquid_glow"]) .step {
@@ -281,11 +281,11 @@ export const liquidGlowStyles = css`
   }
 
   :host([theme="liquid_glow"]) ha-control-button[active][subtle] {
-    --equinox-liquid-active-tone: var(--equinox-text-color);
+    --equinox-liquid-active-tone: var(--equinox-mode-control-text);
     --control-button-background-color: var(--equinox-control-active-bg);
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, var(--equinox-liquid-active-tone) 58%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 18%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-mode-control-text) 18%, transparent),
       inset 0 -18px 28px color-mix(in srgb, var(--equinox-liquid-active-tone) 22%, transparent),
       0 0 16px color-mix(in srgb, var(--equinox-liquid-active-tone) 28%, transparent);
   }
@@ -293,38 +293,38 @@ export const liquidGlowStyles = css`
   :host([theme="liquid_glow"]) ha-control-button[tone="heat"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-heat-color);
     --control-button-icon-color: var(--equinox-heat-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="cool"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-cool-color);
     --control-button-icon-color: var(--equinox-cool-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-cool-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-cool-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="auto"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-auto-color);
     --control-button-icon-color: var(--equinox-auto-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-auto-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-auto-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="heat-cool"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-heat-cool-color);
     --control-button-icon-color: var(--equinox-heat-cool-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-heat-cool-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="boost"][active][subtle],
   :host([theme="liquid_glow"]) ha-control-button[tone="cool-boost"][active][subtle] {
     --equinox-liquid-active-tone: var(--equinox-boost-color);
     --control-button-icon-color: var(--equinox-boost-color);
-    --control-button-background-color: color-mix(in srgb, var(--equinox-control-bg) 78%, var(--equinox-boost-color) 22%);
+    --control-button-background-color: color-mix(in srgb, var(--equinox-mode-control-bg) 78%, var(--equinox-boost-color) 22%);
   }
 
   :host([theme="liquid_glow"]) ha-control-button[tone="off"][active][subtle] {
     --equinox-liquid-active-tone: var(--disabled-text-color, var(--equinox-muted-color));
     --control-button-icon-color: var(--disabled-text-color, var(--equinox-muted-color));
-    --control-button-background-color: var(--equinox-control-bg);
+    --control-button-background-color: var(--equinox-mode-control-bg);
   }
 
   :host([theme="liquid_glow"]) .segments ha-control-button[active][subtle],
@@ -334,15 +334,15 @@ export const liquidGlowStyles = css`
     box-sizing: border-box;
     border: 1px solid color-mix(in srgb, var(--equinox-liquid-active-tone) 88%, transparent);
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color) 10%, transparent) 0%, transparent 40%),
+      linear-gradient(180deg, color-mix(in srgb, var(--equinox-mode-control-text) 10%, transparent) 0%, transparent 40%),
       linear-gradient(180deg, color-mix(in srgb, var(--equinox-liquid-active-tone) 24%, transparent) 0%, transparent 58%),
-      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-control-bg) 86%, var(--equinox-liquid-active-tone) 14%));
+      linear-gradient(180deg, var(--control-button-background-color), color-mix(in srgb, var(--equinox-mode-control-bg) 86%, var(--equinox-liquid-active-tone) 14%));
     /* No inset 1px ring (avoids a "double frame" inside the border) and no outer
        0 0 0 1px ring (would render 1px past the segments outline now that the active
        button is extended to it via margin). The 1px border is enough; we keep the soft
        outer glow only. */
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--equinox-text-color) 18%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--equinox-mode-control-text) 18%, transparent),
       inset 0 -16px 24px color-mix(in srgb, var(--equinox-liquid-active-tone) 18%, transparent),
       0 0 10px color-mix(in srgb, var(--equinox-liquid-active-tone) 28%, transparent);
   }
@@ -378,8 +378,8 @@ export const liquidGlowStyles = css`
 
   :host([theme="liquid_glow"]) .segments ha-control-button[tone="off"][active][subtle],
   :host([theme="liquid_glow"]) .compact-selectors ha-control-button[tone="off"][active][subtle] {
-    border-color: var(--equinox-border-color);
-    background: var(--equinox-control-bg);
+    border-color: var(--equinox-mode-control-border-color);
+    background: var(--equinox-mode-control-bg);
     box-shadow: none;
   }
 
