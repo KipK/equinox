@@ -8037,6 +8037,16 @@ var Mo = {
         backdrop-filter: blur(14px);
       }
 
+      .panel.popover[popover] {
+        margin: 0;
+        padding: 0;
+        color: var(--primary-text-color);
+      }
+
+      .panel.popover[popover]::backdrop {
+        background: transparent;
+      }
+
       .panel.popover .header {
         display: none;
       }
@@ -8120,7 +8130,23 @@ var Mo = {
 		}));
 	}
 	updated() {
-		this.open || this._clearCloseOnLeaveTimer(), this.open && this.floating && this.updateComplete.then(() => this._positionPopover());
+		this.open || this._clearCloseOnLeaveTimer(), this.open && this.floating && this.updateComplete.then(() => {
+			this._syncNativePopover(), this._positionPopover();
+		});
+	}
+	_supportsNativePopover() {
+		return typeof HTMLElement.prototype.showPopover == "function";
+	}
+	_usesNativePopover() {
+		return this.open && this.floating && window.innerWidth > 600 && this._supportsNativePopover();
+	}
+	_syncNativePopover() {
+		if (!this._usesNativePopover()) return;
+		let e = this.renderRoot.querySelector(".panel.popover");
+		!e || e.matches(":popover-open") || e.showPopover();
+	}
+	_handlePopoverToggle(e) {
+		e.newState === "closed" && this.open && this._dispatchClose();
 	}
 	_positionPopover() {
 		let e = this.renderRoot.querySelector(".panel.popover");
@@ -8141,12 +8167,14 @@ var Mo = {
 	}
 	render() {
 		if (!this.open) return D;
-		let e = H(this.language, "dialog.close"), t = H(this.language, "dialog.back"), n = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", r = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
+		let e = H(this.language, "dialog.close"), t = H(this.language, "dialog.back"), n = this._usesNativePopover(), r = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", i = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
 		return T`
-      <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
+      ${n ? D : T`<div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>`}
       <div
-        class=${r}
-        style=${n}
+        class=${i}
+        style=${r}
+        popover=${n ? "auto" : D}
+        @toggle=${n ? this._handlePopoverToggle : void 0}
         @click=${(e) => e.stopPropagation()}
         @mouseenter=${() => this._clearCloseOnLeaveTimer()}
         @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : void 0}

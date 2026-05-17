@@ -56,6 +56,16 @@ export class EquinoxDialog extends LitElement {
         backdrop-filter: blur(14px);
       }
 
+      .panel.popover[popover] {
+        margin: 0;
+        padding: 0;
+        color: var(--primary-text-color);
+      }
+
+      .panel.popover[popover]::backdrop {
+        background: transparent;
+      }
+
       .panel.popover .header {
         display: none;
       }
@@ -190,7 +200,40 @@ export class EquinoxDialog extends LitElement {
     }
 
     if (this.open && this.floating) {
-      void this.updateComplete.then(() => this._positionPopover());
+      void this.updateComplete.then(() => {
+        this._syncNativePopover();
+        this._positionPopover();
+      });
+    }
+  }
+
+  private _supportsNativePopover(): boolean {
+    return typeof HTMLElement.prototype.showPopover === "function";
+  }
+
+  private _usesNativePopover(): boolean {
+    return this.open && this.floating && window.innerWidth > 600 && this._supportsNativePopover();
+  }
+
+  private _syncNativePopover(): void {
+    if (!this._usesNativePopover()) {
+      return;
+    }
+
+    const panel = this.renderRoot.querySelector<HTMLElement>(".panel.popover");
+
+    if (!panel || panel.matches(":popover-open")) {
+      return;
+    }
+
+    panel.showPopover();
+  }
+
+  private _handlePopoverToggle(event: Event): void {
+    const toggleEvent = event as Event & { newState?: string };
+
+    if (toggleEvent.newState === "closed" && this.open) {
+      this._dispatchClose();
     }
   }
 
@@ -259,14 +302,19 @@ export class EquinoxDialog extends LitElement {
 
     const closeLabel = localize(this.language, "dialog.close");
     const backLabel = localize(this.language, "dialog.back");
+    const nativePopover = this._usesNativePopover();
     const popoverStyle = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "";
     const panelClass = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
 
     return html`
-      <div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>
+      ${nativePopover
+        ? nothing
+        : html`<div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>`}
       <div
         class=${panelClass}
         style=${popoverStyle}
+        popover=${nativePopover ? "auto" : nothing}
+        @toggle=${nativePopover ? this._handlePopoverToggle : undefined}
         @click=${(e: Event) => e.stopPropagation()}
         @mouseenter=${() => this._clearCloseOnLeaveTimer()}
         @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : undefined}
