@@ -247,7 +247,7 @@ export class EqLockDialog extends LitElement {
       <div class="dialog" role="dialog" aria-modal="true">
         <div class="header">
           <ha-icon
-            .icon=${this.isLocking ? "mdi:lock-outline" : "mdi:lock-open-outline"}
+            .icon=${this.isLocking ? "mdi:lock-outline" : "mdi:lock-open-variant"}
             ?unlocked=${!this.isLocking}
           ></ha-icon>
           <span>${title} — ${enterCode}</span>

@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { setSwingHorizontalMode, setSwingMode } from "../data/actions";
 import { SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS, SWING_ORDER } from "../data/climate-modes";
+import { swingTone } from "../data/colors";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
@@ -97,6 +98,41 @@ export class EquinoxSwingDialog extends LitElement {
       justify-content: center;
       flex-shrink: 0;
     }
+
+    /* Per-swing-mode palette — same --eq-tone-color pattern as fan dialog. */
+    .swing-option-icon[tone="swing-off"],
+    .option-icon[tone="swing-off"]        { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
+    .swing-option-icon[tone="swing-on"],
+    .option-icon[tone="swing-on"]         { --eq-tone-color: var(--equinox-swing-on-color); }
+    .swing-option-icon[tone="swing-vertical"],
+    .option-icon[tone="swing-vertical"]   { --eq-tone-color: var(--equinox-swing-vertical-color); }
+    .swing-option-icon[tone="swing-horizontal"],
+    .option-icon[tone="swing-horizontal"] { --eq-tone-color: var(--equinox-swing-horizontal-color); }
+    .swing-option-icon[tone="swing-both"],
+    .option-icon[tone="swing-both"]       { --eq-tone-color: var(--equinox-swing-both-color); }
+
+    .swing-option-icon[tone^="swing-"],
+    .option-icon[tone^="swing-"] {
+      color: var(--eq-tone-color);
+      background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
+    }
+
+    .swing-option[active]:has(.swing-option-icon[tone="swing-on"])         { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-swing-on-color) 22%); }
+    .swing-option[active]:has(.swing-option-icon[tone="swing-vertical"])   { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-swing-vertical-color) 22%); }
+    .swing-option[active]:has(.swing-option-icon[tone="swing-horizontal"]) { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-swing-horizontal-color) 22%); }
+    .swing-option[active]:has(.swing-option-icon[tone="swing-both"])       { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-swing-both-color) 22%); }
+
+    /* Active rows keep their per-mode icon color (not primary-color). */
+    .swing-option[active] .swing-option-icon[tone^="swing-"],
+    ha-md-list-item[active] .option-icon[tone^="swing-"] {
+      color: var(--eq-tone-color);
+      background: color-mix(in srgb, var(--eq-tone-color) 18%, transparent);
+    }
+
+    :host([theme="liquid_glow"]) .swing-option[active]:has(.swing-option-icon[tone="swing-on"])         { --equinox-swing-active-tone: var(--equinox-swing-on-color); }
+    :host([theme="liquid_glow"]) .swing-option[active]:has(.swing-option-icon[tone="swing-vertical"])   { --equinox-swing-active-tone: var(--equinox-swing-vertical-color); }
+    :host([theme="liquid_glow"]) .swing-option[active]:has(.swing-option-icon[tone="swing-horizontal"]) { --equinox-swing-active-tone: var(--equinox-swing-horizontal-color); }
+    :host([theme="liquid_glow"]) .swing-option[active]:has(.swing-option-icon[tone="swing-both"])       { --equinox-swing-active-tone: var(--equinox-swing-both-color); }
 
     .swing-option-label {
       display: none;
@@ -279,7 +315,7 @@ export class EquinoxSwingDialog extends LitElement {
               title=${this._swingLabel(mode)}
               aria-label=${this._swingLabel(mode)}
             >
-              <span class="swing-option-icon">
+              <span class="swing-option-icon" tone=${swingTone(mode)}>
                 <ha-icon .icon=${this._swingIcon(mode, horizontal)} style="--mdc-icon-size: 24px;"></ha-icon>
               </span>
               <span class="swing-option-label">${this._swingLabel(mode)}</span>
@@ -305,7 +341,7 @@ export class EquinoxSwingDialog extends LitElement {
         ${options.map(
           (mode) => html`
             <ha-md-list-item type="button" ?active=${mode === activeMode} @click=${() => onSelect(mode)}>
-              <span class="option-icon" slot="start">
+              <span class="option-icon" slot="start" tone=${swingTone(mode)}>
                 <ha-icon .icon=${this._swingIcon(mode, horizontal)} style="--mdc-icon-size: 24px;"></ha-icon>
               </span>
               <span>${this._swingLabel(mode)}</span>
