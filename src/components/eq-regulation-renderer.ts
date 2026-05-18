@@ -4,13 +4,19 @@ import { translateRegulationDashboardText } from "../data/regulation-dashboard-i
 import {
   buildRegulationSources,
   isMissingRegulationValue,
+  normalizeRegulationPath,
   readRegulationSourceValue,
   type RegulationDashboardValueContext
 } from "../data/regulation-dashboard-values";
+import { equinoxAttributeUnits, loadEquinoxStaticAttributeUnits } from "../data/attribute-units";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
+import type { AttributeUnitMap, BetterHistoryConfig } from "@kipk/ha-better-history";
 import type {
   RegulationDashboard,
+  RegulationDashboardHistoryItem,
+  RegulationDashboardHistoryOptions,
+  RegulationDashboardHistorySeries,
   RegulationDashboardItem,
   RegulationDashboardMetric,
   RegulationDashboardMetricGridItem,
@@ -32,7 +38,8 @@ export class EquinoxRegulationRenderer extends LitElement {
     config: { attribute: false },
     dashboard: { attribute: false },
     activeSectionId: { attribute: "active-section-id" },
-    language: {}
+    language: {},
+    _staticAttributeUnits: { state: true }
   };
 
   static styles = css`
@@ -224,6 +231,33 @@ export class EquinoxRegulationRenderer extends LitElement {
       white-space: pre-line;
     }
 
+    .history-block {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid color-mix(in srgb, var(--divider-color) 78%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 88%, var(--primary-text-color) 4%);
+    }
+
+    .history-chart {
+      display: flex;
+      width: 100%;
+      min-width: 0;
+      height: min(360px, 46vh);
+      min-height: 260px;
+      --better-history-min-height: 0px;
+      --better-history-surface-overflow-y: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .history-chart {
+        height: min(320px, 42vh);
+        min-height: 240px;
+      }
+    }
+
     [tone="ok"] {
       --regulation-tone-color: var(--success-color, #43a047);
     }
@@ -250,6 +284,24 @@ export class EquinoxRegulationRenderer extends LitElement {
   dashboard?: RegulationDashboard;
   activeSectionId?: string;
   language?: string;
+  private _staticAttributeUnits?: AttributeUnitMap;
+  private _attributeUnitsLoadStarted = false;
+  private readonly _historyConfigCache = new Map<string, BetterHistoryConfig>();
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    this._loadAttributeUnits();
+  }
+
+  private _loadAttributeUnits(): void {
+    if (this._attributeUnitsLoadStarted) return;
+    this._attributeUnitsLoadStarted = true;
+
+    loadEquinoxStaticAttributeUnits().then((units) => {
+      this._staticAttributeUnits = units;
+      this.requestUpdate();
+    });
+  }
 
   protected render(): TemplateResult {
     if (!this.hass || !this.config || !this.dashboard) {
@@ -333,6 +385,7 @@ export class EquinoxRegulationRenderer extends LitElement {
           </aside>
         `;
       case "history":
+        return this._renderHistory(item);
       case "action":
         return html`
           <aside class="note" tone="muted">
@@ -427,6 +480,145 @@ export class EquinoxRegulationRenderer extends LitElement {
         ${this._sourceMissing(item.value.source) ? html`<p class="missing">${localize(this.language, "dialog.regulation.source_missing")}</p>` : nothing}
       </article>
     `;
+  }
+
+  private _renderHistory(item: RegulationDashboardHistoryItem): TemplateResult {
+    const betterHistoryConfig = this._betterHistoryConfig(item);
+    const options = item.options ?? {};
+    const showControls = this._showHistoryControls(options);
+    const toolsOpen = options.tools === true || options.range_picker === true;
+
+    if (!betterHistoryConfig.series || betterHistoryConfig.series.length === 0) {
+      return html`
+        <aside class="note" tone="muted">
+          <ha-icon icon="mdi:chart-line"></ha-icon>
+          <p class="text">${localize(this.language, "dialog.regulation.source_missing")}</p>
+        </aside>
+      `;
+    }
+
+    return html`
+      <article class="history-block">
+        ${this._translate(item.title_key, item.title) ? html`<h3>${this._translate(item.title_key, item.title)}</h3>` : nothing}
+        <equinox-better-history
+          class="history-chart"
+          .hass=${this.hass}
+          .config=${betterHistoryConfig}
+          .attributeUnits=${equinoxAttributeUnits(this._staticAttributeUnits)}
+          .language=${this.language}
+          .showControls=${showControls}
+          .toolsOpen=${toolsOpen}
+          .showExportButton=${options.tools === true}
+          .showImportButton=${false}
+          .showLineModeButtons=${options.tools === true}
+          .showTimeRangeSelector=${options.range_picker === true}
+        ></equinox-better-history>
+      </article>
+    `;
+  }
+
+  private _betterHistoryConfig(item: RegulationDashboardHistoryItem): BetterHistoryConfig {
+    const cacheKey = this._historyConfigCacheKey(item);
+    const cached = this._historyConfigCache.get(cacheKey);
+    if (cached) return cached;
+
+    const options = item.options ?? {};
+    const title = this._translate(item.title_key, item.title);
+    const config: BetterHistoryConfig = {
+      hours: this._historyRangeHours(item.range),
+      showDatePicker: options.date_picker ?? false,
+      showEntityPicker: options.entity_picker ?? false,
+      showLegend: options.legend ?? true,
+      showTooltip: options.tooltip ?? true,
+      showScale: options.scales ?? true,
+      showGrid: true,
+      showExportButton: options.tools === true,
+      showImportButton: false,
+      showTimeRangeSelector: options.range_picker === true,
+      showLineModeButtons: options.tools === true,
+      debugPerformance: false,
+      title: title || undefined,
+      series: item.series.flatMap((series) => this._betterHistorySeries(series))
+    };
+
+    this._historyConfigCache.set(cacheKey, config);
+    return config;
+  }
+
+  private _betterHistorySeries(series: RegulationDashboardHistorySeries): NonNullable<BetterHistoryConfig["series"]> {
+    const entity = this._resolveHistoryEntity(series.entity);
+    if (!entity) return [];
+
+    return [
+      {
+        entity,
+        attribute: series.attribute ? normalizeRegulationPath(series.attribute) : undefined,
+        label: this._translate(series.label_key, series.label),
+        unit: this._translate(series.unit_key, series.unit) || undefined,
+        group: series.scale_group,
+        color: series.color,
+        forced: true
+      }
+    ];
+  }
+
+  private _resolveHistoryEntity(entity: string): string | undefined {
+    switch (entity) {
+      case "$climate_entity":
+        return this.config?.entity || undefined;
+      case "$diagnostic_entity":
+        return this.config?.diagnostic_entity || undefined;
+      case "$power_entity":
+        return this.config?.power_entity || undefined;
+      case "$humidity_entity":
+        return this.config?.humidity_entity || undefined;
+      case "$temperature_entity":
+        return this.config?.temperature_entity || undefined;
+      default:
+        return entity;
+    }
+  }
+
+  private _historyRangeHours(range: string | undefined): number {
+    if (!range) return 24;
+
+    const match = range.trim().toLowerCase().match(/^(\d+(?:\.\d+)?)\s*([hdw])$/u);
+    if (!match) return 24;
+
+    const value = Number(match[1]);
+    if (!Number.isFinite(value) || value <= 0) return 24;
+
+    switch (match[2]) {
+      case "h":
+        return value;
+      case "d":
+        return value * 24;
+      case "w":
+        return value * 24 * 7;
+      default:
+        return 24;
+    }
+  }
+
+  private _showHistoryControls(options: RegulationDashboardHistoryOptions): boolean {
+    return (
+      options.date_picker === true
+      || options.entity_picker === true
+      || options.tools === true
+      || options.range_picker === true
+    );
+  }
+
+  private _historyConfigCacheKey(item: RegulationDashboardHistoryItem): string {
+    return JSON.stringify({
+      language: this.language ?? this.hass?.locale?.language ?? "",
+      climate: this.config?.entity ?? "",
+      diagnostic: this.config?.diagnostic_entity ?? "",
+      power: this.config?.power_entity ?? "",
+      humidity: this.config?.humidity_entity ?? "",
+      temperature: this.config?.temperature_entity ?? "",
+      item
+    });
   }
 
   private _formatSourceValue(item: RegulationDashboardValueItem | RegulationDashboardMetric): string {

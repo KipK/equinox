@@ -1827,19 +1827,19 @@ function Vn(e, t) {
 function P(e, t) {
 	return 40 + (e - t.start) / (t.end - t.start) * 640;
 }
-function F(e, t) {
+function Hn(e, t) {
 	let n = t.max - t.min;
 	if (n < 1e-6) return t.top + t.height / 2;
 	let r = t.height - 10;
 	return t.top + 5 + r - (e - t.min) / n * r;
 }
-function Hn(e, t) {
+function Un(e, t) {
 	return t.find((t) => t.ids.has(e.id));
 }
-function Un(e, t) {
-	return Wn(e, t, !0);
+function Wn(e, t) {
+	return Gn(e, t, !0);
 }
-function Wn(e, t, n) {
+function Gn(e, t, n) {
 	let r = Date.now(), i = [...e.points].sort((e, t) => e.time - t.time), a = i.findIndex((e) => e.time >= t.start), o = a === -1 ? i.length : a, s = o > 0 ? i.slice(o - 1) : i;
 	return s.flatMap((e, i) => {
 		let a = Math.max(e.time, t.start), o = s[i + 1]?.time, c = n ? t.end : e.time, l = Math.min(o ?? c, t.end, r);
@@ -1850,26 +1850,26 @@ function Wn(e, t, n) {
 		}] : [];
 	});
 }
-var Gn = new Set([
+var Kn = new Set([
 	"off",
 	"idle",
 	"none",
 	"false"
 ]);
-function Kn(e, t, n, r) {
+function qn(e, t, n, r) {
 	if (typeof e == "boolean") return e ? t : "var(--better-history-muted-color, var(--secondary-text-color, #888))";
 	let i = String(e);
-	return Gn.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, Xt[(r + n.size) % Xt.length]), n.get(i));
+	return Kn.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, Xt[(r + n.size) % Xt.length]), n.get(i));
 }
-function qn(e, t) {
+function Jn(e, t) {
 	return e + 34 + Math.max(t - 1, 0) * 14;
 }
-function Jn(e, t, n, r) {
+function Yn(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
-		let i = Hn(e, t);
+		let i = Un(e, t);
 		if (!i) return [];
-		let a = Fn(Yn(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? rr(a, n, i) : nr(a, n, i);
+		let a = Fn(Xn(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? ir(a, n, i) : rr(a, n, i);
 		return [{
 			id: e.id,
 			color: e.color,
@@ -1879,12 +1879,12 @@ function Jn(e, t, n, r) {
 		}];
 	});
 }
-function Yn(e, t, n, r) {
+function Xn(e, t, n, r) {
 	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
 	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), a = i.filter((e) => e.time >= t.start && e.time <= t.end);
-	if (n === "line") return Zn(i, a, t);
+	if (n === "line") return Qn(i, a, t);
 	let o = [...i].reverse().find((e) => e.time < t.start), s = o && (a.length === 0 || a[0].time > t.start) ? [{
 		time: t.start,
 		value: o.value
@@ -1894,7 +1894,7 @@ function Yn(e, t, n, r) {
 		value: c.value
 	}] : s;
 }
-function Xn(e, t, n) {
+function Zn(e, t, n) {
 	if (!e || !t || e.time === t.time || e.time > n || t.time < n) return;
 	let r = (n - e.time) / (t.time - e.time);
 	return {
@@ -1902,27 +1902,27 @@ function Xn(e, t, n) {
 		value: e.value + (t.value - e.value) * r
 	};
 }
-function Zn(e, t, n) {
-	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Xn(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Xn(a, o, n.end);
+function Qn(e, t, n) {
+	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Zn(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Zn(a, o, n.end);
 	return [
 		s,
 		...t,
 		c
 	].filter((e) => e !== void 0);
 }
-function Qn(e) {
+function $n(e) {
 	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
 }
-function $n(e, t, n, r) {
+function er(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode !== "column") return [];
-		let i = Hn(e, t);
+		let i = Un(e, t);
 		if (!i) return [];
-		let a = F(Qn(i), i);
-		return Wn(e, n, r.extendColumnToEnd).flatMap((t, r) => {
+		let a = Hn($n(i), i);
+		return Gn(e, n, r.extendColumnToEnd).flatMap((t, r) => {
 			let o = Number(t.value);
 			if (!Number.isFinite(o)) return [];
-			let s = P(t.start, n), c = P(t.end, n), l = F(o, i), u = Math.max(c - s, 1);
+			let s = P(t.start, n), c = P(t.end, n), l = Hn(o, i), u = Math.max(c - s, 1);
 			return [{
 				id: `${e.id}:${r}`,
 				x: s,
@@ -1934,15 +1934,15 @@ function $n(e, t, n, r) {
 		});
 	});
 }
-function er(e, t, n) {
+function tr(e, t, n) {
 	let r = t + 10, i = 0;
 	return e.flatMap((e, t) => {
 		if (e.valueType === "number" || e.valueType === "boolean") return [];
 		let a = r + i * 14;
 		i += 1;
 		let o = /* @__PURE__ */ new Map();
-		return Un(e, n).reduce((n, r) => {
-			let i = Kn(r.value, e.color, o, t), a = n[n.length - 1];
+		return Wn(e, n).reduce((n, r) => {
+			let i = qn(r.value, e.color, o, t), a = n[n.length - 1];
 			return a && a.fill === i && Math.abs(a.end - r.start) < 1 ? a.end = r.end : n.push({
 				start: r.start,
 				end: r.end,
@@ -1960,27 +1960,27 @@ function er(e, t, n) {
 		});
 	});
 }
-function tr(e) {
+function nr(e) {
 	return e.flatMap((e) => {
 		let t = e.height - 10;
 		return e.ticks.map((n) => ({
 			y: e.top + 5 + t - (n - e.min) / (e.max - e.min) * t,
-			value: ir(n, e.precision)
+			value: ar(n, e.precision)
 		}));
 	});
 }
-function nr(e, t, n) {
+function rr(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
 	};
 	if (e.length === 1) return {
-		points: `${P(e[0].time, t).toFixed(1)},${F(e[0].value, n).toFixed(1)}`,
+		points: `${P(e[0].time, t).toFixed(1)},${Hn(e[0].value, n).toFixed(1)}`,
 		pathLength: 0
 	};
 	let r = [], i = 0;
 	for (let a = 0; a < e.length - 1; a++) {
-		let o = e[a], s = e[a + 1], c = P(o.time, t), l = F(o.value, n), u = P(s.time, t), d = F(s.value, n);
+		let o = e[a], s = e[a + 1], c = P(o.time, t), l = Hn(o.value, n), u = P(s.time, t), d = Hn(s.value, n);
 		a === 0 && r.push(`${c.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${d.toFixed(1)}`), i += Math.abs(u - c) + Math.abs(d - l);
 	}
 	return {
@@ -1988,7 +1988,7 @@ function nr(e, t, n) {
 		pathLength: i
 	};
 }
-function rr(e, t, n) {
+function ir(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -1996,7 +1996,7 @@ function rr(e, t, n) {
 	let r = 0, i;
 	return {
 		points: e.map((e) => {
-			let a = P(e.time, t), o = F(e.value, n);
+			let a = P(e.time, t), o = Hn(e.value, n);
 			return i && (r += Math.hypot(a - i.x, o - i.y)), i = {
 				x: a,
 				y: o
@@ -2005,21 +2005,21 @@ function rr(e, t, n) {
 		pathLength: r
 	};
 }
-function ir(e, t) {
+function ar(e, t) {
 	return t <= 0 && Number.isInteger(e) ? String(e) : e.toFixed(t);
 }
-var ar = 60 * 1e3, or = 60 * ar, I = 24 * or, sr = [
-	10 * ar,
-	15 * ar,
-	20 * ar,
-	30 * ar,
-	or,
-	2 * or,
-	3 * or,
-	4 * or,
-	6 * or,
-	8 * or,
-	12 * or,
+var or = 60 * 1e3, F = 60 * or, I = 24 * F, sr = [
+	10 * or,
+	15 * or,
+	20 * or,
+	30 * or,
+	F,
+	2 * F,
+	3 * F,
+	4 * F,
+	6 * F,
+	8 * F,
+	12 * F,
 	I,
 	2 * I,
 	3 * I,
@@ -2119,12 +2119,12 @@ function _r(e, t, n, r = !1, i = 12, a = !0, o = !0) {
 		extendStairToEnd: a,
 		numericScales: l,
 		plotBottom: d,
-		chartHeight: qn(d, f),
-		numericLines: Jn(t, l, n, s),
-		numericColumns: $n(t, l, n, c),
-		segments: er(t, d, n),
+		chartHeight: Jn(d, f),
+		numericLines: Yn(t, l, n, s),
+		numericColumns: er(t, l, n, c),
+		segments: tr(t, d, n),
 		heatingAreas: r ? [] : Bn(t, l, n),
-		yAxisLabels: tr(l),
+		yAxisLabels: nr(l),
 		xAxisLabels: p.map((e) => ({
 			x: P(e.time, n),
 			label: ur(e.time, m),
@@ -2134,13 +2134,13 @@ function _r(e, t, n, r = !1, i = 12, a = !0, o = !0) {
 }
 function vr(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
-		let a = Hn(e, t);
+		let a = Un(e, t);
 		if (!a) return [];
 		let o = {
 			...a,
 			top: 28,
 			height: i
-		}, s = Fn(Yn(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? rr(s, n, o) : nr(s, n, o);
+		}, s = Fn(Xn(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? ir(s, n, o) : rr(s, n, o);
 		return {
 			id: e.id,
 			color: e.color,
@@ -2152,17 +2152,17 @@ function vr(e, t, n, r, i) {
 }
 function yr(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode === "column").flatMap((e) => {
-		let a = Hn(e, t);
+		let a = Un(e, t);
 		if (!a) return [];
 		let o = {
 			...a,
 			top: 28,
 			height: r
-		}, s = F(Qn(o), o);
-		return Wn(e, n, i.extendColumnToEnd).flatMap((t, r) => {
+		}, s = Hn($n(o), o);
+		return Gn(e, n, i.extendColumnToEnd).flatMap((t, r) => {
 			let i = Number(t.value);
 			if (!Number.isFinite(i)) return [];
-			let a = P(t.start, n), c = P(t.end, n), l = F(i, o);
+			let a = P(t.start, n), c = P(t.end, n), l = Hn(i, o);
 			return [{
 				id: `${e.id}:${r}`,
 				x: a,
@@ -2177,8 +2177,8 @@ function yr(e, t, n, r, i) {
 function br(e, t, n) {
 	return e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").flatMap((e, r) => {
 		let i = t + r * 14, a = /* @__PURE__ */ new Map();
-		return Un(e, n).reduce((t, n) => {
-			let i = Kn(n.value, e.color, a, r), o = t[t.length - 1];
+		return Wn(e, n).reduce((t, n) => {
+			let i = qn(n.value, e.color, a, r), o = t[t.length - 1];
 			return o && o.fill === i && Math.abs(o.end - n.start) < 1 ? o.end = n.end : t.push({
 				start: n.start,
 				end: n.end,
@@ -2203,7 +2203,7 @@ function Sr(e, t) {
 	let n = t - 10, r = xr(t), i = e.ticks.length <= r ? e.ticks : fn(e.min, e.max, r), a = Math.max(Math.abs(e.max - e.min), 1) * 1e-9, o = i.filter((t) => t >= e.min - a && t <= e.max + a), s = o.length > 0 ? o : [e.min, e.max], c = e.ticks === i ? e.precision : Math.max(e.precision, hn(s));
 	return s.map((t) => ({
 		y: 33 + n - (t - e.min) / (e.max - e.min) * n,
-		value: ir(t, c)
+		value: ar(t, c)
 	}));
 }
 function Cr(e, t, n) {
@@ -10792,13 +10792,17 @@ customElements.get("eq-history-dialog") || customElements.define("eq-history-dia
 //#endregion
 //#region src/components/eq-regulation-renderer.ts
 var As = "--", js = class extends O {
+	constructor(...e) {
+		super(...e), this._attributeUnitsLoadStarted = !1, this._historyConfigCache = /* @__PURE__ */ new Map();
+	}
 	static {
 		this.properties = {
 			hass: { attribute: !1 },
 			config: { attribute: !1 },
 			dashboard: { attribute: !1 },
 			activeSectionId: { attribute: "active-section-id" },
-			language: {}
+			language: {},
+			_staticAttributeUnits: { state: !0 }
 		};
 	}
 	static {
@@ -10991,6 +10995,33 @@ var As = "--", js = class extends O {
       white-space: pre-line;
     }
 
+    .history-block {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid color-mix(in srgb, var(--divider-color) 78%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 88%, var(--primary-text-color) 4%);
+    }
+
+    .history-chart {
+      display: flex;
+      width: 100%;
+      min-width: 0;
+      height: min(360px, 46vh);
+      min-height: 260px;
+      --better-history-min-height: 0px;
+      --better-history-surface-overflow-y: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .history-chart {
+        height: min(320px, 42vh);
+        min-height: 240px;
+      }
+    }
+
     [tone="ok"] {
       --regulation-tone-color: var(--success-color, #43a047);
     }
@@ -11011,6 +11042,14 @@ var As = "--", js = class extends O {
       --regulation-tone-color: var(--secondary-text-color);
     }
   `;
+	}
+	connectedCallback() {
+		super.connectedCallback(), this._loadAttributeUnits();
+	}
+	_loadAttributeUnits() {
+		this._attributeUnitsLoadStarted || (this._attributeUnitsLoadStarted = !0, Ds().then((e) => {
+			this._staticAttributeUnits = e, this.requestUpdate();
+		}));
 	}
 	render() {
 		if (!this.hass || !this.config || !this.dashboard) return this._renderState(H(this.language, "dialog.regulation.loading"));
@@ -11068,7 +11107,7 @@ var As = "--", js = class extends O {
             <p class="text">${this._translate(e.text_key, e.text)}</p>
           </aside>
         `;
-			case "history":
+			case "history": return this._renderHistory(e);
 			case "action": return T`
           <aside class="note" tone="muted">
             <ha-icon icon="mdi:progress-wrench"></ha-icon>
@@ -11141,6 +11180,102 @@ var As = "--", js = class extends O {
         ${this._sourceMissing(e.value.source) ? T`<p class="missing">${H(this.language, "dialog.regulation.source_missing")}</p>` : D}
       </article>
     `;
+	}
+	_renderHistory(e) {
+		let t = this._betterHistoryConfig(e), n = e.options ?? {}, r = this._showHistoryControls(n), i = n.tools === !0 || n.range_picker === !0;
+		return !t.series || t.series.length === 0 ? T`
+        <aside class="note" tone="muted">
+          <ha-icon icon="mdi:chart-line"></ha-icon>
+          <p class="text">${H(this.language, "dialog.regulation.source_missing")}</p>
+        </aside>
+      ` : T`
+      <article class="history-block">
+        ${this._translate(e.title_key, e.title) ? T`<h3>${this._translate(e.title_key, e.title)}</h3>` : D}
+        <equinox-better-history
+          class="history-chart"
+          .hass=${this.hass}
+          .config=${t}
+          .attributeUnits=${Os(this._staticAttributeUnits)}
+          .language=${this.language}
+          .showControls=${r}
+          .toolsOpen=${i}
+          .showExportButton=${n.tools === !0}
+          .showImportButton=${!1}
+          .showLineModeButtons=${n.tools === !0}
+          .showTimeRangeSelector=${n.range_picker === !0}
+        ></equinox-better-history>
+      </article>
+    `;
+	}
+	_betterHistoryConfig(e) {
+		let t = this._historyConfigCacheKey(e), n = this._historyConfigCache.get(t);
+		if (n) return n;
+		let r = e.options ?? {}, i = this._translate(e.title_key, e.title), a = {
+			hours: this._historyRangeHours(e.range),
+			showDatePicker: r.date_picker ?? !1,
+			showEntityPicker: r.entity_picker ?? !1,
+			showLegend: r.legend ?? !0,
+			showTooltip: r.tooltip ?? !0,
+			showScale: r.scales ?? !0,
+			showGrid: !0,
+			showExportButton: r.tools === !0,
+			showImportButton: !1,
+			showTimeRangeSelector: r.range_picker === !0,
+			showLineModeButtons: r.tools === !0,
+			debugPerformance: !1,
+			title: i || void 0,
+			series: e.series.flatMap((e) => this._betterHistorySeries(e))
+		};
+		return this._historyConfigCache.set(t, a), a;
+	}
+	_betterHistorySeries(e) {
+		let t = this._resolveHistoryEntity(e.entity);
+		return t ? [{
+			entity: t,
+			attribute: e.attribute ? Yo(e.attribute) : void 0,
+			label: this._translate(e.label_key, e.label),
+			unit: this._translate(e.unit_key, e.unit) || void 0,
+			group: e.scale_group,
+			color: e.color,
+			forced: !0
+		}] : [];
+	}
+	_resolveHistoryEntity(e) {
+		switch (e) {
+			case "$climate_entity": return this.config?.entity || void 0;
+			case "$diagnostic_entity": return this.config?.diagnostic_entity || void 0;
+			case "$power_entity": return this.config?.power_entity || void 0;
+			case "$humidity_entity": return this.config?.humidity_entity || void 0;
+			case "$temperature_entity": return this.config?.temperature_entity || void 0;
+			default: return e;
+		}
+	}
+	_historyRangeHours(e) {
+		if (!e) return 24;
+		let t = e.trim().toLowerCase().match(/^(\d+(?:\.\d+)?)\s*([hdw])$/u);
+		if (!t) return 24;
+		let n = Number(t[1]);
+		if (!Number.isFinite(n) || n <= 0) return 24;
+		switch (t[2]) {
+			case "h": return n;
+			case "d": return n * 24;
+			case "w": return n * 24 * 7;
+			default: return 24;
+		}
+	}
+	_showHistoryControls(e) {
+		return e.date_picker === !0 || e.entity_picker === !0 || e.tools === !0 || e.range_picker === !0;
+	}
+	_historyConfigCacheKey(e) {
+		return JSON.stringify({
+			language: this.language ?? this.hass?.locale?.language ?? "",
+			climate: this.config?.entity ?? "",
+			diagnostic: this.config?.diagnostic_entity ?? "",
+			power: this.config?.power_entity ?? "",
+			humidity: this.config?.humidity_entity ?? "",
+			temperature: this.config?.temperature_entity ?? "",
+			item: e
+		});
 	}
 	_formatSourceValue(e) {
 		let t = es(this._context(), e.source, e.path), n = this._formatPrimitive(t, e.digits, e.fallback), r = this._translate(e.unit_key, e.unit);
