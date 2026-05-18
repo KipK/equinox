@@ -67,3 +67,13 @@ All notable changes to Equinox will be documented in this file.
   . auto scale splitting is more conservative
   . prevent splitting when there's 2 different units ( forced to one scale per unit )
   . prevent more than 2 different units per graph
+
+## 0.1.6
+
+- ha-better-history 0.2.5
+  . fix race condition when adding multiple attributes at the same time
+  . fix legend padding when a segment is displayed under the graph
+  . fix long press on chips clearing the popup on release.
+
+- fix menu not working when card is embedded in a dialog window.
+- add Hebrew language ( thx @yosef-chai )

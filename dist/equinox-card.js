@@ -2232,7 +2232,7 @@ function wr(e, t = 12, n = 180) {
 		bold: e.bold
 	}));
 	if (e.numericScales.length === 0 && a.length > 0) {
-		let e = o.length, t = 28 + n + 16 + 6, s = e > 0 ? 22 + e * 14 : 0, l = 28 + n + s + 18, u = l + 16, d = Cr(a, o, 0);
+		let e = o.length, t = 28 + n + 16 + 6, s = e > 0 ? 22 + e * 14 : 0, l = 28 + n + s + 18, u = l + (e > 0 ? 0 : 16), d = Cr(a, o, 0);
 		r.push({
 			series: d.visibleSeries,
 			allSeries: d.allSeries,
@@ -2251,7 +2251,7 @@ function wr(e, t = 12, n = 180) {
 	}
 	let l = [...new Set(e.numericScales.map((e) => e.graphKey))];
 	for (let t = 0; t < l.length; t++) {
-		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = u[0]?.sourceGraphKey ?? s, h = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && pr(e) === m), g = h.filter((e) => hr(e, h) === s), _ = e.visibleSeries.filter((e) => p.has(e.id)), v = t === 0 ? [..._, ...o] : _, y = Cr(t === 0 ? [...g, ...a] : g, v, t), b = y.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), ee = b.length, te = 28 + n + 16 + 6, x = ee > 0 ? 22 + ee * 14 : 0, ne = 28 + n + x + 18, re = ne + 16, S = Sr(d, n), ie = f ? Sr(f, n) : [], C = u.map((e) => ({
+		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = u[0]?.sourceGraphKey ?? s, h = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && pr(e) === m), g = h.filter((e) => hr(e, h) === s), _ = e.visibleSeries.filter((e) => p.has(e.id)), v = t === 0 ? [..._, ...o] : _, y = Cr(t === 0 ? [...g, ...a] : g, v, t), b = y.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), ee = b.length, te = 28 + n + 16 + 6, x = ee > 0 ? 22 + ee * 14 : 0, ne = 28 + n + x + 18, re = ne + (ee > 0 ? 0 : 16), S = Sr(d, n), ie = f ? Sr(f, n) : [], C = u.map((e) => ({
 			...e,
 			top: 28,
 			height: n
@@ -3263,7 +3263,7 @@ var ri = o`
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin: 6px calc(40 / 720 * 100%) 0;
+    margin: 3px calc(40 / 720 * 100%) 0;
     padding: 0 6px 8px 6px;
     font-size: 12px;
     color: var(--better-history-muted-color, var(--secondary-text-color, #888));
@@ -5036,7 +5036,7 @@ function Na(e) {
 }
 var z = class extends O {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._data = new Yt(this), this._tooltip = new Tr(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._handleBrowserPopState = (e) => {
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._pendingAddedSources = [], this._data = new Yt(this), this._tooltip = new Tr(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
 			this._syncingBrowserHistory = !0;
 			try {
@@ -5274,6 +5274,11 @@ var z = class extends O {
 		for (let n of this._selectedSources) for (let r of this._expandedSelectedSources(n)) t.has(r.id) || (t.add(r.id), e.push(r));
 		return e;
 	}
+	_selectedSourcesForDisplay() {
+		let e = /* @__PURE__ */ new Set(), t = [];
+		for (let n of [...this._selectedSources, ...this._pendingAddedSources]) e.has(n.id) || (e.add(n.id), t.push(n));
+		return t;
+	}
 	_isDefaultSource(e) {
 		return this._activeResolvedSeries().some((t) => t.id === e.id && t.forced !== !1);
 	}
@@ -5453,7 +5458,7 @@ var z = class extends O {
 		return this.config?.showTimeRangeSelector !== !1 && this.showTimeRangeSelector;
 	}
 	_allSeriesHaveExplicitLineMode() {
-		if (this._selectedSources.length > 0) return !1;
+		if (this._selectedSourcesForDisplay().length > 0) return !1;
 		if (this.config?.lineMode != null) return !0;
 		let e = this.config?.series;
 		return e && e.length > 0 ? e.every((e) => e.lineMode != null) : !1;
@@ -5484,13 +5489,13 @@ var z = class extends O {
 				points: t?.points ?? []
 			}];
 		}), t = [], n = new Set(e.map((e) => e.id));
-		for (let e of this._selectedSources) for (let r of this._expandedSelectedSources(e)) {
+		for (let e of this._selectedSourcesForDisplay()) for (let r of this._expandedSelectedSources(e)) {
 			if (n.has(r.id)) continue;
 			let e = this._data.series.find((e) => e.source.id === r.id);
-			e && (n.add(r.id), t.push({
+			n.add(r.id), t.push({
 				source: r,
 				fetched: e
-			}));
+			});
 		}
 		let r = [...e], i = /* @__PURE__ */ new Map();
 		for (let { source: e, fetched: n } of t) {
@@ -5522,7 +5527,7 @@ var z = class extends O {
 			e.lineMode,
 			e.lineWidth,
 			e.valueType
-		].join("~")) ?? [], ...this._selectedSources.flatMap((e) => this._expandedSelectedSources(e)).map((e) => [
+		].join("~")) ?? [], ...this._selectedSourcesForDisplay().flatMap((e) => this._expandedSelectedSources(e)).map((e) => [
 			e.id,
 			e.label,
 			e.kind,
@@ -5839,7 +5844,7 @@ var z = class extends O {
 			let e = /timed?\s*out/i.test(this._data.error);
 			return T`<div class="error">${L(this.hass, e ? "error_timeout" : "error")}</div>`;
 		}
-		if (!this._resolved || this._resolved.series.length === 0 && this._selectedSources.length === 0) return this._queueGraphVisible(!1), D;
+		if (!this._resolved || this._resolved.series.length === 0 && this._selectedSourcesForDisplay().length === 0) return this._queueGraphVisible(!1), D;
 		let e = this._chartData(), t = e.visibleSeries.some((e) => e.points.length > 0), n = this._resolved.showTooltip, r = this._graphGroups(e), i = r.length > 0 && (t || this._data.loading);
 		this._queueGraphVisible(i), this._suppressLineAnimation = this._wasLoading && !this._data.loading;
 		let a = r.reduce((e, t) => e + t.canvasHeight, 0);
@@ -5871,7 +5876,7 @@ var z = class extends O {
 			entityPickerOpen: this._entityPickerOpen,
 			selectedEntityId: this._selectedEntityId,
 			path: this._path,
-			selectedSources: this._selectedSources,
+			selectedSources: this._selectedSourcesForDisplay(),
 			draggingSourceId: this._draggingSourceId,
 			resolved: this._activeResolvedConfig(),
 			loading: this._data.loading,
@@ -6352,6 +6357,10 @@ var z = class extends O {
 		if (r && this._pathContainsElement(t, r)) return !0;
 		let i = this.renderRoot?.querySelector("[data-source-settings-popover]");
 		if (i && this._pathContainsElement(t, i)) return !0;
+		if (this._sourceSettingsSourceId) {
+			let e = Array.from(this.renderRoot?.querySelectorAll(".source-chip") ?? []).find((e) => e.dataset.sourceId === this._sourceSettingsSourceId);
+			if (e && this._pathContainsElement(t, e)) return !0;
+		}
 		for (let e of t) {
 			if (e === this) break;
 			if (!(e instanceof HTMLElement)) continue;
@@ -6549,7 +6558,7 @@ R([k({ attribute: !1 })], z.prototype, "hass", void 0), R([k({ attribute: !1 })]
 })], z.prototype, "debugPerformance", void 0), R([k({
 	type: Boolean,
 	attribute: "tools-open"
-})], z.prototype, "toolsOpen", void 0), R([A()], z.prototype, "_resolved", void 0), R([A()], z.prototype, "_hiddenSeriesIds", void 0), R([A()], z.prototype, "_rangeStart", void 0), R([A()], z.prototype, "_rangeEnd", void 0), R([A()], z.prototype, "_viewStart", void 0), R([A()], z.prototype, "_viewEnd", void 0), R([A()], z.prototype, "_liveNow", void 0), R([A()], z.prototype, "_datePickerReady", void 0), R([A()], z.prototype, "_entityComponentsReady", void 0), R([A()], z.prototype, "_runtimeLineMode", void 0), R([A()], z.prototype, "_attributeMenuOpen", void 0), R([A()], z.prototype, "_attributeSearch", void 0), R([A()], z.prototype, "_selectedEntityId", void 0), R([A()], z.prototype, "_path", void 0), R([A()], z.prototype, "_selectedSources", void 0), R([A()], z.prototype, "_removedConfigSourceIds", void 0), R([A()], z.prototype, "_scalePreferences", void 0), R([A()], z.prototype, "_customEntityIds", void 0), R([A()], z.prototype, "_entityPickerOpen", void 0), R([A()], z.prototype, "_datePickerOpen", void 0), R([A()], z.prototype, "_draggingSourceId", void 0), R([A()], z.prototype, "_draggingAxisSeriesId", void 0), R([A()], z.prototype, "_axisDropTarget", void 0), R([A()], z.prototype, "_sourceSettingsSourceId", void 0), R([A()], z.prototype, "_importedDataActive", void 0), R([A()], z.prototype, "_containerWidth", void 0), R([A()], z.prototype, "_chartSurfaceHeight", void 0), R([A()], z.prototype, "_chartSurfaceConstrained", void 0);
+})], z.prototype, "toolsOpen", void 0), R([A()], z.prototype, "_resolved", void 0), R([A()], z.prototype, "_hiddenSeriesIds", void 0), R([A()], z.prototype, "_rangeStart", void 0), R([A()], z.prototype, "_rangeEnd", void 0), R([A()], z.prototype, "_viewStart", void 0), R([A()], z.prototype, "_viewEnd", void 0), R([A()], z.prototype, "_liveNow", void 0), R([A()], z.prototype, "_datePickerReady", void 0), R([A()], z.prototype, "_entityComponentsReady", void 0), R([A()], z.prototype, "_runtimeLineMode", void 0), R([A()], z.prototype, "_attributeMenuOpen", void 0), R([A()], z.prototype, "_attributeSearch", void 0), R([A()], z.prototype, "_selectedEntityId", void 0), R([A()], z.prototype, "_path", void 0), R([A()], z.prototype, "_selectedSources", void 0), R([A()], z.prototype, "_removedConfigSourceIds", void 0), R([A()], z.prototype, "_scalePreferences", void 0), R([A()], z.prototype, "_customEntityIds", void 0), R([A()], z.prototype, "_entityPickerOpen", void 0), R([A()], z.prototype, "_datePickerOpen", void 0), R([A()], z.prototype, "_draggingSourceId", void 0), R([A()], z.prototype, "_draggingAxisSeriesId", void 0), R([A()], z.prototype, "_axisDropTarget", void 0), R([A()], z.prototype, "_sourceSettingsSourceId", void 0), R([A()], z.prototype, "_pendingAddedSources", void 0), R([A()], z.prototype, "_importedDataActive", void 0), R([A()], z.prototype, "_containerWidth", void 0), R([A()], z.prototype, "_chartSurfaceHeight", void 0), R([A()], z.prototype, "_chartSurfaceConstrained", void 0);
 var Pa = "haBetterHistory";
 function Fa(e) {
 	return e?.group ?? e?.scaleGroup;
@@ -6620,6 +6629,10 @@ var B = class extends O {
 		if (r && this._pathContainsElement(t, r)) return !0;
 		let i = this.renderRoot?.querySelector("[data-source-settings-popover]");
 		if (i && this._pathContainsElement(t, i)) return !0;
+		if (this._sourceSettingsSourceId) {
+			let e = Array.from(this.renderRoot?.querySelectorAll(".source-chip") ?? []).find((e) => e.dataset.sourceId === this._sourceSettingsSourceId);
+			if (e && this._pathContainsElement(t, e)) return !0;
+		}
 		for (let e of t) {
 			if (e === this) break;
 			if (!(e instanceof HTMLElement)) continue;
