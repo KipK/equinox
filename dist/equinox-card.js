@@ -1827,19 +1827,19 @@ function Vn(e, t) {
 function P(e, t) {
 	return 40 + (e - t.start) / (t.end - t.start) * 640;
 }
-function Hn(e, t) {
+function F(e, t) {
 	let n = t.max - t.min;
 	if (n < 1e-6) return t.top + t.height / 2;
 	let r = t.height - 10;
 	return t.top + 5 + r - (e - t.min) / n * r;
 }
-function Un(e, t) {
+function Hn(e, t) {
 	return t.find((t) => t.ids.has(e.id));
 }
-function Wn(e, t) {
-	return Gn(e, t, !0);
+function Un(e, t) {
+	return Wn(e, t, !0);
 }
-function Gn(e, t, n) {
+function Wn(e, t, n) {
 	let r = Date.now(), i = [...e.points].sort((e, t) => e.time - t.time), a = i.findIndex((e) => e.time >= t.start), o = a === -1 ? i.length : a, s = o > 0 ? i.slice(o - 1) : i;
 	return s.flatMap((e, i) => {
 		let a = Math.max(e.time, t.start), o = s[i + 1]?.time, c = n ? t.end : e.time, l = Math.min(o ?? c, t.end, r);
@@ -1850,26 +1850,26 @@ function Gn(e, t, n) {
 		}] : [];
 	});
 }
-var Kn = new Set([
+var Gn = new Set([
 	"off",
 	"idle",
 	"none",
 	"false"
 ]);
-function qn(e, t, n, r) {
+function Kn(e, t, n, r) {
 	if (typeof e == "boolean") return e ? t : "var(--better-history-muted-color, var(--secondary-text-color, #888))";
 	let i = String(e);
-	return Kn.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, Xt[(r + n.size) % Xt.length]), n.get(i));
+	return Gn.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, Xt[(r + n.size) % Xt.length]), n.get(i));
 }
-function Jn(e, t) {
+function qn(e, t) {
 	return e + 34 + Math.max(t - 1, 0) * 14;
 }
-function Yn(e, t, n, r) {
+function Jn(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
-		let i = Un(e, t);
+		let i = Hn(e, t);
 		if (!i) return [];
-		let a = Fn(Xn(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? ir(a, n, i) : rr(a, n, i);
+		let a = Fn(Yn(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? rr(a, n, i) : nr(a, n, i);
 		return [{
 			id: e.id,
 			color: e.color,
@@ -1879,12 +1879,12 @@ function Yn(e, t, n, r) {
 		}];
 	});
 }
-function Xn(e, t, n, r) {
+function Yn(e, t, n, r) {
 	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
 	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), a = i.filter((e) => e.time >= t.start && e.time <= t.end);
-	if (n === "line") return Qn(i, a, t);
+	if (n === "line") return Zn(i, a, t);
 	let o = [...i].reverse().find((e) => e.time < t.start), s = o && (a.length === 0 || a[0].time > t.start) ? [{
 		time: t.start,
 		value: o.value
@@ -1894,7 +1894,7 @@ function Xn(e, t, n, r) {
 		value: c.value
 	}] : s;
 }
-function Zn(e, t, n) {
+function Xn(e, t, n) {
 	if (!e || !t || e.time === t.time || e.time > n || t.time < n) return;
 	let r = (n - e.time) / (t.time - e.time);
 	return {
@@ -1902,27 +1902,27 @@ function Zn(e, t, n) {
 		value: e.value + (t.value - e.value) * r
 	};
 }
-function Qn(e, t, n) {
-	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Zn(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Zn(a, o, n.end);
+function Zn(e, t, n) {
+	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Xn(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Xn(a, o, n.end);
 	return [
 		s,
 		...t,
 		c
 	].filter((e) => e !== void 0);
 }
-function $n(e) {
+function Qn(e) {
 	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
 }
-function er(e, t, n, r) {
+function $n(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode !== "column") return [];
-		let i = Un(e, t);
+		let i = Hn(e, t);
 		if (!i) return [];
-		let a = Hn($n(i), i);
-		return Gn(e, n, r.extendColumnToEnd).flatMap((t, r) => {
+		let a = F(Qn(i), i);
+		return Wn(e, n, r.extendColumnToEnd).flatMap((t, r) => {
 			let o = Number(t.value);
 			if (!Number.isFinite(o)) return [];
-			let s = P(t.start, n), c = P(t.end, n), l = Hn(o, i), u = Math.max(c - s, 1);
+			let s = P(t.start, n), c = P(t.end, n), l = F(o, i), u = Math.max(c - s, 1);
 			return [{
 				id: `${e.id}:${r}`,
 				x: s,
@@ -1934,15 +1934,15 @@ function er(e, t, n, r) {
 		});
 	});
 }
-function tr(e, t, n) {
+function er(e, t, n) {
 	let r = t + 10, i = 0;
 	return e.flatMap((e, t) => {
 		if (e.valueType === "number" || e.valueType === "boolean") return [];
 		let a = r + i * 14;
 		i += 1;
 		let o = /* @__PURE__ */ new Map();
-		return Wn(e, n).reduce((n, r) => {
-			let i = qn(r.value, e.color, o, t), a = n[n.length - 1];
+		return Un(e, n).reduce((n, r) => {
+			let i = Kn(r.value, e.color, o, t), a = n[n.length - 1];
 			return a && a.fill === i && Math.abs(a.end - r.start) < 1 ? a.end = r.end : n.push({
 				start: r.start,
 				end: r.end,
@@ -1960,27 +1960,27 @@ function tr(e, t, n) {
 		});
 	});
 }
-function nr(e) {
+function tr(e) {
 	return e.flatMap((e) => {
 		let t = e.height - 10;
 		return e.ticks.map((n) => ({
 			y: e.top + 5 + t - (n - e.min) / (e.max - e.min) * t,
-			value: ar(n, e.precision)
+			value: ir(n, e.precision)
 		}));
 	});
 }
-function rr(e, t, n) {
+function nr(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
 	};
 	if (e.length === 1) return {
-		points: `${P(e[0].time, t).toFixed(1)},${Hn(e[0].value, n).toFixed(1)}`,
+		points: `${P(e[0].time, t).toFixed(1)},${F(e[0].value, n).toFixed(1)}`,
 		pathLength: 0
 	};
 	let r = [], i = 0;
 	for (let a = 0; a < e.length - 1; a++) {
-		let o = e[a], s = e[a + 1], c = P(o.time, t), l = Hn(o.value, n), u = P(s.time, t), d = Hn(s.value, n);
+		let o = e[a], s = e[a + 1], c = P(o.time, t), l = F(o.value, n), u = P(s.time, t), d = F(s.value, n);
 		a === 0 && r.push(`${c.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${d.toFixed(1)}`), i += Math.abs(u - c) + Math.abs(d - l);
 	}
 	return {
@@ -1988,7 +1988,7 @@ function rr(e, t, n) {
 		pathLength: i
 	};
 }
-function ir(e, t, n) {
+function rr(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -1996,7 +1996,7 @@ function ir(e, t, n) {
 	let r = 0, i;
 	return {
 		points: e.map((e) => {
-			let a = P(e.time, t), o = Hn(e.value, n);
+			let a = P(e.time, t), o = F(e.value, n);
 			return i && (r += Math.hypot(a - i.x, o - i.y)), i = {
 				x: a,
 				y: o
@@ -2005,21 +2005,21 @@ function ir(e, t, n) {
 		pathLength: r
 	};
 }
-function ar(e, t) {
+function ir(e, t) {
 	return t <= 0 && Number.isInteger(e) ? String(e) : e.toFixed(t);
 }
-var or = 60 * 1e3, F = 60 * or, I = 24 * F, sr = [
-	10 * or,
-	15 * or,
-	20 * or,
-	30 * or,
-	F,
-	2 * F,
-	3 * F,
-	4 * F,
-	6 * F,
-	8 * F,
-	12 * F,
+var ar = 60 * 1e3, or = 60 * ar, I = 24 * or, sr = [
+	10 * ar,
+	15 * ar,
+	20 * ar,
+	30 * ar,
+	or,
+	2 * or,
+	3 * or,
+	4 * or,
+	6 * or,
+	8 * or,
+	12 * or,
 	I,
 	2 * I,
 	3 * I,
@@ -2119,12 +2119,12 @@ function _r(e, t, n, r = !1, i = 12, a = !0, o = !0) {
 		extendStairToEnd: a,
 		numericScales: l,
 		plotBottom: d,
-		chartHeight: Jn(d, f),
-		numericLines: Yn(t, l, n, s),
-		numericColumns: er(t, l, n, c),
-		segments: tr(t, d, n),
+		chartHeight: qn(d, f),
+		numericLines: Jn(t, l, n, s),
+		numericColumns: $n(t, l, n, c),
+		segments: er(t, d, n),
 		heatingAreas: r ? [] : Bn(t, l, n),
-		yAxisLabels: nr(l),
+		yAxisLabels: tr(l),
 		xAxisLabels: p.map((e) => ({
 			x: P(e.time, n),
 			label: ur(e.time, m),
@@ -2134,13 +2134,13 @@ function _r(e, t, n, r = !1, i = 12, a = !0, o = !0) {
 }
 function vr(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
-		let a = Un(e, t);
+		let a = Hn(e, t);
 		if (!a) return [];
 		let o = {
 			...a,
 			top: 28,
 			height: i
-		}, s = Fn(Xn(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? ir(s, n, o) : rr(s, n, o);
+		}, s = Fn(Yn(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? rr(s, n, o) : nr(s, n, o);
 		return {
 			id: e.id,
 			color: e.color,
@@ -2152,17 +2152,17 @@ function vr(e, t, n, r, i) {
 }
 function yr(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode === "column").flatMap((e) => {
-		let a = Un(e, t);
+		let a = Hn(e, t);
 		if (!a) return [];
 		let o = {
 			...a,
 			top: 28,
 			height: r
-		}, s = Hn($n(o), o);
-		return Gn(e, n, i.extendColumnToEnd).flatMap((t, r) => {
+		}, s = F(Qn(o), o);
+		return Wn(e, n, i.extendColumnToEnd).flatMap((t, r) => {
 			let i = Number(t.value);
 			if (!Number.isFinite(i)) return [];
-			let a = P(t.start, n), c = P(t.end, n), l = Hn(i, o);
+			let a = P(t.start, n), c = P(t.end, n), l = F(i, o);
 			return [{
 				id: `${e.id}:${r}`,
 				x: a,
@@ -2177,8 +2177,8 @@ function yr(e, t, n, r, i) {
 function br(e, t, n) {
 	return e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").flatMap((e, r) => {
 		let i = t + r * 14, a = /* @__PURE__ */ new Map();
-		return Wn(e, n).reduce((t, n) => {
-			let i = qn(n.value, e.color, a, r), o = t[t.length - 1];
+		return Un(e, n).reduce((t, n) => {
+			let i = Kn(n.value, e.color, a, r), o = t[t.length - 1];
 			return o && o.fill === i && Math.abs(o.end - n.start) < 1 ? o.end = n.end : t.push({
 				start: n.start,
 				end: n.end,
@@ -2203,7 +2203,7 @@ function Sr(e, t) {
 	let n = t - 10, r = xr(t), i = e.ticks.length <= r ? e.ticks : fn(e.min, e.max, r), a = Math.max(Math.abs(e.max - e.min), 1) * 1e-9, o = i.filter((t) => t >= e.min - a && t <= e.max + a), s = o.length > 0 ? o : [e.min, e.max], c = e.ticks === i ? e.precision : Math.max(e.precision, hn(s));
 	return s.map((t) => ({
 		y: 33 + n - (t - e.min) / (e.max - e.min) * n,
-		value: ar(t, c)
+		value: ir(t, c)
 	}));
 }
 function Cr(e, t, n) {
@@ -8303,10 +8303,13 @@ var ss = o`
       position: absolute;
       inset: 0;
       z-index: 9001;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
       border-radius: var(--equinox-radius, 12px);
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     .scrim.centered {
@@ -8323,9 +8326,20 @@ var ss = o`
       max-width: calc(100vw - 24px);
       max-height: calc(100vh - 24px);
       transform: translate(-50%, -50%);
-      overflow: auto;
+      overflow: hidden;
       border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
       box-shadow: 0 18px 44px rgb(0 0 0 / 34%);
+    }
+
+    .panel.centered[popover] {
+      margin: 0;
+      padding: 0;
+      color: var(--primary-text-color);
+      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+    }
+
+    .panel.centered[popover]::backdrop {
+      background: rgba(0, 0, 0, 0.45);
     }
 
     @media (min-width: 601px) {
@@ -8388,17 +8402,21 @@ var ss = o`
       }
 
       .panel.centered {
-        left: 50%;
+        inset: 0;
+        left: 0;
         right: auto;
         bottom: auto;
-        top: 50%;
+        top: 0;
         inset-inline: auto;
-        width: var(--eq-dialog-width, calc(100vw - 24px));
-        min-width: min(var(--eq-dialog-min-width, 320px), calc(100vw - 24px));
-        max-width: calc(100vw - 24px);
-        max-height: calc(100vh - 24px);
-        border-radius: var(--equinox-radius, 12px);
-        transform: translate(-50%, -50%);
+        width: 100vw;
+        min-width: 0;
+        max-width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        transform: none;
+        border: 0;
+        overflow: hidden;
       }
     }
 
@@ -8408,10 +8426,16 @@ var ss = o`
       align-items: center;
       justify-content: space-between;
       padding: 6px 12px 6px;
+      flex: 0 0 auto;
+      border-bottom: 1px solid color-mix(in srgb, var(--divider-color) 64%, transparent);
     }
 
     .header-title {
       flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-weight: 600;
       font-size: 16px;
     }
@@ -8426,6 +8450,21 @@ var ss = o`
 
     .content {
       padding: 0 16px 16px;
+      min-height: 0;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+
+    @media (max-width: 600px) {
+      .panel.centered .header {
+        min-height: 48px;
+        padding: max(6px, env(safe-area-inset-top)) 10px 6px;
+      }
+
+      .panel.centered .content {
+        flex: 1 1 auto;
+        padding: 12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      }
     }
   `;
 	}
@@ -8456,19 +8495,19 @@ var ss = o`
 		}));
 	}
 	updated() {
-		this.open || this._clearCloseOnLeaveTimer(), this.open && this.floating && this.updateComplete.then(() => {
-			this._syncNativePopover(), this._positionPopover();
+		this.open || this._clearCloseOnLeaveTimer(), this.open && (this.floating || this.centered) && this.updateComplete.then(() => {
+			this._syncNativePopover(), this.floating && this._positionPopover();
 		});
 	}
 	_supportsNativePopover() {
 		return typeof HTMLElement.prototype.showPopover == "function";
 	}
 	_usesNativePopover() {
-		return this.open && this.floating && window.innerWidth > 600 && this._supportsNativePopover();
+		return this.open && this._supportsNativePopover() && (this.centered || this.floating && window.innerWidth > 600);
 	}
 	_syncNativePopover() {
 		if (!this._usesNativePopover()) return;
-		let e = this.renderRoot.querySelector(".panel.popover");
+		let e = this.renderRoot.querySelector(".panel[popover]");
 		!e || e.matches(":popover-open") || e.showPopover();
 	}
 	_handlePopoverToggle(e) {
@@ -11132,7 +11171,7 @@ customElements.get("eq-regulation-renderer") || customElements.define("eq-regula
 //#region src/components/eq-regulation-dialog.ts
 var Ms = class extends O {
 	constructor(...e) {
-		super(...e), this.open = !1;
+		super(...e), this.open = !1, this._mobileShowingSections = !1;
 	}
 	static {
 		this.properties = {
@@ -11145,7 +11184,8 @@ var Ms = class extends O {
 			dashboard: { attribute: !1 },
 			loadResult: { attribute: !1 },
 			activeSectionId: { attribute: "active-section-id" },
-			language: {}
+			language: {},
+			_mobileShowingSections: { state: !0 }
 		};
 	}
 	static {
@@ -11228,18 +11268,68 @@ var Ms = class extends O {
       color: var(--secondary-text-color);
     }
 
+    .mobile-section-list {
+      display: grid;
+      gap: 8px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .mobile-section-button {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px solid color-mix(in srgb, var(--divider-color) 78%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 88%, var(--primary-text-color) 4%);
+      color: var(--primary-text-color);
+      font: inherit;
+      text-align: start;
+    }
+
+    .mobile-section-button[aria-current="true"] {
+      border-color: color-mix(in srgb, var(--primary-color) 58%, var(--divider-color));
+      background: color-mix(in srgb, var(--primary-color) 16%, transparent);
+      font-weight: 650;
+    }
+
+    .mobile-section-button span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     @media (max-width: 600px) {
+      eq-dialog {
+        --eq-dialog-width: 100vw;
+        --eq-dialog-min-width: 0;
+        --equinox-regulation-dialog-width: 100%;
+      }
+
       .layout {
         display: block;
-        width: min(100%, calc(100vw - 56px));
-        min-height: min(320px, calc(100vh - 160px));
+        width: 100%;
+        min-height: 0;
       }
 
       .section-nav {
         display: none;
       }
+
+      .state {
+        box-sizing: border-box;
+        width: 100%;
+      }
     }
   `;
+	}
+	updated(e) {
+		e.has("open") && !this.open && (this._mobileShowingSections = !1);
 	}
 	render() {
 		return T`
@@ -11248,7 +11338,9 @@ var Ms = class extends O {
         .title=${this._dialogTitle()}
         .language=${this.language}
         .centered=${!0}
+        .showBack=${this._showMobileSectionBack()}
         @eq-dialog-close=${(e) => this._forwardClose(e)}
+        @eq-dialog-back=${(e) => this._handleBack(e)}
       >
         ${this._renderContent()}
       </eq-dialog>
@@ -11264,7 +11356,7 @@ var Ms = class extends O {
 		}
 		if (!this.dashboard || this.dashboard.kind !== "regulation-dashboard" || this.dashboard.sections.length === 0) return T`<div class="state" role="alert">${H(this.language, "dialog.regulation.invalid")}</div>`;
 		let e = this._activeSectionId();
-		return T`
+		return this._isMobile() && this._mobileShowingSections && this.dashboard.sections.length > 1 ? this._renderMobileSectionMenu(e) : T`
       <div class="layout">
         ${this.dashboard.sections.length > 1 ? T`
               <nav class="section-nav" aria-label=${H(this.language, "dialog.regulation.sections")}>
@@ -11294,17 +11386,43 @@ var Ms = class extends O {
       </div>
     `;
 	}
+	_renderMobileSectionMenu(e) {
+		return T`
+      <nav class="mobile-section-list" aria-label=${H(this.language, "dialog.regulation.sections")}>
+        ${this.dashboard.sections.map((t) => {
+			let n = _s(this.dashboard, this.language, t.title_key, t.title || t.id);
+			return T`
+            <button
+              class="mobile-section-button"
+              type="button"
+              aria-current=${t.id === e ? "true" : "false"}
+              @click=${() => this._selectSection(t.id)}
+            >
+              <ha-icon icon=${t.icon || "mdi:view-dashboard-outline"}></ha-icon>
+              <span>${n}</span>
+              <ha-icon icon="mdi:chevron-right"></ha-icon>
+            </button>
+          `;
+		})}
+      </nav>
+    `;
+	}
 	_dialogTitle() {
 		let e = H(this.language, "dialog.regulation.title");
 		if (!this.dashboard) return e;
 		let t = _s(this.dashboard, this.language, this.dashboard.title_key, this.dashboard.title);
+		if (this._isMobile() && this._mobileShowingSections) return t ? `${e} - ${t}` : e;
+		if (this._isMobile()) {
+			let n = this.dashboard.sections.find((e) => e.id === this._activeSectionId());
+			return (n ? _s(this.dashboard, this.language, n.title_key, n.title || n.id) : "") || (t ? `${e} - ${t}` : e);
+		}
 		return t ? `${e} - ${t}` : e;
 	}
 	_activeSectionId() {
 		return this.dashboard?.sections.find((e) => e.id === this.activeSectionId)?.id ?? this.dashboard?.sections[0]?.id;
 	}
 	_selectSection(e) {
-		this.activeSectionId = e, this.dispatchEvent(new CustomEvent("equinox-regulation-section-selected", {
+		this.activeSectionId = e, this._mobileShowingSections = !1, this.dispatchEvent(new CustomEvent("equinox-regulation-section-selected", {
 			detail: { sectionId: e },
 			bubbles: !0,
 			composed: !0
@@ -11315,6 +11433,15 @@ var Ms = class extends O {
 			bubbles: !0,
 			composed: !0
 		}));
+	}
+	_handleBack(e) {
+		e.stopPropagation(), this._isMobile() && this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections && (this._mobileShowingSections = !0);
+	}
+	_showMobileSectionBack() {
+		return this._isMobile() && !!this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections;
+	}
+	_isMobile() {
+		return window.matchMedia("(max-width: 600px)").matches;
 	}
 };
 customElements.get("eq-regulation-dialog") || customElements.define("eq-regulation-dialog", Ms);

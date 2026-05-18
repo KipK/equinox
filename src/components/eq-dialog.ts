@@ -30,10 +30,13 @@ export class EquinoxDialog extends LitElement {
       position: absolute;
       inset: 0;
       z-index: 9001;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
       border-radius: var(--equinox-radius, 12px);
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     .scrim.centered {
@@ -50,9 +53,20 @@ export class EquinoxDialog extends LitElement {
       max-width: calc(100vw - 24px);
       max-height: calc(100vh - 24px);
       transform: translate(-50%, -50%);
-      overflow: auto;
+      overflow: hidden;
       border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
       box-shadow: 0 18px 44px rgb(0 0 0 / 34%);
+    }
+
+    .panel.centered[popover] {
+      margin: 0;
+      padding: 0;
+      color: var(--primary-text-color);
+      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+    }
+
+    .panel.centered[popover]::backdrop {
+      background: rgba(0, 0, 0, 0.45);
     }
 
     @media (min-width: 601px) {
@@ -115,17 +129,21 @@ export class EquinoxDialog extends LitElement {
       }
 
       .panel.centered {
-        left: 50%;
+        inset: 0;
+        left: 0;
         right: auto;
         bottom: auto;
-        top: 50%;
+        top: 0;
         inset-inline: auto;
-        width: var(--eq-dialog-width, calc(100vw - 24px));
-        min-width: min(var(--eq-dialog-min-width, 320px), calc(100vw - 24px));
-        max-width: calc(100vw - 24px);
-        max-height: calc(100vh - 24px);
-        border-radius: var(--equinox-radius, 12px);
-        transform: translate(-50%, -50%);
+        width: 100vw;
+        min-width: 0;
+        max-width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        transform: none;
+        border: 0;
+        overflow: hidden;
       }
     }
 
@@ -135,10 +153,16 @@ export class EquinoxDialog extends LitElement {
       align-items: center;
       justify-content: space-between;
       padding: 6px 12px 6px;
+      flex: 0 0 auto;
+      border-bottom: 1px solid color-mix(in srgb, var(--divider-color) 64%, transparent);
     }
 
     .header-title {
       flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-weight: 600;
       font-size: 16px;
     }
@@ -153,6 +177,21 @@ export class EquinoxDialog extends LitElement {
 
     .content {
       padding: 0 16px 16px;
+      min-height: 0;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+
+    @media (max-width: 600px) {
+      .panel.centered .header {
+        min-height: 48px;
+        padding: max(6px, env(safe-area-inset-top)) 10px 6px;
+      }
+
+      .panel.centered .content {
+        flex: 1 1 auto;
+        padding: 12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      }
     }
   `;
 
@@ -234,10 +273,12 @@ export class EquinoxDialog extends LitElement {
       this._clearCloseOnLeaveTimer();
     }
 
-    if (this.open && this.floating) {
+    if (this.open && (this.floating || this.centered)) {
       void this.updateComplete.then(() => {
         this._syncNativePopover();
-        this._positionPopover();
+        if (this.floating) {
+          this._positionPopover();
+        }
       });
     }
   }
@@ -247,7 +288,7 @@ export class EquinoxDialog extends LitElement {
   }
 
   private _usesNativePopover(): boolean {
-    return this.open && this.floating && window.innerWidth > 600 && this._supportsNativePopover();
+    return this.open && this._supportsNativePopover() && (this.centered || (this.floating && window.innerWidth > 600));
   }
 
   private _syncNativePopover(): void {
@@ -255,7 +296,7 @@ export class EquinoxDialog extends LitElement {
       return;
     }
 
-    const panel = this.renderRoot.querySelector<HTMLElement>(".panel.popover");
+    const panel = this.renderRoot.querySelector<HTMLElement>(".panel[popover]");
 
     if (!panel || panel.matches(":popover-open")) {
       return;

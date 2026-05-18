@@ -16,7 +16,8 @@ export class EquinoxRegulationDialog extends LitElement {
     dashboard: { attribute: false },
     loadResult: { attribute: false },
     activeSectionId: { attribute: "active-section-id" },
-    language: {}
+    language: {},
+    _mobileShowingSections: { state: true }
   };
 
   static styles = css`
@@ -98,15 +99,62 @@ export class EquinoxRegulationDialog extends LitElement {
       color: var(--secondary-text-color);
     }
 
+    .mobile-section-list {
+      display: grid;
+      gap: 8px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .mobile-section-button {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px solid color-mix(in srgb, var(--divider-color) 78%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 88%, var(--primary-text-color) 4%);
+      color: var(--primary-text-color);
+      font: inherit;
+      text-align: start;
+    }
+
+    .mobile-section-button[aria-current="true"] {
+      border-color: color-mix(in srgb, var(--primary-color) 58%, var(--divider-color));
+      background: color-mix(in srgb, var(--primary-color) 16%, transparent);
+      font-weight: 650;
+    }
+
+    .mobile-section-button span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     @media (max-width: 600px) {
+      eq-dialog {
+        --eq-dialog-width: 100vw;
+        --eq-dialog-min-width: 0;
+        --equinox-regulation-dialog-width: 100%;
+      }
+
       .layout {
         display: block;
-        width: min(100%, calc(100vw - 56px));
-        min-height: min(320px, calc(100vh - 160px));
+        width: 100%;
+        min-height: 0;
       }
 
       .section-nav {
         display: none;
+      }
+
+      .state {
+        box-sizing: border-box;
+        width: 100%;
       }
     }
   `;
@@ -118,6 +166,13 @@ export class EquinoxRegulationDialog extends LitElement {
   loadResult?: RegulationDashboardLoadResult;
   activeSectionId?: string;
   language?: string;
+  private _mobileShowingSections = false;
+
+  protected updated(changed: Map<string, unknown>): void {
+    if (changed.has("open") && !this.open) {
+      this._mobileShowingSections = false;
+    }
+  }
 
   protected render(): TemplateResult {
     return html`
@@ -126,7 +181,9 @@ export class EquinoxRegulationDialog extends LitElement {
         .title=${this._dialogTitle()}
         .language=${this.language}
         .centered=${true}
+        .showBack=${this._showMobileSectionBack()}
         @eq-dialog-close=${(event: Event) => this._forwardClose(event)}
+        @eq-dialog-back=${(event: Event) => this._handleBack(event)}
       >
         ${this._renderContent()}
       </eq-dialog>
@@ -156,6 +213,10 @@ export class EquinoxRegulationDialog extends LitElement {
     }
 
     const activeSectionId = this._activeSectionId();
+
+    if (this._isMobile() && this._mobileShowingSections && this.dashboard.sections.length > 1) {
+      return this._renderMobileSectionMenu(activeSectionId);
+    }
 
     return html`
       <div class="layout">
@@ -190,6 +251,28 @@ export class EquinoxRegulationDialog extends LitElement {
     `;
   }
 
+  private _renderMobileSectionMenu(activeSectionId: string | undefined): TemplateResult {
+    return html`
+      <nav class="mobile-section-list" aria-label=${localize(this.language, "dialog.regulation.sections")}>
+        ${this.dashboard!.sections.map((section) => {
+          const title = translateRegulationDashboardText(this.dashboard!, this.language, section.title_key, section.title || section.id);
+          return html`
+            <button
+              class="mobile-section-button"
+              type="button"
+              aria-current=${section.id === activeSectionId ? "true" : "false"}
+              @click=${() => this._selectSection(section.id)}
+            >
+              <ha-icon icon=${section.icon || "mdi:view-dashboard-outline"}></ha-icon>
+              <span>${title}</span>
+              <ha-icon icon="mdi:chevron-right"></ha-icon>
+            </button>
+          `;
+        })}
+      </nav>
+    `;
+  }
+
   private _dialogTitle(): string {
     const baseTitle = localize(this.language, "dialog.regulation.title");
     if (!this.dashboard) {
@@ -197,6 +280,18 @@ export class EquinoxRegulationDialog extends LitElement {
     }
 
     const dashboardTitle = translateRegulationDashboardText(this.dashboard, this.language, this.dashboard.title_key, this.dashboard.title);
+    if (this._isMobile() && this._mobileShowingSections) {
+      return dashboardTitle ? `${baseTitle} - ${dashboardTitle}` : baseTitle;
+    }
+
+    if (this._isMobile()) {
+      const activeSection = this.dashboard.sections.find((section) => section.id === this._activeSectionId());
+      const sectionTitle = activeSection
+        ? translateRegulationDashboardText(this.dashboard, this.language, activeSection.title_key, activeSection.title || activeSection.id)
+        : "";
+      return sectionTitle || (dashboardTitle ? `${baseTitle} - ${dashboardTitle}` : baseTitle);
+    }
+
     return dashboardTitle ? `${baseTitle} - ${dashboardTitle}` : baseTitle;
   }
 
@@ -209,6 +304,7 @@ export class EquinoxRegulationDialog extends LitElement {
 
   private _selectSection(sectionId: string): void {
     this.activeSectionId = sectionId;
+    this._mobileShowingSections = false;
     this.dispatchEvent(
       new CustomEvent("equinox-regulation-section-selected", {
         detail: { sectionId },
@@ -221,6 +317,22 @@ export class EquinoxRegulationDialog extends LitElement {
   private _forwardClose(event: Event): void {
     event.stopPropagation();
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
+  }
+
+  private _handleBack(event: Event): void {
+    event.stopPropagation();
+
+    if (this._isMobile() && this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections) {
+      this._mobileShowingSections = true;
+    }
+  }
+
+  private _showMobileSectionBack(): boolean {
+    return this._isMobile() && !!this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections;
+  }
+
+  private _isMobile(): boolean {
+    return window.matchMedia("(max-width: 600px)").matches;
   }
 }
 
