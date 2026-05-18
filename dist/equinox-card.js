@@ -12599,7 +12599,8 @@ var Po = {
 						},
 						target: 100,
 						unit: "%",
-						digits: 0
+						digits: 0,
+						visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
 					},
 					{
 						type: "layout_grid",
@@ -12616,7 +12617,8 @@ var Po = {
 									source: "diagnostic",
 									path: "ab_learning/bootstrap_target_a"
 								},
-								digits: 0
+								digits: 0,
+								visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
 							},
 							{
 								type: "progress",
@@ -12629,7 +12631,8 @@ var Po = {
 									source: "diagnostic",
 									path: "ab_learning/bootstrap_target_b"
 								},
-								digits: 0
+								digits: 0,
+								visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
 							},
 							{
 								type: "progress",
@@ -12642,7 +12645,8 @@ var Po = {
 									source: "diagnostic",
 									path: "ab_learning/history_target"
 								},
-								digits: 0
+								digits: 0,
+								visible_if: { "!=": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
 							},
 							{
 								type: "progress",
@@ -12655,7 +12659,8 @@ var Po = {
 									source: "diagnostic",
 									path: "ab_learning/history_target"
 								},
-								digits: 0
+								digits: 0,
+								visible_if: { "!=": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
 							}
 						]
 					},
@@ -12678,7 +12683,8 @@ var Po = {
 							{
 								label_key: "metrics.bootstrap_status",
 								source: "diagnostic",
-								path: "ab_learning/bootstrap_status"
+								path: "ab_learning/bootstrap_status",
+								visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
 							},
 							{
 								label_key: "metrics.confidence",
@@ -17080,11 +17086,12 @@ var Es = "--", Ds = new Set([
     `;
 	}
 	_renderMetricGrid(e) {
-		return T`
+		let t = e.metrics.filter((e) => this._conditionMatches(e.visible_if));
+		return t.length === 0 ? D : T`
       <article class="block">
         ${this._translate(e.title_key, e.title) ? T`<h3>${this._translate(e.title_key, e.title)}</h3>` : D}
         <div class="metric-grid">
-          ${e.metrics.map((e) => this._renderMetric(e))}
+          ${t.map((e) => this._renderMetric(e))}
         </div>
       </article>
     `;

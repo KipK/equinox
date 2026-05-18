@@ -367,7 +367,13 @@
           "value": { "source": "diagnostic", "path": "ab_learning/bootstrap_progress_percent" },
           "target": 100,
           "unit": "%",
-          "digits": 0
+          "digits": 0,
+          "visible_if": {
+            "==": [
+              { "var": "diagnostic/ab_learning/stage" },
+              "bootstrap"
+            ]
+          }
         },
         {
           "type": "layout_grid",
@@ -378,28 +384,52 @@
               "label_key": "metrics.bootstrap_a",
               "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_a" },
               "target": { "source": "diagnostic", "path": "ab_learning/bootstrap_target_a" },
-              "digits": 0
+              "digits": 0,
+              "visible_if": {
+                "==": [
+                  { "var": "diagnostic/ab_learning/stage" },
+                  "bootstrap"
+                ]
+              }
             },
             {
               "type": "progress",
               "label_key": "metrics.bootstrap_b",
               "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_b" },
               "target": { "source": "diagnostic", "path": "ab_learning/bootstrap_target_b" },
-              "digits": 0
+              "digits": 0,
+              "visible_if": {
+                "==": [
+                  { "var": "diagnostic/ab_learning/stage" },
+                  "bootstrap"
+                ]
+              }
             },
             {
               "type": "progress",
               "label_key": "metrics.history_a",
               "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_a" },
               "target": { "source": "diagnostic", "path": "ab_learning/history_target" },
-              "digits": 0
+              "digits": 0,
+              "visible_if": {
+                "!=": [
+                  { "var": "diagnostic/ab_learning/stage" },
+                  "bootstrap"
+                ]
+              }
             },
             {
               "type": "progress",
               "label_key": "metrics.history_b",
               "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_b" },
               "target": { "source": "diagnostic", "path": "ab_learning/history_target" },
-              "digits": 0
+              "digits": 0,
+              "visible_if": {
+                "!=": [
+                  { "var": "diagnostic/ab_learning/stage" },
+                  "bootstrap"
+                ]
+              }
             }
           ]
         },
@@ -409,7 +439,17 @@
           "metrics": [
             { "label_key": "metrics.accepted_a", "source": "diagnostic", "path": "ab_learning/accepted_updates_a", "digits": 0 },
             { "label_key": "metrics.accepted_b", "source": "diagnostic", "path": "ab_learning/accepted_updates_b", "digits": 0 },
-            { "label_key": "metrics.bootstrap_status", "source": "diagnostic", "path": "ab_learning/bootstrap_status" },
+            {
+              "label_key": "metrics.bootstrap_status",
+              "source": "diagnostic",
+              "path": "ab_learning/bootstrap_status",
+              "visible_if": {
+                "==": [
+                  { "var": "diagnostic/ab_learning/stage" },
+                  "bootstrap"
+                ]
+              }
+            },
             { "label_key": "metrics.confidence", "source": "diagnostic", "path": "model/confidence" }
           ]
         },

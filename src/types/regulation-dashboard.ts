@@ -108,6 +108,7 @@ export interface RegulationDashboardMetric extends RegulationDashboardLabelField
   fallback?: string;
   icon?: string;
   tone_map?: RegulationDashboardToneMap;
+  visible_if?: RegulationDashboardCondition;
 }
 
 export interface RegulationDashboardStatusItem extends RegulationDashboardBaseItem, RegulationDashboardLabelFields {

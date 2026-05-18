@@ -503,12 +503,16 @@ export class EquinoxRegulationRenderer extends LitElement {
     `;
   }
 
-  private _renderMetricGrid(item: RegulationDashboardMetricGridItem): TemplateResult {
+  private _renderMetricGrid(item: RegulationDashboardMetricGridItem): TemplateResult | typeof nothing {
+    const visibleMetrics = item.metrics.filter((metric) => this._conditionMatches(metric.visible_if));
+    if (visibleMetrics.length === 0) {
+      return nothing;
+    }
     return html`
       <article class="block">
         ${this._translate(item.title_key, item.title) ? html`<h3>${this._translate(item.title_key, item.title)}</h3>` : nothing}
         <div class="metric-grid">
-          ${item.metrics.map((metric) => this._renderMetric(metric))}
+          ${visibleMetrics.map((metric) => this._renderMetric(metric))}
         </div>
       </article>
     `;
