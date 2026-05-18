@@ -1,8 +1,7 @@
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import { readRegulationPath } from "./regulation-dashboard-values";
-
-const BUILTIN_REGULATION_DASHBOARD_DIR = "dashboards/regulation";
+import { hasBuiltinRegulationDashboard } from "./dashboards/index";
 
 const ALGORITHM_PATHS: readonly string[] = [
   "configuration/proportional_function",
@@ -23,14 +22,13 @@ export interface RegulationDashboardAvailableResolution {
   available: true;
   mode: Exclude<RegulationDashboardMode, "disabled">;
   source: RegulationDashboardSourceKind;
-  url: string;
-  algorithm?: string;
+  algorithm: string;
 }
 
 export interface RegulationDashboardUnavailableResolution {
   available: false;
   mode: RegulationDashboardMode;
-  reason: "disabled" | "missing_algorithm" | "invalid_algorithm";
+  reason: "disabled" | "missing_algorithm" | "invalid_algorithm" | "unsupported_algorithm";
   algorithm?: string;
 }
 
@@ -75,8 +73,7 @@ export function resolveRegulationDashboard(hass: HomeAssistant, config: EquinoxC
       available: true,
       mode,
       source: "custom",
-      url: "/local/equinox/dash/custom.js",
-      algorithm: detectRegulationAlgorithm(hass, config)
+      algorithm: detectRegulationAlgorithm(hass, config) ?? ""
     };
   }
 
@@ -92,11 +89,19 @@ export function resolveRegulationDashboard(hass: HomeAssistant, config: EquinoxC
     };
   }
 
+  if (!hasBuiltinRegulationDashboard(algorithm)) {
+    return {
+      available: false,
+      mode,
+      reason: "unsupported_algorithm",
+      algorithm
+    };
+  }
+
   return {
     available: true,
     mode,
     source: "builtin",
-    url: new URL(`${BUILTIN_REGULATION_DASHBOARD_DIR}/${algorithm}.json`, import.meta.url).href,
     algorithm
   };
 }

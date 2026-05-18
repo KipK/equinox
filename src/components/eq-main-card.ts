@@ -1327,7 +1327,7 @@ export class EquinoxMainCard extends LitElement {
       return `${resolution.mode}:${resolution.reason}:${resolution.algorithm ?? ""}`;
     }
 
-    return `${resolution.mode}:${resolution.source}:${resolution.url}`;
+    return `${resolution.mode}:${resolution.source}:${resolution.algorithm}`;
   }
 
   private _ensureRegulationDashboard(): Promise<RegulationDashboardLoadResult | undefined> {

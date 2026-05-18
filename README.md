@@ -69,38 +69,24 @@ Build the distributable card:
 npm run build
 ```
 
-The generated Lovelace resource is:
+The generated Lovelace resource is a single file with everything bundled in:
 
 ```text
 dist/equinox-card.js
-```
-
-The build also copies runtime assets:
-
-```text
-dist/attributes.json
-dist/dashboards/regulation/*.json
 dist/equinox-card.js.gz
 ```
 
-Release/HACS packages must include all generated `dist/` files. `equinox-card.js`
-loads `attributes.json` next to itself and already contains the history web
-component. Built-in Regulation dashboards are loaded from the generated
-`dashboards/regulation/` directory next to the card bundle. Keep the generated
-files together. The `.gz` file is a precompressed copy for Home Assistant
-deployments that serve it when the browser advertises gzip support.
-
-In `attributes.json`, use `"temperature"` for attributes that should follow the
-active Home Assistant temperature unit (`°C` or `°F`) instead of hard-coding a
-unit.
+Translations, attribute units, and built-in Regulation dashboards are compiled
+directly into the JavaScript bundle — no external JSON files are needed at
+runtime. The `.gz` file is a precompressed copy for Home Assistant deployments
+that serve it when the browser advertises gzip support.
 
 Vite 8 requires Node `^20.19.0 || >=22.12.0`.
 
 ## Home Assistant Resource
 
-After building, expose `dist/equinox-card.js`, `dist/attributes.json`, and the
-`dist/dashboards/` directory to Home Assistant in the same directory, then add
-the JS file as a Lovelace resource:
+After building, expose `dist/equinox-card.js` to Home Assistant, then add it as
+a Lovelace resource:
 
 ```yaml
 url: /local/equinox-card.js
@@ -157,7 +143,7 @@ The `additional_dashboards` option controls this feature:
 
 | Value | Behavior |
 | ----- | -------- |
-| `auto` | Detects the regulation algorithm from the climate entity and loads a built-in dashboard from `dashboards/regulation/<algorithm>.json`. If no file exists for the detected algorithm, the Regulation menu entry is hidden. |
+| `auto` | Detects the regulation algorithm from the climate entity and loads the matching built-in dashboard. If no dashboard exists for the detected algorithm, the Regulation menu entry is hidden. |
 | `custom` | Always shows the Regulation menu entry and loads `/local/equinox/dash/custom.js`. If the file is missing or invalid, the dialog shows a short error. |
 | `disabled` | Hides Regulation completely. |
 
@@ -190,9 +176,10 @@ card follows its rendered content instead of forcing a fixed row count.
 ## Adding a language
 
 1. Add `src/localize/languages/{code}.json` using `en.json` as a template.
-2. Add the language code to `SUPPORTED_LANGUAGES` in
+2. Add the import and export entry in `src/localize/languages/index.ts`.
+3. Add the language code to `SUPPORTED_LANGUAGES` in
    `src/localize/loader.ts`.
-3. Add the `card.description` string to the `CARD_DESCRIPTIONS` map in
+4. Add the `card.description` string to the `CARD_DESCRIPTIONS` map in
    `src/equinox-card.ts`.
-4. Run `npm run build` — Vite copies the new file to `dist/translations/`
-   automatically.
+5. Run `npm run build` — the new language file compiles into the single JS
+   bundle automatically.

@@ -1,12 +1,7 @@
 import type { AttributeUnitMap } from "@kipk/ha-better-history";
+import rawAttributes from "./attributes.json";
 
-const ATTRIBUTES_FILE = "attributes.json";
 const EMPTY_UNITS: AttributeUnitMap = {};
-let staticUnitsPromise: Promise<AttributeUnitMap> | undefined;
-
-function attributesUrl(): string {
-  return new URL(ATTRIBUTES_FILE, import.meta.url).toString();
-}
 
 function sanitizeAttributeUnits(value: unknown): AttributeUnitMap {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return EMPTY_UNITS;
@@ -22,17 +17,14 @@ function sanitizeAttributeUnits(value: unknown): AttributeUnitMap {
   return units;
 }
 
-export function loadEquinoxStaticAttributeUnits(): Promise<AttributeUnitMap> {
-  staticUnitsPromise ??= fetch(attributesUrl())
-    .then((response) => response.ok ? response.json() : EMPTY_UNITS)
-    .then(sanitizeAttributeUnits)
-    .catch(() => EMPTY_UNITS);
+const staticUnits: AttributeUnitMap = sanitizeAttributeUnits(rawAttributes);
 
-  return staticUnitsPromise;
+export function loadEquinoxStaticAttributeUnits(): Promise<AttributeUnitMap> {
+  return Promise.resolve(staticUnits);
 }
 
 export function equinoxAttributeUnits(
-  staticUnits: AttributeUnitMap | undefined
+  staticUnitsArg: AttributeUnitMap | undefined
 ): AttributeUnitMap {
-  return staticUnits ?? EMPTY_UNITS;
+  return staticUnitsArg ?? EMPTY_UNITS;
 }

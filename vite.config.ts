@@ -1,9 +1,4 @@
 import { defineConfig } from "vite";
-import { copyFileSync, mkdirSync, readdirSync } from "node:fs";
-import { resolve, join } from "node:path";
-
-const LANGUAGES_SRC = resolve("src/localize/languages");
-const TRANSLATIONS_DEST = resolve("dist/translations");
 
 export default defineConfig({
   build: {
@@ -18,16 +13,5 @@ export default defineConfig({
         entryFileNames: "equinox-card.js"
       }
     }
-  },
-  plugins: [
-    {
-      name: "copy-translations",
-      closeBundle() {
-        mkdirSync(TRANSLATIONS_DEST, { recursive: true });
-        for (const file of readdirSync(LANGUAGES_SRC).filter((f) => f.endsWith(".json"))) {
-          copyFileSync(join(LANGUAGES_SRC, file), join(TRANSLATIONS_DEST, file));
-        }
-      }
-    }
-  ]
+  }
 });

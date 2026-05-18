@@ -1,10 +1,11 @@
 import type { RegulationDashboard } from "../types/regulation-dashboard";
 import type { RegulationDashboardResolution } from "./regulation-dashboard-resolver";
+import { getBuiltinRegulationDashboard } from "./dashboards/index";
 
 export type RegulationDashboardLoadResult =
-  | { status: "loaded"; dashboard: RegulationDashboard; url: string }
-  | { status: "unavailable"; reason: "disabled" | "missing_algorithm" | "invalid_algorithm" | "not_found"; url?: string }
-  | { status: "error"; reason: "invalid_dashboard" | "load_failed"; error: unknown; url?: string };
+  | { status: "loaded"; dashboard: RegulationDashboard; algorithm: string }
+  | { status: "unavailable"; reason: "disabled" | "missing_algorithm" | "invalid_algorithm" | "unsupported_algorithm" | "not_found"; algorithm?: string }
+  | { status: "error"; reason: "invalid_dashboard" | "load_failed"; error: unknown; algorithm?: string };
 
 const dashboardCache = new Map<string, Promise<RegulationDashboardLoadResult>>();
 
@@ -20,10 +21,10 @@ export function clearRegulationDashboardCache(): void {
 
 export function loadRegulationDashboard(resolution: RegulationDashboardResolution): Promise<RegulationDashboardLoadResult> {
   if (!resolution.available) {
-    return Promise.resolve({ status: "unavailable", reason: resolution.reason });
+    return Promise.resolve({ status: "unavailable", reason: resolution.reason, algorithm: resolution.algorithm });
   }
 
-  const cacheKey = `${resolution.source}:${resolution.url}`;
+  const cacheKey = `${resolution.source}:${resolution.algorithm}`;
   const cached = dashboardCache.get(cacheKey);
   if (cached) {
     return cached;
@@ -31,8 +32,8 @@ export function loadRegulationDashboard(resolution: RegulationDashboardResolutio
 
   const pending =
     resolution.source === "custom"
-      ? loadCustomDashboard(resolution.url)
-      : loadBuiltinDashboard(resolution.url);
+      ? loadCustomDashboard(resolution.algorithm)
+      : Promise.resolve(loadBuiltinDashboard(resolution.algorithm));
 
   dashboardCache.set(cacheKey, pending);
   return pending;
@@ -66,44 +67,34 @@ export function validateRegulationDashboard(value: unknown): value is Regulation
   });
 }
 
-async function loadBuiltinDashboard(url: string): Promise<RegulationDashboardLoadResult> {
-  try {
-    const response = await fetch(url, { cache: "force-cache" });
-    if (response.status === 404) {
-      console.info("[equinox] Regulation dashboard not found", { url });
-      return { status: "unavailable", reason: "not_found", url };
-    }
-
-    if (!response.ok) {
-      console.info("[equinox] Regulation dashboard unavailable", { url, status: response.status });
-      return { status: "unavailable", reason: "not_found", url };
-    }
-
-    const dashboard = await response.json();
-    if (!validateRegulationDashboard(dashboard)) {
-      return { status: "error", reason: "invalid_dashboard", error: new Error("Invalid regulation dashboard"), url };
-    }
-
-    return { status: "loaded", dashboard, url };
-  } catch (error) {
-    console.info("[equinox] Regulation dashboard unavailable", { url, error });
-    return { status: "unavailable", reason: "not_found", url };
+function loadBuiltinDashboard(algorithm: string): RegulationDashboardLoadResult {
+  const dashboard = getBuiltinRegulationDashboard(algorithm);
+  if (!dashboard) {
+    console.info("[equinox] Regulation dashboard not found", { algorithm });
+    return { status: "unavailable", reason: "not_found", algorithm };
   }
+
+  if (!validateRegulationDashboard(dashboard)) {
+    return { status: "error", reason: "invalid_dashboard", error: new Error("Invalid regulation dashboard"), algorithm };
+  }
+
+  return { status: "loaded", dashboard, algorithm };
 }
 
-async function loadCustomDashboard(url: string): Promise<RegulationDashboardLoadResult> {
+async function loadCustomDashboard(algorithm: string): Promise<RegulationDashboardLoadResult> {
+  const url = "/local/equinox/dash/custom.js";
   try {
     window.EquinoxRegulationDashboard = undefined;
     const moduleValue = (await import(/* @vite-ignore */ url)) as { default?: unknown; dashboard?: unknown };
     const dashboard = moduleValue.default ?? moduleValue.dashboard ?? window.EquinoxRegulationDashboard;
 
     if (!validateRegulationDashboard(dashboard)) {
-      return { status: "error", reason: "invalid_dashboard", error: new Error("Invalid custom regulation dashboard"), url };
+      return { status: "error", reason: "invalid_dashboard", error: new Error("Invalid custom regulation dashboard"), algorithm };
     }
 
-    return { status: "loaded", dashboard, url };
+    return { status: "loaded", dashboard, algorithm };
   } catch (error) {
-    return { status: "error", reason: "load_failed", error, url };
+    return { status: "error", reason: "load_failed", error, algorithm };
   }
 }
 

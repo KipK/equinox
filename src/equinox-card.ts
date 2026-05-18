@@ -7,7 +7,6 @@ import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
 import { localize } from "./localize/localize";
-import { ensureLanguage } from "./localize/loader.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
 import type { EquinoxViewModel } from "./types/view-model";
 
@@ -45,9 +44,7 @@ function cardDescription(lang: string): string {
 export class EquinoxCard extends LitElement implements LovelaceCard {
   static properties = {
     hass: { attribute: false },
-    _validation: { state: true },
-    _translationsReady: { state: true },
-    _currentLang: { state: true }
+    _validation: { state: true }
   };
 
   static styles = css`
@@ -74,10 +71,6 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
   private _validation?: EquinoxConfigValidation;
   private _viewModel?: EquinoxViewModel;
-  private _translationsReady = false;
-  private _currentLang = "en";
-  // Tracks the language currently being fetched to avoid duplicate loads on rapid hass updates.
-  private _pendingLang: string | null = null;
 
   static getConfigElement(): HTMLElement {
     return document.createElement("equinox-card-editor");
@@ -98,28 +91,6 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
   protected willUpdate(): void {
     this._viewModel = this._buildViewModel();
-    this._syncTranslations();
-  }
-
-  private _syncTranslations(): void {
-    const raw = this.hass?.locale?.language ?? this.hass?.language ?? "en";
-    const activeLang = raw.toLowerCase().split("-")[0] || "en";
-
-    if (!this._translationsReady) {
-      // Load the active language plus the English fallback in parallel.
-      // ensureLanguage() is memoized, so repeat calls during hass updates are safe.
-      Promise.all([ensureLanguage(activeLang), ensureLanguage("en")]).then(() => {
-        this._translationsReady = true;
-        this._currentLang = activeLang;
-      });
-    } else if (activeLang !== this._currentLang && activeLang !== this._pendingLang) {
-      // Language changed at runtime: load in background, keep showing old language until ready.
-      this._pendingLang = activeLang;
-      ensureLanguage(activeLang).then(() => {
-        this._currentLang = activeLang;
-        this._pendingLang = null;
-      });
-    }
   }
 
   getCardSize(): number {
@@ -136,13 +107,13 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
     };
   }
 
-  protected render() {
-    // Hold rendering until the active language and English fallback are both available.
-    if (!this._translationsReady) {
-      return html`<ha-card style="visibility:hidden"></ha-card>`;
-    }
+  private _language(): string {
+    const raw = this.hass?.locale?.language ?? this.hass?.language ?? "en";
+    return raw.toLowerCase().split("-")[0] || "en";
+  }
 
-    const language = this._currentLang;
+  protected render() {
+    const language = this._language();
 
     if (!this._validation) {
       return this._renderMessage(localize(language, "card.missing_entity"), true);
