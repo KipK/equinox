@@ -84,3 +84,9 @@ All notable changes to Equinox will be documented in this file.
 
 - fix menu not working when card is embedded in a dialog window.
 - add Hebrew language ( thx @yosef-chai )
+
+## 0.1.7
+
+- introduce Regulation dashboards.
+  Dynamically generated dashboards from json files.
+  Only available to SmartPI for now.
