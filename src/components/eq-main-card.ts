@@ -17,6 +17,7 @@ import "./eq-preset-dialog";
 import "./eq-menu-dialog";
 import "./eq-boost-dialog";
 import "./eq-history-dialog";
+import "./eq-regulation-dialog";
 import "./eq-lock-dialog";
 import "./eq-dialog";
 

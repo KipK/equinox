@@ -176,6 +176,16 @@
         "hvac_action": "HVAC action"
       }
     },
+    "regulation": {
+      "title": "Regulation",
+      "loading": "Loading regulation dashboard...",
+      "invalid": "Regulation dashboard is invalid.",
+      "section_missing": "Regulation section is unavailable.",
+      "empty_section": "This regulation section is empty.",
+      "source_missing": "Source unavailable",
+      "unsupported_block": "This block will be available in a later regulation step.",
+      "sections": "Regulation sections"
+    },
     "boost": {
       "title": "Temporary boost",
       "duration": "Duration in minutes",
