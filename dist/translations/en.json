@@ -186,6 +186,11 @@
       "empty_section": "This regulation section is empty.",
       "source_missing": "Source unavailable",
       "unsupported_block": "This block will be available in a later regulation step.",
+      "action_locked": "Action disabled: thermostat locked.",
+      "action_failed": "Action failed.",
+      "action_running": "Running action...",
+      "confirm_action_title": "Confirm action",
+      "confirm_action_text": "This action will call a Home Assistant service.",
       "sections": "Regulation sections"
     },
     "boost": {

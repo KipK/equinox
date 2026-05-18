@@ -186,6 +186,11 @@
       "empty_section": "Cette rubrique de régulation est vide.",
       "source_missing": "Source indisponible",
       "unsupported_block": "Ce bloc sera disponible dans une prochaine étape de régulation.",
+      "action_locked": "Action désactivée: thermostat verrouillé.",
+      "action_failed": "L'action a échoué.",
+      "action_running": "Action en cours...",
+      "confirm_action_title": "Confirmer l'action",
+      "confirm_action_text": "Cette action va appeler un service Home Assistant.",
       "sections": "Rubriques de régulation"
     },
     "boost": {

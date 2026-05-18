@@ -127,6 +127,12 @@
       "notes.diagnostic_required": "Renseigne diagnostic_entity dans la configuration Equinox pour afficher les diagnostics Smart PI.",
       "notes.learning": "Les compteurs accepted_updates_* sont informatifs. Les barres principales utilisent emea_samples_*, bootstrap_target_* et history_target.",
       "notes.hysteresis_phase": "En phase bootstrap, Smart PI peut fonctionner en hysteresis le temps de collecter assez d'observations.",
+      "actions.reset_learning": "Reinitialiser l'apprentissage",
+      "actions.reset_learning.confirm": "Smart PI va effacer son apprentissage et revenir en bootstrap.",
+      "actions.force_calibration": "Forcer une calibration",
+      "actions.force_calibration.confirm": "Smart PI va lancer une calibration si l'etat courant le permet.",
+      "actions.reset_integral": "Reinitialiser l'integrale",
+      "actions.reset_integral.confirm": "Smart PI va remettre le terme integral a zero sans effacer le modele appris.",
       "graphs.command.title": "Commande Smart PI",
       "graphs.command.applied": "Puissance appliquee",
       "graphs.command.command": "Commande",
@@ -260,6 +266,12 @@
       "notes.diagnostic_required": "Set diagnostic_entity in the Equinox configuration to display Smart PI diagnostics.",
       "notes.learning": "accepted_updates_* counters are informational. Main bars use emea_samples_*, bootstrap_target_* and history_target.",
       "notes.hysteresis_phase": "During bootstrap, Smart PI may run in hysteresis while collecting enough observations.",
+      "actions.reset_learning": "Reset learning",
+      "actions.reset_learning.confirm": "Smart PI will clear learning and return to bootstrap.",
+      "actions.force_calibration": "Force calibration",
+      "actions.force_calibration.confirm": "Smart PI will start a calibration cycle if the current state allows it.",
+      "actions.reset_integral": "Reset integral",
+      "actions.reset_integral.confirm": "Smart PI will reset the integral term without clearing the learned model.",
       "graphs.command.title": "Smart PI command",
       "graphs.command.applied": "Applied power",
       "graphs.command.command": "Command",
@@ -577,6 +589,39 @@
             { "label_key": "metrics.calibration_state", "source": "diagnostic", "path": "calibration/state" },
             { "label_key": "metrics.calibration_retry", "source": "diagnostic", "path": "calibration/retry_count", "digits": 0 }
           ]
+        },
+        {
+          "type": "action",
+          "label_key": "actions.reset_learning",
+          "icon": "mdi:school-outline",
+          "service": "vtherm_smartpi.reset_smartpi_learning",
+          "target": { "entity_id": "$climate_entity" },
+          "confirmation": {
+            "enabled": true,
+            "text_key": "actions.reset_learning.confirm"
+          }
+        },
+        {
+          "type": "action",
+          "label_key": "actions.force_calibration",
+          "icon": "mdi:tune-variant",
+          "service": "vtherm_smartpi.force_smartpi_calibration",
+          "target": { "entity_id": "$climate_entity" },
+          "confirmation": {
+            "enabled": true,
+            "text_key": "actions.force_calibration.confirm"
+          }
+        },
+        {
+          "type": "action",
+          "label_key": "actions.reset_integral",
+          "icon": "mdi:restart",
+          "service": "vtherm_smartpi.reset_smartpi_integral",
+          "target": { "entity_id": "$climate_entity" },
+          "confirmation": {
+            "enabled": true,
+            "text_key": "actions.reset_integral.confirm"
+          }
         },
         {
           "type": "section_note",

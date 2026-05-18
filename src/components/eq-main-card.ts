@@ -1522,6 +1522,7 @@ export class EquinoxMainCard extends LitElement {
         .open=${this._activeDialog === "regulation"}
         .hass=${this.hass}
         .config=${this.config}
+        .viewModel=${this.viewModel}
         .dashboard=${this._regulationDashboard()}
         .loadResult=${this._regulationLoadResult}
         .activeSectionId=${this._regulationActiveSectionId}

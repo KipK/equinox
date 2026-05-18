@@ -5,6 +5,7 @@ import type { RegulationDashboardLoadResult } from "../data/regulation-dashboard
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { RegulationDashboard } from "../types/regulation-dashboard";
+import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
 import "./eq-regulation-renderer";
 
@@ -13,6 +14,7 @@ export class EquinoxRegulationDialog extends LitElement {
     open: { type: Boolean, reflect: true },
     hass: { attribute: false },
     config: { attribute: false },
+    viewModel: { attribute: false },
     dashboard: { attribute: false },
     loadResult: { attribute: false },
     activeSectionId: { attribute: "active-section-id" },
@@ -162,6 +164,7 @@ export class EquinoxRegulationDialog extends LitElement {
   open = false;
   hass?: HomeAssistant;
   config?: EquinoxCardConfig;
+  viewModel?: EquinoxViewModel;
   dashboard?: RegulationDashboard;
   loadResult?: RegulationDashboardLoadResult;
   activeSectionId?: string;
@@ -243,6 +246,7 @@ export class EquinoxRegulationDialog extends LitElement {
         <eq-regulation-renderer
           .hass=${this.hass}
           .config=${this.config}
+          .viewModel=${this.viewModel}
           .dashboard=${this.dashboard}
           .activeSectionId=${activeSectionId}
           .language=${this.language}

@@ -14,6 +14,8 @@ import type { HomeAssistant } from "../types/ha";
 import type { AttributeUnitMap, BetterHistoryConfig } from "@kipk/ha-better-history";
 import type {
   RegulationDashboard,
+  RegulationDashboardActionItem,
+  RegulationDashboardCondition,
   RegulationDashboardHistoryItem,
   RegulationDashboardHistoryOptions,
   RegulationDashboardHistorySeries,
@@ -29,16 +31,25 @@ import type {
   RegulationDashboardValueItem,
   RegulationDashboardValueRef
 } from "../types/regulation-dashboard";
+import type { EquinoxViewModel } from "../types/view-model";
 
 const VALUE_FALLBACK = "--";
+const DESTRUCTIVE_ACTION_SERVICES = new Set([
+  "vtherm_smartpi.reset_smartpi_learning",
+  "vtherm_smartpi.force_smartpi_calibration",
+  "vtherm_smartpi.reset_smartpi_integral"
+]);
 
 export class EquinoxRegulationRenderer extends LitElement {
   static properties = {
     hass: { attribute: false },
     config: { attribute: false },
+    viewModel: { attribute: false },
     dashboard: { attribute: false },
     activeSectionId: { attribute: "active-section-id" },
     language: {},
+    _actionError: { state: true },
+    _actionPending: { state: true },
     _staticAttributeUnits: { state: true }
   };
 
@@ -248,7 +259,49 @@ export class EquinoxRegulationRenderer extends LitElement {
       height: min(360px, 46vh);
       min-height: 260px;
       --better-history-min-height: 0px;
-      --better-history-surface-overflow-y: hidden;
+      --better-history-surface-overflow-y: visible;
+    }
+
+    .action-block {
+      display: grid;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .action-button {
+      display: inline-grid;
+      grid-template-columns: auto minmax(0, auto);
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      max-width: 100%;
+      min-height: 40px;
+      padding: 9px 12px;
+      border: 1px solid color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 52%, var(--divider-color));
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 16%, transparent);
+      color: var(--primary-text-color);
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .action-button:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
+    .action-button:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    .action-button span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     @media (max-width: 600px) {
@@ -281,9 +334,12 @@ export class EquinoxRegulationRenderer extends LitElement {
 
   hass?: HomeAssistant;
   config?: EquinoxCardConfig;
+  viewModel?: EquinoxViewModel;
   dashboard?: RegulationDashboard;
   activeSectionId?: string;
   language?: string;
+  private _actionError?: string;
+  private _actionPending?: string;
   private _staticAttributeUnits?: AttributeUnitMap;
   private _attributeUnitsLoadStarted = false;
   private readonly _historyConfigCache = new Map<string, BetterHistoryConfig>();
@@ -354,6 +410,10 @@ export class EquinoxRegulationRenderer extends LitElement {
   }
 
   private _renderItem(item: RegulationDashboardItem): TemplateResult | typeof nothing {
+    if (!this._conditionMatches(item.visible_if)) {
+      return nothing;
+    }
+
     switch (item.type) {
       case "hero_status":
         return html`
@@ -387,12 +447,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       case "history":
         return this._renderHistory(item);
       case "action":
-        return html`
-          <aside class="note" tone="muted">
-            <ha-icon icon="mdi:progress-wrench"></ha-icon>
-            <p class="text">${localize(this.language, "dialog.regulation.unsupported_block")}</p>
-          </aside>
-        `;
+        return this._renderAction(item);
       default:
         return nothing;
     }
@@ -515,6 +570,146 @@ export class EquinoxRegulationRenderer extends LitElement {
         ></equinox-better-history>
       </article>
     `;
+  }
+
+  private _renderAction(item: RegulationDashboardActionItem): TemplateResult {
+    const label = this._translate(item.label_key, item.label) || item.service;
+    const actionKey = this._actionKey(item);
+    const locked = this._isThermostatLocked();
+    const pending = this._actionPending === actionKey;
+    const disabled = locked || pending || !this.hass;
+
+    return html`
+      <article class="block action-block" tone=${this._isDestructiveAction(item) ? "warning" : "info"}>
+        <button
+          class="action-button"
+          type="button"
+          ?disabled=${disabled}
+          aria-label=${label}
+          @click=${() => this._handleActionClick(item)}
+        >
+          <ha-icon icon=${item.icon || "mdi:play-circle-outline"}></ha-icon>
+          <span>${pending ? localize(this.language, "dialog.regulation.action_running") : label}</span>
+        </button>
+        ${locked ? html`<p class="missing">${localize(this.language, "dialog.regulation.action_locked")}</p>` : nothing}
+        ${this._actionError === actionKey
+          ? html`<p class="missing" role="alert">${localize(this.language, "dialog.regulation.action_failed")}</p>`
+          : nothing}
+      </article>
+    `;
+  }
+
+  private async _handleActionClick(item: RegulationDashboardActionItem): Promise<void> {
+    if (!this.hass || !this.config || this._isThermostatLocked()) {
+      return;
+    }
+
+    if (this._requiresConfirmation(item) && !this._confirmAction(item)) {
+      return;
+    }
+
+    const service = this._parseService(item.service);
+    if (!service) {
+      this._actionError = this._actionKey(item);
+      console.error("[equinox] Invalid regulation action service", { service: item.service });
+      return;
+    }
+
+    const actionKey = this._actionKey(item);
+    this._actionPending = actionKey;
+    this._actionError = undefined;
+
+    try {
+      await this.hass.callService(service.domain, service.service, this._actionServiceData(item));
+    } catch (error) {
+      this._actionError = actionKey;
+      console.error("[equinox] Regulation action failed", { action: item, error });
+    } finally {
+      this._actionPending = undefined;
+    }
+  }
+
+  private _parseService(service: string): { domain: string; service: string } | undefined {
+    const match = service.match(/^([a-z0-9_]+)\.([a-z0-9_]+)$/u);
+    return match ? { domain: match[1], service: match[2] } : undefined;
+  }
+
+  private _actionServiceData(item: RegulationDashboardActionItem): Record<string, unknown> {
+    return {
+      ...this._resolveActionRecord(item.data),
+      ...this._resolveActionRecord(item.target)
+    };
+  }
+
+  private _resolveActionRecord(value: Record<string, unknown> | undefined): Record<string, unknown> {
+    const resolved = this._resolveActionValue(value);
+    return resolved && typeof resolved === "object" && !Array.isArray(resolved)
+      ? (resolved as Record<string, unknown>)
+      : {};
+  }
+
+  private _resolveActionValue(value: unknown): unknown {
+    if (Array.isArray(value)) {
+      return value.map((entry) => this._resolveActionValue(entry));
+    }
+
+    if (value && typeof value === "object") {
+      return Object.fromEntries(
+        Object.entries(value as Record<string, unknown>).map(([key, entry]) => [key, this._resolveActionValue(entry)])
+      );
+    }
+
+    if (typeof value !== "string") {
+      return value;
+    }
+
+    switch (value) {
+      case "$climate_entity":
+        return this.config?.entity;
+      case "$diagnostic_entity":
+        return this.config?.diagnostic_entity;
+      case "$power_entity":
+        return this.config?.power_entity;
+      case "$humidity_entity":
+        return this.config?.humidity_entity;
+      case "$temperature_entity":
+        return this.config?.temperature_entity;
+      default:
+        return value;
+    }
+  }
+
+  private _requiresConfirmation(item: RegulationDashboardActionItem): boolean {
+    return item.confirmation?.enabled === true || this._isCustomDashboard() || this._isDestructiveAction(item);
+  }
+
+  private _confirmAction(item: RegulationDashboardActionItem): boolean {
+    const title = this._translate(item.confirmation?.title_key, item.confirmation?.title)
+      || localize(this.language, "dialog.regulation.confirm_action_title");
+    const text = this._translate(item.confirmation?.text_key, item.confirmation?.text)
+      || localize(this.language, "dialog.regulation.confirm_action_text");
+
+    return window.confirm(`${title}\n\n${text}`);
+  }
+
+  private _isCustomDashboard(): boolean {
+    return this.config?.additional_dashboards === "custom" || this.dashboard?.algorithm === "custom";
+  }
+
+  private _isDestructiveAction(item: RegulationDashboardActionItem): boolean {
+    return DESTRUCTIVE_ACTION_SERVICES.has(item.service);
+  }
+
+  private _isThermostatLocked(): boolean {
+    if (this.viewModel?.vt?.lock.isUserLocked === true) {
+      return true;
+    }
+
+    return readRegulationSourceValue(this._context(), "climate", "lock_manager/is_locked") === true;
+  }
+
+  private _actionKey(item: RegulationDashboardActionItem): string {
+    return item.id || item.service;
   }
 
   private _betterHistoryConfig(item: RegulationDashboardHistoryItem): BetterHistoryConfig {
@@ -673,6 +868,91 @@ export class EquinoxRegulationRenderer extends LitElement {
     }
 
     return buildRegulationSources(this.hass, this.config)[source] === undefined;
+  }
+
+  private _conditionMatches(condition: RegulationDashboardCondition | undefined): boolean {
+    if (!condition) {
+      return true;
+    }
+
+    return this._truthy(this._evaluateCondition(condition));
+  }
+
+  private _evaluateCondition(expression: unknown): unknown {
+    if (Array.isArray(expression)) {
+      return expression.map((entry) => this._evaluateCondition(entry));
+    }
+
+    if (!expression || typeof expression !== "object") {
+      return expression;
+    }
+
+    const record = expression as Record<string, unknown>;
+    if ("var" in record) {
+      return this._readConditionVariable(record.var);
+    }
+
+    if ("!" in record) {
+      return !this._truthy(this._evaluateCondition(record["!"]));
+    }
+
+    if ("and" in record) {
+      const values = Array.isArray(record.and) ? record.and : [record.and];
+      return values.every((value) => this._truthy(this._evaluateCondition(value)));
+    }
+
+    if ("or" in record) {
+      const values = Array.isArray(record.or) ? record.or : [record.or];
+      return values.some((value) => this._truthy(this._evaluateCondition(value)));
+    }
+
+    for (const operator of ["==", "!=", ">", ">=", "<", "<="] as const) {
+      if (operator in record) {
+        const operands = Array.isArray(record[operator]) ? record[operator] : [];
+        const left = this._evaluateCondition(operands[0]);
+        const right = this._evaluateCondition(operands[1]);
+        return this._compareCondition(operator, left, right);
+      }
+    }
+
+    return true;
+  }
+
+  private _readConditionVariable(value: unknown): unknown {
+    if (typeof value !== "string") {
+      return undefined;
+    }
+
+    const path = normalizeRegulationPath(value);
+    const source = path[0] as RegulationDashboardSource | undefined;
+    if (!source || !["climate", "diagnostic", "power", "humidity", "temperature", "config"].includes(source)) {
+      return undefined;
+    }
+
+    return readRegulationSourceValue(this._context(), source, path.slice(1));
+  }
+
+  private _compareCondition(operator: string, left: unknown, right: unknown): boolean {
+    switch (operator) {
+      case "==":
+        return left === right;
+      case "!=":
+        return left !== right;
+      case ">":
+        return Number(left) > Number(right);
+      case ">=":
+        return Number(left) >= Number(right);
+      case "<":
+        return Number(left) < Number(right);
+      case "<=":
+        return Number(left) <= Number(right);
+      default:
+        return false;
+    }
+  }
+
+  private _truthy(value: unknown): boolean {
+    return value !== false && value !== undefined && value !== null && value !== "" && value !== 0;
   }
 }
 
