@@ -173,6 +173,13 @@ export class EquinoxRegulationRenderer extends LitElement {
       justify-content: center;
     }
 
+    .metric-grid.grid-layout {
+      display: grid !important;
+      gap: 8px;
+      justify-content: stretch;
+      width: 100%;
+    }
+
     .metric {
       display: grid;
       gap: 4px;
@@ -184,6 +191,11 @@ export class EquinoxRegulationRenderer extends LitElement {
       padding: 8px 10px;
       border-radius: 8px;
       background: color-mix(in srgb, var(--primary-text-color) 6%, transparent);
+    }
+
+    .metric-grid.grid-layout .metric {
+      flex: none !important;
+      max-width: none !important;
     }
 
     .metric .value {
@@ -270,6 +282,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       min-height: 260px;
       --better-history-min-height: 0px;
       --better-history-surface-overflow-y: visible;
+      --better-history-surface-header-offset: 4px;
     }
 
     .action-block {
@@ -516,7 +529,7 @@ export class EquinoxRegulationRenderer extends LitElement {
     return html`
       <article class="block">
         ${this._translate(item.title_key, item.title) ? html`<h3>${this._translate(item.title_key, item.title)}</h3>` : nothing}
-        <div class="metric-grid">
+        <div class="metric-grid ${item.columns ? 'grid-layout' : ''}" style=${item.columns ? `grid-template-columns: repeat(${item.columns}, 1fr);` : ''}>
           ${visibleMetrics.map((metric) => this._renderMetric(metric))}
         </div>
       </article>
@@ -765,7 +778,6 @@ export class EquinoxRegulationRenderer extends LitElement {
     if (cached) return cached;
 
     const options = item.options ?? {};
-    const title = this._translate(item.title_key, item.title);
     const config: BetterHistoryConfig = {
       hours: this._historyRangeHours(item.range),
       showDatePicker: options.date_picker ?? false,
@@ -779,7 +791,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       showTimeRangeSelector: options.range_picker === true,
       showLineModeButtons: options.tools === true,
       debugPerformance: false,
-      title: title || undefined,
+      title: undefined,
       series: item.series.flatMap((series) => this._betterHistorySeries(series))
     };
 

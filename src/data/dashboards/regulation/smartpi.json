@@ -138,10 +138,9 @@
       "graphs.command.command": "Commande",
       "graphs.command.pi": "PI",
       "graphs.command.ff": "Feed-forward",
-      "graphs.model.title": "Modele et temperature",
-      "graphs.model.temperature": "Temperature",
-      "graphs.model.setpoint": "Consigne filtree",
-      "graphs.model.error": "Ecart"
+      "graphs.model.title": "Paramètres A et B (1R1C) (24h)",
+      "graphs.model.a": "Paramètre A",
+      "graphs.model.b": "Paramètre B"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -277,10 +276,9 @@
       "graphs.command.command": "Command",
       "graphs.command.pi": "PI",
       "graphs.command.ff": "Feed-forward",
-      "graphs.model.title": "Model and temperature",
-      "graphs.model.temperature": "Temperature",
-      "graphs.model.setpoint": "Filtered setpoint",
-      "graphs.model.error": "Error"
+      "graphs.model.title": "1R1C Parameters A and B (24h)",
+      "graphs.model.a": "Parameter A",
+      "graphs.model.b": "Parameter B"
     }
   },
   "sections": [
@@ -511,11 +509,10 @@
         {
           "type": "history",
           "title_key": "graphs.model.title",
-          "range": "12h",
+          "range": "24h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "temperature/sensor", "label_key": "graphs.model.temperature", "unit": "°", "scale_group": "temperature" },
-            { "entity": "$diagnostic_entity", "attribute": "setpoint/filtered_setpoint", "label_key": "graphs.model.setpoint", "unit": "°", "scale_group": "temperature" },
-            { "entity": "$diagnostic_entity", "attribute": "temperature/error", "label_key": "graphs.model.error", "unit": "°", "scale_group": "error" }
+            { "entity": "$diagnostic_entity", "attribute": "model/a", "label_key": "graphs.model.a", "scale_group": "coefficients" },
+            { "entity": "$diagnostic_entity", "attribute": "model/b", "label_key": "graphs.model.b", "scale_group": "coefficients" }
           ],
           "options": {
             "tooltip": true,
@@ -548,6 +545,7 @@
             {
               "type": "metric_grid",
               "title_key": "sections.command.title",
+              "columns": 2,
               "metrics": [
                 { "label_key": "metrics.current_cycle", "source": "diagnostic", "path": "power/current_cycle_percent", "unit": "%", "digits": 0 },
                 { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "power/next_cycle_percent", "unit": "%", "digits": 0 },
@@ -560,6 +558,7 @@
             {
               "type": "metric_grid",
               "title_key": "metrics.pi",
+              "columns": 2,
               "metrics": [
                 { "label_key": "metrics.pi", "source": "diagnostic", "path": "power/pi_percent", "unit": "%", "digits": 0 },
                 { "label_key": "metrics.ff", "source": "diagnostic", "path": "power/ff_percent", "unit": "%", "digits": 0 },

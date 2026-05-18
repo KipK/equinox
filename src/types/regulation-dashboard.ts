@@ -97,6 +97,7 @@ export interface RegulationDashboardMetricGridItem extends RegulationDashboardBa
   title?: string;
   title_key?: string;
   metrics: RegulationDashboardMetric[];
+  columns?: number;
 }
 
 export interface RegulationDashboardMetric extends RegulationDashboardLabelFields {
