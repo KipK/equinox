@@ -16802,22 +16802,27 @@ var Es = "--", Ds = new Set([
     }
 
     .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 8px;
+      justify-content: center;
     }
 
     .metric {
       display: grid;
       gap: 4px;
+      justify-items: center;
+      text-align: center;
       min-width: 0;
+      flex: 1 1 128px;
+      max-width: 180px;
       padding: 8px 10px;
       border-radius: 8px;
       background: color-mix(in srgb, var(--primary-text-color) 6%, transparent);
     }
 
     .metric .value {
-      text-align: start;
+      text-align: center;
       font-size: 16px;
     }
 
