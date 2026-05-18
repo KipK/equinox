@@ -180,6 +180,8 @@
       "title": "Regulation",
       "loading": "Loading regulation dashboard...",
       "invalid": "Regulation dashboard is invalid.",
+      "unavailable": "Regulation dashboard is unavailable.",
+      "custom_not_found": "Custom regulation dashboard not found.",
       "section_missing": "Regulation section is unavailable.",
       "empty_section": "This regulation section is empty.",
       "source_missing": "Source unavailable",

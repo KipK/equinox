@@ -180,6 +180,8 @@
       "title": "Régulation",
       "loading": "Chargement du dashboard de régulation...",
       "invalid": "Le dashboard de régulation est invalide.",
+      "unavailable": "Le dashboard de régulation est indisponible.",
+      "custom_not_found": "Dashboard de régulation personnalisé introuvable.",
       "section_missing": "Cette rubrique de régulation est indisponible.",
       "empty_section": "Cette rubrique de régulation est vide.",
       "source_missing": "Source indisponible",

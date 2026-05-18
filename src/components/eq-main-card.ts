@@ -2,12 +2,15 @@ import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unlock as unlockThermostat } from "../data/actions";
 import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, PRESET_ICONS, PRESET_ORDER, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
 import { FAN_MODE_ICONS } from "../data/fan";
+import { loadRegulationDashboard, type RegulationDashboardLoadResult } from "../data/regulation-dashboard-loader";
+import { resolveRegulationDashboard } from "../data/regulation-dashboard-resolver";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
 import { flatStyles } from "../styles/flat";
 import { liquidGlowStyles } from "../styles/liquid-glow";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
+import type { RegulationDashboard } from "../types/regulation-dashboard";
 import type { EquinoxVtMessage } from "../types/vt";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-fan-dialog";
@@ -196,7 +199,9 @@ export class EquinoxMainCard extends LitElement {
     _activeMessageKey: { state: true },
     _powerInfoPinned: { state: true },
     _lockDialogOpen: { state: true },
-    _lockIsLocking: { state: true }
+    _lockIsLocking: { state: true },
+    _regulationLoadResult: { state: true },
+    _regulationActiveSectionId: { state: true }
   };
 
   static styles = [
@@ -1193,13 +1198,17 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
-  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "menu" | "boost" | "history" | null = null;
+  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "menu" | "boost" | "history" | "regulation" | null = null;
   private _dialogAnchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _activeMessageKey?: string;
   private _powerInfoPinned = false;
   private _powerInfoPressTimer?: number;
   private _lockDialogOpen = false;
   private _lockIsLocking = false;
+  private _regulationLoadResult?: RegulationDashboardLoadResult;
+  private _regulationLoadKey = "";
+  private _regulationLoadPromise?: Promise<RegulationDashboardLoadResult>;
+  private _regulationActiveSectionId?: string;
   private readonly _browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`;
   private _syncingBrowserHistory = false;
 
@@ -1292,10 +1301,105 @@ export class EquinoxMainCard extends LitElement {
     this._activeDialog = null;
   }
 
+  private _regulationDashboard(): RegulationDashboard | undefined {
+    return this._regulationLoadResult?.status === "loaded" ? this._regulationLoadResult.dashboard : undefined;
+  }
+
+  private _regulationMenuAvailable(): boolean {
+    if (!this.hass || !this.config || this.config.additional_dashboards === "disabled") {
+      return false;
+    }
+
+    if (this.config.additional_dashboards === "custom") {
+      return true;
+    }
+
+    return this._regulationLoadResult?.status === "loaded";
+  }
+
+  private _regulationLoadCacheKey(): string | undefined {
+    if (!this.hass || !this.config) {
+      return undefined;
+    }
+
+    const resolution = resolveRegulationDashboard(this.hass, this.config);
+    if (!resolution.available) {
+      return `${resolution.mode}:${resolution.reason}:${resolution.algorithm ?? ""}`;
+    }
+
+    return `${resolution.mode}:${resolution.source}:${resolution.url}`;
+  }
+
+  private _ensureRegulationDashboard(): Promise<RegulationDashboardLoadResult | undefined> {
+    if (!this.hass || !this.config) {
+      return Promise.resolve(undefined);
+    }
+
+    const resolution = resolveRegulationDashboard(this.hass, this.config);
+    const key = this._regulationLoadCacheKey();
+    if (!key) {
+      return Promise.resolve(undefined);
+    }
+
+    if (key !== this._regulationLoadKey) {
+      this._regulationLoadKey = key;
+      this._regulationLoadResult = undefined;
+      this._regulationLoadPromise = undefined;
+      this._regulationActiveSectionId = undefined;
+    }
+
+    if (this._regulationLoadResult) {
+      return Promise.resolve(this._regulationLoadResult);
+    }
+
+    if (this._regulationLoadPromise) {
+      return this._regulationLoadPromise;
+    }
+
+    const pending = loadRegulationDashboard(resolution).then((result) => {
+      if (this._regulationLoadKey === key) {
+        this._regulationLoadResult = result;
+        this._regulationLoadPromise = undefined;
+        if (result.status === "loaded" && !this._regulationActiveSectionId) {
+          this._regulationActiveSectionId = result.dashboard.sections[0]?.id;
+        }
+      }
+      return result;
+    });
+
+    this._regulationLoadPromise = pending;
+    return pending;
+  }
+
+  private async _openRegulationDialog(sectionId?: string): Promise<void> {
+    this._activeDialog = "regulation";
+    this._activeMessageKey = undefined;
+
+    if (sectionId) {
+      this._regulationActiveSectionId = sectionId;
+    }
+
+    const result = await this._ensureRegulationDashboard();
+    if (result?.status === "loaded") {
+      this._regulationActiveSectionId = sectionId ?? result.dashboard.sections[0]?.id;
+      return;
+    }
+
+    if (this.config?.additional_dashboards !== "custom") {
+      this._activeDialog = null;
+    }
+  }
+
   protected willUpdate(): void {
     this.setAttribute("theme", this.config?.theme ?? "flat");
     this.toggleAttribute("light", !this.hass?.themes?.darkMode);
     this.toggleAttribute("border-glow-on-action", !!this.config?.border_glow_on_action);
+  }
+
+  protected updated(): void {
+    if (this._activeDialog === "menu" || this._activeDialog === "regulation") {
+      void this._ensureRegulationDashboard();
+    }
   }
 
   protected render() {
@@ -1380,12 +1484,18 @@ export class EquinoxMainCard extends LitElement {
         .hass=${this.hass}
         .viewModel=${this.viewModel}
         .config=${this.config}
+        .regulationDashboard=${this._regulationDashboard()}
+        .regulationAvailable=${this._regulationMenuAvailable()}
         .language=${this._language()}
         .floating=${true}
         .closeOnLeave=${true}
         .anchor=${this._dialogAnchor}
-        @eq-dialog-close=${() => { this._activeDialog = null; }}
-        @equinox-open-regulation=${() => { this._activeDialog = null; }}
+        @eq-dialog-close=${() => {
+          if (this._activeDialog === "menu") {
+            this._activeDialog = null;
+          }
+        }}
+        @equinox-open-regulation=${(event: CustomEvent<{ sectionId?: string }>) => this._openRegulationDialog(event.detail?.sectionId)}
         @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
         @equinox-open-history=${() => this._openHistoryDialog()}
       ></eq-menu-dialog>
@@ -1408,6 +1518,17 @@ export class EquinoxMainCard extends LitElement {
         .language=${this._language()}
         @eq-dialog-close=${() => this._closeHistoryDialog()}
       ></eq-history-dialog>
+      <eq-regulation-dialog
+        .open=${this._activeDialog === "regulation"}
+        .hass=${this.hass}
+        .config=${this.config}
+        .dashboard=${this._regulationDashboard()}
+        .loadResult=${this._regulationLoadResult}
+        .activeSectionId=${this._regulationActiveSectionId}
+        .language=${this._language()}
+        @eq-dialog-close=${() => { this._activeDialog = null; }}
+        @equinox-regulation-section-selected=${(event: CustomEvent<{ sectionId: string }>) => { this._regulationActiveSectionId = event.detail.sectionId; }}
+      ></eq-regulation-dialog>
       <eq-lock-dialog
         .open=${this._lockDialogOpen}
         .hass=${this.hass}

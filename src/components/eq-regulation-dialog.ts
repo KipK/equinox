@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { localize } from "../localize/localize";
 import { translateRegulationDashboardText } from "../data/regulation-dashboard-i18n";
+import type { RegulationDashboardLoadResult } from "../data/regulation-dashboard-loader";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { RegulationDashboard } from "../types/regulation-dashboard";
@@ -13,6 +14,7 @@ export class EquinoxRegulationDialog extends LitElement {
     hass: { attribute: false },
     config: { attribute: false },
     dashboard: { attribute: false },
+    loadResult: { attribute: false },
     activeSectionId: { attribute: "active-section-id" },
     language: {}
   };
@@ -103,6 +105,7 @@ export class EquinoxRegulationDialog extends LitElement {
   hass?: HomeAssistant;
   config?: EquinoxCardConfig;
   dashboard?: RegulationDashboard;
+  loadResult?: RegulationDashboardLoadResult;
   activeSectionId?: string;
   language?: string;
 
@@ -126,6 +129,15 @@ export class EquinoxRegulationDialog extends LitElement {
 
     if (!this.hass || !this.config) {
       return html`<div class="state" role="status">${localize(this.language, "dialog.regulation.loading")}</div>`;
+    }
+
+    if (this.loadResult?.status === "unavailable") {
+      return html`<div class="state" role="status">${localize(this.language, "dialog.regulation.unavailable")}</div>`;
+    }
+
+    if (this.loadResult?.status === "error") {
+      const key = this.loadResult.reason === "load_failed" ? "dialog.regulation.custom_not_found" : "dialog.regulation.invalid";
+      return html`<div class="state" role="alert">${localize(this.language, key)}</div>`;
     }
 
     if (!this.dashboard || this.dashboard.kind !== "regulation-dashboard" || this.dashboard.sections.length === 0) {
