@@ -7,7 +7,7 @@ All notable changes to Equinox will be documented in this file.
 - Add the Regulation dashboard UI, menu integration, desktop/mobile section navigation, custom dashboard loading, history graph blocks, and confirmed service actions.
 - Add built-in Regulation dashboard definitions for Smart PI and Hysteresis.
 - Add Smart PI diagnostic units to the runtime attribute map for Regulation values and graphs.
-- Document `additional_dashboards`, `/local/equinox/dash/custom.js`, embedded dashboard translations, and simplified Regulation history graphs.
+- Add a dedicated Regulation dashboard reference for `additional_dashboards`, `/local/equinox/dash/custom.js`, embedded dashboard translations, JSON block modules, sources, conditions, actions, and simplified history graphs.
 
 ## 0.1.0
 
