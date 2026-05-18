@@ -32,14 +32,28 @@
 
   "model.a": "coeff",
   "model.b": "coeff",
+  "model.a_stability_ratio": "ratio",
+  "model.b_stability_ratio": "ratio",
   "model.deadtime_cool_s": "s",
   "model.deadtime_heat_s": "s",
+  "model.tau_min": "min",
 
   "motion_manager.motion_delay_sec": "s",
   "motion_manager.motion_off_delay_sec": "s",
 
   "power_manager.device_power": "W",
   "power_manager.mean_cycle_power": "W",
+
+  "power.applied_percent": "%",
+  "power.command_percent": "%",
+  "power.current_cycle_percent": "%",
+  "power.ff_percent": "%",
+  "power.hold_percent": "%",
+  "power.limited_percent": "%",
+  "power.linear_current_cycle_percent": "%",
+  "power.linear_next_cycle_percent": "%",
+  "power.next_cycle_percent": "%",
+  "power.pi_percent": "%",
 
   "preset_temperatures.boost_away_temp": "temperature",
   "preset_temperatures.boost_temp": "temperature",

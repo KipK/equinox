@@ -8,6 +8,7 @@ export class EquinoxDialog extends LitElement {
     language: {},
     showBack: { type: Boolean, attribute: "show-back" },
     floating: { type: Boolean },
+    centered: { type: Boolean },
     closeOnLeave: { type: Boolean },
     anchor: { attribute: false }
   };
@@ -33,6 +34,25 @@ export class EquinoxDialog extends LitElement {
       color: var(--primary-text-color);
       border-radius: var(--equinox-radius, 12px);
       overflow-y: auto;
+    }
+
+    .scrim.centered {
+      position: fixed;
+      inset: 0;
+      border-radius: 0;
+    }
+
+    .panel.centered {
+      position: fixed;
+      inset: 50% auto auto 50%;
+      width: var(--eq-dialog-width, min(920px, calc(100vw - 48px)));
+      min-width: min(var(--eq-dialog-min-width, 360px), calc(100vw - 24px));
+      max-width: calc(100vw - 24px);
+      max-height: calc(100vh - 24px);
+      transform: translate(-50%, -50%);
+      overflow: auto;
+      border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
+      box-shadow: 0 18px 44px rgb(0 0 0 / 34%);
     }
 
     @media (min-width: 601px) {
@@ -93,6 +113,20 @@ export class EquinoxDialog extends LitElement {
         max-height: 80vh;
         overflow-y: auto;
       }
+
+      .panel.centered {
+        left: 50%;
+        right: auto;
+        bottom: auto;
+        top: 50%;
+        inset-inline: auto;
+        width: var(--eq-dialog-width, calc(100vw - 24px));
+        min-width: min(var(--eq-dialog-min-width, 320px), calc(100vw - 24px));
+        max-width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+        border-radius: var(--equinox-radius, 12px);
+        transform: translate(-50%, -50%);
+      }
     }
 
     .header {
@@ -127,6 +161,7 @@ export class EquinoxDialog extends LitElement {
   language?: string;
   showBack = false;
   floating = false;
+  centered = false;
   closeOnLeave = false;
   anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _closeOnLeaveTimer?: number;
@@ -304,12 +339,13 @@ export class EquinoxDialog extends LitElement {
     const backLabel = localize(this.language, "dialog.back");
     const nativePopover = this._usesNativePopover();
     const popoverStyle = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "";
-    const panelClass = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
+    const panelClass = ["panel", this.floating ? "popover" : "", this.centered ? "centered" : ""].filter(Boolean).join(" ");
+    const scrimClass = ["scrim", this.floating ? "popover" : "", this.centered ? "centered" : ""].filter(Boolean).join(" ");
 
     return html`
       ${nativePopover
         ? nothing
-        : html`<div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>`}
+        : html`<div class=${scrimClass} @click=${this._dispatchClose}></div>`}
       <div
         class=${panelClass}
         style=${popoverStyle}

@@ -8262,7 +8262,7 @@ var ss = o`
   }
 `, us = class extends O {
 	constructor(...e) {
-		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this.closeOnLeave = !1, this._handleKeyDown = (e) => {
+		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this.centered = !1, this.closeOnLeave = !1, this._handleKeyDown = (e) => {
 			e.key === "Escape" && this.open && this._dispatchClose();
 		}, this._handleResize = () => {
 			this.open && this.floating && this._positionPopover();
@@ -8280,6 +8280,7 @@ var ss = o`
 				attribute: "show-back"
 			},
 			floating: { type: Boolean },
+			centered: { type: Boolean },
 			closeOnLeave: { type: Boolean },
 			anchor: { attribute: !1 }
 		};
@@ -8306,6 +8307,25 @@ var ss = o`
       color: var(--primary-text-color);
       border-radius: var(--equinox-radius, 12px);
       overflow-y: auto;
+    }
+
+    .scrim.centered {
+      position: fixed;
+      inset: 0;
+      border-radius: 0;
+    }
+
+    .panel.centered {
+      position: fixed;
+      inset: 50% auto auto 50%;
+      width: var(--eq-dialog-width, min(920px, calc(100vw - 48px)));
+      min-width: min(var(--eq-dialog-min-width, 360px), calc(100vw - 24px));
+      max-width: calc(100vw - 24px);
+      max-height: calc(100vh - 24px);
+      transform: translate(-50%, -50%);
+      overflow: auto;
+      border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
+      box-shadow: 0 18px 44px rgb(0 0 0 / 34%);
     }
 
     @media (min-width: 601px) {
@@ -8365,6 +8385,20 @@ var ss = o`
         border-radius: 16px 16px 0 0;
         max-height: 80vh;
         overflow-y: auto;
+      }
+
+      .panel.centered {
+        left: 50%;
+        right: auto;
+        bottom: auto;
+        top: 50%;
+        inset-inline: auto;
+        width: var(--eq-dialog-width, calc(100vw - 24px));
+        min-width: min(var(--eq-dialog-min-width, 320px), calc(100vw - 24px));
+        max-width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+        border-radius: var(--equinox-radius, 12px);
+        transform: translate(-50%, -50%);
       }
     }
 
@@ -8459,9 +8493,17 @@ var ss = o`
 	}
 	render() {
 		if (!this.open) return D;
-		let e = H(this.language, "dialog.close"), t = H(this.language, "dialog.back"), n = this._usesNativePopover(), r = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", i = ["panel", this.floating ? "popover" : ""].filter(Boolean).join(" ");
+		let e = H(this.language, "dialog.close"), t = H(this.language, "dialog.back"), n = this._usesNativePopover(), r = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", i = [
+			"panel",
+			this.floating ? "popover" : "",
+			this.centered ? "centered" : ""
+		].filter(Boolean).join(" "), a = [
+			"scrim",
+			this.floating ? "popover" : "",
+			this.centered ? "centered" : ""
+		].filter(Boolean).join(" ");
 		return T`
-      ${n ? D : T`<div class=${this.floating ? "scrim popover" : "scrim"} @click=${this._dispatchClose}></div>`}
+      ${n ? D : T`<div class=${a} @click=${this._dispatchClose}></div>`}
       <div
         class=${i}
         style=${r}
@@ -11094,7 +11136,10 @@ var Ms = class extends O {
 	}
 	static {
 		this.properties = {
-			open: { type: Boolean },
+			open: {
+				type: Boolean,
+				reflect: !0
+			},
 			hass: { attribute: !1 },
 			config: { attribute: !1 },
 			dashboard: { attribute: !1 },
@@ -11107,10 +11152,20 @@ var Ms = class extends O {
 		this.styles = o`
     :host {
       display: block;
+      pointer-events: none;
+    }
+
+    :host([open]) {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      pointer-events: auto;
     }
 
     eq-dialog {
-      --equinox-regulation-dialog-width: min(920px, calc(100vw - 32px));
+      --eq-dialog-width: min(920px, calc(100vw - 48px));
+      --eq-dialog-min-width: 360px;
+      --equinox-regulation-dialog-width: min(860px, calc(100vw - 80px));
     }
 
     .layout {
@@ -11119,7 +11174,7 @@ var Ms = class extends O {
       gap: 16px;
       width: var(--equinox-regulation-dialog-width);
       max-width: 100%;
-      min-height: min(560px, calc(100vh - 150px));
+      min-height: min(460px, calc(100vh - 160px));
     }
 
     .section-nav {
@@ -11176,8 +11231,8 @@ var Ms = class extends O {
     @media (max-width: 600px) {
       .layout {
         display: block;
-        width: auto;
-        min-height: 0;
+        width: min(100%, calc(100vw - 56px));
+        min-height: min(320px, calc(100vh - 160px));
       }
 
       .section-nav {
@@ -11192,6 +11247,7 @@ var Ms = class extends O {
         .open=${this.open}
         .title=${this._dialogTitle()}
         .language=${this.language}
+        .centered=${!0}
         @eq-dialog-close=${(e) => this._forwardClose(e)}
       >
         ${this._renderContent()}

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "kind": "regulation-dashboard",
+  "algorithm": "hysteresis",
+  "title": "Hysteresis",
+  "translations": {
+    "fr": {
+      "sections.main.title": "Synthese",
+      "sections.main.summary": "Regulation simple par seuils hysteresis.",
+      "hero.title": "Regulation hysteresis",
+      "hero.subtitle": "Ce tableau reste volontairement minimal car les attributs publies varient selon les integrations.",
+      "metrics.entity": "Entite climate",
+      "metrics.state": "Etat",
+      "metrics.current_temperature": "Temperature",
+      "metrics.target_temperature": "Consigne",
+      "metrics.hvac_action": "Action HVAC",
+      "metrics.power": "Puissance",
+      "metrics.valve": "Ouverture vanne",
+      "metrics.switch_on": "Temps marche",
+      "metrics.switch_off": "Temps arret",
+      "metrics.threshold_low": "Seuil bas",
+      "metrics.threshold_high": "Seuil haut",
+      "notes.robust": "Les valeurs affichees utilisent uniquement les attributs climate standards ou les attributs Versatile Thermostat deja confirmes. Les valeurs absentes sont normales sur certaines configurations."
+    },
+    "en": {
+      "sections.main.title": "Summary",
+      "sections.main.summary": "Simple threshold-based hysteresis regulation.",
+      "hero.title": "Hysteresis regulation",
+      "hero.subtitle": "This dashboard is intentionally minimal because published attributes vary across integrations.",
+      "metrics.entity": "Climate entity",
+      "metrics.state": "State",
+      "metrics.current_temperature": "Temperature",
+      "metrics.target_temperature": "Setpoint",
+      "metrics.hvac_action": "HVAC action",
+      "metrics.power": "Power",
+      "metrics.valve": "Valve opening",
+      "metrics.switch_on": "On time",
+      "metrics.switch_off": "Off time",
+      "metrics.threshold_low": "Low threshold",
+      "metrics.threshold_high": "High threshold",
+      "notes.robust": "Displayed values only use standard climate attributes or already confirmed Versatile Thermostat attributes. Missing values are expected on some configurations."
+    }
+  },
+  "sections": [
+    {
+      "id": "main",
+      "title_key": "sections.main.title",
+      "icon": "mdi:thermostat-auto",
+      "summary_key": "sections.main.summary",
+      "items": [
+        {
+          "type": "hero_status",
+          "title_key": "hero.title",
+          "subtitle_key": "hero.subtitle",
+          "icon": "mdi:thermostat-auto",
+          "tone": "info"
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "sections.main.title",
+          "metrics": [
+            { "label_key": "metrics.entity", "source": "config", "path": "entity" },
+            { "label_key": "metrics.state", "source": "climate", "path": "state" },
+            { "label_key": "metrics.current_temperature", "source": "climate", "path": "current_temperature", "unit": "°", "digits": 1 },
+            { "label_key": "metrics.target_temperature", "source": "climate", "path": "temperature", "unit": "°", "digits": 1 },
+            { "label_key": "metrics.hvac_action", "source": "climate", "path": "hvac_action" },
+            { "label_key": "metrics.power", "source": "climate", "path": "vtherm_over_switch/power_percent", "unit": "%", "digits": 0 }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "metrics.valve",
+          "metrics": [
+            { "label_key": "metrics.valve", "source": "climate", "path": "vtherm_over_valve/valve_open_percent", "unit": "%", "digits": 0 },
+            { "label_key": "metrics.switch_on", "source": "climate", "path": "vtherm_over_switch/on_time_sec", "unit": "s", "digits": 0 },
+            { "label_key": "metrics.switch_off", "source": "climate", "path": "vtherm_over_switch/off_time_sec", "unit": "s", "digits": 0 },
+            { "label_key": "metrics.threshold_low", "source": "climate", "path": "vtherm_over_switch/tpi_threshold_low", "unit": "°", "digits": 2 },
+            { "label_key": "metrics.threshold_high", "source": "climate", "path": "vtherm_over_switch/tpi_threshold_high", "unit": "°", "digits": 2 }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.robust",
+          "tone": "muted",
+          "icon": "mdi:information-outline"
+        }
+      ]
+    }
+  ]
+}

@@ -10,7 +10,7 @@ import "./eq-regulation-renderer";
 
 export class EquinoxRegulationDialog extends LitElement {
   static properties = {
-    open: { type: Boolean },
+    open: { type: Boolean, reflect: true },
     hass: { attribute: false },
     config: { attribute: false },
     dashboard: { attribute: false },
@@ -22,10 +22,20 @@ export class EquinoxRegulationDialog extends LitElement {
   static styles = css`
     :host {
       display: block;
+      pointer-events: none;
+    }
+
+    :host([open]) {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      pointer-events: auto;
     }
 
     eq-dialog {
-      --equinox-regulation-dialog-width: min(920px, calc(100vw - 32px));
+      --eq-dialog-width: min(920px, calc(100vw - 48px));
+      --eq-dialog-min-width: 360px;
+      --equinox-regulation-dialog-width: min(860px, calc(100vw - 80px));
     }
 
     .layout {
@@ -34,7 +44,7 @@ export class EquinoxRegulationDialog extends LitElement {
       gap: 16px;
       width: var(--equinox-regulation-dialog-width);
       max-width: 100%;
-      min-height: min(560px, calc(100vh - 150px));
+      min-height: min(460px, calc(100vh - 160px));
     }
 
     .section-nav {
@@ -91,8 +101,8 @@ export class EquinoxRegulationDialog extends LitElement {
     @media (max-width: 600px) {
       .layout {
         display: block;
-        width: auto;
-        min-height: 0;
+        width: min(100%, calc(100vw - 56px));
+        min-height: min(320px, calc(100vh - 160px));
       }
 
       .section-nav {
@@ -115,6 +125,7 @@ export class EquinoxRegulationDialog extends LitElement {
         .open=${this.open}
         .title=${this._dialogTitle()}
         .language=${this.language}
+        .centered=${true}
         @eq-dialog-close=${(event: Event) => this._forwardClose(event)}
       >
         ${this._renderContent()}

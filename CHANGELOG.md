@@ -2,6 +2,11 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## Unreleased
+
+- Add built-in Regulation dashboard definitions for Smart PI and Hysteresis.
+- Add Smart PI diagnostic units to the runtime attribute map for Regulation values and graphs.
+
 ## 0.1.0
 
 ### Initial release
