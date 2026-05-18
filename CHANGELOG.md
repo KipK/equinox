@@ -4,6 +4,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## Unreleased
 
+- Attach the compiled `equinox-card.js` bundle directly to draft GitHub releases.
 - Add the Regulation dashboard UI, menu integration, desktop/mobile section navigation, custom dashboard loading, history graph blocks, and confirmed service actions.
 - Add built-in Regulation dashboard definitions for Smart PI and Hysteresis.
 - Add Smart PI diagnostic units to the runtime attribute map for Regulation values and graphs.

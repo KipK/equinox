@@ -40,8 +40,8 @@ attribute series support, and portable JSON export/import.
 
 ### Manual
 
-1. Download  the latest release.
-2. Copy content inside dist/ directory to `www/community/equinox/`.
+1. Download `equinox-card.js` from the latest release.
+2. Copy it to `www/community/equinox/`.
 3. Add it as a Lovelace resource:
 
 ```yaml
