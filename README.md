@@ -75,18 +75,20 @@ The generated Lovelace resource is:
 dist/equinox-card.js
 ```
 
-The build also copies the runtime attribute-unit map:
+The build also copies runtime assets:
 
 ```text
 dist/attributes.json
+dist/dashboards/regulation/*.json
 dist/equinox-card.js.gz
 ```
 
 Release/HACS packages must include all generated `dist/` files. `equinox-card.js`
 loads `attributes.json` next to itself and already contains the history web
-component. Keep the generated files together. The `.gz` file is a precompressed
-copy for Home Assistant deployments that serve it when the browser advertises
-gzip support.
+component. Built-in Regulation dashboards are loaded from the generated
+`dashboards/regulation/` directory next to the card bundle. Keep the generated
+files together. The `.gz` file is a precompressed copy for Home Assistant
+deployments that serve it when the browser advertises gzip support.
 
 In `attributes.json`, use `"temperature"` for attributes that should follow the
 active Home Assistant temperature unit (`°C` or `°F`) instead of hard-coding a
@@ -96,8 +98,9 @@ Vite 8 requires Node `^20.19.0 || >=22.12.0`.
 
 ## Home Assistant Resource
 
-After building, expose `dist/equinox-card.js` and `dist/attributes.json` to Home
-Assistant in the same directory, then add the JS file as a Lovelace resource:
+After building, expose `dist/equinox-card.js`, `dist/attributes.json`, and the
+`dist/dashboards/` directory to Home Assistant in the same directory, then add
+the JS file as a Lovelace resource:
 
 ```yaml
 url: /local/equinox-card.js
@@ -142,7 +145,154 @@ additional_dashboards: auto
 | `card_background_opacity` | no     | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent. |
 | `disable_name`          | no       | `false`              | Hide the header name.                                          |
 | `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
-| `additional_dashboards` | no       | `auto`               | Reserved dashboard mode: `auto`, `custom`, or `disabled`.      |
+| `additional_dashboards` | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.    |
+
+## Regulation Dashboard
+
+Equinox can show a **Regulation** entry in the card menu. It opens a dashboard
+dialog that explains the current thermostat regulation algorithm with compact
+sections, values, statuses, progress bars, graphs, and optional confirmed
+actions.
+
+`additional_dashboards` controls this feature:
+
+| Value | Behavior |
+| ----- | -------- |
+| `auto` | Detects the regulation algorithm from the climate entity and loads a built-in dashboard from `dashboards/regulation/<algorithm>.json`. If no file exists for the detected algorithm, the Regulation menu entry is hidden. |
+| `custom` | Always shows the Regulation menu entry and loads `/local/equinox/dash/custom.js`. If the file is missing or invalid, the dialog shows a short error. |
+| `disabled` | Hides Regulation completely. |
+
+In `auto` mode, Equinox reads the algorithm from these climate attributes, in
+order: `configuration.proportional_function`,
+`vtherm_over_valve.function`,
+`vtherm_over_climate_valve.valve_regulation.function`,
+`vtherm_over_switch.function`, then
+`specific_states.proportional_function`. Algorithm names are normalized to
+lowercase and may contain only letters, numbers, `_`, and `-`.
+
+Built-in dashboards currently include:
+
+- `smartpi.json`: Smart PI sections for overview, learning, thermal model,
+  command, and protections/calibration/health.
+- `hysteresis.json`: a conservative dashboard that uses confirmed climate and
+  Versatile Thermostat attributes only.
+
+Desktop dashboards use a side section menu inside the dialog. On mobile, a
+single-section dashboard opens directly; a multi-section dashboard shows its
+sections from the Equinox menu, then opens the selected section.
+
+### Custom Regulation Dashboard
+
+Place a trusted JavaScript file at:
+
+```text
+/config/www/equinox/dash/custom.js
+```
+
+Home Assistant serves that file as:
+
+```text
+/local/equinox/dash/custom.js
+```
+
+Minimal example:
+
+```js
+export default {
+  schema_version: 1,
+  kind: "regulation-dashboard",
+  algorithm: "custom",
+  title: "Custom Regulation",
+  translations: {
+    en: {
+      "sections.main.title": "Summary",
+      "blocks.note": "This dashboard is loaded from custom.js."
+    },
+    fr: {
+      "sections.main.title": "Synthese",
+      "blocks.note": "Ce dashboard est charge depuis custom.js."
+    }
+  },
+  sections: [
+    {
+      id: "main",
+      title_key: "sections.main.title",
+      icon: "mdi:tune-variant",
+      items: [
+        {
+          type: "section_note",
+          text_key: "blocks.note",
+          tone: "info"
+        }
+      ]
+    }
+  ]
+};
+```
+
+The fallback non-module form is also accepted:
+
+```js
+window.EquinoxRegulationDashboard = {
+  schema_version: 1,
+  kind: "regulation-dashboard",
+  title: "Custom Regulation",
+  sections: [
+    {
+      id: "main",
+      title: "Summary",
+      items: [{ type: "section_note", text: "Loaded from custom.js.", tone: "info" }]
+    }
+  ]
+};
+```
+
+`custom.js` is executable JavaScript. Use only code you trust. Equinox never runs
+dashboard actions during render, and actions from custom dashboards require
+confirmation before calling a Home Assistant service.
+
+### Dashboard Texts And Data
+
+Dashboard-specific labels live inside the dashboard itself under
+`translations`. Equinox normalizes the Home Assistant language, for example
+`fr-CA` to `fr`, then falls back to `en`, then to direct fields such as `title`,
+`label`, or `text`, and finally to the technical key.
+
+Use `*_key` fields for translated text in shared dashboards:
+
+```json
+{
+  "label_key": "metrics.power.applied"
+}
+```
+
+Direct text fields are useful for simple custom dashboards:
+
+```json
+{
+  "label": "Applied power"
+}
+```
+
+Dashboard values can read these sources:
+
+| Source | Data |
+| ------ | ---- |
+| `climate` | The configured `entity` and its attributes. |
+| `diagnostic` | The configured `diagnostic_entity` and its attributes. |
+| `power` | The configured `power_entity`. |
+| `humidity` | The configured `humidity_entity`. |
+| `temperature` | The configured `temperature_entity`. |
+| `config` | The normalized Equinox card config. |
+
+Paths use `/`, such as `model/confidence` or `configuration/proportional_function`.
+Missing, `unknown`, `unavailable`, `null`, and empty values are displayed as
+`--`.
+
+Regulation graph blocks use the embedded `ha-better-history` component in a
+simplified dashboard mode. Tooltips, legends, and scales are enabled by default;
+date, entity, range, import/export, and line-mode controls are hidden unless the
+dashboard explicitly enables them.
 
 ## Dashboard sizing
 
