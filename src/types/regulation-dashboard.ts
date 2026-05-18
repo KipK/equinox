@@ -34,7 +34,8 @@ export type RegulationDashboardItem =
   | RegulationDashboardTextItem
   | RegulationDashboardSectionNoteItem
   | RegulationDashboardHistoryItem
-  | RegulationDashboardActionItem;
+  | RegulationDashboardActionItem
+  | RegulationDashboardLayoutGridItem;
 
 export interface RegulationDashboardBaseItem {
   type: RegulationDashboardItemType;
@@ -51,7 +52,8 @@ export type RegulationDashboardItemType =
   | "text"
   | "section_note"
   | "history"
-  | "action";
+  | "action"
+  | "layout_grid";
 
 export interface RegulationDashboardLabelFields {
   label?: string;
@@ -196,6 +198,12 @@ export interface RegulationDashboardActionConfirmation {
   title_key?: string;
   text?: string;
   text_key?: string;
+}
+
+export interface RegulationDashboardLayoutGridItem extends RegulationDashboardBaseItem {
+  type: "layout_grid";
+  min_width?: number;
+  items: RegulationDashboardItem[];
 }
 
 export type RegulationDashboardToneMap = Record<string, RegulationDashboardTone>;

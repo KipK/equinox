@@ -111,6 +111,10 @@ function isDashboardItem(value: unknown): boolean {
     return false;
   }
 
+  if (value.type === "layout_grid") {
+    return Array.isArray(value.items) && value.items.every(isDashboardItem);
+  }
+
   return [
     "hero_status",
     "value",

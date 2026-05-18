@@ -12460,32 +12460,68 @@ var Po = {
 						tone: "info"
 					},
 					{
-						type: "status",
-						label_key: "metrics.phase",
-						source: "diagnostic",
-						path: "control/phase",
-						map: {
-							Hysteresis: {
-								label_key: "status.phase.Hysteresis",
-								tone: "warning",
-								icon: "mdi:chart-timeline-variant"
+						type: "layout_grid",
+						min_width: 140,
+						items: [{
+							type: "status",
+							label_key: "metrics.phase",
+							source: "diagnostic",
+							path: "control/phase",
+							map: {
+								Hysteresis: {
+									label_key: "status.phase.Hysteresis",
+									tone: "warning",
+									icon: "mdi:chart-timeline-variant"
+								},
+								Stable: {
+									label_key: "status.phase.Stable",
+									tone: "ok",
+									icon: "mdi:check-circle-outline"
+								},
+								Calibration: {
+									label_key: "status.phase.Calibration",
+									tone: "info",
+									icon: "mdi:tune-variant"
+								}
 							},
-							Stable: {
-								label_key: "status.phase.Stable",
-								tone: "ok",
-								icon: "mdi:check-circle-outline"
-							},
-							Calibration: {
-								label_key: "status.phase.Calibration",
-								tone: "info",
-								icon: "mdi:tune-variant"
+							fallback: {
+								label: "--",
+								tone: "muted",
+								icon: "mdi:help-circle-outline"
 							}
-						},
-						fallback: {
-							label: "--",
-							tone: "muted",
-							icon: "mdi:help-circle-outline"
-						}
+						}, {
+							type: "status",
+							label_key: "metrics.learning_stage",
+							source: "diagnostic",
+							path: "ab_learning/stage",
+							map: {
+								bootstrap: {
+									label_key: "status.learning.bootstrap",
+									tone: "warning",
+									icon: "mdi:school-outline"
+								},
+								learning: {
+									label_key: "status.learning.learning",
+									tone: "info",
+									icon: "mdi:school-outline"
+								},
+								monitoring: {
+									label_key: "status.learning.monitoring",
+									tone: "ok",
+									icon: "mdi:radar"
+								},
+								degraded: {
+									label_key: "status.learning.degraded",
+									tone: "danger",
+									icon: "mdi:alert-outline"
+								}
+							},
+							fallback: {
+								label: "--",
+								tone: "muted",
+								icon: "mdi:help-circle-outline"
+							}
+						}]
 					},
 					{
 						type: "metric_grid",
@@ -12534,39 +12570,6 @@ var Po = {
 						]
 					},
 					{
-						type: "status",
-						label_key: "metrics.learning_stage",
-						source: "diagnostic",
-						path: "ab_learning/stage",
-						map: {
-							bootstrap: {
-								label_key: "status.learning.bootstrap",
-								tone: "warning",
-								icon: "mdi:school-outline"
-							},
-							learning: {
-								label_key: "status.learning.learning",
-								tone: "info",
-								icon: "mdi:school-outline"
-							},
-							monitoring: {
-								label_key: "status.learning.monitoring",
-								tone: "ok",
-								icon: "mdi:radar"
-							},
-							degraded: {
-								label_key: "status.learning.degraded",
-								tone: "danger",
-								icon: "mdi:alert-outline"
-							}
-						},
-						fallback: {
-							label: "--",
-							tone: "muted",
-							icon: "mdi:help-circle-outline"
-						}
-					},
-					{
 						type: "section_note",
 						text_key: "notes.diagnostic_required",
 						tone: "muted",
@@ -12599,56 +12602,62 @@ var Po = {
 						digits: 0
 					},
 					{
-						type: "progress",
-						label_key: "metrics.bootstrap_a",
-						value: {
-							source: "diagnostic",
-							path: "ab_learning/emea_samples_a"
-						},
-						target: {
-							source: "diagnostic",
-							path: "ab_learning/bootstrap_target_a"
-						},
-						digits: 0
-					},
-					{
-						type: "progress",
-						label_key: "metrics.bootstrap_b",
-						value: {
-							source: "diagnostic",
-							path: "ab_learning/emea_samples_b"
-						},
-						target: {
-							source: "diagnostic",
-							path: "ab_learning/bootstrap_target_b"
-						},
-						digits: 0
-					},
-					{
-						type: "progress",
-						label_key: "metrics.history_a",
-						value: {
-							source: "diagnostic",
-							path: "ab_learning/emea_samples_a"
-						},
-						target: {
-							source: "diagnostic",
-							path: "ab_learning/history_target"
-						},
-						digits: 0
-					},
-					{
-						type: "progress",
-						label_key: "metrics.history_b",
-						value: {
-							source: "diagnostic",
-							path: "ab_learning/emea_samples_b"
-						},
-						target: {
-							source: "diagnostic",
-							path: "ab_learning/history_target"
-						},
-						digits: 0
+						type: "layout_grid",
+						min_width: 140,
+						items: [
+							{
+								type: "progress",
+								label_key: "metrics.bootstrap_a",
+								value: {
+									source: "diagnostic",
+									path: "ab_learning/emea_samples_a"
+								},
+								target: {
+									source: "diagnostic",
+									path: "ab_learning/bootstrap_target_a"
+								},
+								digits: 0
+							},
+							{
+								type: "progress",
+								label_key: "metrics.bootstrap_b",
+								value: {
+									source: "diagnostic",
+									path: "ab_learning/emea_samples_b"
+								},
+								target: {
+									source: "diagnostic",
+									path: "ab_learning/bootstrap_target_b"
+								},
+								digits: 0
+							},
+							{
+								type: "progress",
+								label_key: "metrics.history_a",
+								value: {
+									source: "diagnostic",
+									path: "ab_learning/emea_samples_a"
+								},
+								target: {
+									source: "diagnostic",
+									path: "ab_learning/history_target"
+								},
+								digits: 0
+							},
+							{
+								type: "progress",
+								label_key: "metrics.history_b",
+								value: {
+									source: "diagnostic",
+									path: "ab_learning/emea_samples_b"
+								},
+								target: {
+									source: "diagnostic",
+									path: "ab_learning/history_target"
+								},
+								digits: 0
+							}
+						]
 					},
 					{
 						type: "metric_grid",
@@ -12852,95 +12861,97 @@ var Po = {
 						tone: "info"
 					},
 					{
-						type: "metric_grid",
-						title_key: "sections.command.title",
-						metrics: [
-							{
-								label_key: "metrics.current_cycle",
-								source: "diagnostic",
-								path: "power/current_cycle_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.next_cycle",
-								source: "diagnostic",
-								path: "power/next_cycle_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.command",
-								source: "diagnostic",
-								path: "power/command_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.limited",
-								source: "diagnostic",
-								path: "power/limited_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.applied",
-								source: "diagnostic",
-								path: "power/applied_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.saturation",
-								source: "diagnostic",
-								path: "control/saturation_state"
-							}
-						]
-					},
-					{
-						type: "metric_grid",
-						title_key: "metrics.pi",
-						metrics: [
-							{
-								label_key: "metrics.pi",
-								source: "diagnostic",
-								path: "power/pi_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.ff",
-								source: "diagnostic",
-								path: "power/ff_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.hold",
-								source: "diagnostic",
-								path: "power/hold_percent",
-								unit: "%",
-								digits: 0
-							},
-							{
-								label_key: "metrics.kp",
-								source: "diagnostic",
-								path: "control/kp",
-								digits: 3
-							},
-							{
-								label_key: "metrics.ki",
-								source: "diagnostic",
-								path: "control/ki",
-								digits: 4
-							},
-							{
-								label_key: "metrics.integral_error",
-								source: "diagnostic",
-								path: "temperature/integral_error",
-								digits: 3
-							}
-						]
+						type: "layout_grid",
+						items: [{
+							type: "metric_grid",
+							title_key: "sections.command.title",
+							metrics: [
+								{
+									label_key: "metrics.current_cycle",
+									source: "diagnostic",
+									path: "power/current_cycle_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.next_cycle",
+									source: "diagnostic",
+									path: "power/next_cycle_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.command",
+									source: "diagnostic",
+									path: "power/command_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.limited",
+									source: "diagnostic",
+									path: "power/limited_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.applied",
+									source: "diagnostic",
+									path: "power/applied_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.saturation",
+									source: "diagnostic",
+									path: "control/saturation_state"
+								}
+							]
+						}, {
+							type: "metric_grid",
+							title_key: "metrics.pi",
+							metrics: [
+								{
+									label_key: "metrics.pi",
+									source: "diagnostic",
+									path: "power/pi_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.ff",
+									source: "diagnostic",
+									path: "power/ff_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.hold",
+									source: "diagnostic",
+									path: "power/hold_percent",
+									unit: "%",
+									digits: 0
+								},
+								{
+									label_key: "metrics.kp",
+									source: "diagnostic",
+									path: "control/kp",
+									digits: 3
+								},
+								{
+									label_key: "metrics.ki",
+									source: "diagnostic",
+									path: "control/ki",
+									digits: 4
+								},
+								{
+									label_key: "metrics.integral_error",
+									source: "diagnostic",
+									path: "temperature/integral_error",
+									digits: 3
+								}
+							]
+						}]
 					},
 					{
 						type: "history",
@@ -13055,112 +13066,120 @@ var Po = {
 						}
 					},
 					{
-						type: "metric_grid",
-						title_key: "sections.health.title",
-						metrics: [
+						type: "layout_grid",
+						items: [{
+							type: "metric_grid",
+							title_key: "sections.health.title",
+							metrics: [
+								{
+									label_key: "metrics.thermal_decision",
+									source: "diagnostic",
+									path: "governance/thermal_update_decision"
+								},
+								{
+									label_key: "metrics.thermal_reason",
+									source: "diagnostic",
+									path: "governance/thermal_update_reason"
+								},
+								{
+									label_key: "metrics.in_deadband",
+									source: "diagnostic",
+									path: "control/in_deadband"
+								},
+								{
+									label_key: "metrics.in_near_band",
+									source: "diagnostic",
+									path: "control/in_near_band"
+								},
+								{
+									label_key: "metrics.in_deadtime",
+									source: "diagnostic",
+									path: "control/in_deadtime_window"
+								},
+								{
+									label_key: "metrics.integral_hold",
+									source: "diagnostic",
+									path: "temperature/integral_hold_mode"
+								}
+							]
+						}, {
+							type: "metric_grid",
+							title_key: "metrics.autocalib_state",
+							metrics: [
+								{
+									label_key: "metrics.autocalib_state",
+									source: "diagnostic",
+									path: "autocalib/state"
+								},
+								{
+									label_key: "metrics.autocalib_degraded",
+									source: "diagnostic",
+									path: "autocalib/model_degraded"
+								},
+								{
+									label_key: "metrics.autocalib_snapshot_age",
+									source: "diagnostic",
+									path: "autocalib/snapshot_age_h",
+									unit: "h",
+									digits: 0
+								},
+								{
+									label_key: "metrics.autocalib_next_check",
+									source: "diagnostic",
+									path: "autocalib/next_check_ts"
+								},
+								{
+									label_key: "metrics.calibration_state",
+									source: "diagnostic",
+									path: "calibration/state"
+								},
+								{
+									label_key: "metrics.calibration_retry",
+									source: "diagnostic",
+									path: "calibration/retry_count",
+									digits: 0
+								}
+							]
+						}]
+					},
+					{
+						type: "layout_grid",
+						min_width: 100,
+						items: [
 							{
-								label_key: "metrics.thermal_decision",
-								source: "diagnostic",
-								path: "governance/thermal_update_decision"
+								type: "action",
+								label_key: "actions.reset_learning",
+								icon: "mdi:school-outline",
+								service: "vtherm_smartpi.reset_smartpi_learning",
+								target: { entity_id: "$climate_entity" },
+								confirmation: {
+									enabled: !0,
+									text_key: "actions.reset_learning.confirm"
+								}
 							},
 							{
-								label_key: "metrics.thermal_reason",
-								source: "diagnostic",
-								path: "governance/thermal_update_reason"
+								type: "action",
+								label_key: "actions.force_calibration",
+								icon: "mdi:tune-variant",
+								service: "vtherm_smartpi.force_smartpi_calibration",
+								target: { entity_id: "$climate_entity" },
+								confirmation: {
+									enabled: !0,
+									text_key: "actions.force_calibration.confirm"
+								}
 							},
 							{
-								label_key: "metrics.in_deadband",
-								source: "diagnostic",
-								path: "control/in_deadband"
-							},
-							{
-								label_key: "metrics.in_near_band",
-								source: "diagnostic",
-								path: "control/in_near_band"
-							},
-							{
-								label_key: "metrics.in_deadtime",
-								source: "diagnostic",
-								path: "control/in_deadtime_window"
-							},
-							{
-								label_key: "metrics.integral_hold",
-								source: "diagnostic",
-								path: "temperature/integral_hold_mode"
+								type: "action",
+								label_key: "actions.reset_integral",
+								icon: "mdi:restart",
+								service: "vtherm_smartpi.reset_smartpi_integral",
+								target: { entity_id: "$climate_entity" },
+								confirmation: {
+									enabled: !0,
+									text_key: "actions.reset_integral.confirm"
+								}
 							}
 						]
-					},
-					{
-						type: "metric_grid",
-						title_key: "metrics.autocalib_state",
-						metrics: [
-							{
-								label_key: "metrics.autocalib_state",
-								source: "diagnostic",
-								path: "autocalib/state"
-							},
-							{
-								label_key: "metrics.autocalib_degraded",
-								source: "diagnostic",
-								path: "autocalib/model_degraded"
-							},
-							{
-								label_key: "metrics.autocalib_snapshot_age",
-								source: "diagnostic",
-								path: "autocalib/snapshot_age_h",
-								unit: "h",
-								digits: 0
-							},
-							{
-								label_key: "metrics.autocalib_next_check",
-								source: "diagnostic",
-								path: "autocalib/next_check_ts"
-							},
-							{
-								label_key: "metrics.calibration_state",
-								source: "diagnostic",
-								path: "calibration/state"
-							},
-							{
-								label_key: "metrics.calibration_retry",
-								source: "diagnostic",
-								path: "calibration/retry_count",
-								digits: 0
-							}
-						]
-					},
-					{
-						type: "action",
-						label_key: "actions.reset_learning",
-						icon: "mdi:school-outline",
-						service: "vtherm_smartpi.reset_smartpi_learning",
-						target: { entity_id: "$climate_entity" },
-						confirmation: {
-							enabled: !0,
-							text_key: "actions.reset_learning.confirm"
-						}
-					},
-					{
-						type: "action",
-						label_key: "actions.force_calibration",
-						icon: "mdi:tune-variant",
-						service: "vtherm_smartpi.force_smartpi_calibration",
-						target: { entity_id: "$climate_entity" },
-						confirmation: {
-							enabled: !0,
-							text_key: "actions.force_calibration.confirm"
-						}
-					},
-					{
-						type: "action",
-						label_key: "actions.reset_integral",
-						icon: "mdi:restart",
-						service: "vtherm_smartpi.reset_smartpi_integral",
-						target: { entity_id: "$climate_entity" },
-						confirmation: {
-							enabled: !0,
-							text_key: "actions.reset_integral.confirm"
-						}
 					},
 					{
 						type: "section_note",
@@ -13396,7 +13415,7 @@ function Go(e) {
 	return /^[a-z0-9_-]+$/u.test(e);
 }
 function Ko(e) {
-	return !Wo(e) || typeof e.type != "string" ? !1 : [
+	return !Wo(e) || typeof e.type != "string" ? !1 : e.type === "layout_grid" ? Array.isArray(e.items) && e.items.every(Ko) : [
 		"hero_status",
 		"value",
 		"metric_grid",
@@ -16679,7 +16698,7 @@ var Es = "--", Ds = new Set([
 
     .section {
       display: grid;
-      gap: 14px;
+      gap: 10px;
       min-width: 0;
     }
 
@@ -16730,7 +16749,7 @@ var Es = "--", Ds = new Set([
       grid-template-columns: auto 1fr;
       gap: 12px;
       align-items: center;
-      padding: 14px;
+      padding: 12px;
     }
 
     .hero ha-icon,
@@ -16747,8 +16766,8 @@ var Es = "--", Ds = new Set([
 
     .block {
       display: grid;
-      gap: 8px;
-      padding: 12px;
+      gap: 6px;
+      padding: 10px;
       min-width: 0;
     }
 
@@ -16770,7 +16789,7 @@ var Es = "--", Ds = new Set([
       min-width: 0;
       overflow-wrap: anywhere;
       text-align: end;
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.15;
       font-weight: 650;
       color: var(--primary-text-color);
@@ -16784,16 +16803,16 @@ var Es = "--", Ds = new Set([
 
     .metric {
       display: grid;
-      gap: 6px;
+      gap: 4px;
       min-width: 0;
-      padding: 10px;
+      padding: 8px 10px;
       border-radius: 8px;
       background: color-mix(in srgb, var(--primary-text-color) 6%, transparent);
     }
 
     .metric .value {
       text-align: start;
-      font-size: 17px;
+      font-size: 16px;
     }
 
     .status {
@@ -16822,11 +16841,11 @@ var Es = "--", Ds = new Set([
       justify-content: space-between;
       gap: 10px;
       color: var(--secondary-text-color);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .progress-track {
-      height: 8px;
+      height: 6px;
       overflow: hidden;
       border-radius: 999px;
       background: color-mix(in srgb, var(--primary-text-color) 12%, transparent);
@@ -16844,7 +16863,13 @@ var Es = "--", Ds = new Set([
       grid-template-columns: auto 1fr;
       gap: 10px;
       align-items: start;
-      padding: 10px 12px;
+      padding: 8px 10px;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
+      gap: 10px;
     }
 
     .text {
@@ -16872,33 +16897,42 @@ var Es = "--", Ds = new Set([
     }
 
     .action-block {
-      display: grid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       gap: 8px;
-      align-items: start;
+      padding: 10px 6px;
     }
 
     .action-button {
-      display: inline-grid;
-      grid-template-columns: auto minmax(0, auto);
-      gap: 8px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: fit-content;
-      max-width: 100%;
-      min-height: 40px;
-      padding: 9px 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       border: 1px solid color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 52%, var(--divider-color));
-      border-radius: 8px;
       background: color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 16%, transparent);
-      color: var(--primary-text-color);
-      font: inherit;
-      font-weight: 650;
+      color: var(--regulation-tone-color, var(--primary-text-color));
       cursor: pointer;
+      transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+
+    .action-button:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 28%, transparent);
+      transform: scale(1.06);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 30%, transparent);
+    }
+
+    .action-button:active:not(:disabled) {
+      transform: scale(0.94);
     }
 
     .action-button:disabled {
       cursor: default;
-      opacity: 0.55;
+      opacity: 0.45;
     }
 
     .action-button:focus-visible {
@@ -16906,11 +16940,25 @@ var Es = "--", Ds = new Set([
       outline-offset: 2px;
     }
 
-    .action-button span {
-      min-width: 0;
+    .action-button ha-icon {
+      --mdc-icon-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-label {
+      font-size: 11px;
+      font-weight: 550;
+      line-height: 1.25;
+      color: var(--primary-text-color);
+      max-width: 100%;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     @media (max-width: 600px) {
@@ -17008,6 +17056,14 @@ var Es = "--", Ds = new Set([
         `;
 			case "history": return this._renderHistory(e);
 			case "action": return this._renderAction(e);
+			case "layout_grid": return T`
+          <div
+            class="layout-grid"
+            style=${e.min_width ? `--grid-min-width: ${e.min_width}px;` : D}
+          >
+            ${e.items.map((e) => this._renderItem(e))}
+          </div>
+        `;
 			default: return D;
 		}
 	}
@@ -17109,12 +17165,13 @@ var Es = "--", Ds = new Set([
           class="action-button"
           type="button"
           ?disabled=${a}
+          title=${t}
           aria-label=${t}
           @click=${() => this._handleActionClick(e)}
         >
           <ha-icon icon=${e.icon || "mdi:play-circle-outline"}></ha-icon>
-          <span>${i ? H(this.language, "dialog.regulation.action_running") : t}</span>
         </button>
+        <span class="action-label">${i ? H(this.language, "dialog.regulation.action_running") : t}</span>
         ${r ? T`<p class="missing">${H(this.language, "dialog.regulation.action_locked")}</p>` : D}
         ${this._actionError === n ? T`<p class="missing" role="alert">${H(this.language, "dialog.regulation.action_failed")}</p>` : D}
       </article>

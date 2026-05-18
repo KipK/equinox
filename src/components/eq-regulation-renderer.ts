@@ -26,7 +26,6 @@ import type {
   RegulationDashboardSection,
   RegulationDashboardSource,
   RegulationDashboardStatusItem,
-  RegulationDashboardStatusMapEntry,
   RegulationDashboardTone,
   RegulationDashboardValueItem,
   RegulationDashboardValueRef
@@ -70,7 +69,7 @@ export class EquinoxRegulationRenderer extends LitElement {
 
     .section {
       display: grid;
-      gap: 14px;
+      gap: 10px;
       min-width: 0;
     }
 
@@ -121,7 +120,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       grid-template-columns: auto 1fr;
       gap: 12px;
       align-items: center;
-      padding: 14px;
+      padding: 12px;
     }
 
     .hero ha-icon,
@@ -138,8 +137,8 @@ export class EquinoxRegulationRenderer extends LitElement {
 
     .block {
       display: grid;
-      gap: 8px;
-      padding: 12px;
+      gap: 6px;
+      padding: 10px;
       min-width: 0;
     }
 
@@ -161,7 +160,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       min-width: 0;
       overflow-wrap: anywhere;
       text-align: end;
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.15;
       font-weight: 650;
       color: var(--primary-text-color);
@@ -175,16 +174,16 @@ export class EquinoxRegulationRenderer extends LitElement {
 
     .metric {
       display: grid;
-      gap: 6px;
+      gap: 4px;
       min-width: 0;
-      padding: 10px;
+      padding: 8px 10px;
       border-radius: 8px;
       background: color-mix(in srgb, var(--primary-text-color) 6%, transparent);
     }
 
     .metric .value {
       text-align: start;
-      font-size: 17px;
+      font-size: 16px;
     }
 
     .status {
@@ -213,11 +212,11 @@ export class EquinoxRegulationRenderer extends LitElement {
       justify-content: space-between;
       gap: 10px;
       color: var(--secondary-text-color);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .progress-track {
-      height: 8px;
+      height: 6px;
       overflow: hidden;
       border-radius: 999px;
       background: color-mix(in srgb, var(--primary-text-color) 12%, transparent);
@@ -235,7 +234,13 @@ export class EquinoxRegulationRenderer extends LitElement {
       grid-template-columns: auto 1fr;
       gap: 10px;
       align-items: start;
-      padding: 10px 12px;
+      padding: 8px 10px;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
+      gap: 10px;
     }
 
     .text {
@@ -263,33 +268,42 @@ export class EquinoxRegulationRenderer extends LitElement {
     }
 
     .action-block {
-      display: grid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       gap: 8px;
-      align-items: start;
+      padding: 10px 6px;
     }
 
     .action-button {
-      display: inline-grid;
-      grid-template-columns: auto minmax(0, auto);
-      gap: 8px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: fit-content;
-      max-width: 100%;
-      min-height: 40px;
-      padding: 9px 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       border: 1px solid color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 52%, var(--divider-color));
-      border-radius: 8px;
       background: color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 16%, transparent);
-      color: var(--primary-text-color);
-      font: inherit;
-      font-weight: 650;
+      color: var(--regulation-tone-color, var(--primary-text-color));
       cursor: pointer;
+      transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+
+    .action-button:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 28%, transparent);
+      transform: scale(1.06);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--regulation-tone-color, var(--primary-color)) 30%, transparent);
+    }
+
+    .action-button:active:not(:disabled) {
+      transform: scale(0.94);
     }
 
     .action-button:disabled {
       cursor: default;
-      opacity: 0.55;
+      opacity: 0.45;
     }
 
     .action-button:focus-visible {
@@ -297,11 +311,25 @@ export class EquinoxRegulationRenderer extends LitElement {
       outline-offset: 2px;
     }
 
-    .action-button span {
-      min-width: 0;
+    .action-button ha-icon {
+      --mdc-icon-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-label {
+      font-size: 11px;
+      font-weight: 550;
+      line-height: 1.25;
+      color: var(--primary-text-color);
+      max-width: 100%;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     @media (max-width: 600px) {
@@ -448,6 +476,15 @@ export class EquinoxRegulationRenderer extends LitElement {
         return this._renderHistory(item);
       case "action":
         return this._renderAction(item);
+      case "layout_grid":
+        return html`
+          <div
+            class="layout-grid"
+            style=${item.min_width ? `--grid-min-width: ${item.min_width}px;` : nothing}
+          >
+            ${item.items.map((subItem) => this._renderItem(subItem))}
+          </div>
+        `;
       default:
         return nothing;
     }
@@ -585,12 +622,13 @@ export class EquinoxRegulationRenderer extends LitElement {
           class="action-button"
           type="button"
           ?disabled=${disabled}
+          title=${label}
           aria-label=${label}
           @click=${() => this._handleActionClick(item)}
         >
           <ha-icon icon=${item.icon || "mdi:play-circle-outline"}></ha-icon>
-          <span>${pending ? localize(this.language, "dialog.regulation.action_running") : label}</span>
         </button>
+        <span class="action-label">${pending ? localize(this.language, "dialog.regulation.action_running") : label}</span>
         ${locked ? html`<p class="missing">${localize(this.language, "dialog.regulation.action_locked")}</p>` : nothing}
         ${this._actionError === actionKey
           ? html`<p class="missing" role="alert">${localize(this.language, "dialog.regulation.action_failed")}</p>`
