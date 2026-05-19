@@ -14066,6 +14066,8 @@ var is = o`
 				type: Boolean,
 				attribute: "show-back"
 			},
+			headerActionIcon: { attribute: "header-action-icon" },
+			headerActionLabel: { attribute: "header-action-label" },
 			floating: { type: Boolean },
 			centered: { type: Boolean },
 			closeOnLeave: { type: Boolean },
@@ -14281,6 +14283,12 @@ var is = o`
 			composed: !0
 		}));
 	}
+	_dispatchHeaderAction() {
+		this.dispatchEvent(new CustomEvent("eq-dialog-header-action", {
+			bubbles: !0,
+			composed: !0
+		}));
+	}
 	updated() {
 		this.open || this._clearCloseOnLeaveTimer(), this.open && (this.floating || this.centered) && this.updateComplete.then(() => {
 			this._syncNativePopover(), this.floating && this._positionPopover();
@@ -14319,22 +14327,22 @@ var is = o`
 	}
 	render() {
 		if (!this.open) return D;
-		let e = H(this.language, "dialog.close"), t = H(this.language, "dialog.back"), n = this._usesNativePopover(), r = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", i = [
+		let e = H(this.language, "dialog.close"), t = H(this.language, "dialog.back"), n = this.headerActionLabel || t, r = this._usesNativePopover(), i = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "", a = [
 			"panel",
 			this.floating ? "popover" : "",
 			this.centered ? "centered" : ""
-		].filter(Boolean).join(" "), a = [
+		].filter(Boolean).join(" "), o = [
 			"scrim",
 			this.floating ? "popover" : "",
 			this.centered ? "centered" : ""
 		].filter(Boolean).join(" ");
 		return T`
-      ${n ? D : T`<div class=${a} @click=${this._dispatchClose}></div>`}
+      ${r ? D : T`<div class=${o} @click=${this._dispatchClose}></div>`}
       <div
-        class=${i}
-        style=${r}
-        popover=${n ? "auto" : D}
-        @toggle=${n ? this._handlePopoverToggle : void 0}
+        class=${a}
+        style=${i}
+        popover=${r ? "auto" : D}
+        @toggle=${r ? this._handlePopoverToggle : void 0}
         @click=${(e) => e.stopPropagation()}
         @mouseenter=${() => this._clearCloseOnLeaveTimer()}
         @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : void 0}
@@ -14343,6 +14351,10 @@ var is = o`
           ${this.showBack ? T`
                 <ha-icon-button class="back-btn" .label=${t} @click=${this._dispatchBack}>
                   <ha-icon icon="mdi:chevron-left"></ha-icon>
+                </ha-icon-button>
+              ` : this.headerActionIcon ? T`
+                <ha-icon-button class="back-btn" .label=${n} @click=${this._dispatchHeaderAction}>
+                  <ha-icon icon=${this.headerActionIcon}></ha-icon>
                 </ha-icon-button>
               ` : D}
           <span class="header-title">${this.title}</span>
@@ -15818,20 +15830,10 @@ var fs = class extends O {
 };
 customElements.get("eq-preset-dialog") || customElements.define("eq-preset-dialog", fs);
 //#endregion
-//#region src/data/regulation-dashboard-i18n.ts
-function ps(e) {
-	return (e?.trim().toLowerCase().replace("_", "-"))?.split("-")[0] || "en";
-}
-function ms(e, t, n, r) {
-	if (!n) return r ?? "";
-	let i = ps(t), a = e.translations;
-	return a?.[i]?.[n] ?? a?.en?.[n] ?? r ?? n;
-}
-//#endregion
 //#region src/components/eq-menu-dialog.ts
-var hs = class extends O {
+var ps = class extends O {
 	constructor(...e) {
-		super(...e), this.open = !1, this.regulationAvailable = !1, this.floating = !1, this.closeOnLeave = !1, this._submenu = null;
+		super(...e), this.open = !1, this.regulationAvailable = !1, this.floating = !1, this.closeOnLeave = !1;
 	}
 	static {
 		this.properties = {
@@ -15847,8 +15849,7 @@ var hs = class extends O {
 			language: {},
 			floating: { type: Boolean },
 			closeOnLeave: { type: Boolean },
-			anchor: { attribute: !1 },
-			_submenu: { state: !0 }
+			anchor: { attribute: !1 }
 		};
 	}
 	static {
@@ -15901,13 +15902,7 @@ var hs = class extends O {
       font-weight: 500;
     }
 
-    .back-item {
-      --md-list-item-label-text-color: var(--secondary-text-color, rgba(255, 255, 255, 0.7));
-    }
   `;
-	}
-	updated(e) {
-		e.has("open") && !this.open && (this._submenu = null);
 	}
 	_dispatchClose() {
 		this.dispatchEvent(new CustomEvent("eq-dialog-close", {
@@ -15935,8 +15930,8 @@ var hs = class extends O {
 		return this.viewModel?.vt?.timedPreset.isActive === !0 || !!this.viewModel?.vt?.timedPresetManager;
 	}
 	render() {
-		let e = this._showRegulation(), t = this._showBoost(), n = this.viewModel?.vt?.timedPreset.isActive === !0, r = this.viewModel?.vt?.timedPreset.remainingTimeMin, i = this._submenu === "regulation" ? H(this.language, "dialog.menu.regulation") : H(this.language, "dialog.menu.title");
-		return this._submenu === "regulation" ? this._renderRegulationSubmenu(i) : T`
+		let e = this._showRegulation(), t = this._showBoost(), n = this.viewModel?.vt?.timedPreset.isActive === !0, r = this.viewModel?.vt?.timedPreset.remainingTimeMin, i = H(this.language, "dialog.menu.title");
+		return T`
       <eq-dialog
         .open=${this.open}
         .title=${i}
@@ -15984,50 +15979,15 @@ var hs = class extends O {
       </eq-dialog>
     `;
 	}
-	_renderRegulationSubmenu(e) {
-		return T`
-      <eq-dialog
-        .open=${this.open}
-        .title=${e}
-        .language=${this.language}
-        .floating=${this.floating}
-        .closeOnLeave=${this.closeOnLeave}
-        .anchor=${this.anchor}
-        .showBack=${!0}
-        @eq-dialog-close=${this._dispatchClose}
-        @eq-dialog-back=${() => {
-			this._submenu = null;
-		}}
-      >
-        <ha-md-list class="menu-list">
-          ${this.regulationDashboard?.sections.map((e) => {
-			let t = ms(this.regulationDashboard, this.language, e.title_key, e.title || e.id);
-			return T`
-              <ha-md-list-item type="button" @click=${() => this._dispatchAndClose("equinox-open-regulation", { sectionId: e.id })}>
-                <span class="option-icon" slot="start">
-                  <ha-icon icon=${e.icon || "mdi:view-dashboard-outline"} style="--mdc-icon-size: 24px;"></ha-icon>
-                </span>
-                <span>${t}</span>
-              </ha-md-list-item>
-            `;
-		})}
-        </ha-md-list>
-      </eq-dialog>
-    `;
-	}
 	_openRegulationMenuEntry() {
 		let e = this.regulationDashboard?.sections ?? [];
-		if (window.innerWidth <= 600 && e.length > 1) {
-			this._submenu = "regulation";
-			return;
-		}
-		this._dispatchAndClose("equinox-open-regulation", e.length === 1 ? { sectionId: e[0].id } : void 0);
+		this._dispatchAndClose("equinox-open-regulation", e.length > 0 ? { sectionId: e[0].id } : void 0);
 	}
 };
-customElements.get("eq-menu-dialog") || customElements.define("eq-menu-dialog", hs);
+customElements.get("eq-menu-dialog") || customElements.define("eq-menu-dialog", ps);
 //#endregion
 //#region src/components/eq-boost-dialog.ts
-var gs = 60, _s = [
+var ms = 60, hs = [
 	15,
 	30,
 	45,
@@ -16049,9 +16009,9 @@ var gs = 60, _s = [
 	960,
 	1200,
 	1440
-], vs = class extends O {
+], gs = class extends O {
 	constructor(...e) {
-		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1, this._durationMinutes = gs;
+		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1, this._durationMinutes = ms;
 	}
 	static {
 		this.properties = {
@@ -16290,11 +16250,11 @@ var gs = 60, _s = [
 		return !this.hass || !this.config || this.viewModel?.climate.availability !== "available" || this.viewModel?.vt?.lock.isUserLocked === !0;
 	}
 	_setDuration(e) {
-		_s.includes(e) && (this._durationMinutes = e);
+		hs.includes(e) && (this._durationMinutes = e);
 	}
 	_onDurationChange(e) {
 		let t = Number(e.detail.value);
-		Number.isFinite(t) && this._setDuration(_s[Math.round(t)] ?? gs);
+		Number.isFinite(t) && this._setDuration(hs[Math.round(t)] ?? ms);
 	}
 	async _startBoost() {
 		if (!this.hass || !this.config) return;
@@ -16313,8 +16273,8 @@ var gs = 60, _s = [
 		})).ok && this._dispatchClose();
 	}
 	_durationIndex(e) {
-		let t = _s.indexOf(e);
-		return t >= 0 ? t : _s.reduce((t, n, r) => Math.abs(n - e) < Math.abs(_s[t] - e) ? r : t, 0);
+		let t = hs.indexOf(e);
+		return t >= 0 ? t : hs.reduce((t, n, r) => Math.abs(n - e) < Math.abs(hs[t] - e) ? r : t, 0);
 	}
 	_formatDuration(e) {
 		if (e < 60) return {
@@ -16352,7 +16312,7 @@ var gs = 60, _s = [
                     class="boost-wheel"
                     .mode=${"start"}
                     .min=${0}
-                    .max=${_s.length - 1}
+                    .max=${hs.length - 1}
                     .step=${1}
                     .value=${this._durationIndex(a)}
                     ?disabled=${r || n}
@@ -16375,8 +16335,8 @@ var gs = 60, _s = [
     `;
 	}
 };
-customElements.get("eq-boost-dialog") || customElements.define("eq-boost-dialog", vs);
-var ys = {
+customElements.get("eq-boost-dialog") || customElements.define("eq-boost-dialog", gs);
+var _s = {
 	ema_temp: "temperature",
 	on_percent: "%",
 	power_percent: "%",
@@ -16457,23 +16417,23 @@ var ys = {
 	"window_manager.window_auto_max_duration": "min",
 	"window_manager.window_delay_sec": "s",
 	"window_manager.window_off_delay_sec": "s"
-}, bs = {};
-function xs(e) {
-	if (typeof e != "object" || !e || Array.isArray(e)) return bs;
+}, vs = {};
+function ys(e) {
+	if (typeof e != "object" || !e || Array.isArray(e)) return vs;
 	let t = {};
 	for (let [n, r] of Object.entries(e)) n !== "" && typeof r == "string" && r !== "" && (t[n] = r);
 	return t;
 }
-var Ss = xs(ys);
-function Cs() {
-	return Promise.resolve(Ss);
+var bs = ys(_s);
+function xs() {
+	return Promise.resolve(bs);
 }
-function ws(e) {
-	return e ?? bs;
+function Ss(e) {
+	return e ?? vs;
 }
 //#endregion
 //#region src/components/eq-history-dialog.ts
-var Ts = class extends O {
+var Cs = class extends O {
 	constructor(...e) {
 		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._attributeUnitsLoadStarted = !1, this._historyPickerOverlayOpen = !1, this._suppressNextDialogClose = !1, this._handleDocumentPointerDown = () => {
 			!this.open || !this._historyPickerOverlayOpen || (this._suppressNextDialogClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
@@ -16565,7 +16525,7 @@ var Ts = class extends O {
 		this._fullscreen = !this._fullscreen;
 	}
 	_loadAttributeUnits() {
-		this._attributeUnitsLoadStarted || (this._attributeUnitsLoadStarted = !0, Cs().then((e) => {
+		this._attributeUnitsLoadStarted || (this._attributeUnitsLoadStarted = !0, xs().then((e) => {
 			this._staticAttributeUnits = e, this.requestUpdate();
 		}));
 	}
@@ -16641,7 +16601,7 @@ var Ts = class extends O {
         ${this.open ? T`<equinox-better-history
               .hass=${this.hass}
               .config=${this._betterHistoryConfig()}
-              .attributeUnits=${ws(this._staticAttributeUnits)}
+              .attributeUnits=${Ss(this._staticAttributeUnits)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
@@ -16652,7 +16612,17 @@ var Ts = class extends O {
     `;
 	}
 };
-customElements.get("eq-history-dialog") || customElements.define("eq-history-dialog", Ts);
+customElements.get("eq-history-dialog") || customElements.define("eq-history-dialog", Cs);
+//#endregion
+//#region src/data/regulation-dashboard-i18n.ts
+function ws(e) {
+	return (e?.trim().toLowerCase().replace("_", "-"))?.split("-")[0] || "en";
+}
+function Ts(e, t, n, r) {
+	if (!n) return r ?? "";
+	let i = ws(t), a = e.translations;
+	return a?.[i]?.[n] ?? a?.en?.[n] ?? r ?? n;
+}
 //#endregion
 //#region src/components/eq-regulation-renderer.ts
 var Es = "--", Ds = new Set([
@@ -17007,7 +16977,7 @@ var Es = "--", Ds = new Set([
 		super.connectedCallback(), this._loadAttributeUnits();
 	}
 	_loadAttributeUnits() {
-		this._attributeUnitsLoadStarted || (this._attributeUnitsLoadStarted = !0, Cs().then((e) => {
+		this._attributeUnitsLoadStarted || (this._attributeUnitsLoadStarted = !0, xs().then((e) => {
 			this._staticAttributeUnits = e, this.requestUpdate();
 		}));
 	}
@@ -17043,7 +17013,7 @@ var Es = "--", Ds = new Set([
 		return this._translate(e.summary_key, e.summary);
 	}
 	_translate(e, t) {
-		return this.dashboard ? ms(this.dashboard, this.language, e, t) : t ?? "";
+		return this.dashboard ? Ts(this.dashboard, this.language, e, t) : t ?? "";
 	}
 	_renderItem(e) {
 		if (!this._conditionMatches(e.visible_if)) return D;
@@ -17160,7 +17130,7 @@ var Es = "--", Ds = new Set([
           class="history-chart"
           .hass=${this.hass}
           .config=${t}
-          .attributeUnits=${ws(this._staticAttributeUnits)}
+          .attributeUnits=${Ss(this._staticAttributeUnits)}
           .language=${this.language}
           .showControls=${r}
           .toolsOpen=${i}
@@ -17410,7 +17380,7 @@ customElements.get("eq-regulation-renderer") || customElements.define("eq-regula
 //#region src/components/eq-regulation-dialog.ts
 var ks = class extends O {
 	constructor(...e) {
-		super(...e), this.open = !1, this._mobileShowingSections = !1;
+		super(...e), this.open = !1, this.mobileSectionMenuOpen = !1;
 	}
 	static {
 		this.properties = {
@@ -17425,7 +17395,10 @@ var ks = class extends O {
 			loadResult: { attribute: !1 },
 			activeSectionId: { attribute: "active-section-id" },
 			language: {},
-			_mobileShowingSections: { state: !0 }
+			mobileSectionMenuOpen: {
+				type: Boolean,
+				attribute: "mobile-section-menu-open"
+			}
 		};
 	}
 	static {
@@ -17515,6 +17488,113 @@ var ks = class extends O {
       min-width: 0;
     }
 
+    .mobile-navigation-shell {
+      position: relative;
+      min-height: calc(100dvh - 76px);
+      overflow: hidden;
+      margin: -12px -12px -16px;
+      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+    }
+
+    .mobile-current-page {
+      min-width: 0;
+      min-height: calc(100dvh - 76px);
+      padding: 12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      box-sizing: border-box;
+      transition: transform 0.18s ease-out, opacity 0.18s ease-out, filter 0.18s ease-out;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-current-page {
+      pointer-events: none;
+    }
+
+    .mobile-section-fab {
+      position: fixed;
+      inset-inline-end: max(16px, env(safe-area-inset-right));
+      inset-block-end: max(18px, env(safe-area-inset-bottom));
+      z-index: 9002;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      justify-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid color-mix(in srgb, var(--primary-color) 54%, var(--divider-color));
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--primary-color) 88%, var(--card-background-color, #1c1c1c) 12%);
+      color: var(--primary-text-color, #fff);
+      box-shadow: 0 10px 26px rgb(0 0 0 / 28%);
+      font: inherit;
+      font-weight: 650;
+      white-space: nowrap;
+      transition: opacity 0.14s ease-out, transform 0.14s ease-out;
+    }
+
+    .mobile-section-fab ha-icon {
+      --mdc-icon-size: 22px;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-section-fab {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    .mobile-sheet-scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 9001;
+      background: rgba(0, 0, 0, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease-out;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-sheet-scrim {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-section-sheet {
+      position: fixed;
+      inset-inline: 0;
+      inset-block-end: 0;
+      z-index: 9003;
+      max-height: min(72dvh, 520px);
+      padding: 8px 12px max(16px, env(safe-area-inset-bottom));
+      box-sizing: border-box;
+      border-radius: 18px 18px 0 0;
+      border: 1px solid color-mix(in srgb, var(--divider-color) 72%, transparent);
+      border-bottom: 0;
+      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+      box-shadow: 0 -18px 36px rgb(0 0 0 / 30%);
+      transform: translateY(100%);
+      transition: transform 0.18s ease-out;
+      pointer-events: none;
+      overflow: auto;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-section-sheet {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .mobile-section-sheet-handle {
+      width: 38px;
+      height: 4px;
+      margin: 2px auto 12px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--secondary-text-color) 42%, transparent);
+    }
+
+    .mobile-section-sheet-title {
+      margin: 0 4px 10px;
+      color: var(--primary-text-color);
+      font-size: 16px;
+      font-weight: 650;
+    }
+
     .mobile-section-button {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
@@ -17522,19 +17602,40 @@ var ks = class extends O {
       align-items: center;
       width: 100%;
       min-height: 52px;
-      padding: 10px 12px;
-      border: 1px solid color-mix(in srgb, var(--divider-color) 78%, transparent);
+      padding: 8px 10px;
+      border: 0;
       border-radius: 8px;
-      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 88%, var(--primary-text-color) 4%);
+      background: transparent;
       color: var(--primary-text-color);
       font: inherit;
       text-align: start;
+      cursor: pointer;
+    }
+
+    .mobile-section-button:hover {
+      background: rgba(128, 128, 128, 0.08);
     }
 
     .mobile-section-button[aria-current="true"] {
-      border-color: color-mix(in srgb, var(--primary-color) 58%, var(--divider-color));
-      background: color-mix(in srgb, var(--primary-color) 16%, transparent);
+      color: var(--primary-color);
       font-weight: 650;
+    }
+
+    .mobile-section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(128, 128, 128, 0.12);
+      color: var(--primary-text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mobile-section-button[aria-current="true"] .mobile-section-icon,
+    .mobile-section-button[aria-current="true"] .mobile-section-chevron {
+      color: var(--primary-color);
     }
 
     .mobile-section-button span {
@@ -17542,6 +17643,10 @@ var ks = class extends O {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .mobile-section-chevron {
+      color: var(--secondary-text-color);
     }
 
     @media (max-width: 600px) {
@@ -17566,10 +17671,8 @@ var ks = class extends O {
         width: 100%;
       }
     }
+
   `;
-	}
-	updated(e) {
-		e.has("open") && !this.open && (this._mobileShowingSections = !1);
 	}
 	render() {
 		return T`
@@ -17578,9 +17681,7 @@ var ks = class extends O {
         .title=${this._dialogTitle()}
         .language=${this.language}
         .centered=${!0}
-        .showBack=${this._showMobileSectionBack()}
         @eq-dialog-close=${(e) => this._forwardClose(e)}
-        @eq-dialog-back=${(e) => this._handleBack(e)}
       >
         ${this._renderContent()}
       </eq-dialog>
@@ -17596,12 +17697,12 @@ var ks = class extends O {
 		}
 		if (!this.dashboard || this.dashboard.kind !== "regulation-dashboard" || this.dashboard.sections.length === 0) return T`<div class="state" role="alert">${H(this.language, "dialog.regulation.invalid")}</div>`;
 		let e = this._activeSectionId();
-		return this._isMobile() && this._mobileShowingSections && this.dashboard.sections.length > 1 ? this._renderMobileSectionMenu(e) : T`
+		return this._isMobile() && this.dashboard.sections.length > 1 ? this._renderMobileSectionSheet(e) : T`
       <div class="layout">
         ${this.dashboard.sections.length > 1 ? T`
               <nav class="section-nav" aria-label=${H(this.language, "dialog.regulation.sections")}>
                 ${this.dashboard.sections.map((t) => {
-			let n = ms(this.dashboard, this.language, t.title_key, t.title || t.id);
+			let n = Ts(this.dashboard, this.language, t.title_key, t.title || t.id);
 			return T`
                     <button
                       class="section-button"
@@ -17631,7 +17732,7 @@ var ks = class extends O {
 		return T`
       <nav class="mobile-section-list" aria-label=${H(this.language, "dialog.regulation.sections")}>
         ${this.dashboard.sections.map((t) => {
-			let n = ms(this.dashboard, this.language, t.title_key, t.title || t.id);
+			let n = Ts(this.dashboard, this.language, t.title_key, t.title || t.id);
 			return T`
             <button
               class="mobile-section-button"
@@ -17639,23 +17740,54 @@ var ks = class extends O {
               aria-current=${t.id === e ? "true" : "false"}
               @click=${() => this._selectSection(t.id)}
             >
-              <ha-icon icon=${t.icon || "mdi:view-dashboard-outline"}></ha-icon>
+              <span class="mobile-section-icon">
+                <ha-icon icon=${t.icon || "mdi:view-dashboard-outline"}></ha-icon>
+              </span>
               <span>${n}</span>
-              <ha-icon icon="mdi:chevron-right"></ha-icon>
+              <ha-icon class="mobile-section-chevron" icon="mdi:chevron-right"></ha-icon>
             </button>
           `;
 		})}
       </nav>
     `;
 	}
+	_renderMobileSectionSheet(e) {
+		return T`
+      <div class="mobile-navigation-shell" ?sheet-open=${this.mobileSectionMenuOpen}>
+        <div class="mobile-current-page">
+          <eq-regulation-renderer
+            .hass=${this.hass}
+            .config=${this.config}
+            .viewModel=${this.viewModel}
+            .dashboard=${this.dashboard}
+            .activeSectionId=${e}
+            .language=${this.language}
+          ></eq-regulation-renderer>
+        </div>
+        <button
+          class="mobile-section-fab"
+          type="button"
+          aria-label=${H(this.language, "dialog.regulation.sections")}
+          @click=${() => this._setMobileSectionMenu(!0)}
+        >
+          <ha-icon icon="mdi:format-list-bulleted"></ha-icon>
+        </button>
+        <div class="mobile-sheet-scrim" @click=${() => this._setMobileSectionMenu(!1)}></div>
+        <div class="mobile-section-sheet" role="dialog" aria-label=${H(this.language, "dialog.regulation.sections")}>
+          <div class="mobile-section-sheet-handle"></div>
+          <h3 class="mobile-section-sheet-title">${H(this.language, "dialog.regulation.sections")}</h3>
+          ${this._renderMobileSectionMenu(e)}
+        </div>
+      </div>
+    `;
+	}
 	_dialogTitle() {
 		let e = H(this.language, "dialog.regulation.title");
 		if (!this.dashboard) return e;
-		let t = ms(this.dashboard, this.language, this.dashboard.title_key, this.dashboard.title);
-		if (this._isMobile() && this._mobileShowingSections) return t ? `${e} - ${t}` : e;
+		let t = Ts(this.dashboard, this.language, this.dashboard.title_key, this.dashboard.title);
 		if (this._isMobile()) {
 			let n = this.dashboard.sections.find((e) => e.id === this._activeSectionId());
-			return (n ? ms(this.dashboard, this.language, n.title_key, n.title || n.id) : "") || (t ? `${e} - ${t}` : e);
+			return (n ? Ts(this.dashboard, this.language, n.title_key, n.title || n.id) : "") || (t ? `${e} - ${t}` : e);
 		}
 		return t ? `${e} - ${t}` : e;
 	}
@@ -17663,11 +17795,7 @@ var ks = class extends O {
 		return this.dashboard?.sections.find((e) => e.id === this.activeSectionId)?.id ?? this.dashboard?.sections[0]?.id;
 	}
 	_selectSection(e) {
-		this.activeSectionId = e, this._mobileShowingSections = !1, this.dispatchEvent(new CustomEvent("equinox-regulation-section-selected", {
-			detail: { sectionId: e },
-			bubbles: !0,
-			composed: !0
-		}));
+		this.renderRoot.querySelector(".mobile-navigation-shell")?.removeAttribute("sheet-open"), window.requestAnimationFrame(() => this._dispatchSectionSelected(e));
 	}
 	_forwardClose(e) {
 		e.stopPropagation(), this.dispatchEvent(new CustomEvent("eq-dialog-close", {
@@ -17675,11 +17803,22 @@ var ks = class extends O {
 			composed: !0
 		}));
 	}
-	_handleBack(e) {
-		e.stopPropagation(), this._isMobile() && this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections && (this._mobileShowingSections = !0);
+	_setMobileSectionMenu(e) {
+		this.renderRoot.querySelector(".mobile-navigation-shell")?.toggleAttribute("sheet-open", e), window.requestAnimationFrame(() => this._dispatchMenuToggled(e));
 	}
-	_showMobileSectionBack() {
-		return this._isMobile() && !!this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections;
+	_dispatchSectionSelected(e) {
+		this.dispatchEvent(new CustomEvent("equinox-regulation-section-selected", {
+			detail: { sectionId: e },
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	_dispatchMenuToggled(e) {
+		this.dispatchEvent(new CustomEvent("equinox-regulation-menu-toggled", {
+			detail: { open: e },
+			bubbles: !0,
+			composed: !0
+		}));
 	}
 	_isMobile() {
 		return window.matchMedia("(max-width: 600px)").matches;
@@ -18202,7 +18341,7 @@ function Hs(e, t) {
 }
 var Us = class extends O {
 	constructor(...e) {
-		super(...e), this._activeDialog = null, this._powerInfoPinned = !1, this._lockDialogOpen = !1, this._lockIsLocking = !1, this._regulationLoadKey = "", this._browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`, this._syncingBrowserHistory = !1, this._handleMouseLeave = () => {
+		super(...e), this._activeDialog = null, this._powerInfoPinned = !1, this._lockDialogOpen = !1, this._lockIsLocking = !1, this._regulationLoadKey = "", this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0, this._browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`, this._syncingBrowserHistory = !1, this._handleMouseLeave = () => {
 			this._activeDialog === "menu" && (this._activeDialog = null);
 		}, this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
@@ -18212,7 +18351,11 @@ var Us = class extends O {
 					this._activeDialog = "history", this._activeMessageKey = void 0;
 					return;
 				}
-				this._activeDialog === "history" && (this._activeDialog = null);
+				if (t?.layer === "regulation-dialog") {
+					this._activeDialog = "regulation", this._activeMessageKey = void 0, this._regulationActiveSectionId = t.sectionId, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = t.regulationDepth ?? 1, this._ensureRegulationDashboard();
+					return;
+				}
+				this._activeDialog === "history" && (this._activeDialog = null), this._activeDialog === "regulation" && (this._activeDialog = null, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0);
 			} finally {
 				this._syncingBrowserHistory = !1;
 			}
@@ -19242,22 +19385,43 @@ var Us = class extends O {
 		let t = typeof e == "object" && e ? e[Ns] : void 0;
 		if (typeof t != "object" || !t) return;
 		let n = t;
-		if (!(n.instanceId !== this._browserHistoryInstanceId || n.layer !== "history-dialog")) return {
+		if (!(n.instanceId !== this._browserHistoryInstanceId || n.layer !== "history-dialog" && n.layer !== "regulation-dialog")) return {
 			instanceId: n.instanceId,
-			layer: n.layer
+			layer: n.layer,
+			sectionId: typeof n.sectionId == "string" ? n.sectionId : void 0,
+			regulationDepth: typeof n.regulationDepth == "number" ? n.regulationDepth : void 0
 		};
 	}
-	_browserHistoryState() {
+	_browserHistoryState(e) {
 		return {
 			...typeof window.history.state == "object" && window.history.state !== null ? window.history.state : {},
 			[Ns]: {
 				instanceId: this._browserHistoryInstanceId,
-				layer: "history-dialog"
+				...e
 			}
 		};
 	}
+	_sameBrowserHistoryEntry(e) {
+		let t = this._browserHistoryEntry();
+		return t?.layer === e.layer && t.sectionId === e.sectionId;
+	}
+	_pushBrowserHistoryState(e) {
+		this._syncingBrowserHistory || this._sameBrowserHistoryEntry(e) || window.history.pushState(this._browserHistoryState(e), "", window.location.href);
+	}
 	_pushHistoryDialogState() {
-		this._syncingBrowserHistory || this._browserHistoryEntry()?.layer !== "history-dialog" && window.history.pushState(this._browserHistoryState(), "", window.location.href);
+		this._pushBrowserHistoryState({ layer: "history-dialog" });
+	}
+	_pushRegulationDialogState(e = this._regulationActiveSectionId) {
+		if (this._sameBrowserHistoryEntry({
+			layer: "regulation-dialog",
+			sectionId: e
+		})) return;
+		let t = this._browserHistoryEntry(), n = t?.layer === "regulation-dialog" && t.regulationDepth ? t.regulationDepth + 1 : 1;
+		this._pushBrowserHistoryState({
+			layer: "regulation-dialog",
+			sectionId: e,
+			regulationDepth: n
+		}), this._regulationBrowserHistoryDepth = n;
 	}
 	_openHistoryDialog() {
 		this._activeDialog = "history", this._activeMessageKey = void 0, this._pushHistoryDialogState();
@@ -19284,19 +19448,33 @@ var Us = class extends O {
 		if (!this.hass || !this.config) return Promise.resolve(void 0);
 		let e = ns(this.hass, this.config), t = this._regulationLoadCacheKey();
 		if (!t) return Promise.resolve(void 0);
-		if (t !== this._regulationLoadKey && (this._regulationLoadKey = t, this._regulationLoadResult = void 0, this._regulationLoadPromise = void 0, this._regulationActiveSectionId = void 0), this._regulationLoadResult) return Promise.resolve(this._regulationLoadResult);
+		if (t !== this._regulationLoadKey && (this._regulationLoadKey = t, this._regulationLoadResult = void 0, this._regulationLoadPromise = void 0, this._regulationActiveSectionId = void 0, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0), this._regulationLoadResult) return Promise.resolve(this._regulationLoadResult);
 		if (this._regulationLoadPromise) return this._regulationLoadPromise;
 		let n = Bo(e).then((e) => (this._regulationLoadKey === t && (this._regulationLoadResult = e, this._regulationLoadPromise = void 0, e.status === "loaded" && !this._regulationActiveSectionId && (this._regulationActiveSectionId = e.dashboard.sections[0]?.id)), e));
 		return this._regulationLoadPromise = n, n;
 	}
 	async _openRegulationDialog(e) {
-		this._activeDialog = "regulation", this._activeMessageKey = void 0, e && (this._regulationActiveSectionId = e);
+		this._activeDialog = "regulation", this._activeMessageKey = void 0, this._regulationMobileSectionMenuOpen = !1, e && (this._regulationActiveSectionId = e);
 		let t = await this._ensureRegulationDashboard();
 		if (t?.status === "loaded") {
-			this._regulationActiveSectionId = e ?? t.dashboard.sections[0]?.id;
+			this._regulationActiveSectionId = e ?? t.dashboard.sections[0]?.id, this._pushRegulationDialogState(this._regulationActiveSectionId);
 			return;
 		}
-		this.config?.additional_dashboards !== "custom" && (this._activeDialog = null);
+		this.config?.additional_dashboards === "custom" ? this._pushRegulationDialogState(e) : this._activeDialog = null;
+	}
+	_closeRegulationDialog() {
+		let e = this._browserHistoryEntry();
+		if (!this._syncingBrowserHistory && e?.layer === "regulation-dialog") {
+			window.history.go(-Math.max(1, e.regulationDepth ?? this._regulationBrowserHistoryDepth));
+			return;
+		}
+		this._activeDialog = null, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0;
+	}
+	_setRegulationMobileSectionMenu(e) {
+		this._activeDialog === "regulation" && (this._regulationMobileSectionMenuOpen = e);
+	}
+	_selectRegulationSection(e) {
+		this._regulationActiveSectionId = e, this._regulationMobileSectionMenuOpen = !1, this._pushRegulationDialogState(e);
 	}
 	willUpdate() {
 		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode), this.toggleAttribute("border-glow-on-action", !!this.config?.border_glow_on_action);
@@ -19431,13 +19609,11 @@ var Us = class extends O {
         .dashboard=${this._regulationDashboard()}
         .loadResult=${this._regulationLoadResult}
         .activeSectionId=${this._regulationActiveSectionId}
+        .mobileSectionMenuOpen=${this._regulationMobileSectionMenuOpen}
         .language=${this._language()}
-        @eq-dialog-close=${() => {
-			this._activeDialog = null;
-		}}
-        @equinox-regulation-section-selected=${(e) => {
-			this._regulationActiveSectionId = e.detail.sectionId;
-		}}
+        @eq-dialog-close=${() => this._closeRegulationDialog()}
+        @equinox-regulation-menu-toggled=${(e) => this._setRegulationMobileSectionMenu(e.detail.open)}
+        @equinox-regulation-section-selected=${(e) => this._selectRegulationSection(e.detail.sectionId)}
       ></eq-regulation-dialog>
       <eq-lock-dialog
         .open=${this._lockDialogOpen}

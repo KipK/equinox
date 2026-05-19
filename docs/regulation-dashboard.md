@@ -151,9 +151,12 @@ Each dashboard contains one or more sections.
 | `summary_key` | no | string | Translation key for section summary. |
 | `items` | yes | array | Dashboard blocks rendered in order. |
 
-Desktop dashboards use a side section menu inside the dialog. On mobile, a
-single-section dashboard opens directly; a multi-section dashboard shows its
-sections from the Equinox menu and opens the selected section.
+Desktop dashboards use a side section menu inside the dialog. On mobile, the
+Regulation menu entry opens the first dashboard section directly. Multi-section
+dashboards expose their section list through a bottom floating Sections button;
+the section list opens as a bottom sheet. Browser Back/Forward follows
+Regulation dialog and section navigation; opening the section sheet does not add
+a browser-history entry.
 
 ## Translations
 

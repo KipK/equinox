@@ -7,6 +7,8 @@ export class EquinoxDialog extends LitElement {
     title: {},
     language: {},
     showBack: { type: Boolean, attribute: "show-back" },
+    headerActionIcon: { attribute: "header-action-icon" },
+    headerActionLabel: { attribute: "header-action-label" },
     floating: { type: Boolean },
     centered: { type: Boolean },
     closeOnLeave: { type: Boolean },
@@ -199,6 +201,8 @@ export class EquinoxDialog extends LitElement {
   title = "";
   language?: string;
   showBack = false;
+  headerActionIcon?: string;
+  headerActionLabel?: string;
   floating = false;
   centered = false;
   closeOnLeave = false;
@@ -266,6 +270,10 @@ export class EquinoxDialog extends LitElement {
 
   private _dispatchBack(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-back", { bubbles: true, composed: true }));
+  }
+
+  private _dispatchHeaderAction(): void {
+    this.dispatchEvent(new CustomEvent("eq-dialog-header-action", { bubbles: true, composed: true }));
   }
 
   protected updated(): void {
@@ -378,6 +386,7 @@ export class EquinoxDialog extends LitElement {
 
     const closeLabel = localize(this.language, "dialog.close");
     const backLabel = localize(this.language, "dialog.back");
+    const headerActionLabel = this.headerActionLabel || backLabel;
     const nativePopover = this._usesNativePopover();
     const popoverStyle = this.floating && window.innerWidth > 600 ? "left: 0; top: 0; visibility: hidden;" : "";
     const panelClass = ["panel", this.floating ? "popover" : "", this.centered ? "centered" : ""].filter(Boolean).join(" ");
@@ -403,7 +412,13 @@ export class EquinoxDialog extends LitElement {
                   <ha-icon icon="mdi:chevron-left"></ha-icon>
                 </ha-icon-button>
               `
-        : nothing}
+        : this.headerActionIcon
+          ? html`
+                <ha-icon-button class="back-btn" .label=${headerActionLabel} @click=${this._dispatchHeaderAction}>
+                  <ha-icon icon=${this.headerActionIcon}></ha-icon>
+                </ha-icon-button>
+              `
+          : nothing}
           <span class="header-title">${this.title}</span>
           <ha-icon-button class="close-btn" .label=${closeLabel} @click=${this._dispatchClose}>
             <ha-icon icon="mdi:close"></ha-icon>

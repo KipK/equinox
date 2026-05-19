@@ -1,6 +1,5 @@
 import { LitElement, css, html, nothing } from "lit";
 import { localize } from "../localize/localize";
-import { translateRegulationDashboardText } from "../data/regulation-dashboard-i18n";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { RegulationDashboard } from "../types/regulation-dashboard";
@@ -18,8 +17,7 @@ export class EquinoxMenuDialog extends LitElement {
     language: {},
     floating: { type: Boolean },
     closeOnLeave: { type: Boolean },
-    anchor: { attribute: false },
-    _submenu: { state: true }
+    anchor: { attribute: false }
   };
 
   static styles = css`
@@ -71,9 +69,6 @@ export class EquinoxMenuDialog extends LitElement {
       font-weight: 500;
     }
 
-    .back-item {
-      --md-list-item-label-text-color: var(--secondary-text-color, rgba(255, 255, 255, 0.7));
-    }
   `;
 
   open = false;
@@ -86,13 +81,6 @@ export class EquinoxMenuDialog extends LitElement {
   floating = false;
   closeOnLeave = false;
   anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
-  private _submenu: "regulation" | null = null;
-
-  protected updated(changed: Map<string, unknown>): void {
-    if (changed.has("open") && !this.open) {
-      this._submenu = null;
-    }
-  }
 
   private _dispatchClose(): void {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
@@ -120,14 +108,7 @@ export class EquinoxMenuDialog extends LitElement {
     const showBoost = this._showBoost();
     const timedPresetActive = this.viewModel?.vt?.timedPreset.isActive === true;
     const remainingTimeMin = this.viewModel?.vt?.timedPreset.remainingTimeMin;
-    const title =
-      this._submenu === "regulation"
-        ? localize(this.language, "dialog.menu.regulation")
-        : localize(this.language, "dialog.menu.title");
-
-    if (this._submenu === "regulation") {
-      return this._renderRegulationSubmenu(title);
-    }
+    const title = localize(this.language, "dialog.menu.title");
 
     return html`
       <eq-dialog
@@ -184,52 +165,9 @@ export class EquinoxMenuDialog extends LitElement {
     `;
   }
 
-  private _renderRegulationSubmenu(title: string) {
-    return html`
-      <eq-dialog
-        .open=${this.open}
-        .title=${title}
-        .language=${this.language}
-        .floating=${this.floating}
-        .closeOnLeave=${this.closeOnLeave}
-        .anchor=${this.anchor}
-        .showBack=${true}
-        @eq-dialog-close=${this._dispatchClose}
-        @eq-dialog-back=${() => { this._submenu = null; }}
-      >
-        <ha-md-list class="menu-list">
-          ${this.regulationDashboard?.sections.map((section) => {
-            const title = translateRegulationDashboardText(
-              this.regulationDashboard!,
-              this.language,
-              section.title_key,
-              section.title || section.id
-            );
-
-            return html`
-              <ha-md-list-item type="button" @click=${() => this._dispatchAndClose("equinox-open-regulation", { sectionId: section.id })}>
-                <span class="option-icon" slot="start">
-                  <ha-icon icon=${section.icon || "mdi:view-dashboard-outline"} style="--mdc-icon-size: 24px;"></ha-icon>
-                </span>
-                <span>${title}</span>
-              </ha-md-list-item>
-            `;
-          })}
-        </ha-md-list>
-      </eq-dialog>
-    `;
-  }
-
   private _openRegulationMenuEntry(): void {
     const sections = this.regulationDashboard?.sections ?? [];
-    const isMobile = window.innerWidth <= 600;
-
-    if (isMobile && sections.length > 1) {
-      this._submenu = "regulation";
-      return;
-    }
-
-    this._dispatchAndClose("equinox-open-regulation", sections.length === 1 ? { sectionId: sections[0].id } : undefined);
+    this._dispatchAndClose("equinox-open-regulation", sections.length > 0 ? { sectionId: sections[0].id } : undefined);
   }
 }
 

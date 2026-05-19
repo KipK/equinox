@@ -19,7 +19,7 @@ export class EquinoxRegulationDialog extends LitElement {
     loadResult: { attribute: false },
     activeSectionId: { attribute: "active-section-id" },
     language: {},
-    _mobileShowingSections: { state: true }
+    mobileSectionMenuOpen: { type: Boolean, attribute: "mobile-section-menu-open" }
   };
 
   static styles = css`
@@ -108,6 +108,113 @@ export class EquinoxRegulationDialog extends LitElement {
       min-width: 0;
     }
 
+    .mobile-navigation-shell {
+      position: relative;
+      min-height: calc(100dvh - 76px);
+      overflow: hidden;
+      margin: -12px -12px -16px;
+      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+    }
+
+    .mobile-current-page {
+      min-width: 0;
+      min-height: calc(100dvh - 76px);
+      padding: 12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      box-sizing: border-box;
+      transition: transform 0.18s ease-out, opacity 0.18s ease-out, filter 0.18s ease-out;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-current-page {
+      pointer-events: none;
+    }
+
+    .mobile-section-fab {
+      position: fixed;
+      inset-inline-end: max(16px, env(safe-area-inset-right));
+      inset-block-end: max(18px, env(safe-area-inset-bottom));
+      z-index: 9002;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      justify-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid color-mix(in srgb, var(--primary-color) 54%, var(--divider-color));
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--primary-color) 88%, var(--card-background-color, #1c1c1c) 12%);
+      color: var(--primary-text-color, #fff);
+      box-shadow: 0 10px 26px rgb(0 0 0 / 28%);
+      font: inherit;
+      font-weight: 650;
+      white-space: nowrap;
+      transition: opacity 0.14s ease-out, transform 0.14s ease-out;
+    }
+
+    .mobile-section-fab ha-icon {
+      --mdc-icon-size: 22px;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-section-fab {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    .mobile-sheet-scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 9001;
+      background: rgba(0, 0, 0, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease-out;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-sheet-scrim {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-section-sheet {
+      position: fixed;
+      inset-inline: 0;
+      inset-block-end: 0;
+      z-index: 9003;
+      max-height: min(72dvh, 520px);
+      padding: 8px 12px max(16px, env(safe-area-inset-bottom));
+      box-sizing: border-box;
+      border-radius: 18px 18px 0 0;
+      border: 1px solid color-mix(in srgb, var(--divider-color) 72%, transparent);
+      border-bottom: 0;
+      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+      box-shadow: 0 -18px 36px rgb(0 0 0 / 30%);
+      transform: translateY(100%);
+      transition: transform 0.18s ease-out;
+      pointer-events: none;
+      overflow: auto;
+    }
+
+    .mobile-navigation-shell[sheet-open] .mobile-section-sheet {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .mobile-section-sheet-handle {
+      width: 38px;
+      height: 4px;
+      margin: 2px auto 12px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--secondary-text-color) 42%, transparent);
+    }
+
+    .mobile-section-sheet-title {
+      margin: 0 4px 10px;
+      color: var(--primary-text-color);
+      font-size: 16px;
+      font-weight: 650;
+    }
+
     .mobile-section-button {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
@@ -115,19 +222,40 @@ export class EquinoxRegulationDialog extends LitElement {
       align-items: center;
       width: 100%;
       min-height: 52px;
-      padding: 10px 12px;
-      border: 1px solid color-mix(in srgb, var(--divider-color) 78%, transparent);
+      padding: 8px 10px;
+      border: 0;
       border-radius: 8px;
-      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 88%, var(--primary-text-color) 4%);
+      background: transparent;
       color: var(--primary-text-color);
       font: inherit;
       text-align: start;
+      cursor: pointer;
+    }
+
+    .mobile-section-button:hover {
+      background: rgba(128, 128, 128, 0.08);
     }
 
     .mobile-section-button[aria-current="true"] {
-      border-color: color-mix(in srgb, var(--primary-color) 58%, var(--divider-color));
-      background: color-mix(in srgb, var(--primary-color) 16%, transparent);
+      color: var(--primary-color);
       font-weight: 650;
+    }
+
+    .mobile-section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(128, 128, 128, 0.12);
+      color: var(--primary-text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mobile-section-button[aria-current="true"] .mobile-section-icon,
+    .mobile-section-button[aria-current="true"] .mobile-section-chevron {
+      color: var(--primary-color);
     }
 
     .mobile-section-button span {
@@ -135,6 +263,10 @@ export class EquinoxRegulationDialog extends LitElement {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .mobile-section-chevron {
+      color: var(--secondary-text-color);
     }
 
     @media (max-width: 600px) {
@@ -159,6 +291,7 @@ export class EquinoxRegulationDialog extends LitElement {
         width: 100%;
       }
     }
+
   `;
 
   open = false;
@@ -169,13 +302,7 @@ export class EquinoxRegulationDialog extends LitElement {
   loadResult?: RegulationDashboardLoadResult;
   activeSectionId?: string;
   language?: string;
-  private _mobileShowingSections = false;
-
-  protected updated(changed: Map<string, unknown>): void {
-    if (changed.has("open") && !this.open) {
-      this._mobileShowingSections = false;
-    }
-  }
+  mobileSectionMenuOpen = false;
 
   protected render(): TemplateResult {
     return html`
@@ -184,9 +311,7 @@ export class EquinoxRegulationDialog extends LitElement {
         .title=${this._dialogTitle()}
         .language=${this.language}
         .centered=${true}
-        .showBack=${this._showMobileSectionBack()}
         @eq-dialog-close=${(event: Event) => this._forwardClose(event)}
-        @eq-dialog-back=${(event: Event) => this._handleBack(event)}
       >
         ${this._renderContent()}
       </eq-dialog>
@@ -217,8 +342,8 @@ export class EquinoxRegulationDialog extends LitElement {
 
     const activeSectionId = this._activeSectionId();
 
-    if (this._isMobile() && this._mobileShowingSections && this.dashboard.sections.length > 1) {
-      return this._renderMobileSectionMenu(activeSectionId);
+    if (this._isMobile() && this.dashboard.sections.length > 1) {
+      return this._renderMobileSectionSheet(activeSectionId);
     }
 
     return html`
@@ -267,13 +392,46 @@ export class EquinoxRegulationDialog extends LitElement {
               aria-current=${section.id === activeSectionId ? "true" : "false"}
               @click=${() => this._selectSection(section.id)}
             >
-              <ha-icon icon=${section.icon || "mdi:view-dashboard-outline"}></ha-icon>
+              <span class="mobile-section-icon">
+                <ha-icon icon=${section.icon || "mdi:view-dashboard-outline"}></ha-icon>
+              </span>
               <span>${title}</span>
-              <ha-icon icon="mdi:chevron-right"></ha-icon>
+              <ha-icon class="mobile-section-chevron" icon="mdi:chevron-right"></ha-icon>
             </button>
           `;
         })}
       </nav>
+    `;
+  }
+
+  private _renderMobileSectionSheet(activeSectionId: string | undefined): TemplateResult {
+    return html`
+      <div class="mobile-navigation-shell" ?sheet-open=${this.mobileSectionMenuOpen}>
+        <div class="mobile-current-page">
+          <eq-regulation-renderer
+            .hass=${this.hass}
+            .config=${this.config}
+            .viewModel=${this.viewModel}
+            .dashboard=${this.dashboard}
+            .activeSectionId=${activeSectionId}
+            .language=${this.language}
+          ></eq-regulation-renderer>
+        </div>
+        <button
+          class="mobile-section-fab"
+          type="button"
+          aria-label=${localize(this.language, "dialog.regulation.sections")}
+          @click=${() => this._setMobileSectionMenu(true)}
+        >
+          <ha-icon icon="mdi:format-list-bulleted"></ha-icon>
+        </button>
+        <div class="mobile-sheet-scrim" @click=${() => this._setMobileSectionMenu(false)}></div>
+        <div class="mobile-section-sheet" role="dialog" aria-label=${localize(this.language, "dialog.regulation.sections")}>
+          <div class="mobile-section-sheet-handle"></div>
+          <h3 class="mobile-section-sheet-title">${localize(this.language, "dialog.regulation.sections")}</h3>
+          ${this._renderMobileSectionMenu(activeSectionId)}
+        </div>
+      </div>
     `;
   }
 
@@ -284,10 +442,6 @@ export class EquinoxRegulationDialog extends LitElement {
     }
 
     const dashboardTitle = translateRegulationDashboardText(this.dashboard, this.language, this.dashboard.title_key, this.dashboard.title);
-    if (this._isMobile() && this._mobileShowingSections) {
-      return dashboardTitle ? `${baseTitle} - ${dashboardTitle}` : baseTitle;
-    }
-
     if (this._isMobile()) {
       const activeSection = this.dashboard.sections.find((section) => section.id === this._activeSectionId());
       const sectionTitle = activeSection
@@ -307,8 +461,21 @@ export class EquinoxRegulationDialog extends LitElement {
   }
 
   private _selectSection(sectionId: string): void {
-    this.activeSectionId = sectionId;
-    this._mobileShowingSections = false;
+    this.renderRoot.querySelector<HTMLElement>(".mobile-navigation-shell")?.removeAttribute("sheet-open");
+    window.requestAnimationFrame(() => this._dispatchSectionSelected(sectionId));
+  }
+
+  private _forwardClose(event: Event): void {
+    event.stopPropagation();
+    this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
+  }
+
+  private _setMobileSectionMenu(open: boolean): void {
+    this.renderRoot.querySelector<HTMLElement>(".mobile-navigation-shell")?.toggleAttribute("sheet-open", open);
+    window.requestAnimationFrame(() => this._dispatchMenuToggled(open));
+  }
+
+  private _dispatchSectionSelected(sectionId: string): void {
     this.dispatchEvent(
       new CustomEvent("equinox-regulation-section-selected", {
         detail: { sectionId },
@@ -318,21 +485,14 @@ export class EquinoxRegulationDialog extends LitElement {
     );
   }
 
-  private _forwardClose(event: Event): void {
-    event.stopPropagation();
-    this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
-  }
-
-  private _handleBack(event: Event): void {
-    event.stopPropagation();
-
-    if (this._isMobile() && this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections) {
-      this._mobileShowingSections = true;
-    }
-  }
-
-  private _showMobileSectionBack(): boolean {
-    return this._isMobile() && !!this.dashboard && this.dashboard.sections.length > 1 && !this._mobileShowingSections;
+  private _dispatchMenuToggled(open: boolean): void {
+    this.dispatchEvent(
+      new CustomEvent("equinox-regulation-menu-toggled", {
+        detail: { open },
+        bubbles: true,
+        composed: true
+      })
+    );
   }
 
   private _isMobile(): boolean {

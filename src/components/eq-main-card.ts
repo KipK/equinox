@@ -28,7 +28,9 @@ const BROWSER_HISTORY_STATE_KEY = "equinox";
 
 interface BrowserHistoryEntry {
   instanceId: string;
-  layer: "history-dialog";
+  layer: "history-dialog" | "regulation-dialog";
+  sectionId?: string;
+  regulationDepth?: number;
 }
 
 type EventIconDefinition = {
@@ -1209,6 +1211,8 @@ export class EquinoxMainCard extends LitElement {
   private _regulationLoadKey = "";
   private _regulationLoadPromise?: Promise<RegulationDashboardLoadResult>;
   private _regulationActiveSectionId?: string;
+  private _regulationMobileSectionMenuOpen = false;
+  private _regulationBrowserHistoryDepth = 0;
   private readonly _browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`;
   private _syncingBrowserHistory = false;
 
@@ -1239,14 +1243,22 @@ export class EquinoxMainCard extends LitElement {
     if (typeof entry !== "object" || entry === null) return undefined;
 
     const record = entry as Partial<BrowserHistoryEntry>;
-    if (record.instanceId !== this._browserHistoryInstanceId || record.layer !== "history-dialog") {
+    if (
+      record.instanceId !== this._browserHistoryInstanceId ||
+      (record.layer !== "history-dialog" && record.layer !== "regulation-dialog")
+    ) {
       return undefined;
     }
 
-    return { instanceId: record.instanceId, layer: record.layer };
+    return {
+      instanceId: record.instanceId,
+      layer: record.layer,
+      sectionId: typeof record.sectionId === "string" ? record.sectionId : undefined,
+      regulationDepth: typeof record.regulationDepth === "number" ? record.regulationDepth : undefined
+    };
   }
 
-  private _browserHistoryState(): Record<string, unknown> {
+  private _browserHistoryState(entry: Omit<BrowserHistoryEntry, "instanceId">): Record<string, unknown> {
     const current = typeof window.history.state === "object" && window.history.state !== null
       ? window.history.state as Record<string, unknown>
       : {};
@@ -1255,16 +1267,44 @@ export class EquinoxMainCard extends LitElement {
       ...current,
       [BROWSER_HISTORY_STATE_KEY]: {
         instanceId: this._browserHistoryInstanceId,
-        layer: "history-dialog"
+        ...entry
       }
     };
   }
 
-  private _pushHistoryDialogState(): void {
-    if (this._syncingBrowserHistory) return;
-    if (this._browserHistoryEntry()?.layer === "history-dialog") return;
+  private _sameBrowserHistoryEntry(entry: Omit<BrowserHistoryEntry, "instanceId">): boolean {
+    const current = this._browserHistoryEntry();
+    return (
+      current?.layer === entry.layer &&
+      current.sectionId === entry.sectionId
+    );
+  }
 
-    window.history.pushState(this._browserHistoryState(), "", window.location.href);
+  private _pushBrowserHistoryState(entry: Omit<BrowserHistoryEntry, "instanceId">): void {
+    if (this._syncingBrowserHistory) return;
+    if (this._sameBrowserHistoryEntry(entry)) return;
+
+    window.history.pushState(this._browserHistoryState(entry), "", window.location.href);
+  }
+
+  private _pushHistoryDialogState(): void {
+    this._pushBrowserHistoryState({ layer: "history-dialog" });
+  }
+
+  private _pushRegulationDialogState(sectionId = this._regulationActiveSectionId): void {
+    if (this._sameBrowserHistoryEntry({ layer: "regulation-dialog", sectionId })) return;
+
+    const current = this._browserHistoryEntry();
+    const regulationDepth = current?.layer === "regulation-dialog" && current.regulationDepth
+      ? current.regulationDepth + 1
+      : 1;
+
+    this._pushBrowserHistoryState({
+      layer: "regulation-dialog",
+      sectionId,
+      regulationDepth
+    });
+    this._regulationBrowserHistoryDepth = regulationDepth;
   }
 
   private readonly _handleBrowserPopState = (event: PopStateEvent): void => {
@@ -1278,8 +1318,24 @@ export class EquinoxMainCard extends LitElement {
         return;
       }
 
+      if (entry?.layer === "regulation-dialog") {
+        this._activeDialog = "regulation";
+        this._activeMessageKey = undefined;
+        this._regulationActiveSectionId = entry.sectionId;
+        this._regulationMobileSectionMenuOpen = false;
+        this._regulationBrowserHistoryDepth = entry.regulationDepth ?? 1;
+        void this._ensureRegulationDashboard();
+        return;
+      }
+
       if (this._activeDialog === "history") {
         this._activeDialog = null;
+      }
+
+      if (this._activeDialog === "regulation") {
+        this._activeDialog = null;
+        this._regulationMobileSectionMenuOpen = false;
+        this._regulationBrowserHistoryDepth = 0;
       }
     } finally {
       this._syncingBrowserHistory = false;
@@ -1346,6 +1402,8 @@ export class EquinoxMainCard extends LitElement {
       this._regulationLoadResult = undefined;
       this._regulationLoadPromise = undefined;
       this._regulationActiveSectionId = undefined;
+      this._regulationMobileSectionMenuOpen = false;
+      this._regulationBrowserHistoryDepth = 0;
     }
 
     if (this._regulationLoadResult) {
@@ -1374,6 +1432,7 @@ export class EquinoxMainCard extends LitElement {
   private async _openRegulationDialog(sectionId?: string): Promise<void> {
     this._activeDialog = "regulation";
     this._activeMessageKey = undefined;
+    this._regulationMobileSectionMenuOpen = false;
 
     if (sectionId) {
       this._regulationActiveSectionId = sectionId;
@@ -1382,12 +1441,39 @@ export class EquinoxMainCard extends LitElement {
     const result = await this._ensureRegulationDashboard();
     if (result?.status === "loaded") {
       this._regulationActiveSectionId = sectionId ?? result.dashboard.sections[0]?.id;
+      this._pushRegulationDialogState(this._regulationActiveSectionId);
       return;
     }
 
-    if (this.config?.additional_dashboards !== "custom") {
+    if (this.config?.additional_dashboards === "custom") {
+      this._pushRegulationDialogState(sectionId);
+    } else {
       this._activeDialog = null;
     }
+  }
+
+  private _closeRegulationDialog(): void {
+    const entry = this._browserHistoryEntry();
+    if (!this._syncingBrowserHistory && entry?.layer === "regulation-dialog") {
+      window.history.go(-Math.max(1, entry.regulationDepth ?? this._regulationBrowserHistoryDepth));
+      return;
+    }
+
+    this._activeDialog = null;
+    this._regulationMobileSectionMenuOpen = false;
+    this._regulationBrowserHistoryDepth = 0;
+  }
+
+  private _setRegulationMobileSectionMenu(open: boolean): void {
+    if (this._activeDialog !== "regulation") return;
+
+    this._regulationMobileSectionMenuOpen = open;
+  }
+
+  private _selectRegulationSection(sectionId: string): void {
+    this._regulationActiveSectionId = sectionId;
+    this._regulationMobileSectionMenuOpen = false;
+    this._pushRegulationDialogState(sectionId);
   }
 
   protected willUpdate(): void {
@@ -1526,9 +1612,11 @@ export class EquinoxMainCard extends LitElement {
         .dashboard=${this._regulationDashboard()}
         .loadResult=${this._regulationLoadResult}
         .activeSectionId=${this._regulationActiveSectionId}
+        .mobileSectionMenuOpen=${this._regulationMobileSectionMenuOpen}
         .language=${this._language()}
-        @eq-dialog-close=${() => { this._activeDialog = null; }}
-        @equinox-regulation-section-selected=${(event: CustomEvent<{ sectionId: string }>) => { this._regulationActiveSectionId = event.detail.sectionId; }}
+        @eq-dialog-close=${() => this._closeRegulationDialog()}
+        @equinox-regulation-menu-toggled=${(event: CustomEvent<{ open: boolean }>) => this._setRegulationMobileSectionMenu(event.detail.open)}
+        @equinox-regulation-section-selected=${(event: CustomEvent<{ sectionId: string }>) => this._selectRegulationSection(event.detail.sectionId)}
       ></eq-regulation-dialog>
       <eq-lock-dialog
         .open=${this._lockDialogOpen}
