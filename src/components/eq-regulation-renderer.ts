@@ -25,6 +25,7 @@ import type {
   RegulationDashboardProgressItem,
   RegulationDashboardSection,
   RegulationDashboardSource,
+  RegulationDashboardStatusMapEntry,
   RegulationDashboardStatusItem,
   RegulationDashboardTone,
   RegulationDashboardValueItem,
@@ -210,6 +211,18 @@ export class EquinoxRegulationRenderer extends LitElement {
       align-items: start;
     }
 
+    .status.center {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .status.center > div {
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+    }
+
     .status-pill {
       display: inline-flex;
       width: fit-content;
@@ -258,6 +271,16 @@ export class EquinoxRegulationRenderer extends LitElement {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
       gap: 10px;
+    }
+
+    .layout-section {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .layout-section > h3 {
+      padding-inline: 2px;
     }
 
     .text {
@@ -495,7 +518,9 @@ export class EquinoxRegulationRenderer extends LitElement {
       case "action":
         return this._renderAction(item);
       case "layout_grid":
-        return html`
+        {
+          const title = this._translate(item.title_key, item.title);
+          const grid = html`
           <div
             class="layout-grid"
             style=${item.min_width ? `--grid-min-width: ${item.min_width}px;` : nothing}
@@ -503,6 +528,8 @@ export class EquinoxRegulationRenderer extends LitElement {
             ${item.items.map((subItem) => this._renderItem(subItem))}
           </div>
         `;
+          return title ? html`<section class="layout-section"><h3>${title}</h3>${grid}</section>` : grid;
+        }
       default:
         return nothing;
     }
@@ -549,17 +576,19 @@ export class EquinoxRegulationRenderer extends LitElement {
   private _renderStatus(item: RegulationDashboardStatusItem): TemplateResult {
     const value = readRegulationSourceValue(this._context(), item.source, item.path);
     const key = isMissingRegulationValue(value) ? "" : String(value);
-    const entry = item.map[key] ?? item.fallback;
+    const entry = item.map[key] ?? this._rangeStatusEntry(item, value) ?? item.fallback;
     const tone = entry?.tone ?? "muted";
     const label = entry ? this._translate(entry.label_key, entry.label ?? key) : VALUE_FALLBACK;
+    const displayedValue = item.show_value ? this._formatStatusValue(item, value) : "";
+    const pillLabel = displayedValue && label !== VALUE_FALLBACK ? `${label} · ${displayedValue}` : label;
     const description = entry ? this._translate(entry.description_key, entry.description) : "";
 
     return html`
-      <article class="block status" tone=${tone}>
+      <article class="block status ${item.align === "center" ? "center" : ""}" tone=${tone}>
         ${entry?.icon ? html`<ha-icon icon=${entry.icon}></ha-icon>` : html`<ha-icon icon="mdi:circle-medium"></ha-icon>`}
         <div>
           ${this._translate(item.label_key, item.label) ? html`<div class="label">${this._translate(item.label_key, item.label)}</div>` : nothing}
-          <div class="status-pill">${label}</div>
+          <div class="status-pill">${pillLabel}</div>
           ${description ? html`<p class="description">${description}</p>` : nothing}
           ${this._sourceMissing(item.source) ? html`<p class="missing">${localize(this.language, "dialog.regulation.source_missing")}</p>` : nothing}
         </div>
@@ -896,6 +925,31 @@ export class EquinoxRegulationRenderer extends LitElement {
     }
 
     return String(value);
+  }
+
+  private _formatStatusValue(item: RegulationDashboardStatusItem, value: unknown): string {
+    const valueNumber = this._asNumber(value);
+    if (valueNumber === undefined) {
+      return "";
+    }
+
+    const multiplier = item.value_multiplier ?? 1;
+    const unit = this._translate(item.value_unit_key, item.value_unit);
+    const formatted = this._formatPrimitive(valueNumber * multiplier, item.value_digits);
+    return unit ? `${formatted} ${unit}` : formatted;
+  }
+
+  private _rangeStatusEntry(item: RegulationDashboardStatusItem, value: unknown): RegulationDashboardStatusMapEntry | undefined {
+    const valueNumber = this._asNumber(value);
+    if (valueNumber === undefined) {
+      return undefined;
+    }
+
+    return item.ranges?.find((entry) => {
+      const minMatches = entry.min === undefined || valueNumber >= entry.min;
+      const maxMatches = entry.max === undefined || valueNumber <= entry.max;
+      return minMatches && maxMatches;
+    });
   }
 
   private _toneForValue(item: RegulationDashboardValueItem | RegulationDashboardMetric): RegulationDashboardTone {

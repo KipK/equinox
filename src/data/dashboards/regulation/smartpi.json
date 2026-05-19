@@ -8,17 +8,23 @@
       "sections.overview.title": "Vue d'ensemble",
       "sections.overview.summary": "Synthese de la regulation Smart PI active.",
       "sections.learning.title": "Apprentissage",
-      "sections.learning.summary": "Etat de la collecte et des echantillons du modele A/B.",
+      "sections.learning.summary": "Etat de la collecte des echantillons A/B du modele thermique.",
       "sections.model.title": "Modele thermique",
       "sections.model.summary": "Fiabilite du modele et temps morts estimes.",
       "sections.command.title": "Commande",
       "sections.command.summary": "Puissance demandee, limites et decomposition de la commande.",
-      "sections.health.title": "Protections, calibration et sante",
-      "sections.health.summary": "Garde-fous, autocalibration et decisions de securite.",
+      "sections.health.title": "Securite et actions",
+      "sections.health.summary": "Garde-fous, calibration et actions de maintenance.",
       "hero.overview.title": "Smart PI pilote la regulation",
-      "hero.overview.subtitle": "Les valeurs ci-dessous expliquent la commande courante sans activer le mode debug.",
+      "hero.overview.bootstrap": "Smart PI collecte les premiers echantillons et regule provisoirement en hysteresis.",
+      "hero.overview.hysteresis_learning": "Le modele se consolide encore ; la regulation reste prudente pendant l'apprentissage.",
+      "hero.overview.stable_learning": "Smart PI affine le modele tout en pilotant la regulation active.",
+      "hero.overview.monitoring": "Le modele thermique est exploite pour anticiper la puissance necessaire.",
+      "hero.overview.calibration": "Une calibration est en cours pour recaler le comportement thermique.",
+      "hero.overview.degraded": "La regulation limite l'adaptation car le modele manque de fiabilite.",
+      "hero.overview.fallback": "Smart PI ajuste la puissance selon la phase courante, l'apprentissage A/B et les limites de securite.",
       "hero.learning.title": "Apprentissage A/B",
-      "hero.learning.subtitle": "Les progressions utilisent les historiques EMEA et les cibles publiees par Smart PI.",
+      "hero.learning.subtitle": "Etat de la collecte des echantillons A/B du modele thermique.",
       "hero.model.title": "Modele thermique",
       "hero.model.subtitle": "La confiance du modele determine la part de feed-forward et les limites de prudence.",
       "hero.command.title": "Commande appliquee",
@@ -31,7 +37,7 @@
       "metrics.temperature": "Temperature",
       "metrics.external_temperature": "Temperature externe",
       "metrics.error": "Ecart consigne",
-      "metrics.integral_error": "Erreur integrale",
+      "metrics.integral_error": "Integrale",
       "metrics.filtered_setpoint": "Consigne filtree",
       "metrics.current_cycle": "Cycle courant",
       "metrics.next_cycle": "Prochain cycle",
@@ -45,28 +51,29 @@
       "metrics.hold": "Maintien",
       "metrics.kp": "Kp",
       "metrics.ki": "Ki",
-      "metrics.a": "Coefficient A",
-      "metrics.b": "Coefficient B",
+      "metrics.a": "A - Reponse active",
+      "metrics.b": "B - Pertes thermiques",
       "metrics.tau": "Tau",
       "metrics.deadtime_heat": "Temps mort chauffe",
       "metrics.deadtime_cool": "Temps mort refroidissement",
-      "metrics.a_stability": "Stabilite A",
-      "metrics.b_stability": "Stabilite B",
+      "metrics.a_stability": "Dispersion A",
+      "metrics.b_stability": "Dispersion B",
       "metrics.samples_a": "Historique A",
       "metrics.samples_b": "Historique B",
       "metrics.accepted_a": "Updates A acceptes",
       "metrics.accepted_b": "Updates B acceptes",
       "metrics.bootstrap_progress": "Bootstrap",
-      "metrics.bootstrap_a": "Collecte A",
-      "metrics.bootstrap_b": "Collecte B",
-      "metrics.history_a": "Historique A complet",
-      "metrics.history_b": "Historique B complet",
+      "metrics.bootstrap_a": "Echantillons A",
+      "metrics.bootstrap_b": "Echantillons B",
+      "metrics.history_a": "Echantillons A",
+      "metrics.history_b": "Echantillons B",
       "metrics.learning_stage": "Etat apprentissage",
       "metrics.bootstrap_status": "Etat bootstrap",
       "metrics.confidence": "Confiance modele",
-      "metrics.tau_reliable": "Tau fiable",
-      "metrics.deadtime_heat_reliable": "Temps mort chauffe fiable",
-      "metrics.deadtime_cool_reliable": "Temps mort refroidissement fiable",
+      "metrics.reliability": "Fiabilite",
+      "metrics.tau_reliable": "Tau",
+      "metrics.deadtime_heat_reliable": "Temps mort chauffe",
+      "metrics.deadtime_cool_reliable": "Temps mort refroidissement",
       "metrics.governance": "Regime de securite",
       "metrics.thermal_decision": "Decision thermique",
       "metrics.thermal_reason": "Raison",
@@ -100,9 +107,23 @@
       "status.learning.degraded": "Degrade",
       "status.confidence.ab_ok": "Modele fiable",
       "status.confidence.ab_degraded": "Modele partiel",
-      "status.confidence.ab_bad": "Modele degrade",
+      "status.confidence.ab_bad": "Modele insuffisant",
+      "status.confidence.unknown": "Confiance inconnue",
+      "status.confidence.ab_ok.description": "Les echantillons A et B sont suffisamment coherents pour utiliser le modele normalement.",
+      "status.confidence.ab_degraded.description": "Une partie du modele est exploitable, mais la regulation reste prudente.",
+      "status.confidence.ab_bad.description": "Le modele n'est pas assez fiable ; Smart PI limite ou evite son influence.",
+      "status.confidence.unknown.description": "L'etat de confiance n'est pas encore publie par le diagnostic.",
       "status.boolean.true": "Oui",
       "status.boolean.false": "Non",
+      "status.reliability.true": "Fiable",
+      "status.reliability.false": "Non fiable",
+      "status.coherence.collecting": "En collecte",
+      "status.coherence.coherent": "Coherente",
+      "status.coherence.watch": "A surveiller",
+      "status.coherence.acceptable": "Acceptable",
+      "status.coherence.dispersed": "Dispersee",
+      "status.coherence.unstable": "Instable",
+      "status.coherence.very_unstable": "Tres instable",
       "status.autocalib.idle": "Desactivee",
       "status.autocalib.waiting_snapshot": "Attente snapshot",
       "status.autocalib.monitoring": "Surveillance",
@@ -125,7 +146,7 @@
       "status.regime.degraded": "Degrade",
       "status.regime.saturated": "Sature",
       "notes.diagnostic_required": "Renseigne diagnostic_entity dans la configuration Equinox pour afficher les diagnostics Smart PI.",
-      "notes.learning": "Les compteurs accepted_updates_* sont informatifs. Les barres principales utilisent emea_samples_*, bootstrap_target_* et history_target.",
+      "notes.learning": "A mesure la reponse a la commande ; B mesure les pertes thermiques. Smart PI collecte les deux series d'echantillons pour fiabiliser le modele.",
       "notes.hysteresis_phase": "En phase bootstrap, Smart PI peut fonctionner en hysteresis le temps de collecter assez d'observations.",
       "actions.reset_learning": "Reinitialiser l'apprentissage",
       "actions.reset_learning.confirm": "Smart PI va effacer son apprentissage et revenir en bootstrap.",
@@ -138,25 +159,31 @@
       "graphs.command.command": "Commande",
       "graphs.command.pi": "PI",
       "graphs.command.ff": "Feed-forward",
-      "graphs.model.title": "Paramètres A et B (1R1C) (24h)",
-      "graphs.model.a": "Paramètre A",
-      "graphs.model.b": "Paramètre B"
+      "graphs.model.title": "Parametres A et B (1R1C) (24h)",
+      "graphs.model.a": "A - Reponse active",
+      "graphs.model.b": "B - Pertes thermiques"
     },
     "en": {
       "sections.overview.title": "Overview",
       "sections.overview.summary": "Summary of the active Smart PI regulation.",
       "sections.learning.title": "Learning",
-      "sections.learning.summary": "Collection state and A/B model sample counts.",
+      "sections.learning.summary": "Sample collection state for the A/B thermal model.",
       "sections.model.title": "Thermal model",
       "sections.model.summary": "Model reliability and estimated dead times.",
       "sections.command.title": "Command",
       "sections.command.summary": "Requested power, limits and command breakdown.",
-      "sections.health.title": "Protections, calibration and health",
-      "sections.health.summary": "Guards, auto-calibration and safety decisions.",
+      "sections.health.title": "Safety and actions",
+      "sections.health.summary": "Guards, calibration and maintenance actions.",
       "hero.overview.title": "Smart PI is driving regulation",
-      "hero.overview.subtitle": "The values below explain the current command without enabling debug mode.",
+      "hero.overview.bootstrap": "Smart PI is collecting the first samples and temporarily regulating with hysteresis.",
+      "hero.overview.hysteresis_learning": "The model is still consolidating; regulation remains cautious during learning.",
+      "hero.overview.stable_learning": "Smart PI is refining the model while driving active regulation.",
+      "hero.overview.monitoring": "The thermal model is used to anticipate the required power.",
+      "hero.overview.calibration": "Calibration is running to realign the thermal behavior.",
+      "hero.overview.degraded": "Regulation limits adaptation because the model lacks reliability.",
+      "hero.overview.fallback": "Smart PI adjusts power from the current phase, A/B learning and safety limits.",
       "hero.learning.title": "A/B learning",
-      "hero.learning.subtitle": "Progress uses EMEA histories and targets published by Smart PI.",
+      "hero.learning.subtitle": "Sample collection state for the A/B thermal model.",
       "hero.model.title": "Thermal model",
       "hero.model.subtitle": "Model confidence controls the feed-forward share and cautious limits.",
       "hero.command.title": "Applied command",
@@ -169,7 +196,7 @@
       "metrics.temperature": "Temperature",
       "metrics.external_temperature": "External temperature",
       "metrics.error": "Setpoint error",
-      "metrics.integral_error": "Integral error",
+      "metrics.integral_error": "Integral",
       "metrics.filtered_setpoint": "Filtered setpoint",
       "metrics.current_cycle": "Current cycle",
       "metrics.next_cycle": "Next cycle",
@@ -183,28 +210,29 @@
       "metrics.hold": "Hold",
       "metrics.kp": "Kp",
       "metrics.ki": "Ki",
-      "metrics.a": "A coefficient",
-      "metrics.b": "B coefficient",
+      "metrics.a": "A - Active response",
+      "metrics.b": "B - Thermal losses",
       "metrics.tau": "Tau",
       "metrics.deadtime_heat": "Heat dead time",
       "metrics.deadtime_cool": "Cool dead time",
-      "metrics.a_stability": "A stability",
-      "metrics.b_stability": "B stability",
+      "metrics.a_stability": "A dispersion",
+      "metrics.b_stability": "B dispersion",
       "metrics.samples_a": "A history",
       "metrics.samples_b": "B history",
       "metrics.accepted_a": "Accepted A updates",
       "metrics.accepted_b": "Accepted B updates",
       "metrics.bootstrap_progress": "Bootstrap",
-      "metrics.bootstrap_a": "A collection",
-      "metrics.bootstrap_b": "B collection",
-      "metrics.history_a": "Complete A history",
-      "metrics.history_b": "Complete B history",
+      "metrics.bootstrap_a": "A samples",
+      "metrics.bootstrap_b": "B samples",
+      "metrics.history_a": "A samples",
+      "metrics.history_b": "B samples",
       "metrics.learning_stage": "Learning state",
       "metrics.bootstrap_status": "Bootstrap state",
       "metrics.confidence": "Model confidence",
-      "metrics.tau_reliable": "Reliable tau",
-      "metrics.deadtime_heat_reliable": "Reliable heat dead time",
-      "metrics.deadtime_cool_reliable": "Reliable cool dead time",
+      "metrics.reliability": "Reliability",
+      "metrics.tau_reliable": "Tau",
+      "metrics.deadtime_heat_reliable": "Heat dead time",
+      "metrics.deadtime_cool_reliable": "Cool dead time",
       "metrics.governance": "Safety regime",
       "metrics.thermal_decision": "Thermal decision",
       "metrics.thermal_reason": "Reason",
@@ -238,9 +266,23 @@
       "status.learning.degraded": "Degraded",
       "status.confidence.ab_ok": "Reliable model",
       "status.confidence.ab_degraded": "Partial model",
-      "status.confidence.ab_bad": "Degraded model",
+      "status.confidence.ab_bad": "Insufficient model",
+      "status.confidence.unknown": "Unknown confidence",
+      "status.confidence.ab_ok.description": "A and B samples are coherent enough to use the model normally.",
+      "status.confidence.ab_degraded.description": "Part of the model is usable, but regulation remains cautious.",
+      "status.confidence.ab_bad.description": "The model is not reliable enough; Smart PI limits or avoids its influence.",
+      "status.confidence.unknown.description": "The confidence state has not been published by diagnostics yet.",
       "status.boolean.true": "Yes",
       "status.boolean.false": "No",
+      "status.reliability.true": "Reliable",
+      "status.reliability.false": "Not reliable",
+      "status.coherence.collecting": "Collecting",
+      "status.coherence.coherent": "Coherent",
+      "status.coherence.watch": "Watch",
+      "status.coherence.acceptable": "Acceptable",
+      "status.coherence.dispersed": "Dispersed",
+      "status.coherence.unstable": "Unstable",
+      "status.coherence.very_unstable": "Very unstable",
       "status.autocalib.idle": "Disabled",
       "status.autocalib.waiting_snapshot": "Waiting for snapshot",
       "status.autocalib.monitoring": "Monitoring",
@@ -263,7 +305,7 @@
       "status.regime.degraded": "Degraded",
       "status.regime.saturated": "Saturated",
       "notes.diagnostic_required": "Set diagnostic_entity in the Equinox configuration to display Smart PI diagnostics.",
-      "notes.learning": "accepted_updates_* counters are informational. Main bars use emea_samples_*, bootstrap_target_* and history_target.",
+      "notes.learning": "A measures the command response; B measures thermal losses. Smart PI collects both sample series to make the model reliable.",
       "notes.hysteresis_phase": "During bootstrap, Smart PI may run in hysteresis while collecting enough observations.",
       "actions.reset_learning": "Reset learning",
       "actions.reset_learning.confirm": "Smart PI will clear learning and return to bootstrap.",
@@ -277,8 +319,8 @@
       "graphs.command.pi": "PI",
       "graphs.command.ff": "Feed-forward",
       "graphs.model.title": "1R1C Parameters A and B (24h)",
-      "graphs.model.a": "Parameter A",
-      "graphs.model.b": "Parameter B"
+      "graphs.model.a": "A - Active response",
+      "graphs.model.b": "B - Thermal losses"
     }
   },
   "sections": [
@@ -291,9 +333,96 @@
         {
           "type": "hero_status",
           "title_key": "hero.overview.title",
-          "subtitle_key": "hero.overview.subtitle",
+          "subtitle_key": "hero.overview.bootstrap",
           "icon": "mdi:chart-bell-curve",
-          "tone": "info"
+          "tone": "warning",
+          "visible_if": {
+            "and": [
+              { "==": [{ "var": "diagnostic/control/phase" }, "Hysteresis"] },
+              { "==": [{ "var": "diagnostic/ab_learning/stage" }, "bootstrap"] }
+            ]
+          }
+        },
+        {
+          "type": "hero_status",
+          "title_key": "hero.overview.title",
+          "subtitle_key": "hero.overview.hysteresis_learning",
+          "icon": "mdi:chart-bell-curve",
+          "tone": "info",
+          "visible_if": {
+            "and": [
+              { "==": [{ "var": "diagnostic/control/phase" }, "Hysteresis"] },
+              { "==": [{ "var": "diagnostic/ab_learning/stage" }, "learning"] }
+            ]
+          }
+        },
+        {
+          "type": "hero_status",
+          "title_key": "hero.overview.title",
+          "subtitle_key": "hero.overview.stable_learning",
+          "icon": "mdi:chart-bell-curve",
+          "tone": "info",
+          "visible_if": {
+            "and": [
+              { "==": [{ "var": "diagnostic/control/phase" }, "Stable"] },
+              { "==": [{ "var": "diagnostic/ab_learning/stage" }, "learning"] }
+            ]
+          }
+        },
+        {
+          "type": "hero_status",
+          "title_key": "hero.overview.title",
+          "subtitle_key": "hero.overview.monitoring",
+          "icon": "mdi:chart-bell-curve",
+          "tone": "ok",
+          "visible_if": {
+            "and": [
+              { "==": [{ "var": "diagnostic/control/phase" }, "Stable"] },
+              { "==": [{ "var": "diagnostic/ab_learning/stage" }, "monitoring"] }
+            ]
+          }
+        },
+        {
+          "type": "hero_status",
+          "title_key": "hero.overview.title",
+          "subtitle_key": "hero.overview.calibration",
+          "icon": "mdi:tune-variant",
+          "tone": "info",
+          "visible_if": {
+            "==": [{ "var": "diagnostic/control/phase" }, "Calibration"]
+          }
+        },
+        {
+          "type": "hero_status",
+          "title_key": "hero.overview.title",
+          "subtitle_key": "hero.overview.degraded",
+          "icon": "mdi:alert-outline",
+          "tone": "danger",
+          "visible_if": {
+            "and": [
+              { "==": [{ "var": "diagnostic/ab_learning/stage" }, "degraded"] },
+              { "!=": [{ "var": "diagnostic/control/phase" }, "Calibration"] }
+            ]
+          }
+        },
+        {
+          "type": "hero_status",
+          "title_key": "hero.overview.title",
+          "subtitle_key": "hero.overview.fallback",
+          "icon": "mdi:chart-bell-curve",
+          "tone": "info",
+          "visible_if": {
+            "!": {
+              "or": [
+                { "and": [{ "==": [{ "var": "diagnostic/control/phase" }, "Hysteresis"] }, { "==": [{ "var": "diagnostic/ab_learning/stage" }, "bootstrap"] }] },
+                { "and": [{ "==": [{ "var": "diagnostic/control/phase" }, "Hysteresis"] }, { "==": [{ "var": "diagnostic/ab_learning/stage" }, "learning"] }] },
+                { "and": [{ "==": [{ "var": "diagnostic/control/phase" }, "Stable"] }, { "==": [{ "var": "diagnostic/ab_learning/stage" }, "learning"] }] },
+                { "and": [{ "==": [{ "var": "diagnostic/control/phase" }, "Stable"] }, { "==": [{ "var": "diagnostic/ab_learning/stage" }, "monitoring"] }] },
+                { "==": [{ "var": "diagnostic/control/phase" }, "Calibration"] },
+                { "and": [{ "==": [{ "var": "diagnostic/ab_learning/stage" }, "degraded"] }, { "!=": [{ "var": "diagnostic/control/phase" }, "Calibration"] }] }
+              ]
+            }
+          }
         },
         {
           "type": "layout_grid",
@@ -337,12 +466,6 @@
             { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "power/next_cycle_percent", "unit": "%", "digits": 0 },
             { "label_key": "metrics.mode", "source": "diagnostic", "path": "control/mode" }
           ]
-        },
-        {
-          "type": "section_note",
-          "text_key": "notes.diagnostic_required",
-          "tone": "muted",
-          "icon": "mdi:database-alert-outline"
         }
       ]
     },
@@ -447,9 +570,20 @@
                   "bootstrap"
                 ]
               }
-            },
-            { "label_key": "metrics.confidence", "source": "diagnostic", "path": "model/confidence" }
+            }
           ]
+        },
+        {
+          "type": "status",
+          "label_key": "metrics.confidence",
+          "source": "diagnostic",
+          "path": "model/confidence",
+          "map": {
+            "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
+            "ab_degraded": { "label_key": "status.confidence.ab_degraded", "description_key": "status.confidence.ab_degraded.description", "tone": "warning", "icon": "mdi:alert-outline" },
+            "ab_bad": { "label_key": "status.confidence.ab_bad", "description_key": "status.confidence.ab_bad.description", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+          },
+          "fallback": { "label_key": "status.confidence.unknown", "description_key": "status.confidence.unknown.description", "tone": "muted", "icon": "mdi:help-circle-outline" }
         },
         {
           "type": "section_note",
@@ -478,32 +612,129 @@
           "source": "diagnostic",
           "path": "model/confidence",
           "map": {
-            "ab_ok": { "label_key": "status.confidence.ab_ok", "tone": "ok", "icon": "mdi:check-circle-outline" },
-            "ab_degraded": { "label_key": "status.confidence.ab_degraded", "tone": "warning", "icon": "mdi:alert-outline" },
-            "ab_bad": { "label_key": "status.confidence.ab_bad", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+            "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
+            "ab_degraded": { "label_key": "status.confidence.ab_degraded", "description_key": "status.confidence.ab_degraded.description", "tone": "warning", "icon": "mdi:alert-outline" },
+            "ab_bad": { "label_key": "status.confidence.ab_bad", "description_key": "status.confidence.ab_bad.description", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
           },
-          "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+          "fallback": { "label_key": "status.confidence.unknown", "description_key": "status.confidence.unknown.description", "tone": "muted", "icon": "mdi:help-circle-outline" }
         },
         {
           "type": "metric_grid",
-          "title_key": "sections.model.title",
+          "columns": 1,
           "metrics": [
-            { "label_key": "metrics.a", "source": "diagnostic", "path": "model/a", "digits": 4 },
-            { "label_key": "metrics.b", "source": "diagnostic", "path": "model/b", "digits": 4 },
-            { "label_key": "metrics.tau", "source": "diagnostic", "path": "model/tau_min", "unit": "min", "digits": 1 },
-            { "label_key": "metrics.deadtime_heat", "source": "diagnostic", "path": "model/deadtime_heat_s", "unit": "s", "digits": 0 },
-            { "label_key": "metrics.deadtime_cool", "source": "diagnostic", "path": "model/deadtime_cool_s", "unit": "s", "digits": 0 },
-            { "label_key": "metrics.a_stability", "source": "diagnostic", "path": "model/a_stability_ratio", "digits": 3 },
-            { "label_key": "metrics.b_stability", "source": "diagnostic", "path": "model/b_stability_ratio", "digits": 3 }
+            { "label_key": "metrics.tau", "source": "diagnostic", "path": "model/tau_min", "unit": "min", "digits": 1 }
           ]
         },
         {
-          "type": "metric_grid",
-          "title_key": "metrics.tau_reliable",
-          "metrics": [
-            { "label_key": "metrics.tau_reliable", "source": "diagnostic", "path": "model/tau_reliable" },
-            { "label_key": "metrics.deadtime_heat_reliable", "source": "diagnostic", "path": "model/deadtime_heat_reliable" },
-            { "label_key": "metrics.deadtime_cool_reliable", "source": "diagnostic", "path": "model/deadtime_cool_reliable" }
+          "type": "layout_grid",
+          "items": [
+            {
+              "type": "metric_grid",
+              "columns": 2,
+              "metrics": [
+                { "label_key": "metrics.a", "source": "diagnostic", "path": "model/a", "unit": "°C/min", "digits": 4 },
+                { "label_key": "metrics.b", "source": "diagnostic", "path": "model/b", "unit": "min⁻¹", "digits": 4 }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "columns": 2,
+              "metrics": [
+                { "label_key": "metrics.deadtime_heat", "source": "diagnostic", "path": "model/deadtime_heat_s", "unit": "s", "digits": 0 },
+                { "label_key": "metrics.deadtime_cool", "source": "diagnostic", "path": "model/deadtime_cool_s", "unit": "s", "digits": 0 }
+              ]
+            },
+            {
+              "type": "layout_grid",
+              "min_width": 140,
+              "items": [
+                {
+                  "type": "status",
+                  "label_key": "metrics.a_stability",
+                  "source": "diagnostic",
+                  "path": "model/a_stability_ratio",
+                  "map": {},
+                  "align": "center",
+                  "ranges": [
+                    { "max": 0.15, "label_key": "status.coherence.coherent", "tone": "ok", "icon": "mdi:check-circle-outline" },
+                    { "min": 0.150000001, "max": 0.25, "label_key": "status.coherence.watch", "tone": "warning", "icon": "mdi:alert-outline" },
+                    { "min": 0.250000001, "label_key": "status.coherence.dispersed", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+                  ],
+                  "fallback": { "label_key": "status.coherence.collecting", "tone": "muted", "icon": "mdi:progress-clock" },
+                  "show_value": true,
+                  "value_multiplier": 100,
+                  "value_unit": "%",
+                  "value_digits": 0
+                },
+                {
+                  "type": "status",
+                  "label_key": "metrics.b_stability",
+                  "source": "diagnostic",
+                  "path": "model/b_stability_ratio",
+                  "map": {},
+                  "align": "center",
+                  "ranges": [
+                    { "max": 0.20, "label_key": "status.coherence.coherent", "tone": "ok", "icon": "mdi:check-circle-outline" },
+                    { "min": 0.200000001, "max": 0.30, "label_key": "status.coherence.acceptable", "tone": "info", "icon": "mdi:check-circle-outline" },
+                    { "min": 0.300000001, "max": 0.60, "label_key": "status.coherence.unstable", "tone": "warning", "icon": "mdi:alert-outline" },
+                    { "min": 0.600000001, "label_key": "status.coherence.very_unstable", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+                  ],
+                  "fallback": { "label_key": "status.coherence.collecting", "tone": "muted", "icon": "mdi:progress-clock" },
+                  "show_value": true,
+                  "value_multiplier": 100,
+                  "value_unit": "%",
+                  "value_digits": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "metrics.reliability",
+          "items": [
+            {
+              "type": "status",
+              "label_key": "metrics.tau_reliable",
+              "source": "diagnostic",
+              "path": "model/tau_reliable",
+              "align": "center",
+              "map": {
+                "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
+                "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
+              },
+              "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+            },
+            {
+              "type": "layout_grid",
+              "min_width": 140,
+              "items": [
+                {
+                  "type": "status",
+                  "label_key": "metrics.deadtime_heat_reliable",
+                  "source": "diagnostic",
+                  "path": "model/deadtime_heat_reliable",
+                  "align": "center",
+                  "map": {
+                    "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
+                    "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
+                  },
+                  "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+                },
+                {
+                  "type": "status",
+                  "label_key": "metrics.deadtime_cool_reliable",
+                  "source": "diagnostic",
+                  "path": "model/deadtime_cool_reliable",
+                  "align": "center",
+                  "map": {
+                    "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
+                    "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
+                  },
+                  "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+                }
+              ]
+            }
           ]
         },
         {
@@ -511,8 +742,8 @@
           "title_key": "graphs.model.title",
           "range": "24h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "model/a", "label_key": "graphs.model.a", "scale_group": "coefficients" },
-            { "entity": "$diagnostic_entity", "attribute": "model/b", "label_key": "graphs.model.b", "scale_group": "coefficients" }
+            { "entity": "$diagnostic_entity", "attribute": "model/a", "label_key": "graphs.model.a", "unit": "°C/min", "scale_group": "coefficients" },
+            { "entity": "$diagnostic_entity", "attribute": "model/b", "label_key": "graphs.model.b", "unit": "min⁻¹", "scale_group": "coefficients" }
           ],
           "options": {
             "tooltip": true,
@@ -563,9 +794,9 @@
                 { "label_key": "metrics.pi", "source": "diagnostic", "path": "power/pi_percent", "unit": "%", "digits": 0 },
                 { "label_key": "metrics.ff", "source": "diagnostic", "path": "power/ff_percent", "unit": "%", "digits": 0 },
                 { "label_key": "metrics.hold", "source": "diagnostic", "path": "power/hold_percent", "unit": "%", "digits": 0 },
+                { "label_key": "metrics.integral_error", "source": "diagnostic", "path": "temperature/integral_error", "digits": 3 },
                 { "label_key": "metrics.kp", "source": "diagnostic", "path": "control/kp", "digits": 3 },
-                { "label_key": "metrics.ki", "source": "diagnostic", "path": "control/ki", "digits": 4 },
-                { "label_key": "metrics.integral_error", "source": "diagnostic", "path": "temperature/integral_error", "digits": 3 }
+                { "label_key": "metrics.ki", "source": "diagnostic", "path": "control/ki", "digits": 4 }
               ]
             }
           ]

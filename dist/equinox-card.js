@@ -1827,19 +1827,19 @@ function Vn(e, t) {
 function P(e, t) {
 	return 40 + (e - t.start) / (t.end - t.start) * 640;
 }
-function F(e, t) {
+function Hn(e, t) {
 	let n = t.max - t.min;
 	if (n < 1e-6) return t.top + t.height / 2;
 	let r = t.height - 10;
 	return t.top + 5 + r - (e - t.min) / n * r;
 }
-function Hn(e, t) {
+function Un(e, t) {
 	return t.find((t) => t.ids.has(e.id));
 }
-function Un(e, t) {
-	return Wn(e, t, !0);
+function Wn(e, t) {
+	return Gn(e, t, !0);
 }
-function Wn(e, t, n) {
+function Gn(e, t, n) {
 	let r = Date.now(), i = [...e.points].sort((e, t) => e.time - t.time), a = i.findIndex((e) => e.time >= t.start), o = a === -1 ? i.length : a, s = o > 0 ? i.slice(o - 1) : i;
 	return s.flatMap((e, i) => {
 		let a = Math.max(e.time, t.start), o = s[i + 1]?.time, c = n ? t.end : e.time, l = Math.min(o ?? c, t.end, r);
@@ -1850,26 +1850,26 @@ function Wn(e, t, n) {
 		}] : [];
 	});
 }
-var Gn = new Set([
+var Kn = new Set([
 	"off",
 	"idle",
 	"none",
 	"false"
 ]);
-function Kn(e, t, n, r) {
+function qn(e, t, n, r) {
 	if (typeof e == "boolean") return e ? t : "var(--better-history-muted-color, var(--secondary-text-color, #888))";
 	let i = String(e);
-	return Gn.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, Xt[(r + n.size) % Xt.length]), n.get(i));
+	return Kn.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, Xt[(r + n.size) % Xt.length]), n.get(i));
 }
-function qn(e, t) {
+function Jn(e, t) {
 	return e + 34 + Math.max(t - 1, 0) * 14;
 }
-function Jn(e, t, n, r) {
+function Yn(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
-		let i = Hn(e, t);
+		let i = Un(e, t);
 		if (!i) return [];
-		let a = Fn(Yn(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? rr(a, n, i) : nr(a, n, i);
+		let a = Fn(Xn(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? ir(a, n, i) : rr(a, n, i);
 		return [{
 			id: e.id,
 			color: e.color,
@@ -1879,12 +1879,12 @@ function Jn(e, t, n, r) {
 		}];
 	});
 }
-function Yn(e, t, n, r) {
+function Xn(e, t, n, r) {
 	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
 	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), a = i.filter((e) => e.time >= t.start && e.time <= t.end);
-	if (n === "line") return Zn(i, a, t);
+	if (n === "line") return Qn(i, a, t);
 	let o = [...i].reverse().find((e) => e.time < t.start), s = o && (a.length === 0 || a[0].time > t.start) ? [{
 		time: t.start,
 		value: o.value
@@ -1894,7 +1894,7 @@ function Yn(e, t, n, r) {
 		value: c.value
 	}] : s;
 }
-function Xn(e, t, n) {
+function Zn(e, t, n) {
 	if (!e || !t || e.time === t.time || e.time > n || t.time < n) return;
 	let r = (n - e.time) / (t.time - e.time);
 	return {
@@ -1902,27 +1902,27 @@ function Xn(e, t, n) {
 		value: e.value + (t.value - e.value) * r
 	};
 }
-function Zn(e, t, n) {
-	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Xn(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Xn(a, o, n.end);
+function Qn(e, t, n) {
+	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Zn(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Zn(a, o, n.end);
 	return [
 		s,
 		...t,
 		c
 	].filter((e) => e !== void 0);
 }
-function Qn(e) {
+function $n(e) {
 	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
 }
-function $n(e, t, n, r) {
+function er(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode !== "column") return [];
-		let i = Hn(e, t);
+		let i = Un(e, t);
 		if (!i) return [];
-		let a = F(Qn(i), i);
-		return Wn(e, n, r.extendColumnToEnd).flatMap((t, r) => {
+		let a = Hn($n(i), i);
+		return Gn(e, n, r.extendColumnToEnd).flatMap((t, r) => {
 			let o = Number(t.value);
 			if (!Number.isFinite(o)) return [];
-			let s = P(t.start, n), c = P(t.end, n), l = F(o, i), u = Math.max(c - s, 1);
+			let s = P(t.start, n), c = P(t.end, n), l = Hn(o, i), u = Math.max(c - s, 1);
 			return [{
 				id: `${e.id}:${r}`,
 				x: s,
@@ -1934,15 +1934,15 @@ function $n(e, t, n, r) {
 		});
 	});
 }
-function er(e, t, n) {
+function tr(e, t, n) {
 	let r = t + 10, i = 0;
 	return e.flatMap((e, t) => {
 		if (e.valueType === "number" || e.valueType === "boolean") return [];
 		let a = r + i * 14;
 		i += 1;
 		let o = /* @__PURE__ */ new Map();
-		return Un(e, n).reduce((n, r) => {
-			let i = Kn(r.value, e.color, o, t), a = n[n.length - 1];
+		return Wn(e, n).reduce((n, r) => {
+			let i = qn(r.value, e.color, o, t), a = n[n.length - 1];
 			return a && a.fill === i && Math.abs(a.end - r.start) < 1 ? a.end = r.end : n.push({
 				start: r.start,
 				end: r.end,
@@ -1960,27 +1960,27 @@ function er(e, t, n) {
 		});
 	});
 }
-function tr(e) {
+function nr(e) {
 	return e.flatMap((e) => {
 		let t = e.height - 10;
 		return e.ticks.map((n) => ({
 			y: e.top + 5 + t - (n - e.min) / (e.max - e.min) * t,
-			value: ir(n, e.precision)
+			value: ar(n, e.precision)
 		}));
 	});
 }
-function nr(e, t, n) {
+function rr(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
 	};
 	if (e.length === 1) return {
-		points: `${P(e[0].time, t).toFixed(1)},${F(e[0].value, n).toFixed(1)}`,
+		points: `${P(e[0].time, t).toFixed(1)},${Hn(e[0].value, n).toFixed(1)}`,
 		pathLength: 0
 	};
 	let r = [], i = 0;
 	for (let a = 0; a < e.length - 1; a++) {
-		let o = e[a], s = e[a + 1], c = P(o.time, t), l = F(o.value, n), u = P(s.time, t), d = F(s.value, n);
+		let o = e[a], s = e[a + 1], c = P(o.time, t), l = Hn(o.value, n), u = P(s.time, t), d = Hn(s.value, n);
 		a === 0 && r.push(`${c.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${d.toFixed(1)}`), i += Math.abs(u - c) + Math.abs(d - l);
 	}
 	return {
@@ -1988,7 +1988,7 @@ function nr(e, t, n) {
 		pathLength: i
 	};
 }
-function rr(e, t, n) {
+function ir(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -1996,7 +1996,7 @@ function rr(e, t, n) {
 	let r = 0, i;
 	return {
 		points: e.map((e) => {
-			let a = P(e.time, t), o = F(e.value, n);
+			let a = P(e.time, t), o = Hn(e.value, n);
 			return i && (r += Math.hypot(a - i.x, o - i.y)), i = {
 				x: a,
 				y: o
@@ -2005,38 +2005,38 @@ function rr(e, t, n) {
 		pathLength: r
 	};
 }
-function ir(e, t) {
+function ar(e, t) {
 	return t <= 0 && Number.isInteger(e) ? String(e) : e.toFixed(t);
 }
-var ar = 60 * 1e3, or = 60 * ar, I = 24 * or, sr = [
-	10 * ar,
-	15 * ar,
-	20 * ar,
-	30 * ar,
-	or,
-	2 * or,
-	3 * or,
-	4 * or,
-	6 * or,
-	8 * or,
-	12 * or,
-	I,
-	2 * I,
-	3 * I,
-	7 * I,
-	14 * I,
-	30 * I,
-	60 * I,
-	90 * I
+var or = 60 * 1e3, sr = 60 * or, F = 24 * sr, cr = [
+	10 * or,
+	15 * or,
+	20 * or,
+	30 * or,
+	sr,
+	2 * sr,
+	3 * sr,
+	4 * sr,
+	6 * sr,
+	8 * sr,
+	12 * sr,
+	F,
+	2 * F,
+	3 * F,
+	7 * F,
+	14 * F,
+	30 * F,
+	60 * F,
+	90 * F
 ];
-function cr(e, t) {
-	for (let n of sr) if (e / n <= t) return n;
-	return sr[sr.length - 1];
+function lr(e, t) {
+	for (let n of cr) if (e / n <= t) return n;
+	return cr[cr.length - 1];
 }
-function lr(e, t, n = 12) {
+function ur(e, t, n = 12) {
 	let r = t - e;
 	if (r <= 0) return [];
-	let i = cr(r, n), a = [], o = Math.ceil(e / i) * i;
+	let i = lr(r, n), a = [], o = Math.ceil(e / i) * i;
 	for (let e = o; e < t; e += i) {
 		let t = new Date(e);
 		a.push({
@@ -2046,8 +2046,8 @@ function lr(e, t, n = 12) {
 	}
 	return a;
 }
-function ur(e, t) {
-	let n = new Date(e), r = t / I;
+function dr(e, t) {
+	let n = new Date(e), r = t / F;
 	if (r > 88) {
 		let e = n.toLocaleString("default", { month: "short" }), t = n.getFullYear();
 		return n.getMonth() === 0 ? `${e} ${t}` : e;
@@ -2061,7 +2061,7 @@ function ur(e, t) {
 	let i = String(n.getHours()).padStart(2, "0"), a = String(n.getMinutes()).padStart(2, "0");
 	return r > .5 ? `${i}:${a}` : `${i}:${a}:${String(n.getSeconds()).padStart(2, "0")}`;
 }
-function dr(e, t) {
+function fr(e, t) {
 	let n = [], r;
 	for (let i of e) {
 		if (i.time < t.start) {
@@ -2073,45 +2073,45 @@ function dr(e, t) {
 	}
 	return r ? [r, ...n] : n;
 }
-function fr(e, t) {
+function pr(e, t) {
 	return e.map((e) => ({
 		...e,
-		points: dr(e.points, t)
+		points: fr(e.points, t)
 	}));
 }
-function pr(e) {
+function mr(e) {
 	return e.valueType === "boolean" ? "group:boolean" : e.scaleGroupKey;
 }
-function mr(e) {
+function hr(e) {
 	return cn(e);
 }
-function hr(e, t) {
-	let n = pr(e);
+function gr(e, t) {
+	let n = mr(e);
 	if (n === "group:boolean") return n;
 	let r = [];
 	for (let e of t) {
-		let t = mr(e.unit);
+		let t = hr(e.unit);
 		r.includes(t) || r.push(t);
 	}
-	let i = r.indexOf(mr(e.unit));
+	let i = r.indexOf(hr(e.unit));
 	return i < 0 || r.length <= 2 || i < 2 ? n : `${n}::unit-graph:${Math.floor(i / 2) + 1}`;
 }
-function gr(e, t, n) {
+function _r(e, t, n) {
 	let r = /* @__PURE__ */ new Map(), i = /* @__PURE__ */ new Map();
 	for (let t of e) {
 		if (t.valueType !== "number" && t.valueType !== "boolean") continue;
-		let e = pr(t);
+		let e = mr(t);
 		i.set(e, [...i.get(e) ?? [], t]);
 	}
 	for (let e of t) {
 		if (e.valueType !== "number" && e.valueType !== "boolean") continue;
-		let t = pr(e);
+		let t = mr(e);
 		r.set(t, [...r.get(t) ?? [], e]);
 	}
-	return [...i.entries()].flatMap(([e, t]) => fr(r.get(e) ?? t, n));
+	return [...i.entries()].flatMap(([e, t]) => pr(r.get(e) ?? t, n));
 }
-function _r(e, t, n, r = !1, i = 12, a = !0, o = !0) {
-	let s = { extendStairToEnd: a }, c = { extendColumnToEnd: a }, l = Pn(gr(e, t, n), { autoScaleSplit: o }), u = new Set(l.map((e) => e.graphKey)).size, d = _n(u), f = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, p = lr(n.start, n.end, i), m = n.end - n.start;
+function vr(e, t, n, r = !1, i = 12, a = !0, o = !0) {
+	let s = { extendStairToEnd: a }, c = { extendColumnToEnd: a }, l = Pn(_r(e, t, n), { autoScaleSplit: o }), u = new Set(l.map((e) => e.graphKey)).size, d = _n(u), f = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, p = ur(n.start, n.end, i), m = n.end - n.start;
 	return {
 		allSeries: e,
 		visibleSeries: t,
@@ -2119,28 +2119,28 @@ function _r(e, t, n, r = !1, i = 12, a = !0, o = !0) {
 		extendStairToEnd: a,
 		numericScales: l,
 		plotBottom: d,
-		chartHeight: qn(d, f),
-		numericLines: Jn(t, l, n, s),
-		numericColumns: $n(t, l, n, c),
-		segments: er(t, d, n),
+		chartHeight: Jn(d, f),
+		numericLines: Yn(t, l, n, s),
+		numericColumns: er(t, l, n, c),
+		segments: tr(t, d, n),
 		heatingAreas: r ? [] : Bn(t, l, n),
-		yAxisLabels: tr(l),
+		yAxisLabels: nr(l),
 		xAxisLabels: p.map((e) => ({
 			x: P(e.time, n),
-			label: ur(e.time, m),
+			label: dr(e.time, m),
 			bold: e.bold
 		}))
 	};
 }
-function vr(e, t, n, r, i) {
+function yr(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
-		let a = Hn(e, t);
+		let a = Un(e, t);
 		if (!a) return [];
 		let o = {
 			...a,
 			top: 28,
 			height: i
-		}, s = Fn(Yn(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? rr(s, n, o) : nr(s, n, o);
+		}, s = Fn(Xn(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? ir(s, n, o) : rr(s, n, o);
 		return {
 			id: e.id,
 			color: e.color,
@@ -2150,19 +2150,19 @@ function vr(e, t, n, r, i) {
 		};
 	});
 }
-function yr(e, t, n, r, i) {
+function br(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode === "column").flatMap((e) => {
-		let a = Hn(e, t);
+		let a = Un(e, t);
 		if (!a) return [];
 		let o = {
 			...a,
 			top: 28,
 			height: r
-		}, s = F(Qn(o), o);
-		return Wn(e, n, i.extendColumnToEnd).flatMap((t, r) => {
+		}, s = Hn($n(o), o);
+		return Gn(e, n, i.extendColumnToEnd).flatMap((t, r) => {
 			let i = Number(t.value);
 			if (!Number.isFinite(i)) return [];
-			let a = P(t.start, n), c = P(t.end, n), l = F(i, o);
+			let a = P(t.start, n), c = P(t.end, n), l = Hn(i, o);
 			return [{
 				id: `${e.id}:${r}`,
 				x: a,
@@ -2174,11 +2174,11 @@ function yr(e, t, n, r, i) {
 		});
 	});
 }
-function br(e, t, n) {
+function xr(e, t, n) {
 	return e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").flatMap((e, r) => {
 		let i = t + r * 14, a = /* @__PURE__ */ new Map();
-		return Un(e, n).reduce((t, n) => {
-			let i = Kn(n.value, e.color, a, r), o = t[t.length - 1];
+		return Wn(e, n).reduce((t, n) => {
+			let i = qn(n.value, e.color, a, r), o = t[t.length - 1];
 			return o && o.fill === i && Math.abs(o.end - n.start) < 1 ? o.end = n.end : t.push({
 				start: n.start,
 				end: n.end,
@@ -2196,17 +2196,17 @@ function br(e, t, n) {
 		});
 	});
 }
-function xr(e) {
+function Sr(e) {
 	return e >= 160 ? 5 : e >= 100 ? 4 : e >= 64 ? 3 : 2;
 }
-function Sr(e, t) {
-	let n = t - 10, r = xr(t), i = e.ticks.length <= r ? e.ticks : fn(e.min, e.max, r), a = Math.max(Math.abs(e.max - e.min), 1) * 1e-9, o = i.filter((t) => t >= e.min - a && t <= e.max + a), s = o.length > 0 ? o : [e.min, e.max], c = e.ticks === i ? e.precision : Math.max(e.precision, hn(s));
+function Cr(e, t) {
+	let n = t - 10, r = Sr(t), i = e.ticks.length <= r ? e.ticks : fn(e.min, e.max, r), a = Math.max(Math.abs(e.max - e.min), 1) * 1e-9, o = i.filter((t) => t >= e.min - a && t <= e.max + a), s = o.length > 0 ? o : [e.min, e.max], c = e.ticks === i ? e.precision : Math.max(e.precision, hn(s));
 	return s.map((t) => ({
 		y: 33 + n - (t - e.min) / (e.max - e.min) * n,
-		value: ir(t, c)
+		value: ar(t, c)
 	}));
 }
-function Cr(e, t, n) {
+function wr(e, t, n) {
 	let r = /* @__PURE__ */ new Set(), i = /* @__PURE__ */ new Map();
 	return {
 		allSeries: e.map((e, t) => {
@@ -2225,14 +2225,14 @@ function Cr(e, t, n) {
 		})
 	};
 }
-function wr(e, t = 12, n = 180) {
-	let r = [], i = e.timeBounds, a = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), o = e.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), s = i.end - i.start, c = lr(i.start, i.end, t).map((e) => ({
+function Tr(e, t = 12, n = 180) {
+	let r = [], i = e.timeBounds, a = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), o = e.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), s = i.end - i.start, c = ur(i.start, i.end, t).map((e) => ({
 		x: P(e.time, i),
-		label: ur(e.time, s),
+		label: dr(e.time, s),
 		bold: e.bold
 	}));
 	if (e.numericScales.length === 0 && a.length > 0) {
-		let e = o.length, t = 28 + n + 16 + 6, s = e > 0 ? 22 + e * 14 : 0, l = 28 + n + s + 18, u = l + (e > 0 ? 0 : 16), d = Cr(a, o, 0);
+		let e = o.length, t = 28 + n + 16 + 6, s = e > 0 ? 22 + e * 14 : 0, l = 28 + n + s + 18, u = l + (e > 0 ? 0 : 16), d = wr(a, o, 0);
 		r.push({
 			series: d.visibleSeries,
 			allSeries: d.allSeries,
@@ -2242,7 +2242,7 @@ function wr(e, t = 12, n = 180) {
 			canvasHeight: u,
 			lines: [],
 			columns: [],
-			segments: br(d.visibleSeries, t, i),
+			segments: xr(d.visibleSeries, t, i),
 			yLabels: [],
 			rightYLabels: [],
 			xLabels: c,
@@ -2251,7 +2251,7 @@ function wr(e, t = 12, n = 180) {
 	}
 	let l = [...new Set(e.numericScales.map((e) => e.graphKey))];
 	for (let t = 0; t < l.length; t++) {
-		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = u[0]?.sourceGraphKey ?? s, h = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && pr(e) === m), g = h.filter((e) => hr(e, h) === s), _ = e.visibleSeries.filter((e) => p.has(e.id)), v = t === 0 ? [..._, ...o] : _, y = Cr(t === 0 ? [...g, ...a] : g, v, t), b = y.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), ee = b.length, te = 28 + n + 16 + 6, x = ee > 0 ? 22 + ee * 14 : 0, ne = 28 + n + x + 18, re = ne + (ee > 0 ? 0 : 16), S = Sr(d, n), ie = f ? Sr(f, n) : [], C = u.map((e) => ({
+		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = u[0]?.sourceGraphKey ?? s, h = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && mr(e) === m), g = h.filter((e) => gr(e, h) === s), _ = e.visibleSeries.filter((e) => p.has(e.id)), v = t === 0 ? [..._, ...o] : _, y = wr(t === 0 ? [...g, ...a] : g, v, t), b = y.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), ee = b.length, te = 28 + n + 16 + 6, x = ee > 0 ? 22 + ee * 14 : 0, ne = 28 + n + x + 18, re = ne + (ee > 0 ? 0 : 16), S = Cr(d, n), ie = f ? Cr(f, n) : [], C = u.map((e) => ({
 			...e,
 			top: 28,
 			height: n
@@ -2264,9 +2264,9 @@ function wr(e, t = 12, n = 180) {
 			graphHeight: n,
 			svgHeight: ne,
 			canvasHeight: re,
-			lines: vr(y.visibleSeries, C, i, { extendStairToEnd: e.extendStairToEnd }, n),
-			columns: yr(y.visibleSeries, C, i, n, { extendColumnToEnd: e.extendStairToEnd }),
-			segments: br(b, te, i),
+			lines: yr(y.visibleSeries, C, i, { extendStairToEnd: e.extendStairToEnd }, n),
+			columns: br(y.visibleSeries, C, i, n, { extendColumnToEnd: e.extendStairToEnd }),
+			segments: xr(b, te, i),
 			yLabels: S,
 			rightYLabels: ie,
 			xLabels: c,
@@ -2275,7 +2275,7 @@ function wr(e, t = 12, n = 180) {
 	}
 	return r;
 }
-var Tr = class {
+var Er = class {
 	constructor(e) {
 		this.tooltip = void 0, this._series = [], this._cacheKey = "", this._timeBounds = {
 			start: 0,
@@ -2446,19 +2446,19 @@ var Tr = class {
       </div>
     `;
 	}
-}, Er = "temperature";
-function Dr(e) {
+}, Dr = "temperature";
+function Or(e) {
 	return e.join(".");
 }
-function Or(e) {
-	return e?.toLowerCase() === Er;
+function kr(e) {
+	return e?.toLowerCase() === Dr;
 }
-function kr(e, t) {
+function Ar(e, t) {
 	if (!e || !t) return;
-	let n = t[Dr(e)];
+	let n = t[Or(e)];
 	return typeof n == "string" && n !== "" ? n : void 0;
 }
-function Ar(e) {
+function jr(e) {
 	return {
 		id: e.id,
 		kind: e.attribute ? "entity_attribute" : "entity_state",
@@ -2470,82 +2470,82 @@ function Ar(e) {
 		scalePreference: e.scalePreference
 	};
 }
-var jr = 24, Mr = "2.5", Nr = [
+var Mr = 24, Nr = "2.5", Pr = [
 	"current_temperature",
 	"temperature",
 	"hvac_action"
 ];
-function Pr(e) {
+function Fr(e) {
 	return e.scaleMode === "manual" && (e.scaleMin !== void 0 || e.scaleMax !== void 0);
 }
-function Fr(e) {
+function Ir(e) {
 	return /* @__PURE__ */ new Date(Math.floor(e.getTime() / 1e3) * 1e3);
 }
-function Ir(e) {
+function Lr(e) {
 	if (e !== void 0) return Array.isArray(e) ? e : e.split(".");
 }
-function Lr(e) {
+function Rr(e) {
 	return e === "line" || e === "column" ? e : "stair";
 }
-function Rr(e) {
-	return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : Mr : typeof e == "string" && e.trim() !== "" ? e.trim() : Mr;
-}
 function zr(e) {
+	return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : Nr : typeof e == "string" && e.trim() !== "" ? e.trim() : Nr;
+}
+function Br(e) {
 	return e === "primary" || e === "secondary" ? e : "auto";
 }
-function Br(e, t) {
+function Vr(e, t) {
 	return t ? `attr:${e}:${t.join(".")}` : `state:${e}`;
 }
-function Vr(e) {
+function Hr(e) {
 	return e[e.length - 1] ?? "";
 }
-function Hr(e, t, n) {
+function Ur(e, t, n) {
 	let r = e?.states[t];
 	return r ? n ? St(r, n)?.valueType ?? "string" : xt(r)?.valueType ?? "string" : "number";
 }
-function Ur(e, t, n, r) {
+function Wr(e, t, n, r) {
 	if (r) return r;
-	if (n) return Vr(n);
+	if (n) return Hr(n);
 	let i = e?.states[t]?.attributes.friendly_name;
 	return typeof i == "string" && i !== "" ? i : t;
 }
-function Wr(e, t, n, r, i) {
+function Gr(e, t, n, r, i) {
 	if (r !== void 0) return r || void 0;
-	if (n) return kr(n, i);
+	if (n) return Ar(n, i);
 	let a = e?.states[t]?.attributes.unit_of_measurement;
 	return typeof a == "string" && a !== "" ? a : void 0;
 }
-function Gr(e, t, n, r) {
+function Kr(e, t, n, r) {
 	return n ? `group:${n}` : r === "number" && t ? `unit:${t}` : `series:${e}`;
 }
-function Kr(e, t) {
+function qr(e, t) {
 	let n = t?.length === 1 ? t[0] : void 0;
 	return e.startsWith("climate.") && (n === "current_temperature" || n === "temperature");
 }
-function qr(e) {
-	return Kr(e.entity, e.attribute);
+function Jr(e) {
+	return qr(e.entity, e.attribute);
 }
-function Jr(e, t, n, r, i, a) {
-	let o = Ir(e.attribute), s = Br(e.entity, o), c = Hr(n, e.entity, o), l = Wr(n, e.entity, o, e.unit, r), u = e.group ?? e.scaleGroup ?? (Kr(e.entity, o) ? "temperature" : void 0);
+function Yr(e, t, n, r, i, a) {
+	let o = Lr(e.attribute), s = Vr(e.entity, o), c = Ur(n, e.entity, o), l = Gr(n, e.entity, o, e.unit, r), u = e.group ?? e.scaleGroup ?? (qr(e.entity, o) ? "temperature" : void 0);
 	return {
 		id: s,
 		entity: e.entity,
 		attribute: o,
 		forced: e.forced ?? !0,
-		label: Ur(n, e.entity, o, e.label),
+		label: Wr(n, e.entity, o, e.label),
 		color: e.color ?? en(t),
 		unit: l,
-		scaleGroupKey: Gr(s, l, u, c),
+		scaleGroupKey: Kr(s, l, u, c),
 		scaleMode: e.scaleMode ?? "auto",
 		scaleMin: e.scaleMin,
 		scaleMax: e.scaleMax,
-		scalePreference: zr(e.scalePreference),
-		lineMode: Lr(e.lineMode ?? i),
-		lineWidth: Rr(e.lineWidth ?? a),
+		scalePreference: Br(e.scalePreference),
+		lineMode: Rr(e.lineMode ?? i),
+		lineWidth: zr(e.lineWidth ?? a),
 		valueType: c
 	};
 }
-function Yr(e, t, n, r, i) {
+function Xr(e, t, n, r, i) {
 	let a = n?.states[e];
 	if (!a) {
 		let n = `state:${e}`;
@@ -2558,8 +2558,8 @@ function Yr(e, t, n, r, i) {
 			scaleGroupKey: `series:${n}`,
 			scaleMode: "auto",
 			scalePreference: "auto",
-			lineMode: Lr(r),
-			lineWidth: Rr(i),
+			lineMode: Rr(r),
+			lineWidth: zr(i),
 			valueType: "number"
 		};
 	}
@@ -2571,15 +2571,15 @@ function Yr(e, t, n, r, i) {
 		label: o.label,
 		color: en(t),
 		unit: o.unit,
-		scaleGroupKey: Gr(o.id, o.unit, void 0, o.valueType),
+		scaleGroupKey: Kr(o.id, o.unit, void 0, o.valueType),
 		scaleMode: "auto",
 		scalePreference: "auto",
-		lineMode: Lr(r),
-		lineWidth: Rr(i),
+		lineMode: Rr(r),
+		lineWidth: zr(i),
 		valueType: o.valueType
 	};
 }
-function Xr(e, t) {
+function Zr(e, t) {
 	let n = t?.states[e]?.attributes, r = n?.temperature_unit;
 	if (typeof r == "string" && r !== "") return r;
 	let i = n?.unit_of_measurement;
@@ -2587,11 +2587,11 @@ function Xr(e, t) {
 	let a = t?.config?.unit_system?.temperature;
 	return typeof a == "string" && a !== "" ? a : void 0;
 }
-function Zr(e, t, n) {
+function Qr(e, t, n) {
 	if (e.attribute || !e.entity.startsWith("climate.") || !n?.states[e.entity]) return [e];
-	let r = Xr(e.entity, n), i = e.scaleGroupKey.startsWith("group:") ? e.scaleGroupKey.slice(6) : void 0;
-	return [e, ...Nr.map((a) => {
-		let o = [a], s = Br(e.entity, o), c = Hr(n, e.entity, o), l = Zt[a] ?? en(t()), u = a === "current_temperature" || a === "temperature" ? r : void 0, d = a === "hvac_action" ? void 0 : i ?? "temperature";
+	let r = Zr(e.entity, n), i = e.scaleGroupKey.startsWith("group:") ? e.scaleGroupKey.slice(6) : void 0;
+	return [e, ...Pr.map((a) => {
+		let o = [a], s = Vr(e.entity, o), c = Ur(n, e.entity, o), l = Zt[a] ?? en(t()), u = a === "current_temperature" || a === "temperature" ? r : void 0, d = a === "hvac_action" ? void 0 : i ?? "temperature";
 		return {
 			id: s,
 			entity: e.entity,
@@ -2600,7 +2600,7 @@ function Zr(e, t, n) {
 			label: a,
 			color: l,
 			unit: u,
-			scaleGroupKey: Gr(s, u, d, c),
+			scaleGroupKey: Kr(s, u, d, c),
 			scaleMode: "auto",
 			scalePreference: e.scalePreference,
 			lineMode: e.lineMode,
@@ -2609,31 +2609,31 @@ function Zr(e, t, n) {
 		};
 	})];
 }
-function Qr(e) {
+function $r(e) {
 	return e.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && N(e.unit))?.unit ?? e.find((e) => e.unit && N(e.unit))?.unit;
 }
-function $r(e) {
-	let t = Qr(e), n = e.some((e) => e.scaleGroupKey === "group:temperature");
+function ei(e) {
+	let t = $r(e), n = e.some((e) => e.scaleGroupKey === "group:temperature");
 	return e.map((e) => {
-		let r = Or(e.unit), i = qr(e), a = t && (r || sn(e.unit, t) || e.unit === void 0 && i) ? t : e.unit, o = e.scaleGroupKey;
+		let r = kr(e.unit), i = Jr(e), a = t && (r || sn(e.unit, t) || e.unit === void 0 && i) ? t : e.unit, o = e.scaleGroupKey;
 		if (a && o.startsWith("unit:")) {
 			let e = o.slice(5);
 			(r && e === "temperature" || sn(e, a)) && (o = `unit:${a}`);
 		}
-		return n && e.valueType === "number" && a && N(a) && o.startsWith("unit:") && !Pr(e) && (o = "group:temperature"), a !== e.unit || o !== e.scaleGroupKey ? {
+		return n && e.valueType === "number" && a && N(a) && o.startsWith("unit:") && !Fr(e) && (o = "group:temperature"), a !== e.unit || o !== e.scaleGroupKey ? {
 			...e,
 			unit: a,
 			scaleGroupKey: o
 		} : e;
 	});
 }
-function ei(e) {
-	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? jr, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s = t?.lineMode ?? e.lineMode, c = t?.lineWidth ?? e.lineWidth, l;
-	l = t?.series && t.series.length > 0 ? t.series.map((e, t) => Jr(e, t, n, r, s, c)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => Yr(e, t, n, s, c)).filter((e) => e !== void 0);
+function ti(e) {
+	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? Mr, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s = t?.lineMode ?? e.lineMode, c = t?.lineWidth ?? e.lineWidth, l;
+	l = t?.series && t.series.length > 0 ? t.series.map((e, t) => Yr(e, t, n, r, s, c)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => Xr(e, t, n, s, c)).filter((e) => e !== void 0);
 	let u = l.length;
-	return l = l.flatMap((e) => Zr(e, () => u++, n)), l = $r(l), {
-		startDate: Fr(o),
-		endDate: Fr(i),
+	return l = l.flatMap((e) => Qr(e, () => u++, n)), l = ei(l), {
+		startDate: Ir(o),
+		endDate: Ir(i),
 		showDatePicker: t?.showDatePicker ?? e.showDatePicker ?? !1,
 		showEntityPicker: t?.showEntityPicker ?? e.showEntityPicker ?? !1,
 		showLegend: t?.showLegend ?? e.showLegend ?? !0,
@@ -2653,7 +2653,7 @@ function ei(e) {
 		disableClimateOverlay: t?.disableClimateOverlay ?? !1
 	};
 }
-var ti = {
+var ni = {
 	loading: "ui.common.loading",
 	empty: "ui.components.history_charts.no_history_found",
 	error: "ui.components.history_charts.error",
@@ -2662,7 +2662,7 @@ var ti = {
 	back: "ui.common.back",
 	done: "ui.common.done",
 	search_entity: "ui.components.entity.entity-picker.search"
-}, ni = {
+}, ri = {
 	en: {
 		no_series: "No series configured",
 		no_entity_selected: "No entity selected",
@@ -2865,15 +2865,15 @@ var ti = {
 		attribute_results_limited: "Zobrazuje sa prvých 50 zhôd"
 	}
 };
-function L(e, t) {
-	let n = ti[t];
+function I(e, t) {
+	let n = ni[t];
 	if (n && e?.localize) {
 		let t = e.localize(n);
 		if (t) return t;
 	}
-	return ni[e?.locale?.language?.split("-")[0] ?? e?.language?.split("-")[0] ?? "en"]?.[t] ?? ni.en?.[t] ?? t;
+	return ri[e?.locale?.language?.split("-")[0] ?? e?.language?.split("-")[0] ?? "en"]?.[t] ?? ri.en?.[t] ?? t;
 }
-var ri = o`
+var ii = o`
   :host {
     display: flex;
     flex-direction: column;
@@ -4352,7 +4352,7 @@ var ri = o`
     font-size: 13px;
     text-align: center;
   }
-`, ii = [
+`, ai = [
 	"ha-icon",
 	"ha-button",
 	"ha-icon-button",
@@ -4363,15 +4363,15 @@ var ri = o`
 	"ha-input-chip",
 	"ha-assist-chip",
 	"ha-generic-picker"
-], ai;
-function oi() {
-	return ai ??= He(ii), ai;
+], oi;
+function si() {
+	return oi ??= He(ai), oi;
 }
-var si;
-function ci() {
-	return si ??= li(), si;
+var ci;
+function li() {
+	return ci ??= ui(), ci;
 }
-async function li() {
+async function ui() {
 	if (!customElements.get("ha-date-range-picker")) try {
 		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("timeout")), 1e4))]);
 		let e = document.createElement("partial-panel-resolver");
@@ -4383,13 +4383,13 @@ async function li() {
 		console.warn("[ha-better-history] Failed to load ha-date-range-picker:", e);
 	}
 }
-function ui() {
+function di() {
 	return customElements.get("ha-date-range-picker") !== void 0;
 }
-async function di() {
-	await ci();
+async function fi() {
+	await li();
 }
-function fi(e) {
+function pi(e) {
 	return T`
     <div
       class="date-picker-wrapper"
@@ -4413,7 +4413,7 @@ function fi(e) {
     </div>
   `;
 }
-var pi = 8, mi = 50, hi = 20, gi = [
+var mi = 8, hi = 50, gi = 20, _i = [
 	{
 		name: "search_labels.entityName",
 		weight: 10
@@ -4439,26 +4439,26 @@ var pi = 8, mi = 50, hi = 20, gi = [
 		weight: 3
 	}
 ];
-function _i(e) {
+function vi(e) {
 	return typeof e == "object" && !!e && !Array.isArray(e);
 }
-function vi(e) {
+function yi(e) {
 	return typeof e.attributes.friendly_name == "string" ? e.attributes.friendly_name : e.entity_id;
 }
-function yi(e) {
+function bi(e) {
 	return typeof e == "string" && e.trim() !== "" ? e : void 0;
 }
-function bi(...e) {
-	return e.find((e) => yi(e) !== void 0);
-}
-function xi(e) {
-	return e.split(".")[0] ?? e;
+function xi(...e) {
+	return e.find((e) => bi(e) !== void 0);
 }
 function Si(e) {
+	return e.split(".")[0] ?? e;
+}
+function Ci(e) {
 	return e.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
-function Ci(e, t) {
-	let n = vi(t), r = e.entities?.[t.entity_id], i = r?.device_id ? e.devices?.[r.device_id] : void 0, a = r?.area_id ?? i?.area_id, o = a ? e.areas?.[a] : void 0, s = bi(r?.name_by_user, r?.name, r?.original_name, n) ?? t.entity_id, c = bi(i?.name_by_user, i?.name), l = bi(o?.name), u = xi(t.entity_id);
+function wi(e, t) {
+	let n = yi(t), r = e.entities?.[t.entity_id], i = r?.device_id ? e.devices?.[r.device_id] : void 0, a = r?.area_id ?? i?.area_id, o = a ? e.areas?.[a] : void 0, s = xi(r?.name_by_user, r?.name, r?.original_name, n) ?? t.entity_id, c = xi(i?.name_by_user, i?.name), l = xi(o?.name), u = Si(t.entity_id);
 	return {
 		id: t.entity_id,
 		primary: n,
@@ -4474,10 +4474,10 @@ function Ci(e, t) {
 		}
 	};
 }
-function wi(e, t) {
-	return e ? (t ?? Object.values(e.states).filter((e) => e !== void 0)).map((t) => Ci(e, t)) : [];
-}
 function Ti(e, t) {
+	return e ? (t ?? Object.values(e.states).filter((e) => e !== void 0)).map((t) => wi(e, t)) : [];
+}
+function Ei(e, t) {
 	if (e === t) return 0;
 	if (Math.abs(e.length - t.length) > 2) return 3;
 	let n = Array.from({ length: t.length + 1 }, (e, t) => t), r = Array(t.length + 1);
@@ -4491,15 +4491,15 @@ function Ti(e, t) {
 	}
 	return n[t.length] ?? 3;
 }
-function Ei(e) {
+function Di(e) {
 	return [
 		e.primary,
 		e.secondary,
 		e.id,
 		...Object.values(e.search_labels).filter((e) => typeof e == "string")
-	].filter((e) => typeof e == "string").map(Si);
+	].filter((e) => typeof e == "string").map(Ci);
 }
-function Di(e, t) {
+function Oi(e, t) {
 	let n;
 	for (let r of t) {
 		if (r === e) {
@@ -4519,16 +4519,16 @@ function Di(e, t) {
 			n = Math.max(n ?? 0, 80);
 			continue;
 		}
-		e.length >= 4 && t.some((t) => Ti(e, t) <= 1) && (n = Math.max(n ?? 0, 65));
+		e.length >= 4 && t.some((t) => Ei(e, t) <= 1) && (n = Math.max(n ?? 0, 65));
 	}
 	return n;
 }
-function Oi(e, t, n = hi) {
-	let r = Si(t).split(/\s+/).filter(Boolean);
+function ki(e, t, n = gi) {
+	let r = Ci(t).split(/\s+/).filter(Boolean);
 	return r.length === 0 ? [] : e.map((e) => {
-		let t = Ei(e), n = 0;
+		let t = Di(e), n = 0;
 		for (let e of r) {
-			let r = Di(e, t);
+			let r = Oi(e, t);
 			if (r === void 0) return;
 			n += r;
 		}
@@ -4538,15 +4538,15 @@ function Oi(e, t, n = hi) {
 		};
 	}).filter((e) => e !== void 0).sort((e, t) => t.score - e.score || e.item.primary.localeCompare(t.item.primary)).slice(0, n).map((e) => e.item);
 }
-var ki = !1;
-async function Ai() {
-	ki || (ki = !0, await oi());
+var Ai = !1;
+async function ji() {
+	Ai || (Ai = !0, await si());
 }
-function ji() {
+function Mi() {
 	return customElements.get("ha-generic-picker") !== void 0;
 }
-function Mi(e) {
-	let t = e.selectedEntityId && e.hass ? e.hass.states[e.selectedEntityId] : void 0, n = Yi(e);
+function Ni(e) {
+	let t = e.selectedEntityId && e.hass ? e.hass.states[e.selectedEntityId] : void 0, n = Xi(e);
 	return T`
     <div class="entity-picker"
       @picker-opened=${e.onEntityPickerOpened}
@@ -4554,41 +4554,41 @@ function Mi(e) {
     >
       <div class="entity-menu" ?open=${e.menuOpen} @click=${(e) => e.stopPropagation()}>
         <div class="entity-menu-top">
-          <span class="entity-menu-title">${t ? vi(t) : ""}</span>
+          <span class="entity-menu-title">${t ? yi(t) : ""}</span>
           <button class="entity-menu-close" @click=${e.onCloseMenu}>&#x2715;</button>
         </div>
-        ${Vi(e)}
+        ${Hi(e)}
       </div>
       <div
         class="entity-picker-row"
         @dragover=${(t) => e.onSourceDragOver(void 0, t)}
         @drop=${(t) => e.onSourceDrop(void 0, t)}
       >
-        ${e.hideEmptyPickerState ? Pi(e) : Ni(e)}
-        ${n.map((t) => Ri(t, e))}
+        ${e.hideEmptyPickerState ? Fi(e) : Pi(e)}
+        ${n.map((t) => zi(t, e))}
       </div>
-      ${e.hideEmptyPickerState ? Fi(e) : D}
+      ${e.hideEmptyPickerState ? Ii(e) : D}
       ${e.loading ? T`
-            <div class="history-loading-indicator" role="status" aria-label=${L(e.hass, "loading")}>
+            <div class="history-loading-indicator" role="status" aria-label=${I(e.hass, "loading")}>
               <span class="history-loading-spinner"></span>
-              <span class="history-loading-text">${L(e.hass, "loading")}</span>
+              <span class="history-loading-text">${I(e.hass, "loading")}</span>
             </div>
           ` : D}
-      ${zi(e)}
+      ${Bi(e)}
     </div>
   `;
 }
-function Ni(e) {
+function Pi(e) {
 	return T`
     <ha-generic-picker
       class="entity-trigger"
       .hass=${e.hass}
-      .addButtonLabel=${L(e.hass, "add_target")}
+      .addButtonLabel=${I(e.hass, "add_target")}
       .value=${""}
       .getItems=${e.getItems}
       .emptyLabel=${""}
-      .searchLabel=${L(e.hass, "search_entity")}
-      .searchKeys=${gi}
+      .searchLabel=${I(e.hass, "search_entity")}
+      .searchKeys=${_i}
       @value-changed=${(t) => {
 		let n = t.detail.value;
 		n && e.onEntitySelected(n);
@@ -4596,8 +4596,8 @@ function Ni(e) {
     ></ha-generic-picker>
   `;
 }
-function Pi(e) {
-	let t = L(e.hass, "add_target");
+function Fi(e) {
+	let t = I(e.hass, "add_target");
 	return T`
     <ha-button
       class="entity-trigger entity-add-trigger"
@@ -4610,8 +4610,8 @@ function Pi(e) {
     </ha-button>
   `;
 }
-function Fi(e) {
-	let t = L(e.hass, "search_entity"), n = e.entitySearch ?? "", r = n.trim() ? e.getAdditionalItems(n).filter(Ii) : [];
+function Ii(e) {
+	let t = I(e.hass, "search_entity"), n = e.entitySearch ?? "", r = n.trim() ? e.getAdditionalItems(n).filter(Li) : [];
 	return T`
     <div class="entity-select-menu" ?open=${e.entityPickerOpen} @click=${(e) => e.stopPropagation()}>
       <input
@@ -4642,10 +4642,10 @@ function Fi(e) {
     </div>
   `;
 }
-function Ii(e) {
-	return _i(e) && typeof e.id == "string" && typeof e.primary == "string";
-}
 function Li(e) {
+	return vi(e) && typeof e.id == "string" && typeof e.primary == "string";
+}
+function Ri(e) {
 	let t = e.attributes.icon;
 	return typeof t == "string" && t ? t : {
 		climate: "mdi:thermostat",
@@ -4671,8 +4671,8 @@ function Li(e) {
 		timer: "mdi:timer"
 	}[e.entity_id.split(".")[0]] ?? "mdi:bookmark";
 }
-function Ri(e, t) {
-	let n = qi(e.id, t), r = Gi(e.id, t), i = e.kind === "entity_state", a = t.hass?.states[e.entityId], o = i ? "entity-source-chip" : "attr-source-chip", s = t.draggingSourceId === e.id, c = (e.kind === "entity_attribute" || e.kind === "entity_state") && r && !n, l, u, d = () => {
+function zi(e, t) {
+	let n = Ji(e.id, t), r = Ki(e.id, t), i = e.kind === "entity_state", a = t.hass?.states[e.entityId], o = i ? "entity-source-chip" : "attr-source-chip", s = t.draggingSourceId === e.id, c = (e.kind === "entity_attribute" || e.kind === "entity_state") && r && !n, l, u, d = () => {
 		l !== void 0 && (clearTimeout(l), l = void 0), u = void 0;
 	}, f = (n) => {
 		c && (n.preventDefault(), n.stopPropagation(), t.onSourceSettingsOpen(e, n));
@@ -4710,7 +4710,7 @@ function Ri(e, t) {
       @drop=${(n) => t.onSourceDrop(e.id, n)}
     >
       <span class="source-chip-icon">
-        ${i && a ? T`<ha-icon .icon=${Li(a)}></ha-icon>` : T`<ha-icon .icon=${Bi(e.valueType)}></ha-icon>`}
+        ${i && a ? T`<ha-icon .icon=${Ri(a)}></ha-icon>` : T`<ha-icon .icon=${Vi(e.valueType)}></ha-icon>`}
       </span>
       <span class="source-chip-label">${e.label}</span>
       ${n ? D : T`<button
@@ -4722,7 +4722,7 @@ function Ri(e, t) {
     </div>
   `;
 }
-function zi(e) {
+function Bi(e) {
 	return e.sourceSettingsSourceId ? T`
     <div
       class="source-settings-popover"
@@ -4734,30 +4734,30 @@ function zi(e) {
 	}}
     >
       <label class="source-settings-field">
-        <span>${L(e.hass, "attribute_unit")}</span>
+        <span>${I(e.hass, "attribute_unit")}</span>
         <input
           class="source-settings-input"
           .value=${e.sourceSettingsUnit ?? ""}
-          placeholder=${L(e.hass, "attribute_unit_placeholder")}
+          placeholder=${I(e.hass, "attribute_unit_placeholder")}
           @input=${(t) => e.onSourceSettingsUnitChanged(t.target.value)}
         />
       </label>
       <label class="source-settings-field">
-        <span>${L(e.hass, "group")}</span>
+        <span>${I(e.hass, "group")}</span>
         <input
           class="source-settings-input"
           .value=${e.sourceSettingsGroup ?? ""}
-          placeholder=${L(e.hass, "group_placeholder")}
+          placeholder=${I(e.hass, "group_placeholder")}
           @input=${(t) => e.onSourceSettingsGroupChanged(t.target.value)}
         />
       </label>
       <button class="source-settings-close" @click=${e.onSourceSettingsClose}>
-        ${L(e.hass, "done")}
+        ${I(e.hass, "done")}
       </button>
     </div>
   ` : D;
 }
-function Bi(e) {
+function Vi(e) {
 	switch (e) {
 		case "number": return "mdi:chart-line";
 		case "string": return "mdi:text";
@@ -4765,26 +4765,26 @@ function Bi(e) {
 		default: return "mdi:code-tags";
 	}
 }
-function Vi(e) {
+function Hi(e) {
 	let t = e.selectedEntityId && e.hass ? e.hass.states[e.selectedEntityId] : void 0, n = e.path, r = t ? (() => {
 		if (n.length === 0) return t.attributes;
 		let e = t.attributes;
 		for (let t of n) {
-			if (!_i(e)) return;
+			if (!vi(e)) return;
 			e = e[t];
 		}
 		return e;
 	})() : void 0;
 	return T`
     <div class="entity-browser">
-      ${Hi(t, e)}
+      ${Ui(t, e)}
       <div class="entity-browser-list">
-        ${t ? Ui(t, n, _i(r) ? r : {}, e) : T`<div class="entity-browser-empty">${L(e.hass, "no_entity_selected")}</div>`}
+        ${t ? Wi(t, n, vi(r) ? r : {}, e) : T`<div class="entity-browser-empty">${I(e.hass, "no_entity_selected")}</div>`}
       </div>
     </div>
   `;
 }
-function Hi(e, t) {
+function Ui(e, t) {
 	return !e || t.path.length === 0 ? T`` : T`
     <div class="entity-breadcrumb">
       ${t.path.map((e, n) => T`
@@ -4794,27 +4794,27 @@ function Hi(e, t) {
     </div>
   `;
 }
-function Ui(e, t, n, r) {
-	let i = Object.entries(n).sort(([e], [t]) => e.localeCompare(t)), a = i.some(([n, r]) => _i(r) ? !0 : bt(r) !== void 0 && !!St(e, [...t, n]));
+function Wi(e, t, n, r) {
+	let i = Object.entries(n).sort(([e], [t]) => e.localeCompare(t)), a = i.some(([n, r]) => vi(r) ? !0 : bt(r) !== void 0 && !!St(e, [...t, n]));
 	return T`
     <div class="entity-browser-entries">
       ${t.length > 0 ? T`
             <div class="entity-browser-back" @click=${() => r.onBreadcrumbClick(t.slice(0, -1))}>
-              &#x2190; ${L(r.hass, "back")}
+              &#x2190; ${I(r.hass, "back")}
             </div>
           ` : T`
-            ${Qi(e, r)}
+            ${$i(e, r)}
             ${a ? T`
-                  <div class="entity-browser-section-title">${L(r.hass, "attributes")}</div>
-                  ${Wi(r)}
+                  <div class="entity-browser-section-title">${I(r.hass, "attributes")}</div>
+                  ${Gi(r)}
                 ` : D}
           `}
-      ${t.length === 0 && r.attributeSearch.trim() ? ta(e, r) : i.map(([n, i]) => $i(e, n, i, t, r))}
+      ${t.length === 0 && r.attributeSearch.trim() ? na(e, r) : i.map(([n, i]) => ea(e, n, i, t, r))}
     </div>
   `;
 }
-function Wi(e) {
-	let t = L(e.hass, "search_attributes");
+function Gi(e) {
+	let t = I(e.hass, "search_attributes");
 	return T`
     <div class="entity-browser-search">
       <input
@@ -4830,16 +4830,16 @@ function Wi(e) {
     </div>
   `;
 }
-function Gi(e, t) {
+function Ki(e, t) {
 	return t.selectedSources.some((t) => t.id === e);
 }
-function Ki(e, t) {
+function qi(e, t) {
 	return (t.resolved?.series ?? []).some((t) => t.id === e);
 }
-function qi(e, t) {
+function Ji(e, t) {
 	return (t.resolved?.series ?? []).some((t) => t.id === e && t.forced !== !1);
 }
-function Ji(e) {
+function Yi(e) {
 	return {
 		id: e.id,
 		kind: e.attribute ? "entity_attribute" : "entity_state",
@@ -4851,30 +4851,30 @@ function Ji(e) {
 		scalePreference: e.scalePreference
 	};
 }
-function Yi(e) {
-	let t = [...(e.resolved?.series ?? []).filter((e) => e.forced === !1).map(Ji), ...e.selectedSources], n = /* @__PURE__ */ new Set();
+function Xi(e) {
+	let t = [...(e.resolved?.series ?? []).filter((e) => e.forced === !1).map(Yi), ...e.selectedSources], n = /* @__PURE__ */ new Set();
 	return t.filter((e) => n.has(e.id) ? !1 : (n.add(e.id), !0));
 }
-function Xi(e, t) {
+function Zi(e, t) {
 	let n = t.selectedSources.some((t) => t.entityId === e), r = (t.resolved?.series ?? []).some((t) => t.entity === e);
 	return n || r;
 }
-function Zi(e, t) {
+function Qi(e, t) {
 	if (!e.entity_id.startsWith("climate.")) return !1;
 	let n = t.selectedSources.some((t) => t.entityId.startsWith("climate.") && t.entityId !== e.entity_id), r = (t.resolved?.series ?? []).some((t) => t.entity.startsWith("climate.") && t.entity !== e.entity_id);
 	return n || r;
 }
-function Qi(e, t) {
+function $i(e, t) {
 	let n = xt(e);
-	return n ? Zi(e, t) ? T`
+	return n ? Qi(e, t) ? T`
       <div class="entity-browser-entity entity-browser-entity--disabled">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : Gi(n.id, t) ? T`
+    ` : Ki(n.id, t) ? T`
       <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--removable" @click=${() => t.onSourceRemoved(n.id)}>
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
-    ` : Ki(n.id, t) ? qi(n.id, t) ? T`
+    ` : qi(n.id, t) ? Ji(n.id, t) ? T`
       <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--forced">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
@@ -4882,7 +4882,7 @@ function Qi(e, t) {
         <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--removable" @click=${() => t.onSourceRemoved(n.id)}>
           <span class="entity-browser-entry-label">${e.entity_id}</span>
         </div>
-      ` : Xi(e.entity_id, t) ? T`
+      ` : Zi(e.entity_id, t) ? T`
       <div class="entity-browser-entity entity-browser-entity--disabled">
         <span class="entity-browser-entry-label">${e.entity_id}</span>
       </div>
@@ -4892,8 +4892,8 @@ function Qi(e, t) {
     </div>
   ` : D;
 }
-function $i(e, t, n, r, i) {
-	if (_i(n)) return T`
+function ea(e, t, n, r, i) {
+	if (vi(n)) return T`
       <div class="entity-browser-entry" @click=${() => i.onBreadcrumbClick([...r, t])}>
         <span class="entity-browser-entry-label">${t}</span>
         <span class="entity-browser-entry-arrow">&#x203A;</span>
@@ -4902,14 +4902,14 @@ function $i(e, t, n, r, i) {
 	let a = bt(n), o = [...r, t];
 	if (!a) return D;
 	let s = St(e, o);
-	return s ? ea({
+	return s ? ta({
 		label: t,
 		source: s,
 		type: a,
 		opts: i
 	}) : D;
 }
-function ea(e) {
+function ta(e) {
 	let { label: t, source: n, type: r, opts: i, secondary: a } = e, o = T`
     <span class="entity-browser-entry-text">
       <span class="entity-browser-entry-label">${t}</span>
@@ -4917,11 +4917,11 @@ function ea(e) {
     </span>
     <span class="entity-browser-entry-type">${r}</span>
   `;
-	return Gi(n.id, i) ? T`
+	return Ki(n.id, i) ? T`
       <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--removable" @click=${() => i.onSourceRemoved(n.id)}>
         ${o}
       </div>
-    ` : Ki(n.id, i) ? qi(n.id, i) ? T`
+    ` : qi(n.id, i) ? Ji(n.id, i) ? T`
       <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--forced">
         ${o}
       </div>
@@ -4935,33 +4935,33 @@ function ea(e) {
     </div>
   `;
 }
-function ta(e, t) {
-	let n = na(e, e.attributes, t.attributeSearch), r = n.slice(0, mi);
-	return r.length === 0 ? T`<div class="entity-browser-search-empty">${L(t.hass, "no_matching_attributes")}</div>` : T`
+function na(e, t) {
+	let n = ra(e, e.attributes, t.attributeSearch), r = n.slice(0, hi);
+	return r.length === 0 ? T`<div class="entity-browser-search-empty">${I(t.hass, "no_matching_attributes")}</div>` : T`
     <div class="entity-browser-search-results">
-      ${r.map((e) => ea({
+      ${r.map((e) => ta({
 		label: e.key,
 		source: e.source,
 		type: e.valueType,
 		opts: t,
 		secondary: e.dottedPath
 	}))}
-      ${n.length > r.length ? T`<div class="entity-browser-search-count">${L(t.hass, "attribute_results_limited")}</div>` : D}
+      ${n.length > r.length ? T`<div class="entity-browser-search-count">${I(t.hass, "attribute_results_limited")}</div>` : D}
     </div>
   `;
 }
-function na(e, t, n) {
+function ra(e, t, n) {
 	let r = n.trim().toLocaleLowerCase();
 	if (!r) return [];
 	let i = [], a = (t, n, o) => {
-		if (!(o > pi)) for (let [s, c] of Object.entries(t)) {
+		if (!(o > mi)) for (let [s, c] of Object.entries(t)) {
 			let t = [...n, s];
-			if (_i(c)) {
+			if (vi(c)) {
 				a(c, t, o + 1);
 				continue;
 			}
 			let l = bt(c), u = l ? St(e, t) : void 0;
-			!l || !u || ra(t, c).includes(r) && i.push({
+			!l || !u || ia(t, c).includes(r) && i.push({
 				key: s,
 				dottedPath: t.join("."),
 				valueType: l,
@@ -4970,11 +4970,11 @@ function na(e, t, n) {
 		}
 	};
 	return a(t, [], 0), i.sort((e, t) => {
-		let n = ia(e, r), i = ia(t, r);
+		let n = aa(e, r), i = aa(t, r);
 		return n === i ? e.dottedPath.length === t.dottedPath.length ? e.dottedPath.localeCompare(t.dottedPath) : e.dottedPath.length - t.dottedPath.length : n - i;
 	});
 }
-function ra(e, t) {
+function ia(e, t) {
 	let n = typeof t == "string" || typeof t == "number" || typeof t == "boolean" ? String(t) : "";
 	return [
 		...e,
@@ -4982,61 +4982,61 @@ function ra(e, t) {
 		n
 	].join(" ").toLocaleLowerCase();
 }
-function ia(e, t) {
+function aa(e, t) {
 	let n = e.key.toLocaleLowerCase(), r = e.dottedPath.toLocaleLowerCase();
 	return n.startsWith(t) ? 0 : r.startsWith(t) ? 1 : n.includes(t) ? 2 : r.includes(t) ? 3 : 4;
 }
-function R(e, t, n, r) {
+function L(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
 	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
 	return i > 3 && a && Object.defineProperty(t, n, a), a;
 }
-var aa = 60, oa = 1e3, sa = 24, ca = 28, la = 720, ua = 1e3, da = 18, fa = 44, pa = 12, ma = 14, ha = 48, ga = .34, _a = .72, va = 720, ya = 2, ba = 46, xa = 22, Sa = [
+var oa = 60, sa = 1e3, ca = 24, la = 28, ua = 720, da = 1e3, fa = 18, pa = 44, ma = 12, ha = 14, ga = 48, _a = .34, va = .72, ya = 720, ba = 2, xa = 46, Sa = 22, Ca = [
 	"current_temperature",
 	"temperature",
 	"hvac_action"
-], Ca = new Set(["current_temperature", "temperature"]), wa = 5, Ta = "haBetterHistory";
-function Ea(e) {
+], wa = new Set(["current_temperature", "temperature"]), Ta = 5, Ea = "haBetterHistory";
+function Da(e) {
 	let t = 0;
 	for (let n of e) n >= "0" && n <= "9" ? t += 6.2 : n === "." || n === "," ? t += 3.2 : n === "-" ? t += 4 : t += 6.2;
 	return Math.ceil(t);
 }
-function Da(e, t = 0) {
-	let n = Math.max(0, ...e.map((e) => Ea(e.value))), r = t > 0 ? t * 10 : 0, i = Math.max(n, r);
-	return i > 0 ? `${i + wa}px` : "0px";
-}
-function Oa(e) {
-	return cn(e);
+function Oa(e, t = 0) {
+	let n = Math.max(0, ...e.map((e) => Da(e.value))), r = t > 0 ? t * 10 : 0, i = Math.max(n, r);
+	return i > 0 ? `${i + Ta}px` : "0px";
 }
 function ka(e) {
+	return cn(e);
+}
+function Aa(e) {
 	let t = e?.trim();
 	if (!t || !/^\d+$/.test(t)) return;
 	let n = Number(t);
 	return Number.isSafeInteger(n) && n > 0 ? n : void 0;
 }
-function Aa(e) {
+function ja(e) {
 	return e.group ?? e.scaleGroup;
 }
-function ja(e) {
+function Ma(e) {
 	return e.id.startsWith("attr:climate.") && (e.id.endsWith(":current_temperature") || e.id.endsWith(":temperature"));
 }
-function Ma(e) {
+function Na(e) {
 	return e.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && N(e.unit))?.unit ?? e.find((e) => e.unit && N(e.unit))?.unit;
 }
-function Na(e) {
-	let t = Ma(e);
+function Pa(e) {
+	let t = Na(e);
 	return t ? e.map((e) => {
-		let n = sn(e.unit, t) || e.unit === void 0 && ja(e) ? t : e.unit;
+		let n = sn(e.unit, t) || e.unit === void 0 && Ma(e) ? t : e.unit;
 		return n === e.unit ? e : {
 			...e,
 			unit: n
 		};
 	}) : e;
 }
-var z = class extends O {
+var R = class extends O {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._pendingAddedSources = [], this._data = new Yt(this), this._tooltip = new Tr(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._handleBrowserPopState = (e) => {
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._pendingAddedSources = [], this._data = new Yt(this), this._tooltip = new Er(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
 			this._syncingBrowserHistory = !0;
 			try {
@@ -5048,10 +5048,10 @@ var z = class extends O {
 			} finally {
 				this._syncingBrowserHistory = !1;
 			}
-		}, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => wi(this.hass), this._getAdditionalEntityPickerItems = (e) => {
+		}, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => Ti(this.hass), this._getAdditionalEntityPickerItems = (e) => {
 			if (!this.hass || !e?.trim()) return [];
 			let t = new Set(this._pickerEntities().map((e) => e.entity_id));
-			return Oi(wi(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
+			return ki(Ti(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
 		}, this._handleDocumentPointerDown = (e) => {
 			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), !(!this._attributeMenuOpen && !this._sourceSettingsSourceId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
 		}, this._handleDocumentClick = (e) => {
@@ -5070,10 +5070,10 @@ var z = class extends O {
 		};
 	}
 	static {
-		this.styles = ri;
+		this.styles = ii;
 	}
 	connectedCallback() {
-		super.connectedCallback(), oi(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), window.addEventListener("popstate", this._handleBrowserPopState), this._resizeObserver = new ResizeObserver((e) => {
+		super.connectedCallback(), si(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), window.addEventListener("popstate", this._handleBrowserPopState), this._resizeObserver = new ResizeObserver((e) => {
 			for (let t of e) if (t.target === this) {
 				let e = Math.round(t.contentRect.width);
 				e !== this._containerWidth && (this._containerWidth = e);
@@ -5094,9 +5094,9 @@ var z = class extends O {
 	}
 	_syncChartSurfaceSize(e) {
 		let t = Math.round(e), n = this._observedChartSurface?.querySelector(".chart-graphs"), r = n ? Math.round(n.offsetHeight) : 0;
-		if (this._measureGraphLayout(n ?? void 0, r), this._lastContentHeight > 0 && r > 0 && r === this._lastContentHeight && Math.abs(t - this._chartSurfaceHeight) > ya) return;
+		if (this._measureGraphLayout(n ?? void 0, r), this._lastContentHeight > 0 && r > 0 && r === this._lastContentHeight && Math.abs(t - this._chartSurfaceHeight) > ba) return;
 		this._lastContentHeight = r;
-		let i = r < t - ya || t < r - ya, a = t < this._chartSurfaceHeight - ya, o = this._graphGroupRenderCache?.graphHeight ?? 180, s = this._chartSurfaceConstrained && o !== 180;
+		let i = r < t - ba || t < r - ba, a = t < this._chartSurfaceHeight - ba, o = this._graphGroupRenderCache?.graphHeight ?? 180, s = this._chartSurfaceConstrained && o !== 180;
 		if (i || a || s) {
 			this._chartSurfaceHeight !== t && (this._chartSurfaceHeight = t), this._chartSurfaceConstrained ||= !0;
 			return;
@@ -5127,7 +5127,7 @@ var z = class extends O {
 			t.style.getPropertyValue("--better-history-surface-header-offset") && t.style.removeProperty("--better-history-surface-header-offset");
 			return;
 		}
-		let n = t.querySelector(".chart-graphs"), r = Math.round(t.getBoundingClientRect().height), i = n ? Math.round(n.offsetHeight) : 0, a = i > r - ya, o = Math.max(0, (r - i) / 2), s = e + 10 - o, c = t.style.getPropertyValue("--better-history-surface-header-offset"), l = c !== "";
+		let n = t.querySelector(".chart-graphs"), r = Math.round(t.getBoundingClientRect().height), i = n ? Math.round(n.offsetHeight) : 0, a = i > r - ba, o = Math.max(0, (r - i) / 2), s = e + 10 - o, c = t.style.getPropertyValue("--better-history-surface-header-offset"), l = c !== "";
 		if (this._chartSurfaceConstrained || a) {
 			let r = Math.ceil(e + 10);
 			if (c === `${r}px`) return;
@@ -5135,7 +5135,7 @@ var z = class extends O {
 			return;
 		}
 		if (s <= 0) {
-			if (!l || s > -ya) return;
+			if (!l || s > -ba) return;
 			this._lastContentHeight = n ? Math.round(n.offsetHeight) : 0, t.style.removeProperty("--better-history-surface-header-offset");
 			return;
 		}
@@ -5187,15 +5187,15 @@ var z = class extends O {
 				this._stopLiveClock();
 				return;
 			}
-			let e = this._effectiveEndDate().getTime(), t = !this._viewEnd || Math.abs(this._viewEnd.getTime() - e) <= oa * 2, n = Date.now();
+			let e = this._effectiveEndDate().getTime(), t = !this._viewEnd || Math.abs(this._viewEnd.getTime() - e) <= sa * 2, n = Date.now();
 			this._liveNow = n, t && (this._viewEnd = new Date(n));
-		}, oa);
+		}, sa);
 	}
 	_stopLiveClock() {
 		this._liveNowTimer !== void 0 && (clearInterval(this._liveNowTimer), this._liveNowTimer = void 0);
 	}
 	_browserHistoryEntry(e = window.history.state) {
-		let t = typeof e == "object" && e ? e[Ta] : void 0;
+		let t = typeof e == "object" && e ? e[Ea] : void 0;
 		if (typeof t != "object" || !t) return;
 		let n = t;
 		if (n.instanceId === this._browserHistoryInstanceId && !(n.layer !== "date-picker" && n.layer !== "entity-picker" && n.layer !== "attribute-picker")) return {
@@ -5206,7 +5206,7 @@ var z = class extends O {
 	_browserHistoryState(e) {
 		return {
 			...typeof window.history.state == "object" && window.history.state !== null ? window.history.state : {},
-			[Ta]: {
+			[Ea]: {
 				instanceId: this._browserHistoryInstanceId,
 				layer: e
 			}
@@ -5270,7 +5270,7 @@ var z = class extends O {
 	}
 	_fetchSources() {
 		let e = [], t = /* @__PURE__ */ new Set();
-		if (this._resolved && !this._importedDataActive) for (let n of this._activeResolvedSeries()) t.has(n.id) || (t.add(n.id), e.push(Ar(n)));
+		if (this._resolved && !this._importedDataActive) for (let n of this._activeResolvedSeries()) t.has(n.id) || (t.add(n.id), e.push(jr(n)));
 		for (let n of this._selectedSources) for (let r of this._expandedSelectedSources(n)) t.has(r.id) || (t.add(r.id), e.push(r));
 		return e;
 	}
@@ -5313,7 +5313,7 @@ var z = class extends O {
 				if ((a || t) && this._lastFetchKey && (this._lastHassResolveTime = e, !t) || !t && e === this._lastHassResolveTime && this._lastFetchKey) return;
 				this._lastHassResolveTime = e;
 			}
-			let i = ei({
+			let i = ti({
 				config: this.config,
 				entities: this.entities,
 				hours: this.hours,
@@ -5348,10 +5348,10 @@ var z = class extends O {
 					n.length > 0 && r.length === 0 ? (this._lastFetchKey = c, this._lastFetchSources = o, this._data.addSources(this.hass, n, i.startDate, i.endDate)) : r.length > 0 && n.length === 0 ? (this._lastFetchKey = c, this._lastFetchSources = o, this._data.removeSources(r)) : (this._lastFetchKey = c, this._lastFetchSources = o, this._data.fetch(this.hass, o, i.startDate, i.endDate));
 				} else this._lastFetchKey = c, this._lastFetchSources = o, this._data.fetch(this.hass, o, i.startDate, i.endDate);
 			}
-			i.showDatePicker && !this._datePickerReady && di().then(() => {
-				this._datePickerReady = ui(), this.requestUpdate();
-			}), i.showEntityPicker && !this._entityComponentsReady && Ai().then(() => {
-				this._entityComponentsReady = ji(), this.requestUpdate();
+			i.showDatePicker && !this._datePickerReady && fi().then(() => {
+				this._datePickerReady = di(), this.requestUpdate();
+			}), i.showEntityPicker && !this._entityComponentsReady && ji().then(() => {
+				this._entityComponentsReady = Mi(), this.requestUpdate();
 			});
 		}
 	}
@@ -5384,16 +5384,16 @@ var z = class extends O {
 	}
 	_pickScaleGroup(e, t, n) {
 		if (e.valueType !== "number") return `series:${e.id}`;
-		let r = Aa(e);
+		let r = ja(e);
 		if (r) {
-			let e = ka(r);
+			let e = Aa(r);
 			if (e !== void 0) {
 				let r = (n ?? this._scaleGraphKeys(t))[e - 1];
 				if (r) return r;
 			}
 			return `group:${r}`;
 		}
-		let i = e.entityId.startsWith("climate.") && e.path?.length === 1 && Ca.has(e.path[0]);
+		let i = e.entityId.startsWith("climate.") && e.path?.length === 1 && wa.has(e.path[0]);
 		if (e.unit) {
 			let n = t.find((t) => t.valueType === "number" && (t.unit === e.unit || sn(t.unit, e.unit)));
 			if (n) return n.scaleGroupKey;
@@ -5414,7 +5414,7 @@ var z = class extends O {
 		return [...new Set(e.filter((e) => e.valueType === "number" || e.valueType === "boolean").map((e) => e.valueType === "boolean" ? "group:boolean" : e.scaleGroupKey))];
 	}
 	_usesScaleGraphAlias(e) {
-		return e.valueType === "number" && ka(Aa(e)) !== void 0;
+		return e.valueType === "number" && Aa(ja(e)) !== void 0;
 	}
 	_renderSeriesFromSource(e, t, n, r, i = e.unit) {
 		let a = e.entityId.startsWith("climate.") && e.path?.length === 1 ? e.path[0] : void 0;
@@ -5511,7 +5511,7 @@ var z = class extends O {
 			let t = i.get(n.id), s = t?.scaleGroupKey ?? this._pickScaleGroup(n, e, a);
 			e.push(this._renderSeriesFromSource(n, o, s, e.length, t?.unit ?? this._unitForScaleGroup(n, s, r)));
 		}
-		return Na(e);
+		return Pa(e);
 	}
 	_chartSourceKey() {
 		return [...(this._importedDataActive ? [] : this._activeResolvedSeries()).map((e) => [
@@ -5532,7 +5532,7 @@ var z = class extends O {
 			e.label,
 			e.kind,
 			e.unit ?? "",
-			Aa(e) ?? "",
+			ja(e) ?? "",
 			this._effectiveScalePreference(e.id, e.scalePreference),
 			e.valueType,
 			this._defaultLineMode(),
@@ -5545,7 +5545,7 @@ var z = class extends O {
 		let l = this._maxXTicks(), u = this._buildRenderSeries(), d = u.filter((e) => !this._hiddenSeriesIds.includes(e.id)), f = {
 			start: i,
 			end: Math.max(a, i + 1)
-		}, p = this._data.debugPerformance, m = p ? j() : 0, h = _r(u, d, f, this._resolved?.disableClimateOverlay ?? !1, l, s, c), g = p ? j() - m : 0;
+		}, p = this._data.debugPerformance, m = p ? j() : 0, h = vr(u, d, f, this._resolved?.disableClimateOverlay ?? !1, l, s, c), g = p ? j() - m : 0;
 		return p && M(p, "chart.build_data", {
 			allSeriesCount: u.length,
 			visibleSeriesCount: d.length,
@@ -5569,7 +5569,7 @@ var z = class extends O {
 	_graphGroups(e) {
 		let t = this._maxXTicks(), n = this._graphHeightFor(e), r = this._graphGroupRenderCache;
 		if (r && r.dataRef === e && r.maxXTicks === t && r.graphHeight === n) return r.groups;
-		let i = wr(e, t, n);
+		let i = Tr(e, t, n);
 		return this._graphGroupRenderCache = {
 			dataRef: e,
 			maxXTicks: t,
@@ -5593,8 +5593,8 @@ var z = class extends O {
 	}
 	_graphHeightFor(e) {
 		if (!this._chartSurfaceConstrained || this._chartSurfaceHeight <= 0) return 180;
-		let t = this._graphCountFor(e), n = this._measuredGraphLayout?.graphCount === t ? this._measuredGraphLayout.overheadHeight : void 0, r = this._estimatedGraphOverhead(e, t), i = n ?? r, a = this._chartSurfaceHeight - i, o = this._containerWidth > 0 ? this._containerWidth * 640 / 720 : 640, s = Math.max(180, Math.min(Math.floor(o * ga), Math.floor(this._chartSurfaceHeight / t * _a), va)), c = Math.floor(Math.max(0, a) / t);
-		return Math.max(ha, Math.min(c, s));
+		let t = this._graphCountFor(e), n = this._measuredGraphLayout?.graphCount === t ? this._measuredGraphLayout.overheadHeight : void 0, r = this._estimatedGraphOverhead(e, t), i = n ?? r, a = this._chartSurfaceHeight - i, o = this._containerWidth > 0 ? this._containerWidth * 640 / 720 : 640, s = Math.max(180, Math.min(Math.floor(o * _a), Math.floor(this._chartSurfaceHeight / t * va), ya)), c = Math.floor(Math.max(0, a) / t);
+		return Math.max(ga, Math.min(c, s));
 	}
 	_graphCountFor(e) {
 		return Math.max(new Set(e.numericScales.map((e) => e.graphKey)).size, +!!e.allSeries.some((e) => e.valueType !== "number" && e.valueType !== "boolean"), 1);
@@ -5604,10 +5604,10 @@ var z = class extends O {
 		return t * 62 + r + (n > 0 ? 10 + n * 14 : 0);
 	}
 	_renderGraphGroup(e, t) {
-		let n = this._resolved?.showLegend ?? !0, r = this._resolved?.showGrid ?? !0, i = this._resolved?.showScale ?? !0, a = e.series.map((e) => e.id).join("|"), o = i ? this._axisSeriesDots(e, "left") : [], s = i ? this._axisSeriesDots(e, "right") : [], c = o.length || +!!this._draggingAxisSeriesId, l = s.length || +!!this._draggingAxisSeriesId, u = i ? Da(e.yLabels, c) : "0px", d = i ? Da(e.rightYLabels, l) : "0px", f = 28 + e.graphHeight, p = f + 3, m = f + 16 + 6;
+		let n = this._resolved?.showLegend ?? !0, r = this._resolved?.showGrid ?? !0, i = this._resolved?.showScale ?? !0, a = e.series.map((e) => e.id).join("|"), o = i ? this._axisSeriesDots(e, "left") : [], s = i ? this._axisSeriesDots(e, "right") : [], c = o.length || +!!this._draggingAxisSeriesId, l = s.length || +!!this._draggingAxisSeriesId, u = i ? Oa(e.yLabels, c) : "0px", d = i ? Oa(e.rightYLabels, l) : "0px", f = 28 + e.graphHeight, p = f + 3, m = f + 16 + 6;
 		return T`
       <div class="graph-section">
-        <div class="graph-row" style=${`--axis-label-gap:${wa}px;--axis-left-gutter:${u};--axis-right-gutter:${d};`}>
+        <div class="graph-row" style=${`--axis-label-gap:${Ta}px;--axis-left-gutter:${u};--axis-right-gutter:${d};`}>
           <div
             class="axis-labels axis-labels--left"
             style="height:${e.canvasHeight}px"
@@ -5729,7 +5729,7 @@ var z = class extends O {
     `;
 	}
 	_axisDraggableSeries(e) {
-		let t = e.series.filter((e) => e.valueType === "number" || e.valueType === "boolean"), n = new Set(t.map((e) => Oa(e.unit)));
+		let t = e.series.filter((e) => e.valueType === "number" || e.valueType === "boolean"), n = new Set(t.map((e) => ka(e.unit)));
 		return t.length >= 2 && n.size === 1 ? t : [];
 	}
 	_canDragAxisSeries(e, t, n) {
@@ -5739,7 +5739,7 @@ var z = class extends O {
 		let r = this._axisDraggableSeries(e).find((e) => e.id === t);
 		if (!r) return !1;
 		let i = e.scales.find((e) => e.axis === n);
-		return i ? e.series.filter((e) => i.ids.has(e.id)).every((e) => Oa(e.unit) === Oa(r.unit)) : n === "right";
+		return i ? e.series.filter((e) => i.ids.has(e.id)).every((e) => ka(e.unit) === ka(r.unit)) : n === "right";
 	}
 	_onAxisDotDragStart(e, t, n, r) {
 		if (!this._canDragAxisSeries(e, t, n)) {
@@ -5811,7 +5811,7 @@ var z = class extends O {
 		document.addEventListener("touchmove", s, { passive: !1 }), document.addEventListener("touchend", c), document.addEventListener("touchcancel", c);
 	}
 	_positionAxisTouchPreview(e, t) {
-		e.style.left = `${t.clientX}px`, e.style.top = `${t.clientY - ba}px`;
+		e.style.left = `${t.clientX}px`, e.style.top = `${t.clientY - xa}px`;
 	}
 	_touchDropTarget(e, t, n) {
 		let r = e.querySelector(".axis-labels--left"), i = e.querySelector(".axis-labels--right");
@@ -5820,7 +5820,7 @@ var z = class extends O {
 	}
 	_isTouchInsideAxisDropZone(e, t, n) {
 		let r = e.getBoundingClientRect();
-		return t >= r.left - xa && t <= r.right + xa && n >= r.top && n <= r.bottom;
+		return t >= r.left - Sa && t <= r.right + Sa && n >= r.top && n <= r.bottom;
 	}
 	_animateClipPaths() {
 		let e = this.renderRoot;
@@ -5842,7 +5842,7 @@ var z = class extends O {
 		if (this._data.error) {
 			this._queueGraphVisible(!1);
 			let e = /timed?\s*out/i.test(this._data.error);
-			return T`<div class="error">${L(this.hass, e ? "error_timeout" : "error")}</div>`;
+			return T`<div class="error">${I(this.hass, e ? "error_timeout" : "error")}</div>`;
 		}
 		if (!this._resolved || this._resolved.series.length === 0 && this._selectedSourcesForDisplay().length === 0) return this._queueGraphVisible(!1), D;
 		let e = this._chartData(), t = e.visibleSeries.some((e) => e.points.length > 0), n = this._resolved.showTooltip, r = this._graphGroups(e), i = r.length > 0 && (t || this._data.loading);
@@ -5865,12 +5865,12 @@ var z = class extends O {
               >
                 ${r.map((e, t) => this._renderGraphGroup(e, t))}
                 ${n ? this._tooltip.renderTooltip() : D}
-              </div>` : this._data.loading ? D : T`<div class="empty">${L(this.hass, "empty")}</div>`}
+              </div>` : this._data.loading ? D : T`<div class="empty">${I(this.hass, "empty")}</div>`}
       </div>
     `;
 	}
 	_renderEntityPickerUI() {
-		return !this._resolved?.showEntityPicker || !this._entityComponentsReady ? D : Mi({
+		return !this._resolved?.showEntityPicker || !this._entityComponentsReady ? D : Ni({
 			hass: this.hass,
 			menuOpen: this._attributeMenuOpen,
 			entityPickerOpen: this._entityPickerOpen,
@@ -5897,7 +5897,7 @@ var z = class extends O {
 			onSourceDrop: (e, t) => this._onSourceDrop(e, t),
 			sourceSettingsSourceId: this._sourceSettingsSourceId,
 			sourceSettingsUnit: this._sourceSettingsSource()?.unit,
-			sourceSettingsGroup: this._sourceSettingsSource() ? Aa(this._sourceSettingsSource()) : void 0,
+			sourceSettingsGroup: this._sourceSettingsSource() ? ja(this._sourceSettingsSource()) : void 0,
 			onSourceSettingsOpen: (e) => this._openSourceSettings(e),
 			onSourceSettingsClose: () => {
 				this._sourceSettingsSourceId = void 0;
@@ -5936,24 +5936,24 @@ var z = class extends O {
 		return t > 0 ? t : void 0;
 	}
 	_minViewRangeGapPx() {
-		return window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ? ca : sa;
+		return window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ? la : ca;
 	}
 	_rangeThumbHalfWidthPx() {
-		return (window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ? ma : pa) / 2;
+		return (window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ? ha : ma) / 2;
 	}
 	_rangeThumbHitWidthPx() {
-		return window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ? fa : da;
+		return window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ? pa : fa;
 	}
 	_minViewSpanMs(e = this._rangeSliderTrackWidthPx()) {
-		let { span: t } = this._loadedRangeMs(), n = this._minViewRangeGapPx(), r = Math.max(e ?? la, n), i = Math.ceil(t * n / r), a = Math.min(6e4, Math.max(1, Math.floor(t / 1e3)));
+		let { span: t } = this._loadedRangeMs(), n = this._minViewRangeGapPx(), r = Math.max(e ?? ua, n), i = Math.ceil(t * n / r), a = Math.min(6e4, Math.max(1, Math.floor(t / 1e3)));
 		return Math.min(t, Math.max(1, i, a));
 	}
 	_minViewRangeStep(e) {
 		let t = this._loadedRangeMs();
-		return Math.max(1, Math.ceil(this._minViewSpanMs(e) / t.span * ua));
+		return Math.max(1, Math.ceil(this._minViewSpanMs(e) / t.span * da));
 	}
 	_percentFromRangePointer(e, t) {
-		return Math.round(Math.max(0, Math.min(t.width, e.clientX - t.left)) / t.width * ua);
+		return Math.round(Math.max(0, Math.min(t.width, e.clientX - t.left)) / t.width * da);
 	}
 	_setViewRangeMs(e, t, n) {
 		let r = this._loadedRangeMs(), i = this._minViewSpanMs(n), a = Math.max(t - e, i), o = Math.min(a, r.span), s = Math.min(Math.max(e, r.start), r.end - o), c = s + o;
@@ -5968,7 +5968,7 @@ var z = class extends O {
 	}
 	_dateFromRangePercent(e) {
 		let t = this._resolved?.startDate.getTime() ?? this._effectiveStartDate().getTime(), n = this._rangeExtendsFuture() ? this._effectiveEndDate().getTime() : this._resolved?.endDate.getTime() ?? this._effectiveEndDate().getTime();
-		return new Date(t + Math.max(0, Math.min(ua, e)) / ua * (n - t));
+		return new Date(t + Math.max(0, Math.min(da, e)) / da * (n - t));
 	}
 	_formatRangeDate(e) {
 		return e.toLocaleString(this._resolved?.language ?? void 0, {
@@ -5980,7 +5980,7 @@ var z = class extends O {
 	}
 	_setViewRangePartPercent(e, t, n, r) {
 		let i = this._effectiveViewRange(), a = this._rangePercent(i.start, i.start), o = this._rangePercent(i.end, i.end), s = this._minViewRangeStep(n), c;
-		e === "start" ? (c = Math.min(Math.max(t, 0), o - s), r && (r.value = String(c)), this._setViewRangeMs(this._dateFromRangePercent(c).getTime(), i.end.getTime(), n)) : (c = Math.max(Math.min(t, ua), a + s), r && (r.value = String(c)), this._setViewRangeMs(i.start.getTime(), this._dateFromRangePercent(c).getTime(), n));
+		e === "start" ? (c = Math.min(Math.max(t, 0), o - s), r && (r.value = String(c)), this._setViewRangeMs(this._dateFromRangePercent(c).getTime(), i.end.getTime(), n)) : (c = Math.max(Math.min(t, da), a + s), r && (r.value = String(c)), this._setViewRangeMs(i.start.getTime(), this._dateFromRangePercent(c).getTime(), n));
 	}
 	_setViewRangePart(e, t) {
 		let n = t.currentTarget;
@@ -6021,7 +6021,7 @@ var z = class extends O {
 		if (!(n instanceof HTMLElement)) return;
 		let r = t.getBoundingClientRect();
 		if (r.width <= 0) return;
-		let i = this._effectiveViewRange(), a = this._rangePercent(i.start, i.start), o = this._rangePercent(i.end, i.end), s = a / ua * r.width, c = o / ua * r.width, l = Math.max(0, Math.min(r.width, e.clientX - r.left)), u = this._percentFromRangePointer(e, r), d = this._rangeThumbHalfWidthPx(), f = this._rangeThumbHitWidthPx(), p = s <= f, m = c >= r.width - f, h = Math.max(0, s - f), g = Math.min(r.width, s + (p ? f : d)), _ = Math.max(0, c - (m ? f : d)), v = Math.min(r.width, c + f);
+		let i = this._effectiveViewRange(), a = this._rangePercent(i.start, i.start), o = this._rangePercent(i.end, i.end), s = a / da * r.width, c = o / da * r.width, l = Math.max(0, Math.min(r.width, e.clientX - r.left)), u = this._percentFromRangePointer(e, r), d = this._rangeThumbHalfWidthPx(), f = this._rangeThumbHitWidthPx(), p = s <= f, m = c >= r.width - f, h = Math.max(0, s - f), g = Math.min(r.width, s + (p ? f : d)), _ = Math.max(0, c - (m ? f : d)), v = Math.min(r.width, c + f);
 		if (l > g && l < _ || g >= _ && l >= s && l <= c) {
 			this._startRangeSelectionDrag(e, t, n);
 			return;
@@ -6183,8 +6183,8 @@ var z = class extends O {
                 </div>
                 <button
                   class="tool-action-button tool-reset-button"
-                  title=${L(this.hass, "reset_zoom")}
-                  aria-label=${L(this.hass, "reset_zoom")}
+                  title=${I(this.hass, "reset_zoom")}
+                  aria-label=${I(this.hass, "reset_zoom")}
                   @click=${() => this._resetViewRange()}
                 >
                   <ha-icon .icon=${"mdi:restore"}></ha-icon>
@@ -6192,7 +6192,7 @@ var z = class extends O {
               ` : D}
             <div class="tool-actions">
               ${a ? T`
-                <div class="mode-switch" role="group" aria-label=${L(this.hass, "line_mode")}>
+                <div class="mode-switch" role="group" aria-label=${I(this.hass, "line_mode")}>
                   ${[
 			[
 				"stair",
@@ -6213,7 +6213,7 @@ var z = class extends O {
                     <button
                       class="mode-button"
                       ?active=${r === e}
-                      title=${L(this.hass, n)}
+                      title=${I(this.hass, n)}
                       @click=${() => this._setRuntimeLineMode(e)}
                     >
                       <ha-icon .icon=${t}></ha-icon>
@@ -6224,8 +6224,8 @@ var z = class extends O {
               ${o ? T`
                   <button
                     class="tool-action-button"
-                    title=${L(this.hass, "export_data")}
-                    aria-label=${L(this.hass, "export_data")}
+                    title=${I(this.hass, "export_data")}
+                    aria-label=${I(this.hass, "export_data")}
                     @click=${() => this._exportData()}
                   >
                     <ha-icon .icon=${"mdi:download"}></ha-icon>
@@ -6234,8 +6234,8 @@ var z = class extends O {
               ${s ? T`
                   <button
                     class="tool-action-button"
-                    title=${L(this.hass, "import_data")}
-                    aria-label=${L(this.hass, "import_data")}
+                    title=${I(this.hass, "import_data")}
+                    aria-label=${I(this.hass, "import_data")}
                     ?disabled=${this._hasForcedConfigSeries()}
                     @click=${() => this._importData()}
                   >
@@ -6299,7 +6299,7 @@ var z = class extends O {
 		return this.showControls && (this._resolved?.showDatePicker === !0 && this._datePickerReady || this._resolved?.showEntityPicker === !0 && this._entityComponentsReady);
 	}
 	_renderDatePicker() {
-		return !this._resolved?.showDatePicker || !this._datePickerReady ? D : fi({
+		return !this._resolved?.showDatePicker || !this._datePickerReady ? D : pi({
 			hass: this.hass,
 			startDate: this._resolved.startDate,
 			endDate: this._resolved.endDate,
@@ -6374,14 +6374,14 @@ var z = class extends O {
 	}
 	_sourceWithAttributeUnit(e) {
 		if (e.kind !== "entity_attribute" || !e.path || e.unit) return e;
-		if (e.entityId.startsWith("climate.") && e.path.length === 1 && Ca.has(e.path[0])) {
+		if (e.entityId.startsWith("climate.") && e.path.length === 1 && wa.has(e.path[0])) {
 			let t = this._climateTemperatureUnit(e.entityId);
 			if (t) return {
 				...e,
 				unit: t
 			};
 		}
-		let t = kr(e.path, this.attributeUnits ?? this.config?.attributeUnits), n = Or(t) ? this._resolvedTemperatureUnit() ?? t : t;
+		let t = Ar(e.path, this.attributeUnits ?? this.config?.attributeUnits), n = kr(t) ? this._resolvedTemperatureUnit() ?? t : t;
 		return !n || e.unit === n ? e : {
 			...e,
 			unit: n
@@ -6399,7 +6399,7 @@ var z = class extends O {
 		if (e.kind !== "entity_state" || !e.entityId.startsWith("climate.")) return [this._sourceWithAttributeUnit(e)];
 		let t = this.hass?.states[e.entityId];
 		if (!t) return [this._sourceWithAttributeUnit(e)];
-		let n = this._climateTemperatureUnit(e.entityId), r = Sa.map((r) => {
+		let n = this._climateTemperatureUnit(e.entityId), r = Ca.map((r) => {
 			let i = St(t, [r]), a = {
 				id: `attr:${e.entityId}:${r}`,
 				kind: "entity_attribute",
@@ -6407,15 +6407,15 @@ var z = class extends O {
 				label: r,
 				path: [r],
 				valueType: r === "hvac_action" ? "string" : "number",
-				unit: Ca.has(r) ? n : void 0,
+				unit: wa.has(r) ? n : void 0,
 				scalePreference: e.scalePreference
-			}, o = i ?? a, s = Aa(e);
-			return Ca.has(r) && n ? {
+			}, o = i ?? a, s = ja(e);
+			return wa.has(r) && n ? {
 				...o,
 				unit: n,
 				group: s,
 				scalePreference: e.scalePreference
-			} : Ca.has(r) ? {
+			} : wa.has(r) ? {
 				...o,
 				group: s,
 				scalePreference: e.scalePreference
@@ -6437,7 +6437,7 @@ var z = class extends O {
 			detail: { source: t },
 			bubbles: !0,
 			composed: !0
-		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), aa);
+		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), oa);
 	}
 	_flushPendingAddedSources() {
 		if (this._sourceAddBatchTimer = void 0, this._pendingAddedSources.length === 0) return;
@@ -6516,54 +6516,54 @@ var z = class extends O {
 		a.map((e) => e.id).join("|") !== this._selectedSources.map((e) => e.id).join("|") && (this._selectedSources = a, this.requestUpdate());
 	}
 };
-R([k({ attribute: !1 })], z.prototype, "hass", void 0), R([k({ attribute: !1 })], z.prototype, "config", void 0), R([k({ attribute: !1 })], z.prototype, "entities", void 0), R([k({ attribute: !1 })], z.prototype, "attributeUnits", void 0), R([k({ type: Number })], z.prototype, "hours", void 0), R([k({ attribute: !1 })], z.prototype, "startDate", void 0), R([k({ attribute: !1 })], z.prototype, "endDate", void 0), R([k({
+L([k({ attribute: !1 })], R.prototype, "hass", void 0), L([k({ attribute: !1 })], R.prototype, "config", void 0), L([k({ attribute: !1 })], R.prototype, "entities", void 0), L([k({ attribute: !1 })], R.prototype, "attributeUnits", void 0), L([k({ type: Number })], R.prototype, "hours", void 0), L([k({ attribute: !1 })], R.prototype, "startDate", void 0), L([k({ attribute: !1 })], R.prototype, "endDate", void 0), L([k({
 	type: Boolean,
 	attribute: "show-date-picker"
-})], z.prototype, "showDatePicker", void 0), R([k({
+})], R.prototype, "showDatePicker", void 0), L([k({
 	type: Boolean,
 	attribute: "show-entity-picker"
-})], z.prototype, "showEntityPicker", void 0), R([k({
+})], R.prototype, "showEntityPicker", void 0), L([k({
 	type: Boolean,
 	attribute: "show-import-button"
-})], z.prototype, "showImportButton", void 0), R([k({
+})], R.prototype, "showImportButton", void 0), L([k({
 	type: Boolean,
 	attribute: "show-export-button"
-})], z.prototype, "showExportButton", void 0), R([k({
+})], R.prototype, "showExportButton", void 0), L([k({
 	type: Boolean,
 	attribute: "show-time-range-selector"
-})], z.prototype, "showTimeRangeSelector", void 0), R([k({
+})], R.prototype, "showTimeRangeSelector", void 0), L([k({
 	type: Boolean,
 	attribute: "show-line-mode-buttons"
-})], z.prototype, "showLineModeButtons", void 0), R([k({
+})], R.prototype, "showLineModeButtons", void 0), L([k({
 	type: Boolean,
 	attribute: "show-legend"
-})], z.prototype, "showLegend", void 0), R([k({
+})], R.prototype, "showLegend", void 0), L([k({
 	type: Boolean,
 	attribute: "show-tooltip"
-})], z.prototype, "showTooltip", void 0), R([k({
+})], R.prototype, "showTooltip", void 0), L([k({
 	type: Boolean,
 	attribute: "show-grid"
-})], z.prototype, "showGrid", void 0), R([k({
+})], R.prototype, "showGrid", void 0), L([k({
 	type: Boolean,
 	attribute: "show-scale"
-})], z.prototype, "showScale", void 0), R([k({
+})], R.prototype, "showScale", void 0), L([k({
 	type: Boolean,
 	attribute: "auto-scale-split"
-})], z.prototype, "autoScaleSplit", void 0), R([k({
+})], R.prototype, "autoScaleSplit", void 0), L([k({
 	type: Boolean,
 	attribute: "show-controls"
-})], z.prototype, "showControls", void 0), R([k()], z.prototype, "width", void 0), R([k()], z.prototype, "height", void 0), R([k({ attribute: "line-mode" })], z.prototype, "lineMode", void 0), R([k({ attribute: "line-width" })], z.prototype, "lineWidth", void 0), R([k({ attribute: "background-color" })], z.prototype, "backgroundColor", void 0), R([k({ attribute: "graph-title" })], z.prototype, "graphTitle", void 0), R([k({ attribute: "title-font-family" })], z.prototype, "titleFontFamily", void 0), R([k({ attribute: "title-font-size" })], z.prototype, "titleFontSize", void 0), R([k({ attribute: "title-color" })], z.prototype, "titleColor", void 0), R([k()], z.prototype, "language", void 0), R([k({
+})], R.prototype, "showControls", void 0), L([k()], R.prototype, "width", void 0), L([k()], R.prototype, "height", void 0), L([k({ attribute: "line-mode" })], R.prototype, "lineMode", void 0), L([k({ attribute: "line-width" })], R.prototype, "lineWidth", void 0), L([k({ attribute: "background-color" })], R.prototype, "backgroundColor", void 0), L([k({ attribute: "graph-title" })], R.prototype, "graphTitle", void 0), L([k({ attribute: "title-font-family" })], R.prototype, "titleFontFamily", void 0), L([k({ attribute: "title-font-size" })], R.prototype, "titleFontSize", void 0), L([k({ attribute: "title-color" })], R.prototype, "titleColor", void 0), L([k()], R.prototype, "language", void 0), L([k({
 	type: Boolean,
 	attribute: "debug-performance"
-})], z.prototype, "debugPerformance", void 0), R([k({
+})], R.prototype, "debugPerformance", void 0), L([k({
 	type: Boolean,
 	attribute: "tools-open"
-})], z.prototype, "toolsOpen", void 0), R([A()], z.prototype, "_resolved", void 0), R([A()], z.prototype, "_hiddenSeriesIds", void 0), R([A()], z.prototype, "_rangeStart", void 0), R([A()], z.prototype, "_rangeEnd", void 0), R([A()], z.prototype, "_viewStart", void 0), R([A()], z.prototype, "_viewEnd", void 0), R([A()], z.prototype, "_liveNow", void 0), R([A()], z.prototype, "_datePickerReady", void 0), R([A()], z.prototype, "_entityComponentsReady", void 0), R([A()], z.prototype, "_runtimeLineMode", void 0), R([A()], z.prototype, "_attributeMenuOpen", void 0), R([A()], z.prototype, "_attributeSearch", void 0), R([A()], z.prototype, "_selectedEntityId", void 0), R([A()], z.prototype, "_path", void 0), R([A()], z.prototype, "_selectedSources", void 0), R([A()], z.prototype, "_removedConfigSourceIds", void 0), R([A()], z.prototype, "_scalePreferences", void 0), R([A()], z.prototype, "_customEntityIds", void 0), R([A()], z.prototype, "_entityPickerOpen", void 0), R([A()], z.prototype, "_datePickerOpen", void 0), R([A()], z.prototype, "_draggingSourceId", void 0), R([A()], z.prototype, "_draggingAxisSeriesId", void 0), R([A()], z.prototype, "_axisDropTarget", void 0), R([A()], z.prototype, "_sourceSettingsSourceId", void 0), R([A()], z.prototype, "_pendingAddedSources", void 0), R([A()], z.prototype, "_importedDataActive", void 0), R([A()], z.prototype, "_containerWidth", void 0), R([A()], z.prototype, "_chartSurfaceHeight", void 0), R([A()], z.prototype, "_chartSurfaceConstrained", void 0);
-var Pa = "haBetterHistory";
-function Fa(e) {
+})], R.prototype, "toolsOpen", void 0), L([A()], R.prototype, "_resolved", void 0), L([A()], R.prototype, "_hiddenSeriesIds", void 0), L([A()], R.prototype, "_rangeStart", void 0), L([A()], R.prototype, "_rangeEnd", void 0), L([A()], R.prototype, "_viewStart", void 0), L([A()], R.prototype, "_viewEnd", void 0), L([A()], R.prototype, "_liveNow", void 0), L([A()], R.prototype, "_datePickerReady", void 0), L([A()], R.prototype, "_entityComponentsReady", void 0), L([A()], R.prototype, "_runtimeLineMode", void 0), L([A()], R.prototype, "_attributeMenuOpen", void 0), L([A()], R.prototype, "_attributeSearch", void 0), L([A()], R.prototype, "_selectedEntityId", void 0), L([A()], R.prototype, "_path", void 0), L([A()], R.prototype, "_selectedSources", void 0), L([A()], R.prototype, "_removedConfigSourceIds", void 0), L([A()], R.prototype, "_scalePreferences", void 0), L([A()], R.prototype, "_customEntityIds", void 0), L([A()], R.prototype, "_entityPickerOpen", void 0), L([A()], R.prototype, "_datePickerOpen", void 0), L([A()], R.prototype, "_draggingSourceId", void 0), L([A()], R.prototype, "_draggingAxisSeriesId", void 0), L([A()], R.prototype, "_axisDropTarget", void 0), L([A()], R.prototype, "_sourceSettingsSourceId", void 0), L([A()], R.prototype, "_pendingAddedSources", void 0), L([A()], R.prototype, "_importedDataActive", void 0), L([A()], R.prototype, "_containerWidth", void 0), L([A()], R.prototype, "_chartSurfaceHeight", void 0), L([A()], R.prototype, "_chartSurfaceConstrained", void 0);
+var Fa = "haBetterHistory";
+function Ia(e) {
 	return e?.group ?? e?.scaleGroup;
 }
-var B = class extends O {
+var z = class extends O {
 	constructor(...e) {
 		super(...e), this.browserHistory = !0, this._selectedSources = [], this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._entitySearch = "", this._path = [], this._attributeSearch = "", this._componentsReady = !1, this._customEntityIds = [], this._browserHistoryInstanceId = `abh-picker-${Math.random().toString(36).slice(2)}`, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._handleDocumentPointerDown = (e) => {
 			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), !(!this._attributeMenuOpen && !this._sourceSettingsSourceId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
@@ -6598,21 +6598,21 @@ var B = class extends O {
 			} finally {
 				this._syncingBrowserHistory = !1;
 			}
-		}, this._getItems = () => wi(this.hass), this._getAdditionalItems = (e) => {
+		}, this._getItems = () => Ti(this.hass), this._getAdditionalItems = (e) => {
 			if (!this.hass || !e?.trim()) return [];
 			let t = new Set(this._pickerEntities().map((e) => e.entity_id));
-			return Oi(wi(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
+			return ki(Ti(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
 		};
 	}
 	static {
-		this.styles = [ri, o`
+		this.styles = [ii, o`
       :host {
         display: block;
       }
     `];
 	}
 	connectedCallback() {
-		super.connectedCallback(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), window.addEventListener("popstate", this._handleBrowserPopState), Ai().then(() => {
+		super.connectedCallback(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), window.addEventListener("popstate", this._handleBrowserPopState), ji().then(() => {
 			this._componentsReady = !0;
 		});
 	}
@@ -6667,7 +6667,7 @@ var B = class extends O {
 		t.style.left = `${l - r.left}px`, t.style.top = `${f - r.top}px`;
 	}
 	_browserHistoryEntry(e = window.history.state) {
-		let t = typeof e == "object" && e ? e[Pa] : void 0;
+		let t = typeof e == "object" && e ? e[Fa] : void 0;
 		if (typeof t != "object" || !t) return;
 		let n = t;
 		if (n.instanceId === this._browserHistoryInstanceId && !(n.layer !== "entity-picker" && n.layer !== "attribute-picker")) return {
@@ -6678,7 +6678,7 @@ var B = class extends O {
 	_browserHistoryState(e) {
 		return {
 			...typeof window.history.state == "object" && window.history.state !== null ? window.history.state : {},
-			[Pa]: {
+			[Fa]: {
 				instanceId: this._browserHistoryInstanceId,
 				layer: e
 			}
@@ -6739,7 +6739,7 @@ var B = class extends O {
 	}
 	render() {
 		return this._componentsReady ? T`
-      ${Mi({
+      ${Ni({
 			hass: this.hass,
 			menuOpen: this._attributeMenuOpen,
 			entityPickerOpen: this._entityPickerOpen,
@@ -6780,7 +6780,7 @@ var B = class extends O {
 			onSourceDrop: () => {},
 			sourceSettingsSourceId: this._sourceSettingsSourceId,
 			sourceSettingsUnit: this._sourceSettingsSource()?.unit,
-			sourceSettingsGroup: Fa(this._sourceSettingsSource()),
+			sourceSettingsGroup: Ia(this._sourceSettingsSource()),
 			onSourceSettingsOpen: (e) => this._openSourceSettings(e),
 			onSourceSettingsClose: () => {
 				this._sourceSettingsSourceId = void 0;
@@ -6805,16 +6805,16 @@ var B = class extends O {
     ` : T``;
 	}
 };
-R([k({ attribute: !1 })], B.prototype, "hass", void 0), R([k({ attribute: !1 })], B.prototype, "initialSources", void 0), R([k({
+L([k({ attribute: !1 })], z.prototype, "hass", void 0), L([k({ attribute: !1 })], z.prototype, "initialSources", void 0), L([k({
 	type: Boolean,
 	attribute: "browser-history"
-})], B.prototype, "browserHistory", void 0), R([A()], B.prototype, "_selectedSources", void 0), R([A()], B.prototype, "_attributeMenuOpen", void 0), R([A()], B.prototype, "_entityPickerOpen", void 0), R([A()], B.prototype, "_selectedEntityId", void 0), R([A()], B.prototype, "_entitySearch", void 0), R([A()], B.prototype, "_path", void 0), R([A()], B.prototype, "_attributeSearch", void 0), R([A()], B.prototype, "_componentsReady", void 0), R([A()], B.prototype, "_customEntityIds", void 0), R([A()], B.prototype, "_sourceSettingsSourceId", void 0), customElements.get("abh-series-picker") || customElements.define("abh-series-picker", B);
-function Ia(e = "ha-better-history") {
-	customElements.get(e) || customElements.define(e, z);
+})], z.prototype, "browserHistory", void 0), L([A()], z.prototype, "_selectedSources", void 0), L([A()], z.prototype, "_attributeMenuOpen", void 0), L([A()], z.prototype, "_entityPickerOpen", void 0), L([A()], z.prototype, "_selectedEntityId", void 0), L([A()], z.prototype, "_entitySearch", void 0), L([A()], z.prototype, "_path", void 0), L([A()], z.prototype, "_attributeSearch", void 0), L([A()], z.prototype, "_componentsReady", void 0), L([A()], z.prototype, "_customEntityIds", void 0), L([A()], z.prototype, "_sourceSettingsSourceId", void 0), customElements.get("abh-series-picker") || customElements.define("abh-series-picker", z);
+function La(e = "ha-better-history") {
+	customElements.get(e) || customElements.define(e, R);
 }
 //#endregion
 //#region src/const.ts
-var La = "Equinox", Ra = "custom:equinox-card", za = "equinox-card", Ba = "equinox-better-history", Va = "equinox-card-editor", Ha = "flat", Ua = "classic", Wa = "setpoint", Ga = "auto", Ka = [
+var Ra = "Equinox", za = "custom:equinox-card", Ba = "equinox-card", Va = "equinox-better-history", Ha = "equinox-card-editor", Ua = "flat", Wa = "classic", Ga = "setpoint", Ka = "auto", qa = [
 	"heat",
 	"cool",
 	"heat_cool",
@@ -6822,7 +6822,7 @@ var La = "Equinox", Ra = "custom:equinox-card", za = "equinox-card", Ba = "equin
 	"dry",
 	"fan_only",
 	"off"
-], qa = {
+], B = {
 	heat: "mdi:fire",
 	cool: "mdi:snowflake",
 	heat_cool: "mdi:sun-snowflake-variant",
@@ -11879,12 +11879,12 @@ var uo = ["flat", "liquid_glow"], fo = ["classic", "compact"], po = ["setpoint",
 	"custom",
 	"disabled"
 ], ho = ["horizontal", "vertical"], go = {
-	theme: Ha,
-	display_mode: Ua,
-	primary_display: Wa,
+	theme: Ua,
+	display_mode: Wa,
+	primary_display: Ga,
 	disable_name: !1,
 	hide_lock_button: !1,
-	additional_dashboards: Ga,
+	additional_dashboards: Ka,
 	state_icons_layout: "horizontal",
 	border_glow_on_action: !0
 };
@@ -12240,7 +12240,7 @@ var yo = class extends O {
 	}
 	_supportedHvacModes() {
 		let e = new Set(this._attributeModes("hvac_modes"));
-		return Ka.filter((t) => e.has(t) && qa[t]);
+		return qa.filter((t) => e.has(t) && B[t]);
 	}
 	_supportedPresetModes() {
 		let e = new Set(this._attributeModes("preset_modes"));
@@ -12278,7 +12278,7 @@ var yo = class extends O {
 		}), this._emitConfigChanged();
 	}
 };
-customElements.get("equinox-card-editor") || customElements.define(Va, yo);
+customElements.get("equinox-card-editor") || customElements.define(Ha, yo);
 //#endregion
 //#region src/data/actions.ts
 var bo = {
@@ -12444,7 +12444,7 @@ var Po = {
 		kind: "regulation-dashboard",
 		algorithm: "smartpi",
 		title: "Smart PI",
-		translations: /* @__PURE__ */ JSON.parse("{\"fr\":{\"sections.overview.title\":\"Vue d'ensemble\",\"sections.overview.summary\":\"Synthese de la regulation Smart PI active.\",\"sections.learning.title\":\"Apprentissage\",\"sections.learning.summary\":\"Etat de la collecte et des echantillons du modele A/B.\",\"sections.model.title\":\"Modele thermique\",\"sections.model.summary\":\"Fiabilite du modele et temps morts estimes.\",\"sections.command.title\":\"Commande\",\"sections.command.summary\":\"Puissance demandee, limites et decomposition de la commande.\",\"sections.health.title\":\"Protections, calibration et sante\",\"sections.health.summary\":\"Garde-fous, autocalibration et decisions de securite.\",\"hero.overview.title\":\"Smart PI pilote la regulation\",\"hero.overview.subtitle\":\"Les valeurs ci-dessous expliquent la commande courante sans activer le mode debug.\",\"hero.learning.title\":\"Apprentissage A/B\",\"hero.learning.subtitle\":\"Les progressions utilisent les historiques EMEA et les cibles publiees par Smart PI.\",\"hero.model.title\":\"Modele thermique\",\"hero.model.subtitle\":\"La confiance du modele determine la part de feed-forward et les limites de prudence.\",\"hero.command.title\":\"Commande appliquee\",\"hero.command.subtitle\":\"La commande finale combine PI, feed-forward, maintien et limitations.\",\"hero.health.title\":\"Surveillance active\",\"hero.health.subtitle\":\"Les protections peuvent figer l'apprentissage ou demander une calibration.\",\"metrics.phase\":\"Phase\",\"metrics.mode\":\"Mode\",\"metrics.hysteresis\":\"Etat hysteresis\",\"metrics.temperature\":\"Temperature\",\"metrics.external_temperature\":\"Temperature externe\",\"metrics.error\":\"Ecart consigne\",\"metrics.integral_error\":\"Erreur integrale\",\"metrics.filtered_setpoint\":\"Consigne filtree\",\"metrics.current_cycle\":\"Cycle courant\",\"metrics.next_cycle\":\"Prochain cycle\",\"metrics.linear_current_cycle\":\"Cycle courant lineaire\",\"metrics.linear_next_cycle\":\"Prochain cycle lineaire\",\"metrics.command\":\"Commande\",\"metrics.limited\":\"Limitee\",\"metrics.applied\":\"Appliquee\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Maintien\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"Coefficient A\",\"metrics.b\":\"Coefficient B\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Temps mort chauffe\",\"metrics.deadtime_cool\":\"Temps mort refroidissement\",\"metrics.a_stability\":\"Stabilite A\",\"metrics.b_stability\":\"Stabilite B\",\"metrics.samples_a\":\"Historique A\",\"metrics.samples_b\":\"Historique B\",\"metrics.accepted_a\":\"Updates A acceptes\",\"metrics.accepted_b\":\"Updates B acceptes\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"Collecte A\",\"metrics.bootstrap_b\":\"Collecte B\",\"metrics.history_a\":\"Historique A complet\",\"metrics.history_b\":\"Historique B complet\",\"metrics.learning_stage\":\"Etat apprentissage\",\"metrics.bootstrap_status\":\"Etat bootstrap\",\"metrics.confidence\":\"Confiance modele\",\"metrics.tau_reliable\":\"Tau fiable\",\"metrics.deadtime_heat_reliable\":\"Temps mort chauffe fiable\",\"metrics.deadtime_cool_reliable\":\"Temps mort refroidissement fiable\",\"metrics.governance\":\"Regime de securite\",\"metrics.thermal_decision\":\"Decision thermique\",\"metrics.thermal_reason\":\"Raison\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Jumeau thermique\",\"metrics.deadband_source\":\"Source deadband\",\"metrics.deadband_mode\":\"Mode deadband\",\"metrics.in_deadband\":\"Dans la bande morte\",\"metrics.in_near_band\":\"Zone proche\",\"metrics.in_deadtime\":\"Fenetre temps mort\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Mode integrale\",\"metrics.integral_hold\":\"Maintien integrale\",\"metrics.autocalib_state\":\"Autocalibration\",\"metrics.autocalib_degraded\":\"Modele degrade\",\"metrics.autocalib_snapshot_age\":\"Age du snapshot\",\"metrics.autocalib_next_check\":\"Prochain controle\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Essais calibration\",\"status.phase.Hysteresis\":\"Bootstrap hysteresis\",\"status.phase.Stable\":\"Stable\",\"status.phase.Calibration\":\"Calibration\",\"status.mode.smartpi\":\"Smart PI\",\"status.mode.hysteresis\":\"Hysteresis\",\"status.hysteresis.on\":\"Chauffe\",\"status.hysteresis.off\":\"Arret\",\"status.hysteresis.band\":\"Bande morte\",\"status.learning.bootstrap\":\"Bootstrap\",\"status.learning.learning\":\"Apprentissage\",\"status.learning.monitoring\":\"Surveillance\",\"status.learning.degraded\":\"Degrade\",\"status.confidence.ab_ok\":\"Modele fiable\",\"status.confidence.ab_degraded\":\"Modele partiel\",\"status.confidence.ab_bad\":\"Modele degrade\",\"status.boolean.true\":\"Oui\",\"status.boolean.false\":\"Non\",\"status.autocalib.idle\":\"Desactivee\",\"status.autocalib.waiting_snapshot\":\"Attente snapshot\",\"status.autocalib.monitoring\":\"Surveillance\",\"status.autocalib.triggered\":\"Declenchee\",\"status.autocalib.post_calib_check\":\"Verification\",\"status.calibration.Idle\":\"Inactive\",\"status.calibration.CoolDown\":\"Refroidissement\",\"status.calibration.HeatUp\":\"Chauffe\",\"status.calibration.CoolDownFinal\":\"Refroidissement final\",\"status.decision.adapt_on\":\"Adaptation autorisee\",\"status.decision.freeze\":\"Fige\",\"status.decision.hard_freeze\":\"Blocage strict\",\"status.decision.soft_freeze_down\":\"Baisse seule\",\"status.regime.warmup\":\"Echauffement\",\"status.regime.excited_stable\":\"Stable excite\",\"status.regime.near_band\":\"Zone proche\",\"status.regime.dead_band\":\"Bande morte\",\"status.regime.hold\":\"Maintien\",\"status.regime.perturbed\":\"Perturbe\",\"status.regime.degraded\":\"Degrade\",\"status.regime.saturated\":\"Sature\",\"notes.diagnostic_required\":\"Renseigne diagnostic_entity dans la configuration Equinox pour afficher les diagnostics Smart PI.\",\"notes.learning\":\"Les compteurs accepted_updates_* sont informatifs. Les barres principales utilisent emea_samples_*, bootstrap_target_* et history_target.\",\"notes.hysteresis_phase\":\"En phase bootstrap, Smart PI peut fonctionner en hysteresis le temps de collecter assez d'observations.\",\"actions.reset_learning\":\"Reinitialiser l'apprentissage\",\"actions.reset_learning.confirm\":\"Smart PI va effacer son apprentissage et revenir en bootstrap.\",\"actions.force_calibration\":\"Forcer une calibration\",\"actions.force_calibration.confirm\":\"Smart PI va lancer une calibration si l'etat courant le permet.\",\"actions.reset_integral\":\"Reinitialiser l'integrale\",\"actions.reset_integral.confirm\":\"Smart PI va remettre le terme integral a zero sans effacer le modele appris.\",\"graphs.command.title\":\"Commande Smart PI\",\"graphs.command.applied\":\"Puissance appliquee\",\"graphs.command.command\":\"Commande\",\"graphs.command.pi\":\"PI\",\"graphs.command.ff\":\"Feed-forward\",\"graphs.model.title\":\"Paramètres A et B (1R1C) (24h)\",\"graphs.model.a\":\"Paramètre A\",\"graphs.model.b\":\"Paramètre B\"},\"en\":{\"sections.overview.title\":\"Overview\",\"sections.overview.summary\":\"Summary of the active Smart PI regulation.\",\"sections.learning.title\":\"Learning\",\"sections.learning.summary\":\"Collection state and A/B model sample counts.\",\"sections.model.title\":\"Thermal model\",\"sections.model.summary\":\"Model reliability and estimated dead times.\",\"sections.command.title\":\"Command\",\"sections.command.summary\":\"Requested power, limits and command breakdown.\",\"sections.health.title\":\"Protections, calibration and health\",\"sections.health.summary\":\"Guards, auto-calibration and safety decisions.\",\"hero.overview.title\":\"Smart PI is driving regulation\",\"hero.overview.subtitle\":\"The values below explain the current command without enabling debug mode.\",\"hero.learning.title\":\"A/B learning\",\"hero.learning.subtitle\":\"Progress uses EMEA histories and targets published by Smart PI.\",\"hero.model.title\":\"Thermal model\",\"hero.model.subtitle\":\"Model confidence controls the feed-forward share and cautious limits.\",\"hero.command.title\":\"Applied command\",\"hero.command.subtitle\":\"The final command combines PI, feed-forward, hold and limits.\",\"hero.health.title\":\"Active supervision\",\"hero.health.subtitle\":\"Protections may freeze learning or request calibration.\",\"metrics.phase\":\"Phase\",\"metrics.mode\":\"Mode\",\"metrics.hysteresis\":\"Hysteresis state\",\"metrics.temperature\":\"Temperature\",\"metrics.external_temperature\":\"External temperature\",\"metrics.error\":\"Setpoint error\",\"metrics.integral_error\":\"Integral error\",\"metrics.filtered_setpoint\":\"Filtered setpoint\",\"metrics.current_cycle\":\"Current cycle\",\"metrics.next_cycle\":\"Next cycle\",\"metrics.linear_current_cycle\":\"Linear current cycle\",\"metrics.linear_next_cycle\":\"Linear next cycle\",\"metrics.command\":\"Command\",\"metrics.limited\":\"Limited\",\"metrics.applied\":\"Applied\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Hold\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A coefficient\",\"metrics.b\":\"B coefficient\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Heat dead time\",\"metrics.deadtime_cool\":\"Cool dead time\",\"metrics.a_stability\":\"A stability\",\"metrics.b_stability\":\"B stability\",\"metrics.samples_a\":\"A history\",\"metrics.samples_b\":\"B history\",\"metrics.accepted_a\":\"Accepted A updates\",\"metrics.accepted_b\":\"Accepted B updates\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"A collection\",\"metrics.bootstrap_b\":\"B collection\",\"metrics.history_a\":\"Complete A history\",\"metrics.history_b\":\"Complete B history\",\"metrics.learning_stage\":\"Learning state\",\"metrics.bootstrap_status\":\"Bootstrap state\",\"metrics.confidence\":\"Model confidence\",\"metrics.tau_reliable\":\"Reliable tau\",\"metrics.deadtime_heat_reliable\":\"Reliable heat dead time\",\"metrics.deadtime_cool_reliable\":\"Reliable cool dead time\",\"metrics.governance\":\"Safety regime\",\"metrics.thermal_decision\":\"Thermal decision\",\"metrics.thermal_reason\":\"Reason\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Thermal twin\",\"metrics.deadband_source\":\"Deadband source\",\"metrics.deadband_mode\":\"Deadband mode\",\"metrics.in_deadband\":\"In dead band\",\"metrics.in_near_band\":\"Near band\",\"metrics.in_deadtime\":\"Dead-time window\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Integral mode\",\"metrics.integral_hold\":\"Integral hold\",\"metrics.autocalib_state\":\"Auto-calibration\",\"metrics.autocalib_degraded\":\"Model degraded\",\"metrics.autocalib_snapshot_age\":\"Snapshot age\",\"metrics.autocalib_next_check\":\"Next check\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Calibration retries\",\"status.phase.Hysteresis\":\"Bootstrap hysteresis\",\"status.phase.Stable\":\"Stable\",\"status.phase.Calibration\":\"Calibration\",\"status.mode.smartpi\":\"Smart PI\",\"status.mode.hysteresis\":\"Hysteresis\",\"status.hysteresis.on\":\"Heating\",\"status.hysteresis.off\":\"Off\",\"status.hysteresis.band\":\"Dead band\",\"status.learning.bootstrap\":\"Bootstrap\",\"status.learning.learning\":\"Learning\",\"status.learning.monitoring\":\"Monitoring\",\"status.learning.degraded\":\"Degraded\",\"status.confidence.ab_ok\":\"Reliable model\",\"status.confidence.ab_degraded\":\"Partial model\",\"status.confidence.ab_bad\":\"Degraded model\",\"status.boolean.true\":\"Yes\",\"status.boolean.false\":\"No\",\"status.autocalib.idle\":\"Disabled\",\"status.autocalib.waiting_snapshot\":\"Waiting for snapshot\",\"status.autocalib.monitoring\":\"Monitoring\",\"status.autocalib.triggered\":\"Triggered\",\"status.autocalib.post_calib_check\":\"Checking\",\"status.calibration.Idle\":\"Inactive\",\"status.calibration.CoolDown\":\"Cool down\",\"status.calibration.HeatUp\":\"Heat up\",\"status.calibration.CoolDownFinal\":\"Final cool down\",\"status.decision.adapt_on\":\"Adaptation allowed\",\"status.decision.freeze\":\"Frozen\",\"status.decision.hard_freeze\":\"Hard freeze\",\"status.decision.soft_freeze_down\":\"Downward only\",\"status.regime.warmup\":\"Warmup\",\"status.regime.excited_stable\":\"Excited stable\",\"status.regime.near_band\":\"Near band\",\"status.regime.dead_band\":\"Dead band\",\"status.regime.hold\":\"Hold\",\"status.regime.perturbed\":\"Perturbed\",\"status.regime.degraded\":\"Degraded\",\"status.regime.saturated\":\"Saturated\",\"notes.diagnostic_required\":\"Set diagnostic_entity in the Equinox configuration to display Smart PI diagnostics.\",\"notes.learning\":\"accepted_updates_* counters are informational. Main bars use emea_samples_*, bootstrap_target_* and history_target.\",\"notes.hysteresis_phase\":\"During bootstrap, Smart PI may run in hysteresis while collecting enough observations.\",\"actions.reset_learning\":\"Reset learning\",\"actions.reset_learning.confirm\":\"Smart PI will clear learning and return to bootstrap.\",\"actions.force_calibration\":\"Force calibration\",\"actions.force_calibration.confirm\":\"Smart PI will start a calibration cycle if the current state allows it.\",\"actions.reset_integral\":\"Reset integral\",\"actions.reset_integral.confirm\":\"Smart PI will reset the integral term without clearing the learned model.\",\"graphs.command.title\":\"Smart PI command\",\"graphs.command.applied\":\"Applied power\",\"graphs.command.command\":\"Command\",\"graphs.command.pi\":\"PI\",\"graphs.command.ff\":\"Feed-forward\",\"graphs.model.title\":\"1R1C Parameters A and B (24h)\",\"graphs.model.a\":\"Parameter A\",\"graphs.model.b\":\"Parameter B\"}}"),
+		translations: /* @__PURE__ */ JSON.parse("{\"fr\":{\"sections.overview.title\":\"Vue d'ensemble\",\"sections.overview.summary\":\"Synthese de la regulation Smart PI active.\",\"sections.learning.title\":\"Apprentissage\",\"sections.learning.summary\":\"Etat de la collecte des echantillons A/B du modele thermique.\",\"sections.model.title\":\"Modele thermique\",\"sections.model.summary\":\"Fiabilite du modele et temps morts estimes.\",\"sections.command.title\":\"Commande\",\"sections.command.summary\":\"Puissance demandee, limites et decomposition de la commande.\",\"sections.health.title\":\"Securite et actions\",\"sections.health.summary\":\"Garde-fous, calibration et actions de maintenance.\",\"hero.overview.title\":\"Smart PI pilote la regulation\",\"hero.overview.bootstrap\":\"Smart PI collecte les premiers echantillons et regule provisoirement en hysteresis.\",\"hero.overview.hysteresis_learning\":\"Le modele se consolide encore ; la regulation reste prudente pendant l'apprentissage.\",\"hero.overview.stable_learning\":\"Smart PI affine le modele tout en pilotant la regulation active.\",\"hero.overview.monitoring\":\"Le modele thermique est exploite pour anticiper la puissance necessaire.\",\"hero.overview.calibration\":\"Une calibration est en cours pour recaler le comportement thermique.\",\"hero.overview.degraded\":\"La regulation limite l'adaptation car le modele manque de fiabilite.\",\"hero.overview.fallback\":\"Smart PI ajuste la puissance selon la phase courante, l'apprentissage A/B et les limites de securite.\",\"hero.learning.title\":\"Apprentissage A/B\",\"hero.learning.subtitle\":\"Etat de la collecte des echantillons A/B du modele thermique.\",\"hero.model.title\":\"Modele thermique\",\"hero.model.subtitle\":\"La confiance du modele determine la part de feed-forward et les limites de prudence.\",\"hero.command.title\":\"Commande appliquee\",\"hero.command.subtitle\":\"La commande finale combine PI, feed-forward, maintien et limitations.\",\"hero.health.title\":\"Surveillance active\",\"hero.health.subtitle\":\"Les protections peuvent figer l'apprentissage ou demander une calibration.\",\"metrics.phase\":\"Phase\",\"metrics.mode\":\"Mode\",\"metrics.hysteresis\":\"Etat hysteresis\",\"metrics.temperature\":\"Temperature\",\"metrics.external_temperature\":\"Temperature externe\",\"metrics.error\":\"Ecart consigne\",\"metrics.integral_error\":\"Integrale\",\"metrics.filtered_setpoint\":\"Consigne filtree\",\"metrics.current_cycle\":\"Cycle courant\",\"metrics.next_cycle\":\"Prochain cycle\",\"metrics.linear_current_cycle\":\"Cycle courant lineaire\",\"metrics.linear_next_cycle\":\"Prochain cycle lineaire\",\"metrics.command\":\"Commande\",\"metrics.limited\":\"Limitee\",\"metrics.applied\":\"Appliquee\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Maintien\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Reponse active\",\"metrics.b\":\"B - Pertes thermiques\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Temps mort chauffe\",\"metrics.deadtime_cool\":\"Temps mort refroidissement\",\"metrics.a_stability\":\"Dispersion A\",\"metrics.b_stability\":\"Dispersion B\",\"metrics.samples_a\":\"Historique A\",\"metrics.samples_b\":\"Historique B\",\"metrics.accepted_a\":\"Updates A acceptes\",\"metrics.accepted_b\":\"Updates B acceptes\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"Echantillons A\",\"metrics.bootstrap_b\":\"Echantillons B\",\"metrics.history_a\":\"Echantillons A\",\"metrics.history_b\":\"Echantillons B\",\"metrics.learning_stage\":\"Etat apprentissage\",\"metrics.bootstrap_status\":\"Etat bootstrap\",\"metrics.confidence\":\"Confiance modele\",\"metrics.reliability\":\"Fiabilite\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Temps mort chauffe\",\"metrics.deadtime_cool_reliable\":\"Temps mort refroidissement\",\"metrics.governance\":\"Regime de securite\",\"metrics.thermal_decision\":\"Decision thermique\",\"metrics.thermal_reason\":\"Raison\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Jumeau thermique\",\"metrics.deadband_source\":\"Source deadband\",\"metrics.deadband_mode\":\"Mode deadband\",\"metrics.in_deadband\":\"Dans la bande morte\",\"metrics.in_near_band\":\"Zone proche\",\"metrics.in_deadtime\":\"Fenetre temps mort\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Mode integrale\",\"metrics.integral_hold\":\"Maintien integrale\",\"metrics.autocalib_state\":\"Autocalibration\",\"metrics.autocalib_degraded\":\"Modele degrade\",\"metrics.autocalib_snapshot_age\":\"Age du snapshot\",\"metrics.autocalib_next_check\":\"Prochain controle\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Essais calibration\",\"status.phase.Hysteresis\":\"Bootstrap hysteresis\",\"status.phase.Stable\":\"Stable\",\"status.phase.Calibration\":\"Calibration\",\"status.mode.smartpi\":\"Smart PI\",\"status.mode.hysteresis\":\"Hysteresis\",\"status.hysteresis.on\":\"Chauffe\",\"status.hysteresis.off\":\"Arret\",\"status.hysteresis.band\":\"Bande morte\",\"status.learning.bootstrap\":\"Bootstrap\",\"status.learning.learning\":\"Apprentissage\",\"status.learning.monitoring\":\"Surveillance\",\"status.learning.degraded\":\"Degrade\",\"status.confidence.ab_ok\":\"Modele fiable\",\"status.confidence.ab_degraded\":\"Modele partiel\",\"status.confidence.ab_bad\":\"Modele insuffisant\",\"status.confidence.unknown\":\"Confiance inconnue\",\"status.confidence.ab_ok.description\":\"Les echantillons A et B sont suffisamment coherents pour utiliser le modele normalement.\",\"status.confidence.ab_degraded.description\":\"Une partie du modele est exploitable, mais la regulation reste prudente.\",\"status.confidence.ab_bad.description\":\"Le modele n'est pas assez fiable ; Smart PI limite ou evite son influence.\",\"status.confidence.unknown.description\":\"L'etat de confiance n'est pas encore publie par le diagnostic.\",\"status.boolean.true\":\"Oui\",\"status.boolean.false\":\"Non\",\"status.reliability.true\":\"Fiable\",\"status.reliability.false\":\"Non fiable\",\"status.coherence.collecting\":\"En collecte\",\"status.coherence.coherent\":\"Coherente\",\"status.coherence.watch\":\"A surveiller\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersee\",\"status.coherence.unstable\":\"Instable\",\"status.coherence.very_unstable\":\"Tres instable\",\"status.autocalib.idle\":\"Desactivee\",\"status.autocalib.waiting_snapshot\":\"Attente snapshot\",\"status.autocalib.monitoring\":\"Surveillance\",\"status.autocalib.triggered\":\"Declenchee\",\"status.autocalib.post_calib_check\":\"Verification\",\"status.calibration.Idle\":\"Inactive\",\"status.calibration.CoolDown\":\"Refroidissement\",\"status.calibration.HeatUp\":\"Chauffe\",\"status.calibration.CoolDownFinal\":\"Refroidissement final\",\"status.decision.adapt_on\":\"Adaptation autorisee\",\"status.decision.freeze\":\"Fige\",\"status.decision.hard_freeze\":\"Blocage strict\",\"status.decision.soft_freeze_down\":\"Baisse seule\",\"status.regime.warmup\":\"Echauffement\",\"status.regime.excited_stable\":\"Stable excite\",\"status.regime.near_band\":\"Zone proche\",\"status.regime.dead_band\":\"Bande morte\",\"status.regime.hold\":\"Maintien\",\"status.regime.perturbed\":\"Perturbe\",\"status.regime.degraded\":\"Degrade\",\"status.regime.saturated\":\"Sature\",\"notes.diagnostic_required\":\"Renseigne diagnostic_entity dans la configuration Equinox pour afficher les diagnostics Smart PI.\",\"notes.learning\":\"A mesure la reponse a la commande ; B mesure les pertes thermiques. Smart PI collecte les deux series d'echantillons pour fiabiliser le modele.\",\"notes.hysteresis_phase\":\"En phase bootstrap, Smart PI peut fonctionner en hysteresis le temps de collecter assez d'observations.\",\"actions.reset_learning\":\"Reinitialiser l'apprentissage\",\"actions.reset_learning.confirm\":\"Smart PI va effacer son apprentissage et revenir en bootstrap.\",\"actions.force_calibration\":\"Forcer une calibration\",\"actions.force_calibration.confirm\":\"Smart PI va lancer une calibration si l'etat courant le permet.\",\"actions.reset_integral\":\"Reinitialiser l'integrale\",\"actions.reset_integral.confirm\":\"Smart PI va remettre le terme integral a zero sans effacer le modele appris.\",\"graphs.command.title\":\"Commande Smart PI\",\"graphs.command.applied\":\"Puissance appliquee\",\"graphs.command.command\":\"Commande\",\"graphs.command.pi\":\"PI\",\"graphs.command.ff\":\"Feed-forward\",\"graphs.model.title\":\"Parametres A et B (1R1C) (24h)\",\"graphs.model.a\":\"A - Reponse active\",\"graphs.model.b\":\"B - Pertes thermiques\"},\"en\":{\"sections.overview.title\":\"Overview\",\"sections.overview.summary\":\"Summary of the active Smart PI regulation.\",\"sections.learning.title\":\"Learning\",\"sections.learning.summary\":\"Sample collection state for the A/B thermal model.\",\"sections.model.title\":\"Thermal model\",\"sections.model.summary\":\"Model reliability and estimated dead times.\",\"sections.command.title\":\"Command\",\"sections.command.summary\":\"Requested power, limits and command breakdown.\",\"sections.health.title\":\"Safety and actions\",\"sections.health.summary\":\"Guards, calibration and maintenance actions.\",\"hero.overview.title\":\"Smart PI is driving regulation\",\"hero.overview.bootstrap\":\"Smart PI is collecting the first samples and temporarily regulating with hysteresis.\",\"hero.overview.hysteresis_learning\":\"The model is still consolidating; regulation remains cautious during learning.\",\"hero.overview.stable_learning\":\"Smart PI is refining the model while driving active regulation.\",\"hero.overview.monitoring\":\"The thermal model is used to anticipate the required power.\",\"hero.overview.calibration\":\"Calibration is running to realign the thermal behavior.\",\"hero.overview.degraded\":\"Regulation limits adaptation because the model lacks reliability.\",\"hero.overview.fallback\":\"Smart PI adjusts power from the current phase, A/B learning and safety limits.\",\"hero.learning.title\":\"A/B learning\",\"hero.learning.subtitle\":\"Sample collection state for the A/B thermal model.\",\"hero.model.title\":\"Thermal model\",\"hero.model.subtitle\":\"Model confidence controls the feed-forward share and cautious limits.\",\"hero.command.title\":\"Applied command\",\"hero.command.subtitle\":\"The final command combines PI, feed-forward, hold and limits.\",\"hero.health.title\":\"Active supervision\",\"hero.health.subtitle\":\"Protections may freeze learning or request calibration.\",\"metrics.phase\":\"Phase\",\"metrics.mode\":\"Mode\",\"metrics.hysteresis\":\"Hysteresis state\",\"metrics.temperature\":\"Temperature\",\"metrics.external_temperature\":\"External temperature\",\"metrics.error\":\"Setpoint error\",\"metrics.integral_error\":\"Integral\",\"metrics.filtered_setpoint\":\"Filtered setpoint\",\"metrics.current_cycle\":\"Current cycle\",\"metrics.next_cycle\":\"Next cycle\",\"metrics.linear_current_cycle\":\"Linear current cycle\",\"metrics.linear_next_cycle\":\"Linear next cycle\",\"metrics.command\":\"Command\",\"metrics.limited\":\"Limited\",\"metrics.applied\":\"Applied\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Hold\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Active response\",\"metrics.b\":\"B - Thermal losses\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Heat dead time\",\"metrics.deadtime_cool\":\"Cool dead time\",\"metrics.a_stability\":\"A dispersion\",\"metrics.b_stability\":\"B dispersion\",\"metrics.samples_a\":\"A history\",\"metrics.samples_b\":\"B history\",\"metrics.accepted_a\":\"Accepted A updates\",\"metrics.accepted_b\":\"Accepted B updates\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"A samples\",\"metrics.bootstrap_b\":\"B samples\",\"metrics.history_a\":\"A samples\",\"metrics.history_b\":\"B samples\",\"metrics.learning_stage\":\"Learning state\",\"metrics.bootstrap_status\":\"Bootstrap state\",\"metrics.confidence\":\"Model confidence\",\"metrics.reliability\":\"Reliability\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Heat dead time\",\"metrics.deadtime_cool_reliable\":\"Cool dead time\",\"metrics.governance\":\"Safety regime\",\"metrics.thermal_decision\":\"Thermal decision\",\"metrics.thermal_reason\":\"Reason\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Thermal twin\",\"metrics.deadband_source\":\"Deadband source\",\"metrics.deadband_mode\":\"Deadband mode\",\"metrics.in_deadband\":\"In dead band\",\"metrics.in_near_band\":\"Near band\",\"metrics.in_deadtime\":\"Dead-time window\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Integral mode\",\"metrics.integral_hold\":\"Integral hold\",\"metrics.autocalib_state\":\"Auto-calibration\",\"metrics.autocalib_degraded\":\"Model degraded\",\"metrics.autocalib_snapshot_age\":\"Snapshot age\",\"metrics.autocalib_next_check\":\"Next check\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Calibration retries\",\"status.phase.Hysteresis\":\"Bootstrap hysteresis\",\"status.phase.Stable\":\"Stable\",\"status.phase.Calibration\":\"Calibration\",\"status.mode.smartpi\":\"Smart PI\",\"status.mode.hysteresis\":\"Hysteresis\",\"status.hysteresis.on\":\"Heating\",\"status.hysteresis.off\":\"Off\",\"status.hysteresis.band\":\"Dead band\",\"status.learning.bootstrap\":\"Bootstrap\",\"status.learning.learning\":\"Learning\",\"status.learning.monitoring\":\"Monitoring\",\"status.learning.degraded\":\"Degraded\",\"status.confidence.ab_ok\":\"Reliable model\",\"status.confidence.ab_degraded\":\"Partial model\",\"status.confidence.ab_bad\":\"Insufficient model\",\"status.confidence.unknown\":\"Unknown confidence\",\"status.confidence.ab_ok.description\":\"A and B samples are coherent enough to use the model normally.\",\"status.confidence.ab_degraded.description\":\"Part of the model is usable, but regulation remains cautious.\",\"status.confidence.ab_bad.description\":\"The model is not reliable enough; Smart PI limits or avoids its influence.\",\"status.confidence.unknown.description\":\"The confidence state has not been published by diagnostics yet.\",\"status.boolean.true\":\"Yes\",\"status.boolean.false\":\"No\",\"status.reliability.true\":\"Reliable\",\"status.reliability.false\":\"Not reliable\",\"status.coherence.collecting\":\"Collecting\",\"status.coherence.coherent\":\"Coherent\",\"status.coherence.watch\":\"Watch\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersed\",\"status.coherence.unstable\":\"Unstable\",\"status.coherence.very_unstable\":\"Very unstable\",\"status.autocalib.idle\":\"Disabled\",\"status.autocalib.waiting_snapshot\":\"Waiting for snapshot\",\"status.autocalib.monitoring\":\"Monitoring\",\"status.autocalib.triggered\":\"Triggered\",\"status.autocalib.post_calib_check\":\"Checking\",\"status.calibration.Idle\":\"Inactive\",\"status.calibration.CoolDown\":\"Cool down\",\"status.calibration.HeatUp\":\"Heat up\",\"status.calibration.CoolDownFinal\":\"Final cool down\",\"status.decision.adapt_on\":\"Adaptation allowed\",\"status.decision.freeze\":\"Frozen\",\"status.decision.hard_freeze\":\"Hard freeze\",\"status.decision.soft_freeze_down\":\"Downward only\",\"status.regime.warmup\":\"Warmup\",\"status.regime.excited_stable\":\"Excited stable\",\"status.regime.near_band\":\"Near band\",\"status.regime.dead_band\":\"Dead band\",\"status.regime.hold\":\"Hold\",\"status.regime.perturbed\":\"Perturbed\",\"status.regime.degraded\":\"Degraded\",\"status.regime.saturated\":\"Saturated\",\"notes.diagnostic_required\":\"Set diagnostic_entity in the Equinox configuration to display Smart PI diagnostics.\",\"notes.learning\":\"A measures the command response; B measures thermal losses. Smart PI collects both sample series to make the model reliable.\",\"notes.hysteresis_phase\":\"During bootstrap, Smart PI may run in hysteresis while collecting enough observations.\",\"actions.reset_learning\":\"Reset learning\",\"actions.reset_learning.confirm\":\"Smart PI will clear learning and return to bootstrap.\",\"actions.force_calibration\":\"Force calibration\",\"actions.force_calibration.confirm\":\"Smart PI will start a calibration cycle if the current state allows it.\",\"actions.reset_integral\":\"Reset integral\",\"actions.reset_integral.confirm\":\"Smart PI will reset the integral term without clearing the learned model.\",\"graphs.command.title\":\"Smart PI command\",\"graphs.command.applied\":\"Applied power\",\"graphs.command.command\":\"Command\",\"graphs.command.pi\":\"PI\",\"graphs.command.ff\":\"Feed-forward\",\"graphs.model.title\":\"1R1C Parameters A and B (24h)\",\"graphs.model.a\":\"A - Active response\",\"graphs.model.b\":\"B - Thermal losses\"}}"),
 		sections: [
 			{
 				id: "overview",
@@ -12455,9 +12455,65 @@ var Po = {
 					{
 						type: "hero_status",
 						title_key: "hero.overview.title",
-						subtitle_key: "hero.overview.subtitle",
+						subtitle_key: "hero.overview.bootstrap",
 						icon: "mdi:chart-bell-curve",
-						tone: "info"
+						tone: "warning",
+						visible_if: { and: [{ "==": [{ var: "diagnostic/control/phase" }, "Hysteresis"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }] }
+					},
+					{
+						type: "hero_status",
+						title_key: "hero.overview.title",
+						subtitle_key: "hero.overview.hysteresis_learning",
+						icon: "mdi:chart-bell-curve",
+						tone: "info",
+						visible_if: { and: [{ "==": [{ var: "diagnostic/control/phase" }, "Hysteresis"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "learning"] }] }
+					},
+					{
+						type: "hero_status",
+						title_key: "hero.overview.title",
+						subtitle_key: "hero.overview.stable_learning",
+						icon: "mdi:chart-bell-curve",
+						tone: "info",
+						visible_if: { and: [{ "==": [{ var: "diagnostic/control/phase" }, "Stable"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "learning"] }] }
+					},
+					{
+						type: "hero_status",
+						title_key: "hero.overview.title",
+						subtitle_key: "hero.overview.monitoring",
+						icon: "mdi:chart-bell-curve",
+						tone: "ok",
+						visible_if: { and: [{ "==": [{ var: "diagnostic/control/phase" }, "Stable"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "monitoring"] }] }
+					},
+					{
+						type: "hero_status",
+						title_key: "hero.overview.title",
+						subtitle_key: "hero.overview.calibration",
+						icon: "mdi:tune-variant",
+						tone: "info",
+						visible_if: { "==": [{ var: "diagnostic/control/phase" }, "Calibration"] }
+					},
+					{
+						type: "hero_status",
+						title_key: "hero.overview.title",
+						subtitle_key: "hero.overview.degraded",
+						icon: "mdi:alert-outline",
+						tone: "danger",
+						visible_if: { and: [{ "==": [{ var: "diagnostic/ab_learning/stage" }, "degraded"] }, { "!=": [{ var: "diagnostic/control/phase" }, "Calibration"] }] }
+					},
+					{
+						type: "hero_status",
+						title_key: "hero.overview.title",
+						subtitle_key: "hero.overview.fallback",
+						icon: "mdi:chart-bell-curve",
+						tone: "info",
+						visible_if: { "!": { or: [
+							{ and: [{ "==": [{ var: "diagnostic/control/phase" }, "Hysteresis"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }] },
+							{ and: [{ "==": [{ var: "diagnostic/control/phase" }, "Hysteresis"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "learning"] }] },
+							{ and: [{ "==": [{ var: "diagnostic/control/phase" }, "Stable"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "learning"] }] },
+							{ and: [{ "==": [{ var: "diagnostic/control/phase" }, "Stable"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "monitoring"] }] },
+							{ "==": [{ var: "diagnostic/control/phase" }, "Calibration"] },
+							{ and: [{ "==": [{ var: "diagnostic/ab_learning/stage" }, "degraded"] }, { "!=": [{ var: "diagnostic/control/phase" }, "Calibration"] }] }
+						] } }
 					},
 					{
 						type: "layout_grid",
@@ -12568,12 +12624,6 @@ var Po = {
 								path: "control/mode"
 							}
 						]
-					},
-					{
-						type: "section_note",
-						text_key: "notes.diagnostic_required",
-						tone: "muted",
-						icon: "mdi:database-alert-outline"
 					}
 				]
 			},
@@ -12685,13 +12735,40 @@ var Po = {
 								source: "diagnostic",
 								path: "ab_learning/bootstrap_status",
 								visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
-							},
-							{
-								label_key: "metrics.confidence",
-								source: "diagnostic",
-								path: "model/confidence"
 							}
 						]
+					},
+					{
+						type: "status",
+						label_key: "metrics.confidence",
+						source: "diagnostic",
+						path: "model/confidence",
+						map: {
+							ab_ok: {
+								label_key: "status.confidence.ab_ok",
+								description_key: "status.confidence.ab_ok.description",
+								tone: "ok",
+								icon: "mdi:check-circle-outline"
+							},
+							ab_degraded: {
+								label_key: "status.confidence.ab_degraded",
+								description_key: "status.confidence.ab_degraded.description",
+								tone: "warning",
+								icon: "mdi:alert-outline"
+							},
+							ab_bad: {
+								label_key: "status.confidence.ab_bad",
+								description_key: "status.confidence.ab_bad.description",
+								tone: "danger",
+								icon: "mdi:alert-octagon-outline"
+							}
+						},
+						fallback: {
+							label_key: "status.confidence.unknown",
+							description_key: "status.confidence.unknown.description",
+							tone: "muted",
+							icon: "mdi:help-circle-outline"
+						}
 					},
 					{
 						type: "section_note",
@@ -12722,97 +12799,243 @@ var Po = {
 						map: {
 							ab_ok: {
 								label_key: "status.confidence.ab_ok",
+								description_key: "status.confidence.ab_ok.description",
 								tone: "ok",
 								icon: "mdi:check-circle-outline"
 							},
 							ab_degraded: {
 								label_key: "status.confidence.ab_degraded",
+								description_key: "status.confidence.ab_degraded.description",
 								tone: "warning",
 								icon: "mdi:alert-outline"
 							},
 							ab_bad: {
 								label_key: "status.confidence.ab_bad",
+								description_key: "status.confidence.ab_bad.description",
 								tone: "danger",
 								icon: "mdi:alert-octagon-outline"
 							}
 						},
 						fallback: {
-							label: "--",
+							label_key: "status.confidence.unknown",
+							description_key: "status.confidence.unknown.description",
 							tone: "muted",
 							icon: "mdi:help-circle-outline"
 						}
 					},
 					{
 						type: "metric_grid",
-						title_key: "sections.model.title",
-						metrics: [
+						columns: 1,
+						metrics: [{
+							label_key: "metrics.tau",
+							source: "diagnostic",
+							path: "model/tau_min",
+							unit: "min",
+							digits: 1
+						}]
+					},
+					{
+						type: "layout_grid",
+						items: [
 							{
-								label_key: "metrics.a",
-								source: "diagnostic",
-								path: "model/a",
-								digits: 4
+								type: "metric_grid",
+								columns: 2,
+								metrics: [{
+									label_key: "metrics.a",
+									source: "diagnostic",
+									path: "model/a",
+									unit: "°C/min",
+									digits: 4
+								}, {
+									label_key: "metrics.b",
+									source: "diagnostic",
+									path: "model/b",
+									unit: "min⁻¹",
+									digits: 4
+								}]
 							},
 							{
-								label_key: "metrics.b",
-								source: "diagnostic",
-								path: "model/b",
-								digits: 4
+								type: "metric_grid",
+								columns: 2,
+								metrics: [{
+									label_key: "metrics.deadtime_heat",
+									source: "diagnostic",
+									path: "model/deadtime_heat_s",
+									unit: "s",
+									digits: 0
+								}, {
+									label_key: "metrics.deadtime_cool",
+									source: "diagnostic",
+									path: "model/deadtime_cool_s",
+									unit: "s",
+									digits: 0
+								}]
 							},
 							{
-								label_key: "metrics.tau",
-								source: "diagnostic",
-								path: "model/tau_min",
-								unit: "min",
-								digits: 1
-							},
-							{
-								label_key: "metrics.deadtime_heat",
-								source: "diagnostic",
-								path: "model/deadtime_heat_s",
-								unit: "s",
-								digits: 0
-							},
-							{
-								label_key: "metrics.deadtime_cool",
-								source: "diagnostic",
-								path: "model/deadtime_cool_s",
-								unit: "s",
-								digits: 0
-							},
-							{
-								label_key: "metrics.a_stability",
-								source: "diagnostic",
-								path: "model/a_stability_ratio",
-								digits: 3
-							},
-							{
-								label_key: "metrics.b_stability",
-								source: "diagnostic",
-								path: "model/b_stability_ratio",
-								digits: 3
+								type: "layout_grid",
+								min_width: 140,
+								items: [{
+									type: "status",
+									label_key: "metrics.a_stability",
+									source: "diagnostic",
+									path: "model/a_stability_ratio",
+									map: {},
+									align: "center",
+									ranges: [
+										{
+											max: .15,
+											label_key: "status.coherence.coherent",
+											tone: "ok",
+											icon: "mdi:check-circle-outline"
+										},
+										{
+											min: .150000001,
+											max: .25,
+											label_key: "status.coherence.watch",
+											tone: "warning",
+											icon: "mdi:alert-outline"
+										},
+										{
+											min: .250000001,
+											label_key: "status.coherence.dispersed",
+											tone: "danger",
+											icon: "mdi:alert-octagon-outline"
+										}
+									],
+									fallback: {
+										label_key: "status.coherence.collecting",
+										tone: "muted",
+										icon: "mdi:progress-clock"
+									},
+									show_value: !0,
+									value_multiplier: 100,
+									value_unit: "%",
+									value_digits: 0
+								}, {
+									type: "status",
+									label_key: "metrics.b_stability",
+									source: "diagnostic",
+									path: "model/b_stability_ratio",
+									map: {},
+									align: "center",
+									ranges: [
+										{
+											max: .2,
+											label_key: "status.coherence.coherent",
+											tone: "ok",
+											icon: "mdi:check-circle-outline"
+										},
+										{
+											min: .200000001,
+											max: .3,
+											label_key: "status.coherence.acceptable",
+											tone: "info",
+											icon: "mdi:check-circle-outline"
+										},
+										{
+											min: .300000001,
+											max: .6,
+											label_key: "status.coherence.unstable",
+											tone: "warning",
+											icon: "mdi:alert-outline"
+										},
+										{
+											min: .600000001,
+											label_key: "status.coherence.very_unstable",
+											tone: "danger",
+											icon: "mdi:alert-octagon-outline"
+										}
+									],
+									fallback: {
+										label_key: "status.coherence.collecting",
+										tone: "muted",
+										icon: "mdi:progress-clock"
+									},
+									show_value: !0,
+									value_multiplier: 100,
+									value_unit: "%",
+									value_digits: 0
+								}]
 							}
 						]
 					},
 					{
-						type: "metric_grid",
-						title_key: "metrics.tau_reliable",
-						metrics: [
-							{
-								label_key: "metrics.tau_reliable",
-								source: "diagnostic",
-								path: "model/tau_reliable"
+						type: "layout_grid",
+						title_key: "metrics.reliability",
+						items: [{
+							type: "status",
+							label_key: "metrics.tau_reliable",
+							source: "diagnostic",
+							path: "model/tau_reliable",
+							align: "center",
+							map: {
+								true: {
+									label_key: "status.reliability.true",
+									tone: "ok",
+									icon: "mdi:check-circle-outline"
+								},
+								false: {
+									label_key: "status.reliability.false",
+									tone: "warning",
+									icon: "mdi:alert-outline"
+								}
 							},
-							{
+							fallback: {
+								label: "--",
+								tone: "muted",
+								icon: "mdi:help-circle-outline"
+							}
+						}, {
+							type: "layout_grid",
+							min_width: 140,
+							items: [{
+								type: "status",
 								label_key: "metrics.deadtime_heat_reliable",
 								source: "diagnostic",
-								path: "model/deadtime_heat_reliable"
-							},
-							{
+								path: "model/deadtime_heat_reliable",
+								align: "center",
+								map: {
+									true: {
+										label_key: "status.reliability.true",
+										tone: "ok",
+										icon: "mdi:check-circle-outline"
+									},
+									false: {
+										label_key: "status.reliability.false",
+										tone: "warning",
+										icon: "mdi:alert-outline"
+									}
+								},
+								fallback: {
+									label: "--",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								}
+							}, {
+								type: "status",
 								label_key: "metrics.deadtime_cool_reliable",
 								source: "diagnostic",
-								path: "model/deadtime_cool_reliable"
-							}
-						]
+								path: "model/deadtime_cool_reliable",
+								align: "center",
+								map: {
+									true: {
+										label_key: "status.reliability.true",
+										tone: "ok",
+										icon: "mdi:check-circle-outline"
+									},
+									false: {
+										label_key: "status.reliability.false",
+										tone: "warning",
+										icon: "mdi:alert-outline"
+									}
+								},
+								fallback: {
+									label: "--",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								}
+							}]
+						}]
 					},
 					{
 						type: "history",
@@ -12822,11 +13045,13 @@ var Po = {
 							entity: "$diagnostic_entity",
 							attribute: "model/a",
 							label_key: "graphs.model.a",
+							unit: "°C/min",
 							scale_group: "coefficients"
 						}, {
 							entity: "$diagnostic_entity",
 							attribute: "model/b",
 							label_key: "graphs.model.b",
+							unit: "min⁻¹",
 							scale_group: "coefficients"
 						}],
 						options: {
@@ -12929,6 +13154,12 @@ var Po = {
 									digits: 0
 								},
 								{
+									label_key: "metrics.integral_error",
+									source: "diagnostic",
+									path: "temperature/integral_error",
+									digits: 3
+								},
+								{
 									label_key: "metrics.kp",
 									source: "diagnostic",
 									path: "control/kp",
@@ -12939,12 +13170,6 @@ var Po = {
 									source: "diagnostic",
 									path: "control/ki",
 									digits: 4
-								},
-								{
-									label_key: "metrics.integral_error",
-									source: "diagnostic",
-									path: "temperature/integral_error",
-									digits: 3
 								}
 							]
 						}]
@@ -15017,7 +15242,7 @@ var ls = class extends O {
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.hvacModes ?? [], t = new Set(this.config?.hidden_hvac_modes ?? []);
-		return Ka.filter((n) => e.includes(n) && qa[n] && !t.has(n));
+		return qa.filter((n) => e.includes(n) && B[n] && !t.has(n));
 	}
 	_modeLabel(e) {
 		let t = H(this.language, `main.hvac.${e}`);
@@ -15058,7 +15283,7 @@ var ls = class extends O {
                 aria-label=${this._modeLabel(e)}
               >
                 <span class="option-icon" tone=${Ja[e] ?? ""}>
-                  <ha-icon .icon=${qa[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                  <ha-icon .icon=${B[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${this._modeLabel(e)}</span>
               </button>
@@ -15069,7 +15294,7 @@ var ls = class extends O {
             ${e.map((e) => T`
                 <ha-md-list-item type="button" ?active=${e === t} @click=${() => this._selectMode(e)}>
                   <span class="option-icon" tone=${Ja[e] ?? ""} slot="start">
-                    <ha-icon .icon=${qa[e]} style="--mdc-icon-size: 24px;"></ha-icon>
+                    <ha-icon .icon=${B[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._modeLabel(e)}</span>
                   ${e === t ? T`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : D}
@@ -16805,6 +17030,18 @@ var Es = "--", Ds = new Set([
       align-items: start;
     }
 
+    .status.center {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .status.center > div {
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+    }
+
     .status-pill {
       display: inline-flex;
       width: fit-content;
@@ -16853,6 +17090,16 @@ var Es = "--", Ds = new Set([
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
       gap: 10px;
+    }
+
+    .layout-section {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .layout-section > h3 {
+      padding-inline: 2px;
     }
 
     .text {
@@ -17040,7 +17287,8 @@ var Es = "--", Ds = new Set([
         `;
 			case "history": return this._renderHistory(e);
 			case "action": return this._renderAction(e);
-			case "layout_grid": return T`
+			case "layout_grid": {
+				let t = this._translate(e.title_key, e.title), n = T`
           <div
             class="layout-grid"
             style=${e.min_width ? `--grid-min-width: ${e.min_width}px;` : D}
@@ -17048,6 +17296,8 @@ var Es = "--", Ds = new Set([
             ${e.items.map((e) => this._renderItem(e))}
           </div>
         `;
+				return t ? T`<section class="layout-section"><h3>${t}</h3>${n}</section>` : n;
+			}
 			default: return D;
 		}
 	}
@@ -17084,14 +17334,14 @@ var Es = "--", Ds = new Set([
     `;
 	}
 	_renderStatus(e) {
-		let t = Qo(this._context(), e.source, e.path), n = Yo(t) ? "" : String(t), r = e.map[n] ?? e.fallback, i = r?.tone ?? "muted", a = r ? this._translate(r.label_key, r.label ?? n) : Es, o = r ? this._translate(r.description_key, r.description) : "";
+		let t = Qo(this._context(), e.source, e.path), n = Yo(t) ? "" : String(t), r = e.map[n] ?? this._rangeStatusEntry(e, t) ?? e.fallback, i = r?.tone ?? "muted", a = r ? this._translate(r.label_key, r.label ?? n) : Es, o = e.show_value ? this._formatStatusValue(e, t) : "", s = o && a !== Es ? `${a} · ${o}` : a, c = r ? this._translate(r.description_key, r.description) : "";
 		return T`
-      <article class="block status" tone=${i}>
+      <article class="block status ${e.align === "center" ? "center" : ""}" tone=${i}>
         ${r?.icon ? T`<ha-icon icon=${r.icon}></ha-icon>` : T`<ha-icon icon="mdi:circle-medium"></ha-icon>`}
         <div>
           ${this._translate(e.label_key, e.label) ? T`<div class="label">${this._translate(e.label_key, e.label)}</div>` : D}
-          <div class="status-pill">${a}</div>
-          ${o ? T`<p class="description">${o}</p>` : D}
+          <div class="status-pill">${s}</div>
+          ${c ? T`<p class="description">${c}</p>` : D}
           ${this._sourceMissing(e.source) ? T`<p class="missing">${H(this.language, "dialog.regulation.source_missing")}</p>` : D}
         </div>
       </article>
@@ -17307,6 +17557,19 @@ var Es = "--", Ds = new Set([
 	}
 	_formatPrimitive(e, t, n = Es) {
 		return Yo(e) ? n || Es : typeof e == "number" ? Number.isFinite(e) ? e.toFixed(Math.max(0, t ?? 0)) : n || Es : typeof e == "boolean" ? e ? "true" : "false" : String(e);
+	}
+	_formatStatusValue(e, t) {
+		let n = this._asNumber(t);
+		if (n === void 0) return "";
+		let r = e.value_multiplier ?? 1, i = this._translate(e.value_unit_key, e.value_unit), a = this._formatPrimitive(n * r, e.value_digits);
+		return i ? `${a} ${i}` : a;
+	}
+	_rangeStatusEntry(e, t) {
+		let n = this._asNumber(t);
+		if (n !== void 0) return e.ranges?.find((e) => {
+			let t = e.min === void 0 || n >= e.min, r = e.max === void 0 || n <= e.max;
+			return t && r;
+		});
 	}
 	_toneForValue(e) {
 		let t = Qo(this._context(), e.source, e.path);
@@ -19698,7 +19961,7 @@ var Us = class extends O {
 	_renderHvacStateIcon() {
 		let e = this.viewModel?.climate.hvacAction, t = e ? Is[e] : void 0, n = this.viewModel?.climate.hvacMode;
 		if (n === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return D;
-		let r = t?.icon || (n ? qa[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? H(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
+		let r = t?.icon || (n ? B[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? H(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
 		return r ? T`
       <ha-icon
         class="action-icon"
@@ -19950,7 +20213,7 @@ var Us = class extends O {
         @click=${() => this._setHvacMode(e)}
       >
         <span class="btn-icon" tone=${this._modeTone(e)}>
-          <ha-icon .icon=${qa[e]}></ha-icon>
+          <ha-icon .icon=${B[e]}></ha-icon>
         </span>
       </ha-control-button>
     `;
@@ -19989,7 +20252,7 @@ var Us = class extends O {
                 @click=${(e) => this._openDialog("hvac", e)}
               >
                 <span class="btn-icon" tone=${this._modeTone(r)}>
-                  <ha-icon .icon=${r ? qa[r] : "mdi:thermostat"}></ha-icon>
+                  <ha-icon .icon=${r ? B[r] : "mdi:thermostat"}></ha-icon>
                 </span>
               </ha-control-button>
             ` : D}
@@ -20169,7 +20432,7 @@ var Us = class extends O {
 	}
 	_visibleHvacModes() {
 		let e = new Set(this.config?.hidden_hvac_modes ?? []);
-		return Hs(this.viewModel?.climate.hvacModes ?? [], Ka).filter((t) => qa[t] && !e.has(t));
+		return Hs(this.viewModel?.climate.hvacModes ?? [], qa).filter((t) => B[t] && !e.has(t));
 	}
 	_visiblePresetModes() {
 		let e = new Set(this.config?.hidden_preset_modes ?? []);
@@ -20646,7 +20909,7 @@ function mc(e) {
 	let t = {
 		...go,
 		...e,
-		type: Ra
+		type: za
 	};
 	if (delete t.card_height, !cc(t.entity) || t.entity.trim() === "") return {
 		config: t,
@@ -20685,7 +20948,7 @@ function mc(e) {
 }
 //#endregion
 //#region src/equinox-card.ts
-Ia(Ba);
+La(Va);
 var hc = {
 	bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
 	ca: "Lovelace card for Versatile Thermostat and standard climate entities.",
@@ -20744,7 +21007,7 @@ var _c = class extends O {
 	}
 	static getStubConfig(e) {
 		return {
-			type: Ra,
+			type: za,
 			entity: Object.keys(e?.states ?? {}).find((e) => e.startsWith("climate.")) ?? "climate.example"
 		};
 	}
@@ -20797,13 +21060,13 @@ var _c = class extends O {
     `;
 	}
 };
-customElements.get("equinox-card") || customElements.define(za, _c), window.customCards = window.customCards ?? [];
+customElements.get("equinox-card") || customElements.define(Ba, _c), window.customCards = window.customCards ?? [];
 var vc = window.customCards;
 vc.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
 	vc.splice(vc.indexOf(e), 1);
 }), vc.push({
-	type: za,
-	name: La,
+	type: Ba,
+	name: Ra,
 	description: gc(navigator.language),
 	preview: !0,
 	documentationURL: "https://github.com/KipK/equinox#readme"

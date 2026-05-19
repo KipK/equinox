@@ -117,7 +117,14 @@ export interface RegulationDashboardStatusItem extends RegulationDashboardBaseIt
   source: RegulationDashboardSource;
   path?: RegulationDashboardPath;
   map: Record<string, RegulationDashboardStatusMapEntry>;
+  ranges?: RegulationDashboardStatusRangeEntry[];
   fallback?: RegulationDashboardStatusMapEntry;
+  align?: "start" | "center";
+  show_value?: boolean;
+  value_multiplier?: number;
+  value_unit?: string;
+  value_unit_key?: string;
+  value_digits?: number;
 }
 
 export interface RegulationDashboardStatusMapEntry extends RegulationDashboardLabelFields {
@@ -125,6 +132,11 @@ export interface RegulationDashboardStatusMapEntry extends RegulationDashboardLa
   icon?: string;
   description?: string;
   description_key?: string;
+}
+
+export interface RegulationDashboardStatusRangeEntry extends RegulationDashboardStatusMapEntry {
+  min?: number;
+  max?: number;
 }
 
 export interface RegulationDashboardProgressItem extends RegulationDashboardBaseItem, RegulationDashboardLabelFields {
@@ -202,7 +214,7 @@ export interface RegulationDashboardActionConfirmation {
   text_key?: string;
 }
 
-export interface RegulationDashboardLayoutGridItem extends RegulationDashboardBaseItem {
+export interface RegulationDashboardLayoutGridItem extends RegulationDashboardBaseItem, RegulationDashboardTextFields {
   type: "layout_grid";
   min_width?: number;
   items: RegulationDashboardItem[];

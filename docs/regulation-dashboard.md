@@ -43,7 +43,7 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json`
+- `smartpi.json` — Smart PI regulation overview, A/B learning, thermal model reliability, command breakdown, and safety actions.
 - `hysteresis.json`
 
 ## Custom Dashboard File
@@ -407,13 +407,30 @@ Fields:
 | `label`, `label_key` | no | string | Status block label. |
 | `source` | yes | source | Data source. |
 | `path` | no | string | Source path. |
-| `map` | yes | object | Keys are raw source values converted to strings. |
+| `map` | yes | object | Keys are raw source values converted to strings. Use `{}` when only numeric `ranges` are needed. |
+| `ranges` | no | array | Ordered numeric ranges used when no exact `map` entry matches. |
 | `fallback` | no | object | Entry used when no map key matches. |
+| `align` | no | `"start"` or `"center"` | Centers compact status content when set to `"center"`. |
+| `show_value` | no | boolean | Appends the numeric source value to the mapped label. |
+| `value_multiplier` | no | number | Multiplies the displayed value, for example `100` for ratio-to-percent. |
+| `value_unit`, `value_unit_key` | no | string | Unit appended to the displayed value. |
+| `value_digits` | no | number | Decimal digits for the displayed value. |
 
 Map entry fields:
 
 | Field | Type | Notes |
 | ----- | ---- | ----- |
+| `label`, `label_key` | string | Displayed mapped label. |
+| `tone` | tone | Visual tone. |
+| `icon` | string | Home Assistant icon. |
+| `description`, `description_key` | string | Optional explanation. |
+
+Range entry fields:
+
+| Field | Type | Notes |
+| ----- | ---- | ----- |
+| `min` | number | Inclusive lower bound. Omit for no lower bound. |
+| `max` | number | Inclusive upper bound. Omit for no upper bound. |
 | `label`, `label_key` | string | Displayed mapped label. |
 | `tone` | tone | Visual tone. |
 | `icon` | string | Home Assistant icon. |
@@ -439,6 +456,29 @@ Example:
     "tone": "muted",
     "icon": "mdi:help-circle-outline"
   }
+}
+```
+
+Numeric range example:
+
+```json
+{
+  "type": "status",
+  "label_key": "model.a_coherence",
+  "source": "diagnostic",
+  "path": "model/a_stability_ratio",
+  "map": {},
+  "ranges": [
+    { "max": 0.15, "label": "Coherent", "tone": "ok" },
+    { "min": 0.150000001, "max": 0.25, "label": "Watch", "tone": "warning" },
+    { "min": 0.250000001, "label": "Dispersed", "tone": "danger" }
+  ],
+  "fallback": { "label": "Collecting", "tone": "muted" },
+  "align": "center",
+  "show_value": true,
+  "value_multiplier": 100,
+  "value_unit": "%",
+  "value_digits": 0
 }
 ```
 
@@ -511,6 +551,51 @@ Example:
   "text_key": "learning.note",
   "tone": "info",
   "icon": "mdi:information-outline"
+}
+```
+
+## Block: `layout_grid`
+
+A responsive grid for grouping related blocks. The grid itself is unframed; each
+child block keeps its own visual surface.
+
+Fields:
+
+| Field | Required | Type | Notes |
+| ----- | -------- | ---- | ----- |
+| `type` | yes | `"layout_grid"` | |
+| `title`, `title_key` | no | string | Optional heading displayed above the grid. |
+| `min_width` | no | number | Minimum responsive column width in pixels. Defaults to `240`. |
+| `items` | yes | array | Child dashboard blocks. |
+
+Example:
+
+```json
+{
+  "type": "layout_grid",
+  "title_key": "model.reliability",
+  "items": [
+    {
+      "type": "status",
+      "label_key": "model.tau",
+      "source": "diagnostic",
+      "path": "model/tau_reliable",
+      "map": {
+        "true": { "label": "Reliable", "tone": "ok" },
+        "false": { "label": "Not reliable", "tone": "warning" }
+      }
+    },
+    {
+      "type": "status",
+      "label_key": "model.deadtime_heat",
+      "source": "diagnostic",
+      "path": "model/deadtime_heat_reliable",
+      "map": {
+        "true": { "label": "Reliable", "tone": "ok" },
+        "false": { "label": "Not reliable", "tone": "warning" }
+      }
+    }
+  ]
 }
 ```
 
