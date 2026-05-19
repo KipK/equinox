@@ -91,3 +91,9 @@ All notable changes to Equinox will be documented in this file.
 - introduce Regulation dashboards.
   Dynamically generated dashboards from json files.
   Only available to SmartPI for now.
+
+## 0.1.8
+
+- Rewrote SmartPI regulation wording and layout
+- Unify Regulation navigation with Equinox UX
+- Added browser history to Regulation section.
