@@ -170,9 +170,7 @@ card follows its rendered content instead of forcing a fixed row count.
   entity.
 - VT-specific features are displayed only when the required data or capability
   is available.
-- The source of truth for implementation details is
-  `plans/equinox-cahier-des-charges.md`.
-
+  
 ## Adding a language
 
 1. Add `src/localize/languages/{code}.json` using `en.json` as a template.
