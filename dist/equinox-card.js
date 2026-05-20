@@ -16770,7 +16770,7 @@ var Cs = class extends O {
 		let e = this.renderRoot.querySelector("ha-dialog")?.shadowRoot;
 		if (!e || e.querySelector("style[data-equinox-history-header]")) return;
 		let t = document.createElement("style");
-		t.dataset.equinoxHistoryHeader = "true", t.textContent = "\n      .mdc-dialog__title,\n      .header-title,\n      .title {\n        min-width: 0;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n      }\n\n      .header,\n      .dialog-header,\n      .mdc-dialog__header {\n        gap: 12px;\n      }\n\n      [name=\"headerActionItems\"],\n      slot[name=\"headerActionItems\"] {\n        flex: 0 0 auto;\n      }\n    ", e.appendChild(t);
+		t.dataset.equinoxHistoryHeader = "true", t.textContent = "\n      .mdc-dialog__title,\n      .header-title,\n      .title {\n        min-width: 0;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n      }\n\n      .header,\n      .dialog-header,\n      .mdc-dialog__header {\n        gap: 12px;\n      }\n\n      [name=\"headerActionItems\"],\n      slot[name=\"headerActionItems\"] {\n        flex: 0 0 auto;\n      }\n\n      .dismiss,\n      [dialogAction=\"close\"],\n      ha-icon-button[dialogAction=\"close\"],\n      ha-icon-button.dismiss,\n      [slot=\"navigationIcon\"],\n      slot[name=\"navigationIcon\"] {\n        display: none !important;\n      }\n    ", e.appendChild(t);
 	}
 	_betterHistoryConfig() {
 		let e = this.config?.entity, t = this.language ?? this.hass?.locale?.language, n = `${e ?? ""}|${t ?? ""}|${this.config?.diagnostic_entity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}|${this.config?.temperature_entity ?? ""}`;
@@ -16834,6 +16834,17 @@ var Cs = class extends O {
           @click=${this._toggleFullscreen}
         >
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
+        </ha-icon-button>
+        <ha-icon-button
+          slot="headerActionItems"
+          class="dialog-fullscreen-btn"
+          .label=${H(this.language, "dialog.close")}
+          dialogAction="close"
+          @click=${() => {
+			this.open = !1;
+		}}
+        >
+          <ha-icon icon="mdi:close"></ha-icon>
         </ha-icon-button>
         ${this.open ? T`<equinox-better-history
               .hass=${this.hass}
