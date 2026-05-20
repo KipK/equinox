@@ -43,7 +43,7 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation overview, A/B learning, thermal model reliability, command breakdown, and safety actions.
+- `smartpi.json` — Smart PI regulation overview, A/B learning, thermal model reliability, including the `ab_bootstrap` confidence state, command breakdown, and safety actions.
 - `hysteresis.json`
 
 ## Custom Dashboard File

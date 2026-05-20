@@ -106,10 +106,12 @@
       "status.learning.monitoring": "Surveillance",
       "status.learning.degraded": "Degrade",
       "status.confidence.ab_ok": "Modele fiable",
+      "status.confidence.ab_bootstrap": "Bootstrap du modele",
       "status.confidence.ab_degraded": "Modele partiel",
       "status.confidence.ab_bad": "Modele insuffisant",
       "status.confidence.unknown": "Confiance inconnue",
       "status.confidence.ab_ok.description": "Les echantillons A et B sont suffisamment coherents pour utiliser le modele normalement.",
+      "status.confidence.ab_bootstrap.description": "Smart PI collecte encore les echantillons de bootstrap ; le modele n'est pas encore pret.",
       "status.confidence.ab_degraded.description": "Une partie du modele est exploitable, mais la regulation reste prudente.",
       "status.confidence.ab_bad.description": "Le modele n'est pas assez fiable ; Smart PI limite ou evite son influence.",
       "status.confidence.unknown.description": "L'etat de confiance n'est pas encore publie par le diagnostic.",
@@ -265,10 +267,12 @@
       "status.learning.monitoring": "Monitoring",
       "status.learning.degraded": "Degraded",
       "status.confidence.ab_ok": "Reliable model",
+      "status.confidence.ab_bootstrap": "Model bootstrap",
       "status.confidence.ab_degraded": "Partial model",
       "status.confidence.ab_bad": "Insufficient model",
       "status.confidence.unknown": "Unknown confidence",
       "status.confidence.ab_ok.description": "A and B samples are coherent enough to use the model normally.",
+      "status.confidence.ab_bootstrap.description": "Smart PI is still collecting bootstrap samples; the model is not ready yet.",
       "status.confidence.ab_degraded.description": "Part of the model is usable, but regulation remains cautious.",
       "status.confidence.ab_bad.description": "The model is not reliable enough; Smart PI limits or avoids its influence.",
       "status.confidence.unknown.description": "The confidence state has not been published by diagnostics yet.",
@@ -580,6 +584,7 @@
           "path": "model/confidence",
           "map": {
             "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
+            "ab_bootstrap": { "label_key": "status.confidence.ab_bootstrap", "description_key": "status.confidence.ab_bootstrap.description", "tone": "info", "icon": "mdi:progress-clock" },
             "ab_degraded": { "label_key": "status.confidence.ab_degraded", "description_key": "status.confidence.ab_degraded.description", "tone": "warning", "icon": "mdi:alert-outline" },
             "ab_bad": { "label_key": "status.confidence.ab_bad", "description_key": "status.confidence.ab_bad.description", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
           },
@@ -613,6 +618,7 @@
           "path": "model/confidence",
           "map": {
             "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
+            "ab_bootstrap": { "label_key": "status.confidence.ab_bootstrap", "description_key": "status.confidence.ab_bootstrap.description", "tone": "info", "icon": "mdi:progress-clock" },
             "ab_degraded": { "label_key": "status.confidence.ab_degraded", "description_key": "status.confidence.ab_degraded.description", "tone": "warning", "icon": "mdi:alert-outline" },
             "ab_bad": { "label_key": "status.confidence.ab_bad", "description_key": "status.confidence.ab_bad.description", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
           },
