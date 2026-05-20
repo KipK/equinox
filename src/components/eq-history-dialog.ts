@@ -168,15 +168,6 @@ export class EquinoxHistoryDialog extends LitElement {
       slot[name="headerActionItems"] {
         flex: 0 0 auto;
       }
-
-      .dismiss,
-      [dialogAction="close"],
-      ha-icon-button[dialogAction="close"],
-      ha-icon-button.dismiss,
-      [slot="navigationIcon"],
-      slot[name="navigationIcon"] {
-        display: none !important;
-      }
     `;
     root.appendChild(style);
   }
@@ -264,15 +255,6 @@ export class EquinoxHistoryDialog extends LitElement {
           @click=${this._toggleFullscreen}
         >
           <ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon>
-        </ha-icon-button>
-        <ha-icon-button
-          slot="headerActionItems"
-          class="dialog-fullscreen-btn"
-          .label=${localize(this.language, "dialog.close")}
-          dialogAction="close"
-          @click=${() => { this.open = false; }}
-        >
-          <ha-icon icon="mdi:close"></ha-icon>
         </ha-icon-button>
         ${this.open
         ? html`<equinox-better-history
