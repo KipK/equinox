@@ -4,6 +4,7 @@ import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { AttributeUnitMap, BetterHistoryConfig } from "@kipk/ha-better-history";
 import { equinoxAttributeUnits, loadEquinoxStaticAttributeUnits } from "../data/attribute-units";
+import { resolveRegulationDiagnosticEntity } from "../data/regulation-dashboard-values";
 
 export class EquinoxHistoryDialog extends LitElement {
   static properties = {
@@ -178,7 +179,8 @@ export class EquinoxHistoryDialog extends LitElement {
   private _betterHistoryConfig(): BetterHistoryConfig {
     const climateEntityId = this.config?.entity;
     const lang = this.language ?? this.hass?.locale?.language;
-    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${this.config?.diagnostic_entity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}|${this.config?.temperature_entity ?? ""}`;
+    const diagnosticEntity = this.config && this.hass ? resolveRegulationDiagnosticEntity(this.hass, this.config) : undefined;
+    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${diagnosticEntity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}|${this.config?.temperature_entity ?? ""}`;
 
     if (key === this._configCacheKey && this._configCache) return this._configCache;
 
@@ -186,7 +188,7 @@ export class EquinoxHistoryDialog extends LitElement {
 
     const defaultEntities: string[] = [
       climateEntityId,
-      this.config?.diagnostic_entity,
+      diagnosticEntity,
       this.config?.power_entity,
       this.config?.humidity_entity,
       this.config?.temperature_entity

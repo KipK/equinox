@@ -6,6 +6,7 @@ import {
   isMissingRegulationValue,
   normalizeRegulationPath,
   readRegulationSourceValue,
+  resolveRegulationDiagnosticEntity,
   type RegulationDashboardValueContext
 } from "../data/regulation-dashboard-values";
 import { equinoxAttributeUnits, loadEquinoxStaticAttributeUnits } from "../data/attribute-units";
@@ -756,7 +757,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       case "$climate_entity":
         return this.config?.entity;
       case "$diagnostic_entity":
-        return this.config?.diagnostic_entity;
+        return this.config && this.hass ? resolveRegulationDiagnosticEntity(this.hass, this.config) : undefined;
       case "$power_entity":
         return this.config?.power_entity;
       case "$humidity_entity":
@@ -850,7 +851,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       case "$climate_entity":
         return this.config?.entity || undefined;
       case "$diagnostic_entity":
-        return this.config?.diagnostic_entity || undefined;
+        return this.config && this.hass ? resolveRegulationDiagnosticEntity(this.hass, this.config) : undefined;
       case "$power_entity":
         return this.config?.power_entity || undefined;
       case "$humidity_entity":
@@ -896,7 +897,7 @@ export class EquinoxRegulationRenderer extends LitElement {
     return JSON.stringify({
       language: this.language ?? this.hass?.locale?.language ?? "",
       climate: this.config?.entity ?? "",
-      diagnostic: this.config?.diagnostic_entity ?? "",
+      diagnostic: this.config && this.hass ? resolveRegulationDiagnosticEntity(this.hass, this.config) ?? "" : "",
       power: this.config?.power_entity ?? "",
       humidity: this.config?.humidity_entity ?? "",
       temperature: this.config?.temperature_entity ?? "",

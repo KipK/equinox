@@ -16,6 +16,12 @@ export interface RegulationDashboardSources {
   config: EquinoxCardConfig;
 }
 
+const REGULATION_DIAGNOSTIC_ENTITY_PATH = "specific_states/regulation_diagnostics";
+
+function normalizeEntityId(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
+}
+
 export function normalizeRegulationPath(path: string | readonly string[] | undefined): string[] {
   if (!path) {
     return [];
@@ -63,10 +69,18 @@ export function isMissingRegulationValue(value: unknown): boolean {
   return value === undefined || value === null || value === "" || value === "unknown" || value === "unavailable";
 }
 
+export function resolveRegulationDiagnosticEntity(hass: HomeAssistant, config: EquinoxCardConfig): string | undefined {
+  const attributes = hass.states[config.entity]?.attributes;
+  const detected = normalizeEntityId(readRegulationPath(attributes, REGULATION_DIAGNOSTIC_ENTITY_PATH));
+  return detected ?? normalizeEntityId(config.diagnostic_entity);
+}
+
 export function buildRegulationSources(hass: HomeAssistant, config: EquinoxCardConfig): RegulationDashboardSources {
+  const diagnosticEntity = resolveRegulationDiagnosticEntity(hass, config);
+
   return {
     climate: hass.states[config.entity],
-    diagnostic: config.diagnostic_entity ? hass.states[config.diagnostic_entity] : undefined,
+    diagnostic: diagnosticEntity ? hass.states[diagnosticEntity] : undefined,
     power: config.power_entity ? hass.states[config.power_entity] : undefined,
     humidity: config.humidity_entity ? hass.states[config.humidity_entity] : undefined,
     temperature: config.temperature_entity ? hass.states[config.temperature_entity] : undefined,

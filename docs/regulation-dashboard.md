@@ -23,7 +23,6 @@ Example:
 ```yaml
 type: custom:equinox-card
 entity: climate.salon
-diagnostic_entity: sensor.salon_smartpi_diagnostics
 additional_dashboards: auto
 ```
 
@@ -45,6 +44,19 @@ Built-in dashboards currently include:
 
 - `smartpi.json` — Smart PI regulation overview, A/B learning, thermal model reliability, including the `ab_bootstrap` confidence state, command breakdown, and safety actions.
 - `hysteresis.json`
+
+## Diagnostic Entity Detection
+
+Algorithm plugins can publish a diagnostics entity id on the thermostat climate
+entity at `specific_states.regulation_diagnostics`, for example
+`sensor.thermostat_salon_smartpi_diagnostics`.
+
+Equinox uses that published entity automatically for the `diagnostic` source and
+for `$diagnostic_entity` history/action tokens. This means the card no longer
+needs a `diagnostic_entity` YAML field, and changing the thermostat regulation
+algorithm can switch diagnostics without reconfiguring the card. Existing
+configs that still contain `diagnostic_entity` are kept as a compatibility
+fallback when the thermostat has not published the new attribute.
 
 ## Custom Dashboard File
 
@@ -195,7 +207,7 @@ Dashboard blocks read values from declarative sources.
 | Source | Data |
 | ------ | ---- |
 | `climate` | The configured `entity` and its attributes. |
-| `diagnostic` | The configured `diagnostic_entity` and its attributes. |
+| `diagnostic` | The diagnostics entity published by `specific_states.regulation_diagnostics`, falling back to legacy `diagnostic_entity` when needed. |
 | `power` | The configured `power_entity`. |
 | `humidity` | The configured `humidity_entity`. |
 | `temperature` | The configured `temperature_entity`. |
@@ -630,7 +642,7 @@ Entity tokens:
 | Token | Resolves to |
 | ----- | ----------- |
 | `$climate_entity` | `config.entity` |
-| `$diagnostic_entity` | `config.diagnostic_entity` |
+| `$diagnostic_entity` | The diagnostics entity published by `specific_states.regulation_diagnostics`, falling back to legacy `config.diagnostic_entity` when needed. |
 | `$power_entity` | `config.power_entity` |
 | `$humidity_entity` | `config.humidity_entity` |
 | `$temperature_entity` | `config.temperature_entity` |
@@ -719,7 +731,7 @@ String token substitution is supported anywhere inside `target` or `data`:
 | Token | Resolves to |
 | ----- | ----------- |
 | `$climate_entity` | `config.entity` |
-| `$diagnostic_entity` | `config.diagnostic_entity` |
+| `$diagnostic_entity` | The diagnostics entity published by `specific_states.regulation_diagnostics`, falling back to legacy `config.diagnostic_entity` when needed. |
 | `$power_entity` | `config.power_entity` |
 | `$humidity_entity` | `config.humidity_entity` |
 | `$temperature_entity` | `config.temperature_entity` |

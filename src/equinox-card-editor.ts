@@ -22,6 +22,7 @@ function cssColor(value: string | number[] | undefined): string | undefined {
 function cleanEditorConfig(config: EquinoxCardConfigInput): EquinoxCardConfigInput {
   const cleaned = { ...config };
   delete (cleaned as { card_height?: unknown }).card_height;
+  delete (cleaned as { diagnostic_entity?: unknown }).diagnostic_entity;
 
   if (!Array.isArray(cleaned.hidden_hvac_modes) || cleaned.hidden_hvac_modes.length === 0) {
     delete cleaned.hidden_hvac_modes;
@@ -239,14 +240,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         name: "name",
         selector: {
           text: {}
-        }
-      },
-      {
-        name: "diagnostic_entity",
-        selector: {
-          entity: {
-            domain: ["sensor"]
-          }
         }
       },
       {

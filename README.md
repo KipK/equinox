@@ -102,7 +102,6 @@ Assistant `www/` directory.
 type: custom:equinox-card
 entity: climate.salon
 name: Salon
-diagnostic_entity: sensor.salon_smartpi_diagnostics
 power_entity: sensor.salon_puissance
 humidity_entity: sensor.salon_humidity
 theme: flat
@@ -121,7 +120,6 @@ additional_dashboards: auto
 | ----------------------- | -------- | -------------------- | -------------------------------------------------------------- |
 | `entity`                | yes      | -                    | Climate entity to display. Must use the `climate` domain.      |
 | `name`                  | no       | Entity friendly name | Display name.                                                  |
-| `diagnostic_entity`     | no       | -                    | Diagnostic sensor for algorithm dashboards.                    |
 | `power_entity`          | no       | -                    | Sensor or input number for instant power.                      |
 | `humidity_entity`       | no       | -                    | External humidity sensor when climate humidity is unavailable. |
 | `theme`                 | no       | `flat`               | Visual theme: `flat` or `liquid_glow`.                         |
@@ -132,6 +130,10 @@ additional_dashboards: auto
 | `disable_name`          | no       | `false`              | Hide the header name.                                          |
 | `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
 | `additional_dashboards` | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.    |
+
+Regulation diagnostics are discovered automatically from the climate entity
+attribute `specific_states.regulation_diagnostics` when the thermostat
+algorithm publishes it.
 
 ## Regulation Dashboard
 
