@@ -7455,6 +7455,7 @@ var Yo = "Equinox", Xo = "custom:equinox-card", Zo = "equinox-card", Qo = "equin
 	"ha-control-button",
 	"ha-icon-button",
 	"ha-color-picker",
+	"ha-adaptive-popover",
 	"ha-md-list",
 	"ha-md-list-item",
 	"ha-input-chip"
@@ -17302,6 +17303,9 @@ var zc = class extends D {
     }
   `;
 	}
+	willUpdate(e) {
+		e.has("open") && this.open && this._resetOpenState();
+	}
 	updated() {
 		this._styleDialogHeader();
 	}
@@ -17310,6 +17314,9 @@ var zc = class extends D {
 	}
 	disconnectedCallback() {
 		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), this._suppressCloseTimer !== void 0 && (clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = void 0);
+	}
+	_resetOpenState() {
+		this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._historyPickerOverlayOpen = !1, this._suppressNextDialogClose = !1, this._suppressCloseTimer !== void 0 && (clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = void 0);
 	}
 	_handleDialogClosed(e) {
 		if (this._suppressNextDialogClose) {
@@ -20349,103 +20356,138 @@ var al = class extends D {
           </div>
         </div>
       </ha-card>
-      <eq-fan-dialog
-        .open=${this._activeDialog === "fan"}
-        .hass=${this.hass}
-        .viewModel=${this.viewModel}
-        .config=${this.config}
-        .language=${this._language()}
-        .floating=${!0}
-        .closeOnLeave=${!0}
-        .anchor=${this._dialogAnchor}
-        @eq-dialog-close=${() => {
-			this._activeDialog = null;
-		}}
-      ></eq-fan-dialog>
-      <eq-swing-dialog
-        .open=${this._activeDialog === "swing"}
-        .hass=${this.hass}
-        .viewModel=${this.viewModel}
-        .config=${this.config}
-        .language=${this._language()}
-        .floating=${!0}
-        .closeOnLeave=${!0}
-        .anchor=${this._dialogAnchor}
-        @eq-dialog-close=${() => {
-			this._activeDialog = null;
-		}}
-      ></eq-swing-dialog>
-      <eq-hvac-dialog
-        .open=${this._activeDialog === "hvac"}
-        .hass=${this.hass}
-        .viewModel=${this.viewModel}
-        .config=${this.config}
-        .language=${this._language()}
-        .floating=${!0}
-        .closeOnLeave=${!0}
-        .anchor=${this._dialogAnchor}
-        @eq-dialog-close=${() => {
-			this._activeDialog = null;
-		}}
-      ></eq-hvac-dialog>
-      <eq-preset-dialog
-        .open=${this._activeDialog === "preset"}
-        .hass=${this.hass}
-        .viewModel=${this.viewModel}
-        .config=${this.config}
-        .language=${this._language()}
-        .floating=${!0}
-        .closeOnLeave=${!0}
-        .anchor=${this._dialogAnchor}
-        @eq-dialog-close=${() => {
-			this._activeDialog = null;
-		}}
-      ></eq-preset-dialog>
-      <eq-menu-dialog
-        .open=${this._activeDialog === "menu"}
-        .hass=${this.hass}
-        .viewModel=${this.viewModel}
-        .config=${this.config}
-        .regulationDashboard=${this._regulationDashboard()}
-        .regulationAvailable=${this._regulationMenuAvailable()}
-        .language=${this._language()}
-        .floating=${!0}
-        .closeOnLeave=${!0}
-        .anchor=${this._dialogAnchor}
-        @eq-dialog-close=${() => {
-			this._activeDialog === "menu" && (this._activeDialog = null);
-		}}
-        @equinox-open-regulation=${(e) => this._openRegulationDialog(e.detail?.sectionId)}
-        @equinox-open-boost=${() => {
-			this._activeDialog = "boost";
-		}}
-        @equinox-open-history=${() => this._openHistoryDialog()}
-      ></eq-menu-dialog>
-      <eq-boost-dialog
-        .open=${this._activeDialog === "boost"}
-        .hass=${this.hass}
-        .viewModel=${this.viewModel}
-        .config=${this.config}
-        .language=${this._language()}
-        .floating=${!0}
-        .closeOnLeave=${!0}
-        .anchor=${this._dialogAnchor}
-        @eq-dialog-close=${() => {
-			this._activeDialog = null;
-		}}
-        @equinox-open-menu=${() => {
-			this._activeDialog = "menu";
-		}}
-      ></eq-boost-dialog>
+      ${this._renderActiveDialogs()}
+    `;
+	}
+	_renderActiveDialogs() {
+		return [
+			this._renderLightweightDialog(),
+			this._renderHistoryDialog(),
+			this._renderRegulationDialog(),
+			this._renderLockDialog(),
+			this._renderMessageDialog()
+		];
+	}
+	_renderLightweightDialog() {
+		switch (this._activeDialog) {
+			case "fan": return T`
+          <eq-fan-dialog
+            .open=${!0}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .language=${this._language()}
+            .floating=${!0}
+            .closeOnLeave=${!0}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => {
+				this._activeDialog = null;
+			}}
+          ></eq-fan-dialog>
+        `;
+			case "swing": return T`
+          <eq-swing-dialog
+            .open=${!0}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .language=${this._language()}
+            .floating=${!0}
+            .closeOnLeave=${!0}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => {
+				this._activeDialog = null;
+			}}
+          ></eq-swing-dialog>
+        `;
+			case "hvac": return T`
+          <eq-hvac-dialog
+            .open=${!0}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .language=${this._language()}
+            .floating=${!0}
+            .closeOnLeave=${!0}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => {
+				this._activeDialog = null;
+			}}
+          ></eq-hvac-dialog>
+        `;
+			case "preset": return T`
+          <eq-preset-dialog
+            .open=${!0}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .language=${this._language()}
+            .floating=${!0}
+            .closeOnLeave=${!0}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => {
+				this._activeDialog = null;
+			}}
+          ></eq-preset-dialog>
+        `;
+			case "menu": return T`
+          <eq-menu-dialog
+            .open=${!0}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .regulationDashboard=${this._regulationDashboard()}
+            .regulationAvailable=${this._regulationMenuAvailable()}
+            .language=${this._language()}
+            .floating=${!0}
+            .closeOnLeave=${!0}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => {
+				this._activeDialog === "menu" && (this._activeDialog = null);
+			}}
+            @equinox-open-regulation=${(e) => this._openRegulationDialog(e.detail?.sectionId)}
+            @equinox-open-boost=${() => {
+				this._activeDialog = "boost";
+			}}
+            @equinox-open-history=${() => this._openHistoryDialog()}
+          ></eq-menu-dialog>
+        `;
+			case "boost": return T`
+          <eq-boost-dialog
+            .open=${!0}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .language=${this._language()}
+            .floating=${!0}
+            .closeOnLeave=${!0}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => {
+				this._activeDialog = null;
+			}}
+            @equinox-open-menu=${() => {
+				this._activeDialog = "menu";
+			}}
+          ></eq-boost-dialog>
+        `;
+			default: return E;
+		}
+	}
+	_renderHistoryDialog() {
+		return this._activeDialog === "history" ? T`
       <eq-history-dialog
-        .open=${this._activeDialog === "history"}
+        .open=${!0}
         .hass=${this.hass}
         .config=${this.config}
         .language=${this._language()}
         @eq-dialog-close=${() => this._closeHistoryDialog()}
       ></eq-history-dialog>
+    ` : E;
+	}
+	_renderRegulationDialog() {
+		return this._activeDialog === "regulation" ? T`
       <eq-regulation-dialog
-        .open=${this._activeDialog === "regulation"}
+        .open=${!0}
         .hass=${this.hass}
         .config=${this.config}
         .viewModel=${this.viewModel}
@@ -20458,18 +20500,26 @@ var al = class extends D {
         @equinox-regulation-menu-toggled=${(e) => this._setRegulationMobileSectionMenu(e.detail.open)}
         @equinox-regulation-section-selected=${(e) => this._selectRegulationSection(e.detail.sectionId)}
       ></eq-regulation-dialog>
+    ` : E;
+	}
+	_renderLockDialog() {
+		return this._lockDialogOpen ? T`
       <eq-lock-dialog
-        .open=${this._lockDialogOpen}
+        .open=${!0}
         .hass=${this.hass}
-        .entityId=${this.config.entity}
+        .entityId=${this.config?.entity}
         .isLocking=${this._lockIsLocking}
         .language=${this._language()}
         @eq-dialog-close=${() => {
 			this._lockDialogOpen = !1;
 		}}
       ></eq-lock-dialog>
+    ` : E;
+	}
+	_renderMessageDialog() {
+		return this._activeMessageKey === void 0 ? E : T`
       <eq-dialog
-        .open=${this._activeMessageKey !== void 0}
+        .open=${!0}
         .title=${U(this._language(), "dialog.message.title")}
         .language=${this._language()}
         .floating=${!0}

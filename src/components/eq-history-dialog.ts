@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing, type TemplateResult } from "lit";
+import { LitElement, css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
@@ -74,6 +74,12 @@ export class EquinoxHistoryDialog extends LitElement {
   private _suppressNextDialogClose = false;
   private _suppressCloseTimer?: ReturnType<typeof setTimeout>;
 
+  protected willUpdate(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has("open") && this.open) {
+      this._resetOpenState();
+    }
+  }
+
   protected updated(): void {
     this._styleDialogHeader();
   }
@@ -87,6 +93,18 @@ export class EquinoxHistoryDialog extends LitElement {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     document.removeEventListener("pointerdown", this._handleDocumentPointerDown, true);
+    if (this._suppressCloseTimer !== undefined) {
+      clearTimeout(this._suppressCloseTimer);
+      this._suppressCloseTimer = undefined;
+    }
+  }
+
+  private _resetOpenState(): void {
+    this._fullscreen = false;
+    this._controlsVisible = true;
+    this._toolsOpen = false;
+    this._historyPickerOverlayOpen = false;
+    this._suppressNextDialogClose = false;
     if (this._suppressCloseTimer !== undefined) {
       clearTimeout(this._suppressCloseTimer);
       this._suppressCloseTimer = undefined;

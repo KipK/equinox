@@ -29,6 +29,8 @@ attribute series support, and portable JSON export/import.
 
 ## Installation
 
+Equinox requires Home Assistant 2026.5 or newer.
+
 ### Via HACS
 
 [![Add this repository to HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=KipK&repository=equinox&category=Plugin)
