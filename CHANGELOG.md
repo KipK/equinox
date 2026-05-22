@@ -2,14 +2,6 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## Unreleased
-
-- Attach the compiled `equinox-card.js` bundle directly to draft GitHub releases.
-- Add the Regulation dashboard UI, menu integration, desktop/mobile section navigation, custom dashboard loading, history graph blocks, and confirmed service actions.
-- Add built-in Regulation dashboard definitions for Smart PI and Hysteresis.
-- Add Smart PI diagnostic units to the runtime attribute map for Regulation values and graphs.
-- Auto-discover Regulation diagnostics from `specific_states.regulation_diagnostics`, removing the need to configure `diagnostic_entity`.
-- Add a dedicated Regulation dashboard reference for `additional_dashboards`, `/local/equinox/dash/custom.js`, embedded dashboard translations, JSON block modules, sources, conditions, actions, and simplified history graphs.
 
 ## 0.1.0
 
@@ -98,3 +90,8 @@ All notable changes to Equinox will be documented in this file.
 - Rewrote SmartPI regulation wording and layout
 - Unify Regulation navigation with Equinox UX
 - Added browser history to Regulation section.
+
+
+## 0.1.9-dev
+
+- Auto-discover Regulation diagnostics from `specific_states.regulation_diagnostics`, removing the need to configure `diagnostic_entity`. ( needs smartPI >= 0.3.3 )
