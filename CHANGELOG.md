@@ -92,7 +92,8 @@ All notable changes to Equinox will be documented in this file.
 - Added browser history to Regulation section.
 
 
-## 0.1.9-dev
+## 0.1.9
 
 - Auto-discover Regulation diagnostics from `specific_states.regulation_diagnostics`, removing the need to configure `diagnostic_entity`. ( needs smartPI >= 0.3.3 )
 - Mount Equinox dialogs only while active so closed popovers, history, Regulation, lock, and message overlays release their listeners and state.
+- Fix: Keep floating menus inside viewport
