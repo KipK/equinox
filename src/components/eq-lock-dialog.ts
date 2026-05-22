@@ -235,7 +235,8 @@ export class EqLockDialog extends LitElement {
   protected override render() {
     if (!this.open) return nothing;
 
-    const title = this.isLocking
+    const isCurrentlyLocked = !this.isLocking;
+    const title = isCurrentlyLocked
       ? localize(this.language, "main.lock.locked")
       : localize(this.language, "main.lock.unlocked");
     const enterCode = localize(this.language, "main.lock.enter_code");
@@ -247,8 +248,8 @@ export class EqLockDialog extends LitElement {
       <div class="dialog" role="dialog" aria-modal="true">
         <div class="header">
           <ha-icon
-            .icon=${this.isLocking ? "mdi:lock-outline" : "mdi:lock-open-outline"}
-            ?unlocked=${!this.isLocking}
+            .icon=${isCurrentlyLocked ? "mdi:lock-outline" : "mdi:lock-open-outline"}
+            ?unlocked=${!isCurrentlyLocked}
           ></ha-icon>
           <span>${title} — ${enterCode}</span>
         </div>
