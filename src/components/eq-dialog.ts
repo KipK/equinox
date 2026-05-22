@@ -208,6 +208,8 @@ export class EquinoxDialog extends LitElement {
   closeOnLeave = false;
   anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _closeOnLeaveTimer?: number;
+  private _popoverResizeObserver?: ResizeObserver;
+  private _observedPopoverPanel?: HTMLElement;
 
   private readonly _handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && this.open) {
@@ -237,6 +239,7 @@ export class EquinoxDialog extends LitElement {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this._clearCloseOnLeaveTimer();
+    this._disconnectPopoverResizeObserver();
     document.removeEventListener("keydown", this._handleKeyDown);
     window.removeEventListener("resize", this._handleResize);
     window.removeEventListener("scroll", this._handleScroll, true);
@@ -279,16 +282,46 @@ export class EquinoxDialog extends LitElement {
   protected updated(): void {
     if (!this.open) {
       this._clearCloseOnLeaveTimer();
+      this._disconnectPopoverResizeObserver();
     }
 
     if (this.open && (this.floating || this.centered)) {
       void this.updateComplete.then(() => {
         this._syncNativePopover();
         if (this.floating) {
+          this._observePopoverSize();
           this._positionPopover();
         }
       });
     }
+  }
+
+  private _disconnectPopoverResizeObserver(): void {
+    this._popoverResizeObserver?.disconnect();
+    this._popoverResizeObserver = undefined;
+    this._observedPopoverPanel = undefined;
+  }
+
+  private _observePopoverSize(): void {
+    if (typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    if (window.innerWidth <= 600) {
+      this._disconnectPopoverResizeObserver();
+      return;
+    }
+
+    const panel = this.renderRoot.querySelector<HTMLElement>(".panel.popover");
+
+    if (!panel || panel === this._observedPopoverPanel) {
+      return;
+    }
+
+    this._disconnectPopoverResizeObserver();
+    this._observedPopoverPanel = panel;
+    this._popoverResizeObserver = new ResizeObserver(() => this._positionPopover());
+    this._popoverResizeObserver.observe(panel);
   }
 
   private _supportsNativePopover(): boolean {

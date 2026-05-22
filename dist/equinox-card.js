@@ -14504,7 +14504,7 @@ var ss = o`
 		super.connectedCallback(), document.addEventListener("keydown", this._handleKeyDown), window.addEventListener("resize", this._handleResize), window.addEventListener("scroll", this._handleScroll, !0);
 	}
 	disconnectedCallback() {
-		super.disconnectedCallback(), this._clearCloseOnLeaveTimer(), document.removeEventListener("keydown", this._handleKeyDown), window.removeEventListener("resize", this._handleResize), window.removeEventListener("scroll", this._handleScroll, !0);
+		super.disconnectedCallback(), this._clearCloseOnLeaveTimer(), this._disconnectPopoverResizeObserver(), document.removeEventListener("keydown", this._handleKeyDown), window.removeEventListener("resize", this._handleResize), window.removeEventListener("scroll", this._handleScroll, !0);
 	}
 	_clearCloseOnLeaveTimer() {
 		this._closeOnLeaveTimer !== void 0 && (window.clearTimeout(this._closeOnLeaveTimer), this._closeOnLeaveTimer = void 0);
@@ -14533,9 +14533,21 @@ var ss = o`
 		}));
 	}
 	updated() {
-		this.open || this._clearCloseOnLeaveTimer(), this.open && (this.floating || this.centered) && this.updateComplete.then(() => {
-			this._syncNativePopover(), this.floating && this._positionPopover();
+		this.open || (this._clearCloseOnLeaveTimer(), this._disconnectPopoverResizeObserver()), this.open && (this.floating || this.centered) && this.updateComplete.then(() => {
+			this._syncNativePopover(), this.floating && (this._observePopoverSize(), this._positionPopover());
 		});
+	}
+	_disconnectPopoverResizeObserver() {
+		this._popoverResizeObserver?.disconnect(), this._popoverResizeObserver = void 0, this._observedPopoverPanel = void 0;
+	}
+	_observePopoverSize() {
+		if (typeof ResizeObserver > "u") return;
+		if (window.innerWidth <= 600) {
+			this._disconnectPopoverResizeObserver();
+			return;
+		}
+		let e = this.renderRoot.querySelector(".panel.popover");
+		!e || e === this._observedPopoverPanel || (this._disconnectPopoverResizeObserver(), this._observedPopoverPanel = e, this._popoverResizeObserver = new ResizeObserver(() => this._positionPopover()), this._popoverResizeObserver.observe(e));
 	}
 	_supportsNativePopover() {
 		return typeof HTMLElement.prototype.showPopover == "function";

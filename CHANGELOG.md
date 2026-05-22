@@ -95,5 +95,4 @@ All notable changes to Equinox will be documented in this file.
 ## 0.1.9-dev
 
 - Auto-discover Regulation diagnostics from `specific_states.regulation_diagnostics`, removing the need to configure `diagnostic_entity`. ( needs smartPI >= 0.3.3 )
-- Require Home Assistant 2026.5+ before adopting newer HA dialog/popover shell components.
 - Mount Equinox dialogs only while active so closed popovers, history, Regulation, lock, and message overlays release their listeners and state.
