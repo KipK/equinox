@@ -9,7 +9,6 @@ const HA_COMPONENTS = [
   "ha-control-button",
   "ha-icon-button",
   "ha-color-picker",
-  "ha-adaptive-popover",
   "ha-md-list",
   "ha-md-list-item",
   "ha-input-chip"
