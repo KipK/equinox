@@ -6814,7 +6814,7 @@ function Ia(e = "ha-better-history") {
 }
 //#endregion
 //#region src/const.ts
-var La = "Equinox", Ra = "custom:equinox-card", za = "equinox-card", Ba = "equinox-better-history", Va = "equinox-card-editor", Ha = "flat", Ua = "classic", Wa = "setpoint", Ga = "auto", Ka = [
+var La = "Equinox", Ra = "custom:equinox-card", za = "equinox-card", Ba = "equinox-better-history", Va = "equinox-card-editor", Ha = "liquid_glow", Ua = "classic", Wa = "setpoint", Ga = "auto", Ka = [
 	"heat",
 	"cool",
 	"heat_cool",
@@ -6892,7 +6892,6 @@ var La = "Equinox", Ra = "custom:equinox-card", za = "equinox-card", Ba = "equin
 	"ha-control-button",
 	"ha-icon-button",
 	"ha-color-picker",
-	"ha-adaptive-popover",
 	"ha-md-list",
 	"ha-md-list-item",
 	"ha-input-chip"
@@ -14837,7 +14836,7 @@ var ds = class extends O {
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+		this.setAttribute("theme", this.config?.theme ?? "liquid_glow"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
 		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? Fo : this.viewModel?.climate.fanModes ?? [];
@@ -15268,7 +15267,7 @@ var fs = class extends O {
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+		this.setAttribute("theme", this.config?.theme ?? "liquid_glow"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.hvacModes ?? [], t = new Set(this.config?.hidden_hvac_modes ?? []);
@@ -15536,7 +15535,7 @@ var ms = class extends O {
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+		this.setAttribute("theme", this.config?.theme ?? "liquid_glow"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_verticalOptions() {
 		return ps(this.viewModel?.climate.swingModes ?? []);
@@ -16011,7 +16010,7 @@ var hs = class extends O {
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+		this.setAttribute("theme", this.config?.theme ?? "liquid_glow"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.presetModes ?? [], t = this.viewModel?.climate.hvacMode, n = new Set(this.config?.hidden_preset_modes ?? []);
@@ -16484,7 +16483,7 @@ var _s = 60, vs = [
   `;
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
+		this.setAttribute("theme", this.config?.theme ?? "liquid_glow"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_dispatchClose() {
 		this.dispatchEvent(new CustomEvent("eq-dialog-close", {
@@ -19776,7 +19775,7 @@ var Ks = class extends O {
 		this._regulationActiveSectionId = e, this._regulationMobileSectionMenuOpen = !1, this._pushRegulationDialogState(e);
 	}
 	willUpdate() {
-		this.setAttribute("theme", this.config?.theme ?? "flat"), this.toggleAttribute("light", !this.hass?.themes?.darkMode), this.toggleAttribute("border-glow-on-action", !!this.config?.border_glow_on_action);
+		this.setAttribute("theme", this.config?.theme ?? "liquid_glow"), this.toggleAttribute("light", !this.hass?.themes?.darkMode), this.toggleAttribute("border-glow-on-action", !!this.config?.border_glow_on_action);
 	}
 	updated() {
 		(this._activeDialog === "menu" || this._activeDialog === "regulation") && this._ensureRegulationDashboard();

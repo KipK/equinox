@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from "lit";
 import { setAutoFanMode, setFanMode } from "../data/actions";
+import { DEFAULT_THEME } from "../const";
 import { AUTO_FAN_MODES, FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
@@ -222,7 +223,7 @@ export class EquinoxFanDialog extends LitElement {
 
   protected willUpdate(): void {
     // Mirror the active equinox theme onto our host so :host([theme="..."]) rules apply.
-    this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.setAttribute("theme", this.config?.theme ?? DEFAULT_THEME);
     this.toggleAttribute("light", !this.hass?.themes?.darkMode);
   }
 

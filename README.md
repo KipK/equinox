@@ -106,7 +106,7 @@ entity: climate.salon
 name: Salon
 power_entity: sensor.salon_puissance
 humidity_entity: sensor.salon_humidity
-theme: flat
+theme: liquid_glow
 display_mode: classic
 primary_display: setpoint
 card_background_color: "#20242a"
@@ -124,7 +124,7 @@ additional_dashboards: auto
 | `name`                  | no       | Entity friendly name | Display name.                                                  |
 | `power_entity`          | no       | -                    | Sensor or input number for instant power.                      |
 | `humidity_entity`       | no       | -                    | External humidity sensor when climate humidity is unavailable. |
-| `theme`                 | no       | `flat`               | Visual theme: `flat` or `liquid_glow`.                         |
+| `theme`                 | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                         |
 | `display_mode`          | no       | `classic`            | Display format: `classic` or `compact`.                        |
 | `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`.                        |
 | `card_background_color` | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. HVAC and preset selectors follow this surface. |

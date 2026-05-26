@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from "lit";
 import { setPresetMode } from "../data/actions";
+import { DEFAULT_THEME } from "../const";
 import { PRESET_ICONS, PRESET_ORDER } from "../data/climate-modes";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
@@ -367,7 +368,7 @@ export class EquinoxPresetDialog extends LitElement {
   anchor?: { element: HTMLElement };
 
   protected willUpdate(): void {
-    this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.setAttribute("theme", this.config?.theme ?? DEFAULT_THEME);
     this.toggleAttribute("light", !this.hass?.themes?.darkMode);
   }
 

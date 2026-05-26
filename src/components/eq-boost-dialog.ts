@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from "lit";
 import { cancelTimedPreset, setPresetMode, setTimedPreset } from "../data/actions";
+import { DEFAULT_THEME } from "../const";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
@@ -237,7 +238,7 @@ export class EquinoxBoostDialog extends LitElement {
 
   protected willUpdate(): void {
     // Mirror the active equinox theme onto our host so :host([theme="..."]) rules apply.
-    this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.setAttribute("theme", this.config?.theme ?? DEFAULT_THEME);
     this.toggleAttribute("light", !this.hass?.themes?.darkMode);
   }
 

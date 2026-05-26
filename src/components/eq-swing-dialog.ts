@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { setSwingHorizontalMode, setSwingMode } from "../data/actions";
+import { DEFAULT_THEME } from "../const";
 import { SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS, SWING_ORDER } from "../data/climate-modes";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
@@ -212,7 +213,7 @@ export class EquinoxSwingDialog extends LitElement {
   anchor?: { element: HTMLElement };
 
   protected willUpdate(): void {
-    this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.setAttribute("theme", this.config?.theme ?? DEFAULT_THEME);
     this.toggleAttribute("light", !this.hass?.themes?.darkMode);
   }
 

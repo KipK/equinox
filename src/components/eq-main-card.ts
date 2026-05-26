@@ -4,6 +4,7 @@ import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, PRESET_ICONS, PRESET_ORDER, SWING_H
 import { FAN_MODE_ICONS } from "../data/fan";
 import { loadRegulationDashboard, type RegulationDashboardLoadResult } from "../data/regulation-dashboard-loader";
 import { resolveRegulationDashboard } from "../data/regulation-dashboard-resolver";
+import { DEFAULT_THEME } from "../const";
 import { localize } from "../localize/localize";
 import { baseStyles } from "../styles/base";
 import { flatStyles } from "../styles/flat";
@@ -1478,7 +1479,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   protected willUpdate(): void {
-    this.setAttribute("theme", this.config?.theme ?? "flat");
+    this.setAttribute("theme", this.config?.theme ?? DEFAULT_THEME);
     this.toggleAttribute("light", !this.hass?.themes?.darkMode);
     this.toggleAttribute("border-glow-on-action", !!this.config?.border_glow_on_action);
   }
