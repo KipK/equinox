@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from "lit";
 import { setAutoFanMode, setFanMode } from "../data/actions";
 import { DEFAULT_THEME } from "../const";
+import { fanTone } from "../data/colors";
 import { AUTO_FAN_MODES, FAN_MODE_ICONS } from "../data/fan";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
@@ -68,9 +69,62 @@ export class EquinoxFanDialog extends LitElement {
       justify-content: center;
     }
 
+    /* Per-fan-mode palette — each value sets --eq-tone-color, picked up by the
+       shared paint rule below and by the active-row :has() selector. */
+    .fan-option-icon[tone="fan-auto"]    { --eq-tone-color: var(--equinox-fan-auto-color); }
+    .fan-option-icon[tone="fan-off"]     { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
+    .fan-option-icon[tone="fan-low"]     { --eq-tone-color: var(--equinox-fan-low-color); }
+    .fan-option-icon[tone="fan-medium"]  { --eq-tone-color: var(--equinox-fan-medium-color); }
+    .fan-option-icon[tone="fan-high"]    { --eq-tone-color: var(--equinox-fan-high-color); }
+    .fan-option-icon[tone="fan-focus"]   { --eq-tone-color: var(--equinox-fan-focus-color); }
+    .fan-option-icon[tone="fan-diffuse"] { --eq-tone-color: var(--equinox-fan-diffuse-color); }
+
+    .fan-option-icon[tone^="fan-"] {
+      color: var(--eq-tone-color);
+      background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
+    }
+
+    .fan-option[active]:has(.fan-option-icon[tone="fan-auto"])    { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-fan-auto-color) 22%); }
+    .fan-option[active]:has(.fan-option-icon[tone="fan-low"])     { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-fan-low-color) 22%); }
+    .fan-option[active]:has(.fan-option-icon[tone="fan-medium"])  { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-fan-medium-color) 22%); }
+    .fan-option[active]:has(.fan-option-icon[tone="fan-high"])    { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-fan-high-color) 22%); }
+    .fan-option[active]:has(.fan-option-icon[tone="fan-focus"])   { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-fan-focus-color) 22%); }
+    .fan-option[active]:has(.fan-option-icon[tone="fan-diffuse"]) { background: color-mix(in srgb, var(--equinox-control-bg, #1c1c1c) 78%, var(--equinox-fan-diffuse-color) 22%); }
+
+    /* List icon (mobile view) — same palette. */
+    .option-icon[tone^="fan-"] {
+      color: var(--eq-tone-color);
+      background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
+    }
+    .option-icon[tone="fan-auto"]    { --eq-tone-color: var(--equinox-fan-auto-color); }
+    .option-icon[tone="fan-off"]     { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
+    .option-icon[tone="fan-low"]     { --eq-tone-color: var(--equinox-fan-low-color); }
+    .option-icon[tone="fan-medium"]  { --eq-tone-color: var(--equinox-fan-medium-color); }
+    .option-icon[tone="fan-high"]    { --eq-tone-color: var(--equinox-fan-high-color); }
+    .option-icon[tone="fan-focus"]   { --eq-tone-color: var(--equinox-fan-focus-color); }
+    .option-icon[tone="fan-diffuse"] { --eq-tone-color: var(--equinox-fan-diffuse-color); }
+
+    /* Liquid-glow active tone follows the same per-mode color. */
+    :host([theme="liquid_glow"]) .fan-option[active]:has(.fan-option-icon[tone="fan-auto"])    { --equinox-fan-active-tone: var(--equinox-fan-auto-color); }
+    :host([theme="liquid_glow"]) .fan-option[active]:has(.fan-option-icon[tone="fan-low"])     { --equinox-fan-active-tone: var(--equinox-fan-low-color); }
+    :host([theme="liquid_glow"]) .fan-option[active]:has(.fan-option-icon[tone="fan-medium"])  { --equinox-fan-active-tone: var(--equinox-fan-medium-color); }
+    :host([theme="liquid_glow"]) .fan-option[active]:has(.fan-option-icon[tone="fan-high"])    { --equinox-fan-active-tone: var(--equinox-fan-high-color); }
+    :host([theme="liquid_glow"]) .fan-option[active]:has(.fan-option-icon[tone="fan-focus"])   { --equinox-fan-active-tone: var(--equinox-fan-focus-color); }
+    :host([theme="liquid_glow"]) .fan-option[active]:has(.fan-option-icon[tone="fan-diffuse"]) { --equinox-fan-active-tone: var(--equinox-fan-diffuse-color); }
+
     .fan-option[active] .fan-option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
+    }
+
+    .fan-option[active] .fan-option-icon[tone^="fan-"] {
+      background: color-mix(in srgb, var(--eq-tone-color) 18%, transparent);
+      color: var(--eq-tone-color);
+    }
+
+    ha-md-list-item[active] .option-icon[tone^="fan-"] {
+      background: color-mix(in srgb, var(--eq-tone-color) 18%, transparent);
+      color: var(--eq-tone-color);
     }
 
     /* Liquid Glow theme: same active treatment as the segments in liquid-glow.ts —
@@ -247,6 +301,10 @@ export class EquinoxFanDialog extends LitElement {
     return FAN_MODE_ICONS[mode] ?? "mdi:fan-speed-2";
   }
 
+  private _fanTone(mode: string): string {
+    return fanTone(mode);
+  }
+
   private _fanLabel(mode: string): string {
     const label = localize(this.language, `main.fan.${mode}`);
 
@@ -301,7 +359,7 @@ export class EquinoxFanDialog extends LitElement {
                   title=${this._fanLabel(mode)}
                   aria-label=${this._fanLabel(mode)}
                 >
-                  <span class="fan-option-icon">
+                  <span class="fan-option-icon" tone=${this._fanTone(mode)}>
                     <ha-icon .icon=${this._fanIcon(mode)} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span class="fan-option-label">${this._fanLabel(mode)}</span>
@@ -321,7 +379,7 @@ export class EquinoxFanDialog extends LitElement {
                 ?active=${mode === activeMode}
                 @click=${() => this._selectMode(mode)}
               >
-                <span class="option-icon" slot="start">
+                <span class="option-icon" slot="start" tone=${this._fanTone(mode)}>
                   <ha-icon .icon=${this._fanIcon(mode)} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span>${this._fanLabel(mode)}</span>
