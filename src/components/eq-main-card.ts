@@ -321,7 +321,8 @@ export class EquinoxMainCard extends LitElement {
         background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
       }
 
-      .event ha-icon {
+      .event ha-icon,
+      .lock ha-icon {
         --mdc-icon-size: 22px;
       }
 
