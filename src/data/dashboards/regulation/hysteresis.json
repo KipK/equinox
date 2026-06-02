@@ -267,6 +267,7 @@
         {
           "type": "layout_grid",
           "min_width": 300,
+          "center_orphan": true,
           "items": [
             {
               "type": "metric_grid",

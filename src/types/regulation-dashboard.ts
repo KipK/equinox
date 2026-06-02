@@ -217,6 +217,7 @@ export interface RegulationDashboardActionConfirmation {
 export interface RegulationDashboardLayoutGridItem extends RegulationDashboardBaseItem, RegulationDashboardTextFields {
   type: "layout_grid";
   min_width?: number;
+  center_orphan?: boolean;
   items: RegulationDashboardItem[];
 }
 

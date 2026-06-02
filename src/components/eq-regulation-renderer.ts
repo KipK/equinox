@@ -269,9 +269,18 @@ export class EquinoxRegulationRenderer extends LitElement {
     }
 
     .layout-grid {
+      container-type: inline-size;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
       gap: 10px;
+    }
+
+    @container (min-width: 610px) {
+      .layout-grid[center-orphan] > :last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: min(100%, calc((100% - 10px) / 2));
+      }
     }
 
     .layout-section {
@@ -524,6 +533,7 @@ export class EquinoxRegulationRenderer extends LitElement {
           const grid = html`
           <div
             class="layout-grid"
+            ?center-orphan=${item.center_orphan === true}
             style=${item.min_width ? `--grid-min-width: ${item.min_width}px;` : nothing}
           >
             ${item.items.map((subItem) => this._renderItem(subItem))}

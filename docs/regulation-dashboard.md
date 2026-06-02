@@ -579,6 +579,7 @@ Fields:
 | `type` | yes | `"layout_grid"` | |
 | `title`, `title_key` | no | string | Optional heading displayed above the grid. |
 | `min_width` | no | number | Minimum responsive column width in pixels. Defaults to `240`. |
+| `center_orphan` | no | boolean | Centers the last item when it is alone on a desktop two-column row. Useful for 3-card groups. |
 | `items` | yes | array | Child dashboard blocks. |
 
 Example:

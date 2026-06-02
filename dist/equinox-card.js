@@ -13756,6 +13756,7 @@ var Vo = {
 				{
 					type: "layout_grid",
 					min_width: 300,
+					center_orphan: !0,
 					items: [
 						{
 							type: "metric_grid",
@@ -17715,9 +17716,18 @@ var Is = "--", Ls = new Set([
     }
 
     .layout-grid {
+      container-type: inline-size;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
       gap: 10px;
+    }
+
+    @container (min-width: 610px) {
+      .layout-grid[center-orphan] > :last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: min(100%, calc((100% - 10px) / 2));
+      }
     }
 
     .layout-section {
@@ -17919,6 +17929,7 @@ var Is = "--", Ls = new Set([
 				let t = this._translate(e.title_key, e.title), n = T`
           <div
             class="layout-grid"
+            ?center-orphan=${e.center_orphan === !0}
             style=${e.min_width ? `--grid-min-width: ${e.min_width}px;` : D}
           >
             ${e.items.map((e) => this._renderItem(e))}
