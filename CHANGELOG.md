@@ -2,6 +2,9 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## Next
+
+- Add `display_mode: thin`, a two-line control layout with compact HVAC and preset popups for dense dashboards; fan and swing remain available from the menu when supported.
 
 ## 0.1.0
 

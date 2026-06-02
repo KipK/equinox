@@ -247,7 +247,8 @@
       },
       "display_mode": {
         "classic": "Classique",
-        "compact": "Compact"
+        "compact": "Compact",
+        "thin": "Fin"
       },
       "primary_display": {
         "setpoint": "Consigne",

@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Klassinen",
-        "compact": "Kompakti"
+        "compact": "Kompakti",
+        "thin": "Ohut"
       },
       "primary_display": {
         "setpoint": "Asetusarvo",

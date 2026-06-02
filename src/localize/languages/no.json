@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Klassisk",
-        "compact": "Kompakt"
+        "compact": "Kompakt",
+        "thin": "Tynn"
       },
       "primary_display": {
         "setpoint": "Innstillingspunkt",

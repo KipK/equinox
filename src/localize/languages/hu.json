@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Klasszikus",
-        "compact": "Kompakt"
+        "compact": "Kompakt",
+        "thin": "Vékony"
       },
       "primary_display": {
         "setpoint": "Beállított érték",

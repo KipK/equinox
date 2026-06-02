@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Κλασσικό",
-        "compact": "Συμπαγής"
+        "compact": "Συμπαγής",
+        "thin": "Λεπτό"
       },
       "primary_display": {
         "setpoint": "Σημείο ρύθμισης",

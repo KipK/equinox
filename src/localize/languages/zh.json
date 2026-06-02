@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "经典",
-        "compact": "紧凑"
+        "compact": "紧凑",
+        "thin": "纤薄"
       },
       "primary_display": {
         "setpoint": "设定值",

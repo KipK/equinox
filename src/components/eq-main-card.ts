@@ -251,6 +251,11 @@ export class EquinoxMainCard extends LitElement {
         min-height: 100%;
       }
 
+      .card[thin] {
+        gap: 7px;
+        padding: 10px 12px;
+      }
+
       .name {
         display: grid;
         grid-template-columns: minmax(0, 1fr) 28px;
@@ -982,6 +987,198 @@ export class EquinoxMainCard extends LitElement {
         --equinox-selector-icon-size: clamp(15px, 7cqi, 22px);
       }
 
+      .thin-layout {
+        display: grid;
+        grid-template-rows: minmax(26px, auto) minmax(34px, auto);
+        gap: 7px;
+        min-width: 0;
+      }
+
+      .thin-summary,
+      .thin-controls,
+      .thin-readings,
+      .thin-status,
+      .thin-selectors {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .thin-summary {
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .thin-readings {
+        gap: 7px;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .thin-readings .action-icon {
+        width: 24px;
+        height: 24px;
+        flex: 0 0 auto;
+      }
+
+      .thin-current {
+        color: var(--equinox-text-color);
+        font-size: clamp(17px, 7cqi, 24px);
+        line-height: 1;
+        font-weight: var(--ha-font-weight-medium, 500);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .thin-target {
+        color: var(--equinox-muted-color);
+        font-size: clamp(12px, 4.7cqi, 16px);
+        line-height: 1;
+        font-weight: var(--ha-font-weight-medium, 500);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .thin-target[mode="heat"],
+      .thin-target[mode="boost"] {
+        color: var(--equinox-heat-color);
+      }
+
+      .thin-target[mode="cool"] {
+        color: var(--equinox-cool-color);
+      }
+
+      .thin-target[mode="heat-cool"] {
+        color: var(--equinox-heat-cool-color);
+      }
+
+      .thin-target[mode="off"],
+      .thin-target[mode="unavailable"] {
+        color: var(--disabled-text-color, var(--equinox-muted-color));
+      }
+
+      .thin-humidity {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        color: var(--equinox-muted-color);
+        font-size: clamp(11px, 4.2cqi, 14px);
+        line-height: 1;
+        cursor: pointer;
+        flex: 0 1 auto;
+      }
+
+      .thin-humidity ha-icon {
+        --mdc-icon-size: 14px;
+      }
+
+      .thin-status {
+        justify-content: flex-end;
+        gap: 4px;
+        flex: 0 0 auto;
+      }
+
+      .thin-status .events {
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .thin-status .event,
+      .thin-status .action-icon,
+      .thin-status .lock,
+      .thin-status .power-info-button {
+        width: 24px;
+        height: 24px;
+      }
+
+      .thin-status .event ha-icon,
+      .thin-status .action-icon ha-icon,
+      .thin-status .lock ha-icon,
+      .thin-status .power-info-button ha-icon {
+        --mdc-icon-size: 18px;
+      }
+
+      .thin-status .menu {
+        width: 25px;
+        height: 25px;
+      }
+
+      .thin-controls {
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .thin-setpoint {
+        flex: 1 1 auto;
+        min-width: 96px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .thin-setpoint .setpoint-control {
+        width: 100%;
+      }
+
+      .thin-setpoint .target[compact] {
+        font-size: clamp(15px, 5.2cqi, 18px);
+      }
+
+      .thin-range-button {
+        min-width: 0;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        border: 1px solid var(--equinox-mode-control-border-color);
+        border-radius: var(--equinox-control-radius);
+        background: var(--equinox-mode-control-bg);
+        color: var(--equinox-mode-control-text);
+        font: inherit;
+        font-size: clamp(13px, 5cqi, 17px);
+        font-weight: var(--ha-font-weight-medium, 500);
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      .thin-range-button:hover:not(:disabled) {
+        background: var(--equinox-mode-control-hover-bg);
+      }
+
+      .thin-range-button:disabled {
+        cursor: default;
+        opacity: 0.45;
+      }
+
+      .thin-selectors {
+        flex: 0 0 auto;
+        gap: 5px;
+      }
+
+      .thin-selectors ha-control-button {
+        width: clamp(38px, 14cqi, 48px);
+        height: 34px;
+        min-width: 0;
+        border: 1px solid var(--equinox-mode-control-border-color);
+        border-radius: var(--equinox-control-radius);
+        background: var(--equinox-mode-control-bg);
+        overflow: hidden;
+        --control-button-border-radius: var(--equinox-control-radius);
+        --control-button-background-color: transparent;
+        --control-button-background-opacity: 0;
+        --control-button-focus-color: var(--primary-color);
+        --control-button-icon-color: var(--equinox-mode-control-text);
+        --control-button-padding: 0;
+      }
+
+      .thin-selectors .btn-icon {
+        --equinox-selector-icon-size: clamp(16px, 6.5cqi, 21px);
+        width: clamp(22px, 8cqi, 28px);
+        height: clamp(22px, 8cqi, 28px);
+      }
+
       .btn-icon {
         width: 30px;
         height: 30px;
@@ -1279,7 +1476,8 @@ export class EquinoxMainCard extends LitElement {
 
       ha-card[locked] .setpoint-control,
       ha-card[locked] .segments,
-      ha-card[locked] .compact-selectors {
+      ha-card[locked] .compact-selectors,
+      ha-card[locked] .thin-controls {
         opacity: 0.5;
         transition: opacity 0.2s;
       }
@@ -1586,6 +1784,7 @@ export class EquinoxMainCard extends LitElement {
     }
 
     const compact = this.config?.display_mode === "compact";
+    const thin = this.config?.display_mode === "thin";
     const stateIconsVertical = this.config.state_icons_layout === "vertical";
     const lockEffectActive =
       this.viewModel.vt?.lock.isConfigured === true &&
@@ -1599,19 +1798,23 @@ export class EquinoxMainCard extends LitElement {
         tone=${this._cardTone()}
         active-action=${activeHvacAction ?? nothing}
       >
-        <div class="card">
-          ${this._renderName()}
-          ${stateIconsVertical ? nothing : this._renderStatus()}
-          <div class="layout" ?state-vertical=${stateIconsVertical}>
-            <div class="main">
-              ${this._renderSetpoint()}
-              ${this._renderConditions()}
-              ${compact ? this._renderCompactSelectors() : html`${this._renderHvacModes()} ${this._renderPresets()}`}
+        <div class="card" ?thin=${thin}>
+          ${thin
+            ? this._renderThinLayout()
+            : html`
+                ${this._renderName()}
+                ${stateIconsVertical ? nothing : this._renderStatus()}
+                <div class="layout" ?state-vertical=${stateIconsVertical}>
+                  <div class="main">
+                    ${this._renderSetpoint()}
+                    ${this._renderConditions()}
+                    ${compact ? this._renderCompactSelectors() : html`${this._renderHvacModes()} ${this._renderPresets()}`}
+                  </div>
+                  ${stateIconsVertical ? html`<div class="left-rail">${this._renderLeftRail()}</div>` : nothing}
+                  ${stateIconsVertical ? html`<div class="state-rail">${this._renderStateRail()}</div>` : nothing}
+                </div>
+              `}
             </div>
-            ${stateIconsVertical ? html`<div class="left-rail">${this._renderLeftRail()}</div>` : nothing}
-            ${stateIconsVertical ? html`<div class="state-rail">${this._renderStateRail()}</div>` : nothing}
-          </div>
-        </div>
       </ha-card>
       ${this._renderActiveDialogs()}
     `;
@@ -1704,6 +1907,8 @@ export class EquinoxMainCard extends LitElement {
               }
             }}
             @equinox-open-regulation=${(event: CustomEvent<{ sectionId?: string }>) => this._openRegulationDialog(event.detail?.sectionId)}
+            @equinox-open-fan=${() => { this._activeDialog = "fan"; }}
+            @equinox-open-swing=${() => { this._activeDialog = "swing"; }}
             @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
             @equinox-open-history=${() => this._openHistoryDialog()}
           ></eq-menu-dialog>
@@ -1843,6 +2048,146 @@ export class EquinoxMainCard extends LitElement {
         <span class="name-label">${this.viewModel?.climate.name}</span>
         ${this._renderMenuButton()}
       </div>
+    `;
+  }
+
+  private _renderThinLayout(): TemplateResult {
+    return html`
+      <div class="thin-layout">
+        ${this._renderThinSummaryRow()}
+        ${this._renderThinControlRow()}
+      </div>
+    `;
+  }
+
+  private _renderThinSummaryRow(): TemplateResult {
+    const currentHumidity = this.viewModel?.climate.currentHumidity;
+    const showHumidity = finite(currentHumidity);
+    const tempEntityId = this.viewModel?.climate.temperatureEntityId;
+    const lockButtonVisible =
+      !this.config?.hide_lock_button &&
+      this.viewModel?.vt?.lock.isConfigured === true;
+    const lockLabel = this.viewModel?.vt?.lock.isLocked
+      ? localize(this._language(), "main.lock.locked")
+      : localize(this._language(), "main.lock.unlocked");
+
+    return html`
+      <div class="thin-summary">
+        <div class="thin-readings">
+          ${this._renderHvacStateIcon()}
+          <span
+            class="thin-current"
+            ?clickable=${!!tempEntityId}
+            @click=${tempEntityId ? () => this._openMoreInfo(tempEntityId) : nothing}
+          >
+            ${this._formatCurrentTemp()}
+          </span>
+          <span class="thin-target" mode=${this._targetTone()}>${this._formatTargetTempSummary()}</span>
+          ${showHumidity
+            ? html`
+                <span class="thin-humidity" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
+                  <ha-icon icon="mdi:water-percent"></ha-icon>
+                  <span>${this._formatPercent(currentHumidity)}</span>
+                </span>
+              `
+            : nothing}
+        </div>
+        <div class="thin-status">
+          ${this._renderPowerInfoButton()}
+          <div class="events">${this._renderEvents()}</div>
+          ${lockButtonVisible ? this._renderLockButton(lockLabel) : nothing}
+          ${this._renderMenuButton()}
+        </div>
+      </div>
+    `;
+  }
+
+  private _renderThinControlRow(): TemplateResult {
+    return html`
+      <div class="thin-controls">
+        <div class="thin-setpoint">
+          ${this._hasTemperatureRangeControl()
+            ? this._renderThinRangeButton()
+            : this._renderTemperatureControl(true)}
+        </div>
+        ${this._renderThinSelectors()}
+      </div>
+    `;
+  }
+
+  private _renderThinRangeButton(): TemplateResult {
+    return html`
+      <button
+        class="thin-range-button"
+        ?disabled=${this._isControlDisabled()}
+        @click=${() => {
+          if (!this._isControlDisabled()) {
+            this._openMoreInfo(this.config!.entity);
+          }
+        }}
+      >
+        ${this._formatTargetTempSummary()}
+      </button>
+    `;
+  }
+
+  private _renderThinSelectors(): TemplateResult | typeof nothing {
+    const hvac = this._renderThinHvacButton();
+    const preset = this._renderThinPresetButton();
+
+    if (hvac === nothing && preset === nothing) {
+      return nothing;
+    }
+
+    return html`<div class="thin-selectors">${hvac}${preset}</div>`;
+  }
+
+  private _renderThinHvacButton(): TemplateResult | typeof nothing {
+    const hvacMode = this.viewModel?.climate.hvacMode;
+    const availableHvacModes = this._visibleHvacModes();
+    const currentHvacMode = hvacMode && availableHvacModes.includes(hvacMode) ? hvacMode : undefined;
+
+    if (availableHvacModes.length === 0) {
+      return nothing;
+    }
+
+    return html`
+      <ha-control-button
+        .label=${currentHvacMode ? this._hvacLabel(currentHvacMode) : localize(this._language(), "dialog.hvac.title")}
+        tone=${this._modeTone(currentHvacMode)}
+        ?active=${currentHvacMode !== "off" && !!currentHvacMode}
+        ?subtle=${true}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(event: Event) => this._openDialog("hvac", event)}
+      >
+        <span class="btn-icon" tone=${this._modeTone(currentHvacMode)}>
+          <ha-icon .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}></ha-icon>
+        </span>
+      </ha-control-button>
+    `;
+  }
+
+  private _renderThinPresetButton(): TemplateResult | typeof nothing {
+    const preset = this.viewModel?.climate.presetMode;
+    const availablePresets = this._visiblePresetModes();
+    const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:hand-back-right-outline";
+    const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
+
+    if (availablePresets.length === 0) {
+      return nothing;
+    }
+
+    return html`
+      <ha-control-button
+        .label=${preset && preset !== "none" ? this._presetLabel(preset) : localize(this._language(), "main.preset.none")}
+        tone=${presetActive ? this._presetTone(preset!) : ""}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(event: Event) => this._openDialog("preset", event)}
+      >
+        <span class="btn-icon" tone=${presetActive ? this._presetTone(preset!) : ""}>
+          <ha-icon .icon=${presetIcon}></ha-icon>
+        </span>
+      </ha-control-button>
     `;
   }
 
@@ -2799,6 +3144,23 @@ export class EquinoxMainCard extends LitElement {
       minimumFractionDigits: dec,
       maximumFractionDigits: dec
     }).format(value);
+  }
+
+  private _formatTargetTempSummary(): string {
+    if (this._hasTemperatureRangeControl()) {
+      const low = this._rangeSetpointFallback("low");
+      const high = this._rangeSetpointFallback("high");
+
+      if (low && high) {
+        return `${low}°-${high}°`;
+      }
+
+      return low || high ? `${low || high}°` : "--.-°";
+    }
+
+    const value = this._setpointFallback();
+
+    return value ? `${value}°` : "--.-°";
   }
 
   private _onSetpointFocus(e: Event): void {

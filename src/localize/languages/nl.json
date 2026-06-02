@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Klassiek",
-        "compact": "Compact"
+        "compact": "Compact",
+        "thin": "Smal"
       },
       "primary_display": {
         "setpoint": "Zet punt",

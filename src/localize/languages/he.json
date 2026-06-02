@@ -230,7 +230,8 @@
       },
       "display_mode": {
         "classic": "קלאסי",
-        "compact": "קומפקטי"
+        "compact": "קומפקטי",
+        "thin": "דק"
       },
       "primary_display": {
         "setpoint": "ערך יעד",

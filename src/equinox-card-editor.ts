@@ -314,7 +314,8 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
             mode: "dropdown",
             options: [
               { value: "classic", label: localize(language, "editor.options.display_mode.classic") },
-              { value: "compact", label: localize(language, "editor.options.display_mode.compact") }
+              { value: "compact", label: localize(language, "editor.options.display_mode.compact") },
+              { value: "thin", label: localize(language, "editor.options.display_mode.thin") }
             ]
           }
         }

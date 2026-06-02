@@ -125,7 +125,7 @@ additional_dashboards: auto
 | `power_entity`          | no       | -                    | Sensor or input number for instant power.                      |
 | `humidity_entity`       | no       | -                    | External humidity sensor when climate humidity is unavailable. |
 | `theme`                 | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                         |
-| `display_mode`          | no       | `classic`            | Display format: `classic` or `compact`.                        |
+| `display_mode`          | no       | `classic`            | Display format: `classic`, `compact`, or `thin`.               |
 | `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`.                        |
 | `card_background_color` | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. HVAC and preset selectors follow this surface. |
 | `card_background_opacity` | no     | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent. |

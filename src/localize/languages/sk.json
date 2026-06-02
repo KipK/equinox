@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Klasický",
-        "compact": "Kompaktný"
+        "compact": "Kompaktný",
+        "thin": "Tenký"
       },
       "primary_display": {
         "setpoint": "Nastavená teplota",

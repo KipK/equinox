@@ -6,13 +6,13 @@ import {
 } from "../const";
 
 export const EQUINOX_THEMES = ["flat", "liquid_glow"] as const;
-export const EQUINOX_DISPLAY_MODES = ["classic", "compact"] as const;
+export const EQUINOX_DISPLAY_MODES = ["classic", "compact", "thin"] as const;
 export const EQUINOX_PRIMARY_DISPLAYS = ["setpoint", "sensors"] as const;
 export const EQUINOX_ADDITIONAL_DASHBOARDS = ["auto", "custom", "disabled"] as const;
 export const EQUINOX_LAYOUT_ORIENTATIONS = ["horizontal", "vertical"] as const;
 
 export type EquinoxTheme = "flat" | "liquid_glow";
-export type EquinoxDisplayMode = "classic" | "compact";
+export type EquinoxDisplayMode = "classic" | "compact" | "thin";
 export type EquinoxPrimaryDisplay = "setpoint" | "sensors";
 export type EquinoxAdditionalDashboards = "auto" | "custom" | "disabled";
 export type EquinoxLayoutOrientation = "horizontal" | "vertical";

@@ -247,7 +247,8 @@
       },
       "display_mode": {
         "classic": "Classic",
-        "compact": "Compact"
+        "compact": "Compact",
+        "thin": "Thin"
       },
       "primary_display": {
         "setpoint": "Setpoint",

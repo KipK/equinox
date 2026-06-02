@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Klasyczny",
-        "compact": "Kompaktowy"
+        "compact": "Kompaktowy",
+        "thin": "Cienki"
       },
       "primary_display": {
         "setpoint": "Punkt zadany",

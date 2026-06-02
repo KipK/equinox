@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Klassisch",
-        "compact": "Kompakt"
+        "compact": "Kompakt",
+        "thin": "Schmal"
       },
       "primary_display": {
         "setpoint": "Sollwert",

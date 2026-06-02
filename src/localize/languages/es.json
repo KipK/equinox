@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Clásico",
-        "compact": "Compacto"
+        "compact": "Compacto",
+        "thin": "Delgado"
       },
       "primary_display": {
         "setpoint": "Consigna",

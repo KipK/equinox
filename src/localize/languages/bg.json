@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Класически",
-        "compact": "Компактен"
+        "compact": "Компактен",
+        "thin": "Тънък"
       },
       "primary_display": {
         "setpoint": "Зададена температура",

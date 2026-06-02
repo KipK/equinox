@@ -222,7 +222,8 @@
       },
       "display_mode": {
         "classic": "Классический",
-        "compact": "Компактный"
+        "compact": "Компактный",
+        "thin": "Тонкий"
       },
       "primary_display": {
         "setpoint": "Уставка",
