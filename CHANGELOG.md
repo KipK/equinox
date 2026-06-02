@@ -102,3 +102,9 @@ All notable changes to Equinox will be documented in this file.
 
 - Align icons and colors with Home Assistant conventions n( thanks @yosef-chai )
 - set default theme to glow
+
+## 0.1.11
+
+- improve vtherm-hysteresis regulation dashboard layout and diagnostics
+- center orphan regulation grid items
+- updated ha-better-history to 0.2.6
