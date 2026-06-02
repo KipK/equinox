@@ -6,3 +6,4 @@ node_modules/
 *.log
 *.bak
 build.sh
+.agents/
