@@ -50,6 +50,10 @@ export class EquinoxRegulationDialog extends LitElement {
       min-height: min(460px, calc(100vh - 160px));
     }
 
+    .layout[single-section] {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .section-nav {
       display: flex;
       flex-direction: column;
@@ -347,7 +351,7 @@ export class EquinoxRegulationDialog extends LitElement {
     }
 
     return html`
-      <div class="layout">
+      <div class="layout" ?single-section=${this.dashboard.sections.length === 1}>
         ${this.dashboard.sections.length > 1
           ? html`
               <nav class="section-nav" aria-label=${localize(this.language, "dialog.regulation.sections")}>

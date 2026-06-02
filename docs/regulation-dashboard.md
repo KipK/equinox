@@ -43,7 +43,7 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 Built-in dashboards currently include:
 
 - `smartpi.json` — Smart PI regulation overview, A/B learning, thermal model reliability, including the `ab_bootstrap` confidence state, command breakdown, and safety actions.
-- `hysteresis.json`
+- `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
 
 ## Diagnostic Entity Detection
 
@@ -163,12 +163,13 @@ Each dashboard contains one or more sections.
 | `summary_key` | no | string | Translation key for section summary. |
 | `items` | yes | array | Dashboard blocks rendered in order. |
 
-Desktop dashboards use a side section menu inside the dialog. On mobile, the
-Regulation menu entry opens the first dashboard section directly. Multi-section
-dashboards expose their section list through a bottom floating Sections button;
-the section list opens as a bottom sheet. Browser Back/Forward follows
-Regulation dialog and section navigation; opening the section sheet does not add
-a browser-history entry.
+Desktop dashboards use a side section menu inside the dialog when they contain
+multiple sections. Single-section dashboards use the full dialog width without a
+reserved navigation column. On mobile, the Regulation menu entry opens the first
+dashboard section directly. Multi-section dashboards expose their section list
+through a bottom floating Sections button; the section list opens as a bottom
+sheet. Browser Back/Forward follows Regulation dialog and section navigation;
+opening the section sheet does not add a browser-history entry.
 
 ## Translations
 
