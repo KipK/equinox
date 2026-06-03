@@ -1852,6 +1852,15 @@ export class EquinoxMainCard extends LitElement {
     };
   }
 
+  private _clearBrowserHistoryState(): void {
+    const current = typeof window.history.state === "object" && window.history.state !== null
+      ? { ...(window.history.state as Record<string, unknown>) }
+      : {};
+
+    delete current[BROWSER_HISTORY_STATE_KEY];
+    window.history.replaceState(current, "", window.location.href);
+  }
+
   private _sameBrowserHistoryEntry(entry: Omit<BrowserHistoryEntry, "instanceId">): boolean {
     const current = this._browserHistoryEntry();
     return (
@@ -1959,7 +1968,7 @@ export class EquinoxMainCard extends LitElement {
     if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "sensor-more-info-dialog") {
       this._activeDialog = null;
       this._activeSensorInfoTarget = undefined;
-      window.history.back();
+      this._clearBrowserHistoryState();
       return;
     }
 

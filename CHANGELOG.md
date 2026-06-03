@@ -21,6 +21,7 @@ All notable changes to Equinox will be documented in this file.
 - Keep thin-mode humidity displayed as a reading for narrower cards when only one extra selector, such as ventilation, is present.
 - Color the normal setpoint slider thumb with the active mode tone to match its filled track.
 - Add browser Back/Forward history support for sensor more-info dialogs.
+- Fix sensor more-info close so it clears its local browser-history state without navigating to the previous page.
 
 ## 0.1.0
 
