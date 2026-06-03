@@ -23,6 +23,8 @@ All notable changes to Equinox will be documented in this file.
 - Add browser Back/Forward history support for sensor more-info dialogs.
 - Fix sensor more-info close so it clears its local browser-history state without navigating to the previous page.
 - Hide the name and hide-name editor fields when `display_mode: thin` is selected.
+- Show the configured humidity entity in the default history only when the climate does not already expose `current_humidity`.
+- Replace the temporary boost circular duration selector with a horizontal slider matching the popup setpoint control.
 
 ## 0.1.0
 

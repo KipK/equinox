@@ -196,9 +196,12 @@ export class EquinoxHistoryDialog extends LitElement {
 
   private _betterHistoryConfig(): BetterHistoryConfig {
     const climateEntityId = this.config?.entity;
+    const climateState = climateEntityId ? this.hass?.states[climateEntityId] : undefined;
+    const climateHasHumidity = climateState?.attributes.current_humidity !== undefined;
+    const humidityEntity = climateHasHumidity ? undefined : this.config?.humidity_entity;
     const lang = this.language ?? this.hass?.locale?.language;
     const diagnosticEntity = this.config && this.hass ? resolveRegulationDiagnosticEntity(this.hass, this.config) : undefined;
-    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${diagnosticEntity ?? ""}|${this.config?.power_entity ?? ""}|${this.config?.humidity_entity ?? ""}|${this.config?.temperature_entity ?? ""}`;
+    const key = `${climateEntityId ?? ""}|${lang ?? ""}|${diagnosticEntity ?? ""}|${this.config?.power_entity ?? ""}|${humidityEntity ?? ""}|${this.config?.temperature_entity ?? ""}|${climateHasHumidity ? "climate-humidity" : "external-humidity"}`;
 
     if (key === this._configCacheKey && this._configCache) return this._configCache;
 
@@ -208,7 +211,7 @@ export class EquinoxHistoryDialog extends LitElement {
       climateEntityId,
       diagnosticEntity,
       this.config?.power_entity,
-      this.config?.humidity_entity,
+      humidityEntity,
       this.config?.temperature_entity
     ].filter((id): id is string => typeof id === "string" && id !== "");
 

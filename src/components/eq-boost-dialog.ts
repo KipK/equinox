@@ -27,81 +27,127 @@ export class EquinoxBoostDialog extends LitElement {
 
   static styles = css`
     .boost-body {
-      --boost-wheel-size: clamp(92px, min(34vw, 20vh), 136px);
       display: grid;
-      grid-template-rows: minmax(34px, 40px);
       align-content: center;
       align-items: center;
-      gap: clamp(8px, 1.6vh, 12px);
+      gap: 16px;
       justify-items: center;
-      min-width: 210px;
-      width: max-content;
+      min-width: min(320px, calc(100vw - 56px));
       max-width: calc(100vw - 48px);
       overflow: visible;
+      padding: 4px 0 2px;
+      color: var(--primary-text-color, #fff);
     }
 
-    .boost-body[has-wheel] {
-      grid-template-rows: auto minmax(34px, 40px);
-    }
-
-    .boost-wheel-shell {
-      box-sizing: border-box;
-      width: var(--boost-wheel-size);
-      height: var(--boost-wheel-size);
-      max-width: 100%;
-      display: grid;
-      place-items: center;
-      position: relative;
-    }
-
-    .boost-wheel {
-      grid-area: 1 / 1;
-      width: var(--boost-wheel-size);
-      height: var(--boost-wheel-size);
-      display: block;
-      z-index: 0;
-      --clear-background-color: var(--equinox-card-bg, var(--card-background-color, #111820));
-      --control-circular-slider-color: var(--equinox-boost-color, var(--accent-color));
-      --control-circular-slider-background: color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 22%, var(--disabled-color, #5e6975));
-      --control-circular-slider-background-opacity: 0.3;
-      --control-circular-slider-margin-top: 0;
-    }
-
-    .boost-wheel[disabled] {
-      opacity: 1;
-    }
-
-    .wheel-value {
-      grid-area: 1 / 1;
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .duration-value {
+      display: inline-flex;
+      align-items: baseline;
       justify-content: center;
-      pointer-events: none;
+      min-width: 0;
+      color: var(--equinox-boost-color, var(--accent-color));
+      font-size: 32px;
       line-height: 1;
+      font-weight: var(--ha-font-weight-medium, 500);
       white-space: nowrap;
     }
 
-    .wheel-number {
-      color: var(--equinox-boost-color, var(--accent-color));
-      font-size: clamp(22px, calc(var(--boost-wheel-size) * 0.23), 36px);
-      font-weight: 700;
-      letter-spacing: 0;
+    .duration-slider-panel {
+      display: grid;
+      gap: 8px;
+      width: 100%;
+      min-width: 0;
     }
 
-    .wheel-unit {
-      margin-top: clamp(4px, calc(var(--boost-wheel-size) * 0.04), 8px);
-      color: var(--equinox-muted-color, var(--secondary-text-color, #9ba3ad));
-      font-size: clamp(16px, calc(var(--boost-wheel-size) * 0.12), 25px);
-      font-weight: 600;
+    .duration-slider-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--secondary-text-color, rgba(255, 255, 255, 0.62));
+      font-size: 12px;
+      line-height: 1;
     }
 
-    .wheel-unit:empty {
-      display: none;
+    .duration-slider {
+      --eq-slider-track: color-mix(in srgb, var(--primary-text-color, #fff) 12%, transparent);
+      --eq-slider-active: var(--equinox-boost-color, var(--accent-color));
+      --eq-slider-thumb-size: 22px;
+      --eq-single-value: 50%;
+      position: relative;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .duration-track {
+      position: absolute;
+      left: calc(var(--eq-slider-thumb-size) / 2);
+      right: calc(var(--eq-slider-thumb-size) / 2);
+      top: 50%;
+      height: 6px;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      pointer-events: none;
+      background:
+        linear-gradient(
+          90deg,
+          var(--eq-slider-active) 0%,
+          var(--eq-slider-active) var(--eq-single-value),
+          var(--eq-slider-track) var(--eq-single-value),
+          var(--eq-slider-track) 100%
+        );
+    }
+
+    .duration-slider input {
+      position: absolute;
+      inset-inline: 0;
+      top: 50%;
+      width: 100%;
+      height: 22px;
+      margin: 0;
+      transform: translateY(-50%);
+      appearance: none;
+      background: transparent;
+      color: var(--eq-slider-active);
+      cursor: pointer;
+    }
+
+    .duration-slider input:disabled {
+      cursor: default;
+      opacity: 0.45;
+    }
+
+    .duration-slider input::-webkit-slider-thumb {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      margin-top: -8px;
+      border-radius: 50%;
+      border: 0;
+      background: currentColor;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
+      pointer-events: auto;
+    }
+
+    .duration-slider input::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 0;
+      background: currentColor;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
+      pointer-events: auto;
+    }
+
+    .duration-slider input::-webkit-slider-runnable-track {
+      appearance: none;
+      height: 6px;
+      background: transparent;
+    }
+
+    .duration-slider input::-moz-range-track {
+      height: 6px;
+      background: transparent;
     }
 
     .action-button {
@@ -207,16 +253,10 @@ export class EquinoxBoostDialog extends LitElement {
 
     @media (max-width: 600px) {
       .boost-body {
-        --boost-wheel-size: clamp(84px, min(40vw, 18vh), 132px);
         min-width: 0;
         width: 100%;
         max-width: 100%;
         padding-top: 8px;
-      }
-
-      .boost-wheel-shell {
-        width: var(--boost-wheel-size);
-        height: var(--boost-wheel-size);
       }
 
       .action-button {
@@ -266,8 +306,8 @@ export class EquinoxBoostDialog extends LitElement {
     this._durationMinutes = value;
   }
 
-  private _onDurationChange(event: CustomEvent<{ value?: number }>): void {
-    const index = Number(event.detail.value);
+  private _onDurationInput(event: Event): void {
+    const index = Number((event.target as HTMLInputElement).value);
 
     if (!Number.isFinite(index)) {
       return;
@@ -321,6 +361,13 @@ export class EquinoxBoostDialog extends LitElement {
     );
   }
 
+  private _durationPercent(duration: number): string {
+    const max = BOOST_DURATIONS.length - 1;
+    const index = this._durationIndex(duration);
+
+    return max > 0 ? `${(index / max) * 100}%` : "0%";
+  }
+
   private _formatDuration(duration: number): { value: string; unit: string } {
     if (duration < 60) {
       return { value: `${duration}${localize(this.language, "dialog.boost.minutes")}`, unit: "" };
@@ -358,24 +405,26 @@ export class EquinoxBoostDialog extends LitElement {
         @eq-dialog-close=${this._dispatchClose}
         @eq-dialog-back=${this._dispatchBack}
       >
-        <div class="boost-body" ?has-wheel=${hasTimedPreset}>
+        <div class="boost-body">
           ${hasTimedPreset
             ? html`
-                <div class="boost-wheel-shell">
-                  <ha-control-circular-slider
-                    class="boost-wheel"
-                    .mode=${"start"}
-                    .min=${0}
-                    .max=${BOOST_DURATIONS.length - 1}
-                    .step=${1}
-                    .value=${this._durationIndex(displayedDuration)}
-                    ?disabled=${disabled || isActive}
-                    @value-changed=${this._onDurationChange}
-                    @value-changing=${this._onDurationChange}
-                  ></ha-control-circular-slider>
-                  <div class="wheel-value">
-                    <span class="wheel-number">${displayedDurationLabel.value}</span>
-                    <span class="wheel-unit">${displayedDurationLabel.unit}</span>
+                <div class="duration-value">${displayedDurationLabel.value}</div>
+                <div class="duration-slider-panel">
+                  <div class="duration-slider" style=${`--eq-single-value: ${this._durationPercent(displayedDuration)};`}>
+                    <div class="duration-track"></div>
+                    <input
+                      type="range"
+                      min="0"
+                      max=${BOOST_DURATIONS.length - 1}
+                      step="1"
+                      .value=${String(this._durationIndex(displayedDuration))}
+                      ?disabled=${disabled || isActive}
+                      @input=${this._onDurationInput}
+                    >
+                  </div>
+                  <div class="duration-slider-labels">
+                    <span>${this._formatDuration(BOOST_DURATIONS[0]).value}</span>
+                    <span>${this._formatDuration(BOOST_DURATIONS[BOOST_DURATIONS.length - 1]).value}</span>
                   </div>
                 </div>
               `
