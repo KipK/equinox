@@ -14,6 +14,7 @@ All notable changes to Equinox will be documented in this file.
 - Align the sensor more-info dialog more closely with Home Assistant's more-info layout: breadcrumb/title typography, unframed sensor rows, HA state icon color, rounded corners, and a History heading above the chart.
 - Move the Regulation dialog close button to the left to match Home Assistant dialog placement.
 - Use HA-style rounded corners only for true centered Equinox dialogs, keeping popups and menus on the standard popup shape.
+- Make the popup setpoint dialog visually consistent between single-temperature and heat/cool range modes, with borderless slider thumbs and unframed range values.
 
 ## 0.1.0
 

@@ -106,25 +106,21 @@ export class EquinoxTemperatureDialog extends LitElement {
       --eq-slider-track: color-mix(in srgb, var(--primary-text-color, #fff) 12%, transparent);
       --eq-slider-active: var(--eq-temperature-tone, var(--primary-color, #03a9f4));
       position: relative;
-      height: 34px;
+      height: 42px;
       display: flex;
       align-items: center;
     }
 
-    .single-slider input,
-    .range-slider input {
-      width: 100%;
-      margin: 0;
-      accent-color: var(--eq-slider-active);
-      cursor: pointer;
+    .single-slider {
+      --eq-single-value: 50%;
     }
 
     .range-slider {
       --eq-range-low: 0%;
       --eq-range-high: 100%;
-      height: 42px;
     }
 
+    .single-track,
     .range-track {
       position: absolute;
       left: 0;
@@ -133,6 +129,21 @@ export class EquinoxTemperatureDialog extends LitElement {
       height: 6px;
       transform: translateY(-50%);
       border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .single-track {
+      background:
+        linear-gradient(
+          90deg,
+          var(--eq-slider-active) 0%,
+          var(--eq-slider-active) var(--eq-single-value),
+          var(--eq-slider-track) var(--eq-single-value),
+          var(--eq-slider-track) 100%
+        );
+    }
+
+    .range-track {
       background:
         linear-gradient(
           90deg,
@@ -143,46 +154,58 @@ export class EquinoxTemperatureDialog extends LitElement {
           var(--eq-slider-track) var(--eq-range-high),
           var(--eq-slider-track) 100%
         );
-      pointer-events: none;
     }
 
+    .single-slider input,
     .range-slider input {
       position: absolute;
       inset-inline: 0;
       top: 50%;
+      width: 100%;
+      height: 22px;
+      margin: 0;
       transform: translateY(-50%);
       appearance: none;
       background: transparent;
+      cursor: pointer;
+    }
+
+    .range-slider input {
       pointer-events: none;
     }
 
+    .single-slider input::-webkit-slider-thumb,
     .range-slider input::-webkit-slider-thumb {
       appearance: none;
       width: 22px;
       height: 22px;
+      margin-top: -8px;
       border-radius: 50%;
-      border: 2px solid var(--card-background-color, #202020);
+      border: 0;
       background: currentColor;
       box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
       pointer-events: auto;
     }
 
+    .single-slider input::-moz-range-thumb,
     .range-slider input::-moz-range-thumb {
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      border: 2px solid var(--card-background-color, #202020);
+      border: 0;
       background: currentColor;
       box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
       pointer-events: auto;
     }
 
+    .single-slider input::-webkit-slider-runnable-track,
     .range-slider input::-webkit-slider-runnable-track {
       appearance: none;
       height: 6px;
       background: transparent;
     }
 
+    .single-slider input::-moz-range-track,
     .range-slider input::-moz-range-track {
       height: 6px;
       background: transparent;
@@ -199,39 +222,30 @@ export class EquinoxTemperatureDialog extends LitElement {
     }
 
     .range-values {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 10px;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 24px;
+      min-height: 32px;
     }
 
     .range-value {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      min-width: 0;
-      padding: 8px 10px;
-      border-radius: var(--equinox-control-radius, 8px);
-      background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
-      border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
-      font-size: 13px;
-      line-height: 1;
-    }
-
-    .range-value strong {
       display: inline-flex;
-      align-items: baseline;
-      justify-content: flex-end;
+      align-items: center;
+      justify-content: center;
       gap: 1px;
-      font-size: 18px;
+      min-width: 0;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: var(--ha-font-weight-medium, 500);
       white-space: nowrap;
     }
 
-    .range-value[bound="low"] strong {
+    .range-value[bound="low"] {
       color: var(--equinox-heat-color, #ff8a1c);
     }
 
-    .range-value[bound="high"] strong {
+    .range-value[bound="high"] {
       color: var(--equinox-cool-color, #4da1ff);
     }
 
@@ -360,6 +374,10 @@ export class EquinoxTemperatureDialog extends LitElement {
     const span = this._max() - min;
 
     return span > 0 ? `${((value - min) / span) * 100}%` : "0%";
+  }
+
+  private _singlePercent(): string {
+    return this._rangePercent(this._singleValue());
   }
 
   private _onSingleInput(event: Event): void {
@@ -521,7 +539,8 @@ export class EquinoxTemperatureDialog extends LitElement {
           </span>
         </div>
         <div class="slider-panel">
-          <div class="single-slider" style=${`--eq-temperature-tone: ${this._toneColor()};`}>
+          <div class="single-slider" style=${`--eq-temperature-tone: ${this._toneColor()}; --eq-single-value: ${this._singlePercent()};`}>
+            <div class="single-track"></div>
             <input
               type="range"
               min=${this._min()}
@@ -545,43 +564,35 @@ export class EquinoxTemperatureDialog extends LitElement {
   private _renderRange() {
     const low = this._lowValue();
     const high = this._highValue();
-    const lowLabel = localize(this.language, "main.actions.low_temperature");
-    const highLabel = localize(this.language, "main.actions.high_temperature");
 
     return html`
       <div class="temperature-body ${this._isDisabled() ? "disabled" : ""}">
         <div class="range-values">
           <span class="range-value" bound="low">
-            <span>${lowLabel}</span>
-            <strong>
-              <input
-                class="range-input"
-                type="text"
-                inputmode="decimal"
-                .value=${this._formatInput(low)}
-                ?disabled=${this._isDisabled()}
-                @focus=${this._onTextFocus}
-                @keydown=${this._onTextKeyDown}
-                @blur=${(event: Event) => this._onRangeTextBlur("low", event)}
-              >
-              <span class="value-unit">°</span>
-            </strong>
+            <input
+              class="range-input"
+              type="text"
+              inputmode="decimal"
+              .value=${this._formatInput(low)}
+              ?disabled=${this._isDisabled()}
+              @focus=${this._onTextFocus}
+              @keydown=${this._onTextKeyDown}
+              @blur=${(event: Event) => this._onRangeTextBlur("low", event)}
+            >
+            <span class="value-unit">°</span>
           </span>
           <span class="range-value" bound="high">
-            <span>${highLabel}</span>
-            <strong>
-              <input
-                class="range-input"
-                type="text"
-                inputmode="decimal"
-                .value=${this._formatInput(high)}
-                ?disabled=${this._isDisabled()}
-                @focus=${this._onTextFocus}
-                @keydown=${this._onTextKeyDown}
-                @blur=${(event: Event) => this._onRangeTextBlur("high", event)}
-              >
-              <span class="value-unit">°</span>
-            </strong>
+            <input
+              class="range-input"
+              type="text"
+              inputmode="decimal"
+              .value=${this._formatInput(high)}
+              ?disabled=${this._isDisabled()}
+              @focus=${this._onTextFocus}
+              @keydown=${this._onTextKeyDown}
+              @blur=${(event: Event) => this._onRangeTextBlur("high", event)}
+            >
+            <span class="value-unit">°</span>
           </span>
         </div>
         <div class="slider-panel">
