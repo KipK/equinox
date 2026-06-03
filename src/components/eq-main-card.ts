@@ -1015,10 +1015,10 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-layout {
         display: grid;
-        grid-template-columns: minmax(24px, auto) minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto;
         grid-template-areas:
-          "state readings status"
-          "controls controls extra";
+          "readings status"
+          "controls extra";
         grid-template-rows: minmax(24px, auto) minmax(34px, auto);
         align-items: center;
         gap: 7px 8px;
@@ -1026,7 +1026,6 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-summary,
-      .thin-state,
       .thin-controls,
       .thin-readings,
       .thin-status,
@@ -1034,12 +1033,6 @@ export class EquinoxMainCard extends LitElement {
         min-width: 0;
         display: flex;
         align-items: center;
-      }
-
-      .thin-state {
-        grid-area: state;
-        justify-content: flex-start;
-        min-width: 24px;
       }
 
       .thin-summary {
@@ -1267,7 +1260,7 @@ export class EquinoxMainCard extends LitElement {
         .thin-layout {
           grid-template-columns: minmax(0, 1fr) auto;
           grid-template-areas:
-            "state status"
+            "status status"
             "readings extra"
             "controls controls";
           grid-template-rows: minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
@@ -1275,7 +1268,7 @@ export class EquinoxMainCard extends LitElement {
 
         .thin-layout:not([has-extra]) {
           grid-template-areas:
-            "state status"
+            "status status"
             "readings readings"
             "controls controls";
         }
@@ -2226,9 +2219,6 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="thin-summary">
-        <div class="thin-state">
-          ${this._renderHvacStateIcon()}
-        </div>
         <div class="thin-readings">
           <span
             class="thin-current"
@@ -2249,7 +2239,7 @@ export class EquinoxMainCard extends LitElement {
         </div>
         <div class="thin-status">
           ${this._renderPowerInfoButton()}
-          <div class="events">${this._renderEvents()}</div>
+          <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
           ${lockButtonVisible ? this._renderLockButton(lockLabel) : nothing}
           ${this._renderMenuButton()}
         </div>

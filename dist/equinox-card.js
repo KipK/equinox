@@ -20876,10 +20876,10 @@ var fc = class extends O {
 
       .thin-layout {
         display: grid;
-        grid-template-columns: minmax(24px, auto) minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto;
         grid-template-areas:
-          "state readings status"
-          "controls controls extra";
+          "readings status"
+          "controls extra";
         grid-template-rows: minmax(24px, auto) minmax(34px, auto);
         align-items: center;
         gap: 7px 8px;
@@ -20887,7 +20887,6 @@ var fc = class extends O {
       }
 
       .thin-summary,
-      .thin-state,
       .thin-controls,
       .thin-readings,
       .thin-status,
@@ -20895,12 +20894,6 @@ var fc = class extends O {
         min-width: 0;
         display: flex;
         align-items: center;
-      }
-
-      .thin-state {
-        grid-area: state;
-        justify-content: flex-start;
-        min-width: 24px;
       }
 
       .thin-summary {
@@ -21128,7 +21121,7 @@ var fc = class extends O {
         .thin-layout {
           grid-template-columns: minmax(0, 1fr) auto;
           grid-template-areas:
-            "state status"
+            "status status"
             "readings extra"
             "controls controls";
           grid-template-rows: minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
@@ -21136,7 +21129,7 @@ var fc = class extends O {
 
         .thin-layout:not([has-extra]) {
           grid-template-areas:
-            "state status"
+            "status status"
             "readings readings"
             "controls controls";
         }
@@ -21840,9 +21833,6 @@ var fc = class extends O {
 		let e = this.viewModel?.climate.currentHumidity, t = J(e), n = this.viewModel?.climate.temperatureEntityId, r = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, i = this.viewModel?.vt?.lock.isLocked ? V(this._language(), "main.lock.locked") : V(this._language(), "main.lock.unlocked");
 		return T`
       <div class="thin-summary">
-        <div class="thin-state">
-          ${this._renderHvacStateIcon()}
-        </div>
         <div class="thin-readings">
           <span
             class="thin-current"
@@ -21861,7 +21851,7 @@ var fc = class extends O {
         </div>
         <div class="thin-status">
           ${this._renderPowerInfoButton()}
-          <div class="events">${this._renderEvents()}</div>
+          <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
           ${r ? this._renderLockButton(i) : D}
           ${this._renderMenuButton()}
         </div>
