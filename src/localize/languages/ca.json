@@ -202,6 +202,7 @@
     "theme": "Theme",
     "display_mode": "Format",
     "primary_display": "Display priority",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Color de fons de la targeta",
     "card_background_opacity": "Opacitat del fons de la targeta",
     "disable_name": "Hide name",

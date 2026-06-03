@@ -219,6 +219,7 @@
     "theme": "Thème",
     "display_mode": "Format",
     "primary_display": "Priorité d'affichage",
+    "use_temperature_popup": "Utiliser le sélecteur de consigne popup",
     "card_background_color": "Couleur du fond de carte",
     "card_background_opacity": "Opacité du fond de carte",
     "disable_name": "Masquer le nom",

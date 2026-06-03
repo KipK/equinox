@@ -202,6 +202,7 @@
     "theme": "Téma",
     "display_mode": "Formátum",
     "primary_display": "Megjelenítési prioritás",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Kártya háttérszíne",
     "card_background_opacity": "Kártya háttér átlátszatlansága",
     "disable_name": "Név elrejtése",

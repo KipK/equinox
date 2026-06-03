@@ -202,6 +202,7 @@
     "theme": "Thema",
     "display_mode": "Indeling",
     "primary_display": "Weergaveprioriteit",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Achtergrondkleur van de kaart",
     "card_background_opacity": "Opaciteit van de kaartachtergrond",
     "disable_name": "Naam verbergen",

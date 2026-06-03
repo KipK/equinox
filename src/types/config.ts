@@ -28,6 +28,7 @@ export interface EquinoxCardConfig {
   theme?: EquinoxTheme;
   display_mode?: EquinoxDisplayMode;
   primary_display?: EquinoxPrimaryDisplay;
+  use_temperature_popup?: boolean;
   card_background_color?: string | number[];
   card_background_opacity?: number;
   disable_name?: boolean;
@@ -47,6 +48,7 @@ export const DEFAULT_CONFIG = {
   theme: DEFAULT_THEME,
   display_mode: DEFAULT_DISPLAY_MODE,
   primary_display: DEFAULT_PRIMARY_DISPLAY,
+  use_temperature_popup: false,
   disable_name: false,
   hide_lock_button: false,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
@@ -57,6 +59,7 @@ export const DEFAULT_CONFIG = {
   | "theme"
   | "display_mode"
   | "primary_display"
+  | "use_temperature_popup"
   | "disable_name"
   | "hide_lock_button"
   | "additional_dashboards"

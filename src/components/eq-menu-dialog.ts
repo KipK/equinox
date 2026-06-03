@@ -104,11 +104,14 @@ export class EquinoxMenuDialog extends LitElement {
   }
 
   private _showFan(): boolean {
-    return (this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === true;
+    return this.config?.display_mode !== "thin" && (
+      (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
+      this.viewModel?.vt?.fan.hasAutoFan === true
+    );
   }
 
   private _showSwing(): boolean {
-    return (
+    return this.config?.display_mode !== "thin" && (
       (this.viewModel?.climate.swingModes?.length ?? 0) > 0 ||
       (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0
     );

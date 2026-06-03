@@ -202,6 +202,7 @@
     "theme": "Тема",
     "display_mode": "Формат",
     "primary_display": "Приоритет отображения",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Цвет фона карточки",
     "card_background_opacity": "Непрозрачность фона карточки",
     "disable_name": "Скрыть название",

@@ -7262,6 +7262,7 @@ var ho = {
 			theme: "Тема",
 			display_mode: "Формат",
 			primary_display: "Приоритет на показване",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Цвят на фона на картата",
 			card_background_opacity: "Непрозрачност на фона на картата",
 			disable_name: "Скриване на име",
@@ -7507,6 +7508,7 @@ var ho = {
 			theme: "Theme",
 			display_mode: "Format",
 			primary_display: "Display priority",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Color de fons de la targeta",
 			card_background_opacity: "Opacitat del fons de la targeta",
 			disable_name: "Hide name",
@@ -7752,6 +7754,7 @@ var ho = {
 			theme: "Téma",
 			display_mode: "Formát",
 			primary_display: "Priorita zobrazení",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Barva pozadí karty",
 			card_background_opacity: "Neprůhlednost pozadí karty",
 			disable_name: "Skrýt název",
@@ -7997,6 +8000,7 @@ var ho = {
 			theme: "Theme",
 			display_mode: "Format",
 			primary_display: "Display priority",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Kortets baggrundsfarve",
 			card_background_opacity: "Kortets baggrundsgennemsigtighed",
 			disable_name: "Hide name",
@@ -8242,6 +8246,7 @@ var ho = {
 			theme: "Design",
 			display_mode: "Format",
 			primary_display: "Anzeigepriorität",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Farbe des Kartenhintergrunds",
 			card_background_opacity: "Opazität des Kartenhintergrunds",
 			disable_name: "Name ausblenden",
@@ -8487,6 +8492,7 @@ var ho = {
 			theme: "Θέμα",
 			display_mode: "Μορφή",
 			primary_display: "Προτεραιότητα εμφάνισης",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Χρώμα φόντου κάρτας",
 			card_background_opacity: "Αδιαφάνεια φόντου κάρτας",
 			disable_name: "Απόκρυψη ονόματος",
@@ -8749,6 +8755,7 @@ var ho = {
 			theme: "Theme",
 			display_mode: "Format",
 			primary_display: "Display priority",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Card background color",
 			card_background_opacity: "Card background opacity",
 			disable_name: "Hide name",
@@ -8994,6 +9001,7 @@ var ho = {
 			theme: "Tema",
 			display_mode: "Formato",
 			primary_display: "Prioridad de visualización",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Color de fondo de la tarjeta",
 			card_background_opacity: "Opacidad del fondo de la tarjeta",
 			disable_name: "Ocultar nombre",
@@ -9239,6 +9247,7 @@ var ho = {
 			theme: "Teema",
 			display_mode: "Muoto",
 			primary_display: "Näyttöprioriteetti",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Kortin taustaväri",
 			card_background_opacity: "Kortin taustan läpinäkyvyys",
 			disable_name: "Piilota nimi",
@@ -9501,6 +9510,7 @@ var ho = {
 			theme: "Thème",
 			display_mode: "Format",
 			primary_display: "Priorité d'affichage",
+			use_temperature_popup: "Utiliser le sélecteur de consigne popup",
 			card_background_color: "Couleur du fond de carte",
 			card_background_opacity: "Opacité du fond de carte",
 			disable_name: "Masquer le nom",
@@ -9746,6 +9756,7 @@ var ho = {
 			theme: "ערכת נושא",
 			display_mode: "פורמט",
 			primary_display: "עדיפות תצוגה",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "צבע רקע הכרטיס",
 			card_background_opacity: "אטימות רקע הכרטיס",
 			disable_name: "הסתרת השם",
@@ -9991,6 +10002,7 @@ var ho = {
 			theme: "Téma",
 			display_mode: "Formátum",
 			primary_display: "Megjelenítési prioritás",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Kártya háttérszíne",
 			card_background_opacity: "Kártya háttér átlátszatlansága",
 			disable_name: "Név elrejtése",
@@ -10236,6 +10248,7 @@ var ho = {
 			theme: "Tema",
 			display_mode: "Formato",
 			primary_display: "Priorità visualizzazione",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Colore sfondo scheda",
 			card_background_opacity: "Opacità sfondo scheda",
 			disable_name: "Nascondi nome",
@@ -10481,6 +10494,7 @@ var ho = {
 			theme: "Thema",
 			display_mode: "Indeling",
 			primary_display: "Weergaveprioriteit",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Achtergrondkleur van de kaart",
 			card_background_opacity: "Opaciteit van de kaartachtergrond",
 			disable_name: "Naam verbergen",
@@ -10726,6 +10740,7 @@ var ho = {
 			theme: "Tema",
 			display_mode: "Format",
 			primary_display: "Visningsprioritet",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Bakgrunnsfarge for kortet",
 			card_background_opacity: "Kortets bakgrunnsopasitet",
 			disable_name: "Skjul navn",
@@ -10971,6 +10986,7 @@ var ho = {
 			theme: "Motyw",
 			display_mode: "Format",
 			primary_display: "Priorytet wyświetlania",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Kolor tła karty",
 			card_background_opacity: "Nieprzezroczystość tła karty",
 			disable_name: "Ukryj nazwę",
@@ -11216,6 +11232,7 @@ var ho = {
 			theme: "Tema",
 			display_mode: "Formato",
 			primary_display: "Prioridade de exibição",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Cor de fundo do cartão",
 			card_background_opacity: "Opacidade do fundo do cartão",
 			disable_name: "Ocultar nome",
@@ -11461,6 +11478,7 @@ var ho = {
 			theme: "Тема",
 			display_mode: "Формат",
 			primary_display: "Приоритет отображения",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Цвет фона карточки",
 			card_background_opacity: "Непрозрачность фона карточки",
 			disable_name: "Скрыть название",
@@ -11706,6 +11724,7 @@ var ho = {
 			theme: "Téma",
 			display_mode: "Formát",
 			primary_display: "Priorita zobrazenia",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "Farba pozadia karty",
 			card_background_opacity: "Priehľadnosť pozadia karty",
 			disable_name: "Skryť názov",
@@ -11951,6 +11970,7 @@ var ho = {
 			theme: "主题",
 			display_mode: "格式",
 			primary_display: "显示优先级",
+			use_temperature_popup: "Use popup setpoint selector",
 			card_background_color: "卡片背景颜色",
 			card_background_opacity: "卡片背景不透明度",
 			disable_name: "隐藏名称",
@@ -12068,6 +12088,7 @@ var Co = ["flat", "liquid_glow"], wo = [
 	theme: to,
 	display_mode: no,
 	primary_display: ro,
+	use_temperature_popup: !1,
 	disable_name: !1,
 	hide_lock_button: !1,
 	additional_dashboards: io,
@@ -12226,7 +12247,7 @@ var jo = class extends O {
     `;
 	}
 	_renderPresentationTab(e, t) {
-		let n = this._presentationSchema(e), r = n.findIndex((e) => e.name === "card_background_color"), i = r >= 0 ? n.slice(0, r) : n, a = n.filter((e) => e.name === "card_background_color"), o = r >= 0 ? n.slice(r + 1) : [];
+		let n = this._presentationSchema(e, t.display_mode), r = n.findIndex((e) => e.name === "card_background_color"), i = r >= 0 ? n.slice(0, r) : n, a = n.filter((e) => e.name === "card_background_color"), o = r >= 0 ? n.slice(r + 1) : [];
 		return T`
       <ha-form
         .hass=${this.hass}
@@ -12313,14 +12334,14 @@ var jo = class extends O {
 			}
 		];
 	}
-	_presentationSchema(e) {
-		let t = [{
+	_presentationSchema(e, t) {
+		let n = [{
 			value: "horizontal",
 			label: V(e, "editor.options.layout_orientation.horizontal")
 		}, {
 			value: "vertical",
 			label: V(e, "editor.options.layout_orientation.vertical")
-		}], n = [
+		}], r = t === "thin", i = [
 			{
 				name: "disable_name",
 				selector: { boolean: {} }
@@ -12357,49 +12378,47 @@ var jo = class extends O {
 						}
 					]
 				} }
-			},
-			{
-				name: "primary_display",
-				selector: { select: {
-					mode: "dropdown",
-					options: [{
-						value: "setpoint",
-						label: V(e, "editor.options.primary_display.setpoint")
-					}, {
-						value: "sensors",
-						label: V(e, "editor.options.primary_display.sensors")
-					}]
-				} }
-			},
-			{
-				name: "state_icons_layout",
-				selector: { select: {
-					mode: "dropdown",
-					options: t
-				} }
-			},
-			{
-				name: "card_background_color",
-				selector: { color_rgb: {} }
-			},
-			{
-				name: "card_background_opacity",
-				selector: { number: {
-					min: 0,
-					max: 100,
-					mode: "slider",
-					unit_of_measurement: "%"
-				} }
-			},
-			{
-				name: "hide_lock_button",
-				selector: { boolean: {} }
 			}
 		];
-		return this._config.theme === "liquid_glow" && n.push({
+		return r || (i.push({
+			name: "primary_display",
+			selector: { select: {
+				mode: "dropdown",
+				options: [{
+					value: "setpoint",
+					label: V(e, "editor.options.primary_display.setpoint")
+				}, {
+					value: "sensors",
+					label: V(e, "editor.options.primary_display.sensors")
+				}]
+			} }
+		}), i.push({
+			name: "use_temperature_popup",
+			selector: { boolean: {} }
+		}), i.push({
+			name: "state_icons_layout",
+			selector: { select: {
+				mode: "dropdown",
+				options: n
+			} }
+		})), i.push({
+			name: "card_background_color",
+			selector: { color_rgb: {} }
+		}, {
+			name: "card_background_opacity",
+			selector: { number: {
+				min: 0,
+				max: 100,
+				mode: "slider",
+				unit_of_measurement: "%"
+			} }
+		}, {
+			name: "hide_lock_button",
+			selector: { boolean: {} }
+		}), this._config.theme === "liquid_glow" && i.push({
 			name: "border_glow_on_action",
 			selector: { boolean: {} }
-		}), n;
+		}), i;
 	}
 	_renderColorField(e, t) {
 		return T`
@@ -17502,10 +17521,10 @@ var Is = class extends O {
 		return this.viewModel?.vt?.timedPreset.isActive === !0 || !!this.viewModel?.vt?.timedPresetManager;
 	}
 	_showFan() {
-		return (this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === !0;
+		return this.config?.display_mode !== "thin" && ((this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === !0);
 	}
 	_showSwing() {
-		return (this.viewModel?.climate.swingModes?.length ?? 0) > 0 || (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0;
+		return this.config?.display_mode !== "thin" && ((this.viewModel?.climate.swingModes?.length ?? 0) > 0 || (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0);
 	}
 	render() {
 		let e = this._showRegulation(), t = this._showFan(), n = this._showSwing(), r = this._showBoost(), i = this.viewModel?.vt?.timedPreset.isActive === !0, a = this.viewModel?.vt?.timedPreset.remainingTimeMin, o = V(this.language, "dialog.menu.title");
@@ -20819,7 +20838,7 @@ var fc = class extends O {
 
       .thin-layout {
         display: grid;
-        grid-template-rows: minmax(26px, auto) minmax(34px, auto);
+        grid-template-rows: minmax(34px, auto) minmax(24px, auto);
         gap: 7px;
         min-width: 0;
       }
@@ -20854,11 +20873,12 @@ var fc = class extends O {
 
       .thin-current {
         color: var(--equinox-text-color);
-        font-size: clamp(17px, 7cqi, 24px);
+        font-size: clamp(13px, 5.6cqi, 24px);
         line-height: 1;
         font-weight: var(--ha-font-weight-medium, 500);
         overflow: hidden;
         text-overflow: ellipsis;
+        flex: 0 1 auto;
       }
 
       .thin-humidity {
@@ -20910,6 +20930,7 @@ var fc = class extends O {
       .thin-controls {
         justify-content: flex-start;
         gap: 8px;
+        flex-wrap: wrap;
       }
 
       .thin-setpoint {
@@ -20920,6 +20941,7 @@ var fc = class extends O {
         overflow: hidden;
       }
 
+      .temperature-popup-button,
       .thin-temperature-button {
         min-width: 0;
         height: 34px;
@@ -20941,18 +20963,32 @@ var fc = class extends O {
         cursor: pointer;
       }
 
+      .temperature-popup-button ha-icon,
       .thin-temperature-button ha-icon {
         --mdc-icon-size: 20px;
         flex: 0 0 auto;
       }
 
+      .temperature-popup-button:hover:not(:disabled),
       .thin-temperature-button:hover:not(:disabled) {
         background: var(--equinox-mode-control-hover-bg);
       }
 
+      .temperature-popup-button:disabled,
       .thin-temperature-button:disabled {
         cursor: default;
         opacity: 0.45;
+      }
+
+      .temperature-popup-button {
+        height: clamp(36px, 14cqi, 45px);
+        padding-inline: clamp(10px, 4cqi, 16px);
+        font-size: clamp(18px, 6cqi, 28px);
+      }
+
+      .temperature-popup-button[compact] {
+        height: clamp(32px, 10cqi, 38px);
+        font-size: clamp(14px, 4.6cqi, 20px);
       }
 
       .thin-temperature-values {
@@ -20987,8 +21023,10 @@ var fc = class extends O {
 
       .thin-selectors {
         margin-inline-start: auto;
-        flex: 0 0 auto;
+        flex: 1 1 auto;
         gap: 5px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
       }
 
       .thin-selectors ha-control-button {
@@ -21011,6 +21049,28 @@ var fc = class extends O {
         --equinox-selector-icon-size: clamp(16px, 6.5cqi, 21px);
         width: clamp(22px, 8cqi, 28px);
         height: clamp(22px, 8cqi, 28px);
+      }
+
+      @container (max-width: 320px) {
+        .thin-controls {
+          display: grid;
+          grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+          align-items: center;
+        }
+
+        .thin-selectors {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          width: 100%;
+        }
+
+        .thin-selectors ha-control-button {
+          width: 100%;
+        }
+
+        .thin-selector-extra {
+          grid-row: 2;
+        }
       }
 
       .btn-icon {
@@ -21428,7 +21488,7 @@ var fc = class extends O {
 	}
 	render() {
 		if (!this.viewModel || !this.config) return D;
-		let e = this.config?.display_mode === "compact", t = this.config?.display_mode === "thin", n = this.config.state_icons_layout === "vertical", r = this.viewModel.vt?.lock.isConfigured === !0 && this.viewModel.vt.lock.isUserLocked === !0, i = this._activeHvacAction();
+		let e = this.config?.display_mode === "compact", t = this.config?.display_mode === "thin", n = !t && this.config.state_icons_layout === "vertical", r = this.viewModel.vt?.lock.isConfigured === !0 && this.viewModel.vt.lock.isUserLocked === !0, i = this._activeHvacAction();
 		return T`
       <ha-card
         style=${this._cardStyle()}
@@ -21665,8 +21725,8 @@ var fc = class extends O {
 	_renderThinLayout() {
 		return T`
       <div class="thin-layout">
-        ${this._renderThinSummaryRow()}
         ${this._renderThinControlRow()}
+        ${this._renderThinSummaryRow()}
       </div>
     `;
 	}
@@ -21716,7 +21776,6 @@ var fc = class extends O {
         ?disabled=${this._isControlDisabled()}
         @click=${(e) => this._openDialog("temperature", e)}
       >
-        <ha-icon icon="mdi:gauge"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -21735,8 +21794,8 @@ var fc = class extends O {
 		return T`<span class="thin-temperature-value" tone=${this._targetTone()}>${this._formatTargetTempSummary()}</span>`;
 	}
 	_renderThinSelectors() {
-		let e = this._renderThinHvacButton(), t = this._renderThinPresetButton();
-		return e === D && t === D ? D : T`<div class="thin-selectors">${e}${t}</div>`;
+		let e = this._renderThinHvacButton(), t = this._renderThinPresetButton(), n = this._hasFanControl() ? this._renderThinFanButton() : D, r = this._hasSwingControl() ? this._renderThinSwingButton() : D;
+		return e === D && t === D && n === D && r === D ? D : T`<div class="thin-selectors">${e}${t}${n}${r}</div>`;
 	}
 	_renderThinHvacButton() {
 		let e = this.viewModel?.climate.hvacMode, t = this._visibleHvacModes(), n = e && t.includes(e) ? e : void 0;
@@ -21766,6 +21825,34 @@ var fc = class extends O {
       >
         <span class="btn-icon" tone=${r ? this._presetTone(e) : ""}>
           <ha-icon .icon=${n}></ha-icon>
+        </span>
+      </ha-control-button>
+    `;
+	}
+	_renderThinFanButton() {
+		return T`
+      <ha-control-button
+        class="thin-selector-extra fan-selector"
+        .label=${this._fanLabel()}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(e) => this._openDialog("fan", e)}
+      >
+        <span class="btn-icon" tone=${this._fanRailTone()}>
+          <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
+        </span>
+      </ha-control-button>
+    `;
+	}
+	_renderThinSwingButton() {
+		return T`
+      <ha-control-button
+        class="thin-selector-extra swing-selector"
+        .label=${this._swingLabel()}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(e) => this._openDialog("swing", e)}
+      >
+        <span class="btn-icon" tone=${this._swingRailTone()}>
+          <ha-icon .icon=${this._swingIcon()}></ha-icon>
         </span>
       </ha-control-button>
     `;
@@ -21925,7 +22012,19 @@ var fc = class extends O {
     `;
 	}
 	_renderTemperatureControl(e) {
-		return this._hasTemperatureRangeControl() ? this._renderRangeSetpointControl(e) : this._renderSetpointControl(e);
+		return this._usesTemperaturePopup() ? this._renderTemperaturePopupButton(e) : this._hasTemperatureRangeControl() ? this._renderRangeSetpointControl(e) : this._renderSetpointControl(e);
+	}
+	_renderTemperaturePopupButton(e) {
+		return T`
+      <button
+        class="temperature-popup-button"
+        ?compact=${e}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(e) => this._openDialog("temperature", e)}
+      >
+        ${this._renderThinTemperatureValue()}
+      </button>
+    `;
 	}
 	_renderSetpointControl(e) {
 		let t = this._isControlDisabled() || !J(this.viewModel?.climate.targetTemperature), n = this._setpointFallback(), r = n.length || 4;
@@ -22358,6 +22457,9 @@ var fc = class extends O {
 	}
 	_isControlDisabled() {
 		return !this.hass || this.viewModel?.climate.availability !== "available" || this.viewModel?.vt?.lock.isUserLocked === !0;
+	}
+	_usesTemperaturePopup() {
+		return this.config?.display_mode === "thin" || this.config?.use_temperature_popup === !0;
 	}
 	_stepDecimals() {
 		let e = String(this.viewModel?.climate.targetTempStep ?? .5);

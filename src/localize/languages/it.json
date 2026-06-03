@@ -202,6 +202,7 @@
     "theme": "Tema",
     "display_mode": "Formato",
     "primary_display": "Priorità visualizzazione",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Colore sfondo scheda",
     "card_background_opacity": "Opacità sfondo scheda",
     "disable_name": "Nascondi nome",

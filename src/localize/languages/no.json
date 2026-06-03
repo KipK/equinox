@@ -202,6 +202,7 @@
     "theme": "Tema",
     "display_mode": "Format",
     "primary_display": "Visningsprioritet",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Bakgrunnsfarge for kortet",
     "card_background_opacity": "Kortets bakgrunnsopasitet",
     "disable_name": "Skjul navn",

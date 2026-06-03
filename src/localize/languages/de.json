@@ -202,6 +202,7 @@
     "theme": "Design",
     "display_mode": "Format",
     "primary_display": "Anzeigepriorität",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Farbe des Kartenhintergrunds",
     "card_background_opacity": "Opazität des Kartenhintergrunds",
     "disable_name": "Name ausblenden",

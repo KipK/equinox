@@ -202,6 +202,7 @@
     "theme": "ערכת נושא",
     "display_mode": "פורמט",
     "primary_display": "עדיפות תצוגה",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "צבע רקע הכרטיס",
     "card_background_opacity": "אטימות רקע הכרטיס",
     "disable_name": "הסתרת השם",

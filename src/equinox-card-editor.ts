@@ -167,7 +167,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
   }
 
   private _renderPresentationTab(language: string | undefined, data: EquinoxCardConfigInput) {
-    const schema = this._presentationSchema(language);
+    const schema = this._presentationSchema(language, data.display_mode);
     const colorIndex = schema.findIndex((item) => item.name === "card_background_color");
     const beforeColor = colorIndex >= 0 ? schema.slice(0, colorIndex) : schema;
     const colorFields = schema.filter((item) => item.name === "card_background_color");
@@ -282,11 +282,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     ];
   }
 
-  private _presentationSchema(language?: string): HaFormSchema[] {
+  private _presentationSchema(language: string | undefined, displayMode: EquinoxCardConfigInput["display_mode"]): HaFormSchema[] {
     const orientationOptions = [
       { value: "horizontal", label: localize(language, "editor.options.layout_orientation.horizontal") },
       { value: "vertical", label: localize(language, "editor.options.layout_orientation.vertical") }
     ];
+    const isThin = displayMode === "thin";
 
     const schema: HaFormSchema[] = [
       {
@@ -319,8 +320,11 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
             ]
           }
         }
-      },
-      {
+      }
+    ];
+
+    if (!isThin) {
+      schema.push({
         name: "primary_display",
         selector: {
           select: {
@@ -331,8 +335,14 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
             ]
           }
         }
-      },
-      {
+      });
+      schema.push({
+        name: "use_temperature_popup",
+        selector: {
+          boolean: {}
+        }
+      });
+      schema.push({
         name: "state_icons_layout",
         selector: {
           select: {
@@ -340,7 +350,10 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
             options: orientationOptions
           }
         }
-      },
+      });
+    }
+
+    schema.push(
       {
         name: "card_background_color",
         selector: {
@@ -364,7 +377,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
           boolean: {}
         }
       }
-    ];
+    );
 
     if (this._config.theme === "liquid_glow") {
       schema.push({

@@ -126,12 +126,14 @@ additional_dashboards: auto
 | `humidity_entity`       | no       | -                    | External humidity sensor when climate humidity is unavailable. |
 | `theme`                 | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                         |
 | `display_mode`          | no       | `classic`            | Display format: `classic`, `compact`, or `thin`.               |
-| `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`.                        |
+| `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`; ignored in `thin`.     |
+| `use_temperature_popup` | no       | `false`              | Use the slider popup setpoint selector in `classic`/`compact`; `thin` always uses it. |
 | `card_background_color` | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. HVAC and preset selectors follow this surface. |
 | `card_background_opacity` | no     | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent. |
 | `disable_name`          | no       | `false`              | Hide the header name.                                          |
 | `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
 | `additional_dashboards` | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.    |
+| `state_icons_layout`    | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal. |
 
 Regulation diagnostics are discovered automatically from the climate entity
 attribute `specific_states.regulation_diagnostics` when the thermostat

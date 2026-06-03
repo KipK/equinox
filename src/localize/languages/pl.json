@@ -202,6 +202,7 @@
     "theme": "Motyw",
     "display_mode": "Format",
     "primary_display": "Priorytet wyświetlania",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Kolor tła karty",
     "card_background_opacity": "Nieprzezroczystość tła karty",
     "disable_name": "Ukryj nazwę",

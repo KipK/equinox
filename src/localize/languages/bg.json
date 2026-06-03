@@ -202,6 +202,7 @@
     "theme": "Тема",
     "display_mode": "Формат",
     "primary_display": "Приоритет на показване",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Цвят на фона на картата",
     "card_background_opacity": "Непрозрачност на фона на картата",
     "disable_name": "Скриване на име",

@@ -202,6 +202,7 @@
     "theme": "Téma",
     "display_mode": "Formát",
     "primary_display": "Priorita zobrazenia",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Farba pozadia karty",
     "card_background_opacity": "Priehľadnosť pozadia karty",
     "disable_name": "Skryť názov",

@@ -202,6 +202,7 @@
     "theme": "Teema",
     "display_mode": "Muoto",
     "primary_display": "Näyttöprioriteetti",
+    "use_temperature_popup": "Use popup setpoint selector",
     "card_background_color": "Kortin taustaväri",
     "card_background_opacity": "Kortin taustan läpinäkyvyys",
     "disable_name": "Piilota nimi",

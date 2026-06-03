@@ -990,7 +990,7 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-layout {
         display: grid;
-        grid-template-rows: minmax(26px, auto) minmax(34px, auto);
+        grid-template-rows: minmax(34px, auto) minmax(24px, auto);
         gap: 7px;
         min-width: 0;
       }
@@ -1025,11 +1025,12 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-current {
         color: var(--equinox-text-color);
-        font-size: clamp(17px, 7cqi, 24px);
+        font-size: clamp(13px, 5.6cqi, 24px);
         line-height: 1;
         font-weight: var(--ha-font-weight-medium, 500);
         overflow: hidden;
         text-overflow: ellipsis;
+        flex: 0 1 auto;
       }
 
       .thin-humidity {
@@ -1081,6 +1082,7 @@ export class EquinoxMainCard extends LitElement {
       .thin-controls {
         justify-content: flex-start;
         gap: 8px;
+        flex-wrap: wrap;
       }
 
       .thin-setpoint {
@@ -1091,6 +1093,7 @@ export class EquinoxMainCard extends LitElement {
         overflow: hidden;
       }
 
+      .temperature-popup-button,
       .thin-temperature-button {
         min-width: 0;
         height: 34px;
@@ -1112,18 +1115,32 @@ export class EquinoxMainCard extends LitElement {
         cursor: pointer;
       }
 
+      .temperature-popup-button ha-icon,
       .thin-temperature-button ha-icon {
         --mdc-icon-size: 20px;
         flex: 0 0 auto;
       }
 
+      .temperature-popup-button:hover:not(:disabled),
       .thin-temperature-button:hover:not(:disabled) {
         background: var(--equinox-mode-control-hover-bg);
       }
 
+      .temperature-popup-button:disabled,
       .thin-temperature-button:disabled {
         cursor: default;
         opacity: 0.45;
+      }
+
+      .temperature-popup-button {
+        height: clamp(36px, 14cqi, 45px);
+        padding-inline: clamp(10px, 4cqi, 16px);
+        font-size: clamp(18px, 6cqi, 28px);
+      }
+
+      .temperature-popup-button[compact] {
+        height: clamp(32px, 10cqi, 38px);
+        font-size: clamp(14px, 4.6cqi, 20px);
       }
 
       .thin-temperature-values {
@@ -1158,8 +1175,10 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-selectors {
         margin-inline-start: auto;
-        flex: 0 0 auto;
+        flex: 1 1 auto;
         gap: 5px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
       }
 
       .thin-selectors ha-control-button {
@@ -1182,6 +1201,28 @@ export class EquinoxMainCard extends LitElement {
         --equinox-selector-icon-size: clamp(16px, 6.5cqi, 21px);
         width: clamp(22px, 8cqi, 28px);
         height: clamp(22px, 8cqi, 28px);
+      }
+
+      @container (max-width: 320px) {
+        .thin-controls {
+          display: grid;
+          grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+          align-items: center;
+        }
+
+        .thin-selectors {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          width: 100%;
+        }
+
+        .thin-selectors ha-control-button {
+          width: 100%;
+        }
+
+        .thin-selector-extra {
+          grid-row: 2;
+        }
       }
 
       .btn-icon {
@@ -1790,7 +1831,7 @@ export class EquinoxMainCard extends LitElement {
 
     const compact = this.config?.display_mode === "compact";
     const thin = this.config?.display_mode === "thin";
-    const stateIconsVertical = this.config.state_icons_layout === "vertical";
+    const stateIconsVertical = !thin && this.config.state_icons_layout === "vertical";
     const lockEffectActive =
       this.viewModel.vt?.lock.isConfigured === true &&
       this.viewModel.vt.lock.isUserLocked === true;
@@ -2073,8 +2114,8 @@ export class EquinoxMainCard extends LitElement {
   private _renderThinLayout(): TemplateResult {
     return html`
       <div class="thin-layout">
-        ${this._renderThinSummaryRow()}
         ${this._renderThinControlRow()}
+        ${this._renderThinSummaryRow()}
       </div>
     `;
   }
@@ -2138,7 +2179,6 @@ export class EquinoxMainCard extends LitElement {
         ?disabled=${this._isControlDisabled()}
         @click=${(event: Event) => this._openDialog("temperature", event)}
       >
-        <ha-icon icon="mdi:gauge"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -2164,12 +2204,14 @@ export class EquinoxMainCard extends LitElement {
   private _renderThinSelectors(): TemplateResult | typeof nothing {
     const hvac = this._renderThinHvacButton();
     const preset = this._renderThinPresetButton();
+    const fan = this._hasFanControl() ? this._renderThinFanButton() : nothing;
+    const swing = this._hasSwingControl() ? this._renderThinSwingButton() : nothing;
 
-    if (hvac === nothing && preset === nothing) {
+    if (hvac === nothing && preset === nothing && fan === nothing && swing === nothing) {
       return nothing;
     }
 
-    return html`<div class="thin-selectors">${hvac}${preset}</div>`;
+    return html`<div class="thin-selectors">${hvac}${preset}${fan}${swing}</div>`;
   }
 
   private _renderThinHvacButton(): TemplateResult | typeof nothing {
@@ -2216,6 +2258,36 @@ export class EquinoxMainCard extends LitElement {
       >
         <span class="btn-icon" tone=${presetActive ? this._presetTone(preset!) : ""}>
           <ha-icon .icon=${presetIcon}></ha-icon>
+        </span>
+      </ha-control-button>
+    `;
+  }
+
+  private _renderThinFanButton(): TemplateResult {
+    return html`
+      <ha-control-button
+        class="thin-selector-extra fan-selector"
+        .label=${this._fanLabel()}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(event: Event) => this._openDialog("fan", event)}
+      >
+        <span class="btn-icon" tone=${this._fanRailTone()}>
+          <ha-icon class=${this._fanIconClass()} .icon=${this._fanIcon()}></ha-icon>
+        </span>
+      </ha-control-button>
+    `;
+  }
+
+  private _renderThinSwingButton(): TemplateResult {
+    return html`
+      <ha-control-button
+        class="thin-selector-extra swing-selector"
+        .label=${this._swingLabel()}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(event: Event) => this._openDialog("swing", event)}
+      >
+        <span class="btn-icon" tone=${this._swingRailTone()}>
+          <ha-icon .icon=${this._swingIcon()}></ha-icon>
         </span>
       </ha-control-button>
     `;
@@ -2447,9 +2519,26 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderTemperatureControl(compact: boolean): TemplateResult {
+    if (this._usesTemperaturePopup()) {
+      return this._renderTemperaturePopupButton(compact);
+    }
+
     return this._hasTemperatureRangeControl()
       ? this._renderRangeSetpointControl(compact)
       : this._renderSetpointControl(compact);
+  }
+
+  private _renderTemperaturePopupButton(compact: boolean): TemplateResult {
+    return html`
+      <button
+        class="temperature-popup-button"
+        ?compact=${compact}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(event: Event) => this._openDialog("temperature", event)}
+      >
+        ${this._renderThinTemperatureValue()}
+      </button>
+    `;
   }
 
   private _renderSetpointControl(compact: boolean): TemplateResult {
@@ -3139,6 +3228,10 @@ export class EquinoxMainCard extends LitElement {
 
   private _isControlDisabled(): boolean {
     return !this.hass || this.viewModel?.climate.availability !== "available" || this.viewModel?.vt?.lock.isUserLocked === true;
+  }
+
+  private _usesTemperaturePopup(): boolean {
+    return this.config?.display_mode === "thin" || this.config?.use_temperature_popup === true;
   }
 
   private _stepDecimals(): number {
