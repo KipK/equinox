@@ -91,6 +91,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       --eq-dialog-width: min(560px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
       --eq-dialog-content-padding: 0 16px 8px;
+      --eq-dialog-radius: 28px;
     }
 
     .content {

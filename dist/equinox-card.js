@@ -15168,7 +15168,7 @@ var Ts = o`
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 9000;
-      border-radius: var(--eq-dialog-radius, 28px);
+      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
     }
 
     .panel {
@@ -15180,7 +15180,7 @@ var Ts = o`
       min-height: 0;
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
-      border-radius: var(--eq-dialog-radius, 28px);
+      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
       overflow: hidden;
     }
 
@@ -15268,7 +15268,7 @@ var Ts = o`
         bottom: 0;
         top: auto;
         inset-inline: 0;
-        border-radius: var(--eq-dialog-radius, 28px) var(--eq-dialog-radius, 28px) 0 0;
+        border-radius: var(--eq-dialog-radius, 16px) var(--eq-dialog-radius, 16px) 0 0;
         max-height: 80vh;
         overflow-y: auto;
       }
@@ -18500,6 +18500,7 @@ var ec = class extends D {
       --eq-dialog-width: min(560px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
       --eq-dialog-content-padding: 0 16px 8px;
+      --eq-dialog-radius: 28px;
     }
 
     .content {
@@ -19814,6 +19815,7 @@ var oc = class extends D {
     eq-dialog {
       --eq-dialog-width: min(920px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
+      --eq-dialog-radius: 28px;
       --equinox-regulation-dialog-width: min(860px, calc(100vw - 80px));
     }
 

@@ -26,7 +26,7 @@ export class EquinoxDialog extends LitElement {
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 9000;
-      border-radius: var(--eq-dialog-radius, 28px);
+      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
     }
 
     .panel {
@@ -38,7 +38,7 @@ export class EquinoxDialog extends LitElement {
       min-height: 0;
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
-      border-radius: var(--eq-dialog-radius, 28px);
+      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
       overflow: hidden;
     }
 
@@ -126,7 +126,7 @@ export class EquinoxDialog extends LitElement {
         bottom: 0;
         top: auto;
         inset-inline: 0;
-        border-radius: var(--eq-dialog-radius, 28px) var(--eq-dialog-radius, 28px) 0 0;
+        border-radius: var(--eq-dialog-radius, 16px) var(--eq-dialog-radius, 16px) 0 0;
         max-height: 80vh;
         overflow-y: auto;
       }

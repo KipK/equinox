@@ -38,6 +38,7 @@ export class EquinoxRegulationDialog extends LitElement {
     eq-dialog {
       --eq-dialog-width: min(920px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
+      --eq-dialog-radius: 28px;
       --equinox-regulation-dialog-width: min(860px, calc(100vw - 80px));
     }
 
