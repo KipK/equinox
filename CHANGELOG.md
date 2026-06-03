@@ -19,6 +19,7 @@ All notable changes to Equinox will be documented in this file.
 - Fix the heat/cool setpoint slider so handles cannot cross and the track shows heat on the left, neutral between setpoints, and cool on the right.
 - Keep the main menu popup open while moving from the card to the menu, matching the other floating popups.
 - Keep thin-mode humidity displayed as a reading for narrower cards when only one extra selector, such as ventilation, is present.
+- Color the normal setpoint slider thumb with the active mode tone to match its filled track.
 
 ## 0.1.0
 

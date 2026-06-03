@@ -167,6 +167,7 @@ export class EquinoxTemperatureDialog extends LitElement {
       transform: translateY(-50%);
       appearance: none;
       background: transparent;
+      color: var(--eq-slider-active);
       cursor: pointer;
     }
 

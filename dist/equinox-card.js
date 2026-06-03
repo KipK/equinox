@@ -17295,6 +17295,7 @@ var Fs = class extends D {
       transform: translateY(-50%);
       appearance: none;
       background: transparent;
+      color: var(--eq-slider-active);
       cursor: pointer;
     }
 
