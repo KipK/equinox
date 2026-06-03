@@ -20,6 +20,7 @@ All notable changes to Equinox will be documented in this file.
 - Keep the main menu popup open while moving from the card to the menu, matching the other floating popups.
 - Keep thin-mode humidity displayed as a reading for narrower cards when only one extra selector, such as ventilation, is present.
 - Color the normal setpoint slider thumb with the active mode tone to match its filled track.
+- Add browser Back/Forward history support for sensor more-info dialogs.
 
 ## 0.1.0
 

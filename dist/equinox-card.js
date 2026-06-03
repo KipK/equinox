@@ -20838,7 +20838,11 @@ var Sc = class extends D {
 					this._activeDialog = "regulation", this._activeMessageKey = void 0, this._regulationActiveSectionId = t.sectionId, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = t.regulationDepth ?? 1, this._ensureRegulationDashboard();
 					return;
 				}
-				this._activeDialog === "history" && (this._activeDialog = null), this._activeDialog === "regulation" && (this._activeDialog = null, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0);
+				if (t?.layer === "sensor-more-info-dialog" && t.sensorTarget) {
+					this._activeDialog = "sensor-more-info", this._activeMessageKey = void 0, this._activeSensorInfoTarget = t.sensorTarget;
+					return;
+				}
+				this._activeDialog === "history" && (this._activeDialog = null), this._activeDialog === "regulation" && (this._activeDialog = null, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0), this._activeDialog === "sensor-more-info" && (this._activeDialog = null, this._activeSensorInfoTarget = void 0);
 			} finally {
 				this._syncingBrowserHistory = !1;
 			}
@@ -22395,15 +22399,44 @@ var Sc = class extends D {
 	disconnectedCallback() {
 		super.disconnectedCallback(), window.removeEventListener("popstate", this._handleBrowserPopState);
 	}
+	_sensorTargetFromHistory(e) {
+		if (typeof e != "object" || !e) return;
+		let t = e;
+		if (t.kind === "power") return { kind: "power" };
+		if (t.kind !== "entity" || typeof t.entityId != "string" || t.entityId === "") return;
+		let n = Array.isArray(t.attribute) ? t.attribute.filter((e) => typeof e == "string" && e !== "") : typeof t.attribute == "string" && t.attribute !== "" ? t.attribute : void 0;
+		return {
+			kind: "entity",
+			entityId: t.entityId,
+			icon: typeof t.icon == "string" && t.icon !== "" ? t.icon : void 0,
+			attribute: Array.isArray(n) && n.length === 0 ? void 0 : n,
+			unit: typeof t.unit == "string" && t.unit !== "" ? t.unit : void 0,
+			label: typeof t.label == "string" && t.label !== "" ? t.label : void 0
+		};
+	}
+	_sensorTargetKey(e) {
+		if (!e) return;
+		if (e.kind === "power") return "power";
+		let t = Array.isArray(e.attribute) ? e.attribute.join(".") : e.attribute ?? "";
+		return [
+			"entity",
+			e.entityId,
+			t,
+			e.unit ?? "",
+			e.icon ?? "",
+			e.label ?? ""
+		].join("|");
+	}
 	_browserHistoryEntry(e = window.history.state) {
 		let t = typeof e == "object" && e ? e[fc] : void 0;
 		if (typeof t != "object" || !t) return;
 		let n = t;
-		if (!(n.instanceId !== this._browserHistoryInstanceId || n.layer !== "history-dialog" && n.layer !== "regulation-dialog")) return {
+		if (!(n.instanceId !== this._browserHistoryInstanceId || n.layer !== "history-dialog" && n.layer !== "regulation-dialog" && n.layer !== "sensor-more-info-dialog")) return {
 			instanceId: n.instanceId,
 			layer: n.layer,
 			sectionId: typeof n.sectionId == "string" ? n.sectionId : void 0,
-			regulationDepth: typeof n.regulationDepth == "number" ? n.regulationDepth : void 0
+			regulationDepth: typeof n.regulationDepth == "number" ? n.regulationDepth : void 0,
+			sensorTarget: n.layer === "sensor-more-info-dialog" ? this._sensorTargetFromHistory(n.sensorTarget) : void 0
 		};
 	}
 	_browserHistoryState(e) {
@@ -22417,7 +22450,7 @@ var Sc = class extends D {
 	}
 	_sameBrowserHistoryEntry(e) {
 		let t = this._browserHistoryEntry();
-		return t?.layer === e.layer && t.sectionId === e.sectionId;
+		return t?.layer === e.layer && t.sectionId === e.sectionId && this._sensorTargetKey(t.sensorTarget) === this._sensorTargetKey(e.sensorTarget);
 	}
 	_pushBrowserHistoryState(e) {
 		this._syncingBrowserHistory || this._sameBrowserHistoryEntry(e) || window.history.pushState(this._browserHistoryState(e), "", window.location.href);
@@ -22437,6 +22470,12 @@ var Sc = class extends D {
 			regulationDepth: n
 		}), this._regulationBrowserHistoryDepth = n;
 	}
+	_pushSensorMoreInfoDialogState(e) {
+		this._pushBrowserHistoryState({
+			layer: "sensor-more-info-dialog",
+			sensorTarget: e
+		});
+	}
 	_openHistoryDialog() {
 		this._activeDialog = "history", this._activeMessageKey = void 0, this._pushHistoryDialogState();
 	}
@@ -22446,6 +22485,13 @@ var Sc = class extends D {
 			return;
 		}
 		this._activeDialog = null;
+	}
+	_closeSensorMoreInfoDialog() {
+		if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "sensor-more-info-dialog") {
+			this._activeDialog = null, this._activeSensorInfoTarget = void 0, window.history.back();
+			return;
+		}
+		this._activeDialog = null, this._activeSensorInfoTarget = void 0;
 	}
 	_regulationDashboard() {
 		return this._regulationLoadResult?.status === "loaded" ? this._regulationLoadResult.dashboard : void 0;
@@ -22666,9 +22712,7 @@ var Sc = class extends D {
         .viewModel=${this.viewModel}
         .language=${this._language()}
         .target=${this._activeSensorInfoTarget}
-        @eq-dialog-close=${() => {
-			this._activeDialog = null, this._activeSensorInfoTarget = void 0;
-		}}
+        @eq-dialog-close=${() => this._closeSensorMoreInfoDialog()}
       ></eq-sensor-more-info-dialog>
     `;
 	}
@@ -23657,7 +23701,7 @@ var Sc = class extends D {
 	}
 	_openSensorMoreInfo(e, t) {
 		let n = t?.currentTarget instanceof HTMLElement ? t.currentTarget : void 0;
-		this._dialogAnchor = n ? { element: n } : void 0, this._activeMessageKey = void 0, this._activeSensorInfoTarget = e, this._activeDialog = "sensor-more-info";
+		this._dialogAnchor = n ? { element: n } : void 0, this._activeMessageKey = void 0, this._activeSensorInfoTarget = e, this._activeDialog = "sensor-more-info", this._pushSensorMoreInfoDialogState(e);
 	}
 	_openHumidityInfo(e) {
 		if (!this.config) return;

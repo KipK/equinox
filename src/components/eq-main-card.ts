@@ -33,9 +33,10 @@ const BROWSER_HISTORY_STATE_KEY = "equinox";
 
 interface BrowserHistoryEntry {
   instanceId: string;
-  layer: "history-dialog" | "regulation-dialog";
+  layer: "history-dialog" | "regulation-dialog" | "sensor-more-info-dialog";
   sectionId?: string;
   regulationDepth?: number;
+  sensorTarget?: SensorMoreInfoTarget;
 }
 
 type EventIconDefinition = {
@@ -1774,6 +1775,45 @@ export class EquinoxMainCard extends LitElement {
     window.removeEventListener("popstate", this._handleBrowserPopState);
   }
 
+  private _sensorTargetFromHistory(value: unknown): SensorMoreInfoTarget | undefined {
+    if (typeof value !== "object" || value === null) return undefined;
+
+    const record = value as Partial<Extract<SensorMoreInfoTarget, { kind: "entity" }>> & { kind?: unknown };
+    if (record.kind === "power") {
+      return { kind: "power" };
+    }
+
+    if (record.kind !== "entity" || typeof record.entityId !== "string" || record.entityId === "") {
+      return undefined;
+    }
+
+    const attribute = Array.isArray(record.attribute)
+      ? record.attribute.filter((part): part is string => typeof part === "string" && part !== "")
+      : typeof record.attribute === "string" && record.attribute !== ""
+        ? record.attribute
+        : undefined;
+
+    return {
+      kind: "entity",
+      entityId: record.entityId,
+      icon: typeof record.icon === "string" && record.icon !== "" ? record.icon : undefined,
+      attribute: Array.isArray(attribute) && attribute.length === 0 ? undefined : attribute,
+      unit: typeof record.unit === "string" && record.unit !== "" ? record.unit : undefined,
+      label: typeof record.label === "string" && record.label !== "" ? record.label : undefined
+    };
+  }
+
+  private _sensorTargetKey(target: SensorMoreInfoTarget | undefined): string | undefined {
+    if (!target) return undefined;
+    if (target.kind === "power") return "power";
+
+    const attribute = Array.isArray(target.attribute)
+      ? target.attribute.join(".")
+      : target.attribute ?? "";
+
+    return ["entity", target.entityId, attribute, target.unit ?? "", target.icon ?? "", target.label ?? ""].join("|");
+  }
+
   private _browserHistoryEntry(state = window.history.state): BrowserHistoryEntry | undefined {
     const entry = typeof state === "object" && state !== null
       ? (state as Record<string, unknown>)[BROWSER_HISTORY_STATE_KEY]
@@ -1784,7 +1824,7 @@ export class EquinoxMainCard extends LitElement {
     const record = entry as Partial<BrowserHistoryEntry>;
     if (
       record.instanceId !== this._browserHistoryInstanceId ||
-      (record.layer !== "history-dialog" && record.layer !== "regulation-dialog")
+      (record.layer !== "history-dialog" && record.layer !== "regulation-dialog" && record.layer !== "sensor-more-info-dialog")
     ) {
       return undefined;
     }
@@ -1793,7 +1833,8 @@ export class EquinoxMainCard extends LitElement {
       instanceId: record.instanceId,
       layer: record.layer,
       sectionId: typeof record.sectionId === "string" ? record.sectionId : undefined,
-      regulationDepth: typeof record.regulationDepth === "number" ? record.regulationDepth : undefined
+      regulationDepth: typeof record.regulationDepth === "number" ? record.regulationDepth : undefined,
+      sensorTarget: record.layer === "sensor-more-info-dialog" ? this._sensorTargetFromHistory(record.sensorTarget) : undefined
     };
   }
 
@@ -1815,7 +1856,8 @@ export class EquinoxMainCard extends LitElement {
     const current = this._browserHistoryEntry();
     return (
       current?.layer === entry.layer &&
-      current.sectionId === entry.sectionId
+      current.sectionId === entry.sectionId &&
+      this._sensorTargetKey(current.sensorTarget) === this._sensorTargetKey(entry.sensorTarget)
     );
   }
 
@@ -1846,6 +1888,10 @@ export class EquinoxMainCard extends LitElement {
     this._regulationBrowserHistoryDepth = regulationDepth;
   }
 
+  private _pushSensorMoreInfoDialogState(target: SensorMoreInfoTarget): void {
+    this._pushBrowserHistoryState({ layer: "sensor-more-info-dialog", sensorTarget: target });
+  }
+
   private readonly _handleBrowserPopState = (event: PopStateEvent): void => {
     const entry = this._browserHistoryEntry(event.state);
 
@@ -1867,6 +1913,13 @@ export class EquinoxMainCard extends LitElement {
         return;
       }
 
+      if (entry?.layer === "sensor-more-info-dialog" && entry.sensorTarget) {
+        this._activeDialog = "sensor-more-info";
+        this._activeMessageKey = undefined;
+        this._activeSensorInfoTarget = entry.sensorTarget;
+        return;
+      }
+
       if (this._activeDialog === "history") {
         this._activeDialog = null;
       }
@@ -1875,6 +1928,11 @@ export class EquinoxMainCard extends LitElement {
         this._activeDialog = null;
         this._regulationMobileSectionMenuOpen = false;
         this._regulationBrowserHistoryDepth = 0;
+      }
+
+      if (this._activeDialog === "sensor-more-info") {
+        this._activeDialog = null;
+        this._activeSensorInfoTarget = undefined;
       }
     } finally {
       this._syncingBrowserHistory = false;
@@ -1895,6 +1953,18 @@ export class EquinoxMainCard extends LitElement {
     }
 
     this._activeDialog = null;
+  }
+
+  private _closeSensorMoreInfoDialog(): void {
+    if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "sensor-more-info-dialog") {
+      this._activeDialog = null;
+      this._activeSensorInfoTarget = undefined;
+      window.history.back();
+      return;
+    }
+
+    this._activeDialog = null;
+    this._activeSensorInfoTarget = undefined;
   }
 
   private _regulationDashboard(): RegulationDashboard | undefined {
@@ -2226,10 +2296,7 @@ export class EquinoxMainCard extends LitElement {
         .viewModel=${this.viewModel}
         .language=${this._language()}
         .target=${this._activeSensorInfoTarget}
-        @eq-dialog-close=${() => {
-          this._activeDialog = null;
-          this._activeSensorInfoTarget = undefined;
-        }}
+        @eq-dialog-close=${() => this._closeSensorMoreInfoDialog()}
       ></eq-sensor-more-info-dialog>
     `;
   }
@@ -3714,6 +3781,7 @@ export class EquinoxMainCard extends LitElement {
     this._activeMessageKey = undefined;
     this._activeSensorInfoTarget = infoTarget;
     this._activeDialog = "sensor-more-info";
+    this._pushSensorMoreInfoDialogState(infoTarget);
   }
 
   private _openHumidityInfo(event?: Event): void {
