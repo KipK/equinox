@@ -219,7 +219,7 @@
     "theme": "Theme",
     "display_mode": "Format",
     "primary_display": "Display priority",
-    "use_temperature_popup": "Use popup setpoint selector",
+    "use_temperature_popup": "Use popup setpoint selector by default",
     "card_background_color": "Card background color",
     "card_background_opacity": "Card background opacity",
     "disable_name": "Hide name",

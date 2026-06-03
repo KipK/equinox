@@ -8755,7 +8755,7 @@ var ho = {
 			theme: "Theme",
 			display_mode: "Format",
 			primary_display: "Display priority",
-			use_temperature_popup: "Use popup setpoint selector",
+			use_temperature_popup: "Use popup setpoint selector by default",
 			card_background_color: "Card background color",
 			card_background_opacity: "Card background opacity",
 			disable_name: "Hide name",
@@ -9510,7 +9510,7 @@ var ho = {
 			theme: "Thème",
 			display_mode: "Format",
 			primary_display: "Priorité d'affichage",
-			use_temperature_popup: "Utiliser le sélecteur de consigne popup",
+			use_temperature_popup: "Utiliser le sélecteur de consigne popup par défaut",
 			card_background_color: "Couleur du fond de carte",
 			card_background_opacity: "Opacité du fond de carte",
 			disable_name: "Masquer le nom",
@@ -12088,7 +12088,7 @@ var Co = ["flat", "liquid_glow"], wo = [
 	theme: to,
 	display_mode: no,
 	primary_display: ro,
-	use_temperature_popup: !1,
+	use_temperature_popup: !0,
 	disable_name: !1,
 	hide_lock_button: !1,
 	additional_dashboards: io,
@@ -21203,6 +21203,58 @@ var fc = class extends O {
 
       }
 
+      @container (max-width: 300px) {
+        .thin-layout[has-humidity] {
+          grid-template-areas:
+            "humidity status"
+            "temperature extra"
+            "setpoint primary";
+          grid-template-rows: minmax(22px, auto) minmax(30px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout[has-humidity]:not([has-extra]) {
+          grid-template-areas:
+            "humidity status"
+            "temperature temperature"
+            "setpoint primary";
+        }
+
+        .thin-readings[has-humidity] {
+          display: contents;
+          white-space: normal;
+        }
+
+        .thin-current {
+          grid-area: temperature;
+          max-width: 100%;
+        }
+
+        .thin-humidity {
+          grid-area: humidity;
+          max-width: 100%;
+        }
+
+        .thin-layout[has-humidity] .thin-current {
+          font-size: clamp(19px, 8.2cqi, 27px);
+        }
+
+        .thin-layout[has-humidity] .thin-current ha-icon {
+          --mdc-icon-size: 0.84em;
+          width: 0.84em;
+          height: 0.84em;
+        }
+
+        .thin-layout[has-humidity] .thin-humidity {
+          font-size: clamp(13px, 5.6cqi, 18px);
+        }
+
+        .thin-layout[has-humidity] .thin-humidity ha-icon {
+          --mdc-icon-size: 0.9em;
+          width: 0.9em;
+          height: 0.9em;
+        }
+      }
+
       .btn-icon {
         width: 30px;
         height: 30px;
@@ -21840,8 +21892,9 @@ var fc = class extends O {
     `;
 	}
 	_renderThinLayout() {
+		let e = J(this.viewModel?.climate.currentHumidity);
 		return T`
-      <div class="thin-layout" ?has-extra=${this._hasThinExtraSelectors()}>
+      <div class="thin-layout" ?has-extra=${this._hasThinExtraSelectors()} ?has-humidity=${e}>
         ${this._renderThinSummaryRow()}
         ${this._renderThinControlRow()}
       </div>
@@ -21851,7 +21904,7 @@ var fc = class extends O {
 		let e = this.viewModel?.climate.currentHumidity, t = J(e), n = this.viewModel?.climate.temperatureEntityId, r = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, i = this.viewModel?.vt?.lock.isLocked ? V(this._language(), "main.lock.locked") : V(this._language(), "main.lock.unlocked");
 		return T`
       <div class="thin-summary">
-        <div class="thin-readings">
+        <div class="thin-readings" ?has-humidity=${t}>
           <span
             class="thin-current"
             ?clickable=${!!n}

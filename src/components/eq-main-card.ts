@@ -1343,6 +1343,58 @@ export class EquinoxMainCard extends LitElement {
 
       }
 
+      @container (max-width: 300px) {
+        .thin-layout[has-humidity] {
+          grid-template-areas:
+            "humidity status"
+            "temperature extra"
+            "setpoint primary";
+          grid-template-rows: minmax(22px, auto) minmax(30px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout[has-humidity]:not([has-extra]) {
+          grid-template-areas:
+            "humidity status"
+            "temperature temperature"
+            "setpoint primary";
+        }
+
+        .thin-readings[has-humidity] {
+          display: contents;
+          white-space: normal;
+        }
+
+        .thin-current {
+          grid-area: temperature;
+          max-width: 100%;
+        }
+
+        .thin-humidity {
+          grid-area: humidity;
+          max-width: 100%;
+        }
+
+        .thin-layout[has-humidity] .thin-current {
+          font-size: clamp(19px, 8.2cqi, 27px);
+        }
+
+        .thin-layout[has-humidity] .thin-current ha-icon {
+          --mdc-icon-size: 0.84em;
+          width: 0.84em;
+          height: 0.84em;
+        }
+
+        .thin-layout[has-humidity] .thin-humidity {
+          font-size: clamp(13px, 5.6cqi, 18px);
+        }
+
+        .thin-layout[has-humidity] .thin-humidity ha-icon {
+          --mdc-icon-size: 0.9em;
+          width: 0.9em;
+          height: 0.9em;
+        }
+      }
+
       .btn-icon {
         width: 30px;
         height: 30px;
@@ -2229,8 +2281,10 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderThinLayout(): TemplateResult {
+    const showHumidity = finite(this.viewModel?.climate.currentHumidity);
+
     return html`
-      <div class="thin-layout" ?has-extra=${this._hasThinExtraSelectors()}>
+      <div class="thin-layout" ?has-extra=${this._hasThinExtraSelectors()} ?has-humidity=${showHumidity}>
         ${this._renderThinSummaryRow()}
         ${this._renderThinControlRow()}
       </div>
@@ -2250,7 +2304,7 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="thin-summary">
-        <div class="thin-readings">
+        <div class="thin-readings" ?has-humidity=${showHumidity}>
           <span
             class="thin-current"
             ?clickable=${!!tempEntityId}

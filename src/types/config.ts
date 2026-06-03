@@ -48,7 +48,7 @@ export const DEFAULT_CONFIG = {
   theme: DEFAULT_THEME,
   display_mode: DEFAULT_DISPLAY_MODE,
   primary_display: DEFAULT_PRIMARY_DISPLAY,
-  use_temperature_popup: false,
+  use_temperature_popup: true,
   disable_name: false,
   hide_lock_button: false,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,

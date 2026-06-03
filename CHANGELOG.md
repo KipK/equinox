@@ -5,7 +5,8 @@ All notable changes to Equinox will be documented in this file.
 ## Next
 
 - Add `display_mode: thin`, a compact control layout with color-coded popup temperature sliders, responsive sensor readings, inline HVAC/preset/fan/swing popups, and horizontal state icons.
-- Add `use_temperature_popup` for classic/compact cards to opt into the popup slider setpoint selector while keeping the +/- selector as the default.
+- Add `use_temperature_popup` for classic/compact cards, with the popup slider setpoint selector enabled by default and the inline +/- selector still available by setting it to `false`.
+- Move thin-mode humidity onto the status-icon row and temperature onto the next row on very narrow cards, with larger split-reading values.
 
 ## 0.1.0
 
