@@ -21099,7 +21099,15 @@ var fc = class extends O {
 
       .thin-extra-selectors {
         grid-area: extra;
+        width: 48px;
+        flex: 0 0 auto;
+        flex-wrap: nowrap;
         justify-content: flex-end;
+        justify-self: end;
+      }
+
+      .thin-layout[extra-count="2"] .thin-extra-selectors {
+        width: 101px;
       }
 
       .thin-selectors ha-control-button {
@@ -21127,12 +21135,20 @@ var fc = class extends O {
 
       @container (max-width: 360px) {
         .thin-layout {
-          grid-template-columns: minmax(0, 1fr) auto;
+          grid-template-columns: minmax(0, 1fr) var(--thin-extra-column-width, auto);
           grid-template-areas:
             "status status"
             "readings extra"
             "setpoint primary";
           grid-template-rows: minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout[extra-count="1"] {
+          --thin-extra-column-width: 48px;
+        }
+
+        .thin-layout[extra-count="2"] {
+          --thin-extra-column-width: 101px;
         }
 
         .thin-layout:not([has-extra]) {
@@ -21193,55 +21209,155 @@ var fc = class extends O {
 
       }
 
+      @container (max-width: 330px) {
+        .thin-layout[extra-count="2"] .thin-current {
+          font-size: clamp(14px, 5.8cqi, 20px);
+        }
+      }
+
+      .thin-humidity-status {
+        display: none;
+      }
+
       @container (max-width: 300px) {
-        .thin-layout[has-humidity] {
-          grid-template-areas:
-            "humidity status"
-            "temperature extra"
-            "setpoint primary";
-          grid-template-rows: minmax(22px, auto) minmax(30px, auto) minmax(34px, auto);
-        }
-
-        .thin-layout[has-humidity]:not([has-extra]) {
-          grid-template-areas:
-            "humidity status"
-            "temperature temperature"
-            "setpoint primary";
-        }
-
-        .thin-readings[has-humidity] {
-          display: contents;
-          white-space: normal;
-        }
-
-        .thin-current {
-          grid-area: temperature;
+        .thin-layout[has-humidity][extra-count="2"] .thin-current {
           max-width: 100%;
+          font-size: clamp(16px, 6.8cqi, 22px);
         }
 
-        .thin-humidity {
-          grid-area: humidity;
-          max-width: 100%;
-        }
-
-        .thin-layout[has-humidity] .thin-current {
-          font-size: clamp(19px, 8.2cqi, 27px);
-        }
-
-        .thin-layout[has-humidity] .thin-current ha-icon {
+        .thin-layout[has-humidity][extra-count="2"] .thin-current ha-icon {
           --mdc-icon-size: 0.84em;
           width: 0.84em;
           height: 0.84em;
         }
 
-        .thin-layout[has-humidity] .thin-humidity {
-          font-size: clamp(13px, 5.6cqi, 18px);
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-reading {
+          display: none;
         }
 
-        .thin-layout[has-humidity] .thin-humidity ha-icon {
-          --mdc-icon-size: 0.9em;
-          width: 0.9em;
-          height: 0.9em;
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-status {
+          display: inline-flex;
+          position: relative;
+          width: 24px;
+          height: 24px;
+          flex: 0 0 24px;
+          align-items: center;
+          justify-content: center;
+          border: 0;
+          border-radius: 50%;
+          background: transparent;
+          color: var(--equinox-muted-color);
+          overflow: visible;
+          padding: 0;
+          cursor: pointer;
+        }
+
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-status:hover,
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-status:focus-visible {
+          background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
+        }
+
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-status ha-icon {
+          --mdc-icon-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-status::after {
+          content: attr(data-value);
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0;
+          z-index: 20;
+          display: none;
+          width: max-content;
+          min-width: 42px;
+          padding: 8px 10px;
+          border-radius: var(--equinox-radius);
+          border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
+          background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
+          box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
+          backdrop-filter: blur(14px);
+          color: var(--equinox-text-color);
+          font-size: 12px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-status:hover::after,
+        .thin-layout[has-humidity][extra-count="2"] .thin-humidity-status:focus-visible::after {
+          display: block;
+        }
+      }
+
+      @container (max-width: 260px) {
+        .thin-layout[has-humidity][extra-count="1"] .thin-current {
+          max-width: 100%;
+          font-size: clamp(18px, 7.6cqi, 25px);
+        }
+
+        .thin-layout[has-humidity][extra-count="1"] .thin-current ha-icon {
+          --mdc-icon-size: 0.84em;
+          width: 0.84em;
+          height: 0.84em;
+        }
+
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-reading {
+          display: none;
+        }
+
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-status {
+          display: inline-flex;
+          position: relative;
+          width: 24px;
+          height: 24px;
+          flex: 0 0 24px;
+          align-items: center;
+          justify-content: center;
+          border: 0;
+          border-radius: 50%;
+          background: transparent;
+          color: var(--equinox-muted-color);
+          overflow: visible;
+          padding: 0;
+          cursor: pointer;
+        }
+
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-status:hover,
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-status:focus-visible {
+          background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
+        }
+
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-status ha-icon {
+          --mdc-icon-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-status::after {
+          content: attr(data-value);
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0;
+          z-index: 20;
+          display: none;
+          width: max-content;
+          min-width: 42px;
+          padding: 8px 10px;
+          border-radius: var(--equinox-radius);
+          border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
+          background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
+          box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
+          backdrop-filter: blur(14px);
+          color: var(--equinox-text-color);
+          font-size: 12px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-status:hover::after,
+        .thin-layout[has-humidity][extra-count="1"] .thin-humidity-status:focus-visible::after {
+          display: block;
         }
       }
 
@@ -21879,9 +21995,14 @@ var fc = class extends O {
     `;
 	}
 	_renderThinLayout() {
-		let e = J(this.viewModel?.climate.currentHumidity);
+		let e = J(this.viewModel?.climate.currentHumidity), t = this._thinExtraSelectorCount();
 		return T`
-      <div class="thin-layout" ?has-extra=${this._hasThinExtraSelectors()} ?has-humidity=${e}>
+      <div
+        class="thin-layout"
+        ?has-extra=${t > 0}
+        ?has-humidity=${e}
+        extra-count=${t}
+      >
         ${this._renderThinSummaryRow()}
         ${this._renderThinControlRow()}
       </div>
@@ -21901,7 +22022,7 @@ var fc = class extends O {
             ${this._formatCurrentTemp()}
           </span>
           ${t ? T`
-                <span class="thin-humidity" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
+                <span class="thin-humidity thin-humidity-reading" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                   <span>${this._formatPercent(e)}</span>
                 </span>
@@ -21909,6 +22030,16 @@ var fc = class extends O {
         </div>
         <div class="thin-status">
           ${this._renderPowerInfoButton()}
+          ${t ? T`
+                <button
+                  class="thin-humidity-status"
+                  data-value=${this._formatPercent(e)}
+                  aria-label=${this._formatPercent(e)}
+                  @click=${() => this._openMoreInfo(this._humidityEntityId())}
+                >
+                  <ha-icon icon="mdi:water-percent"></ha-icon>
+                </button>
+              ` : D}
           <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
           ${r ? this._renderLockButton(i) : D}
           ${this._renderMenuButton()}
@@ -21961,7 +22092,10 @@ var fc = class extends O {
 		return e === D && t === D ? D : T`<div class="thin-selectors thin-extra-selectors">${e}${t}</div>`;
 	}
 	_hasThinExtraSelectors() {
-		return this._hasFanControl() || this._hasSwingControl();
+		return this._thinExtraSelectorCount() > 0;
+	}
+	_thinExtraSelectorCount() {
+		return +!!this._hasFanControl() + +!!this._hasSwingControl();
 	}
 	_renderThinHvacButton() {
 		let e = this.viewModel?.climate.hvacMode, t = this._visibleHvacModes(), n = e && t.includes(e) ? e : void 0;
