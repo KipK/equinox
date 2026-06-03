@@ -190,6 +190,15 @@
       "start_description": "בתום הספירה לאחור, התרמוסטט יחזור למצב הקודם.",
       "active_description": "בתום הספירה לאחור, התרמוסטט יחזור למצב הקודם.",
       "active_description_with_preset": "בתום הספירה לאחור, התרמוסטט יחזור למצב הקודם ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {

@@ -190,6 +190,15 @@
       "start_description": "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
       "active_description": "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus.",
       "active_description_with_preset": "Når nedtellingen er ferdig, vender termostaten tilbake til forrige modus ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {

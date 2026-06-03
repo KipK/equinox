@@ -9,6 +9,8 @@ All notable changes to Equinox will be documented in this file.
 - Some UI improvements
 - Keep thin humidity beside temperature when space allows, moving it next to the power icon as a hover-value icon only when fan/swing buttons constrain the sensor row, and reserve only the actual width of present extra buttons.
 - Keep thin cards on two lines for wider narrow layouts by delaying the three-line breakpoint.
+- Replace native sensor more-info popups and the power hover tooltip with an Equinox sensor dialog showing current values and a 24h `ha-better-history` chart.
+- Fix the sensor dialog power request chart by preferring historically recorded root VT power/valve attributes before namespaced fallbacks, and tune the tools icon size.
 
 ## 0.1.0
 

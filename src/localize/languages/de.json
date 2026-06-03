@@ -190,6 +190,15 @@
       "start_description": "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
       "active_description": "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück.",
       "active_description_with_preset": "Wenn der Countdown endet, kehrt der Thermostat zum vorherigen Modus zurück ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {

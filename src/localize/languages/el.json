@@ -190,6 +190,15 @@
       "start_description": "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
       "active_description": "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία.",
       "active_description_with_preset": "Όταν τελειώσει η αντίστροφη μέτρηση, ο θερμοστάτης θα επιστρέψει στην προηγούμενη λειτουργία ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {

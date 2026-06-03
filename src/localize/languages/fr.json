@@ -207,6 +207,15 @@
       "start_description": "À la fin du compte à rebours, le thermostat reviendra au mode précédent.",
       "active_description": "À la fin du compte à rebours, le thermostat reviendra au mode précédent.",
       "active_description_with_preset": "À la fin du compte à rebours, le thermostat reviendra au mode précédent ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Capteur",
+      "power_title": "Puissance",
+      "temperature": "Température",
+      "humidity": "Humidité",
+      "power_request": "Demande de puissance",
+      "valve_opening": "Ouverture de vanne",
+      "unavailable": "Aucune donnée de capteur disponible"
     }
   },
   "editor": {

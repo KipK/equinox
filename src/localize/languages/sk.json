@@ -190,6 +190,15 @@
       "start_description": "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
       "active_description": "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu.",
       "active_description_with_preset": "Po skončení odpočtu sa termostat vráti do predchádzajúceho režimu ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {

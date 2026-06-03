@@ -190,6 +190,15 @@
       "start_description": "По окончании обратного отсчета термостат вернется в предыдущий режим.",
       "active_description": "По окончании обратного отсчета термостат вернется в предыдущий режим.",
       "active_description_with_preset": "По окончании обратного отсчета термостат вернется в предыдущий режим ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {

@@ -15,6 +15,7 @@ import type { HomeAssistant } from "../types/ha";
 import type { RegulationDashboard } from "../types/regulation-dashboard";
 import type { EquinoxVtMessage } from "../types/vt";
 import type { EquinoxViewModel } from "../types/view-model";
+import type { SensorMoreInfoTarget } from "./eq-sensor-more-info-dialog";
 import "./eq-fan-dialog";
 import "./eq-hvac-dialog";
 import "./eq-swing-dialog";
@@ -23,6 +24,7 @@ import "./eq-temperature-dialog";
 import "./eq-menu-dialog";
 import "./eq-boost-dialog";
 import "./eq-history-dialog";
+import "./eq-sensor-more-info-dialog";
 import "./eq-regulation-dialog";
 import "./eq-lock-dialog";
 import "./eq-dialog";
@@ -207,7 +209,7 @@ export class EquinoxMainCard extends LitElement {
     _activeDialog: { state: true },
     _dialogAnchor: { state: true },
     _activeMessageKey: { state: true },
-    _powerInfoPinned: { state: true },
+    _activeSensorInfoTarget: { state: true },
     _lockDialogOpen: { state: true },
     _lockIsLocking: { state: true },
     _regulationLoadResult: { state: true },
@@ -1647,23 +1649,6 @@ export class EquinoxMainCard extends LitElement {
         display: none;
       }
 
-      .meter {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        color: var(--equinox-muted-color);
-        font-size: 12px;
-        white-space: nowrap;
-      }
-
-      .meter-line {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        line-height: 1;
-      }
-
       .menu {
         width: 28px;
         height: 28px;
@@ -1689,24 +1674,7 @@ export class EquinoxMainCard extends LitElement {
         background: var(--equinox-mode-control-hover-bg);
       }
 
-      .meter-legacy {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .meter ha-icon {
-        --mdc-icon-size: 22px;
-        width: 22px;
-        height: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-      }
-
       .power-info {
-        position: relative;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -1729,58 +1697,6 @@ export class EquinoxMainCard extends LitElement {
       .power-info-button:hover,
       .power-info-button:focus-visible {
         background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
-      }
-
-      .power-popover {
-        position: absolute;
-        top: calc(100% + 8px);
-        left: 0;
-        z-index: 20;
-        display: none;
-        width: max-content;
-        min-width: 82px;
-        max-width: min(180px, calc(100vw - 24px));
-        padding: 10px;
-        border-radius: var(--equinox-radius);
-        border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
-        background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
-        box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
-        backdrop-filter: blur(14px);
-        color: var(--equinox-text-color);
-      }
-
-      .state-rail .power-popover {
-        left: auto;
-        right: 0;
-      }
-
-      .power-info:hover .power-popover,
-      .power-info:focus-within .power-popover,
-      .power-info[open] .power-popover {
-        display: block;
-      }
-
-      .power-popover .meter {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        font-size: 12px;
-        white-space: nowrap;
-        color: var(--equinox-text-color);
-      }
-
-      .power-popover .meter-line {
-        gap: 6px;
-      }
-
-      .power-popover ha-icon {
-        width: 28px;
-        height: 28px;
-        --mdc-icon-size: 18px;
-        background: rgba(128, 128, 128, 0.10);
-        border-radius: 50%;
-        flex-shrink: 0;
-        color: var(--equinox-muted-color);
       }
 
       @media (max-width: 360px) {
@@ -1833,11 +1749,10 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
-  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu" | "boost" | "history" | "regulation" | null = null;
+  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu" | "boost" | "history" | "regulation" | "sensor-more-info" | null = null;
   private _dialogAnchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _activeMessageKey?: string;
-  private _powerInfoPinned = false;
-  private _powerInfoPressTimer?: number;
+  private _activeSensorInfoTarget?: SensorMoreInfoTarget;
   private _lockDialogOpen = false;
   private _lockIsLocking = false;
   private _regulationLoadResult?: RegulationDashboardLoadResult;
@@ -1859,7 +1774,6 @@ export class EquinoxMainCard extends LitElement {
     super.disconnectedCallback();
     this.removeEventListener("mouseleave", this._handleMouseLeave);
     window.removeEventListener("popstate", this._handleBrowserPopState);
-    this._clearPowerInfoPressTimer();
   }
 
   private readonly _handleMouseLeave = (): void => {
@@ -2167,6 +2081,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderActiveDialogs(): Array<TemplateResult | typeof nothing> {
     return [
       this._renderLightweightDialog(),
+      this._renderSensorMoreInfoDialog(),
       this._renderHistoryDialog(),
       this._renderRegulationDialog(),
       this._renderLockDialog(),
@@ -2306,6 +2221,27 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
+  private _renderSensorMoreInfoDialog(): TemplateResult | typeof nothing {
+    if (this._activeDialog !== "sensor-more-info" || !this._activeSensorInfoTarget) {
+      return nothing;
+    }
+
+    return html`
+      <eq-sensor-more-info-dialog
+        .open=${true}
+        .hass=${this.hass}
+        .config=${this.config}
+        .viewModel=${this.viewModel}
+        .language=${this._language()}
+        .target=${this._activeSensorInfoTarget}
+        @eq-dialog-close=${() => {
+          this._activeDialog = null;
+          this._activeSensorInfoTarget = undefined;
+        }}
+      ></eq-sensor-more-info-dialog>
+    `;
+  }
+
   private _renderRegulationDialog(): TemplateResult | typeof nothing {
     if (this._activeDialog !== "regulation") {
       return nothing;
@@ -2428,7 +2364,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderThinSummaryRow(): TemplateResult {
     const currentHumidity = this.viewModel?.climate.currentHumidity;
     const showHumidity = finite(currentHumidity);
-    const tempEntityId = this.viewModel?.climate.temperatureEntityId;
+    const showTemperature = finite(this.viewModel?.climate.currentTemperature);
     const lockButtonVisible =
       !this.config?.hide_lock_button &&
       this.viewModel?.vt?.lock.isConfigured === true;
@@ -2441,15 +2377,15 @@ export class EquinoxMainCard extends LitElement {
         <div class="thin-readings" ?has-humidity=${showHumidity}>
           <span
             class="thin-current"
-            ?clickable=${!!tempEntityId}
-            @click=${tempEntityId ? () => this._openMoreInfo(tempEntityId) : nothing}
+            ?clickable=${showTemperature}
+            @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
           >
             <ha-icon icon="mdi:thermometer"></ha-icon>
             ${this._formatCurrentTemp()}
           </span>
           ${showHumidity
         ? html`
-                <span class="thin-humidity thin-humidity-reading" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
+                <span class="thin-humidity thin-humidity-reading" @click=${(event: Event) => this._openHumidityInfo(event)}>
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                   <span>${this._formatPercent(currentHumidity)}</span>
                 </span>
@@ -2464,7 +2400,7 @@ export class EquinoxMainCard extends LitElement {
                   class="thin-humidity-status"
                   data-value=${this._formatPercent(currentHumidity)}
                   aria-label=${this._formatPercent(currentHumidity)}
-                  @click=${() => this._openMoreInfo(this._humidityEntityId())}
+                  @click=${(event: Event) => this._openHumidityInfo(event)}
                 >
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                 </button>
@@ -2855,15 +2791,15 @@ export class EquinoxMainCard extends LitElement {
   private _renderSensorFocus(): TemplateResult {
     const currentHumidity = this.viewModel?.climate.currentHumidity;
     const showHumidity = finite(currentHumidity);
-    const tempEntityId = this.viewModel?.climate.temperatureEntityId;
+    const showTemperature = finite(this.viewModel?.climate.currentTemperature);
 
     return html`
       <div class="setpoint" sensor-focus>
         <div class="sensor-primary">
           <span
             class="sensor-temperature"
-            ?clickable=${!!tempEntityId}
-            @click=${tempEntityId ? () => this._openMoreInfo(tempEntityId) : nothing}
+            ?clickable=${showTemperature}
+            @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
           >
             <ha-icon icon="mdi:thermometer"></ha-icon>
             <span>${this._formatCurrentTempValue()}</span>
@@ -2871,7 +2807,7 @@ export class EquinoxMainCard extends LitElement {
           </span>
           ${showHumidity
         ? html`
-                <span class="sensor-humidity" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
+                <span class="sensor-humidity" @click=${(event: Event) => this._openHumidityInfo(event)}>
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                   <span>${this._formatPercent(currentHumidity)}</span>
                 </span>
@@ -3043,14 +2979,14 @@ export class EquinoxMainCard extends LitElement {
     const currentHumidity = this.viewModel?.climate.currentHumidity;
     const showHumidity = finite(currentHumidity);
 
-    const tempEntityId = this.viewModel?.climate.temperatureEntityId;
+    const showTemperature = finite(this.viewModel?.climate.currentTemperature);
 
     return html`
       <div class="conditions">
         <span
           class="condition"
-          ?clickable=${!!tempEntityId}
-          @click=${tempEntityId ? () => this._openMoreInfo(tempEntityId) : nothing}
+          ?clickable=${showTemperature}
+          @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
         >
           <ha-icon icon="mdi:thermometer"></ha-icon>
           <span class="condition-value" kind="temperature">${this._formatCurrentTemp()}</span>
@@ -3058,7 +2994,7 @@ export class EquinoxMainCard extends LitElement {
         ${showHumidity
         ? html`
             <span class="divider"></span>
-            <span class="condition" clickable @click=${() => this._openMoreInfo(this._humidityEntityId())}>
+            <span class="condition" clickable @click=${(event: Event) => this._openHumidityInfo(event)}>
               <ha-icon icon="mdi:water-percent"></ha-icon>
               <span class="condition-value" kind="humidity">${this._formatPercent(currentHumidity)}</span>
             </span>
@@ -3232,48 +3168,20 @@ export class EquinoxMainCard extends LitElement {
     const label = localize(this._language(), "main.actions.open_power_info");
 
     return html`
-      <span class="power-info" ?open=${this._powerInfoPinned} @mouseleave=${this._closePowerInfo}>
-        <button
-          class="power-info-button"
-          aria-label=${label}
-          @pointerdown=${this._startPowerInfoPress}
-          @pointerup=${this._clearPowerInfoPressTimer}
-          @pointercancel=${this._clearPowerInfoPressTimer}
-        >
-          <ha-icon .icon=${this._powerInfoButtonIcon()}></ha-icon>
-        </button>
-        <div class="power-popover">
-          ${this._renderPowerValve()}
-        </div>
-      </span>
+      <button
+        class="power-info power-info-button"
+        title=${label}
+        aria-label=${label}
+        @click=${(event: Event) => this._openSensorMoreInfo({ kind: "power" }, event)}
+      >
+        <ha-icon .icon=${this._powerInfoButtonIcon()}></ha-icon>
+      </button>
     `;
   }
 
   private _powerInfoButtonIcon(): string {
     return this._powerValveValue()?.icon === "mdi:pipe-valve" ? "mdi:pipe-valve" : "mdi:flash";
   }
-
-  private readonly _startPowerInfoPress = (event: PointerEvent): void => {
-    if (event.pointerType !== "touch" && event.pointerType !== "pen") {
-      return;
-    }
-
-    this._clearPowerInfoPressTimer();
-    this._powerInfoPressTimer = window.setTimeout(() => {
-      this._powerInfoPinned = true;
-    }, 450);
-  };
-
-  private readonly _clearPowerInfoPressTimer = (): void => {
-    if (this._powerInfoPressTimer !== undefined) {
-      window.clearTimeout(this._powerInfoPressTimer);
-      this._powerInfoPressTimer = undefined;
-    }
-  };
-
-  private readonly _closePowerInfo = (): void => {
-    this._powerInfoPinned = false;
-  };
 
   private _renderFanButton(): TemplateResult {
     return html`
@@ -3304,27 +3212,6 @@ export class EquinoxMainCard extends LitElement {
       (this.viewModel?.climate.swingModes?.length ?? 0) > 0 ||
       (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0
     );
-  }
-
-  private _renderPowerValve(): TemplateResult | typeof nothing {
-    const value = this._powerValveValue();
-    const instantPower = this.viewModel?.vt?.powerValve.instantPower ?? this.viewModel?.climate.instantPower;
-    const instantPowerUnit = this.viewModel?.vt?.powerValve.instantPowerUnit ?? this.viewModel?.climate.instantPowerUnit;
-
-    if (!value && !finite(instantPower)) {
-      return nothing;
-    }
-
-    return html`
-      <div class="meter">
-        ${value
-        ? html`<span class="meter-line"><ha-icon .icon=${value.icon}></ha-icon><span>${value.label}</span></span>`
-        : nothing}
-        ${finite(instantPower)
-        ? html`<span class="meter-line"><ha-icon icon="mdi:flash"></ha-icon><span>${this._formatNumber(instantPower)}${instantPowerUnit ? ` ${instantPowerUnit}` : ""}</span></span>`
-        : nothing}
-      </div>
-    `;
   }
 
   private _renderMenuButton(): TemplateResult {
@@ -3829,12 +3716,52 @@ export class EquinoxMainCard extends LitElement {
     void setPresetMode({ hass: this.hass, entityId: this.config.entity, viewModel: this.viewModel }, preset);
   }
 
-  private _openMoreInfo(entityId: string): void {
-    this.dispatchEvent(new CustomEvent("hass-more-info", { bubbles: true, composed: true, detail: { entityId } }));
+  private _openSensorMoreInfo(infoTarget: SensorMoreInfoTarget, event?: Event): void {
+    const targetElement = event?.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
+    this._dialogAnchor = targetElement ? { element: targetElement } : undefined;
+    this._activeMessageKey = undefined;
+    this._activeSensorInfoTarget = infoTarget;
+    this._activeDialog = "sensor-more-info";
   }
 
-  private _humidityEntityId(): string {
-    return this.config!.humidity_entity ?? this.config!.entity;
+  private _openHumidityInfo(event?: Event): void {
+    if (!this.config) return;
+
+    if (this.config.humidity_entity) {
+      this._openSensorMoreInfo({ kind: "entity", entityId: this.config.humidity_entity, icon: "mdi:water-percent" }, event);
+      return;
+    }
+
+    const climate = this.hass?.states[this.config.entity];
+    const attribute = climate?.attributes.current_humidity !== undefined ? "current_humidity" : "humidity";
+
+    this._openSensorMoreInfo({
+      kind: "entity",
+      entityId: this.config.entity,
+      attribute,
+      unit: "%",
+      icon: "mdi:water-percent",
+      label: localize(this._language(), "dialog.sensor_more_info.humidity")
+    }, event);
+  }
+
+  private _openTemperatureInfo(event?: Event): void {
+    if (!this.config) return;
+
+    const temperatureEntityId = this.viewModel?.climate.temperatureEntityId;
+    if (temperatureEntityId) {
+      this._openSensorMoreInfo({ kind: "entity", entityId: temperatureEntityId, icon: "mdi:thermometer" }, event);
+      return;
+    }
+
+    this._openSensorMoreInfo({
+      kind: "entity",
+      entityId: this.config.entity,
+      attribute: "current_temperature",
+      unit: "temperature",
+      icon: "mdi:thermometer",
+      label: localize(this._language(), "dialog.sensor_more_info.temperature")
+    }, event);
   }
 
   private _toggleLock(): void {

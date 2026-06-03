@@ -190,6 +190,15 @@
       "start_description": "倒计时结束后，温控器将返回上一个模式。",
       "active_description": "倒计时结束后，温控器将返回上一个模式。",
       "active_description_with_preset": "倒计时结束后，温控器将返回上一个模式（{preset}）。"
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {

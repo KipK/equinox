@@ -190,6 +190,15 @@
       "start_description": "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior.",
       "active_description": "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior.",
       "active_description_with_preset": "Cuando la cuenta regresiva termine, el termostato volverá al modo anterior ({preset})."
+    },
+    "sensor_more_info": {
+      "title": "Sensor",
+      "power_title": "Power",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "power_request": "Power request",
+      "valve_opening": "Valve opening",
+      "unavailable": "No sensor data available"
     }
   },
   "editor": {
