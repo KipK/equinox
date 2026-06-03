@@ -20825,9 +20825,7 @@ function xc(e, t) {
 }
 var Sc = class extends D {
 	constructor(...e) {
-		super(...e), this._activeDialog = null, this._lockDialogOpen = !1, this._lockIsLocking = !1, this._regulationLoadKey = "", this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0, this._browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`, this._syncingBrowserHistory = !1, this._handleMouseLeave = () => {
-			this._activeDialog === "menu" && (this._activeDialog = null);
-		}, this._handleBrowserPopState = (e) => {
+		super(...e), this._activeDialog = null, this._lockDialogOpen = !1, this._lockIsLocking = !1, this._regulationLoadKey = "", this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0, this._browserHistoryInstanceId = `equinox-${Math.random().toString(36).slice(2)}`, this._syncingBrowserHistory = !1, this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
 			this._syncingBrowserHistory = !0;
 			try {
@@ -22391,10 +22389,10 @@ var Sc = class extends D {
 		];
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.addEventListener("mouseleave", this._handleMouseLeave), window.addEventListener("popstate", this._handleBrowserPopState);
+		super.connectedCallback(), window.addEventListener("popstate", this._handleBrowserPopState);
 	}
 	disconnectedCallback() {
-		super.disconnectedCallback(), this.removeEventListener("mouseleave", this._handleMouseLeave), window.removeEventListener("popstate", this._handleBrowserPopState);
+		super.disconnectedCallback(), window.removeEventListener("popstate", this._handleBrowserPopState);
 	}
 	_browserHistoryEntry(e = window.history.state) {
 		let t = typeof e == "object" && e ? e[fc] : void 0;

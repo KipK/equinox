@@ -1766,21 +1766,13 @@ export class EquinoxMainCard extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener("mouseleave", this._handleMouseLeave);
     window.addEventListener("popstate", this._handleBrowserPopState);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.removeEventListener("mouseleave", this._handleMouseLeave);
     window.removeEventListener("popstate", this._handleBrowserPopState);
   }
-
-  private readonly _handleMouseLeave = (): void => {
-    if (this._activeDialog === "menu") {
-      this._activeDialog = null;
-    }
-  };
 
   private _browserHistoryEntry(state = window.history.state): BrowserHistoryEntry | undefined {
     const entry = typeof state === "object" && state !== null
