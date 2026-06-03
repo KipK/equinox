@@ -457,6 +457,7 @@ export class EquinoxMainCard extends LitElement {
         min-height: 0;
         position: relative;
         --rail-icon-size: clamp(20px, 7cqi, 26px);
+        --rail-mode-button-size: clamp(28px, 8.5cqi, 32px);
         --rail-menu-size: clamp(22px, 7.5cqi, 28px);
         --rail-icon-inner-size: clamp(17px, 5.8cqi, 22px);
         --rail-gap: clamp(4px, 2.5cqi, 8px);
@@ -520,14 +521,18 @@ export class EquinoxMainCard extends LitElement {
       .state-rail .event,
       .state-rail .action-icon,
       .state-rail .lock,
-      .state-rail .fan,
-      .state-rail .swing,
-      .left-rail .fan,
-      .left-rail .swing,
       .left-rail .power-info-button,
       .state-rail .power-info-button {
         width: var(--rail-icon-size);
         height: var(--rail-icon-size);
+      }
+
+      .state-rail .fan,
+      .state-rail .swing,
+      .left-rail .fan,
+      .left-rail .swing {
+        width: var(--rail-mode-button-size);
+        height: var(--rail-mode-button-size);
       }
 
       .state-rail .menu {
@@ -1509,8 +1514,8 @@ export class EquinoxMainCard extends LitElement {
 
       .status .fan,
       .status .swing {
-        width: 26px;
-        height: 26px;
+        width: 32px;
+        height: 32px;
       }
 
       .fan-label,

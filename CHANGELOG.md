@@ -8,6 +8,7 @@ All notable changes to Equinox will be documented in this file.
 - Add `use_temperature_popup` for classic/compact cards, with the popup slider setpoint selector enabled by default and the inline +/- selector still available by setting it to `false`.
 - Move thin-mode humidity onto the status-icon row and temperature onto the next row on very narrow cards, with larger split-reading values.
 - Remove the fan/ventilation opener from the card menu.
+- Increase normal fan/swing button frames so icons have more padding.
 
 ## 0.1.0
 
