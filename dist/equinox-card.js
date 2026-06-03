@@ -20922,6 +20922,14 @@ var fc = class extends O {
         flex: 0 1 auto;
       }
 
+      .thin-current[clickable] {
+        cursor: pointer;
+      }
+
+      .thin-current[clickable]:hover {
+        opacity: 0.75;
+      }
+
       .thin-current ha-icon {
         --mdc-icon-size: 0.78em;
         width: 0.78em;
