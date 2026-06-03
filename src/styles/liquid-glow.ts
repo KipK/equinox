@@ -82,6 +82,18 @@ export const liquidGlowStyles = css`
     }
   }
 
+  @keyframes equinox-liquid-icon-glow-pulse {
+    from {
+      opacity: 0.42;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    to {
+      opacity: 0.86;
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+  }
+
   /* The pseudo-element covers the card's border-box exactly via inset: -1px (the
      containing block for absolutely-positioned children is the padding-box, so -1px
      pushes back through the 1px border zone to the outer edge). The 1px-offset
@@ -158,6 +170,20 @@ export const liquidGlowStyles = css`
     will-change: transform, opacity, filter;
   }
 
+  :host([theme="liquid_glow"]) ha-card[active-action="heat"] .action-icon,
+  :host([theme="liquid_glow"]) ha-card[active-action="cool"] .action-icon {
+    filter: none;
+  }
+
+  :host([theme="liquid_glow"]) ha-card[active-action="heat"] .action-icon-glow,
+  :host([theme="liquid_glow"]) ha-card[active-action="cool"] .action-icon-glow {
+    filter:
+      drop-shadow(0 0 3px color-mix(in srgb, currentColor 76%, transparent))
+      drop-shadow(0 0 8px color-mix(in srgb, var(--equinox-liquid-glow-color) 56%, transparent));
+    animation: equinox-liquid-icon-glow-pulse 2.75s ease-in-out infinite alternate;
+    will-change: opacity, transform;
+  }
+
   /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
      Detected via hass.themes.darkMode reflected as a [light] attribute on :host. */
   :host([theme="liquid_glow"][light]) {
@@ -214,7 +240,9 @@ export const liquidGlowStyles = css`
     :host([theme="liquid_glow"]) ha-card[active-action="heat"]::before,
     :host([theme="liquid_glow"]) ha-card[active-action="cool"]::before,
     :host([theme="liquid_glow"]) ha-card[active-action="heat"]::after,
-    :host([theme="liquid_glow"]) ha-card[active-action="cool"]::after {
+    :host([theme="liquid_glow"]) ha-card[active-action="cool"]::after,
+    :host([theme="liquid_glow"]) ha-card[active-action="heat"] .action-icon-glow,
+    :host([theme="liquid_glow"]) ha-card[active-action="cool"] .action-icon-glow {
       animation: none;
     }
   }

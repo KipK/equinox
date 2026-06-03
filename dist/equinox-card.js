@@ -14434,6 +14434,18 @@ var Ts = o`
     }
   }
 
+  @keyframes equinox-liquid-icon-glow-pulse {
+    from {
+      opacity: 0.42;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    to {
+      opacity: 0.86;
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+  }
+
   /* The pseudo-element covers the card's border-box exactly via inset: -1px (the
      containing block for absolutely-positioned children is the padding-box, so -1px
      pushes back through the 1px border zone to the outer edge). The 1px-offset
@@ -14510,6 +14522,20 @@ var Ts = o`
     will-change: transform, opacity, filter;
   }
 
+  :host([theme="liquid_glow"]) ha-card[active-action="heat"] .action-icon,
+  :host([theme="liquid_glow"]) ha-card[active-action="cool"] .action-icon {
+    filter: none;
+  }
+
+  :host([theme="liquid_glow"]) ha-card[active-action="heat"] .action-icon-glow,
+  :host([theme="liquid_glow"]) ha-card[active-action="cool"] .action-icon-glow {
+    filter:
+      drop-shadow(0 0 3px color-mix(in srgb, currentColor 76%, transparent))
+      drop-shadow(0 0 8px color-mix(in srgb, var(--equinox-liquid-glow-color) 56%, transparent));
+    animation: equinox-liquid-icon-glow-pulse 2.75s ease-in-out infinite alternate;
+    will-change: opacity, transform;
+  }
+
   /* Light mode: tone down halo so the orange wash doesn't smudge the light background.
      Detected via hass.themes.darkMode reflected as a [light] attribute on :host. */
   :host([theme="liquid_glow"][light]) {
@@ -14566,7 +14592,9 @@ var Ts = o`
     :host([theme="liquid_glow"]) ha-card[active-action="heat"]::before,
     :host([theme="liquid_glow"]) ha-card[active-action="cool"]::before,
     :host([theme="liquid_glow"]) ha-card[active-action="heat"]::after,
-    :host([theme="liquid_glow"]) ha-card[active-action="cool"]::after {
+    :host([theme="liquid_glow"]) ha-card[active-action="cool"]::after,
+    :host([theme="liquid_glow"]) ha-card[active-action="heat"] .action-icon-glow,
+    :host([theme="liquid_glow"]) ha-card[active-action="cool"] .action-icon-glow {
       animation: none;
     }
   }
@@ -16931,24 +16959,7 @@ var Fs = class extends O {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       min-width: 0;
-    }
-
-    .value-icon {
-      width: 34px;
-      height: 34px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      color: var(--equinox-auto-color, var(--primary-color));
-      background: color-mix(in srgb, var(--equinox-auto-color, var(--primary-color)) 15%, transparent);
-      flex: 0 0 auto;
-    }
-
-    .value-icon ha-icon {
-      --mdc-icon-size: 22px;
     }
 
     .value-main {
@@ -17307,7 +17318,6 @@ var Fs = class extends O {
 		return T`
       <div class="temperature-body ${this._isDisabled() ? "disabled" : ""}">
         <div class="value-row">
-          <span class="value-icon"><ha-icon icon="mdi:gauge"></ha-icon></span>
           <span class="value-main" style=${`--eq-temperature-tone: ${this._toneColor()};`}>
             <input
               class="value-input"
@@ -19914,23 +19924,23 @@ var nc = "equinox", rc = [
 	}
 }, ac = {
 	preheating: {
-		icon: "mdi:heat-wave",
+		icon: "mdi:radiator",
 		tone: K("preheating")
 	},
 	heat: {
-		icon: "mdi:fire",
+		icon: "mdi:radiator",
 		tone: K("heating")
 	},
 	heating: {
-		icon: "mdi:fire",
+		icon: "mdi:radiator",
 		tone: K("heating")
 	},
 	cool: {
-		icon: "mdi:snowflake",
+		icon: "mdi:hvac",
 		tone: K("cooling")
 	},
 	cooling: {
-		icon: "mdi:snowflake",
+		icon: "mdi:hvac",
 		tone: K("cooling")
 	},
 	drying: {
@@ -20236,7 +20246,30 @@ var fc = class extends O {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        overflow: visible;
         color: var(--equinox-muted-color);
+      }
+
+      .action-icon ha-icon {
+        --mdc-icon-size: 22px;
+        width: 22px;
+        height: 22px;
+      }
+
+      .action-icon-glyph {
+        position: relative;
+        z-index: 1;
+      }
+
+      .action-icon-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
       }
 
       .action-icon[tone="heat"] {
@@ -20872,6 +20905,9 @@ var fc = class extends O {
       }
 
       .thin-current {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
         color: var(--equinox-text-color);
         font-size: clamp(13px, 5.6cqi, 24px);
         line-height: 1;
@@ -20879,6 +20915,12 @@ var fc = class extends O {
         overflow: hidden;
         text-overflow: ellipsis;
         flex: 0 1 auto;
+      }
+
+      .thin-current ha-icon {
+        --mdc-icon-size: 0.9em;
+        flex: 0 0 auto;
+        color: var(--equinox-muted-color);
       }
 
       .thin-humidity {
@@ -20931,6 +20973,14 @@ var fc = class extends O {
         justify-content: flex-start;
         gap: 8px;
         flex-wrap: wrap;
+      }
+
+      .thin-controls > .action-icon {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        align-self: center;
+        --mdc-icon-size: 22px;
       }
 
       .thin-setpoint {
@@ -21735,12 +21785,12 @@ var fc = class extends O {
 		return T`
       <div class="thin-summary">
         <div class="thin-readings">
-          ${this._renderHvacStateIcon()}
           <span
             class="thin-current"
             ?clickable=${!!n}
             @click=${n ? () => this._openMoreInfo(n) : D}
           >
+            <ha-icon icon="mdi:thermometer"></ha-icon>
             ${this._formatCurrentTemp()}
           </span>
           ${t ? T`
@@ -21762,6 +21812,7 @@ var fc = class extends O {
 	_renderThinControlRow() {
 		return T`
       <div class="thin-controls">
+        ${this._renderHvacStateIcon()}
         <div class="thin-setpoint">
           ${this._renderThinTemperatureButton()}
         </div>
@@ -21776,6 +21827,7 @@ var fc = class extends O {
         ?disabled=${this._isControlDisabled()}
         @click=${(e) => this._openDialog("temperature", e)}
       >
+        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -21902,17 +21954,43 @@ var fc = class extends O {
     `;
 	}
 	_renderHvacStateIcon() {
-		let e = this.viewModel?.climate.hvacAction, t = e ? ac[e] : void 0, n = this.viewModel?.climate.hvacMode;
-		if (n === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return D;
-		let r = t?.icon || (n ? z[n] : ""), i = t?.tone ?? this._modeTone(n), a = e ? V(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(n);
-		return r ? T`
-      <ha-icon
+		let e = this.viewModel?.climate.hvacAction, t = this.viewModel?.climate.hvacMode;
+		if (t === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return D;
+		let n = this._hvacActionIcon(e, t), r = e ? V(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(t);
+		return n ? T`
+      <span
         class="action-icon"
-        tone=${i}
-        .icon=${r}
-        title=${a}
-      ></ha-icon>
+        tone=${n.tone}
+        title=${r}
+      >
+        <ha-icon class="action-icon-glow" .icon=${n.icon} aria-hidden="true"></ha-icon>
+        <ha-icon class="action-icon-glyph" .icon=${n.icon}></ha-icon>
+      </span>
     ` : D;
+	}
+	_hvacActionIcon(e, t) {
+		let n = e ?? "";
+		if (n === "preheating" || n === "heat" || n === "heating") return {
+			icon: "mdi:radiator",
+			tone: K(n === "preheating" ? "preheating" : "heating")
+		};
+		if (n === "cool" || n === "cooling") return {
+			icon: "mdi:hvac",
+			tone: K("cooling")
+		};
+		if (t === "heat") return {
+			icon: "mdi:radiator-disabled",
+			tone: K("idle")
+		};
+		if (t === "cool") return {
+			icon: "mdi:hvac-off",
+			tone: K("idle")
+		};
+		let r = e ? ac[e] : void 0, i = r?.icon || (t ? z[t] : "");
+		return i ? {
+			icon: i,
+			tone: r?.tone ?? this._modeTone(t)
+		} : void 0;
 	}
 	_renderEvents() {
 		let e = this.viewModel?.vt?.events, t = this.viewModel?.vt?.messages ?? [];
@@ -22022,6 +22100,7 @@ var fc = class extends O {
         ?disabled=${this._isControlDisabled()}
         @click=${(e) => this._openDialog("temperature", e)}
       >
+        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;

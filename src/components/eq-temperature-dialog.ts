@@ -44,24 +44,7 @@ export class EquinoxTemperatureDialog extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       min-width: 0;
-    }
-
-    .value-icon {
-      width: 34px;
-      height: 34px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      color: var(--equinox-auto-color, var(--primary-color));
-      background: color-mix(in srgb, var(--equinox-auto-color, var(--primary-color)) 15%, transparent);
-      flex: 0 0 auto;
-    }
-
-    .value-icon ha-icon {
-      --mdc-icon-size: 22px;
     }
 
     .value-main {
@@ -523,7 +506,6 @@ export class EquinoxTemperatureDialog extends LitElement {
     return html`
       <div class="temperature-body ${this._isDisabled() ? "disabled" : ""}">
         <div class="value-row">
-          <span class="value-icon"><ha-icon icon="mdi:gauge"></ha-icon></span>
           <span class="value-main" style=${`--eq-temperature-tone: ${this._toneColor()};`}>
             <input
               class="value-input"

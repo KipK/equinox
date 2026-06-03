@@ -87,17 +87,14 @@ const MESSAGE_ICONS: Record<string, { icon: string; tone: string }> = {
 
 // Icons follow homeassistant/components/climate/icons.json (HA core);
 // tones follow CLIMATE_HVAC_ACTION_TO_MODE in src/data/colors.ts so the icon
-// hue matches HA's official tile/thermostat colorisation. `defrosting`
-// resolves to a heat-mapped tone (per HA) but uses the distinct
-// snowflake-melt glyph so it doesn't collide with cooling. `idle` intentionally
-// has no icon override — it falls through to the current hvac_mode glyph
-// (flame/snowflake) painted with the muted tone, matching the prior behavior.
+// hue matches HA's official tile/thermostat colorisation. Heat/cool icons are
+// resolved with active/inactive variants in _hvacActionIcon().
 const HVAC_ACTION_ICONS: Record<string, { icon?: string; tone: string }> = {
-  preheating: { icon: "mdi:heat-wave", tone: actionTone("preheating") },
-  heat: { icon: "mdi:fire", tone: actionTone("heating") },
-  heating: { icon: "mdi:fire", tone: actionTone("heating") },
-  cool: { icon: "mdi:snowflake", tone: actionTone("cooling") },
-  cooling: { icon: "mdi:snowflake", tone: actionTone("cooling") },
+  preheating: { icon: "mdi:radiator", tone: actionTone("preheating") },
+  heat: { icon: "mdi:radiator", tone: actionTone("heating") },
+  heating: { icon: "mdi:radiator", tone: actionTone("heating") },
+  cool: { icon: "mdi:hvac", tone: actionTone("cooling") },
+  cooling: { icon: "mdi:hvac", tone: actionTone("cooling") },
   drying: { icon: "mdi:water-percent", tone: actionTone("drying") },
   fan: { icon: "mdi:fan", tone: actionTone("fan") },
   idle: { tone: actionTone("idle") },
@@ -388,7 +385,30 @@ export class EquinoxMainCard extends LitElement {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        overflow: visible;
         color: var(--equinox-muted-color);
+      }
+
+      .action-icon ha-icon {
+        --mdc-icon-size: 22px;
+        width: 22px;
+        height: 22px;
+      }
+
+      .action-icon-glyph {
+        position: relative;
+        z-index: 1;
+      }
+
+      .action-icon-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
       }
 
       .action-icon[tone="heat"] {
@@ -1024,6 +1044,9 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-current {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
         color: var(--equinox-text-color);
         font-size: clamp(13px, 5.6cqi, 24px);
         line-height: 1;
@@ -1031,6 +1054,12 @@ export class EquinoxMainCard extends LitElement {
         overflow: hidden;
         text-overflow: ellipsis;
         flex: 0 1 auto;
+      }
+
+      .thin-current ha-icon {
+        --mdc-icon-size: 0.9em;
+        flex: 0 0 auto;
+        color: var(--equinox-muted-color);
       }
 
       .thin-humidity {
@@ -1083,6 +1112,14 @@ export class EquinoxMainCard extends LitElement {
         justify-content: flex-start;
         gap: 8px;
         flex-wrap: wrap;
+      }
+
+      .thin-controls > .action-icon {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        align-self: center;
+        --mdc-icon-size: 22px;
       }
 
       .thin-setpoint {
@@ -2134,12 +2171,12 @@ export class EquinoxMainCard extends LitElement {
     return html`
       <div class="thin-summary">
         <div class="thin-readings">
-          ${this._renderHvacStateIcon()}
           <span
             class="thin-current"
             ?clickable=${!!tempEntityId}
             @click=${tempEntityId ? () => this._openMoreInfo(tempEntityId) : nothing}
           >
+            <ha-icon icon="mdi:thermometer"></ha-icon>
             ${this._formatCurrentTemp()}
           </span>
           ${showHumidity
@@ -2164,6 +2201,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderThinControlRow(): TemplateResult {
     return html`
       <div class="thin-controls">
+        ${this._renderHvacStateIcon()}
         <div class="thin-setpoint">
           ${this._renderThinTemperatureButton()}
         </div>
@@ -2179,6 +2217,7 @@ export class EquinoxMainCard extends LitElement {
         ?disabled=${this._isControlDisabled()}
         @click=${(event: Event) => this._openDialog("temperature", event)}
       >
+        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -2357,31 +2396,58 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderHvacStateIcon(): TemplateResult | typeof nothing {
     const action = this.viewModel?.climate.hvacAction;
-    const entry = action ? HVAC_ACTION_ICONS[action] : undefined;
     const hvacMode = this.viewModel?.climate.hvacMode;
 
     if (hvacMode === "off" && this.viewModel?.vt?.messages.some((message) => message.key === "hvac_off_manual")) {
       return nothing;
     }
 
-    const iconStr = entry?.icon || (hvacMode ? HVAC_ICONS[hvacMode] : "");
-    const tone = entry?.tone ?? this._modeTone(hvacMode);
+    const icon = this._hvacActionIcon(action, hvacMode);
     const title = action
       ? localize(this._language(), `main.hvac_action.${action}`)
       : this._hvacLabel(hvacMode);
 
-    if (!iconStr) {
+    if (!icon) {
       return nothing;
     }
 
     return html`
-      <ha-icon
+      <span
         class="action-icon"
-        tone=${tone}
-        .icon=${iconStr}
+        tone=${icon.tone}
         title=${title}
-      ></ha-icon>
+      >
+        <ha-icon class="action-icon-glow" .icon=${icon.icon} aria-hidden="true"></ha-icon>
+        <ha-icon class="action-icon-glyph" .icon=${icon.icon}></ha-icon>
+      </span>
     `;
+  }
+
+  private _hvacActionIcon(action: string | undefined, hvacMode: string | undefined): { icon: string; tone: string } | undefined {
+    const activeAction = action ?? "";
+
+    if (activeAction === "preheating" || activeAction === "heat" || activeAction === "heating") {
+      return { icon: "mdi:radiator", tone: actionTone(activeAction === "preheating" ? "preheating" : "heating") };
+    }
+
+    if (activeAction === "cool" || activeAction === "cooling") {
+      return { icon: "mdi:hvac", tone: actionTone("cooling") };
+    }
+
+    if (hvacMode === "heat") {
+      return { icon: "mdi:radiator-disabled", tone: actionTone("idle") };
+    }
+
+    if (hvacMode === "cool") {
+      return { icon: "mdi:hvac-off", tone: actionTone("idle") };
+    }
+
+    const entry = action ? HVAC_ACTION_ICONS[action] : undefined;
+    const fallbackIcon = entry?.icon || (hvacMode ? HVAC_ICONS[hvacMode] : "");
+
+    return fallbackIcon
+      ? { icon: fallbackIcon, tone: entry?.tone ?? this._modeTone(hvacMode) }
+      : undefined;
   }
 
   private _renderEvents(): TemplateResult[] {
@@ -2536,6 +2602,7 @@ export class EquinoxMainCard extends LitElement {
         ?disabled=${this._isControlDisabled()}
         @click=${(event: Event) => this._openDialog("temperature", event)}
       >
+        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
