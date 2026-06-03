@@ -1021,7 +1021,7 @@ export class EquinoxMainCard extends LitElement {
           "setpoint primary extra";
         grid-template-rows: minmax(24px, auto) minmax(34px, auto);
         align-items: center;
-        gap: 7px 8px;
+        gap: 7px 5px;
         min-width: 0;
       }
 
@@ -1242,8 +1242,9 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-selectors ha-control-button {
-        width: clamp(38px, 14cqi, 48px);
+        width: 48px;
         height: 34px;
+        flex: 0 0 48px;
         min-width: 0;
         border: 1px solid var(--equinox-mode-control-border-color);
         border-radius: var(--equinox-control-radius);
@@ -1258,9 +1259,9 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-selectors .btn-icon {
-        --equinox-selector-icon-size: clamp(16px, 6.5cqi, 21px);
-        width: clamp(22px, 8cqi, 28px);
-        height: clamp(22px, 8cqi, 28px);
+        --equinox-selector-icon-size: 21px;
+        width: 28px;
+        height: 28px;
       }
 
       @container (max-width: 360px) {
@@ -1297,9 +1298,7 @@ export class EquinoxMainCard extends LitElement {
         }
 
         .thin-primary-selectors {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          width: min(100%, 101px);
+          width: max-content;
         }
 
         .thin-extra-selectors {
@@ -1307,9 +1306,6 @@ export class EquinoxMainCard extends LitElement {
           justify-self: end;
         }
 
-        .thin-selectors ha-control-button {
-          width: 100%;
-        }
       }
 
       .btn-icon {
