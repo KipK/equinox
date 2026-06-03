@@ -22098,7 +22098,7 @@ var Sc = class extends D {
         }
       }
 
-      @container (max-width: 260px) {
+      @container (max-width: 220px) {
         .thin-layout[has-humidity][extra-count="1"] .thin-current {
           max-width: 100%;
           font-size: clamp(18px, 7.6cqi, 25px);
