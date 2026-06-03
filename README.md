@@ -14,7 +14,7 @@ type: custom:equinox-card
 If Equinox is useful in your Home Assistant setup, you can support development
 on [Buy Me a Coffee](https://buymeacoffee.com/kipk).
 
-![Equinox Lovelace climate cards in classic and compact layouts](assets/screens/cards.png)
+![Equinox Lovelace climate cards in classic and compact layouts](assets/screens/cards-glow.png)
 
 ## History Viewer
 
@@ -118,22 +118,22 @@ additional_dashboards: auto
 
 ## Configuration
 
-| Option                  | Required | Default              | Description                                                    |
-| ----------------------- | -------- | -------------------- | -------------------------------------------------------------- |
-| `entity`                | yes      | -                    | Climate entity to display. Must use the `climate` domain.      |
-| `name`                  | no       | Entity friendly name | Display name; hidden in the editor when `display_mode: thin`.  |
-| `power_entity`          | no       | -                    | Sensor or input number for instant power.                      |
-| `humidity_entity`       | no       | -                    | External humidity sensor when climate humidity is unavailable. |
-| `theme`                 | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                         |
-| `display_mode`          | no       | `classic`            | Display format: `classic`, `compact`, or `thin`.               |
-| `primary_display`       | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`; ignored in `thin`.     |
-| `use_temperature_popup` | no       | `true`               | Use the slider popup setpoint selector in `classic`/`compact`; set to `false` to keep the inline +/- selector. `thin` always uses it. |
-| `card_background_color` | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. HVAC and preset selectors follow this surface. |
-| `card_background_opacity` | no     | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent. |
-| `disable_name`          | no       | `false`              | Hide the header name; hidden in the editor when `display_mode: thin`. |
-| `enable_lock`           | no       | `true`               | Enable lock UI when supported by VT.                           |
-| `additional_dashboards` | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.    |
-| `state_icons_layout`    | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal. |
+| Option                    | Required | Default              | Description                                                                                                                           |
+| ------------------------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `entity`                  | yes      | -                    | Climate entity to display. Must use the `climate` domain.                                                                             |
+| `name`                    | no       | Entity friendly name | Display name; hidden in the editor when `display_mode: thin`.                                                                         |
+| `power_entity`            | no       | -                    | Sensor or input number for instant power.                                                                                             |
+| `humidity_entity`         | no       | -                    | External humidity sensor when climate humidity is unavailable.                                                                        |
+| `theme`                   | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                                                                                                |
+| `display_mode`            | no       | `classic`            | Display format: `classic`, `compact`, or `thin`.                                                                                      |
+| `primary_display`         | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`; ignored in `thin`.                                                                            |
+| `use_temperature_popup`   | no       | `true`               | Use the slider popup setpoint selector in `classic`/`compact`; set to `false` to keep the inline +/- selector. `thin` always uses it. |
+| `card_background_color`   | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. HVAC and preset selectors follow this surface.       |
+| `card_background_opacity` | no       | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent.                                               |
+| `disable_name`            | no       | `false`              | Hide the header name; hidden in the editor when `display_mode: thin`.                                                                 |
+| `enable_lock`             | no       | `true`               | Enable lock UI when supported by VT.                                                                                                  |
+| `additional_dashboards`   | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.                                                                           |
+| `state_icons_layout`      | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal.                                   |
 
 Regulation diagnostics are discovered automatically from the climate entity
 attribute `specific_states.regulation_diagnostics` when the thermostat
@@ -147,11 +147,11 @@ statuses, progress bars, history graphs, and optional confirmed actions.
 
 The `additional_dashboards` option controls this feature:
 
-| Value | Behavior |
-| ----- | -------- |
-| `auto` | Detects the regulation algorithm from the climate entity and loads the matching built-in dashboard. If no dashboard exists for the detected algorithm, the Regulation menu entry is hidden. |
-| `custom` | Always shows the Regulation menu entry and loads `/local/equinox/dash/custom.js`. If the file is missing or invalid, the dialog shows a short error. |
-| `disabled` | Hides Regulation completely. |
+| Value      | Behavior                                                                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `auto`     | Detects the regulation algorithm from the climate entity and loads the matching built-in dashboard. If no dashboard exists for the detected algorithm, the Regulation menu entry is hidden. |
+| `custom`   | Always shows the Regulation menu entry and loads `/local/equinox/dash/custom.js`. If the file is missing or invalid, the dialog shows a short error.                                        |
+| `disabled` | Hides Regulation completely.                                                                                                                                                                |
 
 Built-in dashboards currently include Smart PI and Hysteresis. Desktop uses a
 side section menu inside the dialog; mobile opens a single section directly or
@@ -180,7 +180,7 @@ card follows its rendered content instead of forcing a fixed row count.
   entity.
 - VT-specific features are displayed only when the required data or capability
   is available.
-  
+
 ## Adding a language
 
 1. Add `src/localize/languages/{code}.json` using `en.json` as a template.
