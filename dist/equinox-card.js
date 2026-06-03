@@ -21152,6 +21152,26 @@ var fc = class extends O {
             "setpoint primary";
         }
 
+        .thin-current {
+          font-size: clamp(15px, 6.3cqi, 21px);
+        }
+
+        .thin-current ha-icon {
+          --mdc-icon-size: 0.8em;
+          width: 0.8em;
+          height: 0.8em;
+        }
+
+        .thin-humidity {
+          font-size: clamp(12px, 4.8cqi, 15px);
+        }
+
+        .thin-humidity ha-icon {
+          --mdc-icon-size: 13px;
+          width: 13px;
+          height: 13px;
+        }
+
         .thin-layout:not([has-extra]) .thin-current {
           font-size: clamp(16px, 7cqi, 24px);
         }
