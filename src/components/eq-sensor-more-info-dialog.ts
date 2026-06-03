@@ -22,6 +22,8 @@ interface SensorMoreInfoMetric {
   displayUnit?: string;
   scaleGroup: string;
   scalePreference?: "auto" | "primary" | "secondary";
+  color?: string;
+  valueColor?: string;
   lastChanged?: string;
 }
 
@@ -37,6 +39,9 @@ type HomeAssistantWithConfig = HomeAssistant & {
     };
   };
 };
+
+const HA_MORE_INFO_BLUE = "var(--primary-color, #03a9f4)";
+const POWER_BOOST_COLOR = "var(--equinox-boost-color, var(--accent-color, #b06cff))";
 
 function finite(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
@@ -434,6 +439,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       unit,
       displayUnit,
       scaleGroup: "sensor",
+      color: HA_MORE_INFO_BLUE,
       lastChanged: stateTimestamp(stateObj)
     }];
   }
@@ -467,6 +473,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
             displayUnit: "%",
             scaleGroup: "power-popup",
             scalePreference: "secondary",
+            color: HA_MORE_INFO_BLUE,
             lastChanged: stateTimestamp(climate)
           }
         : undefined;
@@ -493,6 +500,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
             displayUnit: "%",
             scaleGroup: "power-popup",
             scalePreference: "secondary",
+            color: HA_MORE_INFO_BLUE,
             lastChanged: stateTimestamp(climate)
           }
         : undefined;
@@ -520,6 +528,8 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
         displayUnit: powerUnit,
         scaleGroup: "power-popup",
         scalePreference: "primary",
+        color: POWER_BOOST_COLOR,
+        valueColor: POWER_BOOST_COLOR,
         lastChanged: stateTimestamp(powerState)
       });
     }
@@ -543,7 +553,9 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
 
   private _betterHistoryConfig(metrics: SensorMoreInfoMetric[]): BetterHistoryConfig {
     const key = metrics
-      .map((metric) => `${metric.id}|${metric.entityId}|${attributeKey(metric.attribute)}|${metric.unit ?? ""}|${metric.scaleGroup}|${metric.scalePreference ?? ""}`)
+      .map((metric) =>
+        `${metric.id}|${metric.entityId}|${attributeKey(metric.attribute)}|${metric.unit ?? ""}|${metric.scaleGroup}|${metric.scalePreference ?? ""}|${metric.color ?? ""}`
+      )
       .join(";");
 
     if (key === this._configCacheKey && this._configCache) return this._configCache;
@@ -567,6 +579,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
         entity: metric.entityId,
         attribute: metric.attribute,
         label: metric.name,
+        color: metric.color,
         unit: metric.unit,
         group: metric.scaleGroup,
         scalePreference: metric.scalePreference
@@ -586,7 +599,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
           <span class="sensor-name">${metric.name}</span>
           ${relative ? html`<span class="sensor-updated">${relative}</span>` : nothing}
         </div>
-        <span class="sensor-value">${metric.value}</span>
+        <span class="sensor-value" style=${metric.valueColor ? `color: ${metric.valueColor};` : ""}>${metric.value}</span>
       </div>
     `;
   }

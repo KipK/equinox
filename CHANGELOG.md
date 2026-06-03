@@ -15,6 +15,7 @@ All notable changes to Equinox will be documented in this file.
 - Move the Regulation dialog close button to the left to match Home Assistant dialog placement.
 - Use HA-style rounded corners only for true centered Equinox dialogs, keeping popups and menus on the standard popup shape.
 - Make the popup setpoint dialog visually consistent between single-temperature and heat/cool range modes, with borderless slider thumbs and unframed range values.
+- Normalize sensor more-info graph colors: temperature, humidity, power request, and valve opening use HA blue, while instant power uses the Equinox boost tone.
 
 ## 0.1.0
 
