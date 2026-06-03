@@ -12,6 +12,7 @@ export class EquinoxDialog extends LitElement {
     floating: { type: Boolean },
     centered: { type: Boolean },
     closeOnLeave: { type: Boolean },
+    closeStart: { type: Boolean, attribute: "close-start" },
     anchor: { attribute: false }
   };
 
@@ -163,6 +164,12 @@ export class EquinoxDialog extends LitElement {
       flex: 1;
       min-width: 0;
       overflow: hidden;
+    }
+
+    .header-title-text {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       font-weight: 600;
@@ -206,6 +213,7 @@ export class EquinoxDialog extends LitElement {
   floating = false;
   centered = false;
   closeOnLeave = false;
+  closeStart = false;
   anchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _closeOnLeaveTimer?: number;
   private _popoverResizeObserver?: ResizeObserver;
@@ -439,7 +447,13 @@ export class EquinoxDialog extends LitElement {
         @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : undefined}
       >
         <div class="header">
-          ${this.showBack
+          ${this.closeStart
+        ? html`
+                <ha-icon-button class="close-btn" .label=${closeLabel} @click=${this._dispatchClose}>
+                  <ha-icon icon="mdi:close"></ha-icon>
+                </ha-icon-button>
+              `
+        : this.showBack
         ? html`
                 <ha-icon-button class="back-btn" .label=${backLabel} @click=${this._dispatchBack}>
                   <ha-icon icon="mdi:chevron-left"></ha-icon>
@@ -452,10 +466,16 @@ export class EquinoxDialog extends LitElement {
                 </ha-icon-button>
               `
           : nothing}
-          <span class="header-title">${this.title}</span>
-          <ha-icon-button class="close-btn" .label=${closeLabel} @click=${this._dispatchClose}>
-            <ha-icon icon="mdi:close"></ha-icon>
-          </ha-icon-button>
+          <div class="header-title">
+            <slot name="title"><span class="header-title-text">${this.title}</span></slot>
+          </div>
+          ${this.closeStart
+        ? nothing
+        : html`
+              <ha-icon-button class="close-btn" .label=${closeLabel} @click=${this._dispatchClose}>
+                <ha-icon icon="mdi:close"></ha-icon>
+              </ha-icon-button>
+            `}
         </div>
         <div class="content">
           <slot></slot>

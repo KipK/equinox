@@ -15128,7 +15128,7 @@ var Ts = o`
   }
 `, Os = class extends D {
 	constructor(...e) {
-		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this.centered = !1, this.closeOnLeave = !1, this._handleKeyDown = (e) => {
+		super(...e), this.open = !1, this.title = "", this.showBack = !1, this.floating = !1, this.centered = !1, this.closeOnLeave = !1, this.closeStart = !1, this._handleKeyDown = (e) => {
 			e.key === "Escape" && this.open && this._dispatchClose();
 		}, this._handleResize = () => {
 			this.open && this.floating && this._positionPopover();
@@ -15150,6 +15150,10 @@ var Ts = o`
 			floating: { type: Boolean },
 			centered: { type: Boolean },
 			closeOnLeave: { type: Boolean },
+			closeStart: {
+				type: Boolean,
+				attribute: "close-start"
+			},
 			anchor: { attribute: !1 }
 		};
 	}
@@ -15302,6 +15306,12 @@ var Ts = o`
       flex: 1;
       min-width: 0;
       overflow: hidden;
+    }
+
+    .header-title-text {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       font-weight: 600;
@@ -15439,7 +15449,11 @@ var Ts = o`
         @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : void 0}
       >
         <div class="header">
-          ${this.showBack ? w`
+          ${this.closeStart ? w`
+                <ha-icon-button class="close-btn" .label=${e} @click=${this._dispatchClose}>
+                  <ha-icon icon="mdi:close"></ha-icon>
+                </ha-icon-button>
+              ` : this.showBack ? w`
                 <ha-icon-button class="back-btn" .label=${t} @click=${this._dispatchBack}>
                   <ha-icon icon="mdi:chevron-left"></ha-icon>
                 </ha-icon-button>
@@ -15448,10 +15462,14 @@ var Ts = o`
                   <ha-icon icon=${this.headerActionIcon}></ha-icon>
                 </ha-icon-button>
               ` : E}
-          <span class="header-title">${this.title}</span>
-          <ha-icon-button class="close-btn" .label=${e} @click=${this._dispatchClose}>
-            <ha-icon icon="mdi:close"></ha-icon>
-          </ha-icon-button>
+          <div class="header-title">
+            <slot name="title"><span class="header-title-text">${this.title}</span></slot>
+          </div>
+          ${this.closeStart ? E : w`
+              <ha-icon-button class="close-btn" .label=${e} @click=${this._dispatchClose}>
+                <ha-icon icon="mdi:close"></ha-icon>
+              </ha-icon-button>
+            `}
         </div>
         <div class="content">
           <slot></slot>
@@ -18466,48 +18484,74 @@ var ec = class extends D {
     eq-dialog {
       --eq-dialog-width: min(560px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
+      --equinox-radius: 28px;
     }
 
     .content {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 18px;
       min-width: 0;
       color: var(--primary-text-color);
+    }
+
+    .more-info-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+      margin: 0;
+    }
+
+    .more-info-title p {
+      margin: 0;
+      min-width: 0;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .more-info-title .breadcrumb {
+      color: var(--secondary-text-color);
+      font-size: var(--ha-font-size-m, 14px);
+      line-height: 16px;
+      padding: var(--ha-space-1, 4px);
+      margin: calc(var(--ha-space-1, 4px) * -1);
+      margin-top: calc(var(--ha-space-2, 8px) * -1);
+      border-radius: var(--ha-border-radius-md, 8px);
+    }
+
+    .more-info-title .main {
+      color: var(--primary-text-color);
+      font-size: var(--ha-font-size-xl, 24px);
+      font-weight: var(--ha-font-weight-normal, 400);
+      line-height: var(--ha-line-height-condensed, 1.2);
     }
 
     .sensor-summary {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      border: 1px solid color-mix(in srgb, var(--divider-color) 62%, transparent);
-      border-radius: 12px;
-      overflow: hidden;
-      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 92%, var(--primary-text-color) 5%);
+      gap: 0;
+      min-width: 0;
     }
 
     .sensor-row {
       display: grid;
-      grid-template-columns: 40px minmax(0, 1fr) auto;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
       align-items: center;
       gap: 10px;
       min-width: 0;
-      padding: 11px 12px;
-    }
-
-    .sensor-row + .sensor-row {
-      border-top: 1px solid color-mix(in srgb, var(--divider-color) 54%, transparent);
+      padding: 8px 0;
     }
 
     .sensor-icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: 50%;
-      color: var(--primary-color);
-      background: color-mix(in srgb, var(--primary-color) 14%, transparent);
+      color: var(--state-icon-color, var(--paper-item-icon-color, var(--secondary-text-color)));
       flex: 0 0 auto;
     }
 
@@ -18547,27 +18591,45 @@ var ec = class extends D {
       max-width: 180px;
       overflow-wrap: anywhere;
       text-align: right;
-      font-size: 18px;
-      font-weight: var(--ha-font-weight-medium, 500);
+      font-size: 14px;
+      font-weight: var(--ha-font-weight-normal, 400);
       line-height: 1.2;
     }
 
-    .chart-toolbar {
+    .history-heading {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       gap: 4px;
       min-height: 32px;
       margin-bottom: -8px;
     }
 
-    .chart-toolbar ha-icon-button {
+    .history-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--primary-text-color);
+      font-size: var(--ha-font-size-xl, 24px);
+      font-weight: var(--ha-font-weight-normal, 400);
+      line-height: var(--ha-line-height-condensed, 1.2);
+    }
+
+    .history-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 0 0 auto;
+    }
+
+    .history-heading ha-icon-button {
       --ha-icon-button-size: 34px;
       --ha-icon-button-padding-inline: 5px;
       color: var(--primary-text-color);
     }
 
-    .chart-toolbar ha-icon-button.tools-button ha-icon {
+    .history-heading ha-icon-button.tools-button ha-icon {
       --mdc-icon-size: 18px;
     }
 
@@ -18600,7 +18662,6 @@ var ec = class extends D {
 
       .sensor-value {
         max-width: 128px;
-        font-size: 16px;
       }
     }
   `;
@@ -18626,6 +18687,18 @@ var ec = class extends D {
 			return (this.target.label ?? this._friendlyName(e) ?? this.target.entityId) || V(this._language(), "dialog.sensor_more_info.title");
 		}
 		return V(this._language(), "dialog.sensor_more_info.title");
+	}
+	_dialogBreadcrumb() {
+		if (this.target?.kind === "entity") {
+			let e = this.hass?.states[this.target.entityId], t = this.target.entityId.split(".")[0];
+			return this.config && this.target.entityId === this.config.entity && this.target.attribute ? this._climateTitle() : t === "sensor" || t === "binary_sensor" ? V(this._language(), "dialog.sensor_more_info.title") : this._friendlyName(e) ?? this.target.entityId;
+		}
+		if (this.target?.kind === "power") return this._climateTitle();
+	}
+	_climateTitle() {
+		if (!this.config) return;
+		let e = this.hass?.states[this.config.entity];
+		return this.config.name ?? this._friendlyName(e) ?? this.config.entity;
 	}
 	_friendlyName(e) {
 		let t = e?.attributes.friendly_name;
@@ -18814,37 +18887,45 @@ var ec = class extends D {
 		}));
 	}
 	render() {
-		let e = this._metrics();
+		let e = this._metrics(), t = this._dialogBreadcrumb(), n = this._dialogTitle();
 		return w`
       <eq-dialog
         centered
+        close-start
         .open=${this.open}
-        .title=${this._dialogTitle()}
+        .title=${n}
         .language=${this.language}
         @eq-dialog-close=${() => this._dispatchClose()}
       >
+        <div slot="title" class="more-info-title">
+          ${t ? w`<p class="breadcrumb">${t}</p>` : E}
+          <p class="main">${n}</p>
+        </div>
         <div class="content">
           ${e.length > 0 ? w`<div class="sensor-summary">${e.map((e) => this._renderMetric(e))}</div>` : w`<div class="empty">${V(this._language(), "dialog.sensor_more_info.unavailable")}</div>`}
           ${e.length > 0 ? w`
-                <div class="chart-toolbar">
-                  <ha-icon-button
-                    class="tools-button"
-                    .label=${V(this._language(), "dialog.history.tools")}
-                    ?active=${this._toolsOpen}
-                    @click=${() => {
+                <div class="history-heading">
+                  <span class="history-title">${V(this._language(), "dialog.history.title")}</span>
+                  <span class="history-actions">
+                    <ha-icon-button
+                      class="tools-button"
+                      .label=${V(this._language(), "dialog.history.tools")}
+                      ?active=${this._toolsOpen}
+                      @click=${() => {
 			this._toolsOpen = !this._toolsOpen;
 		}}
-                  >
-                    <ha-icon icon="mdi:tools"></ha-icon>
-                  </ha-icon-button>
-                  <ha-icon-button
-                    .label=${V(this._language(), this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls")}
-                    @click=${() => {
+                    >
+                      <ha-icon icon="mdi:tools"></ha-icon>
+                    </ha-icon-button>
+                    <ha-icon-button
+                      .label=${V(this._language(), this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls")}
+                      @click=${() => {
 			this._controlsVisible = !this._controlsVisible;
 		}}
-                  >
-                    <ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
-                  </ha-icon-button>
+                    >
+                      <ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
+                    </ha-icon-button>
+                  </span>
                 </div>
               ` : E}
           ${this.open && e.length > 0 ? w`
@@ -19980,6 +20061,7 @@ var oc = class extends D {
 	render() {
 		return w`
       <eq-dialog
+        close-start
         .open=${this.open}
         .title=${this._dialogTitle()}
         .language=${this.language}

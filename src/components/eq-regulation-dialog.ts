@@ -311,6 +311,7 @@ export class EquinoxRegulationDialog extends LitElement {
   protected render(): TemplateResult {
     return html`
       <eq-dialog
+        close-start
         .open=${this.open}
         .title=${this._dialogTitle()}
         .language=${this.language}

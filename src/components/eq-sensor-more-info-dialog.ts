@@ -90,48 +90,74 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
     eq-dialog {
       --eq-dialog-width: min(560px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
+      --equinox-radius: 28px;
     }
 
     .content {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 18px;
       min-width: 0;
       color: var(--primary-text-color);
+    }
+
+    .more-info-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+      margin: 0;
+    }
+
+    .more-info-title p {
+      margin: 0;
+      min-width: 0;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .more-info-title .breadcrumb {
+      color: var(--secondary-text-color);
+      font-size: var(--ha-font-size-m, 14px);
+      line-height: 16px;
+      padding: var(--ha-space-1, 4px);
+      margin: calc(var(--ha-space-1, 4px) * -1);
+      margin-top: calc(var(--ha-space-2, 8px) * -1);
+      border-radius: var(--ha-border-radius-md, 8px);
+    }
+
+    .more-info-title .main {
+      color: var(--primary-text-color);
+      font-size: var(--ha-font-size-xl, 24px);
+      font-weight: var(--ha-font-weight-normal, 400);
+      line-height: var(--ha-line-height-condensed, 1.2);
     }
 
     .sensor-summary {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      border: 1px solid color-mix(in srgb, var(--divider-color) 62%, transparent);
-      border-radius: 12px;
-      overflow: hidden;
-      background: color-mix(in srgb, var(--card-background-color, #1c1c1c) 92%, var(--primary-text-color) 5%);
+      gap: 0;
+      min-width: 0;
     }
 
     .sensor-row {
       display: grid;
-      grid-template-columns: 40px minmax(0, 1fr) auto;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
       align-items: center;
       gap: 10px;
       min-width: 0;
-      padding: 11px 12px;
-    }
-
-    .sensor-row + .sensor-row {
-      border-top: 1px solid color-mix(in srgb, var(--divider-color) 54%, transparent);
+      padding: 8px 0;
     }
 
     .sensor-icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: 50%;
-      color: var(--primary-color);
-      background: color-mix(in srgb, var(--primary-color) 14%, transparent);
+      color: var(--state-icon-color, var(--paper-item-icon-color, var(--secondary-text-color)));
       flex: 0 0 auto;
     }
 
@@ -171,27 +197,45 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       max-width: 180px;
       overflow-wrap: anywhere;
       text-align: right;
-      font-size: 18px;
-      font-weight: var(--ha-font-weight-medium, 500);
+      font-size: 14px;
+      font-weight: var(--ha-font-weight-normal, 400);
       line-height: 1.2;
     }
 
-    .chart-toolbar {
+    .history-heading {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       gap: 4px;
       min-height: 32px;
       margin-bottom: -8px;
     }
 
-    .chart-toolbar ha-icon-button {
+    .history-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--primary-text-color);
+      font-size: var(--ha-font-size-xl, 24px);
+      font-weight: var(--ha-font-weight-normal, 400);
+      line-height: var(--ha-line-height-condensed, 1.2);
+    }
+
+    .history-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 0 0 auto;
+    }
+
+    .history-heading ha-icon-button {
       --ha-icon-button-size: 34px;
       --ha-icon-button-padding-inline: 5px;
       color: var(--primary-text-color);
     }
 
-    .chart-toolbar ha-icon-button.tools-button ha-icon {
+    .history-heading ha-icon-button.tools-button ha-icon {
       --mdc-icon-size: 18px;
     }
 
@@ -224,7 +268,6 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
 
       .sensor-value {
         max-width: 128px;
-        font-size: 16px;
       }
     }
   `;
@@ -280,6 +323,31 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
     }
 
     return localize(this._language(), "dialog.sensor_more_info.title");
+  }
+
+  private _dialogBreadcrumb(): string | undefined {
+    if (this.target?.kind === "entity") {
+      const stateObj = this.hass?.states[this.target.entityId];
+      const domain = this.target.entityId.split(".")[0];
+      if (this.config && this.target.entityId === this.config.entity && this.target.attribute) {
+        return this._climateTitle();
+      }
+      return domain === "sensor" || domain === "binary_sensor"
+        ? localize(this._language(), "dialog.sensor_more_info.title")
+        : this._friendlyName(stateObj) ?? this.target.entityId;
+    }
+
+    if (this.target?.kind === "power") {
+      return this._climateTitle();
+    }
+
+    return undefined;
+  }
+
+  private _climateTitle(): string | undefined {
+    if (!this.config) return undefined;
+    const climate = this.hass?.states[this.config.entity];
+    return this.config.name ?? this._friendlyName(climate) ?? this.config.entity;
   }
 
   private _friendlyName(stateObj: HassEntity | undefined): string | undefined {
@@ -538,39 +606,49 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
 
   protected render(): TemplateResult {
     const metrics = this._metrics();
+    const breadcrumb = this._dialogBreadcrumb();
+    const title = this._dialogTitle();
 
     return html`
       <eq-dialog
         centered
+        close-start
         .open=${this.open}
-        .title=${this._dialogTitle()}
+        .title=${title}
         .language=${this.language}
         @eq-dialog-close=${() => this._dispatchClose()}
       >
+        <div slot="title" class="more-info-title">
+          ${breadcrumb ? html`<p class="breadcrumb">${breadcrumb}</p>` : nothing}
+          <p class="main">${title}</p>
+        </div>
         <div class="content">
           ${metrics.length > 0
             ? html`<div class="sensor-summary">${metrics.map((metric) => this._renderMetric(metric))}</div>`
             : html`<div class="empty">${localize(this._language(), "dialog.sensor_more_info.unavailable")}</div>`}
           ${metrics.length > 0
             ? html`
-                <div class="chart-toolbar">
-                  <ha-icon-button
-                    class="tools-button"
-                    .label=${localize(this._language(), "dialog.history.tools")}
-                    ?active=${this._toolsOpen}
-                    @click=${() => { this._toolsOpen = !this._toolsOpen; }}
-                  >
-                    <ha-icon icon="mdi:tools"></ha-icon>
-                  </ha-icon-button>
-                  <ha-icon-button
-                    .label=${localize(
-                      this._language(),
-                      this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls"
-                    )}
-                    @click=${() => { this._controlsVisible = !this._controlsVisible; }}
-                  >
-                    <ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
-                  </ha-icon-button>
+                <div class="history-heading">
+                  <span class="history-title">${localize(this._language(), "dialog.history.title")}</span>
+                  <span class="history-actions">
+                    <ha-icon-button
+                      class="tools-button"
+                      .label=${localize(this._language(), "dialog.history.tools")}
+                      ?active=${this._toolsOpen}
+                      @click=${() => { this._toolsOpen = !this._toolsOpen; }}
+                    >
+                      <ha-icon icon="mdi:tools"></ha-icon>
+                    </ha-icon-button>
+                    <ha-icon-button
+                      .label=${localize(
+                        this._language(),
+                        this._controlsVisible ? "dialog.history.hide_controls" : "dialog.history.show_controls"
+                      )}
+                      @click=${() => { this._controlsVisible = !this._controlsVisible; }}
+                    >
+                      <ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon>
+                    </ha-icon-button>
+                  </span>
                 </div>
               `
             : nothing}
