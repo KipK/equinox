@@ -17233,6 +17233,7 @@ var Fs = class extends D {
     .range-slider {
       --eq-slider-track: color-mix(in srgb, var(--primary-text-color, #fff) 12%, transparent);
       --eq-slider-active: var(--eq-temperature-tone, var(--primary-color, #03a9f4));
+      --eq-slider-thumb-size: 22px;
       position: relative;
       height: 42px;
       display: flex;
@@ -17251,8 +17252,8 @@ var Fs = class extends D {
     .single-track,
     .range-track {
       position: absolute;
-      left: 0;
-      right: 0;
+      left: calc(var(--eq-slider-thumb-size) / 2);
+      right: calc(var(--eq-slider-thumb-size) / 2);
       top: 50%;
       height: 6px;
       transform: translateY(-50%);
@@ -17275,17 +17276,16 @@ var Fs = class extends D {
       background:
         linear-gradient(
           90deg,
-          var(--eq-slider-track) 0%,
+          var(--equinox-heat-color, #ff8a1c) 0%,
+          var(--equinox-heat-color, #ff8a1c) var(--eq-range-low),
           var(--eq-slider-track) var(--eq-range-low),
-          var(--eq-slider-active) var(--eq-range-low),
-          var(--eq-slider-active) var(--eq-range-high),
           var(--eq-slider-track) var(--eq-range-high),
-          var(--eq-slider-track) 100%
+          var(--equinox-cool-color, #4da1ff) var(--eq-range-high),
+          var(--equinox-cool-color, #4da1ff) 100%
         );
     }
 
-    .single-slider input,
-    .range-slider input {
+    .single-slider input {
       position: absolute;
       inset-inline: 0;
       top: 50%;
@@ -17298,12 +17298,7 @@ var Fs = class extends D {
       cursor: pointer;
     }
 
-    .range-slider input {
-      pointer-events: none;
-    }
-
-    .single-slider input::-webkit-slider-thumb,
-    .range-slider input::-webkit-slider-thumb {
+    .single-slider input::-webkit-slider-thumb {
       appearance: none;
       width: 22px;
       height: 22px;
@@ -17315,8 +17310,7 @@ var Fs = class extends D {
       pointer-events: auto;
     }
 
-    .single-slider input::-moz-range-thumb,
-    .range-slider input::-moz-range-thumb {
+    .single-slider input::-moz-range-thumb {
       width: 20px;
       height: 20px;
       border-radius: 50%;
@@ -17326,25 +17320,44 @@ var Fs = class extends D {
       pointer-events: auto;
     }
 
-    .single-slider input::-webkit-slider-runnable-track,
-    .range-slider input::-webkit-slider-runnable-track {
+    .single-slider input::-webkit-slider-runnable-track {
       appearance: none;
       height: 6px;
       background: transparent;
     }
 
-    .single-slider input::-moz-range-track,
-    .range-slider input::-moz-range-track {
+    .single-slider input::-moz-range-track {
       height: 6px;
       background: transparent;
     }
 
-    .range-slider .low {
+    .range-thumb {
+      position: absolute;
+      left: var(--eq-thumb-position);
+      top: 50%;
+      width: var(--eq-slider-thumb-size);
+      height: var(--eq-slider-thumb-size);
+      padding: 0;
+      transform: translate(-50%, -50%);
+      border: 0;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .range-thumb:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    .range-thumb.low {
       color: var(--equinox-heat-color, #ff8a1c);
       z-index: 2;
     }
 
-    .range-slider .high {
+    .range-thumb.high {
       color: var(--equinox-cool-color, #4da1ff);
       z-index: 1;
     }
@@ -17483,13 +17496,52 @@ var Fs = class extends D {
 			viewModel: this.viewModel
 		}, { temperature: this._singleValue() });
 	}
-	_onRangeInput(e, t) {
-		let n = this._snap(Number(t.target.value));
+	_setRangeValue(e, t) {
+		let n = this._snap(t);
 		if (e === "low") {
 			this._low = Math.min(n, this._highValue());
 			return;
 		}
 		this._high = Math.max(n, this._lowValue());
+	}
+	_rangePointerValue(e) {
+		let t = e.currentTarget.closest(".range-slider"), n = (t?.querySelector(".range-track") ?? t)?.getBoundingClientRect();
+		if (!n || n.width <= 0) return this._min();
+		let r = Ps((e.clientX - n.left) / n.width, 0, 1);
+		return this._min() + r * (this._max() - this._min());
+	}
+	_onRangePointerDown(e, t) {
+		this._isDisabled() || (t.preventDefault(), t.currentTarget.setPointerCapture(t.pointerId), this._setRangeValue(e, this._rangePointerValue(t)));
+	}
+	_onRangePointerMove(e, t) {
+		let n = t.currentTarget;
+		this._isDisabled() || !n.hasPointerCapture(t.pointerId) || (t.preventDefault(), this._setRangeValue(e, this._rangePointerValue(t)));
+	}
+	_onRangePointerUp(e) {
+		let t = e.currentTarget;
+		t.hasPointerCapture(e.pointerId) && t.releasePointerCapture(e.pointerId), this._commitRange();
+	}
+	_onRangeKeyDown(e, t) {
+		if (this._isDisabled()) return;
+		let n = e === "low" ? this._lowValue() : this._highValue(), r;
+		switch (t.key) {
+			case "ArrowLeft":
+			case "ArrowDown":
+				r = n - this._step();
+				break;
+			case "ArrowRight":
+			case "ArrowUp":
+				r = n + this._step();
+				break;
+			case "Home":
+				r = this._min();
+				break;
+			case "End":
+				r = this._max();
+				break;
+			default: return;
+		}
+		t.preventDefault(), this._setRangeValue(e, r), this._commitRange();
 	}
 	async _onRangeTextBlur(e, t) {
 		let n = t.target, r = this._parseInput(n.value);
@@ -17622,28 +17674,38 @@ var Fs = class extends D {
             style=${`--eq-range-low: ${this._rangePercent(e)}; --eq-range-high: ${this._rangePercent(t)};`}
           >
             <div class="range-track"></div>
-            <input
-              class="low"
-              type="range"
-              min=${this._min()}
-              max=${this._max()}
-              step=${this._step()}
-              .value=${String(e)}
+            <button
+              class="range-thumb low"
+              type="button"
+              role="slider"
+              aria-valuemin=${this._min()}
+              aria-valuemax=${this._max()}
+              aria-valuenow=${e}
+              aria-valuetext=${this._format(e)}
+              style=${`--eq-thumb-position: ${this._rangePercent(e)};`}
               ?disabled=${this._isDisabled()}
-              @input=${(e) => this._onRangeInput("low", e)}
-              @change=${this._commitRange}
-            >
-            <input
-              class="high"
-              type="range"
-              min=${this._min()}
-              max=${this._max()}
-              step=${this._step()}
-              .value=${String(t)}
+              @pointerdown=${(e) => this._onRangePointerDown("low", e)}
+              @pointermove=${(e) => this._onRangePointerMove("low", e)}
+              @pointerup=${(e) => this._onRangePointerUp(e)}
+              @pointercancel=${(e) => this._onRangePointerUp(e)}
+              @keydown=${(e) => this._onRangeKeyDown("low", e)}
+            ></button>
+            <button
+              class="range-thumb high"
+              type="button"
+              role="slider"
+              aria-valuemin=${this._min()}
+              aria-valuemax=${this._max()}
+              aria-valuenow=${t}
+              aria-valuetext=${this._format(t)}
+              style=${`--eq-thumb-position: ${this._rangePercent(t)};`}
               ?disabled=${this._isDisabled()}
-              @input=${(e) => this._onRangeInput("high", e)}
-              @change=${this._commitRange}
-            >
+              @pointerdown=${(e) => this._onRangePointerDown("high", e)}
+              @pointermove=${(e) => this._onRangePointerMove("high", e)}
+              @pointerup=${(e) => this._onRangePointerUp(e)}
+              @pointercancel=${(e) => this._onRangePointerUp(e)}
+              @keydown=${(e) => this._onRangeKeyDown("high", e)}
+            ></button>
           </div>
           <div class="slider-labels">
             <span>${this._format(this._min())}</span>

@@ -105,6 +105,7 @@ export class EquinoxTemperatureDialog extends LitElement {
     .range-slider {
       --eq-slider-track: color-mix(in srgb, var(--primary-text-color, #fff) 12%, transparent);
       --eq-slider-active: var(--eq-temperature-tone, var(--primary-color, #03a9f4));
+      --eq-slider-thumb-size: 22px;
       position: relative;
       height: 42px;
       display: flex;
@@ -123,8 +124,8 @@ export class EquinoxTemperatureDialog extends LitElement {
     .single-track,
     .range-track {
       position: absolute;
-      left: 0;
-      right: 0;
+      left: calc(var(--eq-slider-thumb-size) / 2);
+      right: calc(var(--eq-slider-thumb-size) / 2);
       top: 50%;
       height: 6px;
       transform: translateY(-50%);
@@ -147,17 +148,16 @@ export class EquinoxTemperatureDialog extends LitElement {
       background:
         linear-gradient(
           90deg,
-          var(--eq-slider-track) 0%,
+          var(--equinox-heat-color, #ff8a1c) 0%,
+          var(--equinox-heat-color, #ff8a1c) var(--eq-range-low),
           var(--eq-slider-track) var(--eq-range-low),
-          var(--eq-slider-active) var(--eq-range-low),
-          var(--eq-slider-active) var(--eq-range-high),
           var(--eq-slider-track) var(--eq-range-high),
-          var(--eq-slider-track) 100%
+          var(--equinox-cool-color, #4da1ff) var(--eq-range-high),
+          var(--equinox-cool-color, #4da1ff) 100%
         );
     }
 
-    .single-slider input,
-    .range-slider input {
+    .single-slider input {
       position: absolute;
       inset-inline: 0;
       top: 50%;
@@ -170,12 +170,7 @@ export class EquinoxTemperatureDialog extends LitElement {
       cursor: pointer;
     }
 
-    .range-slider input {
-      pointer-events: none;
-    }
-
-    .single-slider input::-webkit-slider-thumb,
-    .range-slider input::-webkit-slider-thumb {
+    .single-slider input::-webkit-slider-thumb {
       appearance: none;
       width: 22px;
       height: 22px;
@@ -187,8 +182,7 @@ export class EquinoxTemperatureDialog extends LitElement {
       pointer-events: auto;
     }
 
-    .single-slider input::-moz-range-thumb,
-    .range-slider input::-moz-range-thumb {
+    .single-slider input::-moz-range-thumb {
       width: 20px;
       height: 20px;
       border-radius: 50%;
@@ -198,25 +192,44 @@ export class EquinoxTemperatureDialog extends LitElement {
       pointer-events: auto;
     }
 
-    .single-slider input::-webkit-slider-runnable-track,
-    .range-slider input::-webkit-slider-runnable-track {
+    .single-slider input::-webkit-slider-runnable-track {
       appearance: none;
       height: 6px;
       background: transparent;
     }
 
-    .single-slider input::-moz-range-track,
-    .range-slider input::-moz-range-track {
+    .single-slider input::-moz-range-track {
       height: 6px;
       background: transparent;
     }
 
-    .range-slider .low {
+    .range-thumb {
+      position: absolute;
+      left: var(--eq-thumb-position);
+      top: 50%;
+      width: var(--eq-slider-thumb-size);
+      height: var(--eq-slider-thumb-size);
+      padding: 0;
+      transform: translate(-50%, -50%);
+      border: 0;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .range-thumb:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    .range-thumb.low {
       color: var(--equinox-heat-color, #ff8a1c);
       z-index: 2;
     }
 
-    .range-slider .high {
+    .range-thumb.high {
       color: var(--equinox-cool-color, #4da1ff);
       z-index: 1;
     }
@@ -425,15 +438,81 @@ export class EquinoxTemperatureDialog extends LitElement {
     );
   }
 
-  private _onRangeInput(bound: "low" | "high", event: Event): void {
-    const value = this._snap(Number((event.target as HTMLInputElement).value));
+  private _setRangeValue(bound: "low" | "high", value: number): void {
+    const snapped = this._snap(value);
 
     if (bound === "low") {
-      this._low = Math.min(value, this._highValue());
+      this._low = Math.min(snapped, this._highValue());
       return;
     }
 
-    this._high = Math.max(value, this._lowValue());
+    this._high = Math.max(snapped, this._lowValue());
+  }
+
+  private _rangePointerValue(event: PointerEvent): number {
+    const slider = (event.currentTarget as HTMLElement).closest(".range-slider");
+    const track = slider?.querySelector<HTMLElement>(".range-track");
+    const rect = (track ?? slider)?.getBoundingClientRect();
+
+    if (!rect || rect.width <= 0) {
+      return this._min();
+    }
+
+    const ratio = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+    return this._min() + ratio * (this._max() - this._min());
+  }
+
+  private _onRangePointerDown(bound: "low" | "high", event: PointerEvent): void {
+    if (this._isDisabled()) return;
+    event.preventDefault();
+    const target = event.currentTarget as HTMLElement;
+    target.setPointerCapture(event.pointerId);
+    this._setRangeValue(bound, this._rangePointerValue(event));
+  }
+
+  private _onRangePointerMove(bound: "low" | "high", event: PointerEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    if (this._isDisabled() || !target.hasPointerCapture(event.pointerId)) return;
+    event.preventDefault();
+    this._setRangeValue(bound, this._rangePointerValue(event));
+  }
+
+  private _onRangePointerUp(event: PointerEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    if (target.hasPointerCapture(event.pointerId)) {
+      target.releasePointerCapture(event.pointerId);
+    }
+    void this._commitRange();
+  }
+
+  private _onRangeKeyDown(bound: "low" | "high", event: KeyboardEvent): void {
+    if (this._isDisabled()) return;
+
+    const current = bound === "low" ? this._lowValue() : this._highValue();
+    let next: number | undefined;
+
+    switch (event.key) {
+      case "ArrowLeft":
+      case "ArrowDown":
+        next = current - this._step();
+        break;
+      case "ArrowRight":
+      case "ArrowUp":
+        next = current + this._step();
+        break;
+      case "Home":
+        next = this._min();
+        break;
+      case "End":
+        next = this._max();
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    this._setRangeValue(bound, next);
+    void this._commitRange();
   }
 
   private async _onRangeTextBlur(bound: "low" | "high", event: Event): Promise<void> {
@@ -601,28 +680,38 @@ export class EquinoxTemperatureDialog extends LitElement {
             style=${`--eq-range-low: ${this._rangePercent(low)}; --eq-range-high: ${this._rangePercent(high)};`}
           >
             <div class="range-track"></div>
-            <input
-              class="low"
-              type="range"
-              min=${this._min()}
-              max=${this._max()}
-              step=${this._step()}
-              .value=${String(low)}
+            <button
+              class="range-thumb low"
+              type="button"
+              role="slider"
+              aria-valuemin=${this._min()}
+              aria-valuemax=${this._max()}
+              aria-valuenow=${low}
+              aria-valuetext=${this._format(low)}
+              style=${`--eq-thumb-position: ${this._rangePercent(low)};`}
               ?disabled=${this._isDisabled()}
-              @input=${(event: Event) => this._onRangeInput("low", event)}
-              @change=${this._commitRange}
-            >
-            <input
-              class="high"
-              type="range"
-              min=${this._min()}
-              max=${this._max()}
-              step=${this._step()}
-              .value=${String(high)}
+              @pointerdown=${(event: PointerEvent) => this._onRangePointerDown("low", event)}
+              @pointermove=${(event: PointerEvent) => this._onRangePointerMove("low", event)}
+              @pointerup=${(event: PointerEvent) => this._onRangePointerUp(event)}
+              @pointercancel=${(event: PointerEvent) => this._onRangePointerUp(event)}
+              @keydown=${(event: KeyboardEvent) => this._onRangeKeyDown("low", event)}
+            ></button>
+            <button
+              class="range-thumb high"
+              type="button"
+              role="slider"
+              aria-valuemin=${this._min()}
+              aria-valuemax=${this._max()}
+              aria-valuenow=${high}
+              aria-valuetext=${this._format(high)}
+              style=${`--eq-thumb-position: ${this._rangePercent(high)};`}
               ?disabled=${this._isDisabled()}
-              @input=${(event: Event) => this._onRangeInput("high", event)}
-              @change=${this._commitRange}
-            >
+              @pointerdown=${(event: PointerEvent) => this._onRangePointerDown("high", event)}
+              @pointermove=${(event: PointerEvent) => this._onRangePointerMove("high", event)}
+              @pointerup=${(event: PointerEvent) => this._onRangePointerUp(event)}
+              @pointercancel=${(event: PointerEvent) => this._onRangePointerUp(event)}
+              @keydown=${(event: KeyboardEvent) => this._onRangeKeyDown("high", event)}
+            ></button>
           </div>
           <div class="slider-labels">
             <span>${this._format(this._min())}</span>

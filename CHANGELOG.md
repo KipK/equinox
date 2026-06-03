@@ -16,6 +16,7 @@ All notable changes to Equinox will be documented in this file.
 - Use HA-style rounded corners only for true centered Equinox dialogs, keeping popups and menus on the standard popup shape.
 - Make the popup setpoint dialog visually consistent between single-temperature and heat/cool range modes, with borderless slider thumbs and unframed range values.
 - Normalize sensor more-info graph colors: temperature, humidity, power request, and valve opening use HA blue, while instant power uses the Equinox boost tone.
+- Fix the heat/cool setpoint slider so handles cannot cross and the track shows heat on the left, neutral between setpoints, and cool on the right.
 
 ## 0.1.0
 
