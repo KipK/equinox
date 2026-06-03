@@ -13,6 +13,7 @@ All notable changes to Equinox will be documented in this file.
 - Fix the sensor dialog power request chart by preferring historically recorded root VT power/valve attributes before namespaced fallbacks, and tune the tools icon size.
 - Align the sensor more-info dialog more closely with Home Assistant's more-info layout: breadcrumb/title typography, unframed sensor rows, HA state icon color, rounded corners, and a History heading above the chart.
 - Move the Regulation dialog close button to the left to match Home Assistant dialog placement.
+- Use consistent rounded corners across Equinox dialogs, including Boost and Regulation.
 
 ## 0.1.0
 

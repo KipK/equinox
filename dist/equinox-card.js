@@ -15168,7 +15168,7 @@ var Ts = o`
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 9000;
-      border-radius: var(--equinox-radius, 12px);
+      border-radius: var(--eq-dialog-radius, 28px);
     }
 
     .panel {
@@ -15180,7 +15180,7 @@ var Ts = o`
       min-height: 0;
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
-      border-radius: var(--equinox-radius, 12px);
+      border-radius: var(--eq-dialog-radius, 28px);
       overflow: hidden;
     }
 
@@ -15268,7 +15268,7 @@ var Ts = o`
         bottom: 0;
         top: auto;
         inset-inline: 0;
-        border-radius: 16px 16px 0 0;
+        border-radius: var(--eq-dialog-radius, 28px) var(--eq-dialog-radius, 28px) 0 0;
         max-height: 80vh;
         overflow-y: auto;
       }
@@ -15302,10 +15302,18 @@ var Ts = o`
       border-bottom: 1px solid color-mix(in srgb, var(--divider-color) 64%, transparent);
     }
 
+    .header.close-start {
+      padding: var(--ha-space-4, 16px) 16px 6px;
+    }
+
     .header-title {
       flex: 1;
       min-width: 0;
-      overflow: hidden;
+      overflow: visible;
+    }
+
+    .close-btn + .header-title {
+      margin-left: var(--ha-space-3, 12px);
     }
 
     .header-title-text {
@@ -15327,7 +15335,7 @@ var Ts = o`
     }
 
     .content {
-      padding: 0 16px 16px;
+      padding: var(--eq-dialog-content-padding, 0 16px 16px);
       min-height: 0;
       overflow: auto;
       overscroll-behavior: contain;
@@ -15339,9 +15347,16 @@ var Ts = o`
         padding: max(6px, env(safe-area-inset-top)) 10px 6px;
       }
 
+      .panel.centered .header.close-start {
+        padding: max(var(--ha-space-4, 16px), env(safe-area-inset-top)) 16px 6px;
+      }
+
       .panel.centered .content {
         flex: 1 1 auto;
-        padding: 12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+        padding: var(
+          --eq-dialog-mobile-content-padding,
+          12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left))
+        );
       }
     }
   `;
@@ -15448,7 +15463,7 @@ var Ts = o`
         @mouseenter=${() => this._clearCloseOnLeaveTimer()}
         @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : void 0}
       >
-        <div class="header">
+        <div class=${this.closeStart ? "header close-start" : "header"}>
           ${this.closeStart ? w`
                 <ha-icon-button class="close-btn" .label=${e} @click=${this._dispatchClose}>
                   <ha-icon icon="mdi:close"></ha-icon>
@@ -18484,7 +18499,7 @@ var ec = class extends D {
     eq-dialog {
       --eq-dialog-width: min(560px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
-      --equinox-radius: 28px;
+      --eq-dialog-content-padding: 0 16px 8px;
     }
 
     .content {
@@ -18492,6 +18507,7 @@ var ec = class extends D {
       flex-direction: column;
       gap: 18px;
       min-width: 0;
+      padding-top: var(--ha-space-3, 12px);
       color: var(--primary-text-color);
     }
 
@@ -18501,25 +18517,28 @@ var ec = class extends D {
       align-items: flex-start;
       min-width: 0;
       margin: 0;
+      padding-left: 1px;
     }
 
     .more-info-title p {
       margin: 0;
       min-width: 0;
-      width: 100%;
+      width: calc(100% - 1px);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .more-info-title .breadcrumb {
+      width: auto;
+      max-width: calc(100% - 2px);
+      overflow: visible;
+      text-overflow: clip;
       color: var(--secondary-text-color);
       font-size: var(--ha-font-size-m, 14px);
       line-height: 16px;
-      padding: var(--ha-space-1, 4px);
-      margin: calc(var(--ha-space-1, 4px) * -1);
-      margin-top: calc(var(--ha-space-2, 8px) * -1);
-      border-radius: var(--ha-border-radius-md, 8px);
+      padding: 0 0 0 2px;
+      margin: 0;
     }
 
     .more-info-title .main {
@@ -18653,6 +18672,7 @@ var ec = class extends D {
       eq-dialog {
         --eq-dialog-width: 100vw;
         --eq-dialog-min-width: 0;
+        --eq-dialog-mobile-content-padding: 12px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
       }
 
       .history {
@@ -18689,11 +18709,7 @@ var ec = class extends D {
 		return V(this._language(), "dialog.sensor_more_info.title");
 	}
 	_dialogBreadcrumb() {
-		if (this.target?.kind === "entity") {
-			let e = this.hass?.states[this.target.entityId], t = this.target.entityId.split(".")[0];
-			return this.config && this.target.entityId === this.config.entity && this.target.attribute ? this._climateTitle() : t === "sensor" || t === "binary_sensor" ? V(this._language(), "dialog.sensor_more_info.title") : this._friendlyName(e) ?? this.target.entityId;
-		}
-		if (this.target?.kind === "power") return this._climateTitle();
+		return this._climateTitle();
 	}
 	_climateTitle() {
 		if (!this.config) return;

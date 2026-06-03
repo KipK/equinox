@@ -90,7 +90,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
     eq-dialog {
       --eq-dialog-width: min(560px, calc(100vw - 48px));
       --eq-dialog-min-width: 360px;
-      --equinox-radius: 28px;
+      --eq-dialog-content-padding: 0 16px 8px;
     }
 
     .content {
@@ -98,6 +98,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       flex-direction: column;
       gap: 18px;
       min-width: 0;
+      padding-top: var(--ha-space-3, 12px);
       color: var(--primary-text-color);
     }
 
@@ -107,25 +108,28 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       align-items: flex-start;
       min-width: 0;
       margin: 0;
+      padding-left: 1px;
     }
 
     .more-info-title p {
       margin: 0;
       min-width: 0;
-      width: 100%;
+      width: calc(100% - 1px);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .more-info-title .breadcrumb {
+      width: auto;
+      max-width: calc(100% - 2px);
+      overflow: visible;
+      text-overflow: clip;
       color: var(--secondary-text-color);
       font-size: var(--ha-font-size-m, 14px);
       line-height: 16px;
-      padding: var(--ha-space-1, 4px);
-      margin: calc(var(--ha-space-1, 4px) * -1);
-      margin-top: calc(var(--ha-space-2, 8px) * -1);
-      border-radius: var(--ha-border-radius-md, 8px);
+      padding: 0 0 0 2px;
+      margin: 0;
     }
 
     .more-info-title .main {
@@ -259,6 +263,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       eq-dialog {
         --eq-dialog-width: 100vw;
         --eq-dialog-min-width: 0;
+        --eq-dialog-mobile-content-padding: 12px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
       }
 
       .history {
@@ -326,22 +331,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
   }
 
   private _dialogBreadcrumb(): string | undefined {
-    if (this.target?.kind === "entity") {
-      const stateObj = this.hass?.states[this.target.entityId];
-      const domain = this.target.entityId.split(".")[0];
-      if (this.config && this.target.entityId === this.config.entity && this.target.attribute) {
-        return this._climateTitle();
-      }
-      return domain === "sensor" || domain === "binary_sensor"
-        ? localize(this._language(), "dialog.sensor_more_info.title")
-        : this._friendlyName(stateObj) ?? this.target.entityId;
-    }
-
-    if (this.target?.kind === "power") {
-      return this._climateTitle();
-    }
-
-    return undefined;
+    return this._climateTitle();
   }
 
   private _climateTitle(): string | undefined {

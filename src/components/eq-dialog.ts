@@ -26,7 +26,7 @@ export class EquinoxDialog extends LitElement {
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 9000;
-      border-radius: var(--equinox-radius, 12px);
+      border-radius: var(--eq-dialog-radius, 28px);
     }
 
     .panel {
@@ -38,7 +38,7 @@ export class EquinoxDialog extends LitElement {
       min-height: 0;
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
-      border-radius: var(--equinox-radius, 12px);
+      border-radius: var(--eq-dialog-radius, 28px);
       overflow: hidden;
     }
 
@@ -126,7 +126,7 @@ export class EquinoxDialog extends LitElement {
         bottom: 0;
         top: auto;
         inset-inline: 0;
-        border-radius: 16px 16px 0 0;
+        border-radius: var(--eq-dialog-radius, 28px) var(--eq-dialog-radius, 28px) 0 0;
         max-height: 80vh;
         overflow-y: auto;
       }
@@ -160,10 +160,18 @@ export class EquinoxDialog extends LitElement {
       border-bottom: 1px solid color-mix(in srgb, var(--divider-color) 64%, transparent);
     }
 
+    .header.close-start {
+      padding: var(--ha-space-4, 16px) 16px 6px;
+    }
+
     .header-title {
       flex: 1;
       min-width: 0;
-      overflow: hidden;
+      overflow: visible;
+    }
+
+    .close-btn + .header-title {
+      margin-left: var(--ha-space-3, 12px);
     }
 
     .header-title-text {
@@ -185,7 +193,7 @@ export class EquinoxDialog extends LitElement {
     }
 
     .content {
-      padding: 0 16px 16px;
+      padding: var(--eq-dialog-content-padding, 0 16px 16px);
       min-height: 0;
       overflow: auto;
       overscroll-behavior: contain;
@@ -197,9 +205,16 @@ export class EquinoxDialog extends LitElement {
         padding: max(6px, env(safe-area-inset-top)) 10px 6px;
       }
 
+      .panel.centered .header.close-start {
+        padding: max(var(--ha-space-4, 16px), env(safe-area-inset-top)) 16px 6px;
+      }
+
       .panel.centered .content {
         flex: 1 1 auto;
-        padding: 12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+        padding: var(
+          --eq-dialog-mobile-content-padding,
+          12px max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left))
+        );
       }
     }
   `;
@@ -446,7 +461,7 @@ export class EquinoxDialog extends LitElement {
         @mouseenter=${() => this._clearCloseOnLeaveTimer()}
         @mouseleave=${this.closeOnLeave ? () => this._scheduleCloseOnLeave() : undefined}
       >
-        <div class="header">
+        <div class=${this.closeStart ? "header close-start" : "header"}>
           ${this.closeStart
         ? html`
                 <ha-icon-button class="close-btn" .label=${closeLabel} @click=${this._dispatchClose}>
