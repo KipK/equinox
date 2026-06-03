@@ -379,6 +379,11 @@ export class EquinoxMainCard extends LitElement {
         opacity: 0.45;
       }
 
+      .lock:hover:not(:disabled),
+      .lock:focus-visible:not(:disabled) {
+        background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
+      }
+
       .action-icon {
         width: 26px;
         height: 26px;
@@ -1010,12 +1015,18 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-layout {
         display: grid;
-        grid-template-rows: minmax(34px, auto) minmax(24px, auto);
-        gap: 7px;
+        grid-template-columns: minmax(24px, auto) minmax(0, 1fr) auto;
+        grid-template-areas:
+          "state readings status"
+          "controls controls extra";
+        grid-template-rows: minmax(24px, auto) minmax(34px, auto);
+        align-items: center;
+        gap: 7px 8px;
         min-width: 0;
       }
 
       .thin-summary,
+      .thin-state,
       .thin-controls,
       .thin-readings,
       .thin-status,
@@ -1025,14 +1036,19 @@ export class EquinoxMainCard extends LitElement {
         align-items: center;
       }
 
+      .thin-state {
+        grid-area: state;
+        justify-content: flex-start;
+        min-width: 24px;
+      }
+
       .thin-summary {
-        justify-content: space-between;
-        gap: 8px;
+        display: contents;
       }
 
       .thin-readings {
-        gap: 7px;
-        flex: 1 1 auto;
+        grid-area: readings;
+        gap: 5px;
         overflow: hidden;
         white-space: nowrap;
       }
@@ -1046,7 +1062,7 @@ export class EquinoxMainCard extends LitElement {
       .thin-current {
         display: inline-flex;
         align-items: center;
-        gap: 3px;
+        gap: 1px;
         color: var(--equinox-text-color);
         font-size: clamp(13px, 5.6cqi, 24px);
         line-height: 1;
@@ -1057,7 +1073,7 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-current ha-icon {
-        --mdc-icon-size: 0.9em;
+        --mdc-icon-size: 0.78em;
         flex: 0 0 auto;
         color: var(--equinox-muted-color);
       }
@@ -1065,7 +1081,7 @@ export class EquinoxMainCard extends LitElement {
       .thin-humidity {
         display: inline-flex;
         align-items: center;
-        gap: 2px;
+        gap: 1px;
         color: var(--equinox-muted-color);
         font-size: clamp(11px, 4.2cqi, 14px);
         line-height: 1;
@@ -1074,13 +1090,14 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-humidity ha-icon {
-        --mdc-icon-size: 14px;
+        --mdc-icon-size: 12px;
+        flex: 0 0 auto;
       }
 
       .thin-status {
+        grid-area: status;
         justify-content: flex-end;
         gap: 4px;
-        flex: 0 0 auto;
       }
 
       .thin-status .events {
@@ -1091,6 +1108,7 @@ export class EquinoxMainCard extends LitElement {
       .thin-status .event,
       .thin-status .action-icon,
       .thin-status .lock,
+      .thin-status .power-info,
       .thin-status .power-info-button {
         width: 24px;
         height: 24px;
@@ -1101,6 +1119,12 @@ export class EquinoxMainCard extends LitElement {
       .thin-status .lock ha-icon,
       .thin-status .power-info-button ha-icon {
         --mdc-icon-size: 18px;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
       }
 
       .thin-status .menu {
@@ -1109,17 +1133,9 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-controls {
+        grid-area: controls;
         justify-content: flex-start;
         gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .thin-controls > .action-icon {
-        width: 34px;
-        height: 34px;
-        flex: 0 0 auto;
-        align-self: center;
-        --mdc-icon-size: 22px;
       }
 
       .thin-setpoint {
@@ -1211,10 +1227,17 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-selectors {
-        margin-inline-start: auto;
-        flex: 1 1 auto;
         gap: 5px;
         flex-wrap: wrap;
+      }
+
+      .thin-primary-selectors {
+        flex: 1 1 auto;
+        justify-content: flex-start;
+      }
+
+      .thin-extra-selectors {
+        grid-area: extra;
         justify-content: flex-end;
       }
 
@@ -1240,25 +1263,58 @@ export class EquinoxMainCard extends LitElement {
         height: clamp(22px, 8cqi, 28px);
       }
 
-      @container (max-width: 320px) {
+      @container (max-width: 360px) {
+        .thin-layout {
+          grid-template-columns: minmax(0, 1fr) auto;
+          grid-template-areas:
+            "state status"
+            "readings extra"
+            "controls controls";
+          grid-template-rows: minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout:not([has-extra]) {
+          grid-template-areas:
+            "state status"
+            "readings readings"
+            "controls controls";
+        }
+
+        .thin-layout:not([has-extra]) .thin-current {
+          font-size: clamp(16px, 7cqi, 24px);
+        }
+
+        .thin-layout:not([has-extra]) .thin-current ha-icon {
+          --mdc-icon-size: 0.82em;
+        }
+
+        .thin-layout:not([has-extra]) .thin-humidity {
+          font-size: clamp(12px, 4.8cqi, 16px);
+        }
+
+        .thin-layout:not([has-extra]) .thin-humidity ha-icon {
+          --mdc-icon-size: 13px;
+        }
+
         .thin-controls {
           display: grid;
           grid-template-columns: minmax(0, auto) minmax(0, 1fr);
           align-items: center;
         }
 
-        .thin-selectors {
+        .thin-primary-selectors {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
           width: 100%;
         }
 
-        .thin-selectors ha-control-button {
-          width: 100%;
+        .thin-extra-selectors {
+          align-self: center;
+          justify-self: end;
         }
 
-        .thin-selector-extra {
-          grid-row: 2;
+        .thin-selectors ha-control-button {
+          width: 100%;
         }
       }
 
@@ -2150,9 +2206,9 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderThinLayout(): TemplateResult {
     return html`
-      <div class="thin-layout">
-        ${this._renderThinControlRow()}
+      <div class="thin-layout" ?has-extra=${this._hasThinExtraSelectors()}>
         ${this._renderThinSummaryRow()}
+        ${this._renderThinControlRow()}
       </div>
     `;
   }
@@ -2170,6 +2226,9 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="thin-summary">
+        <div class="thin-state">
+          ${this._renderHvacStateIcon()}
+        </div>
         <div class="thin-readings">
           <span
             class="thin-current"
@@ -2199,14 +2258,17 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderThinControlRow(): TemplateResult {
+    const primarySelectors = this._renderThinPrimarySelectors();
+    const extraSelectors = this._renderThinExtraSelectors();
+
     return html`
       <div class="thin-controls">
-        ${this._renderHvacStateIcon()}
         <div class="thin-setpoint">
           ${this._renderThinTemperatureButton()}
         </div>
-        ${this._renderThinSelectors()}
+        ${primarySelectors}
       </div>
+      ${extraSelectors}
     `;
   }
 
@@ -2240,17 +2302,30 @@ export class EquinoxMainCard extends LitElement {
     return html`<span class="thin-temperature-value" tone=${this._targetTone()}>${this._formatTargetTempSummary()}</span>`;
   }
 
-  private _renderThinSelectors(): TemplateResult | typeof nothing {
+  private _renderThinPrimarySelectors(): TemplateResult | typeof nothing {
     const hvac = this._renderThinHvacButton();
     const preset = this._renderThinPresetButton();
-    const fan = this._hasFanControl() ? this._renderThinFanButton() : nothing;
-    const swing = this._hasSwingControl() ? this._renderThinSwingButton() : nothing;
 
-    if (hvac === nothing && preset === nothing && fan === nothing && swing === nothing) {
+    if (hvac === nothing && preset === nothing) {
       return nothing;
     }
 
-    return html`<div class="thin-selectors">${hvac}${preset}${fan}${swing}</div>`;
+    return html`<div class="thin-selectors thin-primary-selectors">${hvac}${preset}</div>`;
+  }
+
+  private _renderThinExtraSelectors(): TemplateResult | typeof nothing {
+    const fan = this._hasFanControl() ? this._renderThinFanButton() : nothing;
+    const swing = this._hasSwingControl() ? this._renderThinSwingButton() : nothing;
+
+    if (fan === nothing && swing === nothing) {
+      return nothing;
+    }
+
+    return html`<div class="thin-selectors thin-extra-selectors">${fan}${swing}</div>`;
+  }
+
+  private _hasThinExtraSelectors(): boolean {
+    return this._hasFanControl() || this._hasSwingControl();
   }
 
   private _renderThinHvacButton(): TemplateResult | typeof nothing {
