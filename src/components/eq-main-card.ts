@@ -1015,14 +1015,20 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
         grid-template-areas:
-          "readings status"
-          "controls extra";
+          "readings readings status"
+          "setpoint primary extra";
         grid-template-rows: minmax(24px, auto) minmax(34px, auto);
         align-items: center;
         gap: 7px 8px;
         min-width: 0;
+      }
+
+      .thin-layout:not([has-extra]) {
+        grid-template-areas:
+          "readings readings status"
+          "setpoint primary primary";
       }
 
       .thin-summary,
@@ -1126,12 +1132,11 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-controls {
-        grid-area: controls;
-        justify-content: flex-start;
-        gap: 8px;
+        display: contents;
       }
 
       .thin-setpoint {
+        grid-area: setpoint;
         flex: 0 0 auto;
         min-width: 0;
         display: flex;
@@ -1225,8 +1230,10 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-primary-selectors {
-        flex: 1 1 auto;
-        justify-content: flex-start;
+        grid-area: primary;
+        width: max-content;
+        justify-content: flex-end;
+        justify-self: end;
       }
 
       .thin-extra-selectors {
@@ -1262,7 +1269,7 @@ export class EquinoxMainCard extends LitElement {
           grid-template-areas:
             "status status"
             "readings extra"
-            "controls controls";
+            "setpoint primary";
           grid-template-rows: minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
         }
 
@@ -1270,7 +1277,7 @@ export class EquinoxMainCard extends LitElement {
           grid-template-areas:
             "status status"
             "readings readings"
-            "controls controls";
+            "setpoint primary";
         }
 
         .thin-layout:not([has-extra]) .thin-current {
@@ -1289,16 +1296,10 @@ export class EquinoxMainCard extends LitElement {
           --mdc-icon-size: 13px;
         }
 
-        .thin-controls {
-          display: grid;
-          grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-          align-items: center;
-        }
-
         .thin-primary-selectors {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          width: 100%;
+          width: min(100%, 101px);
         }
 
         .thin-extra-selectors {
