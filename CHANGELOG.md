@@ -2,30 +2,6 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## Next
-
-- Add `display_mode: thin`, a compact control layout with color-coded popup temperature sliders, responsive sensor readings, inline HVAC/preset/fan/swing popups, and horizontal state icons.
-- Add new setpoint setter ( legacy +/- setpoint setter can be switched back from the config )
-- Some UI improvements
-- Keep thin humidity beside temperature when space allows, moving it next to the power icon as a hover-value icon only when fan/swing buttons constrain the sensor row, and reserve only the actual width of present extra buttons.
-- Keep thin cards on two lines for wider narrow layouts by delaying the three-line breakpoint.
-- Replace native sensor more-info popups and the power hover tooltip with an Equinox sensor dialog showing current values and a 24h `ha-better-history` chart.
-- Fix the sensor dialog power request chart by preferring historically recorded root VT power/valve attributes before namespaced fallbacks, and tune the tools icon size.
-- Align the sensor more-info dialog more closely with Home Assistant's more-info layout: breadcrumb/title typography, unframed sensor rows, HA state icon color, rounded corners, and a History heading above the chart.
-- Move the Regulation dialog close button to the left to match Home Assistant dialog placement.
-- Use HA-style rounded corners only for true centered Equinox dialogs, keeping popups and menus on the standard popup shape.
-- Make the popup setpoint dialog visually consistent between single-temperature and heat/cool range modes, with borderless slider thumbs and unframed range values.
-- Normalize sensor more-info graph colors: temperature, humidity, power request, and valve opening use HA blue, while instant power uses the Equinox boost tone.
-- Fix the heat/cool setpoint slider so handles cannot cross and the track shows heat on the left, neutral between setpoints, and cool on the right.
-- Keep the main menu popup open while moving from the card to the menu, matching the other floating popups.
-- Keep thin-mode humidity displayed as a reading for narrower cards when only one extra selector, such as ventilation, is present.
-- Color the normal setpoint slider thumb with the active mode tone to match its filled track.
-- Add browser Back/Forward history support for sensor more-info dialogs.
-- Fix sensor more-info close so it clears its local browser-history state without navigating to the previous page.
-- Hide the name and hide-name editor fields when `display_mode: thin` is selected.
-- Show the configured humidity entity in the default history only when the climate does not already expose `current_humidity`.
-- Replace the temporary boost circular duration selector with a horizontal slider matching the popup setpoint control.
-
 ## 0.1.0
 
 ### Initial release
@@ -131,3 +107,12 @@ All notable changes to Equinox will be documented in this file.
 - improve vtherm-hysteresis regulation dashboard layout and diagnostics
 - center orphan regulation grid items
 - updated ha-better-history to 0.2.6
+
+## 0.2.0
+
+- Add new "Thin" layout, a compact control layout with color-coded popup temperature sliders, responsive sensor readings, inline HVAC/preset/fan/swing popups, and horizontal state icons.
+- Add new setpoint setter ( legacy +/- setpoint setter can be switched back from the config )
+- Many UI improvements
+- Add custom more-info dialog box.
+- Show the configured humidity entity in the default history only when the climate does not already expose
+- Replace the temporary boost circular duration selector with a horizontal slider matching the popup setpoint control.
