@@ -1288,7 +1288,7 @@ export class EquinoxMainCard extends LitElement {
         height: 28px;
       }
 
-      @container (max-width: 360px) {
+      @container (max-width: 320px) {
         .thin-layout {
           grid-template-columns: minmax(0, 1fr) var(--thin-extra-column-width, auto);
           grid-template-areas:

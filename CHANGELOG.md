@@ -8,6 +8,7 @@ All notable changes to Equinox will be documented in this file.
 - Add new setpoint setter ( legacy +/- setpoint setter can be switched back from the config )
 - Some UI improvements
 - Keep thin humidity beside temperature when space allows, moving it next to the power icon as a hover-value icon only when fan/swing buttons constrain the sensor row, and reserve only the actual width of present extra buttons.
+- Keep thin cards on two lines for wider narrow layouts by delaying the three-line breakpoint.
 
 ## 0.1.0
 
