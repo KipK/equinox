@@ -12416,14 +12416,14 @@ var Mo = class extends E {
         </button>
       </div>
       ${this._activeTab === "presentation" ? this._renderPresentationTab(e, t) : this._activeTab === "general" ? C`
-            <ha-form
-              .hass=${this.hass}
-              .data=${t}
-              .schema=${this._generalSchema(e)}
-              .computeLabel=${this._computeLabel(e)}
-              @value-changed=${this._valueChanged}
-            ></ha-form>
-          ` : this._renderVisibilityTab(e, this._activeTab)}
+              <ha-form
+                .hass=${this.hass}
+                .data=${t}
+                .schema=${this._generalSchema(e, t.display_mode)}
+                .computeLabel=${this._computeLabel(e)}
+                @value-changed=${this._valueChanged}
+              ></ha-form>
+            ` : this._renderVisibilityTab(e, this._activeTab)}
     `;
 	}
 	_renderPresentationTab(e, t) {
@@ -12470,15 +12470,11 @@ var Mo = class extends E {
       </div>
     `;
 	}
-	_generalSchema(e) {
-		return [
+	_generalSchema(e, t) {
+		let n = t === "thin", r = [
 			{
 				name: "entity",
 				selector: { entity: { domain: ["climate"] } }
-			},
-			{
-				name: "name",
-				selector: { text: {} }
 			},
 			{
 				name: "power_entity",
@@ -12513,6 +12509,10 @@ var Mo = class extends E {
 				} }
 			}
 		];
+		return n || r.splice(1, 0, {
+			name: "name",
+			selector: { text: {} }
+		}), r;
 	}
 	_presentationSchema(e, t) {
 		let n = [{
@@ -12521,46 +12521,42 @@ var Mo = class extends E {
 		}, {
 			value: "vertical",
 			label: B(e, "editor.options.layout_orientation.vertical")
-		}], r = t === "thin", i = [
-			{
-				name: "disable_name",
-				selector: { boolean: {} }
-			},
-			{
-				name: "theme",
-				selector: { select: {
-					mode: "dropdown",
-					options: [{
-						value: "flat",
-						label: B(e, "editor.options.theme.flat")
-					}, {
-						value: "liquid_glow",
-						label: B(e, "editor.options.theme.liquid_glow")
-					}]
-				} }
-			},
-			{
-				name: "display_mode",
-				selector: { select: {
-					mode: "dropdown",
-					options: [
-						{
-							value: "classic",
-							label: B(e, "editor.options.display_mode.classic")
-						},
-						{
-							value: "compact",
-							label: B(e, "editor.options.display_mode.compact")
-						},
-						{
-							value: "thin",
-							label: B(e, "editor.options.display_mode.thin")
-						}
-					]
-				} }
-			}
-		];
-		return r || (i.push({
+		}], r = t === "thin", i = [{
+			name: "theme",
+			selector: { select: {
+				mode: "dropdown",
+				options: [{
+					value: "flat",
+					label: B(e, "editor.options.theme.flat")
+				}, {
+					value: "liquid_glow",
+					label: B(e, "editor.options.theme.liquid_glow")
+				}]
+			} }
+		}, {
+			name: "display_mode",
+			selector: { select: {
+				mode: "dropdown",
+				options: [
+					{
+						value: "classic",
+						label: B(e, "editor.options.display_mode.classic")
+					},
+					{
+						value: "compact",
+						label: B(e, "editor.options.display_mode.compact")
+					},
+					{
+						value: "thin",
+						label: B(e, "editor.options.display_mode.thin")
+					}
+				]
+			} }
+		}];
+		return r || (i.splice(0, 0, {
+			name: "disable_name",
+			selector: { boolean: {} }
+		}), i.push({
 			name: "primary_display",
 			selector: { select: {
 				mode: "dropdown",

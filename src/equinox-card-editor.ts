@@ -154,14 +154,14 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         ? this._renderPresentationTab(language, data)
         : this._activeTab === "general"
           ? html`
-            <ha-form
-              .hass=${this.hass}
-              .data=${data}
-              .schema=${this._generalSchema(language)}
-              .computeLabel=${this._computeLabel(language)}
-              @value-changed=${this._valueChanged}
-            ></ha-form>
-          `
+              <ha-form
+                .hass=${this.hass}
+                .data=${data}
+                .schema=${this._generalSchema(language, data.display_mode)}
+                .computeLabel=${this._computeLabel(language)}
+                @value-changed=${this._valueChanged}
+              ></ha-form>
+            `
           : this._renderVisibilityTab(language, this._activeTab)}
     `;
   }
@@ -226,20 +226,15 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     `;
   }
 
-  private _generalSchema(language?: string): HaFormSchema[] {
-    return [
+  private _generalSchema(language: string | undefined, displayMode: EquinoxCardConfigInput["display_mode"]): HaFormSchema[] {
+    const isThin = displayMode === "thin";
+    const schema: HaFormSchema[] = [
       {
         name: "entity",
         selector: {
           entity: {
             domain: ["climate"]
           }
-        }
-      },
-      {
-        name: "name",
-        selector: {
-          text: {}
         }
       },
       {
@@ -280,6 +275,17 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       }
     ];
+
+    if (!isThin) {
+      schema.splice(1, 0, {
+        name: "name",
+        selector: {
+          text: {}
+        }
+      });
+    }
+
+    return schema;
   }
 
   private _presentationSchema(language: string | undefined, displayMode: EquinoxCardConfigInput["display_mode"]): HaFormSchema[] {
@@ -290,12 +296,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     const isThin = displayMode === "thin";
 
     const schema: HaFormSchema[] = [
-      {
-        name: "disable_name",
-        selector: {
-          boolean: {}
-        }
-      },
       {
         name: "theme",
         selector: {
@@ -324,6 +324,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     ];
 
     if (!isThin) {
+      schema.splice(0, 0, {
+        name: "disable_name",
+        selector: {
+          boolean: {}
+        }
+      });
       schema.push({
         name: "primary_display",
         selector: {

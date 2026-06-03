@@ -22,6 +22,7 @@ All notable changes to Equinox will be documented in this file.
 - Color the normal setpoint slider thumb with the active mode tone to match its filled track.
 - Add browser Back/Forward history support for sensor more-info dialogs.
 - Fix sensor more-info close so it clears its local browser-history state without navigating to the previous page.
+- Hide the name and hide-name editor fields when `display_mode: thin` is selected.
 
 ## 0.1.0
 
