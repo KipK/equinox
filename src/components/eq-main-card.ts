@@ -44,6 +44,7 @@ type EventIconDefinition = {
 };
 
 type TemperatureRangeBound = "low" | "high";
+type LightweightDialog = "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu" | "boost";
 
 type RgbColor = {
   r: number;
@@ -1424,8 +1425,8 @@ export class EquinoxMainCard extends LitElement {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 0;
-        background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+        border: 1px solid var(--equinox-mode-control-border-color);
+        background: var(--equinox-mode-control-bg);
         color: var(--primary-color);
         padding: 0;
         cursor: pointer;
@@ -1451,7 +1452,6 @@ export class EquinoxMainCard extends LitElement {
       .swing[tone^="swing-"],
       .fan[tone="off"],
       .swing[tone="off"] {
-        background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
         color: var(--eq-tone-color);
       }
 
@@ -1505,7 +1505,7 @@ export class EquinoxMainCard extends LitElement {
       .menu:hover,
       .fan:hover,
       .swing:hover {
-        background: color-mix(in srgb, var(--primary-color) 22%, transparent);
+        background: var(--equinox-mode-control-hover-bg);
       }
 
       .meter-legacy {
@@ -2006,7 +2006,7 @@ export class EquinoxMainCard extends LitElement {
             .floating=${true}
             .closeOnLeave=${true}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => { this._activeDialog = null; }}
+            @eq-dialog-close=${() => this._closeLightweightDialog("fan")}
           ></eq-fan-dialog>
         `;
       case "swing":
@@ -2020,7 +2020,7 @@ export class EquinoxMainCard extends LitElement {
             .floating=${true}
             .closeOnLeave=${true}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => { this._activeDialog = null; }}
+            @eq-dialog-close=${() => this._closeLightweightDialog("swing")}
           ></eq-swing-dialog>
         `;
       case "hvac":
@@ -2034,7 +2034,7 @@ export class EquinoxMainCard extends LitElement {
             .floating=${true}
             .closeOnLeave=${true}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => { this._activeDialog = null; }}
+            @eq-dialog-close=${() => this._closeLightweightDialog("hvac")}
           ></eq-hvac-dialog>
         `;
       case "preset":
@@ -2048,7 +2048,7 @@ export class EquinoxMainCard extends LitElement {
             .floating=${true}
             .closeOnLeave=${true}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => { this._activeDialog = null; }}
+            @eq-dialog-close=${() => this._closeLightweightDialog("preset")}
           ></eq-preset-dialog>
         `;
       case "temperature":
@@ -2062,7 +2062,7 @@ export class EquinoxMainCard extends LitElement {
             .floating=${true}
             .closeOnLeave=${true}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => { this._activeDialog = null; }}
+            @eq-dialog-close=${() => this._closeLightweightDialog("temperature")}
           ></eq-temperature-dialog>
         `;
       case "menu":
@@ -2101,7 +2101,7 @@ export class EquinoxMainCard extends LitElement {
             .floating=${true}
             .closeOnLeave=${true}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => { this._activeDialog = null; }}
+            @eq-dialog-close=${() => this._closeLightweightDialog("boost")}
             @equinox-open-menu=${() => { this._activeDialog = "menu"; }}
           ></eq-boost-dialog>
         `;
@@ -2300,7 +2300,6 @@ export class EquinoxMainCard extends LitElement {
         ?disabled=${this._isControlDisabled()}
         @click=${(event: Event) => this._openDialog("temperature", event)}
       >
-        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -2442,8 +2441,8 @@ export class EquinoxMainCard extends LitElement {
       <div class="status">
         ${showFan ? this._renderFanButton() : nothing}
         ${showSwing ? this._renderSwingButton() : nothing}
-        ${this._renderPowerInfoButton()}
         <span class="status-spacer"></span>
+        ${this._renderPowerInfoButton()}
         <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
         ${lockButtonVisible ? this._renderLockButton(lockLabel) : nothing}
         ${this.config?.disable_name ? this._renderMenuButton() : nothing}
@@ -2462,6 +2461,7 @@ export class EquinoxMainCard extends LitElement {
     return [
       ...(this.config?.disable_name ? [this._renderMenuButton()] : []),
       ...(lockButtonVisible ? [this._renderLockButton(lockLabel)] : []),
+      this._renderPowerInfoButton(),
       html`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`
     ];
   }
@@ -2469,8 +2469,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderLeftRail(): Array<TemplateResult | typeof nothing> {
     return [
       ...(this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : []),
-      ...(this.config?.display_mode !== "compact" && this._hasSwingControl() ? [this._renderSwingButton()] : []),
-      this._renderPowerInfoButton()
+      ...(this.config?.display_mode !== "compact" && this._hasSwingControl() ? [this._renderSwingButton()] : [])
     ];
   }
 
@@ -2698,7 +2697,6 @@ export class EquinoxMainCard extends LitElement {
         ?disabled=${this._isControlDisabled()}
         @click=${(event: Event) => this._openDialog("temperature", event)}
       >
-        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -3133,8 +3131,15 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _openDialog(dialog: "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu", event: Event): void {
+  private _openDialog(dialog: Exclude<LightweightDialog, "boost">, event: Event): void {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
+
+    if (this._activeDialog === dialog) {
+      this._activeDialog = null;
+      this._activeMessageKey = undefined;
+      this._dialogAnchor = undefined;
+      return;
+    }
 
     if (target) {
       const isMenu = dialog === "menu";
@@ -3149,8 +3154,21 @@ export class EquinoxMainCard extends LitElement {
     this._activeMessageKey = undefined;
   }
 
+  private _closeLightweightDialog(dialog: Exclude<LightweightDialog, "menu">): void {
+    if (this._activeDialog === dialog) {
+      this._activeDialog = null;
+    }
+  }
+
   private _openBoost(event: Event): void {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
+
+    if (this._activeDialog === "boost") {
+      this._activeDialog = null;
+      this._activeMessageKey = undefined;
+      this._dialogAnchor = undefined;
+      return;
+    }
 
     if (target) {
       const clientX = event instanceof MouseEvent ? event.clientX : undefined;

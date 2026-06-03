@@ -21285,8 +21285,8 @@ var fc = class extends O {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 0;
-        background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+        border: 1px solid var(--equinox-mode-control-border-color);
+        background: var(--equinox-mode-control-bg);
         color: var(--primary-color);
         padding: 0;
         cursor: pointer;
@@ -21312,7 +21312,6 @@ var fc = class extends O {
       .swing[tone^="swing-"],
       .fan[tone="off"],
       .swing[tone="off"] {
-        background: color-mix(in srgb, var(--eq-tone-color) 15%, transparent);
         color: var(--eq-tone-color);
       }
 
@@ -21366,7 +21365,7 @@ var fc = class extends O {
       .menu:hover,
       .fan:hover,
       .swing:hover {
-        background: color-mix(in srgb, var(--primary-color) 22%, transparent);
+        background: var(--equinox-mode-control-hover-bg);
       }
 
       .meter-legacy {
@@ -21666,9 +21665,7 @@ var fc = class extends O {
             .floating=${!0}
             .closeOnLeave=${!0}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => {
-				this._activeDialog = null;
-			}}
+            @eq-dialog-close=${() => this._closeLightweightDialog("fan")}
           ></eq-fan-dialog>
         `;
 			case "swing": return T`
@@ -21681,9 +21678,7 @@ var fc = class extends O {
             .floating=${!0}
             .closeOnLeave=${!0}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => {
-				this._activeDialog = null;
-			}}
+            @eq-dialog-close=${() => this._closeLightweightDialog("swing")}
           ></eq-swing-dialog>
         `;
 			case "hvac": return T`
@@ -21696,9 +21691,7 @@ var fc = class extends O {
             .floating=${!0}
             .closeOnLeave=${!0}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => {
-				this._activeDialog = null;
-			}}
+            @eq-dialog-close=${() => this._closeLightweightDialog("hvac")}
           ></eq-hvac-dialog>
         `;
 			case "preset": return T`
@@ -21711,9 +21704,7 @@ var fc = class extends O {
             .floating=${!0}
             .closeOnLeave=${!0}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => {
-				this._activeDialog = null;
-			}}
+            @eq-dialog-close=${() => this._closeLightweightDialog("preset")}
           ></eq-preset-dialog>
         `;
 			case "temperature": return T`
@@ -21726,9 +21717,7 @@ var fc = class extends O {
             .floating=${!0}
             .closeOnLeave=${!0}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => {
-				this._activeDialog = null;
-			}}
+            @eq-dialog-close=${() => this._closeLightweightDialog("temperature")}
           ></eq-temperature-dialog>
         `;
 			case "menu": return T`
@@ -21769,9 +21758,7 @@ var fc = class extends O {
             .floating=${!0}
             .closeOnLeave=${!0}
             .anchor=${this._dialogAnchor}
-            @eq-dialog-close=${() => {
-				this._activeDialog = null;
-			}}
+            @eq-dialog-close=${() => this._closeLightweightDialog("boost")}
             @equinox-open-menu=${() => {
 				this._activeDialog = "menu";
 			}}
@@ -21908,7 +21895,6 @@ var fc = class extends O {
         ?disabled=${this._isControlDisabled()}
         @click=${(e) => this._openDialog("temperature", e)}
       >
-        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -22003,8 +21989,8 @@ var fc = class extends O {
       <div class="status">
         ${n ? this._renderFanButton() : D}
         ${r ? this._renderSwingButton() : D}
-        ${this._renderPowerInfoButton()}
         <span class="status-spacer"></span>
+        ${this._renderPowerInfoButton()}
         <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
         ${e ? this._renderLockButton(t) : D}
         ${this.config?.disable_name ? this._renderMenuButton() : D}
@@ -22016,15 +22002,12 @@ var fc = class extends O {
 		return [
 			...this.config?.disable_name ? [this._renderMenuButton()] : [],
 			...e ? [this._renderLockButton(t)] : [],
+			this._renderPowerInfoButton(),
 			T`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`
 		];
 	}
 	_renderLeftRail() {
-		return [
-			...this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : [],
-			...this.config?.display_mode !== "compact" && this._hasSwingControl() ? [this._renderSwingButton()] : [],
-			this._renderPowerInfoButton()
-		];
+		return [...this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : [], ...this.config?.display_mode !== "compact" && this._hasSwingControl() ? [this._renderSwingButton()] : []];
 	}
 	_renderLockButton(e) {
 		let t = this.viewModel?.vt?.lock.isLocked === !0;
@@ -22188,7 +22171,6 @@ var fc = class extends O {
         ?disabled=${this._isControlDisabled()}
         @click=${(e) => this._openDialog("temperature", e)}
       >
-        <ha-icon icon="mdi:thermostat"></ha-icon>
         ${this._renderThinTemperatureValue()}
       </button>
     `;
@@ -22485,6 +22467,10 @@ var fc = class extends O {
 	}
 	_openDialog(e, t) {
 		let n = t.currentTarget instanceof HTMLElement ? t.currentTarget : void 0;
+		if (this._activeDialog === e) {
+			this._activeDialog = null, this._activeMessageKey = void 0, this._dialogAnchor = void 0;
+			return;
+		}
 		if (n) {
 			let r = e === "menu", i = t instanceof MouseEvent ? t.clientX : void 0, a = r && t instanceof MouseEvent ? t.clientY : void 0;
 			this._dialogAnchor = {
@@ -22495,8 +22481,15 @@ var fc = class extends O {
 		} else this._dialogAnchor = void 0;
 		this._activeDialog = e, this._activeMessageKey = void 0;
 	}
+	_closeLightweightDialog(e) {
+		this._activeDialog === e && (this._activeDialog = null);
+	}
 	_openBoost(e) {
 		let t = e.currentTarget instanceof HTMLElement ? e.currentTarget : void 0;
+		if (this._activeDialog === "boost") {
+			this._activeDialog = null, this._activeMessageKey = void 0, this._dialogAnchor = void 0;
+			return;
+		}
 		if (t) {
 			let n = e instanceof MouseEvent ? e.clientX : void 0;
 			this._dialogAnchor = {
