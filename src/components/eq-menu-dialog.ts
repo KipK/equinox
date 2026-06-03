@@ -103,13 +103,6 @@ export class EquinoxMenuDialog extends LitElement {
     return this.viewModel?.vt?.timedPreset.isActive === true || !!this.viewModel?.vt?.timedPresetManager;
   }
 
-  private _showFan(): boolean {
-    return this.config?.display_mode !== "thin" && (
-      (this.viewModel?.climate.fanModes?.length ?? 0) > 0 ||
-      this.viewModel?.vt?.fan.hasAutoFan === true
-    );
-  }
-
   private _showSwing(): boolean {
     return this.config?.display_mode !== "thin" && (
       (this.viewModel?.climate.swingModes?.length ?? 0) > 0 ||
@@ -119,7 +112,6 @@ export class EquinoxMenuDialog extends LitElement {
 
   protected render() {
     const showRegulation = this._showRegulation();
-    const showFan = this._showFan();
     const showSwing = this._showSwing();
     const showBoost = this._showBoost();
     const timedPresetActive = this.viewModel?.vt?.timedPreset.isActive === true;
@@ -144,20 +136,6 @@ export class EquinoxMenuDialog extends LitElement {
                     <ha-icon icon="mdi:chart-line" style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${localize(this.language, "dialog.menu.regulation")}</span>
-                  <span class="option-trailing" slot="end">
-                    <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
-                  </span>
-                </ha-md-list-item>
-              `
-            : nothing}
-
-          ${showFan
-            ? html`
-                <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-fan")}>
-                  <span class="option-icon" slot="start">
-                    <ha-icon icon="mdi:fan" style="--mdc-icon-size: 24px;"></ha-icon>
-                  </span>
-                  <span>${localize(this.language, "main.actions.open_fan")}</span>
                   <span class="option-trailing" slot="end">
                     <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
                   </span>

@@ -2136,7 +2136,6 @@ export class EquinoxMainCard extends LitElement {
             }
           }}
             @equinox-open-regulation=${(event: CustomEvent<{ sectionId?: string }>) => this._openRegulationDialog(event.detail?.sectionId)}
-            @equinox-open-fan=${() => { this._activeDialog = "fan"; }}
             @equinox-open-swing=${() => { this._activeDialog = "swing"; }}
             @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
             @equinox-open-history=${() => this._openHistoryDialog()}

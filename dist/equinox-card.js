@@ -17530,18 +17530,15 @@ var Is = class extends O {
 	_showBoost() {
 		return this.viewModel?.vt?.timedPreset.isActive === !0 || !!this.viewModel?.vt?.timedPresetManager;
 	}
-	_showFan() {
-		return this.config?.display_mode !== "thin" && ((this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === !0);
-	}
 	_showSwing() {
 		return this.config?.display_mode !== "thin" && ((this.viewModel?.climate.swingModes?.length ?? 0) > 0 || (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0);
 	}
 	render() {
-		let e = this._showRegulation(), t = this._showFan(), n = this._showSwing(), r = this._showBoost(), i = this.viewModel?.vt?.timedPreset.isActive === !0, a = this.viewModel?.vt?.timedPreset.remainingTimeMin, o = V(this.language, "dialog.menu.title");
+		let e = this._showRegulation(), t = this._showSwing(), n = this._showBoost(), r = this.viewModel?.vt?.timedPreset.isActive === !0, i = this.viewModel?.vt?.timedPreset.remainingTimeMin, a = V(this.language, "dialog.menu.title");
 		return T`
       <eq-dialog
         .open=${this.open}
-        .title=${o}
+        .title=${a}
         .language=${this.language}
         .floating=${this.floating}
         .closeOnLeave=${this.closeOnLeave}
@@ -17562,18 +17559,6 @@ var Is = class extends O {
               ` : D}
 
           ${t ? T`
-                <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-fan")}>
-                  <span class="option-icon" slot="start">
-                    <ha-icon icon="mdi:fan" style="--mdc-icon-size: 24px;"></ha-icon>
-                  </span>
-                  <span>${V(this.language, "main.actions.open_fan")}</span>
-                  <span class="option-trailing" slot="end">
-                    <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
-                  </span>
-                </ha-md-list-item>
-              ` : D}
-
-          ${n ? T`
                 <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-swing")}>
                   <span class="option-icon" slot="start">
                     <ha-icon icon="mdi:arrow-oscillating" style="--mdc-icon-size: 24px;"></ha-icon>
@@ -17585,14 +17570,14 @@ var Is = class extends O {
                 </ha-md-list-item>
               ` : D}
 
-          ${r ? T`
+          ${n ? T`
                 <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-boost")}>
-                  <span class="option-icon" tone=${i ? "boost" : ""} slot="start">
+                  <span class="option-icon" tone=${r ? "boost" : ""} slot="start">
                     <ha-icon icon="mdi:timer-outline" style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${V(this.language, "dialog.menu.boost")}</span>
                   <span class="option-trailing" slot="end">
-                    ${i && typeof a == "number" ? T`<span class="boost-time">${a} min</span>` : T`<ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>`}
+                    ${r && typeof i == "number" ? T`<span class="boost-time">${i} min</span>` : T`<ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>`}
                   </span>
                 </ha-md-list-item>
               ` : D}
@@ -21788,9 +21773,6 @@ var fc = class extends O {
 				this._activeDialog === "menu" && (this._activeDialog = null);
 			}}
             @equinox-open-regulation=${(e) => this._openRegulationDialog(e.detail?.sectionId)}
-            @equinox-open-fan=${() => {
-				this._activeDialog = "fan";
-			}}
             @equinox-open-swing=${() => {
 				this._activeDialog = "swing";
 			}}
