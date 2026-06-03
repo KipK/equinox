@@ -19,6 +19,7 @@ import "./eq-fan-dialog";
 import "./eq-hvac-dialog";
 import "./eq-swing-dialog";
 import "./eq-preset-dialog";
+import "./eq-temperature-dialog";
 import "./eq-menu-dialog";
 import "./eq-boost-dialog";
 import "./eq-history-dialog";
@@ -1011,7 +1012,7 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-readings {
         gap: 7px;
-        flex: 1;
+        flex: 1 1 auto;
         overflow: hidden;
         white-space: nowrap;
       }
@@ -1029,33 +1030,6 @@ export class EquinoxMainCard extends LitElement {
         font-weight: var(--ha-font-weight-medium, 500);
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-
-      .thin-target {
-        color: var(--equinox-muted-color);
-        font-size: clamp(12px, 4.7cqi, 16px);
-        line-height: 1;
-        font-weight: var(--ha-font-weight-medium, 500);
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .thin-target[mode="heat"],
-      .thin-target[mode="boost"] {
-        color: var(--equinox-heat-color);
-      }
-
-      .thin-target[mode="cool"] {
-        color: var(--equinox-cool-color);
-      }
-
-      .thin-target[mode="heat-cool"] {
-        color: var(--equinox-heat-cool-color);
-      }
-
-      .thin-target[mode="off"],
-      .thin-target[mode="unavailable"] {
-        color: var(--disabled-text-color, var(--equinox-muted-color));
       }
 
       .thin-humidity {
@@ -1105,32 +1079,27 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .thin-controls {
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: 8px;
       }
 
       .thin-setpoint {
-        flex: 1 1 auto;
-        min-width: 96px;
+        flex: 0 0 auto;
+        min-width: 0;
         display: flex;
         align-items: center;
         overflow: hidden;
       }
 
-      .thin-setpoint .setpoint-control {
-        width: 100%;
-      }
-
-      .thin-setpoint .target[compact] {
-        font-size: clamp(15px, 5.2cqi, 18px);
-      }
-
-      .thin-range-button {
+      .thin-temperature-button {
         min-width: 0;
         height: 34px;
+        width: max-content;
+        max-width: 100%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 7px;
         padding: 0 10px;
         border: 1px solid var(--equinox-mode-control-border-color);
         border-radius: var(--equinox-control-radius);
@@ -1143,16 +1112,52 @@ export class EquinoxMainCard extends LitElement {
         cursor: pointer;
       }
 
-      .thin-range-button:hover:not(:disabled) {
+      .thin-temperature-button ha-icon {
+        --mdc-icon-size: 20px;
+        flex: 0 0 auto;
+      }
+
+      .thin-temperature-button:hover:not(:disabled) {
         background: var(--equinox-mode-control-hover-bg);
       }
 
-      .thin-range-button:disabled {
+      .thin-temperature-button:disabled {
         cursor: default;
         opacity: 0.45;
       }
 
+      .thin-temperature-values {
+        display: inline-flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .thin-temperature-value {
+        color: var(--equinox-mode-control-text);
+      }
+
+      .thin-temperature-value[tone="heat"],
+      .thin-temperature-value[tone="boost"] {
+        color: var(--equinox-heat-color);
+      }
+
+      .thin-temperature-value[tone="cool"] {
+        color: var(--equinox-cool-color);
+      }
+
+      .thin-temperature-value[tone="heat-cool"] {
+        color: var(--equinox-heat-cool-color);
+      }
+
+      .thin-temperature-value[tone="off"],
+      .thin-temperature-value[tone="unavailable"] {
+        color: var(--disabled-text-color, var(--equinox-muted-color));
+      }
+
       .thin-selectors {
+        margin-inline-start: auto;
         flex: 0 0 auto;
         gap: 5px;
       }
@@ -1489,7 +1494,7 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
-  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "menu" | "boost" | "history" | "regulation" | null = null;
+  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu" | "boost" | "history" | "regulation" | null = null;
   private _dialogAnchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _activeMessageKey?: string;
   private _powerInfoPinned = false;
@@ -1800,8 +1805,8 @@ export class EquinoxMainCard extends LitElement {
       >
         <div class="card" ?thin=${thin}>
           ${thin
-            ? this._renderThinLayout()
-            : html`
+        ? this._renderThinLayout()
+        : html`
                 ${this._renderName()}
                 ${stateIconsVertical ? nothing : this._renderStatus()}
                 <div class="layout" ?state-vertical=${stateIconsVertical}>
@@ -1888,6 +1893,20 @@ export class EquinoxMainCard extends LitElement {
             @eq-dialog-close=${() => { this._activeDialog = null; }}
           ></eq-preset-dialog>
         `;
+      case "temperature":
+        return html`
+          <eq-temperature-dialog
+            .open=${true}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .language=${this._language()}
+            .floating=${true}
+            .closeOnLeave=${true}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => { this._activeDialog = null; }}
+          ></eq-temperature-dialog>
+        `;
       case "menu":
         return html`
           <eq-menu-dialog
@@ -1902,10 +1921,10 @@ export class EquinoxMainCard extends LitElement {
             .closeOnLeave=${true}
             .anchor=${this._dialogAnchor}
             @eq-dialog-close=${() => {
-              if (this._activeDialog === "menu") {
-                this._activeDialog = null;
-              }
-            }}
+            if (this._activeDialog === "menu") {
+              this._activeDialog = null;
+            }
+          }}
             @equinox-open-regulation=${(event: CustomEvent<{ sectionId?: string }>) => this._openRegulationDialog(event.detail?.sectionId)}
             @equinox-open-fan=${() => { this._activeDialog = "fan"; }}
             @equinox-open-swing=${() => { this._activeDialog = "swing"; }}
@@ -2082,15 +2101,14 @@ export class EquinoxMainCard extends LitElement {
           >
             ${this._formatCurrentTemp()}
           </span>
-          <span class="thin-target" mode=${this._targetTone()}>${this._formatTargetTempSummary()}</span>
           ${showHumidity
-            ? html`
+        ? html`
                 <span class="thin-humidity" @click=${() => this._openMoreInfo(this._humidityEntityId())}>
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                   <span>${this._formatPercent(currentHumidity)}</span>
                 </span>
               `
-            : nothing}
+        : nothing}
         </div>
         <div class="thin-status">
           ${this._renderPowerInfoButton()}
@@ -2106,29 +2124,41 @@ export class EquinoxMainCard extends LitElement {
     return html`
       <div class="thin-controls">
         <div class="thin-setpoint">
-          ${this._hasTemperatureRangeControl()
-            ? this._renderThinRangeButton()
-            : this._renderTemperatureControl(true)}
+          ${this._renderThinTemperatureButton()}
         </div>
         ${this._renderThinSelectors()}
       </div>
     `;
   }
 
-  private _renderThinRangeButton(): TemplateResult {
+  private _renderThinTemperatureButton(): TemplateResult {
     return html`
       <button
-        class="thin-range-button"
+        class="thin-temperature-button"
         ?disabled=${this._isControlDisabled()}
-        @click=${() => {
-          if (!this._isControlDisabled()) {
-            this._openMoreInfo(this.config!.entity);
-          }
-        }}
+        @click=${(event: Event) => this._openDialog("temperature", event)}
       >
-        ${this._formatTargetTempSummary()}
+        <ha-icon icon="mdi:gauge"></ha-icon>
+        ${this._renderThinTemperatureValue()}
       </button>
     `;
+  }
+
+  private _renderThinTemperatureValue(): TemplateResult {
+    if (this._hasTemperatureRangeControl()) {
+      const low = this._rangeSetpointFallback("low");
+      const high = this._rangeSetpointFallback("high");
+
+      return html`
+        <span class="thin-temperature-values">
+          <span class="thin-temperature-value" tone="heat">${low ? `${low}°` : "--.-°"}</span>
+          <span class="thin-temperature-value" aria-hidden="true">/</span>
+          <span class="thin-temperature-value" tone="cool">${high ? `${high}°` : "--.-°"}</span>
+        </span>
+      `;
+    }
+
+    return html`<span class="thin-temperature-value" tone=${this._targetTone()}>${this._formatTargetTempSummary()}</span>`;
   }
 
   private _renderThinSelectors(): TemplateResult | typeof nothing {
@@ -2472,11 +2502,11 @@ export class EquinoxMainCard extends LitElement {
     return html`
       <div class="range-setpoint-control" mode=${isHeatCool ? "heat-cool" : "range"} ?compact=${compact}>
         ${isHeatCool
-          ? html`
+        ? html`
               ${this._renderRangeBound("high", range?.high, compact)}
               ${this._renderRangeBound("low", range?.low, compact)}
             `
-          : html`
+        : html`
               ${this._renderRangeBound("low", range?.low, compact)}
               ${this._renderRangeBound("high", range?.high, compact)}
             `}
@@ -2851,7 +2881,7 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _openDialog(dialog: "fan" | "swing" | "hvac" | "preset" | "menu", event: Event): void {
+  private _openDialog(dialog: "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu", event: Event): void {
     const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
 
     if (target) {
