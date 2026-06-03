@@ -1061,7 +1061,7 @@ export class EquinoxMainCard extends LitElement {
       .thin-current {
         display: inline-flex;
         align-items: center;
-        gap: 1px;
+        gap: 2px;
         color: var(--equinox-text-color);
         font-size: clamp(13px, 5.6cqi, 24px);
         line-height: 1;
@@ -1073,14 +1073,19 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-current ha-icon {
         --mdc-icon-size: 0.78em;
+        width: 0.78em;
+        height: 0.78em;
         flex: 0 0 auto;
         color: var(--equinox-muted-color);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .thin-humidity {
         display: inline-flex;
         align-items: center;
-        gap: 1px;
+        gap: 2px;
         color: var(--equinox-muted-color);
         font-size: clamp(11px, 4.2cqi, 14px);
         line-height: 1;
@@ -1090,7 +1095,12 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-humidity ha-icon {
         --mdc-icon-size: 12px;
+        width: 12px;
+        height: 12px;
         flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .thin-status {
@@ -1287,6 +1297,8 @@ export class EquinoxMainCard extends LitElement {
 
         .thin-layout:not([has-extra]) .thin-current ha-icon {
           --mdc-icon-size: 0.82em;
+          width: 0.82em;
+          height: 0.82em;
         }
 
         .thin-layout:not([has-extra]) .thin-humidity {
@@ -1295,6 +1307,8 @@ export class EquinoxMainCard extends LitElement {
 
         .thin-layout:not([has-extra]) .thin-humidity ha-icon {
           --mdc-icon-size: 13px;
+          width: 13px;
+          height: 13px;
         }
 
         .thin-primary-selectors {
