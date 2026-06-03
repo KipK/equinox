@@ -157,6 +157,10 @@ Built-in dashboards currently include Smart PI and Hysteresis. Desktop uses a
 side section menu inside the dialog; mobile opens a single section directly or
 shows multi-section dashboards from the Equinox menu first.
 
+![Regulation dashboard overview with section navigation and diagnostic cards](assets/screens/regul-overview.png)
+
+![Regulation dashboard learning section with progress and threshold details](assets/screens/regul-learning.png)
+
 For custom dashboards, JSON schema details, available block types, sources,
 conditions, history graph options, and actions, see
 [Regulation Dashboard](docs/regulation-dashboard.md).
