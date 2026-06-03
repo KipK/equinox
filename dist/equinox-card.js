@@ -22242,6 +22242,7 @@ var Cc = class extends E {
       .btn-icon[tone="heat-cool"] { background: color-mix(in srgb, var(--equinox-heat-cool-color) 15%, transparent); color: var(--equinox-heat-cool-color); }
       .btn-icon[tone="boost"] { background: color-mix(in srgb, var(--equinox-boost-color) 15%, transparent); color: var(--equinox-boost-color); }
       .btn-icon[tone="cool-boost"] { background: color-mix(in srgb, var(--equinox-cool-boost-color) 15%, transparent); color: var(--equinox-cool-boost-color); }
+      .btn-icon[tone="fan"] { background: color-mix(in srgb, var(--primary-color) 15%, transparent); color: var(--primary-color); }
 
       /* HA-aligned and equinox-derivative tones — each value sets --eq-tone-color
          which the generic paint rule below consumes. Heat/cool/auto/heat-cool/boost
@@ -23547,7 +23548,7 @@ var Cc = class extends E {
 	_fanRailTone() {
 		if (this.viewModel?.climate.availability !== "available") return "off";
 		let e = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
-		return e ? Zo(e) : "fan";
+		return e && Zo(e) || "fan";
 	}
 	_swingRailTone() {
 		if (this.viewModel?.climate.availability !== "available") return "off";

@@ -111,6 +111,7 @@ All notable changes to Equinox will be documented in this file.
 ## 0.2.0
 
 - Add new "Thin" layout, a compact control layout with color-coded popup temperature sliders, responsive sensor readings, inline HVAC/preset/fan/swing popups, and horizontal state icons.
+- Fix the thin card ventilation icon color for generic fan modes such as `normal`.
 - Add new setpoint setter ( legacy +/- setpoint setter can be switched back from the config )
 - Many UI improvements
 - Add custom more-info dialog box.
