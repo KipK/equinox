@@ -115,6 +115,7 @@
       "target_temp_activity_not_detected": "Temp. cible : activité non détectée",
       "target_temp_absence_detected": "Temp. cible : absence détectée",
       "target_temp_timed_preset": "Temporisation d'un preset active",
+      "smartpi_calibration": "Calibration Smart PI active",
       "not_initialized": "Erreur d'initialisation",
       "heating_failure": "Défaut de chauffage détecté",
       "cooling_failure": "Défaut de refroidissement détecté"

@@ -84,6 +84,7 @@ const MESSAGE_ICONS: Record<string, { icon: string; tone: string }> = {
   target_temp_absence_detected: { icon: "mdi:home-export-outline", tone: "info" },
   hvac_off_central_mode: { icon: "mdi:home-thermometer-outline", tone: "info" },
   target_temp_central_mode: { icon: "mdi:home-thermometer-outline", tone: "info" },
+  smartpi_calibration: { icon: "mdi:information-box-outline", tone: "warning" },
   hvac_off_manual: { icon: "mdi:power", tone: "info" },
   hvac_off_safety_detection: { icon: "mdi:thermometer-alert", tone: "danger" },
   not_initialized: { icon: "mdi:alert-box-outline", tone: "warning" }

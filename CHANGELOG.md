@@ -70,7 +70,6 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.1.6
 
-- add Home Assistant 2026.6 card picker suggestions for climate entities
 - ha-better-history 0.2.5
   . fix race condition when adding multiple attributes at the same time
   . fix legend padding when a segment is displayed under the graph
@@ -118,3 +117,9 @@ All notable changes to Equinox will be documented in this file.
 - Add custom more-info dialog box.
 - Show the configured humidity entity in the default history only when the climate does not already expose
 - Replace the temporary boost circular duration selector with a horizontal slider matching the popup setpoint control.
+
+## 0.2.1-dev
+
+- Highlight active SmartPI calibration in the Regulation overview and on the card status icons.
+- Add Home Assistant 2026.6 card picker suggestions for climate entities
+- Fix thin fan icon color for normal mode

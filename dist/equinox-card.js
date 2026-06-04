@@ -8711,6 +8711,7 @@ var go = {
 				target_temp_activity_not_detected: "Target temp.: activity not detected",
 				target_temp_absence_detected: "Target temp.: absence detected",
 				target_temp_timed_preset: "Timed preset active",
+				smartpi_calibration: "Smart PI calibration active",
 				not_initialized: "Initialisation error",
 				heating_failure: "Heating failure detected",
 				cooling_failure: "Cooling failure detected"
@@ -9493,6 +9494,7 @@ var go = {
 				target_temp_activity_not_detected: "Temp. cible : activité non détectée",
 				target_temp_absence_detected: "Temp. cible : absence détectée",
 				target_temp_timed_preset: "Temporisation d'un preset active",
+				smartpi_calibration: "Calibration Smart PI active",
 				not_initialized: "Erreur d'initialisation",
 				heating_failure: "Défaut de chauffage détecté",
 				cooling_failure: "Défaut de refroidissement détecté"
@@ -12942,7 +12944,7 @@ var es = {
 						subtitle_key: "hero.overview.calibration",
 						icon: "mdi:tune-variant",
 						tone: "info",
-						visible_if: { "==": [{ var: "diagnostic/control/phase" }, "Calibration"] }
+						visible_if: { or: [{ "==": [{ var: "diagnostic/control/phase" }, "Calibration"] }, { and: [{ var: "diagnostic/calibration/state" }, { "!=": [{ var: "diagnostic/calibration/state" }, "Idle"] }] }] }
 					},
 					{
 						type: "hero_status",
@@ -12964,72 +12966,105 @@ var es = {
 							{ and: [{ "==": [{ var: "diagnostic/control/phase" }, "Stable"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "learning"] }] },
 							{ and: [{ "==": [{ var: "diagnostic/control/phase" }, "Stable"] }, { "==": [{ var: "diagnostic/ab_learning/stage" }, "monitoring"] }] },
 							{ "==": [{ var: "diagnostic/control/phase" }, "Calibration"] },
+							{ and: [{ var: "diagnostic/calibration/state" }, { "!=": [{ var: "diagnostic/calibration/state" }, "Idle"] }] },
 							{ and: [{ "==": [{ var: "diagnostic/ab_learning/stage" }, "degraded"] }, { "!=": [{ var: "diagnostic/control/phase" }, "Calibration"] }] }
 						] } }
 					},
 					{
 						type: "layout_grid",
 						min_width: 140,
-						items: [{
-							type: "status",
-							label_key: "metrics.phase",
-							source: "diagnostic",
-							path: "control/phase",
-							map: {
-								Hysteresis: {
-									label_key: "status.phase.Hysteresis",
-									tone: "warning",
-									icon: "mdi:chart-timeline-variant"
+						items: [
+							{
+								type: "status",
+								label_key: "metrics.phase",
+								source: "diagnostic",
+								path: "control/phase",
+								map: {
+									Hysteresis: {
+										label_key: "status.phase.Hysteresis",
+										tone: "warning",
+										icon: "mdi:chart-timeline-variant"
+									},
+									Stable: {
+										label_key: "status.phase.Stable",
+										tone: "ok",
+										icon: "mdi:check-circle-outline"
+									},
+									Calibration: {
+										label_key: "status.phase.Calibration",
+										tone: "info",
+										icon: "mdi:tune-variant"
+									}
 								},
-								Stable: {
-									label_key: "status.phase.Stable",
-									tone: "ok",
-									icon: "mdi:check-circle-outline"
+								fallback: {
+									label: "--",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								}
+							},
+							{
+								type: "status",
+								label_key: "metrics.learning_stage",
+								source: "diagnostic",
+								path: "ab_learning/stage",
+								map: {
+									bootstrap: {
+										label_key: "status.learning.bootstrap",
+										tone: "warning",
+										icon: "mdi:school-outline"
+									},
+									learning: {
+										label_key: "status.learning.learning",
+										tone: "info",
+										icon: "mdi:school-outline"
+									},
+									monitoring: {
+										label_key: "status.learning.monitoring",
+										tone: "ok",
+										icon: "mdi:radar"
+									},
+									degraded: {
+										label_key: "status.learning.degraded",
+										tone: "danger",
+										icon: "mdi:alert-outline"
+									}
 								},
-								Calibration: {
+								fallback: {
+									label: "--",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								}
+							},
+							{
+								type: "status",
+								label_key: "metrics.calibration_state",
+								source: "diagnostic",
+								path: "calibration/state",
+								visible_if: { and: [{ var: "diagnostic/calibration/state" }, { "!=": [{ var: "diagnostic/calibration/state" }, "Idle"] }] },
+								map: {
+									CoolDown: {
+										label_key: "status.calibration.CoolDown",
+										tone: "info",
+										icon: "mdi:snowflake-thermometer"
+									},
+									HeatUp: {
+										label_key: "status.calibration.HeatUp",
+										tone: "warning",
+										icon: "mdi:radiator"
+									},
+									CoolDownFinal: {
+										label_key: "status.calibration.CoolDownFinal",
+										tone: "info",
+										icon: "mdi:snowflake-thermometer"
+									}
+								},
+								fallback: {
 									label_key: "status.phase.Calibration",
 									tone: "info",
 									icon: "mdi:tune-variant"
 								}
-							},
-							fallback: {
-								label: "--",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
 							}
-						}, {
-							type: "status",
-							label_key: "metrics.learning_stage",
-							source: "diagnostic",
-							path: "ab_learning/stage",
-							map: {
-								bootstrap: {
-									label_key: "status.learning.bootstrap",
-									tone: "warning",
-									icon: "mdi:school-outline"
-								},
-								learning: {
-									label_key: "status.learning.learning",
-									tone: "info",
-									icon: "mdi:school-outline"
-								},
-								monitoring: {
-									label_key: "status.learning.monitoring",
-									tone: "ok",
-									icon: "mdi:radar"
-								},
-								degraded: {
-									label_key: "status.learning.degraded",
-									tone: "danger",
-									icon: "mdi:alert-outline"
-								}
-							},
-							fallback: {
-								label: "--",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							}
-						}]
+						]
 					},
 					{
 						type: "metric_grid",
@@ -20748,6 +20783,10 @@ var pc = "equinox", mc = [
 		icon: "mdi:home-thermometer-outline",
 		tone: "info"
 	},
+	smartpi_calibration: {
+		icon: "mdi:information-box-outline",
+		tone: "warning"
+	},
 	hvac_off_manual: {
 		icon: "mdi:power",
 		tone: "info"
@@ -23865,9 +23904,9 @@ function Ac(e) {
 	let t = J(Q(e, ["configuration", "type"])), n = [];
 	return (e.is_over_switch === !0 || t === "over_switch") && n.push("over_switch"), (e.is_over_valve === !0 || t === "over_valve") && n.push("over_valve"), (e.is_over_climate === !0 || t === "over_climate") && n.push("over_climate"), (Q(e, ["vtherm_over_climate_valve", "have_valve_regulation"]) === !0 || Q(e, ["configuration", "have_valve_regulation"]) === !0) && n.push("over_climate_valve"), n;
 }
-function jc(e) {
-	let t = Dc(Q(e, ["specific_states", "messages"]));
-	return Q(e, ["safety_manager", "safety_state"]) === "on" && t.push("safety_detected"), Q(e, ["heating_failure_detection_manager", "heating_failure_state"]) === "on" && t.push("heating_failure"), Q(e, ["heating_failure_detection_manager", "cooling_failure_state"]) === "on" && t.push("cooling_failure"), Q(e, ["power_manager", "overpowering_state"]) === "on" && t.push("overpowering_detected"), [...new Set(t)].map((e) => ({
+function jc(e, t) {
+	let n = Dc(Q(e, ["specific_states", "messages"]));
+	return Q(e, ["safety_manager", "safety_state"]) === "on" && n.push("safety_detected"), Q(e, ["heating_failure_detection_manager", "heating_failure_state"]) === "on" && n.push("heating_failure"), Q(e, ["heating_failure_detection_manager", "cooling_failure_state"]) === "on" && n.push("cooling_failure"), Q(e, ["power_manager", "overpowering_state"]) === "on" && n.push("overpowering_detected"), Nc(e, t) && n.push("smartpi_calibration"), [...new Set(n)].map((e) => ({
 		key: e,
 		severity: Oc(e)
 	}));
@@ -23879,7 +23918,21 @@ function Mc(e) {
 		"function"
 	])), J(Q(e, ["specific_states", "proportional_function"])));
 }
-function Nc(e, t, n) {
+function Nc(e, t) {
+	let n = Mc(e)?.toLowerCase(), r = J(Q(e, ["specific_states", "regulation_diagnostics"])), i = r ? t.states[r]?.attributes : void 0, a = X(J(Q(i, ["control", "phase"])), J(Q(e, [
+		"specific_states",
+		"smartpi",
+		"control",
+		"phase"
+	]))), o = X(J(Q(i, ["calibration", "state"])), J(Q(e, [
+		"specific_states",
+		"smartpi",
+		"calibration",
+		"state"
+	])));
+	return n === "smartpi" ? a === "Calibration" || o !== void 0 && o !== "Idle" : !1;
+}
+function Pc(e, t, n) {
 	let r = n.attributes, i = Z(r.specific_states), a = Ac(r);
 	if (!(a.length > 0 || i !== void 0 || Z(r.configuration) !== void 0)) return;
 	let o = kc(r), s = X(Y(Q(r, ["vtherm_over_switch", "power_percent"])), Y(Q(r, [
@@ -23890,7 +23943,7 @@ function Nc(e, t, n) {
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"valve_open_percent"
-	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = jc(r), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
+	])), Y(r.valve_open_percent)), l = Q(r, ["timed_preset_manager", "is_active"]) === !0, u = X(Q(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, Q(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = jc(r, t), f = J(Q(r, ["vtherm_over_climate", "auto_fan_mode"])), p = J(Q(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = J(Q(r, ["requested_state", "hvac_mode"]));
 	return {
 		isVt: !0,
 		types: a,
@@ -23954,19 +24007,19 @@ function Nc(e, t, n) {
 }
 //#endregion
 //#region src/data/climate-state.ts
-function Pc(e) {
+function Fc(e) {
 	return typeof e == "object" && e ? e : void 0;
 }
-function Fc(e, t) {
-	return t.reduce((e, t) => Pc(e)?.[t], e);
+function Ic(e, t) {
+	return t.reduce((e, t) => Fc(e)?.[t], e);
 }
-function Ic(e) {
+function Lc(e) {
 	return e.state === "unavailable" ? "unavailable" : e.state === "unknown" ? "unknown" : "available";
 }
-function Lc(e, t, n) {
+function Rc(e, t, n) {
 	return X(Y(n.humidity), e.humidity_entity ? Y(t.states[e.humidity_entity]?.state) : void 0);
 }
-function Rc(e, t) {
+function zc(e, t) {
 	if (!e.temperature_entity) return;
 	let n = t.states[e.temperature_entity]?.state;
 	if (!n || Tc(n)) return;
@@ -23979,7 +24032,7 @@ function Rc(e, t) {
 		entityId: e.temperature_entity
 	};
 }
-function zc(e, t) {
+function Bc(e, t) {
 	if (!e.power_entity) return {};
 	let n = t.states[e.power_entity];
 	return {
@@ -23987,19 +24040,19 @@ function zc(e, t) {
 		instantPowerUnit: J(n?.attributes.unit_of_measurement)
 	};
 }
-function Bc(e, t, n) {
-	let r = n.attributes, i = Rc(e, t), a = X(Tc(n.state) ? void 0 : n.state, J(r.hvac_mode), J(Fc(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(Fc(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
+function Vc(e, t, n) {
+	let r = n.attributes, i = zc(e, t), a = X(Tc(n.state) ? void 0 : n.state, J(r.hvac_mode), J(Ic(r, ["current_state", "hvac_mode"]))), o = X(J(r.preset_mode), J(Ic(r, ["current_state", "preset"]))), s = a === "cool" && o === "frost" ? "none" : o;
 	return {
 		entityId: n.entity_id,
 		name: e.name ?? J(r.friendly_name),
-		availability: Ic(n),
+		availability: Lc(n),
 		hvacMode: a,
 		hvacAction: J(r.hvac_action),
-		targetTemperature: X(Y(r.temperature), Y(Fc(r, ["current_state", "target_temperature"]))),
+		targetTemperature: X(Y(r.temperature), Y(Ic(r, ["current_state", "target_temperature"]))),
 		currentTemperature: i?.value ?? Y(r.current_temperature),
 		currentTemperatureDecimals: i?.decimals,
 		temperatureEntityId: i?.entityId,
-		currentHumidity: Lc(e, t, r),
+		currentHumidity: Rc(e, t, r),
 		hvacModes: Ec(r.hvac_modes),
 		presetModes: Ec(r.preset_modes),
 		presetMode: s,
@@ -24011,37 +24064,37 @@ function Bc(e, t, n) {
 		swingHorizontalModes: Ec(r.swing_horizontal_modes),
 		minTemp: Y(r.min_temp),
 		maxTemp: Y(r.max_temp),
-		targetTempStep: X(Y(r.target_temp_step), Y(Fc(r, ["configuration", "target_temperature_step"])), .5),
+		targetTempStep: X(Y(r.target_temp_step), Y(Ic(r, ["configuration", "target_temperature_step"])), .5),
 		targetTemperatureRange: {
 			low: Y(r.target_temp_low),
 			high: Y(r.target_temp_high)
 		},
-		...zc(e, t)
+		...Bc(e, t)
 	};
 }
-function Vc(e, t, n) {
+function Hc(e, t, n) {
 	return {
-		climate: Bc(e, t, n),
-		vt: Nc(e, t, n)
+		climate: Vc(e, t, n),
+		vt: Pc(e, t, n)
 	};
 }
 //#endregion
 //#region src/data/config.ts
-function Hc(e) {
+function Uc(e) {
 	return typeof e == "string";
 }
-function Uc(e, t) {
-	return Hc(t) && e.includes(t);
-}
-function Wc(e) {
-	return e.startsWith("climate.");
+function Wc(e, t) {
+	return Uc(t) && e.includes(t);
 }
 function Gc(e) {
-	if (!Array.isArray(e)) return;
-	let t = [...new Set(e.filter(Hc).map((e) => e.trim()).filter((e) => e.length > 0))];
-	return t.length > 0 ? t : void 0;
+	return e.startsWith("climate.");
 }
 function Kc(e) {
+	if (!Array.isArray(e)) return;
+	let t = [...new Set(e.filter(Uc).map((e) => e.trim()).filter((e) => e.length > 0))];
+	return t.length > 0 ? t : void 0;
+}
+function qc(e) {
 	if (typeof e == "string") {
 		let t = e.trim();
 		return t.length > 0 ? t : void 0;
@@ -24058,56 +24111,56 @@ function Kc(e) {
 		r
 	] : void 0;
 }
-function qc(e) {
+function Jc(e) {
 	if (e == null || e === "") return;
 	let t = Number(e);
 	if (Number.isFinite(t)) return Math.min(100, Math.max(0, t));
 }
-function Jc(e) {
+function Yc(e) {
 	let t = {
 		...ko,
 		...e,
 		type: Qa
 	};
-	if (delete t.card_height, !Hc(t.entity) || t.entity.trim() === "") return {
+	if (delete t.card_height, !Uc(t.entity) || t.entity.trim() === "") return {
 		config: t,
 		error: "missing_entity"
 	};
-	if (t.entity = t.entity.trim(), !Wc(t.entity)) return {
+	if (t.entity = t.entity.trim(), !Gc(t.entity)) return {
 		config: t,
 		error: "invalid_entity"
 	};
-	if (!Uc(wo, t.theme)) return {
+	if (!Wc(wo, t.theme)) return {
 		config: t,
 		error: "invalid_theme"
 	};
-	if (!Uc(To, t.display_mode)) return {
+	if (!Wc(To, t.display_mode)) return {
 		config: t,
 		error: "invalid_display_mode"
 	};
-	if (!Uc(Eo, t.primary_display)) return {
+	if (!Wc(Eo, t.primary_display)) return {
 		config: t,
 		error: "invalid_primary_display"
 	};
-	if (!Uc(Do, t.additional_dashboards)) return {
+	if (!Wc(Do, t.additional_dashboards)) return {
 		config: t,
 		error: "invalid_additional_dashboards"
 	};
-	if (!Uc(Oo, t.state_icons_layout)) return {
+	if (!Wc(Oo, t.state_icons_layout)) return {
 		config: t,
 		error: "invalid_state_icons_layout"
 	};
-	let n = Kc(t.card_background_color);
+	let n = qc(t.card_background_color);
 	n ? t.card_background_color = n : delete t.card_background_color;
-	let r = qc(t.card_background_opacity);
+	let r = Jc(t.card_background_opacity);
 	r === void 0 ? delete t.card_background_opacity : t.card_background_opacity = r;
-	let i = Gc(t.hidden_hvac_modes), a = Gc(t.hidden_preset_modes);
+	let i = Kc(t.hidden_hvac_modes), a = Kc(t.hidden_preset_modes);
 	return i ? t.hidden_hvac_modes = i : delete t.hidden_hvac_modes, a ? t.hidden_preset_modes = a : delete t.hidden_preset_modes, { config: t };
 }
 //#endregion
 //#region src/equinox-card.ts
 Xa(eo);
-var Yc = {
+var Xc = {
 	bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
 	ca: "Lovelace card for Versatile Thermostat and standard climate entities.",
 	zh: "适用于 Versatile Thermostat 和标准气候实体的 Lovelace 卡片。",
@@ -24129,16 +24182,16 @@ var Yc = {
 	ru: "Карточка Lovelace для Versatile Thermostat и стандартных сущностей климата.",
 	sk: "Karta Lovelace pre Versatile Thermostat a štandardné klimatizačné entity."
 };
-function Xc(e) {
-	return Yc[e.toLowerCase().split("-")[0] || "en"] ?? Yc.en;
+function Zc(e) {
+	return Xc[e.toLowerCase().split("-")[0] || "en"] ?? Xc.en;
 }
-function Zc(e, t) {
+function Qc(e, t) {
 	return t.split(".")[0] !== "climate" || !e.states[t] ? null : { config: {
 		type: Qa,
 		entity: t
 	} };
 }
-var Qc = class extends E {
+var $c = class extends E {
 	static {
 		this.properties = {
 			hass: { attribute: !1 },
@@ -24176,7 +24229,7 @@ var Qc = class extends E {
 		};
 	}
 	setConfig(e) {
-		this._validation = Jc(e);
+		this._validation = Yc(e);
 	}
 	willUpdate() {
 		this._viewModel = this._buildViewModel();
@@ -24214,7 +24267,7 @@ var Qc = class extends E {
 	_buildViewModel() {
 		if (!this.hass || !this._validation || this._validation.error) return;
 		let e = this._validation.config, t = this.hass.states[e.entity];
-		if (t) return Vc(e, this.hass, t);
+		if (t) return Hc(e, this.hass, t);
 	}
 	_renderMessage(e, t = !1) {
 		return C`
@@ -24224,17 +24277,17 @@ var Qc = class extends E {
     `;
 	}
 };
-customElements.get("equinox-card") || customElements.define($a, Qc), window.customCards = window.customCards ?? [];
-var $c = window.customCards;
-$c.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
-	$c.splice($c.indexOf(e), 1);
-}), $c.push({
+customElements.get("equinox-card") || customElements.define($a, $c), window.customCards = window.customCards ?? [];
+var el = window.customCards;
+el.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
+	el.splice(el.indexOf(e), 1);
+}), el.push({
 	type: $a,
 	name: Za,
-	description: Xc(navigator.language),
+	description: Zc(navigator.language),
 	preview: !0,
 	documentationURL: "https://github.com/KipK/equinox#readme",
-	getEntitySuggestion: Zc
+	getEntitySuggestion: Qc
 });
 //#endregion
-export { Qc as EquinoxCard };
+export { $c as EquinoxCard };

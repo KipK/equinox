@@ -81,7 +81,7 @@ function readTypes(attributes: Record<string, unknown>): EquinoxVtType[] {
   return types;
 }
 
-function readMessages(attributes: Record<string, unknown>): EquinoxVtMessage[] {
+function readMessages(attributes: Record<string, unknown>, hass: HomeAssistant): EquinoxVtMessage[] {
   const messages = asMessageList(readPath(attributes, ["specific_states", "messages"]));
 
   if (readPath(attributes, ["safety_manager", "safety_state"]) === "on") {
@@ -100,6 +100,10 @@ function readMessages(attributes: Record<string, unknown>): EquinoxVtMessage[] {
     messages.push("overpowering_detected");
   }
 
+  if (isSmartPiCalibrationActive(attributes, hass)) {
+    messages.push("smartpi_calibration");
+  }
+
   return [...new Set(messages)].map((key) => ({
     key,
     severity: messageSeverity(key)
@@ -113,6 +117,26 @@ function resolveAlgorithm(attributes: Record<string, unknown>): string | undefin
     asString(readPath(attributes, ["vtherm_over_climate_valve", "valve_regulation", "function"])),
     asString(readPath(attributes, ["specific_states", "proportional_function"]))
   );
+}
+
+function isSmartPiCalibrationActive(attributes: Record<string, unknown>, hass: HomeAssistant): boolean {
+  const algorithm = resolveAlgorithm(attributes)?.toLowerCase();
+  const diagnosticEntityId = asString(readPath(attributes, ["specific_states", "regulation_diagnostics"]));
+  const diagnosticAttributes = diagnosticEntityId ? hass.states[diagnosticEntityId]?.attributes : undefined;
+  const phase = firstDefined(
+    asString(readPath(diagnosticAttributes, ["control", "phase"])),
+    asString(readPath(attributes, ["specific_states", "smartpi", "control", "phase"]))
+  );
+  const calibrationState = firstDefined(
+    asString(readPath(diagnosticAttributes, ["calibration", "state"])),
+    asString(readPath(attributes, ["specific_states", "smartpi", "calibration", "state"]))
+  );
+
+  if (algorithm !== "smartpi") {
+    return false;
+  }
+
+  return phase === "Calibration" || (calibrationState !== undefined && calibrationState !== "Idle");
 }
 
 export function buildVtViewModel(
@@ -145,7 +169,7 @@ export function buildVtViewModel(
     readPath(attributes, ["lock_manager", "is_locked"]) === true ? true : undefined,
     readPath(attributes, ["specific_states", "is_locked"]) === true ? true : undefined
   ) === true;
-  const messages = readMessages(attributes);
+  const messages = readMessages(attributes, hass);
   const autoFanMode = asString(readPath(attributes, ["vtherm_over_climate", "auto_fan_mode"]));
   const currentAutoFanMode = asString(readPath(attributes, ["vtherm_over_climate", "current_auto_fan_mode"]));
   const instantPowerEntity = config.power_entity ? hass.states[config.power_entity] : undefined;

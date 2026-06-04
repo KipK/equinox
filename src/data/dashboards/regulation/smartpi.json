@@ -393,7 +393,15 @@
           "icon": "mdi:tune-variant",
           "tone": "info",
           "visible_if": {
-            "==": [{ "var": "diagnostic/control/phase" }, "Calibration"]
+            "or": [
+              { "==": [{ "var": "diagnostic/control/phase" }, "Calibration"] },
+              {
+                "and": [
+                  { "var": "diagnostic/calibration/state" },
+                  { "!=": [{ "var": "diagnostic/calibration/state" }, "Idle"] }
+                ]
+              }
+            ]
           }
         },
         {
@@ -423,6 +431,7 @@
                 { "and": [{ "==": [{ "var": "diagnostic/control/phase" }, "Stable"] }, { "==": [{ "var": "diagnostic/ab_learning/stage" }, "learning"] }] },
                 { "and": [{ "==": [{ "var": "diagnostic/control/phase" }, "Stable"] }, { "==": [{ "var": "diagnostic/ab_learning/stage" }, "monitoring"] }] },
                 { "==": [{ "var": "diagnostic/control/phase" }, "Calibration"] },
+                { "and": [{ "var": "diagnostic/calibration/state" }, { "!=": [{ "var": "diagnostic/calibration/state" }, "Idle"] }] },
                 { "and": [{ "==": [{ "var": "diagnostic/ab_learning/stage" }, "degraded"] }, { "!=": [{ "var": "diagnostic/control/phase" }, "Calibration"] }] }
               ]
             }
@@ -456,6 +465,24 @@
                 "degraded": { "label_key": "status.learning.degraded", "tone": "danger", "icon": "mdi:alert-outline" }
               },
               "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.calibration_state",
+              "source": "diagnostic",
+              "path": "calibration/state",
+              "visible_if": {
+                "and": [
+                  { "var": "diagnostic/calibration/state" },
+                  { "!=": [{ "var": "diagnostic/calibration/state" }, "Idle"] }
+                ]
+              },
+              "map": {
+                "CoolDown": { "label_key": "status.calibration.CoolDown", "tone": "info", "icon": "mdi:snowflake-thermometer" },
+                "HeatUp": { "label_key": "status.calibration.HeatUp", "tone": "warning", "icon": "mdi:radiator" },
+                "CoolDownFinal": { "label_key": "status.calibration.CoolDownFinal", "tone": "info", "icon": "mdi:snowflake-thermometer" }
+              },
+              "fallback": { "label_key": "status.phase.Calibration", "tone": "info", "icon": "mdi:tune-variant" }
             }
           ]
         },
