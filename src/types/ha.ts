@@ -39,6 +39,11 @@ export interface LovelaceCardEditor extends HTMLElement {
   setConfig(config: unknown): void;
 }
 
+export interface CustomCardEntitySuggestion {
+  label?: string;
+  config: Record<string, unknown>;
+}
+
 export interface HaFormSchema {
   type?: string;
   name: string;
@@ -61,6 +66,10 @@ declare global {
       description: string;
       preview?: boolean;
       documentationURL?: string;
+      getEntitySuggestion?: (
+        hass: HomeAssistant,
+        entityId: string
+      ) => CustomCardEntitySuggestion | CustomCardEntitySuggestion[] | null;
     }>;
   }
 }

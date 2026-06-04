@@ -67,7 +67,7 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 	hasChanged: te
 };
 Symbol.metadata ??= Symbol("metadata"), h.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var re = class extends HTMLElement {
+var b = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
@@ -251,17 +251,17 @@ var re = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-re.elementStyles = [], re.shadowRootOptions = { mode: "open" }, re[v("elementProperties")] = /* @__PURE__ */ new Map(), re[v("finalized")] = /* @__PURE__ */ new Map(), ee?.({ ReactiveElement: re }), (h.reactiveElementVersions ??= []).push("2.1.2");
+b.elementStyles = [], b.shadowRootOptions = { mode: "open" }, b[v("elementProperties")] = /* @__PURE__ */ new Map(), b[v("finalized")] = /* @__PURE__ */ new Map(), ee?.({ ReactiveElement: b }), (h.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/lit-html/lit-html.js
-var ie = globalThis, ae = (e) => e, b = ie.trustedTypes, oe = b ? b.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, x = "$lit$", S = `lit$${Math.random().toFixed(9).slice(2)}$`, se = "?" + S, ce = `<${se}>`, le = document, ue = () => le.createComment(""), de = (e) => e === null || typeof e != "object" && typeof e != "function", fe = Array.isArray, pe = (e) => fe(e) || typeof e?.[Symbol.iterator] == "function", me = "[ 	\n\f\r]", he = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ge = /-->/g, _e = />/g, ve = RegExp(`>|${me}(?:([^\\s"'>=/]+)(${me}*=${me}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, be = /"/g, xe = /^(?:script|style|textarea|title)$/i, Se = (e) => (t, ...n) => ({
+var re = globalThis, ie = (e) => e, x = re.trustedTypes, ae = x ? x.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, oe = "$lit$", S = `lit$${Math.random().toFixed(9).slice(2)}$`, se = "?" + S, ce = `<${se}>`, le = document, ue = () => le.createComment(""), de = (e) => e === null || typeof e != "object" && typeof e != "function", fe = Array.isArray, pe = (e) => fe(e) || typeof e?.[Symbol.iterator] == "function", me = "[ 	\n\f\r]", he = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ge = /-->/g, _e = />/g, ve = RegExp(`>|${me}(?:([^\\s"'>=/]+)(${me}*=${me}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, be = /"/g, xe = /^(?:script|style|textarea|title)$/i, Se = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
 }), C = Se(1), w = Se(2), Ce = Symbol.for("lit-noChange"), T = Symbol.for("lit-nothing"), we = /* @__PURE__ */ new WeakMap(), Te = le.createTreeWalker(le, 129);
 function Ee(e, t) {
 	if (!fe(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return oe === void 0 ? t : oe.createHTML(t);
+	return ae === void 0 ? t : ae.createHTML(t);
 }
 var De = (e, t) => {
 	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = he;
@@ -269,7 +269,7 @@ var De = (e, t) => {
 		let n = e[t], s, c, l = -1, u = 0;
 		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === he ? c[1] === "!--" ? o = ge : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = ve) : (xe.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = ve) : o = _e : o === ve ? c[0] === ">" ? (o = i ?? he, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? ve : c[3] === "\"" ? be : ye) : o === be || o === ye ? o = ve : o === ge || o === _e ? o = he : (o = ve, i = void 0);
 		let d = o === ve && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === he ? n + ce : l >= 0 ? (r.push(s), n.slice(0, l) + x + n.slice(l) + S + d) : n + S + (l === -2 ? t : d);
+		a += o === he ? n + ce : l >= 0 ? (r.push(s), n.slice(0, l) + oe + n.slice(l) + S + d) : n + S + (l === -2 ? t : d);
 	}
 	return [Ee(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
 }, Oe = class e {
@@ -283,7 +283,7 @@ var De = (e, t) => {
 		}
 		for (; (i = Te.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(x)) {
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(oe)) {
 					let t = u[o++], n = i.getAttribute(e).split(S), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
@@ -299,7 +299,7 @@ var De = (e, t) => {
 				if (xe.test(i.tagName)) {
 					let e = i.textContent.split(S), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = b ? b.emptyScript : "";
+						i.textContent = x ? x.emptyScript : "";
 						for (let n = 0; n < t; n++) i.append(e[n], ue()), Te.nextNode(), c.push({
 							type: 2,
 							index: ++a
@@ -407,8 +407,8 @@ var Ae = class {
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
 		for (this._$AP?.(!1, !0, t); e !== this._$AB;) {
-			let t = ae(e).nextSibling;
-			ae(e).remove(), e = t;
+			let t = ie(e).nextSibling;
+			ie(e).remove(), e = t;
 		}
 	}
 	setConnected(e) {
@@ -472,8 +472,8 @@ var Ae = class {
 	_$AI(e) {
 		ke(this, e);
 	}
-}, Le = ie.litHtmlPolyfillSupport;
-Le?.(Oe, je), (ie.litHtmlVersions ??= []).push("3.3.3");
+}, Le = re.litHtmlPolyfillSupport;
+Le?.(Oe, je), (re.litHtmlVersions ??= []).push("3.3.3");
 var Re = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
@@ -481,7 +481,7 @@ var Re = (e, t, n) => {
 		r._$litPart$ = i = new je(t.insertBefore(ue(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, ze = globalThis, E = class extends re {
+}, ze = globalThis, E = class extends b {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -1008,9 +1008,9 @@ async function Vt(e, t, n, r, i, a, o = {}) {
 	let te = y.reduce((e, t) => {
 		let n = t.end.getTime() - t.start.getTime();
 		return e + Math.max(1, Math.ceil(n / $e));
-	}, 0), ne = ee.size + te, re = 0, ie = /* @__PURE__ */ new Set(), ae = async (s, c, l) => {
-		let u = re;
-		if (re += 1, o.isCancelled?.()) return {
+	}, 0), ne = ee.size + te, b = 0, re = /* @__PURE__ */ new Set(), ie = async (s, c, l) => {
+		let u = b;
+		if (b += 1, o.isCancelled?.()) return {
 			stateCount: 0,
 			requestDurationMs: Math.round(l),
 			normalizeDurationMs: 0,
@@ -1031,7 +1031,7 @@ async function Vt(e, t, n, r, i, a, o = {}) {
 			}
 		});
 		let g = k(), _ = /* @__PURE__ */ new Set();
-		for (let [e, t] of p) f.integrate(e, t, s.start, s.end, s.coverageKind), _.add(e), ie.add(e);
+		for (let [e, t] of p) f.integrate(e, t, s.start, s.end, s.coverageKind), _.add(e), re.add(e);
 		let ee = k() - g;
 		a?.({
 			event: "history.merge",
@@ -1046,8 +1046,8 @@ async function Vt(e, t, n, r, i, a, o = {}) {
 		if (i) {
 			await bt();
 			let o = k(), c = /* @__PURE__ */ new Set();
-			for (let i of t) ((s.coverageKind === "full" ? i.kind === "entity_attribute" : i.kind === "entity_state") && _.has(i.entityId) || !b.has(i.id)) && (i.kind === "entity_attribute" ? f.hasFullStates(i.entityId) : f.hasStates(i.entityId)) && (b.set(i.id, f.buildSeries(i, e, n, r)), c.add(i.id));
-			let l = t.map((e) => b.get(e.id)).filter((e) => e !== void 0);
+			for (let i of t) ((s.coverageKind === "full" ? i.kind === "entity_attribute" : i.kind === "entity_state") && _.has(i.entityId) || !x.has(i.id)) && (i.kind === "entity_attribute" ? f.hasFullStates(i.entityId) : f.hasStates(i.entityId)) && (x.set(i.id, f.buildSeries(i, e, n, r)), c.add(i.id));
+			let l = t.map((e) => x.get(e.id)).filter((e) => e !== void 0);
 			v = k() - o, a?.({
 				event: "history.progress_series",
 				details: {
@@ -1093,8 +1093,8 @@ async function Vt(e, t, n, r, i, a, o = {}) {
 			rangeHours: Math.round((r.getTime() - n.getTime()) / 36e3) / 100
 		}
 	});
-	let b = /* @__PURE__ */ new Map();
-	for (let i of t) (i.kind === "entity_attribute" ? f.hasFullStates(i.entityId) : f.hasStates(i.entityId)) && b.set(i.id, f.buildSeries(i, e, n, r));
+	let x = /* @__PURE__ */ new Map();
+	for (let i of t) (i.kind === "entity_attribute" ? f.hasFullStates(i.entityId) : f.hasStates(i.entityId)) && x.set(i.id, f.buildSeries(i, e, n, r));
 	await Ye(p, {
 		concurrency: o.concurrency ?? 1,
 		isCancelled: o.isCancelled,
@@ -1110,10 +1110,10 @@ async function Vt(e, t, n, r, i, a, o = {}) {
 			});
 		},
 		onResult: async ({ task: e, value: t, durationMs: n }) => {
-			await ae(e, t, n);
+			await ie(e, t, n);
 		}
 	});
-	let oe = 0;
+	let ae = 0;
 	for (let t of y) {
 		let n = $e;
 		for (let r = t.start.getTime(); r < t.end.getTime() && !o.isCancelled?.();) {
@@ -1124,20 +1124,20 @@ async function Vt(e, t, n, r, i, a, o = {}) {
 					taskId: c,
 					queuedCount: void 0,
 					activeCount: 1,
-					completedCount: oe
+					completedCount: ae
 				}
 			});
 			let l = k(), u = await _(c, () => zt(e, [t.entityId], i, o, !1, !1, !1)), d = k() - l;
-			oe += 1, a?.({
+			ae += 1, a?.({
 				event: "history.queue.task_complete",
 				details: {
 					taskId: c,
 					queuedCount: void 0,
 					activeCount: 0,
-					completedCount: oe
+					completedCount: ae
 				}
 			});
-			let f = await ae({
+			let f = await ie({
 				id: c,
 				entityIds: [t.entityId],
 				start: i,
@@ -1159,10 +1159,10 @@ async function Vt(e, t, n, r, i, a, o = {}) {
 			}), n = p.nextChunkMs, r = o.getTime();
 		}
 	}
-	let x = a ? k() : 0, S = t.map((t) => {
-		let i = b.get(t.id);
-		return i && !ie.has(t.entityId) ? i : f.buildSeries(t, e, n, r);
-	}), se = a ? k() - x : 0;
+	let oe = a ? k() : 0, S = t.map((t) => {
+		let i = x.get(t.id);
+		return i && !re.has(t.entityId) ? i : f.buildSeries(t, e, n, r);
+	}), se = a ? k() - oe : 0;
 	return a?.({
 		event: "history.final_series",
 		details: {
@@ -2250,26 +2250,26 @@ function Er(e, t = 12, n = 180) {
 	}
 	let l = [...new Set(e.numericScales.map((e) => e.graphKey))];
 	for (let t = 0; t < l.length; t++) {
-		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = u[0]?.sourceGraphKey ?? s, h = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && hr(e) === m), g = h.filter((e) => _r(e, h) === s), _ = e.visibleSeries.filter((e) => p.has(e.id)), ee = t === 0 ? [..._, ...o] : _, v = Tr(t === 0 ? [...g, ...a] : g, ee, t), y = v.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), te = y.length, ne = 28 + n + 16 + 6, re = te > 0 ? 22 + te * 14 : 0, ie = 28 + n + re + 18, ae = ie + (te > 0 ? 0 : 16), b = wr(d, n), oe = f ? wr(f, n) : [], x = u.map((e) => ({
+		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = u[0]?.sourceGraphKey ?? s, h = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && hr(e) === m), g = h.filter((e) => _r(e, h) === s), _ = e.visibleSeries.filter((e) => p.has(e.id)), ee = t === 0 ? [..._, ...o] : _, v = Tr(t === 0 ? [...g, ...a] : g, ee, t), y = v.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), te = y.length, ne = 28 + n + 16 + 6, b = te > 0 ? 22 + te * 14 : 0, re = 28 + n + b + 18, ie = re + (te > 0 ? 0 : 16), x = wr(d, n), ae = f ? wr(f, n) : [], oe = u.map((e) => ({
 			...e,
 			top: 28,
 			height: n
-		})), S = x.find((e) => e.axis === "left") ?? x[0];
+		})), S = oe.find((e) => e.axis === "left") ?? oe[0];
 		r.push({
 			series: v.visibleSeries,
 			allSeries: v.allSeries,
 			scale: S,
-			scales: x,
+			scales: oe,
 			graphHeight: n,
-			svgHeight: ie,
-			canvasHeight: ae,
-			lines: br(v.visibleSeries, x, i, { extendStairToEnd: e.extendStairToEnd }, n),
-			columns: xr(v.visibleSeries, x, i, n, { extendColumnToEnd: e.extendStairToEnd }),
+			svgHeight: re,
+			canvasHeight: ie,
+			lines: br(v.visibleSeries, oe, i, { extendStairToEnd: e.extendStairToEnd }, n),
+			columns: xr(v.visibleSeries, oe, i, n, { extendColumnToEnd: e.extendStairToEnd }),
 			segments: Sr(y, ne, i),
-			yLabels: b,
-			rightYLabels: oe,
+			yLabels: x,
+			rightYLabels: ae,
 			xLabels: c,
-			heatingAreas: e.heatingAreas.length > 0 ? Vn(e.visibleSeries, x, i) : []
+			heatingAreas: e.heatingAreas.length > 0 ? Vn(e.visibleSeries, oe, i) : []
 		});
 	}
 	return r;
@@ -24132,7 +24132,13 @@ var Yc = {
 function Xc(e) {
 	return Yc[e.toLowerCase().split("-")[0] || "en"] ?? Yc.en;
 }
-var Zc = class extends E {
+function Zc(e, t) {
+	return t.split(".")[0] !== "climate" || !e.states[t] ? null : { config: {
+		type: Qa,
+		entity: t
+	} };
+}
+var Qc = class extends E {
 	static {
 		this.properties = {
 			hass: { attribute: !1 },
@@ -24218,16 +24224,17 @@ var Zc = class extends E {
     `;
 	}
 };
-customElements.get("equinox-card") || customElements.define($a, Zc), window.customCards = window.customCards ?? [];
-var Qc = window.customCards;
-Qc.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
-	Qc.splice(Qc.indexOf(e), 1);
-}), Qc.push({
+customElements.get("equinox-card") || customElements.define($a, Qc), window.customCards = window.customCards ?? [];
+var $c = window.customCards;
+$c.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" || e.name === "Equinox").forEach((e) => {
+	$c.splice($c.indexOf(e), 1);
+}), $c.push({
 	type: $a,
 	name: Za,
 	description: Xc(navigator.language),
 	preview: !0,
-	documentationURL: "https://github.com/KipK/equinox#readme"
+	documentationURL: "https://github.com/KipK/equinox#readme",
+	getEntitySuggestion: Zc
 });
 //#endregion
-export { Zc as EquinoxCard };
+export { Qc as EquinoxCard };

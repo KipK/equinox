@@ -70,6 +70,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.1.6
 
+- add Home Assistant 2026.6 card picker suggestions for climate entities
 - ha-better-history 0.2.5
   . fix race condition when adding multiple attributes at the same time
   . fix legend padding when a segment is displayed under the graph

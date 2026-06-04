@@ -98,6 +98,9 @@ type: module
 The exact `/local/` path depends on where the built file is copied in the Home
 Assistant `www/` directory.
 
+In Home Assistant 2026.6 and newer, Equinox appears in the card picker
+suggestions when a `climate` entity is selected.
+
 ## Example
 
 ```yaml

@@ -7,7 +7,7 @@ import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
 import { localize } from "./localize/localize";
-import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
+import type { CustomCardEntitySuggestion, HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
 import type { EquinoxViewModel } from "./types/view-model";
 
 defineHaBetterHistory(HISTORY_TAG);
@@ -39,6 +39,21 @@ const CARD_DESCRIPTIONS: Record<string, string> = {
 function cardDescription(lang: string): string {
   const normalized = lang.toLowerCase().split("-")[0] || "en";
   return CARD_DESCRIPTIONS[normalized] ?? CARD_DESCRIPTIONS.en;
+}
+
+function getEntitySuggestion(hass: HomeAssistant, entityId: string): CustomCardEntitySuggestion | null {
+  const domain = entityId.split(".")[0];
+
+  if (domain !== "climate" || !hass.states[entityId]) {
+    return null;
+  }
+
+  return {
+    config: {
+      type: CARD_TYPE,
+      entity: entityId
+    }
+  };
 }
 
 export class EquinoxCard extends LitElement implements LovelaceCard {
@@ -184,7 +199,8 @@ customCards.push({
   name: CARD_NAME,
   description: cardDescription(navigator.language),
   preview: true,
-  documentationURL: "https://github.com/KipK/equinox#readme"
+  documentationURL: "https://github.com/KipK/equinox#readme",
+  getEntitySuggestion
 });
 
 declare global {
