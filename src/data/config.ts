@@ -38,6 +38,13 @@ function normalizeStringList(value: unknown): string[] | undefined {
   return normalized.length > 0 ? normalized : undefined;
 }
 
+function rgbChannel(value: unknown): number | undefined {
+  const channel = Number(value);
+  if (!Number.isFinite(channel)) return undefined;
+
+  return Math.min(255, Math.max(0, Math.round(channel)));
+}
+
 function normalizeColor(value: unknown): string | number[] | undefined {
   if (typeof value === "string") {
     const color = value.trim();
@@ -48,8 +55,8 @@ function normalizeColor(value: unknown): string | number[] | undefined {
     return undefined;
   }
 
-  const [r, g, b] = value.map((part) => Number(part));
-  return [r, g, b].every((part) => Number.isFinite(part)) ? [r, g, b] : undefined;
+  const [r, g, b] = value.map(rgbChannel);
+  return [r, g, b].every((part) => part !== undefined) ? [r!, g!, b!] : undefined;
 }
 
 function normalizePercent(value: unknown): number | undefined {

@@ -9,12 +9,19 @@ import type { HaFormChangedEvent, HaFormSchema, HassEntity, HomeAssistant, Lovel
 
 void ensureHaComponents();
 
+function rgbChannel(value: unknown): number | undefined {
+  const channel = Number(value);
+  if (!Number.isFinite(channel)) return undefined;
+
+  return Math.min(255, Math.max(0, Math.round(channel)));
+}
+
 function cssColor(value: string | number[] | undefined): string | undefined {
   if (typeof value === "string" && value.trim() !== "") return value.trim();
   if (!Array.isArray(value) || value.length < 3) return undefined;
 
-  const [r, g, b] = value.map((part) => Number(part));
-  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+  const [r, g, b] = value.map(rgbChannel);
+  if (![r, g, b].every((part) => part !== undefined)) return undefined;
 
   return `rgb(${r}, ${g}, ${b})`;
 }

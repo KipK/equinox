@@ -55,6 +55,37 @@ type RgbColor = {
   b: number;
 };
 
+const HA_PICKER_THEME_COLORS = new Set([
+  "primary",
+  "accent",
+  "red",
+  "pink",
+  "purple",
+  "deep-purple",
+  "indigo",
+  "blue",
+  "light-blue",
+  "cyan",
+  "teal",
+  "green",
+  "light-green",
+  "lime",
+  "yellow",
+  "amber",
+  "orange",
+  "deep-orange",
+  "brown",
+  "light-grey",
+  "grey",
+  "dark-grey",
+  "blue-grey",
+  "black",
+  "white",
+  "primary-text",
+  "secondary-text",
+  "disabled"
+]);
+
 const EVENT_ICONS: EventIconDefinition[] = [
   { key: "hasOverpowering", icon: "mdi:flash-alert", tone: "warning", messageKeys: ["overpowering_detected", "target_temp_power"] },
   {
@@ -110,25 +141,37 @@ function finite(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
 }
 
+function rgbChannel(value: unknown): number | undefined {
+  const channel = Number(value);
+  if (!Number.isFinite(channel)) return undefined;
+
+  return Math.min(255, Math.max(0, Math.round(channel)));
+}
+
 function cssColor(value: string | number[] | undefined): string | undefined {
-  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (typeof value === "string" && value.trim() !== "") {
+    const color = value.trim();
+    if (HA_PICKER_THEME_COLORS.has(color)) return `var(--${color}-color)`;
+
+    return color;
+  }
   if (!Array.isArray(value) || value.length < 3) return undefined;
 
-  const [r, g, b] = value.map((part) => Number(part));
-  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+  const [r, g, b] = value.map(rgbChannel);
+  if (![r, g, b].every((part) => part !== undefined)) return undefined;
 
   return `rgb(${r}, ${g}, ${b})`;
 }
 
 function rgbColor(value: string | number[] | undefined): RgbColor | undefined {
   if (Array.isArray(value) && value.length >= 3) {
-    const [r, g, b] = value.map((part) => Number(part));
-    if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+    const [r, g, b] = value.map(rgbChannel);
+    if (![r, g, b].every((part) => part !== undefined)) return undefined;
 
     return {
-      r: Math.min(255, Math.max(0, r)),
-      g: Math.min(255, Math.max(0, g)),
-      b: Math.min(255, Math.max(0, b))
+      r: r!,
+      g: g!,
+      b: b!
     };
   }
 
@@ -158,13 +201,13 @@ function rgbColor(value: string | number[] | undefined): RgbColor | undefined {
   if (!rgb) return undefined;
 
   const [, r, g, b] = rgb;
-  const channels = [r, g, b].map((part) => Number(part));
-  if (!channels.every((part) => Number.isFinite(part))) return undefined;
+  const channels = [r, g, b].map(rgbChannel);
+  if (!channels.every((part) => part !== undefined)) return undefined;
 
   return {
-    r: Math.min(255, Math.max(0, channels[0])),
-    g: Math.min(255, Math.max(0, channels[1])),
-    b: Math.min(255, Math.max(0, channels[2]))
+    r: channels[0]!,
+    g: channels[1]!,
+    b: channels[2]!
   };
 }
 

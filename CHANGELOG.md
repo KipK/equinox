@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.2.2-dev
+
+- fix card background color picker values from HA theme color IDs and fractional RGB channels
+
 ## 0.1.0
 
 ### Initial release
@@ -118,8 +122,12 @@ All notable changes to Equinox will be documented in this file.
 - Show the configured humidity entity in the default history only when the climate does not already expose
 - Replace the temporary boost circular duration selector with a horizontal slider matching the popup setpoint control.
 
-## 0.2.1-dev
+## 0.2.1
 
 - Highlight active SmartPI calibration in the Regulation overview and on the card status icons.
 - Add Home Assistant 2026.6 card picker suggestions for climate entities
 - Fix thin fan icon color for normal mode
+
+## 0.2.2-dev
+
+- Fix HA color picker value handling
