@@ -84,6 +84,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
     target: { attribute: false },
     _controlsVisible: { state: true },
     _toolsOpen: { state: true },
+    _historyPickerOverlayOpen: { state: true },
     _staticAttributeUnits: { state: true }
   };
 
@@ -97,6 +98,11 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       --eq-dialog-min-width: 360px;
       --eq-dialog-content-padding: 0 16px 8px;
       --eq-dialog-radius: 28px;
+    }
+
+    eq-dialog.picker-open {
+      --eq-dialog-panel-overflow: visible;
+      --eq-dialog-content-overflow: visible;
     }
 
     .content {
@@ -258,6 +264,12 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
       --better-history-min-height: 0px;
     }
 
+    .history.picker-open {
+      min-height: min(560px, calc(100vh - 180px));
+      height: min(68vh, 620px);
+      --better-history-surface-overflow-y: visible;
+    }
+
     .empty {
       padding: 14px 4px;
       color: var(--secondary-text-color);
@@ -277,6 +289,11 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
         height: 50vh;
       }
 
+      .history.picker-open {
+        min-height: min(620px, calc(100dvh - 168px));
+        height: min(72dvh, 620px);
+      }
+
       .sensor-value {
         max-width: 128px;
       }
@@ -291,6 +308,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
   target?: SensorMoreInfoTarget;
   private _controlsVisible = false;
   private _toolsOpen = false;
+  private _historyPickerOverlayOpen = false;
   private _staticAttributeUnits?: AttributeUnitMap;
   private _attributeUnitsLoadStarted = false;
   private _configCacheKey = "";
@@ -300,6 +318,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
     if (changedProperties.has("open") && this.open) {
       this._controlsVisible = false;
       this._toolsOpen = false;
+      this._historyPickerOverlayOpen = false;
     }
   }
 
@@ -608,6 +627,10 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
     this.dispatchEvent(new CustomEvent("eq-dialog-close", { bubbles: true, composed: true }));
   }
 
+  private _onHistoryPickerOverlayChanged(event: CustomEvent<{ open: boolean }>): void {
+    this._historyPickerOverlayOpen = event.detail.open;
+  }
+
   protected render(): TemplateResult {
     const metrics = this._metrics();
     const breadcrumb = this._dialogBreadcrumb();
@@ -615,6 +638,7 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
 
     return html`
       <eq-dialog
+        class=${this._historyPickerOverlayOpen ? "picker-open" : ""}
         centered
         close-start
         .open=${this.open}
@@ -665,7 +689,8 @@ export class EquinoxSensorMoreInfoDialog extends LitElement {
                   .language=${this.language}
                   .showControls=${this._controlsVisible}
                   .toolsOpen=${this._toolsOpen}
-                  class="history"
+                  @picker-overlay-changed=${(event: CustomEvent<{ open: boolean }>) => this._onHistoryPickerOverlayChanged(event)}
+                  class=${this._historyPickerOverlayOpen ? "history picker-open" : "history"}
                 ></equinox-better-history>
               `
             : nothing}

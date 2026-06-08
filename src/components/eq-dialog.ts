@@ -39,7 +39,7 @@ export class EquinoxDialog extends LitElement {
       background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
       color: var(--primary-text-color);
       border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
-      overflow: hidden;
+      overflow: var(--eq-dialog-panel-overflow, hidden);
     }
 
     .scrim.centered {
@@ -56,7 +56,7 @@ export class EquinoxDialog extends LitElement {
       max-width: calc(100vw - 24px);
       max-height: calc(100vh - 24px);
       transform: translate(-50%, -50%);
-      overflow: hidden;
+      overflow: var(--eq-dialog-panel-overflow, hidden);
       border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
       box-shadow: 0 18px 44px rgb(0 0 0 / 34%);
     }
@@ -146,7 +146,7 @@ export class EquinoxDialog extends LitElement {
         border-radius: 0;
         transform: none;
         border: 0;
-        overflow: hidden;
+        overflow: var(--eq-dialog-panel-overflow, hidden);
       }
     }
 
@@ -195,7 +195,7 @@ export class EquinoxDialog extends LitElement {
     .content {
       padding: var(--eq-dialog-content-padding, 0 16px 16px);
       min-height: 0;
-      overflow: auto;
+      overflow: var(--eq-dialog-content-overflow, auto);
       overscroll-behavior: contain;
     }
 
