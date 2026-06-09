@@ -125,7 +125,7 @@ export class EquinoxSwingDialog extends LitElement {
 
     /* Active rows keep their per-mode icon color (not primary-color). */
     .swing-option[active] .swing-option-icon[tone^="swing-"],
-    ha-md-list-item[active] .option-icon[tone^="swing-"] {
+    .option-list-item[active] .option-icon[tone^="swing-"] {
       color: var(--eq-tone-color);
       background: color-mix(in srgb, var(--eq-tone-color) 18%, transparent);
     }
@@ -140,24 +140,40 @@ export class EquinoxSwingDialog extends LitElement {
     }
 
     .swing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       padding: 0;
       background: transparent;
     }
 
-    ha-md-list-item {
+    .option-list-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 12px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
     }
 
-    ha-md-list-item[active] {
+    .option-list-item:hover,
+    .option-list-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
+    }
+
+    .option-list-item[active] {
       color: var(--primary-color);
-      --md-list-item-label-text-color: var(--primary-color);
     }
 
     .option-check {
@@ -211,7 +227,7 @@ export class EquinoxSwingDialog extends LitElement {
     }
 
     :host([theme="liquid_glow"]) .swing-option[active] .swing-option-icon,
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon {
       background: transparent;
       color: var(--primary-color);
     }
@@ -338,21 +354,21 @@ export class EquinoxSwingDialog extends LitElement {
     }
 
     return html`
-      <ha-md-list class="swing-list">
+      <div class="swing-list" role="list">
         ${options.map(
           (mode) => html`
-            <ha-md-list-item type="button" ?active=${mode === activeMode} @click=${() => onSelect(mode)}>
-              <span class="option-icon" slot="start" tone=${swingTone(mode)}>
+            <button class="option-list-item" type="button" ?active=${mode === activeMode} @click=${() => onSelect(mode)}>
+              <span class="option-icon" tone=${swingTone(mode)}>
                 <ha-icon .icon=${this._swingIcon(mode, horizontal)} style="--mdc-icon-size: 24px;"></ha-icon>
               </span>
               <span>${this._swingLabel(mode)}</span>
               ${mode === activeMode
-                ? html`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
+                ? html`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
                 : nothing}
-            </ha-md-list-item>
+            </button>
           `
         )}
-      </ha-md-list>
+      </div>
     `;
   }
 

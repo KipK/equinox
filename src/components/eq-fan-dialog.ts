@@ -122,7 +122,7 @@ export class EquinoxFanDialog extends LitElement {
       color: var(--eq-tone-color);
     }
 
-    ha-md-list-item[active] .option-icon[tone^="fan-"] {
+    .option-list-item[active] .option-icon[tone^="fan-"] {
       background: color-mix(in srgb, var(--eq-tone-color) 18%, transparent);
       color: var(--eq-tone-color);
     }
@@ -205,24 +205,40 @@ export class EquinoxFanDialog extends LitElement {
     }
 
     .fan-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       padding: 0;
       background: transparent;
     }
 
-    ha-md-list-item {
+    .option-list-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 12px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
     }
 
-    ha-md-list-item[active] {
+    .option-list-item:hover,
+    .option-list-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
+    }
+
+    .option-list-item[active] {
       color: var(--primary-color);
-      --md-list-item-label-text-color: var(--primary-color);
     }
 
     .option-icon {
@@ -237,7 +253,7 @@ export class EquinoxFanDialog extends LitElement {
       flex-shrink: 0;
     }
 
-    ha-md-list-item[active] .option-icon {
+    .option-list-item[active] .option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
     }
@@ -371,25 +387,26 @@ export class EquinoxFanDialog extends LitElement {
 
         <!-- Mobile: vertical list -->
         <div class="fan-mobile">
-          <ha-md-list class="fan-list">
+          <div class="fan-list" role="list">
           ${options.map(
             (mode) => html`
-              <ha-md-list-item
+              <button
+                class="option-list-item"
                 type="button"
                 ?active=${mode === activeMode}
                 @click=${() => this._selectMode(mode)}
               >
-                <span class="option-icon" slot="start" tone=${this._fanTone(mode)}>
+                <span class="option-icon" tone=${this._fanTone(mode)}>
                   <ha-icon .icon=${this._fanIcon(mode)} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span>${this._fanLabel(mode)}</span>
                 ${mode === activeMode
-                  ? html`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
+                  ? html`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
                   : nothing}
-              </ha-md-list-item>
+              </button>
             `
           )}
-          </ha-md-list>
+          </div>
         </div>
       </eq-dialog>
     `;

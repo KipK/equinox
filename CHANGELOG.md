@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.2.3-dev
+
+- Replace `ha-md-list` usage in Equinox popups with native list buttons so the card no longer tries to load unsupported Home Assistant list components.
+
 ## 0.1.0
 
 ### Initial release

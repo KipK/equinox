@@ -206,9 +206,9 @@ export class EquinoxHvacDialog extends LitElement {
       filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] {
+    :host([theme="liquid_glow"]) .option-list-item[active] {
       --equinox-option-active-tone: var(--equinox-text-color, var(--primary-text-color, #fff));
-      --md-list-item-label-text-color: var(--equinox-option-active-tone);
+      color: var(--equinox-option-active-tone);
       border: 1px solid color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent) 0%, transparent 42%),
@@ -219,45 +219,45 @@ export class EquinoxHvacDialog extends LitElement {
         0 0 10px color-mix(in srgb, var(--equinox-option-active-tone) 22%, transparent);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="heat"]) {
       --equinox-option-active-tone: var(--equinox-heat-color, #ff8a1c);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="cool"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="cool"]) {
       --equinox-option-active-tone: var(--equinox-cool-color, #4da1ff);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="auto"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="auto"]) {
       --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat-cool"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="heat-cool"]) {
       --equinox-option-active-tone: var(--equinox-heat-cool-color, #9b5cff);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="off"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="off"]) {
       --equinox-option-active-tone: var(--disabled-text-color, rgba(128, 128, 128, 0.5));
       border-color: var(--equinox-border-color, rgba(128, 128, 128, 0.2));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       box-shadow: none;
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="dry"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="dry"]) {
       --equinox-option-active-tone: var(--equinox-dry-color, #ff9800);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="fan-only"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="fan-only"]) {
       --equinox-option-active-tone: var(--equinox-fan-only-color, #00bcd4);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon {
       background: transparent;
       box-shadow: none;
       color: var(--equinox-option-active-tone);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-check {
       color: var(--equinox-option-active-tone);
       filter: drop-shadow(0 0 5px currentColor);
     }
@@ -274,7 +274,7 @@ export class EquinoxHvacDialog extends LitElement {
         0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
     }
 
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] {
+    :host([theme="liquid_glow"][light]) .option-list-item[active] {
       border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
@@ -289,8 +289,8 @@ export class EquinoxHvacDialog extends LitElement {
       filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
     }
 
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-icon ha-icon,
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-check {
+    :host([theme="liquid_glow"][light]) .option-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"][light]) .option-list-item[active] .option-check {
       filter: drop-shadow(0 0 3px currentColor);
     }
 
@@ -350,26 +350,43 @@ export class EquinoxHvacDialog extends LitElement {
     }
 
     .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       padding: 0;
       background: transparent;
     }
 
-    ha-md-list-item {
+    .option-list-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 10px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
     }
 
-    ha-md-list-item[active] {
-      --md-list-item-label-text-color: var(--primary-color);
+    .option-list-item:hover,
+    .option-list-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
     }
 
-    ha-md-list-item[active] .option-icon {
+    .option-list-item[active] {
+      color: var(--primary-color);
+    }
+
+    .option-list-item[active] .option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
     }
@@ -465,21 +482,21 @@ export class EquinoxHvacDialog extends LitElement {
           )}
         </div>
         <div class="option-mobile">
-          <ha-md-list class="option-list">
+          <div class="option-list" role="list">
             ${options.map(
               (mode) => html`
-                <ha-md-list-item type="button" ?active=${mode === activeMode} @click=${() => this._selectMode(mode)}>
-                  <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""} slot="start">
+                <button class="option-list-item" type="button" ?active=${mode === activeMode} @click=${() => this._selectMode(mode)}>
+                  <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""}>
                     <ha-icon .icon=${HVAC_ICONS[mode]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._modeLabel(mode)}</span>
                   ${mode === activeMode
-                    ? html`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
+                    ? html`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
                     : nothing}
-                </ha-md-list-item>
+                </button>
               `
             )}
-          </ha-md-list>
+          </div>
         </div>
       </eq-dialog>
     `;

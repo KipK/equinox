@@ -7080,8 +7080,6 @@ var Xa = "Equinox", Za = "custom:equinox-card", Qa = "equinox-card", $a = "equin
 	"ha-control-button",
 	"ha-icon-button",
 	"ha-color-picker",
-	"ha-md-list",
-	"ha-md-list-item",
 	"ha-input-chip"
 ], po;
 function mo() {
@@ -15675,7 +15673,7 @@ var Ms = class extends D {
       color: var(--eq-tone-color);
     }
 
-    ha-md-list-item[active] .option-icon[tone^="fan-"] {
+    .option-list-item[active] .option-icon[tone^="fan-"] {
       background: color-mix(in srgb, var(--eq-tone-color) 18%, transparent);
       color: var(--eq-tone-color);
     }
@@ -15758,24 +15756,40 @@ var Ms = class extends D {
     }
 
     .fan-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       padding: 0;
       background: transparent;
     }
 
-    ha-md-list-item {
+    .option-list-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 12px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
     }
 
-    ha-md-list-item[active] {
+    .option-list-item:hover,
+    .option-list-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
+    }
+
+    .option-list-item[active] {
       color: var(--primary-color);
-      --md-list-item-label-text-color: var(--primary-color);
     }
 
     .option-icon {
@@ -15790,7 +15804,7 @@ var Ms = class extends D {
       flex-shrink: 0;
     }
 
-    ha-md-list-item[active] .option-icon {
+    .option-list-item[active] .option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
     }
@@ -15887,21 +15901,22 @@ var Ms = class extends D {
 
         <!-- Mobile: vertical list -->
         <div class="fan-mobile">
-          <ha-md-list class="fan-list">
+          <div class="fan-list" role="list">
           ${e.map((e) => w`
-              <ha-md-list-item
+              <button
+                class="option-list-item"
                 type="button"
                 ?active=${e === t}
                 @click=${() => this._selectMode(e)}
               >
-                <span class="option-icon" slot="start" tone=${this._fanTone(e)}>
+                <span class="option-icon" tone=${this._fanTone(e)}>
                   <ha-icon .icon=${this._fanIcon(e)} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span>${this._fanLabel(e)}</span>
-                ${e === t ? w`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
-              </ha-md-list-item>
+                ${e === t ? w`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
+              </button>
             `)}
-          </ha-md-list>
+          </div>
         </div>
       </eq-dialog>
     `;
@@ -16113,9 +16128,9 @@ var Ns = class extends D {
       filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] {
+    :host([theme="liquid_glow"]) .option-list-item[active] {
       --equinox-option-active-tone: var(--equinox-text-color, var(--primary-text-color, #fff));
-      --md-list-item-label-text-color: var(--equinox-option-active-tone);
+      color: var(--equinox-option-active-tone);
       border: 1px solid color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent) 0%, transparent 42%),
@@ -16126,45 +16141,45 @@ var Ns = class extends D {
         0 0 10px color-mix(in srgb, var(--equinox-option-active-tone) 22%, transparent);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="heat"]) {
       --equinox-option-active-tone: var(--equinox-heat-color, #ff8a1c);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="cool"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="cool"]) {
       --equinox-option-active-tone: var(--equinox-cool-color, #4da1ff);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="auto"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="auto"]) {
       --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat-cool"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="heat-cool"]) {
       --equinox-option-active-tone: var(--equinox-heat-cool-color, #9b5cff);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="off"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="off"]) {
       --equinox-option-active-tone: var(--disabled-text-color, rgba(128, 128, 128, 0.5));
       border-color: var(--equinox-border-color, rgba(128, 128, 128, 0.2));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       box-shadow: none;
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="dry"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="dry"]) {
       --equinox-option-active-tone: var(--equinox-dry-color, #ff9800);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="fan-only"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="fan-only"]) {
       --equinox-option-active-tone: var(--equinox-fan-only-color, #00bcd4);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon {
       background: transparent;
       box-shadow: none;
       color: var(--equinox-option-active-tone);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-check {
       color: var(--equinox-option-active-tone);
       filter: drop-shadow(0 0 5px currentColor);
     }
@@ -16181,7 +16196,7 @@ var Ns = class extends D {
         0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
     }
 
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] {
+    :host([theme="liquid_glow"][light]) .option-list-item[active] {
       border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
@@ -16196,8 +16211,8 @@ var Ns = class extends D {
       filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
     }
 
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-icon ha-icon,
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-check {
+    :host([theme="liquid_glow"][light]) .option-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"][light]) .option-list-item[active] .option-check {
       filter: drop-shadow(0 0 3px currentColor);
     }
 
@@ -16257,26 +16272,43 @@ var Ns = class extends D {
     }
 
     .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       padding: 0;
       background: transparent;
     }
 
-    ha-md-list-item {
+    .option-list-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 10px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
     }
 
-    ha-md-list-item[active] {
-      --md-list-item-label-text-color: var(--primary-color);
+    .option-list-item:hover,
+    .option-list-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
     }
 
-    ha-md-list-item[active] .option-icon {
+    .option-list-item[active] {
+      color: var(--primary-color);
+    }
+
+    .option-list-item[active] .option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
     }
@@ -16349,17 +16381,17 @@ var Ns = class extends D {
             `)}
         </div>
         <div class="option-mobile">
-          <ha-md-list class="option-list">
+          <div class="option-list" role="list">
             ${e.map((e) => w`
-                <ha-md-list-item type="button" ?active=${e === t} @click=${() => this._selectMode(e)}>
-                  <span class="option-icon" tone=${oo[e] ?? ""} slot="start">
+                <button class="option-list-item" type="button" ?active=${e === t} @click=${() => this._selectMode(e)}>
+                  <span class="option-icon" tone=${oo[e] ?? ""}>
                     <ha-icon .icon=${z[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._modeLabel(e)}</span>
-                  ${e === t ? w`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
-                </ha-md-list-item>
+                  ${e === t ? w`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
+                </button>
               `)}
-          </ha-md-list>
+          </div>
         </div>
       </eq-dialog>
     `;
@@ -16485,7 +16517,7 @@ var Fs = class extends D {
 
     /* Active rows keep their per-mode icon color (not primary-color). */
     .swing-option[active] .swing-option-icon[tone^="swing-"],
-    ha-md-list-item[active] .option-icon[tone^="swing-"] {
+    .option-list-item[active] .option-icon[tone^="swing-"] {
       color: var(--eq-tone-color);
       background: color-mix(in srgb, var(--eq-tone-color) 18%, transparent);
     }
@@ -16500,24 +16532,40 @@ var Fs = class extends D {
     }
 
     .swing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       padding: 0;
       background: transparent;
     }
 
-    ha-md-list-item {
+    .option-list-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 12px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
     }
 
-    ha-md-list-item[active] {
+    .option-list-item:hover,
+    .option-list-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
+    }
+
+    .option-list-item[active] {
       color: var(--primary-color);
-      --md-list-item-label-text-color: var(--primary-color);
     }
 
     .option-check {
@@ -16571,7 +16619,7 @@ var Fs = class extends D {
     }
 
     :host([theme="liquid_glow"]) .swing-option[active] .swing-option-icon,
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon {
       background: transparent;
       color: var(--primary-color);
     }
@@ -16657,17 +16705,17 @@ var Fs = class extends D {
 	}
 	_renderMobileGroup(e, t, n, r) {
 		return e.length === 0 ? E : w`
-      <ha-md-list class="swing-list">
+      <div class="swing-list" role="list">
         ${e.map((e) => w`
-            <ha-md-list-item type="button" ?active=${e === t} @click=${() => r(e)}>
-              <span class="option-icon" slot="start" tone=${$o(e)}>
+            <button class="option-list-item" type="button" ?active=${e === t} @click=${() => r(e)}>
+              <span class="option-icon" tone=${$o(e)}>
                 <ha-icon .icon=${this._swingIcon(e, n)} style="--mdc-icon-size: 24px;"></ha-icon>
               </span>
               <span>${this._swingLabel(e)}</span>
-              ${e === t ? w`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
-            </ha-md-list-item>
+              ${e === t ? w`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
+            </button>
           `)}
-      </ha-md-list>
+      </div>
     `;
 	}
 	render() {
@@ -16912,13 +16960,13 @@ var Is = class extends D {
     :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-sleep"])    { --equinox-option-active-tone: var(--equinox-preset-sleep-color); }
     :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-frost"])    { --equinox-option-active-tone: var(--equinox-preset-frost-color); }
     :host([theme="liquid_glow"]) .option-row[active]:has(.option-icon[tone="preset-activity"]) { --equinox-option-active-tone: var(--equinox-preset-activity-color); }
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-eco"])      { --equinox-option-active-tone: var(--equinox-preset-eco-color); }
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-away"])     { --equinox-option-active-tone: var(--equinox-preset-away-color); }
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-comfort"])  { --equinox-option-active-tone: var(--equinox-preset-comfort-color); }
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-home"])     { --equinox-option-active-tone: var(--equinox-preset-home-color); }
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-sleep"])    { --equinox-option-active-tone: var(--equinox-preset-sleep-color); }
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-frost"])    { --equinox-option-active-tone: var(--equinox-preset-frost-color); }
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="preset-activity"]) { --equinox-option-active-tone: var(--equinox-preset-activity-color); }
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="preset-eco"])      { --equinox-option-active-tone: var(--equinox-preset-eco-color); }
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="preset-away"])     { --equinox-option-active-tone: var(--equinox-preset-away-color); }
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="preset-comfort"])  { --equinox-option-active-tone: var(--equinox-preset-comfort-color); }
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="preset-home"])     { --equinox-option-active-tone: var(--equinox-preset-home-color); }
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="preset-sleep"])    { --equinox-option-active-tone: var(--equinox-preset-sleep-color); }
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="preset-frost"])    { --equinox-option-active-tone: var(--equinox-preset-frost-color); }
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="preset-activity"]) { --equinox-option-active-tone: var(--equinox-preset-activity-color); }
 
     :host([theme="liquid_glow"]) .option-row[active]:first-child {
       margin-inline-start: -1px;
@@ -16950,9 +16998,9 @@ var Is = class extends D {
       filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] {
+    :host([theme="liquid_glow"]) .option-list-item[active] {
       --equinox-option-active-tone: var(--equinox-text-color, var(--primary-text-color, #fff));
-      --md-list-item-label-text-color: var(--equinox-option-active-tone);
+      color: var(--equinox-option-active-tone);
       border: 1px solid color-mix(in srgb, var(--equinox-option-active-tone) 72%, transparent);
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 8%, transparent) 0%, transparent 42%),
@@ -16963,41 +17011,41 @@ var Is = class extends D {
         0 0 10px color-mix(in srgb, var(--equinox-option-active-tone) 22%, transparent);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="heat"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="heat"]) {
       --equinox-option-active-tone: var(--equinox-heat-color, #ff8a1c);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="cool"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="cool"]) {
       --equinox-option-active-tone: var(--equinox-cool-color, #4da1ff);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="auto"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="auto"]) {
       --equinox-option-active-tone: var(--equinox-auto-color, #55bf6a);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="boost"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="boost"]) {
       --equinox-option-active-tone: var(--equinox-boost-color, #b06cff);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="cool-boost"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="cool-boost"]) {
       --equinox-option-active-tone: var(--equinox-cool-boost-color, #7cc7ff);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active]:has(.option-icon[tone="off"]) {
+    :host([theme="liquid_glow"]) .option-list-item[active]:has(.option-icon[tone="off"]) {
       --equinox-option-active-tone: var(--disabled-text-color, rgba(128, 128, 128, 0.5));
       border-color: var(--equinox-border-color, rgba(128, 128, 128, 0.2));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       box-shadow: none;
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon {
       background: transparent;
       box-shadow: none;
       color: var(--equinox-option-active-tone);
     }
 
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-icon ha-icon,
-    :host([theme="liquid_glow"]) ha-md-list-item[active] .option-check {
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"]) .option-list-item[active] .option-check {
       color: var(--equinox-option-active-tone);
       filter: drop-shadow(0 0 5px currentColor);
     }
@@ -17014,7 +17062,7 @@ var Is = class extends D {
         0 0 9px color-mix(in srgb, var(--equinox-option-active-tone) 16%, transparent);
     }
 
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] {
+    :host([theme="liquid_glow"][light]) .option-list-item[active] {
       border-color: color-mix(in srgb, var(--equinox-option-active-tone) 58%, transparent);
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--equinox-text-color, var(--primary-text-color, #fff)) 5%, transparent) 0%, transparent 42%),
@@ -17029,8 +17077,8 @@ var Is = class extends D {
       filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 7px currentColor);
     }
 
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-icon ha-icon,
-    :host([theme="liquid_glow"][light]) ha-md-list-item[active] .option-check {
+    :host([theme="liquid_glow"][light]) .option-list-item[active] .option-icon ha-icon,
+    :host([theme="liquid_glow"][light]) .option-list-item[active] .option-check {
       filter: drop-shadow(0 0 3px currentColor);
     }
 
@@ -17079,26 +17127,43 @@ var Is = class extends D {
     }
 
     .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       padding: 0;
       background: transparent;
     }
 
-    ha-md-list-item {
+    .option-list-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 10px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
     }
 
-    ha-md-list-item[active] {
-      --md-list-item-label-text-color: var(--primary-color);
+    .option-list-item:hover,
+    .option-list-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
     }
 
-    ha-md-list-item[active] .option-icon {
+    .option-list-item[active] {
+      color: var(--primary-color);
+    }
+
+    .option-list-item[active] .option-icon {
       background: color-mix(in srgb, var(--primary-color) 15%, transparent);
       color: var(--primary-color);
     }
@@ -17174,17 +17239,17 @@ var Is = class extends D {
             `)}
         </div>
         <div class="option-mobile">
-          <ha-md-list class="option-list">
+          <div class="option-list" role="list">
             ${e.map((e) => w`
-                <ha-md-list-item type="button" ?active=${e === t} @click=${() => this._selectPreset(e)}>
-                  <span class="option-icon" tone=${this._presetTone(e)} slot="start">
+                <button class="option-list-item" type="button" ?active=${e === t} @click=${() => this._selectPreset(e)}>
+                  <span class="option-icon" tone=${this._presetTone(e)}>
                     <ha-icon .icon=${B[e]} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._presetLabel(e)}</span>
-                  ${e === t ? w`<ha-icon slot="end" class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
-                </ha-md-list-item>
+                  ${e === t ? w`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>` : E}
+                </button>
               `)}
-          </ha-md-list>
+          </div>
         </div>
       </eq-dialog>
     `;
@@ -17805,6 +17870,9 @@ var zs = class extends D {
 	static {
 		this.styles = o`
     .menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       width: 100%;
       min-width: 0;
       max-width: 100%;
@@ -17813,15 +17881,29 @@ var zs = class extends D {
       box-sizing: border-box;
     }
 
-    ha-md-list-item {
+    .menu-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 8px 12px;
       border-radius: var(--equinox-control-radius, 8px);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--primary-text-color, #fff);
-      --md-list-item-container-color: transparent;
-      --md-list-item-label-text-size: 15px;
-      --md-list-item-label-text-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-color: var(--primary-text-color, #fff);
-      --md-list-item-hover-state-layer-opacity: 0.08;
-      --ha-md-list-item-gap: 12px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 15px;
+      text-align: start;
+      box-sizing: border-box;
+    }
+
+    .menu-item:hover,
+    .menu-item:focus-visible {
+      background: color-mix(in srgb, var(--primary-text-color, #fff) 8%, transparent);
+      outline: none;
     }
 
     .option-icon {
@@ -17894,53 +17976,53 @@ var zs = class extends D {
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
-        <ha-md-list class="menu-list">
+        <div class="menu-list" role="list">
           ${e ? w`
-                <ha-md-list-item type="button" @click=${() => this._openRegulationMenuEntry()}>
-                  <span class="option-icon" slot="start">
+                <button class="menu-item" type="button" @click=${() => this._openRegulationMenuEntry()}>
+                  <span class="option-icon">
                     <ha-icon icon="mdi:chart-line" style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${V(this.language, "dialog.menu.regulation")}</span>
-                  <span class="option-trailing" slot="end">
+                  <span class="option-trailing">
                     <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
                   </span>
-                </ha-md-list-item>
+                </button>
               ` : E}
 
           ${t ? w`
-                <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-swing")}>
-                  <span class="option-icon" slot="start">
+                <button class="menu-item" type="button" @click=${() => this._dispatchOpen("equinox-open-swing")}>
+                  <span class="option-icon">
                     <ha-icon icon="mdi:arrow-oscillating" style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${V(this.language, "main.actions.open_swing")}</span>
-                  <span class="option-trailing" slot="end">
+                  <span class="option-trailing">
                     <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
                   </span>
-                </ha-md-list-item>
+                </button>
               ` : E}
 
           ${n ? w`
-                <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-boost")}>
-                  <span class="option-icon" tone=${r ? "boost" : ""} slot="start">
+                <button class="menu-item" type="button" @click=${() => this._dispatchOpen("equinox-open-boost")}>
+                  <span class="option-icon" tone=${r ? "boost" : ""}>
                     <ha-icon icon="mdi:timer-outline" style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${V(this.language, "dialog.menu.boost")}</span>
-                  <span class="option-trailing" slot="end">
+                  <span class="option-trailing">
                     ${r && typeof i == "number" ? w`<span class="boost-time">${i} min</span>` : w`<ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>`}
                   </span>
-                </ha-md-list-item>
+                </button>
               ` : E}
 
-          <ha-md-list-item type="button" @click=${() => this._dispatchOpen("equinox-open-history")}>
-            <span class="option-icon" slot="start">
+          <button class="menu-item" type="button" @click=${() => this._dispatchOpen("equinox-open-history")}>
+            <span class="option-icon">
               <ha-icon icon="mdi:chart-bar" style="--mdc-icon-size: 24px;"></ha-icon>
             </span>
             <span>${V(this.language, "dialog.menu.history")}</span>
-            <span class="option-trailing" slot="end">
+            <span class="option-trailing">
               <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
             </span>
-          </ha-md-list-item>
-        </ha-md-list>
+          </button>
+        </div>
       </eq-dialog>
     `;
 	}
