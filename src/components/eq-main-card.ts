@@ -2002,7 +2002,7 @@ export class EquinoxMainCard extends LitElement {
   private _closeHistoryDialog(): void {
     if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "history-dialog") {
       this._activeDialog = null;
-      window.history.back();
+      this._clearBrowserHistoryState();
       return;
     }
 
