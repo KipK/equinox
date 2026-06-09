@@ -8,8 +8,10 @@
     "invalid_primary_display": "La priorité d'affichage configurée n'est pas disponible.",
     "invalid_additional_dashboards": "Le mode de dashboards configuré n'est pas disponible.",
     "invalid_state_icons_layout": "La disposition des icônes d'état configurée n'est pas disponible.",
+    "invalid_update_refresh": "Le mode de rafraîchissement après mise à jour n'est pas disponible.",
     "entity_not_found": "Entité introuvable: {entity}",
-    "placeholder": "Equinox est prêt pour {entity}."
+    "placeholder": "Equinox est prêt pour {entity}.",
+    "update_available": "Equinox a été mis à jour en {version}. Rechargez Home Assistant pour utiliser le dernier code de la carte."
   },
   "main": {
     "status": {
@@ -239,6 +241,7 @@
     "additional_dashboards": "Dashboards additionnels",
     "state_icons_layout": "Icônes d'état",
     "border_glow_on_action": "Les bordures brillent uniquement quand le HVAC est actif",
+    "update_refresh": "Après mise à jour",
     "tabs": {
       "general": "Général",
       "presentation": "Présentation",
@@ -273,6 +276,11 @@
         "auto": "Auto",
         "custom": "Personnalisé",
         "disabled": "Désactivé"
+      },
+      "update_refresh": {
+        "notify": "Notifier",
+        "reload": "Recharger une fois",
+        "off": "Désactivé"
       }
     }
   }

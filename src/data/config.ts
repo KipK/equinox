@@ -6,6 +6,7 @@ import {
   EQUINOX_LAYOUT_ORIENTATIONS,
   EQUINOX_PRIMARY_DISPLAYS,
   EQUINOX_THEMES,
+  EQUINOX_UPDATE_REFRESH_MODES,
   type EquinoxAdditionalDashboards,
   type EquinoxCardConfig,
   type EquinoxCardConfigInput,
@@ -13,7 +14,8 @@ import {
   type EquinoxDisplayMode,
   type EquinoxLayoutOrientation,
   type EquinoxPrimaryDisplay,
-  type EquinoxTheme
+  type EquinoxTheme,
+  type EquinoxUpdateRefreshMode
 } from "../types/config";
 
 function isString(value: unknown): value is string {
@@ -110,6 +112,10 @@ export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxCon
     return { config, error: "invalid_state_icons_layout" };
   }
 
+  if (!isOneOf(EQUINOX_UPDATE_REFRESH_MODES, config.update_refresh)) {
+    return { config, error: "invalid_update_refresh" };
+  }
+
   const cardBackgroundColor = normalizeColor(config.card_background_color);
   if (cardBackgroundColor) {
     config.card_background_color = cardBackgroundColor;
@@ -166,4 +172,8 @@ export function isEquinoxAdditionalDashboards(value: unknown): value is EquinoxA
 
 export function isEquinoxLayoutOrientation(value: unknown): value is EquinoxLayoutOrientation {
   return isOneOf(EQUINOX_LAYOUT_ORIENTATIONS, value);
+}
+
+export function isEquinoxUpdateRefreshMode(value: unknown): value is EquinoxUpdateRefreshMode {
+  return isOneOf(EQUINOX_UPDATE_REFRESH_MODES, value);
 }

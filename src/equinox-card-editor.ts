@@ -280,6 +280,19 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
             ]
           }
         }
+      },
+      {
+        name: "update_refresh",
+        selector: {
+          select: {
+            mode: "dropdown",
+            options: [
+              { value: "notify", label: localize(language, "editor.options.update_refresh.notify") },
+              { value: "reload", label: localize(language, "editor.options.update_refresh.reload") },
+              { value: "off", label: localize(language, "editor.options.update_refresh.off") }
+            ]
+          }
+        }
       }
     ];
 

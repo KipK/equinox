@@ -117,6 +117,7 @@ card_background_opacity: 92
 disable_name: false
 enable_lock: true
 additional_dashboards: auto
+update_refresh: notify
 ```
 
 ## Configuration
@@ -137,10 +138,27 @@ additional_dashboards: auto
 | `enable_lock`             | no       | `true`               | Enable lock UI when supported by VT.                                                                                                  |
 | `additional_dashboards`   | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.                                                                           |
 | `state_icons_layout`      | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal.                                   |
+| `update_refresh`          | no       | `notify`             | Behavior after Equinox detects that a newer card bundle has loaded: `notify`, `reload`, or `off`.                                     |
 
 Regulation diagnostics are discovered automatically from the climate entity
 attribute `specific_states.regulation_diagnostics` when the thermostat
 algorithm publishes it.
+
+## HACS update refresh
+
+Equinox stores the last loaded card version in browser storage. When a later
+bundle loads after a HACS update, it removes matching `equinox-card.js` entries
+from the browser CacheStorage API when available, then follows `update_refresh`:
+
+| Value    | Behavior                                                                                                                      |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `notify` | Shows a Home Assistant frontend notification asking the user to reload. This is the default and avoids surprise page reloads. |
+| `reload` | Reloads the Home Assistant page once for the detected version change, guarded to avoid reload loops.                          |
+| `off`    | Records the new version and performs the cache cleanup attempt without notification or reload.                                |
+
+This can only run after the browser has already loaded the new
+`equinox-card.js`. It cannot force an old open tab to replace stale JavaScript
+before the updated bundle is loaded by Home Assistant.
 
 ## Regulation Dashboard
 

@@ -8,8 +8,10 @@
     "invalid_primary_display": "The configured display priority is not available.",
     "invalid_additional_dashboards": "The configured dashboard mode is not available.",
     "invalid_state_icons_layout": "The configured state icon layout is not available.",
+    "invalid_update_refresh": "The configured update refresh mode is not available.",
     "entity_not_found": "Entity not found: {entity}",
-    "placeholder": "Equinox is ready for {entity}."
+    "placeholder": "Equinox is ready for {entity}.",
+    "update_available": "Equinox has been updated to {version}. Reload Home Assistant to use the latest card code."
   },
   "main": {
     "status": {
@@ -239,6 +241,7 @@
     "additional_dashboards": "Additional dashboards",
     "state_icons_layout": "State icons",
     "border_glow_on_action": "Borders glow only while HVAC is active",
+    "update_refresh": "After card update",
     "tabs": {
       "general": "General",
       "presentation": "Presentation",
@@ -273,6 +276,11 @@
         "auto": "Auto",
         "custom": "Custom",
         "disabled": "Disabled"
+      },
+      "update_refresh": {
+        "notify": "Notify",
+        "reload": "Reload once",
+        "off": "Disabled"
       }
     }
   }
