@@ -2,17 +2,15 @@ import { LitElement, css, html } from "lit";
 import { defineHaBetterHistory } from "@kipk/ha-better-history";
 import "./equinox-card-editor";
 import "./components/eq-main-card";
-import { CARD_NAME, CARD_TAG, CARD_TYPE, CARD_VERSION, HISTORY_TAG } from "./const";
+import { CARD_NAME, CARD_TAG, CARD_TYPE, HISTORY_TAG } from "./const";
 import { buildEquinoxViewModel } from "./data/climate-state";
 import { validateEquinoxConfig } from "./data/config";
-import { detectEquinoxUpdate, handleEquinoxUpdateRefresh } from "./data/update-refresh";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxConfigValidation } from "./types/config";
 import { localize } from "./localize/localize";
 import type { CustomCardEntitySuggestion, HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "./types/ha";
 import type { EquinoxViewModel } from "./types/view-model";
 
 defineHaBetterHistory(HISTORY_TAG);
-detectEquinoxUpdate(CARD_VERSION);
 
 // card.description is the only translation kept inlined; it is consumed at module load before fetch can complete.
 const CARD_DESCRIPTIONS: Record<string, string> = {
@@ -108,7 +106,6 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
 
   protected willUpdate(): void {
     this._viewModel = this._buildViewModel();
-    this._handleUpdateRefresh();
   }
 
   getCardSize(): number {
@@ -175,17 +172,6 @@ export class EquinoxCard extends LitElement implements LovelaceCard {
     }
 
     return buildEquinoxViewModel(config, this.hass, entity);
-  }
-
-  private _handleUpdateRefresh(): void {
-    if (!this._validation) {
-      return;
-    }
-
-    const mode = this._validation?.config.update_refresh;
-    const refreshMode = mode === "reload" || mode === "off" ? mode : "notify";
-
-    handleEquinoxUpdateRefresh(refreshMode, this._language());
   }
 
   private _renderMessage(message: string, error = false) {

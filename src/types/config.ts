@@ -10,14 +10,12 @@ export const EQUINOX_DISPLAY_MODES = ["classic", "compact", "thin"] as const;
 export const EQUINOX_PRIMARY_DISPLAYS = ["setpoint", "sensors"] as const;
 export const EQUINOX_ADDITIONAL_DASHBOARDS = ["auto", "custom", "disabled"] as const;
 export const EQUINOX_LAYOUT_ORIENTATIONS = ["horizontal", "vertical"] as const;
-export const EQUINOX_UPDATE_REFRESH_MODES = ["notify", "reload", "off"] as const;
 
 export type EquinoxTheme = "flat" | "liquid_glow";
 export type EquinoxDisplayMode = "classic" | "compact" | "thin";
 export type EquinoxPrimaryDisplay = "setpoint" | "sensors";
 export type EquinoxAdditionalDashboards = "auto" | "custom" | "disabled";
 export type EquinoxLayoutOrientation = "horizontal" | "vertical";
-export type EquinoxUpdateRefreshMode = "notify" | "reload" | "off";
 
 export interface EquinoxCardConfig {
   type: "custom:equinox-card";
@@ -40,7 +38,6 @@ export interface EquinoxCardConfig {
   additional_dashboards?: EquinoxAdditionalDashboards;
   state_icons_layout?: EquinoxLayoutOrientation;
   border_glow_on_action?: boolean;
-  update_refresh?: EquinoxUpdateRefreshMode;
 }
 
 export type EquinoxCardConfigInput = Partial<EquinoxCardConfig> & {
@@ -56,8 +53,7 @@ export const DEFAULT_CONFIG = {
   hide_lock_button: false,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
   state_icons_layout: "horizontal",
-  border_glow_on_action: true,
-  update_refresh: "notify"
+  border_glow_on_action: true
 } satisfies Pick<
   EquinoxCardConfig,
   | "theme"
@@ -68,7 +64,6 @@ export const DEFAULT_CONFIG = {
   | "hide_lock_button"
   | "additional_dashboards"
   | "state_icons_layout"
-  | "update_refresh"
 >;
 
 export type EquinoxConfigError =
@@ -78,8 +73,7 @@ export type EquinoxConfigError =
   | "invalid_display_mode"
   | "invalid_primary_display"
   | "invalid_additional_dashboards"
-  | "invalid_state_icons_layout"
-  | "invalid_update_refresh";
+  | "invalid_state_icons_layout";
 
 export interface EquinoxConfigValidation {
   config: EquinoxCardConfigInput;

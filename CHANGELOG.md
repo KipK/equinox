@@ -2,11 +2,6 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.2.3-dev
-
-- Add `update_refresh` handling to detect newly loaded Equinox bundles after HACS updates, clear matching card CacheStorage entries when available, and either notify, reload once, or stay silent.
-- Fix first observed loads of the update-refresh feature so upgrades from older Equinox versions that did not record a browser version still notify or reload once.
-
 ## 0.1.0
 
 ### Initial release
@@ -134,7 +129,6 @@ All notable changes to Equinox will be documented in this file.
 - fix card background color picker values from HA theme color IDs and fractional RGB channels
 - fix the custom sensor more-info date picker being clipped below the dialog, making its validation button unreachable
 - fix history dialog close behavior inside popup containers such as browser_mod so closing with the dialog X no longer navigates to the previous dashboard
-- Add HACS update refresh handling
 - update ha-better-history component
   . fix live refresh for some attributes
   . fix tooltoip position overflowing top of window in some case
