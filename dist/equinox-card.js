@@ -764,7 +764,7 @@ function Et(e, t) {
 }
 function Dt(e) {
 	if (typeof e.lu == "number") return e.lu * 1e3;
-	let t = e.last_changed ?? e.last_updated;
+	let t = e.last_updated ?? e.last_changed;
 	return t ? Date.parse(t) : NaN;
 }
 function Ot(e, t, n) {
@@ -2285,6 +2285,16 @@ var Dr = class {
 	hostDisconnected() {
 		this._frame !== void 0 && (cancelAnimationFrame(this._frame), this._frame = void 0);
 	}
+	hostUpdated() {
+		if (!this.tooltip) return;
+		let e = this._host.renderRoot?.querySelector?.(".tooltip");
+		if (!(e instanceof HTMLElement)) return;
+		let t = e.getBoundingClientRect().height, n = this.tooltip.rowCount, r = this._measuredTooltip;
+		t <= 0 || r?.rowCount === n && Math.abs(r.height - t) < 1 || (this._measuredTooltip = {
+			rowCount: n,
+			height: t
+		}, this._apply());
+	}
 	sync(e, t, n, r, i) {
 		this._timeBounds = i, this._rebuildCache(e, t, n);
 	}
@@ -2334,18 +2344,19 @@ var Dr = class {
 				color: e.color,
 				value: String(t.value)
 			}] : [];
-		});
+		}), o = a.length, s = this._tooltipHeight(o), c = this._placement(e, s), l = this._tooltipY(e, c, s);
 		if (a.length === 0) {
 			this.tooltip !== void 0 && (this.tooltip = void 0, this._host.requestUpdate(), this._emit());
 			return;
 		}
-		if (this.tooltip?.time === i && this.tooltip.activeLeft === e.activeLeft && this.tooltip.activeTop === e.activeTop && this.tooltip.activeWidth === e.activeWidth && this.tooltip.activeHeight === e.activeHeight && this.tooltip.activeKey === e.activeKey && Math.abs(this.tooltip.tooltipX - Math.min(Math.max(e.x, 120), 600)) < 1 && Math.abs(this.tooltip.y - this._tooltipY(e)) < 1 && this.tooltip.placement === this._placement(e)) return;
-		let o = Math.min(Math.max(e.x, 120), 600), s = this._tooltipY(e);
+		if (this.tooltip?.time === i && this.tooltip.activeLeft === e.activeLeft && this.tooltip.activeTop === e.activeTop && this.tooltip.activeWidth === e.activeWidth && this.tooltip.activeHeight === e.activeHeight && this.tooltip.activeKey === e.activeKey && Math.abs(this.tooltip.tooltipX - Math.min(Math.max(e.x, 120), 600)) < 1 && Math.abs(this.tooltip.y - l) < 1 && this.tooltip.placement === c && this.tooltip.rowCount === o) return;
+		let u = Math.min(Math.max(e.x, 120), 600);
 		this.tooltip = {
 			x: M(i, this._timeBounds),
-			tooltipX: o,
-			y: s,
-			placement: this._placement(e),
+			tooltipX: u,
+			y: l,
+			placement: c,
+			rowCount: o,
 			activeLeft: e.activeLeft,
 			activeTop: e.activeTop,
 			activeWidth: e.activeWidth,
@@ -2355,13 +2366,25 @@ var Dr = class {
 			values: a
 		}, this._host.requestUpdate(), this._emit();
 	}
-	_placement(e) {
-		let t = e.activeTop + e.activeHeight;
-		return e.touchLike ? e.y < e.activeTop + e.activeHeight / 2 ? "above" : "below" : t - e.y < 120 ? "above" : "below";
+	_placement(e, t) {
+		let n = e.activeTop + e.activeHeight, r = e.touchLike ? e.y < e.activeTop + e.activeHeight / 2 ? "above" : "below" : n - e.y < 120 ? "above" : "below", i = this._minTooltipTop(e), a = this._maxTooltipBottom(e), o = this._tooltipAnchorY(e, "above") - t - 10, s = this._tooltipAnchorY(e, "below") + t + 10, c = o >= i, l = s <= a;
+		return r === "above" && c ? "above" : r === "below" && l ? "below" : c ? "above" : l ? "below" : this._tooltipAnchorY(e, "above") - i >= a - this._tooltipAnchorY(e, "below") ? "above" : "below";
 	}
-	_tooltipY(e) {
-		let t = e.activeTop + e.activeHeight;
-		return e.touchLike ? this._placement(e) === "above" ? t - 10 : e.activeTop + 10 : Math.min(Math.max(e.y, e.activeTop + 28), t - 28);
+	_tooltipY(e, t, n) {
+		let r = t === "above" ? this._tooltipAnchorY(e, t) - n - 10 : this._tooltipAnchorY(e, t) + 10, i = this._minTooltipTop(e), a = Math.max(i, this._maxTooltipBottom(e) - n);
+		return Math.min(Math.max(r, i), a);
+	}
+	_tooltipAnchorY(e, t) {
+		return e.touchLike ? t === "above" ? e.activeTop + e.activeHeight - 10 : e.activeTop + 10 : Math.min(Math.max(e.y, e.activeTop + 28), e.activeTop + e.activeHeight - 28);
+	}
+	_tooltipHeight(e) {
+		return this._measuredTooltip?.rowCount === e ? this._measuredTooltip.height : 34 + e * 18;
+	}
+	_minTooltipTop(e) {
+		return Math.max(8, e.viewportTop + 8);
+	}
+	_maxTooltipBottom(e) {
+		return Math.max(this._minTooltipTop(e) + 40, e.viewportBottom - 8);
 	}
 	_emit() {
 		this._host.dispatchEvent(new CustomEvent("tooltip-changed", {
@@ -2412,14 +2435,16 @@ var Dr = class {
 		if (!n) return;
 		let r = new Set((n.dataset.seriesIds ?? "").split("|").filter((e) => e !== ""));
 		if (r.size === 0) return;
-		let i = t.getBoundingClientRect(), a = n.getBoundingClientRect();
+		let i = t.getBoundingClientRect(), a = n.getBoundingClientRect(), o = window.innerHeight || document.documentElement.clientHeight || i.height;
 		if (e.clientX < a.left || e.clientX > a.right || e.clientY < a.top || e.clientY > a.bottom) return;
-		let o = a.left - i.left, s = a.top - i.top;
+		let s = a.left - i.left, c = a.top - i.top;
 		return {
 			x: 40 + (e.clientX - a.left) / a.width * 640,
 			y: e.clientY - i.top,
-			activeLeft: o,
-			activeTop: s,
+			viewportTop: Math.max(0, -i.top),
+			viewportBottom: Math.min(i.height, o - i.top),
+			activeLeft: s,
+			activeTop: c,
 			activeWidth: a.width,
 			activeHeight: a.height,
 			activeIds: r,
@@ -2429,12 +2454,13 @@ var Dr = class {
 	}
 	renderTooltip() {
 		if (!this.tooltip) return T;
-		let e = this.tooltip.activeLeft + (this.tooltip.x - 40) / 640 * this.tooltip.activeWidth, t = this.tooltip.activeLeft + (this.tooltip.tooltipX - 40) / 640 * this.tooltip.activeWidth, n = this.tooltip.placement === "above" ? "translate(-50%, calc(-100% - 10px))" : "translate(-50%, 10px)";
+		let e = this.tooltip.activeLeft + (this.tooltip.x - 40) / 640 * this.tooltip.activeWidth, t = this.tooltip.activeLeft + (this.tooltip.tooltipX - 40) / 640 * this.tooltip.activeWidth;
 		return C`
       <div class="tooltip-axis-pointer" style=${`left:${e.toFixed(1)}px;top:${this.tooltip.activeTop.toFixed(1)}px;height:${this.tooltip.activeHeight.toFixed(1)}px;`}></div>
       <div
         class="tooltip"
-        style=${`left:clamp(150px,${t.toFixed(1)}px,calc(100% - 150px));top:${this.tooltip.y.toFixed(1)}px;transform:${n};`}
+        data-placement=${this.tooltip.placement}
+        style=${`left:clamp(150px,${t.toFixed(1)}px,calc(100% - 150px));top:${this.tooltip.y.toFixed(1)}px;transform:translateX(-50%);`}
       >
         <div class="tooltip-time">${new Date(this.tooltip.time).toLocaleString()}</div>
         ${this.tooltip.values.map((e) => C`
@@ -6985,7 +7011,7 @@ var Za = {
 		"gzip:dist": "node scripts/gzip-dist.mjs"
 	},
 	dependencies: {
-		"@kipk/ha-better-history": "^0.2.6",
+		"@kipk/ha-better-history": "^0.2.7",
 		"@kipk/load-ha-components": "^1.0.3",
 		lit: "^3.3.2"
 	},
