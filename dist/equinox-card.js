@@ -24338,17 +24338,13 @@ function pl(e, t) {
 }
 function ml(e) {
 	if (typeof window > "u") return !1;
-	let t = ll(), n = `${e.previousVersion}->${e.currentVersion}`;
+	let t = ll(), n = `${e.previousVersion ?? "first-seen"}->${e.currentVersion}`;
 	return t?.getItem(il) === n ? !1 : (t?.setItem(il, n), window.location.reload(), !0);
 }
 function hl(e) {
 	let t = cl();
 	if (!t) return;
 	let n = t.getItem(rl);
-	if (!n) {
-		t.setItem(rl, e);
-		return;
-	}
 	n !== e && (al = {
 		previousVersion: n,
 		currentVersion: e

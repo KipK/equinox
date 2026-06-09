@@ -2,7 +2,7 @@ import { localize } from "../localize/localize";
 import type { EquinoxUpdateRefreshMode } from "../types/config";
 
 type PendingUpdate = {
-  previousVersion: string;
+  previousVersion?: string;
   currentVersion: string;
 };
 
@@ -120,7 +120,7 @@ function reloadOnce(update: PendingUpdate): boolean {
   }
 
   const session = sessionStorageSafe();
-  const reloadKey = `${update.previousVersion}->${update.currentVersion}`;
+  const reloadKey = `${update.previousVersion ?? "first-seen"}->${update.currentVersion}`;
 
   if (session?.getItem(RELOAD_SESSION_KEY) === reloadKey) {
     return false;
@@ -140,11 +140,6 @@ export function detectEquinoxUpdate(currentVersion: string): void {
   }
 
   const previousVersion = local.getItem(VERSION_STORAGE_KEY);
-
-  if (!previousVersion) {
-    local.setItem(VERSION_STORAGE_KEY, currentVersion);
-    return;
-  }
 
   if (previousVersion === currentVersion) {
     return;

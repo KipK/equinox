@@ -5,6 +5,7 @@ All notable changes to Equinox will be documented in this file.
 ## 0.2.3-dev
 
 - Add `update_refresh` handling to detect newly loaded Equinox bundles after HACS updates, clear matching card CacheStorage entries when available, and either notify, reload once, or stay silent.
+- Fix first observed loads of the update-refresh feature so upgrades from older Equinox versions that did not record a browser version still notify or reload once.
 
 ## 0.1.0
 

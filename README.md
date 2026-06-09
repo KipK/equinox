@@ -147,8 +147,9 @@ algorithm publishes it.
 ## HACS update refresh
 
 Equinox stores the last loaded card version in browser storage. When a later
-bundle loads after a HACS update, it removes matching `equinox-card.js` entries
-from the browser CacheStorage API when available, then follows `update_refresh`:
+bundle loads after a HACS update, or when no previous Equinox version has been
+recorded yet, it removes matching `equinox-card.js` entries from the browser
+CacheStorage API when available, then follows `update_refresh`:
 
 | Value    | Behavior                                                                                                                      |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
