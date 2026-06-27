@@ -6,6 +6,7 @@
     "invalid_theme": "Le thème configuré n'est pas disponible.",
     "invalid_display_mode": "Le mode d'affichage configuré n'est pas disponible.",
     "invalid_primary_display": "La priorité d'affichage configurée n'est pas disponible.",
+    "invalid_setpoint_selector": "Le sélecteur de consigne configuré n'est pas disponible.",
     "invalid_additional_dashboards": "Le mode de dashboards configuré n'est pas disponible.",
     "invalid_state_icons_layout": "La disposition des icônes d'état configurée n'est pas disponible.",
     "entity_not_found": "Entité introuvable: {entity}",
@@ -229,10 +230,12 @@
     "theme": "Thème",
     "display_mode": "Format",
     "primary_display": "Priorité d'affichage",
-    "use_temperature_popup": "Utiliser le sélecteur de consigne popup par défaut",
+    "setpoint_selector": "Sélecteur de consigne",
     "card_background_color": "Couleur du fond de carte",
     "card_background_opacity": "Opacité du fond de carte",
     "disable_name": "Masquer le nom",
+    "show_fan_mode": "Afficher le mode de ventilation",
+    "show_swing_mode": "Afficher le mode d'oscillation",
     "hide_lock_button": "Masquer le bouton de verrouillage",
     "hvac_modes": "Boutons HVAC",
     "preset_modes": "Boutons preset",
@@ -264,6 +267,10 @@
       "primary_display": {
         "setpoint": "Consigne",
         "sensors": "Capteurs"
+      },
+      "setpoint_selector": {
+        "slider": "Slider",
+        "buttons": "Boutons"
       },
       "layout_orientation": {
         "horizontal": "Horizontal",

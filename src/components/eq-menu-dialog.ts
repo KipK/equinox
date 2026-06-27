@@ -121,7 +121,7 @@ export class EquinoxMenuDialog extends LitElement {
   }
 
   private _showSwing(): boolean {
-    return this.config?.display_mode !== "thin" && (
+    return this.config?.show_swing_mode !== false && this.config?.display_mode !== "thin" && (
       (this.viewModel?.climate.swingModes?.length ?? 0) > 0 ||
       (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0
     );

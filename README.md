@@ -130,10 +130,12 @@ additional_dashboards: auto
 | `theme`                   | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                                                                                                |
 | `display_mode`            | no       | `classic`            | Display format: `classic`, `compact`, or `thin`.                                                                                      |
 | `primary_display`         | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`; ignored in `thin`.                                                                            |
-| `use_temperature_popup`   | no       | `true`               | Use the slider popup setpoint selector in `classic`/`compact`; set to `false` to keep the inline +/- selector. `thin` always uses it. |
+| `setpoint_selector`       | no       | `slider`             | Setpoint selector for `classic`/`compact`: `slider` opens the popup slider, `buttons` keeps the inline +/- selector. `thin` always uses the slider popup. |
 | `card_background_color`   | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. HVAC and preset selectors follow this surface.       |
 | `card_background_opacity` | no       | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent.                                               |
 | `disable_name`            | no       | `false`              | Hide the header name; hidden in the editor when `display_mode: thin`.                                                                 |
+| `show_fan_mode`           | no       | `true`               | Show the fan mode selector when the climate entity supports fan modes.                                                                |
+| `show_swing_mode`         | no       | `true`               | Show the swing mode selector when the climate entity supports swing modes.                                                            |
 | `enable_lock`             | no       | `true`               | Enable lock UI when supported by VT.                                                                                                  |
 | `additional_dashboards`   | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.                                                                           |
 | `state_icons_layout`      | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal.                                   |

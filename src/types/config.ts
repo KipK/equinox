@@ -8,12 +8,14 @@ import {
 export const EQUINOX_THEMES = ["flat", "liquid_glow"] as const;
 export const EQUINOX_DISPLAY_MODES = ["classic", "compact", "thin"] as const;
 export const EQUINOX_PRIMARY_DISPLAYS = ["setpoint", "sensors"] as const;
+export const EQUINOX_SETPOINT_SELECTORS = ["slider", "buttons"] as const;
 export const EQUINOX_ADDITIONAL_DASHBOARDS = ["auto", "custom", "disabled"] as const;
 export const EQUINOX_LAYOUT_ORIENTATIONS = ["horizontal", "vertical"] as const;
 
 export type EquinoxTheme = "flat" | "liquid_glow";
 export type EquinoxDisplayMode = "classic" | "compact" | "thin";
 export type EquinoxPrimaryDisplay = "setpoint" | "sensors";
+export type EquinoxSetpointSelector = "slider" | "buttons";
 export type EquinoxAdditionalDashboards = "auto" | "custom" | "disabled";
 export type EquinoxLayoutOrientation = "horizontal" | "vertical";
 
@@ -28,10 +30,14 @@ export interface EquinoxCardConfig {
   theme?: EquinoxTheme;
   display_mode?: EquinoxDisplayMode;
   primary_display?: EquinoxPrimaryDisplay;
+  setpoint_selector?: EquinoxSetpointSelector;
+  /** @deprecated Use setpoint_selector instead. */
   use_temperature_popup?: boolean;
   card_background_color?: string | number[];
   card_background_opacity?: number;
   disable_name?: boolean;
+  show_fan_mode?: boolean;
+  show_swing_mode?: boolean;
   hide_lock_button?: boolean;
   hidden_hvac_modes?: string[];
   hidden_preset_modes?: string[];
@@ -48,8 +54,10 @@ export const DEFAULT_CONFIG = {
   theme: DEFAULT_THEME,
   display_mode: DEFAULT_DISPLAY_MODE,
   primary_display: DEFAULT_PRIMARY_DISPLAY,
-  use_temperature_popup: true,
+  setpoint_selector: "slider",
   disable_name: false,
+  show_fan_mode: true,
+  show_swing_mode: true,
   hide_lock_button: false,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
   state_icons_layout: "horizontal",
@@ -59,11 +67,14 @@ export const DEFAULT_CONFIG = {
   | "theme"
   | "display_mode"
   | "primary_display"
-  | "use_temperature_popup"
+  | "setpoint_selector"
   | "disable_name"
+  | "show_fan_mode"
+  | "show_swing_mode"
   | "hide_lock_button"
   | "additional_dashboards"
   | "state_icons_layout"
+  | "border_glow_on_action"
 >;
 
 export type EquinoxConfigError =
@@ -72,6 +83,7 @@ export type EquinoxConfigError =
   | "invalid_theme"
   | "invalid_display_mode"
   | "invalid_primary_display"
+  | "invalid_setpoint_selector"
   | "invalid_additional_dashboards"
   | "invalid_state_icons_layout";
 

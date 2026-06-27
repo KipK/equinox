@@ -2583,8 +2583,8 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderThinExtraSelectors(): TemplateResult | typeof nothing {
-    const fan = this._hasFanControl() ? this._renderThinFanButton() : nothing;
-    const swing = this._hasSwingControl() ? this._renderThinSwingButton() : nothing;
+    const fan = this._shouldShowFanControl() ? this._renderThinFanButton() : nothing;
+    const swing = this._shouldShowSwingControl() ? this._renderThinSwingButton() : nothing;
 
     if (fan === nothing && swing === nothing) {
       return nothing;
@@ -2598,7 +2598,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _thinExtraSelectorCount(): number {
-    return (this._hasFanControl() ? 1 : 0) + (this._hasSwingControl() ? 1 : 0);
+    return (this._shouldShowFanControl() ? 1 : 0) + (this._shouldShowSwingControl() ? 1 : 0);
   }
 
   private _renderThinHvacButton(): TemplateResult | typeof nothing {
@@ -2687,8 +2687,8 @@ export class EquinoxMainCard extends LitElement {
     const lockLabel = this.viewModel?.vt?.lock.isLocked
       ? localize(this._language(), "main.lock.locked")
       : localize(this._language(), "main.lock.unlocked");
-    const showFan = this.config?.display_mode !== "compact" && this._hasFanControl();
-    const showSwing = this.config?.display_mode !== "compact" && this._hasSwingControl();
+    const showFan = this.config?.display_mode !== "compact" && this._shouldShowFanControl();
+    const showSwing = this.config?.display_mode !== "compact" && this._shouldShowSwingControl();
 
     return html`
       <div class="status">
@@ -2721,8 +2721,8 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderLeftRail(): Array<TemplateResult | typeof nothing> {
     return [
-      ...(this.config?.display_mode !== "compact" && this._hasFanControl() ? [this._renderFanButton()] : []),
-      ...(this.config?.display_mode !== "compact" && this._hasSwingControl() ? [this._renderSwingButton()] : [])
+      ...(this.config?.display_mode !== "compact" && this._shouldShowFanControl() ? [this._renderFanButton()] : []),
+      ...(this.config?.display_mode !== "compact" && this._shouldShowSwingControl() ? [this._renderSwingButton()] : [])
     ];
   }
 
@@ -3189,8 +3189,8 @@ export class EquinoxMainCard extends LitElement {
     const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:hand-back-right-outline";
     const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
 
-    const showFan = this._hasFanControl();
-    const showSwing = this._hasSwingControl();
+    const showFan = this._shouldShowFanControl();
+    const showSwing = this._shouldShowSwingControl();
 
     const btnCount = (showHvac ? 1 : 0) + (showPreset ? 1 : 0) + (showFan ? 1 : 0) + (showSwing ? 1 : 0);
 
@@ -3320,11 +3320,19 @@ export class EquinoxMainCard extends LitElement {
     return (this.viewModel?.climate.fanModes?.length ?? 0) > 0 || this.viewModel?.vt?.fan.hasAutoFan === true;
   }
 
+  private _shouldShowFanControl(): boolean {
+    return this.config?.show_fan_mode !== false && this._hasFanControl();
+  }
+
   private _hasSwingControl(): boolean {
     return (
       (this.viewModel?.climate.swingModes?.length ?? 0) > 0 ||
       (this.viewModel?.climate.swingHorizontalModes?.length ?? 0) > 0
     );
+  }
+
+  private _shouldShowSwingControl(): boolean {
+    return this.config?.show_swing_mode !== false && this._hasSwingControl();
   }
 
   private _renderMenuButton(): TemplateResult {
@@ -3616,7 +3624,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _usesTemperaturePopup(): boolean {
-    return this.config?.display_mode === "thin" || this.config?.use_temperature_popup === true;
+    return this.config?.display_mode === "thin" || this.config?.setpoint_selector !== "buttons";
   }
 
   private _stepDecimals(): number {

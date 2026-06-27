@@ -5,6 +5,7 @@ import {
   EQUINOX_DISPLAY_MODES,
   EQUINOX_LAYOUT_ORIENTATIONS,
   EQUINOX_PRIMARY_DISPLAYS,
+  EQUINOX_SETPOINT_SELECTORS,
   EQUINOX_THEMES,
   type EquinoxAdditionalDashboards,
   type EquinoxCardConfig,
@@ -13,6 +14,7 @@ import {
   type EquinoxDisplayMode,
   type EquinoxLayoutOrientation,
   type EquinoxPrimaryDisplay,
+  type EquinoxSetpointSelector,
   type EquinoxTheme
 } from "../types/config";
 
@@ -102,6 +104,16 @@ export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxCon
     return { config, error: "invalid_primary_display" };
   }
 
+  if (config.setpoint_selector === undefined && typeof config.use_temperature_popup === "boolean") {
+    config.setpoint_selector = config.use_temperature_popup ? "slider" : "buttons";
+  }
+
+  delete config.use_temperature_popup;
+
+  if (!isOneOf(EQUINOX_SETPOINT_SELECTORS, config.setpoint_selector)) {
+    return { config, error: "invalid_setpoint_selector" };
+  }
+
   if (!isOneOf(EQUINOX_ADDITIONAL_DASHBOARDS, config.additional_dashboards)) {
     return { config, error: "invalid_additional_dashboards" };
   }
@@ -158,6 +170,10 @@ export function isEquinoxDisplayMode(value: unknown): value is EquinoxDisplayMod
 
 export function isEquinoxPrimaryDisplay(value: unknown): value is EquinoxPrimaryDisplay {
   return isOneOf(EQUINOX_PRIMARY_DISPLAYS, value);
+}
+
+export function isEquinoxSetpointSelector(value: unknown): value is EquinoxSetpointSelector {
+  return isOneOf(EQUINOX_SETPOINT_SELECTORS, value);
 }
 
 export function isEquinoxAdditionalDashboards(value: unknown): value is EquinoxAdditionalDashboards {

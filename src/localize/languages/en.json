@@ -6,6 +6,7 @@
     "invalid_theme": "The configured theme is not available.",
     "invalid_display_mode": "The configured display mode is not available.",
     "invalid_primary_display": "The configured display priority is not available.",
+    "invalid_setpoint_selector": "The configured setpoint selector is not available.",
     "invalid_additional_dashboards": "The configured dashboard mode is not available.",
     "invalid_state_icons_layout": "The configured state icon layout is not available.",
     "entity_not_found": "Entity not found: {entity}",
@@ -229,10 +230,12 @@
     "theme": "Theme",
     "display_mode": "Format",
     "primary_display": "Display priority",
-    "use_temperature_popup": "Use popup setpoint selector by default",
+    "setpoint_selector": "Setpoint selector",
     "card_background_color": "Card background color",
     "card_background_opacity": "Card background opacity",
     "disable_name": "Hide name",
+    "show_fan_mode": "Show fan mode",
+    "show_swing_mode": "Show swing mode",
     "hide_lock_button": "Hide lock button",
     "hvac_modes": "HVAC buttons",
     "preset_modes": "Preset buttons",
@@ -264,6 +267,10 @@
       "primary_display": {
         "setpoint": "Setpoint",
         "sensors": "Sensors"
+      },
+      "setpoint_selector": {
+        "slider": "Slider",
+        "buttons": "Buttons"
       },
       "layout_orientation": {
         "horizontal": "Horizontal",

@@ -31,6 +31,11 @@ function cleanEditorConfig(config: EquinoxCardConfigInput): EquinoxCardConfigInp
   delete (cleaned as { card_height?: unknown }).card_height;
   delete (cleaned as { diagnostic_entity?: unknown }).diagnostic_entity;
 
+  if (cleaned.setpoint_selector === undefined && typeof cleaned.use_temperature_popup === "boolean") {
+    cleaned.setpoint_selector = cleaned.use_temperature_popup ? "slider" : "buttons";
+  }
+  delete cleaned.use_temperature_popup;
+
   if (!Array.isArray(cleaned.hidden_hvac_modes) || cleaned.hidden_hvac_modes.length === 0) {
     delete cleaned.hidden_hvac_modes;
   }
@@ -331,12 +336,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     ];
 
     if (!isThin) {
-      schema.splice(0, 0, {
-        name: "disable_name",
-        selector: {
-          boolean: {}
-        }
-      });
       schema.push({
         name: "primary_display",
         selector: {
@@ -350,9 +349,15 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       });
       schema.push({
-        name: "use_temperature_popup",
+        name: "setpoint_selector",
         selector: {
-          boolean: {}
+          select: {
+            mode: "dropdown",
+            options: [
+              { value: "slider", label: localize(language, "editor.options.setpoint_selector.slider") },
+              { value: "buttons", label: localize(language, "editor.options.setpoint_selector.buttons") }
+            ]
+          }
         }
       });
       schema.push({
@@ -382,6 +387,30 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
             mode: "slider",
             unit_of_measurement: "%"
           }
+        }
+      }
+    );
+
+    if (!isThin) {
+      schema.push({
+        name: "disable_name",
+        selector: {
+          boolean: {}
+        }
+      });
+    }
+
+    schema.push(
+      {
+        name: "show_fan_mode",
+        selector: {
+          boolean: {}
+        }
+      },
+      {
+        name: "show_swing_mode",
+        selector: {
+          boolean: {}
         }
       },
       {
