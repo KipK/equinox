@@ -2,10 +2,6 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.2.4-dev
-
-- Render the card background opacity editor with `ha-slider size="s"` to avoid Home Assistant's deprecated `size="small"` warning.
-
 ## 0.1.0
 
 ### Initial release
