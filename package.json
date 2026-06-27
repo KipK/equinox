@@ -1,6 +1,6 @@
 {
   "name": "equinox-card",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Custom Lovelace card for Versatile Thermostat and standard climate entities.",
   "type": "module",
   "private": true,
