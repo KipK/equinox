@@ -137,3 +137,10 @@ All notable changes to Equinox will be documented in this file.
 
 - Add Presentation options to hide fan and swing selectors, and replace the popup setpoint toggle with a slider/buttons selector.
 - Replace `ha-md-list` usage in Equinox popups with native list buttons so the card no longer tries to load unsupported Home Assistant list components.
+
+## 0.2.4
+
+- Update ha-better-history component
+  . fix invalid graph color handling
+  . fix stacked graph x-axis alignment
+  . fix timeline ribbon graph grouping
