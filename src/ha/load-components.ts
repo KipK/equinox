@@ -8,6 +8,7 @@ const HA_COMPONENTS = [
   "ha-control-circular-slider",
   "ha-control-button",
   "ha-icon-button",
+  "ha-icon-picker",
   "ha-color-picker",
   "ha-input-chip"
 ];

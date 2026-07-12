@@ -141,7 +141,7 @@ mode_customizations:
       tone: swing-on
 ```
 
-The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizontal`. Each mode accepts `label`, `icon` (`mdi:*`), `tone`, and `hidden`. The visual editor exposes the valid tones for each family. The legacy `hidden_hvac_modes` and `hidden_preset_modes` options remain supported.
+The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizontal`. Each mode accepts `label`, `icon` (`mdi:*`), `tone`, and `hidden`. The visual editor provides Home Assistant's icon picker and exposes the valid tones for each family. The legacy `hidden_hvac_modes` and `hidden_preset_modes` options remain supported.
 
 | Option                    | Required | Default              | Description                                                                                                                           |
 | ------------------------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |

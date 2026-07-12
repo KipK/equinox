@@ -12776,6 +12776,7 @@ var Lo = [
 	"ha-control-circular-slider",
 	"ha-control-button",
 	"ha-icon-button",
+	"ha-icon-picker",
 	"ha-color-picker",
 	"ha-input-chip"
 ], Ro;
@@ -12912,6 +12913,7 @@ var Xo = class extends D {
     .mode-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     .mode-fields label { display: grid; gap: 4px; color: var(--secondary-text-color); font-size: 12px; }
     .mode-fields input, .mode-fields select { box-sizing: border-box; width: 100%; padding: 8px; color: var(--primary-text-color); background: var(--card-background-color); border: 1px solid var(--divider-color); border-radius: 6px; }
+    .mode-fields ha-icon-picker { width: 100%; }
     @media (max-width: 600px) { .mode-fields { grid-template-columns: 1fr; } }
 
     .color-grid {
@@ -13023,7 +13025,12 @@ var Xo = class extends D {
                     <div class="mode-raw">${R(e, "editor.mode_customization.raw_mode")}: ${n}</div>
                     <div class="mode-fields">
                       ${this._modeField(e, "label", r.label ?? "", (e) => this._updateModeCustomization(t, n, { label: e }))}
-                      ${this._modeField(e, "icon", r.icon ?? "", (e) => this._updateModeCustomization(t, n, { icon: e }))}
+                      <ha-icon-picker
+                        .hass=${this.hass}
+                        .label=${R(e, "editor.mode_customization.icon")}
+                        .value=${r.icon ?? ""}
+                        @value-changed=${(e) => this._updateModeCustomization(t, n, { icon: e.detail.value ?? "" })}
+                      ></ha-icon-picker>
                       <label>${R(e, "editor.mode_customization.tone")}<select .value=${r.tone ?? ""} @change=${(e) => this._updateModeCustomization(t, n, { tone: e.currentTarget.value })}>
                         <option value="">${R(e, "editor.mode_customization.automatic")}</option>
                         ${Ao[t].map((e) => w`<option value=${e}>${e}</option>`)}

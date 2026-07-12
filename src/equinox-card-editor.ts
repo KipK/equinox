@@ -131,6 +131,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     .mode-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     .mode-fields label { display: grid; gap: 4px; color: var(--secondary-text-color); font-size: 12px; }
     .mode-fields input, .mode-fields select { box-sizing: border-box; width: 100%; padding: 8px; color: var(--primary-text-color); background: var(--card-background-color); border: 1px solid var(--divider-color); border-radius: 6px; }
+    .mode-fields ha-icon-picker { width: 100%; }
     @media (max-width: 600px) { .mode-fields { grid-template-columns: 1fr; } }
 
     .color-grid {
@@ -248,7 +249,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
                     <div class="mode-raw">${localize(language, "editor.mode_customization.raw_mode")}: ${option}</div>
                     <div class="mode-fields">
                       ${this._modeField(language, "label", custom.label ?? "", (value) => this._updateModeCustomization(family, option, { label: value }))}
-                      ${this._modeField(language, "icon", custom.icon ?? "", (value) => this._updateModeCustomization(family, option, { icon: value }))}
+                      <ha-icon-picker
+                        .hass=${this.hass}
+                        .label=${localize(language, "editor.mode_customization.icon")}
+                        .value=${custom.icon ?? ""}
+                        @value-changed=${(event: CustomEvent<{ value?: string }>) => this._updateModeCustomization(family, option, { icon: event.detail.value ?? "" })}
+                      ></ha-icon-picker>
                       <label>${localize(language, "editor.mode_customization.tone")}<select .value=${custom.tone ?? ""} @change=${(event: Event) => this._updateModeCustomization(family, option, { tone: (event.currentTarget as HTMLSelectElement).value as EquinoxModeCustomization["tone"] })}>
                         <option value="">${localize(language, "editor.mode_customization.automatic")}</option>
                         ${MODE_TONES_BY_FAMILY[family].map((tone) => html`<option value=${tone}>${tone}</option>`)}
@@ -262,7 +268,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     `;
   }
 
-  private _modeField(language: string | undefined, field: "label" | "icon", value: string, update: (value: string) => void) {
+  private _modeField(language: string | undefined, field: "label", value: string, update: (value: string) => void) {
     return html`<label>${localize(language, `editor.mode_customization.${field}`)}<input type="text" .value=${value} @change=${(event: Event) => update((event.currentTarget as HTMLInputElement).value)} /></label>`;
   }
 
