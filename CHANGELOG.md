@@ -2,7 +2,7 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.2.5-dev
+## 0.2.5
 
 - Added generic per-mode label, icon, tone, and visibility customization for HVAC, preset, fan, and vertical/horizontal swing modes.
 - Fixed VT auto-fan display priority and neutral fallbacks for unknown climate modes.
