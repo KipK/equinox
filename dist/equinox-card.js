@@ -1656,7 +1656,7 @@ function An(e) {
 	let t = Math.min(...e.map((e) => e.min)), n = Math.max(...e.map((e) => e.max)), r = Math.max(n - t, 1e-9), i = e.map((e) => e.max - e.min).filter((e) => e > 1e-6);
 	if (i.length < 2) return !1;
 	let a = Math.min(...i), o = Math.max(...i), s = i.find((e) => e / r <= xn);
-	return s === void 0 ? !1 : r / s >= Cn && (o / Math.max(a, 1e-9) >= Sn || r / a >= Sn);
+	return s !== void 0 && r / s >= Cn && (o / Math.max(a, 1e-9) >= Sn || r / a >= Sn);
 }
 function jn(e) {
 	let t = e[0], n = e[1], r = -Infinity;
@@ -5545,7 +5545,7 @@ var I = class extends D {
 		return e && e.length > 0 ? e.every((e) => e.lineMode != null) : !1;
 	}
 	_showLineModeButtons() {
-		return this._allSeriesHaveExplicitLineMode() ? !1 : this.config?.showLineModeButtons !== !1 && this.showLineModeButtons;
+		return !this._allSeriesHaveExplicitLineMode() && this.config?.showLineModeButtons !== !1 && this.showLineModeButtons;
 	}
 	_hasForcedConfigSeries() {
 		return this._activeResolvedSeries().some((e) => e.forced !== !1);
@@ -12730,7 +12730,7 @@ function No(e, t, n) {
 	return n !== void 0 && r && Mo(r, n) ? r[n] : void 0;
 }
 function Po(e, t, n) {
-	return No(e, t, n)?.hidden === !0 ? !0 : t === "hvac" ? e?.hidden_hvac_modes?.includes(n) === !0 : t === "preset" ? e?.hidden_preset_modes?.includes(n) === !0 : !1;
+	return No(e, t, n)?.hidden === !0 ? !0 : t === "hvac" ? e?.hidden_hvac_modes?.includes(n) === !0 : t === "preset" && e?.hidden_preset_modes?.includes(n) === !0;
 }
 function Fo({ config: e, language: t, family: n, mode: r }) {
 	let i = No(e, n, r)?.label;
@@ -20531,7 +20531,7 @@ var xc = "--", Sc = /* @__PURE__ */ new Set([
 		return Sc.has(e.service);
 	}
 	_isThermostatLocked() {
-		return this.viewModel?.vt?.lock.isUserLocked === !0 ? !0 : Ls(this._context(), "climate", "lock_manager/is_locked") === !0;
+		return this.viewModel?.vt?.lock.isUserLocked === !0 || Ls(this._context(), "climate", "lock_manager/is_locked") === !0;
 	}
 	_actionKey(e) {
 		return e.id || e.service;
@@ -20640,10 +20640,10 @@ var xc = "--", Sc = /* @__PURE__ */ new Set([
 		return Number.isFinite(t) ? t : void 0;
 	}
 	_sourceMissing(e) {
-		return !this.hass || !this.config ? !0 : Fs(this.hass, this.config)[e] === void 0;
+		return !this.hass || !this.config || Fs(this.hass, this.config)[e] === void 0;
 	}
 	_conditionMatches(e) {
-		return e ? this._truthy(this._evaluateCondition(e)) : !0;
+		return !e || this._truthy(this._evaluateCondition(e));
 	}
 	_evaluateCondition(e) {
 		if (Array.isArray(e)) return e.map((e) => this._evaluateCondition(e));
@@ -23348,7 +23348,7 @@ var zc = class extends D {
 		return this._regulationLoadResult?.status === "loaded" ? this._regulationLoadResult.dashboard : void 0;
 	}
 	_regulationMenuAvailable() {
-		return !this.hass || !this.config || this.config.additional_dashboards === "disabled" ? !1 : this.config.additional_dashboards === "custom" ? !0 : this._regulationLoadResult?.status === "loaded";
+		return !this.hass || !this.config || this.config.additional_dashboards === "disabled" ? !1 : this.config.additional_dashboards === "custom" || this._regulationLoadResult?.status === "loaded";
 	}
 	_regulationLoadCacheKey() {
 		if (!this.hass || !this.config) return;
@@ -24817,7 +24817,7 @@ function Zc(e, t, n) {
 		"vtherm_over_climate_valve",
 		"valve_regulation",
 		"valve_open_percent"
-	])), X(r.valve_open_percent)), l = $(r, ["timed_preset_manager", "is_active"]) === !0, u = Z($(r, ["lock_manager", "is_locked"]) === !0 ? !0 : void 0, $(r, ["specific_states", "is_locked"]) === !0 ? !0 : void 0) === !0, d = Jc(r, t), f = Y($(r, ["vtherm_over_climate", "auto_fan_mode"])), p = Y($(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = Y($(r, ["requested_state", "hvac_mode"]));
+	])), X(r.valve_open_percent)), l = $(r, ["timed_preset_manager", "is_active"]) === !0, u = Z($(r, ["lock_manager", "is_locked"]) === !0 || void 0, $(r, ["specific_states", "is_locked"]) === !0 || void 0) === !0, d = Jc(r, t), f = Y($(r, ["vtherm_over_climate", "auto_fan_mode"])), p = Y($(r, ["vtherm_over_climate", "current_auto_fan_mode"])), m = e.power_entity ? t.states[e.power_entity] : void 0, h = Y($(r, ["requested_state", "hvac_mode"]));
 	return {
 		isVt: !0,
 		types: a,
