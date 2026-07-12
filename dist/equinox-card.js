@@ -12732,25 +12732,25 @@ function No(e, t, n) {
 function Po(e, t, n) {
 	return No(e, t, n)?.hidden === !0 ? !0 : t === "hvac" ? e?.hidden_hvac_modes?.includes(n) === !0 : t === "preset" && e?.hidden_preset_modes?.includes(n) === !0;
 }
-function Fo({ config: e, language: t, family: n, mode: r }) {
+function z({ config: e, language: t, family: n, mode: r }) {
 	let i = No(e, n, r)?.label;
 	if (i) return i;
 	let a = `${n === "hvac" ? "main.hvac" : n === "preset" ? "main.preset" : n === "fan" ? "main.fan" : "main.swing"}.${r}`, o = R(t, a);
 	return o === a ? r : o;
 }
-function z({ config: e, family: t, mode: n, defaultIcon: r }) {
+function B({ config: e, family: t, mode: n, defaultIcon: r }) {
 	let i = No(e, t, n)?.icon;
 	return i?.startsWith("mdi:") ? i : r;
 }
-function B({ config: e, family: t, mode: n, defaultTone: r }) {
+function V({ config: e, family: t, mode: n, defaultTone: r }) {
 	let i = No(e, t, n)?.tone;
 	return i && Ao[t].includes(i) ? i : r ?? "";
 }
-function V({ config: e, family: t, modes: n, standardOrder: r }) {
+function H({ config: e, family: t, modes: n, standardOrder: r }) {
 	let i = [...new Set(n)], a = new Set(i);
 	return [...r.filter((e) => a.has(e)), ...i.filter((e) => !r.includes(e))].filter((n) => !Po(e, t, n));
 }
-function Io(e) {
+function Fo(e) {
 	if (!e || typeof e != "object" || Array.isArray(e)) return;
 	let t = e, n = {};
 	for (let e of jo) {
@@ -12768,7 +12768,7 @@ function Io(e) {
 }
 //#endregion
 //#region src/ha/load-components.ts
-var Lo = [
+var Io = [
 	"ha-form",
 	"ha-icon",
 	"ha-entity-picker",
@@ -12779,21 +12779,21 @@ var Lo = [
 	"ha-icon-picker",
 	"ha-color-picker",
 	"ha-input-chip"
-], Ro;
-function zo() {
-	return Ro ??= Ue(Lo), Ro;
+], Lo;
+function Ro() {
+	return Lo ??= Ue(Io), Lo;
 }
 //#endregion
 //#region src/types/config.ts
-var Bo = ["flat", "liquid_glow"], Vo = [
+var zo = ["flat", "liquid_glow"], Bo = [
 	"classic",
 	"compact",
 	"thin"
-], Ho = ["setpoint", "sensors"], Uo = ["slider", "buttons"], Wo = [
+], Vo = ["setpoint", "sensors"], Ho = ["slider", "buttons"], Uo = [
 	"auto",
 	"custom",
 	"disabled"
-], Go = ["horizontal", "vertical"], Ko = {
+], Wo = ["horizontal", "vertical"], Go = {
 	theme: oo,
 	display_mode: so,
 	primary_display: co,
@@ -12808,28 +12808,28 @@ var Bo = ["flat", "liquid_glow"], Vo = [
 };
 //#endregion
 //#region src/equinox-card-editor.ts
-zo();
-function qo(e) {
+Ro();
+function Ko(e) {
 	let t = Number(e);
 	if (Number.isFinite(t)) return Math.min(255, Math.max(0, Math.round(t)));
 }
-function Jo(e) {
+function qo(e) {
 	if (typeof e == "string" && e.trim() !== "") return e.trim();
 	if (!Array.isArray(e) || e.length < 3) return;
-	let [t, n, r] = e.map(qo);
+	let [t, n, r] = e.map(Ko);
 	if ([
 		t,
 		n,
 		r
 	].every((e) => e !== void 0)) return `rgb(${t}, ${n}, ${r})`;
 }
-function Yo(e) {
+function Jo(e) {
 	let t = { ...e };
 	delete t.card_height, delete t.diagnostic_entity, t.setpoint_selector === void 0 && typeof t.use_temperature_popup == "boolean" && (t.setpoint_selector = t.use_temperature_popup ? "slider" : "buttons"), delete t.use_temperature_popup, (!Array.isArray(t.hidden_hvac_modes) || t.hidden_hvac_modes.length === 0) && delete t.hidden_hvac_modes, (!Array.isArray(t.hidden_preset_modes) || t.hidden_preset_modes.length === 0) && delete t.hidden_preset_modes;
-	let n = Io(t.mode_customizations);
+	let n = Fo(t.mode_customizations);
 	return n ? t.mode_customizations = n : delete t.mode_customizations, t;
 }
-var Xo = class extends D {
+var Yo = class extends D {
 	constructor(...e) {
 		super(...e), this._config = {}, this._activeTab = "general";
 	}
@@ -12908,8 +12908,9 @@ var Xo = class extends D {
     }
 
     .mode-card { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--divider-color); border-radius: 10px; }
-    .mode-header { display: flex; align-items: center; gap: 8px; }
-    .mode-raw { color: var(--secondary-text-color); font-size: 12px; overflow-wrap: anywhere; }
+    .mode-header { display: flex; align-items: center; gap: 10px; }
+    .mode-title { color: var(--primary-text-color); font-size: 16px; font-weight: 600; line-height: 1.3; }
+    .mode-key { color: var(--secondary-text-color); font-size: 12px; overflow-wrap: anywhere; margin-inline-start: 28px; }
     .mode-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     .mode-fields label { display: grid; gap: 4px; color: var(--secondary-text-color); font-size: 12px; }
     .mode-fields input, .mode-fields select { box-sizing: border-box; width: 100%; padding: 8px; color: var(--primary-text-color); background: var(--card-background-color); border: 1px solid var(--divider-color); border-radius: 6px; }
@@ -12931,11 +12932,11 @@ var Xo = class extends D {
   `;
 	}
 	setConfig(e) {
-		this._config = Yo(e);
+		this._config = Jo(e);
 	}
 	render() {
 		let e = this.hass?.locale?.language ?? this.hass?.language, t = {
-			...Ko,
+			...Go,
 			...this._config
 		};
 		return w`
@@ -13012,7 +13013,11 @@ var Xo = class extends D {
         ${n.length === 0 ? w`<div class="options-empty">${R(e, this._config.entity ? r : "editor.visibility.no_entity")}</div>` : w`
               <div class="checkbox-list">
                 ${n.map((n) => {
-			let r = this._modeCustomization(t, n);
+			let r = this._modeCustomization(t, n), i = z({
+				language: e,
+				family: t,
+				mode: n
+			});
 			return w`<div class="mode-card">
                     <label class="mode-header">
                       <input
@@ -13020,9 +13025,9 @@ var Xo = class extends D {
                         .checked=${!Po(this._config, t, n)}
                         @change=${(e) => this._updateModeCustomization(t, n, { hidden: !e.currentTarget.checked })}
                       />
-                      <span class="checkbox-label">${R(e, "editor.mode_customization.visible")}</span>
+                      <span class="mode-title">${i}</span>
                     </label>
-                    <div class="mode-raw">${R(e, "editor.mode_customization.raw_mode")}: ${n}</div>
+                    ${i === n ? E : w`<div class="mode-key">${n}</div>`}
                     <div class="mode-fields">
                       ${this._modeField(e, "label", r.label ?? "", (e) => this._updateModeCustomization(t, n, { label: e }))}
                       <ha-icon-picker
@@ -13199,11 +13204,11 @@ var Xo = class extends D {
 	}
 	_colorValue(e) {
 		let t = this._config[e];
-		return Jo(t);
+		return qo(t);
 	}
 	_colorChanged(e, t) {
-		let n = { ...this._config }, r = Jo(t.detail.value);
-		r === void 0 || r === "" ? delete n[e] : n[e] = r, this._config = Yo(n), this._emitConfigChanged();
+		let n = { ...this._config }, r = qo(t.detail.value);
+		r === void 0 || r === "" ? delete n[e] : n[e] = r, this._config = Jo(n), this._emitConfigChanged();
 	}
 	_climateEntity() {
 		let e = this._config.entity;
@@ -13216,7 +13221,7 @@ var Xo = class extends D {
 	_supportedModes(e) {
 		if (e === "fan") {
 			let t = this._climateEntity()?.attributes.vtherm_over_climate;
-			return V({
+			return H({
 				family: e,
 				modes: t?.auto_fan_mode !== void 0 || t?.current_auto_fan_mode !== void 0 ? bo : this._attributeModes("fan_modes"),
 				standardOrder: xo
@@ -13233,7 +13238,7 @@ var Xo = class extends D {
 			swing: go,
 			swing_horizontal: ["off", "on"]
 		};
-		return V({
+		return H({
 			family: e,
 			modes: this._attributeModes(t[e]).filter((t) => e !== "preset" || t !== "none"),
 			standardOrder: n[e]
@@ -13249,7 +13254,7 @@ var Xo = class extends D {
 		};
 		n.hidden === !1 && delete r.hidden;
 		let i = e === "hvac" ? "hidden_hvac_modes" : e === "preset" ? "hidden_preset_modes" : void 0, a = i ? (this._config[i] ?? []).filter((e) => n.hidden !== !1 || e !== t) : void 0;
-		this._config = Yo({
+		this._config = Jo({
 			...this._config,
 			...i ? { [i]: a } : {},
 			mode_customizations: {
@@ -13272,23 +13277,23 @@ var Xo = class extends D {
 		}));
 	}
 	_valueChanged(e) {
-		this._config = Yo({
+		this._config = Jo({
 			...this._config,
 			...e.detail.value
 		}), this._emitConfigChanged();
 	}
 };
-customElements.get("equinox-card-editor") || customElements.define(ao, Xo);
+customElements.get("equinox-card-editor") || customElements.define(ao, Yo);
 //#endregion
 //#region src/data/actions.ts
-var Zo = {
+var Xo = {
 	auto_fan_none: "None",
 	auto_fan_low: "Low",
 	auto_fan_medium: "Medium",
 	auto_fan_high: "High",
 	auto_fan_turbo: "Turbo"
 };
-function H(e) {
+function Zo(e) {
 	return e.viewModel?.vt?.lock.isUserLocked === !0;
 }
 function Qo() {
@@ -13324,7 +13329,7 @@ function es(e) {
 	return typeof e == "number" && Number.isFinite(e);
 }
 async function ts(e, t) {
-	return H(e) ? Qo() : es(t.targetTempLow) && es(t.targetTempHigh) ? W(e, "climate", "set_temperature", {
+	return Zo(e) ? Qo() : es(t.targetTempLow) && es(t.targetTempHigh) ? W(e, "climate", "set_temperature", {
 		entity_id: e.entityId,
 		target_temp_low: t.targetTempLow,
 		target_temp_high: t.targetTempHigh
@@ -13334,49 +13339,49 @@ async function ts(e, t) {
 	}) : $o();
 }
 async function ns(e, t) {
-	return H(e) ? Qo() : e.viewModel?.climate.hvacModes.includes(t) ? W(e, "climate", "set_hvac_mode", {
+	return Zo(e) ? Qo() : e.viewModel?.climate.hvacModes.includes(t) ? W(e, "climate", "set_hvac_mode", {
 		entity_id: e.entityId,
 		hvac_mode: t
 	}) : U();
 }
 async function rs(e, t) {
-	return H(e) ? Qo() : e.viewModel?.climate.presetModes.includes(t) ? W(e, "climate", "set_preset_mode", {
+	return Zo(e) ? Qo() : e.viewModel?.climate.presetModes.includes(t) ? W(e, "climate", "set_preset_mode", {
 		entity_id: e.entityId,
 		preset_mode: t
 	}) : U();
 }
 async function is(e, t) {
-	return H(e) ? Qo() : e.viewModel?.climate.fanModes.includes(t) ? W(e, "climate", "set_fan_mode", {
+	return Zo(e) ? Qo() : e.viewModel?.climate.fanModes.includes(t) ? W(e, "climate", "set_fan_mode", {
 		entity_id: e.entityId,
 		fan_mode: t
 	}) : U();
 }
 async function as(e, t) {
-	return H(e) ? Qo() : e.viewModel?.climate.swingModes.includes(t) ? W(e, "climate", "set_swing_mode", {
+	return Zo(e) ? Qo() : e.viewModel?.climate.swingModes.includes(t) ? W(e, "climate", "set_swing_mode", {
 		entity_id: e.entityId,
 		swing_mode: t
 	}) : U();
 }
 async function os(e, t) {
-	return H(e) ? Qo() : e.viewModel?.climate.swingHorizontalModes.includes(t) ? W(e, "climate", "set_swing_horizontal_mode", {
+	return Zo(e) ? Qo() : e.viewModel?.climate.swingHorizontalModes.includes(t) ? W(e, "climate", "set_swing_horizontal_mode", {
 		entity_id: e.entityId,
 		swing_horizontal_mode: t
 	}) : U();
 }
 async function ss(e, t, n) {
-	return H(e) ? Qo() : !e.viewModel?.vt?.isVt || !e.viewModel.vt.timedPresetManager ? U() : !Number.isInteger(n) || n < 1 || n > 1440 || t.trim() === "" ? $o() : W(e, "versatile_thermostat", "set_timed_preset", {
+	return Zo(e) ? Qo() : !e.viewModel?.vt?.isVt || !e.viewModel.vt.timedPresetManager ? U() : !Number.isInteger(n) || n < 1 || n > 1440 || t.trim() === "" ? $o() : W(e, "versatile_thermostat", "set_timed_preset", {
 		entity_id: e.entityId,
 		preset: t,
 		duration_minutes: n
 	});
 }
 async function cs(e) {
-	return H(e) ? Qo() : e.viewModel?.vt?.timedPreset.isActive ? W(e, "versatile_thermostat", "cancel_timed_preset", { entity_id: e.entityId }) : U();
+	return Zo(e) ? Qo() : e.viewModel?.vt?.timedPreset.isActive ? W(e, "versatile_thermostat", "cancel_timed_preset", { entity_id: e.entityId }) : U();
 }
 async function ls(e, t) {
-	if (H(e)) return Qo();
+	if (Zo(e)) return Qo();
 	if (!e.viewModel?.vt?.fan.hasAutoFan) return U();
-	let n = Zo[t];
+	let n = Xo[t];
 	return n ? W(e, "versatile_thermostat", "set_auto_fan_mode", {
 		entity_id: e.entityId,
 		auto_fan_mode: n
@@ -16385,7 +16390,7 @@ var qs = class extends D {
 		return this.viewModel?.vt?.fan.hasAutoFan === !0 ? this.viewModel.vt.fan.currentAutoFanMode : this.viewModel?.climate.fanMode;
 	}
 	_fanIcon(e) {
-		return z({
+		return B({
 			config: this.config,
 			family: "fan",
 			mode: e,
@@ -16393,7 +16398,7 @@ var qs = class extends D {
 		}) ?? "mdi:fan";
 	}
 	_fanTone(e) {
-		return B({
+		return V({
 			config: this.config,
 			family: "fan",
 			mode: e,
@@ -16401,7 +16406,7 @@ var qs = class extends D {
 		});
 	}
 	_fanLabel(e) {
-		return Fo({
+		return z({
 			config: this.config,
 			language: this.language,
 			family: "fan",
@@ -16889,7 +16894,7 @@ var Js = class extends D {
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.hvacModes ?? [];
-		return V({
+		return H({
 			config: this.config,
 			family: "hvac",
 			modes: e,
@@ -16897,7 +16902,7 @@ var Js = class extends D {
 		});
 	}
 	_modeLabel(e) {
-		return Fo({
+		return z({
 			config: this.config,
 			language: this.language,
 			family: "hvac",
@@ -16938,13 +16943,13 @@ var Js = class extends D {
                 title=${this._modeLabel(e)}
                 aria-label=${this._modeLabel(e)}
               >
-                <span class="option-icon" tone=${B({
+                <span class="option-icon" tone=${V({
 			config: this.config,
 			family: "hvac",
 			mode: e,
 			defaultTone: po[e]
 		})}>
-                  <ha-icon .icon=${z({
+                  <ha-icon .icon=${B({
 			config: this.config,
 			family: "hvac",
 			mode: e,
@@ -16959,13 +16964,13 @@ var Js = class extends D {
           <div class="option-list" role="list">
             ${e.map((e) => w`
                 <button class="option-list-item" type="button" ?active=${e === t} @click=${() => this._selectMode(e)}>
-                  <span class="option-icon" tone=${B({
+                  <span class="option-icon" tone=${V({
 			config: this.config,
 			family: "hvac",
 			mode: e,
 			defaultTone: po[e]
 		})}>
-                    <ha-icon .icon=${z({
+                    <ha-icon .icon=${B({
 			config: this.config,
 			family: "hvac",
 			mode: e,
@@ -17232,7 +17237,7 @@ var Ys = class extends D {
 		this.setAttribute("theme", this.config?.theme ?? "liquid_glow"), this.toggleAttribute("light", !this.hass?.themes?.darkMode);
 	}
 	_verticalOptions() {
-		return V({
+		return H({
 			config: this.config,
 			family: "swing",
 			modes: this.viewModel?.climate.swingModes ?? [],
@@ -17240,7 +17245,7 @@ var Ys = class extends D {
 		});
 	}
 	_horizontalOptions() {
-		return V({
+		return H({
 			config: this.config,
 			family: "swing_horizontal",
 			modes: this.viewModel?.climate.swingHorizontalModes ?? [],
@@ -17249,7 +17254,7 @@ var Ys = class extends D {
 	}
 	_swingIcon(e, t = !1) {
 		let n = t ? "swing_horizontal" : "swing", r = t ? vo[e] ?? _o[e] ?? "mdi:arrow-expand-horizontal" : _o[e] ?? "mdi:arrow-oscillating";
-		return z({
+		return B({
 			config: this.config,
 			family: n,
 			mode: e,
@@ -17257,7 +17262,7 @@ var Ys = class extends D {
 		}) ?? r;
 	}
 	_swingLabel(e, t = !1) {
-		return Fo({
+		return z({
 			config: this.config,
 			language: this.language,
 			family: t ? "swing_horizontal" : "swing",
@@ -17295,7 +17300,7 @@ var Ys = class extends D {
               title=${this._swingLabel(e, n)}
               aria-label=${this._swingLabel(e, n)}
             >
-              <span class="swing-option-icon" tone=${B({
+              <span class="swing-option-icon" tone=${V({
 			config: this.config,
 			family: n ? "swing_horizontal" : "swing",
 			mode: e,
@@ -17314,7 +17319,7 @@ var Ys = class extends D {
       <div class="swing-list" role="list">
         ${e.map((e) => w`
             <button class="option-list-item" type="button" ?active=${e === t} @click=${() => r(e)}>
-              <span class="option-icon" tone=${B({
+              <span class="option-icon" tone=${V({
 			config: this.config,
 			family: n ? "swing_horizontal" : "swing",
 			mode: e,
@@ -17799,7 +17804,7 @@ var Xs = class extends D {
 	}
 	_getOptions() {
 		let e = this.viewModel?.climate.presetModes ?? [], t = this.viewModel?.climate.hvacMode;
-		return V({
+		return H({
 			config: this.config,
 			family: "preset",
 			modes: e.filter((e) => e !== "none"),
@@ -17807,7 +17812,7 @@ var Xs = class extends D {
 		}).filter((e) => !(e === "frost" && t !== "heat"));
 	}
 	_presetLabel(e) {
-		return Fo({
+		return z({
 			config: this.config,
 			language: this.language,
 			family: "preset",
@@ -17815,7 +17820,7 @@ var Xs = class extends D {
 		});
 	}
 	_presetTone(e) {
-		return B({
+		return V({
 			config: this.config,
 			family: "preset",
 			mode: e,
@@ -17857,7 +17862,7 @@ var Xs = class extends D {
                 aria-label=${this._presetLabel(e)}
               >
                 <span class="option-icon" tone=${this._presetTone(e)}>
-                  <ha-icon .icon=${z({
+                  <ha-icon .icon=${B({
 			config: this.config,
 			family: "preset",
 			mode: e,
@@ -17873,7 +17878,7 @@ var Xs = class extends D {
             ${e.map((e) => w`
                 <button class="option-list-item" type="button" ?active=${e === t} @click=${() => this._selectPreset(e)}>
                   <span class="option-icon" tone=${this._presetTone(e)}>
-                    <ha-icon .icon=${z({
+                    <ha-icon .icon=${B({
 			config: this.config,
 			family: "preset",
 			mode: e,
@@ -24341,7 +24346,7 @@ var zc = class extends D {
 		if (e === "cooling" || e === "cool") return "cool";
 	}
 	_modeTone(e) {
-		return e ? B({
+		return e ? V({
 			config: this.config,
 			family: "hvac",
 			mode: e,
@@ -24349,7 +24354,7 @@ var zc = class extends D {
 		}) : "";
 	}
 	_presetTone(e) {
-		return this.viewModel?.climate.availability === "available" ? B({
+		return this.viewModel?.climate.availability === "available" ? V({
 			config: this.config,
 			family: "preset",
 			mode: e,
@@ -24361,7 +24366,7 @@ var zc = class extends D {
 		return e === "frost" && t !== "heat";
 	}
 	_visibleHvacModes() {
-		return V({
+		return H({
 			config: this.config,
 			family: "hvac",
 			modes: this.viewModel?.climate.hvacModes ?? [],
@@ -24369,7 +24374,7 @@ var zc = class extends D {
 		});
 	}
 	_visiblePresetModes() {
-		return V({
+		return H({
 			config: this.config,
 			family: "preset",
 			modes: this.viewModel?.climate.presetModes ?? [],
@@ -24378,7 +24383,7 @@ var zc = class extends D {
 	}
 	_visibleFanModes() {
 		let e = this.viewModel?.vt?.fan.hasAutoFan === !0 ? bo : this.viewModel?.climate.fanModes ?? [];
-		return V({
+		return H({
 			config: this.config,
 			family: "fan",
 			modes: e,
@@ -24386,7 +24391,7 @@ var zc = class extends D {
 		});
 	}
 	_visibleSwingModes() {
-		return V({
+		return H({
 			config: this.config,
 			family: "swing",
 			modes: this.viewModel?.climate.swingModes ?? [],
@@ -24394,7 +24399,7 @@ var zc = class extends D {
 		});
 	}
 	_visibleSwingHorizontalModes() {
-		return V({
+		return H({
 			config: this.config,
 			family: "swing_horizontal",
 			modes: this.viewModel?.climate.swingHorizontalModes ?? [],
@@ -24406,7 +24411,7 @@ var zc = class extends D {
 	}
 	_fanIcon() {
 		let e = this._activeFanDisplayMode();
-		return e ? z({
+		return e ? B({
 			config: this.config,
 			family: "fan",
 			mode: e,
@@ -24416,7 +24421,7 @@ var zc = class extends D {
 	_fanRailTone() {
 		if (this.viewModel?.climate.availability !== "available") return "off";
 		let e = this._activeFanDisplayMode();
-		return e ? B({
+		return e ? V({
 			config: this.config,
 			family: "fan",
 			mode: e,
@@ -24426,7 +24431,7 @@ var zc = class extends D {
 	_swingRailTone() {
 		if (this.viewModel?.climate.availability !== "available") return "off";
 		let e = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode, t = this.viewModel?.climate.swingMode ? "swing" : "swing_horizontal";
-		return e ? B({
+		return e ? V({
 			config: this.config,
 			family: t,
 			mode: e,
@@ -24439,7 +24444,7 @@ var zc = class extends D {
 	}
 	_fanLabel() {
 		let e = this._activeFanDisplayMode();
-		return e ? Fo({
+		return e ? z({
 			config: this.config,
 			language: this._language(),
 			family: "fan",
@@ -24448,12 +24453,12 @@ var zc = class extends D {
 	}
 	_swingIcon() {
 		let e = this.viewModel?.climate.swingMode, t = this.viewModel?.climate.swingHorizontalMode;
-		return e ? z({
+		return e ? B({
 			config: this.config,
 			family: "swing",
 			mode: e,
 			defaultIcon: _o[e] ?? "mdi:arrow-oscillating"
-		}) ?? "mdi:arrow-oscillating" : t ? z({
+		}) ?? "mdi:arrow-oscillating" : t ? B({
 			config: this.config,
 			family: "swing_horizontal",
 			mode: t,
@@ -24462,7 +24467,7 @@ var zc = class extends D {
 	}
 	_swingLabel() {
 		let e = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode, t = this.viewModel?.climate.swingMode ? "swing" : "swing_horizontal";
-		return e ? Fo({
+		return e ? z({
 			config: this.config,
 			language: this._language(),
 			family: t,
@@ -24470,7 +24475,7 @@ var zc = class extends D {
 		}) : R(this._language(), "main.swing.unavailable");
 	}
 	_hvacLabel(e) {
-		return !e || this.viewModel?.climate.availability !== "available" ? R(this._language(), "main.status.unavailable") : e === "off" ? R(this._language(), "main.status.off") : Fo({
+		return !e || this.viewModel?.climate.availability !== "available" ? R(this._language(), "main.status.unavailable") : e === "off" ? R(this._language(), "main.status.off") : z({
 			config: this.config,
 			language: this._language(),
 			family: "hvac",
@@ -24478,7 +24483,7 @@ var zc = class extends D {
 		});
 	}
 	_presetLabel(e) {
-		return Fo({
+		return z({
 			config: this.config,
 			language: this._language(),
 			family: "preset",
@@ -24486,7 +24491,7 @@ var zc = class extends D {
 		});
 	}
 	_hvacIcon(e) {
-		return z({
+		return B({
 			config: this.config,
 			family: "hvac",
 			mode: e,
@@ -24494,7 +24499,7 @@ var zc = class extends D {
 		}) ?? "mdi:thermostat";
 	}
 	_presetIcon(e) {
-		return z({
+		return B({
 			config: this.config,
 			family: "preset",
 			mode: e,
@@ -25003,7 +25008,7 @@ function fl(e) {
 }
 function pl(e) {
 	let t = {
-		...Ko,
+		...Go,
 		...e,
 		type: no
 	};
@@ -25015,27 +25020,27 @@ function pl(e) {
 		config: t,
 		error: "invalid_entity"
 	};
-	if (!sl(Bo, t.theme)) return {
+	if (!sl(zo, t.theme)) return {
 		config: t,
 		error: "invalid_theme"
 	};
-	if (!sl(Vo, t.display_mode)) return {
+	if (!sl(Bo, t.display_mode)) return {
 		config: t,
 		error: "invalid_display_mode"
 	};
-	if (!sl(Ho, t.primary_display)) return {
+	if (!sl(Vo, t.primary_display)) return {
 		config: t,
 		error: "invalid_primary_display"
 	};
-	if (t.setpoint_selector === void 0 && typeof t.use_temperature_popup == "boolean" && (t.setpoint_selector = t.use_temperature_popup ? "slider" : "buttons"), delete t.use_temperature_popup, !sl(Uo, t.setpoint_selector)) return {
+	if (t.setpoint_selector === void 0 && typeof t.use_temperature_popup == "boolean" && (t.setpoint_selector = t.use_temperature_popup ? "slider" : "buttons"), delete t.use_temperature_popup, !sl(Ho, t.setpoint_selector)) return {
 		config: t,
 		error: "invalid_setpoint_selector"
 	};
-	if (!sl(Wo, t.additional_dashboards)) return {
+	if (!sl(Uo, t.additional_dashboards)) return {
 		config: t,
 		error: "invalid_additional_dashboards"
 	};
-	if (!sl(Go, t.state_icons_layout)) return {
+	if (!sl(Wo, t.state_icons_layout)) return {
 		config: t,
 		error: "invalid_state_icons_layout"
 	};
@@ -25045,7 +25050,7 @@ function pl(e) {
 	r === void 0 ? delete t.card_background_opacity : t.card_background_opacity = r;
 	let i = ll(t.hidden_hvac_modes), a = ll(t.hidden_preset_modes);
 	i ? t.hidden_hvac_modes = i : delete t.hidden_hvac_modes, a ? t.hidden_preset_modes = a : delete t.hidden_preset_modes;
-	let o = Io(t.mode_customizations);
+	let o = Fo(t.mode_customizations);
 	return o ? t.mode_customizations = o : delete t.mode_customizations, { config: t };
 }
 //#endregion

@@ -6,6 +6,7 @@ All notable changes to Equinox will be documented in this file.
 
 - Added generic per-mode label, icon, tone, and visibility customization for HVAC, preset, fan, and vertical/horizontal swing modes.
 - Added Home Assistant's icon picker to per-mode customization in the visual editor.
+- Emphasized default localized mode names in the visual editor while keeping exact Home Assistant values secondary.
 - Fixed VT auto-fan display priority and neutral fallbacks for unknown climate modes.
 
 ## 0.2.4

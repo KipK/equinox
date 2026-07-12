@@ -1,8 +1,8 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { EDITOR_TAG } from "./const";
 import { HVAC_ORDER, PRESET_ORDER, SWING_ORDER } from "./data/climate-modes";
 import { AUTO_FAN_MODES, FAN_ORDER } from "./data/fan";
-import { MODE_TONES_BY_FAMILY, isModeHidden, modeCustomization, normalizeModeCustomizations, orderedVisibleModes, type ModeFamily } from "./data/mode-customizations";
+import { MODE_TONES_BY_FAMILY, isModeHidden, modeCustomization, modeLabel, normalizeModeCustomizations, orderedVisibleModes, type ModeFamily } from "./data/mode-customizations";
 import { ensureHaComponents } from "./ha/load-components";
 import { localize } from "./localize/localize";
 import { DEFAULT_CONFIG } from "./types/config";
@@ -126,8 +126,9 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     }
 
     .mode-card { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--divider-color); border-radius: 10px; }
-    .mode-header { display: flex; align-items: center; gap: 8px; }
-    .mode-raw { color: var(--secondary-text-color); font-size: 12px; overflow-wrap: anywhere; }
+    .mode-header { display: flex; align-items: center; gap: 10px; }
+    .mode-title { color: var(--primary-text-color); font-size: 16px; font-weight: 600; line-height: 1.3; }
+    .mode-key { color: var(--secondary-text-color); font-size: 12px; overflow-wrap: anywhere; margin-inline-start: 28px; }
     .mode-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     .mode-fields label { display: grid; gap: 4px; color: var(--secondary-text-color); font-size: 12px; }
     .mode-fields input, .mode-fields select { box-sizing: border-box; width: 100%; padding: 8px; color: var(--primary-text-color); background: var(--card-background-color); border: 1px solid var(--divider-color); border-radius: 6px; }
@@ -237,6 +238,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
               <div class="checkbox-list">
                 ${options.map((option) => {
           const custom = this._modeCustomization(family, option);
+          const defaultLabel = modeLabel({ language, family, mode: option });
           return html`<div class="mode-card">
                     <label class="mode-header">
                       <input
@@ -244,9 +246,9 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
                         .checked=${!isModeHidden(this._config as any, family, option)}
                         @change=${(event: Event) => this._updateModeCustomization(family, option, { hidden: !(event.currentTarget as HTMLInputElement).checked })}
                       />
-                      <span class="checkbox-label">${localize(language, "editor.mode_customization.visible")}</span>
+                      <span class="mode-title">${defaultLabel}</span>
                     </label>
-                    <div class="mode-raw">${localize(language, "editor.mode_customization.raw_mode")}: ${option}</div>
+                    ${defaultLabel !== option ? html`<div class="mode-key">${option}</div>` : nothing}
                     <div class="mode-fields">
                       ${this._modeField(language, "label", custom.label ?? "", (value) => this._updateModeCustomization(family, option, { label: value }))}
                       <ha-icon-picker
