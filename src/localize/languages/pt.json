@@ -223,7 +223,10 @@
       "general": "Geral",
       "presentation": "Apresentação",
       "hvac": "Modos HVAC",
-      "preset": "Predefinições"
+      "preset": "Predefinições",
+      "fan": "Ventoinha",
+      "swing": "Oscilação",
+      "swing_horizontal": "Oscilação horizontal"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Selecione primeiro uma entidade climate para carregar os modos suportados.",
       "no_hvac_modes": "Esta entidade climate não informa modos HVAC suportados.",
       "no_presets": "Esta entidade climate não informa predefinições suportadas."
+    },
+    "mode_customization": {
+      "visible": "Visível",
+      "label": "Rótulo",
+      "icon": "Ícone",
+      "tone": "Tom",
+      "automatic": "Automático",
+      "raw_mode": "Modo original",
+      "no_fan_modes": "Nenhum modo de ventoinha disponível",
+      "no_swing_modes": "Nenhum modo de oscilação disponível",
+      "no_swing_horizontal_modes": "Nenhum modo de oscilação horizontal disponível"
     }
   }
 }

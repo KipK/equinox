@@ -121,6 +121,28 @@ additional_dashboards: auto
 
 ## Configuration
 
+### Climate mode customization
+
+Use `mode_customizations` to override the label, Material Design icon, tone, or visibility of any mode exposed by the climate entity. Mode keys are case-sensitive and must exactly match the Home Assistant attribute value.
+
+```yaml
+type: custom:equinox-card
+entity: climate.living_room
+mode_customizations:
+  fan:
+    "4":
+      label: Strong
+      icon: mdi:fan-speed-3
+      tone: fan-high
+  swing:
+    custom_sweep:
+      label: Sweep
+      icon: mdi:arrow-oscillating
+      tone: swing-on
+```
+
+The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizontal`. Each mode accepts `label`, `icon` (`mdi:*`), `tone`, and `hidden`. The visual editor exposes the valid tones for each family. The legacy `hidden_hvac_modes` and `hidden_preset_modes` options remain supported.
+
 | Option                    | Required | Default              | Description                                                                                                                           |
 | ------------------------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `entity`                  | yes      | -                    | Climate entity to display. Must use the `climate` domain.                                                                             |

@@ -223,7 +223,10 @@
       "general": "Allgemein",
       "presentation": "Präsentation",
       "hvac": "HVAC-Modi",
-      "preset": "Presets"
+      "preset": "Presets",
+      "fan": "Lüfter",
+      "swing": "Schwenken",
+      "swing_horizontal": "Horizontal schwenken"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Wähle zuerst eine climate-Entität aus, um unterstützte Modi zu laden.",
       "no_hvac_modes": "Diese climate-Entität stellt keine unterstützten HVAC-Modi bereit.",
       "no_presets": "Diese climate-Entität stellt keine unterstützten Presets bereit."
+    },
+    "mode_customization": {
+      "visible": "Sichtbar",
+      "label": "Bezeichnung",
+      "icon": "Symbol",
+      "tone": "Farbton",
+      "automatic": "Automatisch",
+      "raw_mode": "Rohmodus",
+      "no_fan_modes": "Keine Lüftermodi verfügbar",
+      "no_swing_modes": "Keine Schwenkmodi verfügbar",
+      "no_swing_horizontal_modes": "Keine horizontalen Schwenkmodi verfügbar"
     }
   }
 }

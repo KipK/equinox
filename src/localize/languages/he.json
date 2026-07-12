@@ -225,7 +225,10 @@
       "general": "כללי",
       "presentation": "הצגה",
       "hvac": "מצבי HVAC",
-      "preset": "פריסטים"
+      "preset": "פריסטים",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "visibility": {
       "help": "בטלו את הסימון של מצב כדי להסתיר את הכפתור שלו ב-Equinox מבלי לשנות את יכולות ה-climate ב-Home Assistant.",
@@ -256,6 +259,17 @@
         "custom": "מותאם אישית",
         "disabled": "מושבת"
       }
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

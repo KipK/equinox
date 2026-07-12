@@ -18,6 +18,27 @@ export type EquinoxPrimaryDisplay = "setpoint" | "sensors";
 export type EquinoxSetpointSelector = "slider" | "buttons";
 export type EquinoxAdditionalDashboards = "auto" | "custom" | "disabled";
 export type EquinoxLayoutOrientation = "horizontal" | "vertical";
+export type EquinoxModeTone =
+  | "heat" | "cool" | "heat-cool" | "auto" | "dry" | "fan-only" | "off"
+  | "preset-frost" | "preset-eco" | "preset-away" | "preset-comfort"
+  | "preset-home" | "preset-sleep" | "preset-activity" | "boost" | "cool-boost"
+  | "fan-auto" | "fan-off" | "fan-low" | "fan-medium" | "fan-high" | "fan-focus" | "fan-diffuse"
+  | "swing-off" | "swing-on" | "swing-vertical" | "swing-horizontal" | "swing-both";
+
+export interface EquinoxModeCustomization {
+  label?: string;
+  icon?: string;
+  tone?: EquinoxModeTone;
+  hidden?: boolean;
+}
+
+export interface EquinoxModeCustomizations {
+  hvac?: Record<string, EquinoxModeCustomization>;
+  preset?: Record<string, EquinoxModeCustomization>;
+  fan?: Record<string, EquinoxModeCustomization>;
+  swing?: Record<string, EquinoxModeCustomization>;
+  swing_horizontal?: Record<string, EquinoxModeCustomization>;
+}
 
 export interface EquinoxCardConfig {
   type: "custom:equinox-card";
@@ -41,6 +62,7 @@ export interface EquinoxCardConfig {
   hide_lock_button?: boolean;
   hidden_hvac_modes?: string[];
   hidden_preset_modes?: string[];
+  mode_customizations?: EquinoxModeCustomizations;
   additional_dashboards?: EquinoxAdditionalDashboards;
   state_icons_layout?: EquinoxLayoutOrientation;
   border_glow_on_action?: boolean;

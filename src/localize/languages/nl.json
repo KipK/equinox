@@ -223,7 +223,10 @@
       "general": "Algemeen",
       "presentation": "Presentatie",
       "hvac": "HVAC-modi",
-      "preset": "Voorinstellingen"
+      "preset": "Voorinstellingen",
+      "fan": "Ventilator",
+      "swing": "Zwenken",
+      "swing_horizontal": "Horizontaal zwenken"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Selecteer eerst een climate-entiteit om ondersteunde modi te laden.",
       "no_hvac_modes": "Deze climate-entiteit meldt geen ondersteunde HVAC-modi.",
       "no_presets": "Deze climate-entiteit meldt geen ondersteunde voorinstellingen."
+    },
+    "mode_customization": {
+      "visible": "Zichtbaar",
+      "label": "Label",
+      "icon": "Pictogram",
+      "tone": "Tint",
+      "automatic": "Automatisch",
+      "raw_mode": "Ruwe modus",
+      "no_fan_modes": "Geen ventilatormodi beschikbaar",
+      "no_swing_modes": "Geen zwenkmodi beschikbaar",
+      "no_swing_horizontal_modes": "Geen horizontale zwenkmodi beschikbaar"
     }
   }
 }

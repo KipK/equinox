@@ -3,19 +3,12 @@ import { setSwingHorizontalMode, setSwingMode } from "../data/actions";
 import { DEFAULT_THEME } from "../const";
 import { SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS, SWING_ORDER } from "../data/climate-modes";
 import { swingTone } from "../data/colors";
+import { modeIcon, modeLabel, modeTone, orderedVisibleModes, type ModeFamily } from "../data/mode-customizations";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 import type { EquinoxViewModel } from "../types/view-model";
 import "./eq-dialog";
-
-function orderedModes(values: string[]): string[] {
-  const unique = [...new Set(values)];
-  const ordered = SWING_ORDER.filter((mode) => unique.includes(mode));
-  const extra = unique.filter((mode) => !SWING_ORDER.includes(mode));
-
-  return [...ordered, ...extra];
-}
 
 export class EquinoxSwingDialog extends LitElement {
   static properties = {
@@ -270,23 +263,21 @@ export class EquinoxSwingDialog extends LitElement {
   }
 
   private _verticalOptions(): string[] {
-    return orderedModes(this.viewModel?.climate.swingModes ?? []);
+    return orderedVisibleModes({ config: this.config, family: "swing", modes: this.viewModel?.climate.swingModes ?? [], standardOrder: SWING_ORDER });
   }
 
   private _horizontalOptions(): string[] {
-    return orderedModes(this.viewModel?.climate.swingHorizontalModes ?? []);
+    return orderedVisibleModes({ config: this.config, family: "swing_horizontal", modes: this.viewModel?.climate.swingHorizontalModes ?? [], standardOrder: ["off", "on"] });
   }
 
   private _swingIcon(mode: string, horizontal = false): string {
-    return horizontal
-      ? SWING_HORIZONTAL_MODE_ICONS[mode] ?? SWING_MODE_ICONS[mode] ?? "mdi:arrow-expand-horizontal"
-      : SWING_MODE_ICONS[mode] ?? "mdi:arrow-oscillating";
+    const family: ModeFamily = horizontal ? "swing_horizontal" : "swing";
+    const fallback = horizontal ? SWING_HORIZONTAL_MODE_ICONS[mode] ?? SWING_MODE_ICONS[mode] ?? "mdi:arrow-expand-horizontal" : SWING_MODE_ICONS[mode] ?? "mdi:arrow-oscillating";
+    return modeIcon({ config: this.config, family, mode, defaultIcon: fallback }) ?? fallback;
   }
 
-  private _swingLabel(mode: string): string {
-    const label = localize(this.language, `main.swing.${mode}`);
-
-    return label === `main.swing.${mode}` ? mode : label;
+  private _swingLabel(mode: string, horizontal = false): string {
+    return modeLabel({ config: this.config, language: this.language, family: horizontal ? "swing_horizontal" : "swing", mode });
   }
 
   private _dispatchClose(): void {
@@ -329,13 +320,13 @@ export class EquinoxSwingDialog extends LitElement {
               class="swing-option"
               ?active=${mode === activeMode}
               @click=${() => onSelect(mode)}
-              title=${this._swingLabel(mode)}
-              aria-label=${this._swingLabel(mode)}
+              title=${this._swingLabel(mode, horizontal)}
+              aria-label=${this._swingLabel(mode, horizontal)}
             >
-              <span class="swing-option-icon" tone=${swingTone(mode)}>
+              <span class="swing-option-icon" tone=${modeTone({ config: this.config, family: horizontal ? "swing_horizontal" : "swing", mode, defaultTone: swingTone(mode) })}>
                 <ha-icon .icon=${this._swingIcon(mode, horizontal)} style="--mdc-icon-size: 24px;"></ha-icon>
               </span>
-              <span class="swing-option-label">${this._swingLabel(mode)}</span>
+              <span class="swing-option-label">${this._swingLabel(mode, horizontal)}</span>
             </button>
           `
         )}
@@ -358,10 +349,10 @@ export class EquinoxSwingDialog extends LitElement {
         ${options.map(
           (mode) => html`
             <button class="option-list-item" type="button" ?active=${mode === activeMode} @click=${() => onSelect(mode)}>
-              <span class="option-icon" tone=${swingTone(mode)}>
+              <span class="option-icon" tone=${modeTone({ config: this.config, family: horizontal ? "swing_horizontal" : "swing", mode, defaultTone: swingTone(mode) })}>
                 <ha-icon .icon=${this._swingIcon(mode, horizontal)} style="--mdc-icon-size: 24px;"></ha-icon>
               </span>
-              <span>${this._swingLabel(mode)}</span>
+              <span>${this._swingLabel(mode, horizontal)}</span>
               ${mode === activeMode
                 ? html`<ha-icon class="option-check" icon="mdi:check" style="--mdc-icon-size: 20px;"></ha-icon>`
                 : nothing}

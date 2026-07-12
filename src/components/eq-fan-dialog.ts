@@ -3,6 +3,7 @@ import { setAutoFanMode, setFanMode } from "../data/actions";
 import { DEFAULT_THEME } from "../const";
 import { fanTone } from "../data/colors";
 import { AUTO_FAN_MODES, FAN_MODE_ICONS } from "../data/fan";
+import { isModeHidden, modeIcon, modeLabel, modeTone } from "../data/mode-customizations";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
@@ -299,10 +300,10 @@ export class EquinoxFanDialog extends LitElement {
 
   private _getOptions(): string[] {
     if (this.viewModel?.vt?.fan.hasAutoFan === true) {
-      return AUTO_FAN_MODES;
+      return AUTO_FAN_MODES.filter((mode) => !isModeHidden(this.config, "fan", mode));
     }
 
-    return this.viewModel?.climate.fanModes ?? [];
+    return (this.viewModel?.climate.fanModes ?? []).filter((mode) => !isModeHidden(this.config, "fan", mode));
   }
 
   private _getActiveMode(): string | undefined {
@@ -314,18 +315,15 @@ export class EquinoxFanDialog extends LitElement {
   }
 
   private _fanIcon(mode: string): string {
-    return FAN_MODE_ICONS[mode] ?? "mdi:fan-speed-2";
+    return modeIcon({ config: this.config, family: "fan", mode, defaultIcon: FAN_MODE_ICONS[mode] ?? "mdi:fan" }) ?? "mdi:fan";
   }
 
   private _fanTone(mode: string): string {
-    return fanTone(mode);
+    return modeTone({ config: this.config, family: "fan", mode, defaultTone: fanTone(mode) });
   }
 
   private _fanLabel(mode: string): string {
-    const label = localize(this.language, `main.fan.${mode}`);
-
-    // If the key was not found, localize returns the key itself; fall back to raw mode string.
-    return label === `main.fan.${mode}` ? mode : label;
+    return modeLabel({ config: this.config, language: this.language, family: "fan", mode });
   }
 
   private _dispatchClose(): void {

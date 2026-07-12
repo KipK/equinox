@@ -39,3 +39,4 @@ export const FAN_MODE_ICONS: Record<string, string> = {
 };
 
 export const AUTO_FAN_MODES = ["auto_fan_none", "auto_fan_low", "auto_fan_medium", "auto_fan_high", "auto_fan_turbo"];
+export const FAN_ORDER = ["off", "auto", "on", "low", "medium", "middle", "high", "top", "focus", "diffuse"];

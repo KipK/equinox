@@ -223,7 +223,10 @@
       "general": "Všeobecné",
       "presentation": "Prezentácia",
       "hvac": "Režimy HVAC",
-      "preset": "Predvoľby"
+      "preset": "Predvoľby",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Najprv vyberte entitu climate, aby sa načítali podporované režimy.",
       "no_hvac_modes": "Táto entita climate neposkytuje žiadne podporované režimy HVAC.",
       "no_presets": "Táto entita climate neposkytuje žiadne podporované predvoľby."
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

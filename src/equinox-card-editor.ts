@@ -1,10 +1,12 @@
 import { LitElement, css, html } from "lit";
 import { EDITOR_TAG } from "./const";
-import { HVAC_ICONS, HVAC_ORDER, PRESET_ICONS, PRESET_ORDER } from "./data/climate-modes";
+import { HVAC_ORDER, PRESET_ORDER, SWING_ORDER } from "./data/climate-modes";
+import { AUTO_FAN_MODES, FAN_ORDER } from "./data/fan";
+import { MODE_TONES_BY_FAMILY, isModeHidden, modeCustomization, normalizeModeCustomizations, orderedVisibleModes, type ModeFamily } from "./data/mode-customizations";
 import { ensureHaComponents } from "./ha/load-components";
 import { localize } from "./localize/localize";
 import { DEFAULT_CONFIG } from "./types/config";
-import type { EquinoxCardConfigInput } from "./types/config";
+import type { EquinoxCardConfigInput, EquinoxModeCustomization } from "./types/config";
 import type { HaFormChangedEvent, HaFormSchema, HassEntity, HomeAssistant, LovelaceCardEditor } from "./types/ha";
 
 void ensureHaComponents();
@@ -43,6 +45,9 @@ function cleanEditorConfig(config: EquinoxCardConfigInput): EquinoxCardConfigInp
   if (!Array.isArray(cleaned.hidden_preset_modes) || cleaned.hidden_preset_modes.length === 0) {
     delete cleaned.hidden_preset_modes;
   }
+  const customizations = normalizeModeCustomizations(cleaned.mode_customizations);
+  if (customizations) cleaned.mode_customizations = customizations;
+  else delete cleaned.mode_customizations;
 
   return cleaned;
 }
@@ -120,6 +125,14 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       font: inherit;
     }
 
+    .mode-card { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--divider-color); border-radius: 10px; }
+    .mode-header { display: flex; align-items: center; gap: 8px; }
+    .mode-raw { color: var(--secondary-text-color); font-size: 12px; overflow-wrap: anywhere; }
+    .mode-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .mode-fields label { display: grid; gap: 4px; color: var(--secondary-text-color); font-size: 12px; }
+    .mode-fields input, .mode-fields select { box-sizing: border-box; width: 100%; padding: 8px; color: var(--primary-text-color); background: var(--card-background-color); border: 1px solid var(--divider-color); border-radius: 6px; }
+    @media (max-width: 600px) { .mode-fields { grid-template-columns: 1fr; } }
+
     .color-grid {
       display: grid;
       gap: 12px;
@@ -137,7 +150,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
   hass?: HomeAssistant;
 
   private _config: EquinoxCardConfigInput = {};
-  private _activeTab: "general" | "presentation" | "hvac" | "preset" = "general";
+  private _activeTab: "general" | "presentation" | ModeFamily = "general";
 
   setConfig(config: EquinoxCardConfigInput): void {
     this._config = cleanEditorConfig(config);
@@ -161,6 +174,10 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         <button class="tab" ?active=${this._activeTab === "preset"} @click=${() => { this._activeTab = "preset"; }}>
           ${localize(language, "editor.tabs.preset")}
         </button>
+        ${(["fan", "swing", "swing_horizontal"] as ModeFamily[]).map((tab) => html`
+          <button class="tab" ?active=${this._activeTab === tab} @click=${() => { this._activeTab = tab; }}>
+            ${localize(language, `editor.tabs.${tab}`)}
+          </button>`)}
       </div>
       ${this._activeTab === "presentation"
         ? this._renderPresentationTab(language, data)
@@ -174,7 +191,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
                 @value-changed=${this._valueChanged}
               ></ha-form>
             `
-          : this._renderVisibilityTab(language, this._activeTab)}
+          : this._renderModeTab(language, this._activeTab)}
     `;
   }
 
@@ -206,10 +223,9 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     `;
   }
 
-  private _renderVisibilityTab(language: string | undefined, tab: "hvac" | "preset") {
-    const options = tab === "hvac" ? this._supportedHvacModes() : this._supportedPresetModes();
-    const hidden = new Set(tab === "hvac" ? this._config.hidden_hvac_modes ?? [] : this._config.hidden_preset_modes ?? []);
-    const emptyKey = tab === "hvac" ? "editor.visibility.no_hvac_modes" : "editor.visibility.no_presets";
+  private _renderModeTab(language: string | undefined, family: ModeFamily) {
+    const options = this._supportedModes(family);
+    const emptyKey = family === "hvac" ? "editor.visibility.no_hvac_modes" : family === "preset" ? "editor.visibility.no_presets" : `editor.mode_customization.no_${family}_modes`;
 
     return html`
       <div class="options-panel">
@@ -219,23 +235,35 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         : html`
               <div class="checkbox-list">
                 ${options.map((option) => {
-          const checked = !hidden.has(option);
-
-          return html`
-                    <label class="checkbox-item">
+          const custom = this._modeCustomization(family, option);
+          return html`<div class="mode-card">
+                    <label class="mode-header">
                       <input
                         type="checkbox"
-                        .checked=${checked}
-                        @change=${(event: Event) => this._toggleVisibility(tab, option, (event.currentTarget as HTMLInputElement).checked)}
+                        .checked=${!isModeHidden(this._config as any, family, option)}
+                        @change=${(event: Event) => this._updateModeCustomization(family, option, { hidden: !(event.currentTarget as HTMLInputElement).checked })}
                       />
-                      <span class="checkbox-label">${tab === "hvac" ? this._hvacLabel(language, option) : this._presetLabel(language, option)}</span>
+                      <span class="checkbox-label">${localize(language, "editor.mode_customization.visible")}</span>
                     </label>
-                  `;
+                    <div class="mode-raw">${localize(language, "editor.mode_customization.raw_mode")}: ${option}</div>
+                    <div class="mode-fields">
+                      ${this._modeField(language, "label", custom.label ?? "", (value) => this._updateModeCustomization(family, option, { label: value }))}
+                      ${this._modeField(language, "icon", custom.icon ?? "", (value) => this._updateModeCustomization(family, option, { icon: value }))}
+                      <label>${localize(language, "editor.mode_customization.tone")}<select .value=${custom.tone ?? ""} @change=${(event: Event) => this._updateModeCustomization(family, option, { tone: (event.currentTarget as HTMLSelectElement).value as EquinoxModeCustomization["tone"] })}>
+                        <option value="">${localize(language, "editor.mode_customization.automatic")}</option>
+                        ${MODE_TONES_BY_FAMILY[family].map((tone) => html`<option value=${tone}>${tone}</option>`)}
+                      </select></label>
+                    </div>
+                  </div>`;
         })}
               </div>
             `}
       </div>
     `;
+  }
+
+  private _modeField(language: string | undefined, field: "label" | "icon", value: string, update: (value: string) => void) {
+    return html`<label>${localize(language, `editor.mode_customization.${field}`)}<input type="text" .value=${value} @change=${(event: Event) => update((event.currentTarget as HTMLInputElement).value)} /></label>`;
   }
 
   private _generalSchema(language: string | undefined, displayMode: EquinoxCardConfigInput["display_mode"]): HaFormSchema[] {
@@ -469,7 +497,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     return entityId ? this.hass?.states[entityId] : undefined;
   }
 
-  private _attributeModes(attribute: "hvac_modes" | "preset_modes"): string[] {
+  private _attributeModes(attribute: "hvac_modes" | "preset_modes" | "fan_modes" | "swing_modes" | "swing_horizontal_modes"): string[] {
     const value = this._climateEntity()?.attributes[attribute];
 
     if (!Array.isArray(value)) {
@@ -479,28 +507,34 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     return value.filter((entry): entry is string => typeof entry === "string");
   }
 
-  private _supportedHvacModes(): string[] {
-    const available = new Set(this._attributeModes("hvac_modes"));
-
-    return HVAC_ORDER.filter((mode) => available.has(mode) && HVAC_ICONS[mode]);
+  private _supportedModes(family: ModeFamily): string[] {
+    if (family === "fan") {
+      const vt = this._climateEntity()?.attributes.vtherm_over_climate as Record<string, unknown> | undefined;
+      const modes = vt?.auto_fan_mode !== undefined || vt?.current_auto_fan_mode !== undefined ? AUTO_FAN_MODES : this._attributeModes("fan_modes");
+      return orderedVisibleModes({ family, modes, standardOrder: FAN_ORDER });
+    }
+    const attributes = { hvac: "hvac_modes", preset: "preset_modes", swing: "swing_modes", swing_horizontal: "swing_horizontal_modes" } as const;
+    const orders = { hvac: HVAC_ORDER, preset: PRESET_ORDER, swing: SWING_ORDER, swing_horizontal: ["off", "on"] } as const;
+    const modes = this._attributeModes(attributes[family]).filter((mode) => family !== "preset" || mode !== "none");
+    return orderedVisibleModes({ family, modes, standardOrder: orders[family] });
   }
 
-  private _supportedPresetModes(): string[] {
-    const available = new Set(this._attributeModes("preset_modes"));
-
-    return PRESET_ORDER.filter((preset) => available.has(preset) && preset !== "none" && PRESET_ICONS[preset]);
+  private _modeCustomization(family: ModeFamily, mode: string): EquinoxModeCustomization {
+    return modeCustomization(this._config as any, family, mode) ?? {};
   }
 
-  private _hvacLabel(language: string | undefined, mode: string): string {
-    const label = localize(language, `main.hvac.${mode}`);
-
-    return label === `main.hvac.${mode}` ? mode : label;
-  }
-
-  private _presetLabel(language: string | undefined, preset: string): string {
-    const label = localize(language, `main.preset.${preset}`);
-
-    return label === `main.preset.${preset}` ? preset : label;
+  private _updateModeCustomization(family: ModeFamily, mode: string, patch: Partial<EquinoxModeCustomization>): void {
+    const current = this._modeCustomization(family, mode);
+    const nextEntry = { ...current, ...patch };
+    if (patch.hidden === false) delete nextEntry.hidden;
+    const legacyKey = family === "hvac" ? "hidden_hvac_modes" : family === "preset" ? "hidden_preset_modes" : undefined;
+    const legacy = legacyKey ? (this._config[legacyKey] ?? []).filter((value) => patch.hidden !== false || value !== mode) : undefined;
+    this._config = cleanEditorConfig({
+      ...this._config,
+      ...(legacyKey ? { [legacyKey]: legacy } : {}),
+      mode_customizations: { ...this._config.mode_customizations, [family]: { ...this._config.mode_customizations?.[family], [mode]: nextEntry } }
+    });
+    this._emitConfigChanged();
   }
 
   private _computeLabel(language?: string): (schema: HaFormSchema) => string {
@@ -515,24 +549,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         composed: true
       })
     );
-  }
-
-  private _toggleVisibility(tab: "hvac" | "preset", value: string, checked: boolean): void {
-    const key = tab === "hvac" ? "hidden_hvac_modes" : "hidden_preset_modes";
-    const current = new Set(this._config[key] ?? []);
-
-    if (checked) {
-      current.delete(value);
-    } else {
-      current.add(value);
-    }
-
-    this._config = cleanEditorConfig({
-      ...this._config,
-      [key]: current.size > 0 ? [...current] : undefined
-    });
-
-    this._emitConfigChanged();
   }
 
   private _valueChanged(event: HaFormChangedEvent<EquinoxCardConfigInput>): void {

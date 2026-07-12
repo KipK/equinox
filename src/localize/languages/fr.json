@@ -246,7 +246,10 @@
       "general": "Général",
       "presentation": "Présentation",
       "hvac": "Modes HVAC",
-      "preset": "Presets"
+      "preset": "Presets",
+      "fan": "Ventilation",
+      "swing": "Oscillation",
+      "swing_horizontal": "Oscillation horizontale"
     },
     "visibility": {
       "help": "Décochez un mode pour masquer son bouton dans Equinox sans changer les capacités du climate dans Home Assistant.",
@@ -281,6 +284,17 @@
         "custom": "Personnalisé",
         "disabled": "Désactivé"
       }
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Libellé",
+      "icon": "Icône",
+      "tone": "Tonalité",
+      "automatic": "Automatique",
+      "raw_mode": "Mode brut",
+      "no_fan_modes": "Aucun mode de ventilation disponible",
+      "no_swing_modes": "Aucun mode oscillation disponible",
+      "no_swing_horizontal_modes": "Aucun mode oscillation horizontale disponible"
     }
   }
 }

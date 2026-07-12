@@ -223,7 +223,10 @@
       "general": "Общи",
       "presentation": "Презентация",
       "hvac": "Режими HVAC",
-      "preset": "Предустановки"
+      "preset": "Предустановки",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Първо изберете climate обект, за да се заредят поддържаните режими.",
       "no_hvac_modes": "Този climate обект не предоставя поддържани HVAC режими.",
       "no_presets": "Този climate обект не предоставя поддържани предустановки."
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

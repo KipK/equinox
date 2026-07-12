@@ -223,7 +223,10 @@
       "general": "常规",
       "presentation": "外观",
       "hvac": "HVAC 模式",
-      "preset": "预设"
+      "preset": "预设",
+      "fan": "风扇",
+      "swing": "摆风",
+      "swing_horizontal": "水平摆风"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "请先选择一个 climate 实体以加载受支持的模式。",
       "no_hvac_modes": "此 climate 实体未报告受支持的 HVAC 模式。",
       "no_presets": "此 climate 实体未报告受支持的预设。"
+    },
+    "mode_customization": {
+      "visible": "可见",
+      "label": "标签",
+      "icon": "图标",
+      "tone": "色调",
+      "automatic": "自动",
+      "raw_mode": "原始模式",
+      "no_fan_modes": "没有可用的风扇模式",
+      "no_swing_modes": "没有可用的摆风模式",
+      "no_swing_horizontal_modes": "没有可用的水平摆风模式"
     }
   }
 }

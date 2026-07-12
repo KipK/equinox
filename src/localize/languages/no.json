@@ -223,7 +223,10 @@
       "general": "Generelt",
       "presentation": "Presentasjon",
       "hvac": "HVAC-moduser",
-      "preset": "Forhåndsinnstillinger"
+      "preset": "Forhåndsinnstillinger",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Velg først en climate-entitet for å laste inn støttede moduser.",
       "no_hvac_modes": "Denne climate-entiteten har ingen støttede HVAC-moduser.",
       "no_presets": "Denne climate-entiteten har ingen støttede forhåndsinnstillinger."
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

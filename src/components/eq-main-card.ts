@@ -3,6 +3,8 @@ import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unl
 import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, PRESET_ICONS, PRESET_ORDER, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
 import { actionTone, fanTone, lockTone, presetTone, swingTone } from "../data/colors";
 import { FAN_MODE_ICONS } from "../data/fan";
+import { AUTO_FAN_MODES } from "../data/fan";
+import { modeIcon, modeLabel, modeTone, orderedVisibleModes, type ModeFamily } from "../data/mode-customizations";
 import { loadRegulationDashboard, type RegulationDashboardLoadResult } from "../data/regulation-dashboard-loader";
 import { resolveRegulationDashboard } from "../data/regulation-dashboard-resolver";
 import { DEFAULT_THEME } from "../const";
@@ -236,14 +238,6 @@ function normalizedOpacity(value: unknown): number | undefined {
   if (!Number.isFinite(opacity)) return undefined;
 
   return Math.min(100, Math.max(0, opacity));
-}
-
-function uniqueOrdered(values: string[], preferredOrder: string[]): string[] {
-  const unique = [...new Set(values)];
-  const ordered = preferredOrder.filter((value) => unique.includes(value));
-  const extra = unique.filter((value) => !preferredOrder.includes(value));
-
-  return [...ordered, ...extra];
 }
 
 export class EquinoxMainCard extends LitElement {
@@ -2604,7 +2598,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderThinHvacButton(): TemplateResult | typeof nothing {
     const hvacMode = this.viewModel?.climate.hvacMode;
     const availableHvacModes = this._visibleHvacModes();
-    const currentHvacMode = hvacMode && availableHvacModes.includes(hvacMode) ? hvacMode : undefined;
+    const currentHvacMode = hvacMode;
 
     if (availableHvacModes.length === 0) {
       return nothing;
@@ -2620,7 +2614,7 @@ export class EquinoxMainCard extends LitElement {
         @click=${(event: Event) => this._openDialog("hvac", event)}
       >
         <span class="btn-icon" tone=${this._modeTone(currentHvacMode)}>
-          <ha-icon .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}></ha-icon>
+          <ha-icon .icon=${currentHvacMode ? this._hvacIcon(currentHvacMode) : "mdi:thermostat"}></ha-icon>
         </span>
       </ha-control-button>
     `;
@@ -2629,8 +2623,8 @@ export class EquinoxMainCard extends LitElement {
   private _renderThinPresetButton(): TemplateResult | typeof nothing {
     const preset = this.viewModel?.climate.presetMode;
     const availablePresets = this._visiblePresetModes();
-    const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:hand-back-right-outline";
-    const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
+    const presetIcon = preset && preset !== "none" ? this._presetIcon(preset) : "mdi:tune-variant";
+    const presetActive = !!preset && preset !== "none";
 
     if (availablePresets.length === 0) {
       return nothing;
@@ -2791,7 +2785,7 @@ export class EquinoxMainCard extends LitElement {
     }
 
     const entry = action ? HVAC_ACTION_ICONS[action] : undefined;
-    const fallbackIcon = entry?.icon || (hvacMode ? HVAC_ICONS[hvacMode] : "");
+    const fallbackIcon = entry?.icon || (hvacMode ? this._hvacIcon(hvacMode) : "");
 
     return fallbackIcon
       ? { icon: fallbackIcon, tone: entry?.tone ?? this._modeTone(hvacMode) }
@@ -3143,7 +3137,7 @@ export class EquinoxMainCard extends LitElement {
         @click=${() => this._setHvacMode(mode)}
       >
         <span class="btn-icon" tone=${this._modeTone(mode)}>
-          <ha-icon .icon=${HVAC_ICONS[mode]}></ha-icon>
+          <ha-icon .icon=${this._hvacIcon(mode)}></ha-icon>
         </span>
       </ha-control-button>
     `;
@@ -3170,7 +3164,7 @@ export class EquinoxMainCard extends LitElement {
         @click=${() => this._setPresetMode(preset)}
       >
         <span class="btn-icon" tone=${this._presetTone(preset)}>
-          <ha-icon .icon=${PRESET_ICONS[preset]}></ha-icon>
+          <ha-icon .icon=${this._presetIcon(preset)}></ha-icon>
         </span>
       </ha-control-button>
     `;
@@ -3181,13 +3175,13 @@ export class EquinoxMainCard extends LitElement {
     const hvacMode = this.viewModel?.climate.hvacMode;
     const preset = this.viewModel?.climate.presetMode;
     const availableHvacModes = this._visibleHvacModes();
-    const currentHvacMode = hvacMode && availableHvacModes.includes(hvacMode) ? hvacMode : undefined;
+    const currentHvacMode = hvacMode;
     const showHvac = availableHvacModes.length > 0;
 
     const availablePresets = this._visiblePresetModes();
     const showPreset = availablePresets.length > 0;
-    const presetIcon = preset && preset !== "none" && PRESET_ICONS[preset] ? PRESET_ICONS[preset] : "mdi:hand-back-right-outline";
-    const presetActive = !!preset && preset !== "none" && !!PRESET_ICONS[preset];
+    const presetIcon = preset && preset !== "none" ? this._presetIcon(preset) : "mdi:tune-variant";
+    const presetActive = !!preset && preset !== "none";
 
     const showFan = this._shouldShowFanControl();
     const showSwing = this._shouldShowSwingControl();
@@ -3215,7 +3209,7 @@ export class EquinoxMainCard extends LitElement {
                 @click=${(event: Event) => this._openDialog("hvac", event)}
               >
                 <span class="btn-icon" tone=${this._modeTone(currentHvacMode)}>
-                  <ha-icon .icon=${currentHvacMode ? HVAC_ICONS[currentHvacMode] : "mdi:thermostat"}></ha-icon>
+                  <ha-icon .icon=${currentHvacMode ? this._hvacIcon(currentHvacMode) : "mdi:thermostat"}></ha-icon>
                 </span>
               </ha-control-button>
             `
@@ -3321,7 +3315,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _shouldShowFanControl(): boolean {
-    return this.config?.show_fan_mode !== false && this._hasFanControl();
+    return this.config?.show_fan_mode !== false && this._hasFanControl() && this._visibleFanModes().length > 0;
   }
 
   private _hasSwingControl(): boolean {
@@ -3332,7 +3326,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _shouldShowSwingControl(): boolean {
-    return this.config?.show_swing_mode !== false && this._hasSwingControl();
+    return this.config?.show_swing_mode !== false && this._hasSwingControl() && (this._visibleSwingModes().length > 0 || this._visibleSwingHorizontalModes().length > 0);
   }
 
   private _renderMenuButton(): TemplateResult {
@@ -3475,7 +3469,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _modeTone(mode?: string): string {
-    return mode ? HVAC_TONES[mode] ?? "" : "";
+    return mode ? modeTone({ config: this.config, family: "hvac", mode, defaultTone: HVAC_TONES[mode] }) : "";
   }
 
   private _presetTone(preset: string): string {
@@ -3483,7 +3477,7 @@ export class EquinoxMainCard extends LitElement {
       return "off";
     }
 
-    return presetTone(preset, this.viewModel?.climate.hvacMode);
+    return modeTone({ config: this.config, family: "preset", mode: preset, defaultTone: presetTone(preset, this.viewModel?.climate.hvacMode) });
   }
 
   private _hidePreset(preset: string): boolean {
@@ -3493,37 +3487,48 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _visibleHvacModes(): string[] {
-    const hidden = new Set(this.config?.hidden_hvac_modes ?? []);
-
-    return uniqueOrdered(this.viewModel?.climate.hvacModes ?? [], HVAC_ORDER).filter(
-      (mode) => HVAC_ICONS[mode] && !hidden.has(mode)
-    );
+    return orderedVisibleModes({ config: this.config, family: "hvac", modes: this.viewModel?.climate.hvacModes ?? [], standardOrder: HVAC_ORDER });
   }
 
   private _visiblePresetModes(): string[] {
-    const hidden = new Set(this.config?.hidden_preset_modes ?? []);
+    return orderedVisibleModes({ config: this.config, family: "preset", modes: this.viewModel?.climate.presetModes ?? [], standardOrder: PRESET_ORDER })
+      .filter((preset) => preset !== "none" && !this._hidePreset(preset));
+  }
 
-    return uniqueOrdered(this.viewModel?.climate.presetModes ?? [], PRESET_ORDER).filter(
-      (preset) => preset !== "none" && PRESET_ICONS[preset] && !this._hidePreset(preset) && !hidden.has(preset)
-    );
+  private _visibleFanModes(): string[] {
+    const modes = this.viewModel?.vt?.fan.hasAutoFan === true ? AUTO_FAN_MODES : this.viewModel?.climate.fanModes ?? [];
+    return orderedVisibleModes({ config: this.config, family: "fan", modes, standardOrder: [] });
+  }
+
+  private _visibleSwingModes(): string[] {
+    return orderedVisibleModes({ config: this.config, family: "swing", modes: this.viewModel?.climate.swingModes ?? [], standardOrder: [] });
+  }
+
+  private _visibleSwingHorizontalModes(): string[] {
+    return orderedVisibleModes({ config: this.config, family: "swing_horizontal", modes: this.viewModel?.climate.swingHorizontalModes ?? [], standardOrder: [] });
+  }
+
+  private _activeFanDisplayMode(): string | undefined {
+    if (this.viewModel?.vt?.fan.hasAutoFan === true && this.viewModel.vt.fan.currentAutoFanMode) return this.viewModel.vt.fan.currentAutoFanMode;
+    return this.viewModel?.climate.fanMode ?? (this.viewModel?.climate.fanModes.includes("auto") ? "auto" : undefined);
   }
 
   private _fanIcon(): string {
-    const mode = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
-
-    return mode ? (FAN_MODE_ICONS[mode] ?? "mdi:fan-speed-2") : "mdi:fan-speed-2";
+    const mode = this._activeFanDisplayMode();
+    return mode ? modeIcon({ config: this.config, family: "fan", mode, defaultIcon: FAN_MODE_ICONS[mode] ?? "mdi:fan" }) ?? "mdi:fan" : "mdi:fan";
   }
 
   private _fanRailTone(): string {
     if (this.viewModel?.climate.availability !== "available") return "off";
-    const mode = this.viewModel?.climate.fanMode ?? this.viewModel?.vt?.fan.currentAutoFanMode;
-    return mode ? (fanTone(mode) || "fan") : "fan";
+    const mode = this._activeFanDisplayMode();
+    return mode ? modeTone({ config: this.config, family: "fan", mode, defaultTone: fanTone(mode) }) : "";
   }
 
   private _swingRailTone(): string {
     if (this.viewModel?.climate.availability !== "available") return "off";
     const mode = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode;
-    return mode ? swingTone(mode) : "swing";
+    const family: ModeFamily = this.viewModel?.climate.swingMode ? "swing" : "swing_horizontal";
+    return mode ? modeTone({ config: this.config, family, mode, defaultTone: swingTone(mode) }) : "";
   }
 
   private _fanIconClass(): string {
@@ -3537,12 +3542,8 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _fanLabel(): string {
-    const mode =
-      this.viewModel?.climate.fanMode ??
-      this.viewModel?.vt?.fan.currentAutoFanMode ??
-      (this.viewModel?.climate.fanModes.includes("auto") ? "auto" : undefined);
-
-    return mode ? this._optionLabel("main.fan", mode) : localize(this._language(), "main.fan.unavailable");
+    const mode = this._activeFanDisplayMode();
+    return mode ? modeLabel({ config: this.config, language: this._language(), family: "fan", mode }) : localize(this._language(), "main.fan.unavailable");
   }
 
   private _swingIcon(): string {
@@ -3550,11 +3551,11 @@ export class EquinoxMainCard extends LitElement {
     const horizontalMode = this.viewModel?.climate.swingHorizontalMode;
 
     if (verticalMode) {
-      return SWING_MODE_ICONS[verticalMode] ?? "mdi:arrow-oscillating";
+      return modeIcon({ config: this.config, family: "swing", mode: verticalMode, defaultIcon: SWING_MODE_ICONS[verticalMode] ?? "mdi:arrow-oscillating" }) ?? "mdi:arrow-oscillating";
     }
 
     if (horizontalMode) {
-      return SWING_HORIZONTAL_MODE_ICONS[horizontalMode] ?? SWING_MODE_ICONS[horizontalMode] ?? "mdi:arrow-expand-horizontal";
+      return modeIcon({ config: this.config, family: "swing_horizontal", mode: horizontalMode, defaultIcon: SWING_HORIZONTAL_MODE_ICONS[horizontalMode] ?? SWING_MODE_ICONS[horizontalMode] ?? "mdi:arrow-expand-horizontal" }) ?? "mdi:arrow-expand-horizontal";
     }
 
     return "mdi:arrow-oscillating";
@@ -3563,7 +3564,8 @@ export class EquinoxMainCard extends LitElement {
   private _swingLabel(): string {
     const mode = this.viewModel?.climate.swingMode ?? this.viewModel?.climate.swingHorizontalMode;
 
-    return mode ? this._optionLabel("main.swing", mode) : localize(this._language(), "main.swing.unavailable");
+    const family: ModeFamily = this.viewModel?.climate.swingMode ? "swing" : "swing_horizontal";
+    return mode ? modeLabel({ config: this.config, language: this._language(), family, mode }) : localize(this._language(), "main.swing.unavailable");
   }
 
   private _hvacLabel(mode?: string): string {
@@ -3575,17 +3577,19 @@ export class EquinoxMainCard extends LitElement {
       return localize(this._language(), "main.status.off");
     }
 
-    return this._optionLabel("main.hvac", mode);
+    return modeLabel({ config: this.config, language: this._language(), family: "hvac", mode });
   }
 
   private _presetLabel(preset: string): string {
-    return this._optionLabel("main.preset", preset);
+    return modeLabel({ config: this.config, language: this._language(), family: "preset", mode: preset });
   }
 
-  private _optionLabel(prefix: string, value: string): string {
-    const label = localize(this._language(), `${prefix}.${value}`);
+  private _hvacIcon(mode: string): string {
+    return modeIcon({ config: this.config, family: "hvac", mode, defaultIcon: HVAC_ICONS[mode] ?? "mdi:thermostat" }) ?? "mdi:thermostat";
+  }
 
-    return label === `${prefix}.${value}` ? value : label;
+  private _presetIcon(mode: string): string {
+    return modeIcon({ config: this.config, family: "preset", mode, defaultIcon: PRESET_ICONS[mode] ?? "mdi:tune-variant" }) ?? "mdi:tune-variant";
   }
 
   private _formatCurrentTemp(): string {

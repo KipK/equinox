@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing } from "lit";
 import { setPresetMode } from "../data/actions";
 import { DEFAULT_THEME } from "../const";
 import { PRESET_ICONS, PRESET_ORDER } from "../data/climate-modes";
+import { modeIcon, modeLabel, modeTone, orderedVisibleModes } from "../data/mode-customizations";
 import { presetTone } from "../data/colors";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
@@ -437,26 +438,16 @@ export class EquinoxPresetDialog extends LitElement {
   private _getOptions(): string[] {
     const available = this.viewModel?.climate.presetModes ?? [];
     const hvacMode = this.viewModel?.climate.hvacMode;
-    const hidden = new Set(this.config?.hidden_preset_modes ?? []);
-
-    return PRESET_ORDER.filter(
-      (preset) =>
-        available.includes(preset) &&
-        PRESET_ICONS[preset] &&
-        preset !== "none" &&
-        !(preset === "frost" && hvacMode !== "heat") &&
-        !hidden.has(preset)
-    );
+    return orderedVisibleModes({ config: this.config, family: "preset", modes: available.filter((preset) => preset !== "none"), standardOrder: PRESET_ORDER })
+      .filter((preset) => !(preset === "frost" && hvacMode !== "heat"));
   }
 
   private _presetLabel(preset: string): string {
-    const label = localize(this.language, `main.preset.${preset}`);
-
-    return label === `main.preset.${preset}` ? preset : label;
+    return modeLabel({ config: this.config, language: this.language, family: "preset", mode: preset });
   }
 
   private _presetTone(preset: string): string {
-    return presetTone(preset, this.viewModel?.climate.hvacMode);
+    return modeTone({ config: this.config, family: "preset", mode: preset, defaultTone: presetTone(preset, this.viewModel?.climate.hvacMode) });
   }
 
   private _dispatchClose(): void {
@@ -500,7 +491,7 @@ export class EquinoxPresetDialog extends LitElement {
                 aria-label=${this._presetLabel(preset)}
               >
                 <span class="option-icon" tone=${this._presetTone(preset)}>
-                  <ha-icon .icon=${PRESET_ICONS[preset]} style="--mdc-icon-size: 24px;"></ha-icon>
+                  <ha-icon .icon=${modeIcon({ config: this.config, family: "preset", mode: preset, defaultIcon: PRESET_ICONS[preset] ?? "mdi:tune-variant" })} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${this._presetLabel(preset)}</span>
               </button>
@@ -513,7 +504,7 @@ export class EquinoxPresetDialog extends LitElement {
               (preset) => html`
                 <button class="option-list-item" type="button" ?active=${preset === activePreset} @click=${() => this._selectPreset(preset)}>
                   <span class="option-icon" tone=${this._presetTone(preset)}>
-                    <ha-icon .icon=${PRESET_ICONS[preset]} style="--mdc-icon-size: 24px;"></ha-icon>
+                    <ha-icon .icon=${modeIcon({ config: this.config, family: "preset", mode: preset, defaultIcon: PRESET_ICONS[preset] ?? "mdi:tune-variant" })} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._presetLabel(preset)}</span>
                   ${preset === activePreset

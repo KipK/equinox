@@ -223,7 +223,10 @@
       "general": "Generale",
       "presentation": "Presentazione",
       "hvac": "Modalità HVAC",
-      "preset": "Preset"
+      "preset": "Preset",
+      "fan": "Ventola",
+      "swing": "Oscillazione",
+      "swing_horizontal": "Oscillazione orizzontale"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Seleziona prima un'entità climate per caricare le modalità supportate.",
       "no_hvac_modes": "Questa entità climate non segnala modalità HVAC supportate.",
       "no_presets": "Questa entità climate non segnala preset supportati."
+    },
+    "mode_customization": {
+      "visible": "Visibile",
+      "label": "Etichetta",
+      "icon": "Icona",
+      "tone": "Tonalità",
+      "automatic": "Automatico",
+      "raw_mode": "Modalità originale",
+      "no_fan_modes": "Nessuna modalità ventola disponibile",
+      "no_swing_modes": "Nessuna modalità oscillazione disponibile",
+      "no_swing_horizontal_modes": "Nessuna modalità oscillazione orizzontale disponibile"
     }
   }
 }

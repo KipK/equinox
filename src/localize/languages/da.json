@@ -223,7 +223,10 @@
       "general": "General",
       "presentation": "Presentation",
       "hvac": "HVAC-tilstande",
-      "preset": "Forudindstillinger"
+      "preset": "Forudindstillinger",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Vælg først en climate-enhed for at indlæse understøttede tilstande.",
       "no_hvac_modes": "Denne climate-enhed viser ingen understøttede HVAC-tilstande.",
       "no_presets": "Denne climate-enhed viser ingen understøttede forudindstillinger."
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

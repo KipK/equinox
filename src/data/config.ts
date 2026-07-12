@@ -1,4 +1,5 @@
 import { CARD_TYPE } from "../const";
+import { normalizeModeCustomizations } from "./mode-customizations";
 import {
   DEFAULT_CONFIG,
   EQUINOX_ADDITIONAL_DASHBOARDS,
@@ -150,6 +151,10 @@ export function validateEquinoxConfig(input: EquinoxCardConfigInput): EquinoxCon
   } else {
     delete config.hidden_preset_modes;
   }
+
+  const modeCustomizations = normalizeModeCustomizations(config.mode_customizations);
+  if (modeCustomizations) config.mode_customizations = modeCustomizations;
+  else delete config.mode_customizations;
 
   return { config: config as EquinoxCardConfig };
 }

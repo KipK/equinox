@@ -246,7 +246,10 @@
       "general": "General",
       "presentation": "Presentation",
       "hvac": "HVAC modes",
-      "preset": "Presets"
+      "preset": "Presets",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "visibility": {
       "help": "Uncheck a mode to hide its button in Equinox while keeping the climate capability unchanged in Home Assistant.",
@@ -281,6 +284,17 @@
         "custom": "Custom",
         "disabled": "Disabled"
       }
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

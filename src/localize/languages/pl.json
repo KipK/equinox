@@ -223,7 +223,10 @@
       "general": "Ogólne",
       "presentation": "Prezentacja",
       "hvac": "Tryby HVAC",
-      "preset": "Presety"
+      "preset": "Presety",
+      "fan": "Wentylator",
+      "swing": "Nawiew",
+      "swing_horizontal": "Nawiew poziomy"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Najpierw wybierz encję climate, aby wczytać obsługiwane tryby.",
       "no_hvac_modes": "Ta encja climate nie zgłasza obsługiwanych trybów HVAC.",
       "no_presets": "Ta encja climate nie zgłasza obsługiwanych presetów."
+    },
+    "mode_customization": {
+      "visible": "Widoczny",
+      "label": "Etykieta",
+      "icon": "Ikona",
+      "tone": "Ton",
+      "automatic": "Automatyczny",
+      "raw_mode": "Tryb źródłowy",
+      "no_fan_modes": "Brak trybów wentylatora",
+      "no_swing_modes": "Brak trybów nawiewu",
+      "no_swing_horizontal_modes": "Brak poziomych trybów nawiewu"
     }
   }
 }

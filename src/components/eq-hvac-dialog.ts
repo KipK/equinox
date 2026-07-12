@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing } from "lit";
 import { setHvacMode } from "../data/actions";
 import { DEFAULT_THEME } from "../const";
 import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES } from "../data/climate-modes";
+import { modeIcon, modeLabel, modeTone, orderedVisibleModes } from "../data/mode-customizations";
 import { localize } from "../localize/localize";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
@@ -422,15 +423,11 @@ export class EquinoxHvacDialog extends LitElement {
 
   private _getOptions(): string[] {
     const available = this.viewModel?.climate.hvacModes ?? [];
-    const hidden = new Set(this.config?.hidden_hvac_modes ?? []);
-
-    return HVAC_ORDER.filter((mode) => available.includes(mode) && HVAC_ICONS[mode] && !hidden.has(mode));
+    return orderedVisibleModes({ config: this.config, family: "hvac", modes: available, standardOrder: HVAC_ORDER });
   }
 
   private _modeLabel(mode: string): string {
-    const label = localize(this.language, `main.hvac.${mode}`);
-
-    return label === `main.hvac.${mode}` ? mode : label;
+    return modeLabel({ config: this.config, language: this.language, family: "hvac", mode });
   }
 
   private _dispatchClose(): void {
@@ -473,8 +470,8 @@ export class EquinoxHvacDialog extends LitElement {
                 title=${this._modeLabel(mode)}
                 aria-label=${this._modeLabel(mode)}
               >
-                <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""}>
-                  <ha-icon .icon=${HVAC_ICONS[mode]} style="--mdc-icon-size: 24px;"></ha-icon>
+                <span class="option-icon" tone=${modeTone({ config: this.config, family: "hvac", mode, defaultTone: HVAC_TONES[mode] })}>
+                  <ha-icon .icon=${modeIcon({ config: this.config, family: "hvac", mode, defaultIcon: HVAC_ICONS[mode] ?? "mdi:thermostat" })} style="--mdc-icon-size: 24px;"></ha-icon>
                 </span>
                 <span class="option-label">${this._modeLabel(mode)}</span>
               </button>
@@ -486,8 +483,8 @@ export class EquinoxHvacDialog extends LitElement {
             ${options.map(
               (mode) => html`
                 <button class="option-list-item" type="button" ?active=${mode === activeMode} @click=${() => this._selectMode(mode)}>
-                  <span class="option-icon" tone=${HVAC_TONES[mode] ?? ""}>
-                    <ha-icon .icon=${HVAC_ICONS[mode]} style="--mdc-icon-size: 24px;"></ha-icon>
+                  <span class="option-icon" tone=${modeTone({ config: this.config, family: "hvac", mode, defaultTone: HVAC_TONES[mode] })}>
+                    <ha-icon .icon=${modeIcon({ config: this.config, family: "hvac", mode, defaultIcon: HVAC_ICONS[mode] ?? "mdi:thermostat" })} style="--mdc-icon-size: 24px;"></ha-icon>
                   </span>
                   <span>${this._modeLabel(mode)}</span>
                   ${mode === activeMode

@@ -223,7 +223,10 @@
       "general": "Yleinen",
       "presentation": "Esittely",
       "hvac": "HVAC-tilat",
-      "preset": "Esiasetukset"
+      "preset": "Esiasetukset",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Valitse ensin climate-entiteetti, jotta tuetut tilat voidaan ladata.",
       "no_hvac_modes": "Tämä climate-entiteetti ei ilmoita tuettuja HVAC-tiloja.",
       "no_presets": "Tämä climate-entiteetti ei ilmoita tuettuja esiasetuksia."
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

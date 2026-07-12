@@ -223,7 +223,10 @@
       "general": "Γενικά",
       "presentation": "Παρουσίαση",
       "hvac": "Λειτουργίες HVAC",
-      "preset": "Προρυθμίσεις"
+      "preset": "Προρυθμίσεις",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Επιλέξτε πρώτα μια οντότητα climate για να φορτωθούν οι υποστηριζόμενες λειτουργίες.",
       "no_hvac_modes": "Αυτή η οντότητα climate δεν αναφέρει υποστηριζόμενες λειτουργίες HVAC.",
       "no_presets": "Αυτή η οντότητα climate δεν αναφέρει υποστηριζόμενες προρυθμίσεις."
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }

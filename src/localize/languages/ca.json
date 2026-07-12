@@ -223,7 +223,10 @@
       "general": "General",
       "presentation": "Presentation",
       "hvac": "Modes HVAC",
-      "preset": "Predefinits"
+      "preset": "Predefinits",
+      "fan": "Fan",
+      "swing": "Swing",
+      "swing_horizontal": "Horizontal swing"
     },
     "options": {
       "theme": {
@@ -256,6 +259,17 @@
       "no_entity": "Selecciona primer una entitat climate per carregar els modes compatibles.",
       "no_hvac_modes": "Aquesta entitat climate no mostra cap mode HVAC compatible.",
       "no_presets": "Aquesta entitat climate no mostra cap predefinició compatible."
+    },
+    "mode_customization": {
+      "visible": "Visible",
+      "label": "Label",
+      "icon": "Icon",
+      "tone": "Tone",
+      "automatic": "Automatic",
+      "raw_mode": "Raw mode",
+      "no_fan_modes": "No fan modes available",
+      "no_swing_modes": "No swing modes available",
+      "no_swing_horizontal_modes": "No horizontal swing modes available"
     }
   }
 }
