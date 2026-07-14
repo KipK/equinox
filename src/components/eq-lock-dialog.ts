@@ -40,7 +40,12 @@ export class EqLockDialog extends LitElement {
     .dialog {
       position: relative;
       z-index: 1;
-      background: var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color)));
+      background:
+        linear-gradient(
+          var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color, #1c1c1c))),
+          var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color, #1c1c1c)))
+        ),
+        var(--equinox-dialog-opaque-base, #1c1c1c);
       border-radius: var(--equinox-radius, 8px);
       border: 1px solid var(--equinox-border-color, var(--divider-color));
       box-shadow: var(--equinox-shadow, 0 4px 20px rgba(0, 0, 0, 0.35));

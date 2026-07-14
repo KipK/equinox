@@ -3,6 +3,7 @@ import { css } from "lit";
 export const flatStyles = css`
   :host {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
+    --equinox-dialog-opaque-base: #1c1c1c;
     --equinox-panel-bg: var(--equinox-flat-panel-bg, var(--secondary-background-color));
     --equinox-control-bg: var(--equinox-flat-control-bg, var(--secondary-background-color));
     --equinox-control-active-bg: var(--primary-color);
@@ -60,6 +61,7 @@ export const flatStyles = css`
   }
 
   :host([light]) {
+    --equinox-dialog-opaque-base: #ffffff;
     --equinox-panel-bg: var(--equinox-card-bg);
     --equinox-control-bg: var(--equinox-card-bg);
   }

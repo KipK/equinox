@@ -36,7 +36,12 @@ export class EquinoxDialog extends LitElement {
       display: flex;
       flex-direction: column;
       min-height: 0;
-      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+      background:
+        linear-gradient(
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c)),
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c))
+        ),
+        var(--equinox-dialog-opaque-base, #1c1c1c);
       color: var(--primary-text-color);
       border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
       overflow: var(--eq-dialog-panel-overflow, hidden);
@@ -65,7 +70,12 @@ export class EquinoxDialog extends LitElement {
       margin: 0;
       padding: 0;
       color: var(--primary-text-color);
-      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+      background:
+        linear-gradient(
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c)),
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c))
+        ),
+        var(--equinox-dialog-opaque-base, #1c1c1c);
     }
 
     .panel.centered[popover]::backdrop {
@@ -87,7 +97,12 @@ export class EquinoxDialog extends LitElement {
         max-width: min(calc(100vw - 24px), 520px);
         max-height: calc(100vh - 24px);
         overflow: auto;
-        background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
+        background:
+          linear-gradient(
+            color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent),
+            color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent)
+          ),
+          var(--equinox-dialog-opaque-base, #1c1c1c);
         border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
         box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
         backdrop-filter: blur(14px);

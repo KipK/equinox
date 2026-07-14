@@ -15137,6 +15137,7 @@ var Us = o`
 `, Ws = o`
   :host {
     --equinox-card-bg: var(--ha-card-background, var(--card-background-color));
+    --equinox-dialog-opaque-base: #1c1c1c;
     --equinox-panel-bg: var(--equinox-flat-panel-bg, var(--secondary-background-color));
     --equinox-control-bg: var(--equinox-flat-control-bg, var(--secondary-background-color));
     --equinox-control-active-bg: var(--primary-color);
@@ -15194,6 +15195,7 @@ var Us = o`
   }
 
   :host([light]) {
+    --equinox-dialog-opaque-base: #ffffff;
     --equinox-panel-bg: var(--equinox-card-bg);
     --equinox-control-bg: var(--equinox-card-bg);
   }
@@ -15843,7 +15845,12 @@ var Us = o`
       display: flex;
       flex-direction: column;
       min-height: 0;
-      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+      background:
+        linear-gradient(
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c)),
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c))
+        ),
+        var(--equinox-dialog-opaque-base, #1c1c1c);
       color: var(--primary-text-color);
       border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
       overflow: var(--eq-dialog-panel-overflow, hidden);
@@ -15872,7 +15879,12 @@ var Us = o`
       margin: 0;
       padding: 0;
       color: var(--primary-text-color);
-      background: var(--equinox-card-bg, var(--card-background-color, #1c1c1c));
+      background:
+        linear-gradient(
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c)),
+          var(--equinox-card-bg, var(--card-background-color, #1c1c1c))
+        ),
+        var(--equinox-dialog-opaque-base, #1c1c1c);
     }
 
     .panel.centered[popover]::backdrop {
@@ -15894,7 +15906,12 @@ var Us = o`
         max-width: min(calc(100vw - 24px), 520px);
         max-height: calc(100vh - 24px);
         overflow: auto;
-        background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
+        background:
+          linear-gradient(
+            color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent),
+            color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent)
+          ),
+          var(--equinox-dialog-opaque-base, #1c1c1c);
         border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
         box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
         backdrop-filter: blur(14px);
@@ -21280,7 +21297,12 @@ var Tc = 4, Ec = [
     .dialog {
       position: relative;
       z-index: 1;
-      background: var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color)));
+      background:
+        linear-gradient(
+          var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color, #1c1c1c))),
+          var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color, #1c1c1c)))
+        ),
+        var(--equinox-dialog-opaque-base, #1c1c1c);
       border-radius: var(--equinox-radius, 8px);
       border: 1px solid var(--equinox-border-color, var(--divider-color));
       box-shadow: var(--equinox-shadow, 0 4px 20px rgba(0, 0, 0, 0.35));

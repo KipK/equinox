@@ -2,16 +2,15 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.2.6-dev
+## 0.3.0
 
 - Replaced static valve and power-request icons with borderless radial percentage gauges, added an option to hide the adjacent value while matching the gauge's outer diameter to other status icons, simplified gauge hover text, and kept instant power in the detailed dialog.
-
-## 0.2.5
-
+- Fixed dialogs becoming unreadable with Home Assistant themes that use transparent card backgrounds.
 - Added generic per-mode label, icon, tone, and visibility customization for HVAC, preset, fan, and vertical/horizontal swing modes.
 - Added Home Assistant's icon picker to per-mode customization in the visual editor.
 - Emphasized default localized mode names in the visual editor while keeping exact Home Assistant values secondary.
 - Fixed VT auto-fan display priority and neutral fallbacks for unknown climate modes.
+
 
 ## 0.2.4
 
