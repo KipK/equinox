@@ -6,7 +6,7 @@ import { MODE_TONES_BY_FAMILY, isModeHidden, modeCustomization, modeLabel, norma
 import { ensureHaComponents } from "./ha/load-components";
 import { localize } from "./localize/localize";
 import { DEFAULT_CONFIG } from "./types/config";
-import type { EquinoxCardConfigInput, EquinoxModeCustomization } from "./types/config";
+import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxModeCustomization } from "./types/config";
 import type { HaFormChangedEvent, HaFormSchema, HassEntity, HomeAssistant, LovelaceCardEditor } from "./types/ha";
 
 void ensureHaComponents();
@@ -153,6 +153,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
 
   private _config: EquinoxCardConfigInput = {};
   private _activeTab: "general" | "presentation" | ModeFamily = "general";
+  private _pendingModeCustomizations = new Map<ModeFamily, Map<string, Partial<EquinoxModeCustomization>>>();
 
   setConfig(config: EquinoxCardConfigInput): void {
     this._config = cleanEditorConfig(config);
@@ -243,21 +244,27 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
                     <label class="mode-header">
                       <input
                         type="checkbox"
-                        .checked=${!isModeHidden(this._config as any, family, option)}
-                        @change=${(event: Event) => this._updateModeCustomization(family, option, { hidden: !(event.currentTarget as HTMLInputElement).checked })}
+                        .checked=${!this._isModeHidden(family, option)}
+                        @change=${(event: Event) => this._commitModeCustomization(family, option, { hidden: !(event.currentTarget as HTMLInputElement).checked })}
                       />
                       <span class="mode-title">${defaultLabel}</span>
                     </label>
                     ${defaultLabel !== option ? html`<div class="mode-key">${option}</div>` : nothing}
                     <div class="mode-fields">
-                      ${this._modeField(language, "label", custom.label ?? "", (value) => this._updateModeCustomization(family, option, { label: value }))}
+                      ${this._modeField(
+                        language,
+                        "label",
+                        custom.label ?? "",
+                        (value) => this._stageModeCustomization(family, option, { label: value }),
+                        (value) => this._commitModeCustomization(family, option, { label: value })
+                      )}
                       <ha-icon-picker
                         .hass=${this.hass}
                         .label=${localize(language, "editor.mode_customization.icon")}
                         .value=${custom.icon ?? ""}
-                        @value-changed=${(event: CustomEvent<{ value?: string }>) => this._updateModeCustomization(family, option, { icon: event.detail.value ?? "" })}
+                        @value-changed=${(event: CustomEvent<{ value?: string }>) => this._commitModeCustomization(family, option, { icon: event.detail.value ?? "" })}
                       ></ha-icon-picker>
-                      <label>${localize(language, "editor.mode_customization.tone")}<select .value=${custom.tone ?? ""} @change=${(event: Event) => this._updateModeCustomization(family, option, { tone: (event.currentTarget as HTMLSelectElement).value as EquinoxModeCustomization["tone"] })}>
+                      <label>${localize(language, "editor.mode_customization.tone")}<select .value=${custom.tone ?? ""} @change=${(event: Event) => this._commitModeCustomization(family, option, { tone: (event.currentTarget as HTMLSelectElement).value as EquinoxModeCustomization["tone"] })}>
                         <option value="">${localize(language, "editor.mode_customization.automatic")}</option>
                         ${MODE_TONES_BY_FAMILY[family].map((tone) => html`<option value=${tone}>${tone}</option>`)}
                       </select></label>
@@ -270,8 +277,19 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     `;
   }
 
-  private _modeField(language: string | undefined, field: "label", value: string, update: (value: string) => void) {
-    return html`<label>${localize(language, `editor.mode_customization.${field}`)}<input type="text" .value=${value} @change=${(event: Event) => update((event.currentTarget as HTMLInputElement).value)} /></label>`;
+  private _modeField(
+    language: string | undefined,
+    field: "label",
+    value: string,
+    stage: (value: string) => void,
+    commit: (value: string) => void
+  ) {
+    return html`<label>${localize(language, `editor.mode_customization.${field}`)}<input
+      type="text"
+      .value=${value}
+      @input=${(event: Event) => stage((event.currentTarget as HTMLInputElement).value)}
+      @change=${(event: Event) => commit((event.currentTarget as HTMLInputElement).value)}
+    /></label>`;
   }
 
   private _generalSchema(language: string | undefined, displayMode: EquinoxCardConfigInput["display_mode"]): HaFormSchema[] {
@@ -518,7 +536,8 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
   private _supportedModes(family: ModeFamily): string[] {
     if (family === "fan") {
       const vt = this._climateEntity()?.attributes.vtherm_over_climate as Record<string, unknown> | undefined;
-      const modes = vt?.auto_fan_mode !== undefined || vt?.current_auto_fan_mode !== undefined ? AUTO_FAN_MODES : this._attributeModes("fan_modes");
+      const hasAutoFan = typeof vt?.auto_fan_mode === "string" || typeof vt?.current_auto_fan_mode === "string";
+      const modes = hasAutoFan ? AUTO_FAN_MODES : this._attributeModes("fan_modes");
       return orderedVisibleModes({ family, modes, standardOrder: FAN_ORDER });
     }
     const attributes = { hvac: "hvac_modes", preset: "preset_modes", swing: "swing_modes", swing_horizontal: "swing_horizontal_modes" } as const;
@@ -528,20 +547,69 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
   }
 
   private _modeCustomization(family: ModeFamily, mode: string): EquinoxModeCustomization {
-    return modeCustomization(this._config as any, family, mode) ?? {};
+    const current = modeCustomization(this._config as EquinoxCardConfig, family, mode) ?? {};
+    const pending = this._pendingModeCustomizations.get(family)?.get(mode);
+
+    if (!pending) {
+      return current;
+    }
+
+    const merged = { ...current, ...pending };
+    if (pending.hidden === false) delete merged.hidden;
+
+    return merged;
   }
 
-  private _updateModeCustomization(family: ModeFamily, mode: string, patch: Partial<EquinoxModeCustomization>): void {
-    const current = this._modeCustomization(family, mode);
-    const nextEntry = { ...current, ...patch };
-    if (patch.hidden === false) delete nextEntry.hidden;
-    const legacyKey = family === "hvac" ? "hidden_hvac_modes" : family === "preset" ? "hidden_preset_modes" : undefined;
-    const legacy = legacyKey ? (this._config[legacyKey] ?? []).filter((value) => patch.hidden !== false || value !== mode) : undefined;
-    this._config = cleanEditorConfig({
-      ...this._config,
-      ...(legacyKey ? { [legacyKey]: legacy } : {}),
-      mode_customizations: { ...this._config.mode_customizations, [family]: { ...this._config.mode_customizations?.[family], [mode]: nextEntry } }
-    });
+  private _isModeHidden(family: ModeFamily, mode: string): boolean {
+    const pending = this._pendingModeCustomizations.get(family)?.get(mode);
+
+    if (pending && Object.prototype.hasOwnProperty.call(pending, "hidden")) {
+      return pending.hidden === true;
+    }
+
+    return isModeHidden(this._config as EquinoxCardConfig, family, mode);
+  }
+
+  private _stageModeCustomization(family: ModeFamily, mode: string, patch: Partial<EquinoxModeCustomization>): void {
+    const familyUpdates = this._pendingModeCustomizations.get(family) ?? new Map<string, Partial<EquinoxModeCustomization>>();
+    familyUpdates.set(mode, { ...familyUpdates.get(mode), ...patch });
+    this._pendingModeCustomizations.set(family, familyUpdates);
+  }
+
+  private _commitModeCustomization(family: ModeFamily, mode: string, patch: Partial<EquinoxModeCustomization>): void {
+    this._stageModeCustomization(family, mode, patch);
+    this._flushModeCustomizations();
+  }
+
+  private _flushModeCustomizations(): void {
+    if (this._pendingModeCustomizations.size === 0) {
+      return;
+    }
+
+    let nextConfig = this._config;
+
+    for (const [family, modes] of this._pendingModeCustomizations) {
+      for (const [mode, patch] of modes) {
+        const current = modeCustomization(nextConfig as EquinoxCardConfig, family, mode) ?? {};
+        const nextEntry = { ...current, ...patch };
+        if (patch.hidden === false) delete nextEntry.hidden;
+
+        const legacyKey = family === "hvac" ? "hidden_hvac_modes" : family === "preset" ? "hidden_preset_modes" : undefined;
+        const legacy = legacyKey ? (nextConfig[legacyKey] ?? []).filter((value) => patch.hidden !== false || value !== mode) : undefined;
+
+        nextConfig = {
+          ...nextConfig,
+          ...(legacyKey ? { [legacyKey]: legacy } : {}),
+          mode_customizations: {
+            ...nextConfig.mode_customizations,
+            [family]: { ...nextConfig.mode_customizations?.[family], [mode]: nextEntry }
+          }
+        };
+      }
+    }
+
+    this._pendingModeCustomizations.clear();
+    this._config = cleanEditorConfig(nextConfig);
     this._emitConfigChanged();
   }
 

@@ -3573,10 +3573,6 @@ export class EquinoxMainCard extends LitElement {
       return localize(this._language(), "main.status.unavailable");
     }
 
-    if (mode === "off") {
-      return localize(this._language(), "main.status.off");
-    }
-
     return modeLabel({ config: this.config, language: this._language(), family: "hvac", mode });
   }
 

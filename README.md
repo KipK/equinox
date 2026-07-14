@@ -158,6 +158,7 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | `disable_name`            | no       | `false`              | Hide the header name; hidden in the editor when `display_mode: thin`.                                                                 |
 | `show_fan_mode`           | no       | `true`               | Show the fan mode selector when the climate entity supports fan modes.                                                                |
 | `show_swing_mode`         | no       | `true`               | Show the swing mode selector when the climate entity supports swing modes.                                                            |
+| `mode_customizations`     | no       | -                    | Per-mode label, icon, tone, and visibility overrides for HVAC, preset, fan, and vertical/horizontal swing modes.                       |
 | `enable_lock`             | no       | `true`               | Enable lock UI when supported by VT.                                                                                                  |
 | `additional_dashboards`   | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.                                                                           |
 | `state_icons_layout`      | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal.                                   |

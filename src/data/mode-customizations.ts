@@ -59,7 +59,7 @@ export function normalizeModeCustomizations(value: unknown): EquinoxModeCustomiz
   for (const family of FAMILIES) {
     const rawFamily = source[family];
     if (!rawFamily || typeof rawFamily !== "object" || Array.isArray(rawFamily)) continue;
-    const entries: Record<string, EquinoxModeCustomization> = Object.create(null) as Record<string, EquinoxModeCustomization>;
+    const entries: Record<string, EquinoxModeCustomization> = {};
     for (const [mode, rawEntry] of Object.entries(rawFamily)) {
       if (mode === "" || !rawEntry || typeof rawEntry !== "object" || Array.isArray(rawEntry)) continue;
       const raw = rawEntry as Record<string, unknown>;
@@ -71,7 +71,14 @@ export function normalizeModeCustomizations(value: unknown): EquinoxModeCustomiz
       if (icon.startsWith("mdi:")) entry.icon = icon;
       if ((MODE_TONES_BY_FAMILY[family] as readonly string[]).includes(tone)) entry.tone = tone as EquinoxModeTone;
       if (raw.hidden === true) entry.hidden = true;
-      if (Object.keys(entry).length > 0) entries[mode] = entry;
+      if (Object.keys(entry).length > 0) {
+        Object.defineProperty(entries, mode, {
+          value: entry,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      }
     }
     if (Object.keys(entries).length > 0) normalized[family] = entries;
   }
