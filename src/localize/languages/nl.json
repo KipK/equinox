@@ -218,6 +218,7 @@
     "hide_lock_button": "Vergrendelingsknop verbergen",
     "additional_dashboards": "Aanvullende dashboards",
     "state_icons_layout": "Statuspictogrammen",
+    "show_power_value": "Meterwaarde tonen",
     "border_glow_on_action": "De randen gloeien alleen wanneer HVAC actief is",
     "tabs": {
       "general": "Algemeen",

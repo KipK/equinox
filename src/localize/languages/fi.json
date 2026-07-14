@@ -218,6 +218,7 @@
     "hide_lock_button": "Piilota lukituspainike",
     "additional_dashboards": "Lisäkoontinäytöt",
     "state_icons_layout": "Tilakuvakkeet",
+    "show_power_value": "Näytä mittarin arvo",
     "border_glow_on_action": "Reunat hehkuvat vain kun HVAC on aktiivinen",
     "tabs": {
       "general": "Yleinen",

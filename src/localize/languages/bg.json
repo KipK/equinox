@@ -218,6 +218,7 @@
     "hide_lock_button": "Скриване на бутона за заключване",
     "additional_dashboards": "Допълнителни панели",
     "state_icons_layout": "Икони на състояние",
+    "show_power_value": "Показване на стойността на индикатора",
     "border_glow_on_action": "Ръбовете светят само когато HVAC е активен",
     "tabs": {
       "general": "Общи",

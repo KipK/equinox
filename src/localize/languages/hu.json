@@ -218,6 +218,7 @@
     "hide_lock_button": "Zárolási gomb elrejtése",
     "additional_dashboards": "További irányítópultok",
     "state_icons_layout": "Állapot ikonok",
+    "show_power_value": "Mérőérték megjelenítése",
     "border_glow_on_action": "A keretek csak akkor ragyognak, ha a HVAC aktív",
     "tabs": {
       "general": "Általános",

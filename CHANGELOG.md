@@ -2,6 +2,9 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.2.6-dev
+
+- Replaced static valve and power-request icons with borderless radial percentage gauges, added an option to hide the adjacent value while matching the gauge's outer diameter to other status icons, simplified gauge hover text, and kept instant power in the detailed dialog.
 
 ## 0.2.5
 

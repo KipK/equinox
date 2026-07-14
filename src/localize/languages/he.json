@@ -220,6 +220,7 @@
     "preset_modes": "כפתורי פריסט",
     "additional_dashboards": "לוחות מחוונים נוספים",
     "state_icons_layout": "סמלי מצב",
+    "show_power_value": "הצג את ערך המד",
     "border_glow_on_action": "המסגרות זוהרות רק כאשר ה-HVAC פעיל",
     "tabs": {
       "general": "כללי",

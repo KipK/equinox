@@ -218,6 +218,7 @@
     "hide_lock_button": "Sperrschaltfläche ausblenden",
     "additional_dashboards": "Zusätzliche Dashboards",
     "state_icons_layout": "Statussymbole",
+    "show_power_value": "Messwert anzeigen",
     "border_glow_on_action": "Die Ränder leuchten nur bei aktiver HVAC-Aktion",
     "tabs": {
       "general": "Allgemein",

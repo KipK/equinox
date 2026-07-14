@@ -218,6 +218,7 @@
     "hide_lock_button": "Скрыть кнопку блокировки",
     "additional_dashboards": "Дополнительные панели",
     "state_icons_layout": "Значки состояния",
+    "show_power_value": "Показывать значение индикатора",
     "border_glow_on_action": "Края светятся только когда HVAC активен",
     "tabs": {
       "general": "Общие",

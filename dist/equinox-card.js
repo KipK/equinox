@@ -7402,6 +7402,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Скриване на бутона за заключване",
 			additional_dashboards: "Допълнителни панели",
 			state_icons_layout: "Икони на състояние",
+			show_power_value: "Показване на стойността на индикатора",
 			border_glow_on_action: "Ръбовете светят само когато HVAC е активен",
 			tabs: {
 				general: "Общи",
@@ -7671,6 +7672,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Hide lock button",
 			additional_dashboards: "Additional dashboards",
 			state_icons_layout: "State icons",
+			show_power_value: "Mostra el valor de l'indicador",
 			border_glow_on_action: "Les vores brillen només quan l'HVAC està actiu",
 			tabs: {
 				general: "General",
@@ -7940,6 +7942,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Skrýt tlačítko zámku",
 			additional_dashboards: "Další přístupové panely",
 			state_icons_layout: "Ikony stavu",
+			show_power_value: "Zobrazit hodnotu ukazatele",
 			border_glow_on_action: "Okraje září jen když je HVAC aktivní",
 			tabs: {
 				general: "Obecné",
@@ -8209,6 +8212,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Hide lock button",
 			additional_dashboards: "Additional dashboards",
 			state_icons_layout: "State icons",
+			show_power_value: "Vis målerens værdi",
 			border_glow_on_action: "Kanterne lyser kun når HVAC er aktiv",
 			tabs: {
 				general: "General",
@@ -8478,6 +8482,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Sperrschaltfläche ausblenden",
 			additional_dashboards: "Zusätzliche Dashboards",
 			state_icons_layout: "Statussymbole",
+			show_power_value: "Messwert anzeigen",
 			border_glow_on_action: "Die Ränder leuchten nur bei aktiver HVAC-Aktion",
 			tabs: {
 				general: "Allgemein",
@@ -8747,6 +8752,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Απόκρυψη κουμπιού κλειδώματος",
 			additional_dashboards: "Πρόσθετα ταμπλό",
 			state_icons_layout: "Εικονίδια κατάστασης",
+			show_power_value: "Εμφάνιση τιμής ένδειξης",
 			border_glow_on_action: "Τα περιθώρια λάμπουν μόνο όταν το HVAC είναι ενεργό",
 			tabs: {
 				general: "Γενικά",
@@ -9039,6 +9045,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			preset_modes: "Preset buttons",
 			additional_dashboards: "Additional dashboards",
 			state_icons_layout: "State icons",
+			show_power_value: "Show gauge value",
 			border_glow_on_action: "Borders glow only while HVAC is active",
 			tabs: {
 				general: "General",
@@ -9310,6 +9317,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Ocultar botón de bloqueo",
 			additional_dashboards: "Paneles adicionales",
 			state_icons_layout: "Iconos de estado",
+			show_power_value: "Mostrar el valor del indicador",
 			border_glow_on_action: "Los bordes brillan solo cuando el HVAC está activo",
 			tabs: {
 				general: "General",
@@ -9579,6 +9587,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Piilota lukituspainike",
 			additional_dashboards: "Lisäkoontinäytöt",
 			state_icons_layout: "Tilakuvakkeet",
+			show_power_value: "Näytä mittarin arvo",
 			border_glow_on_action: "Reunat hehkuvat vain kun HVAC on aktiivinen",
 			tabs: {
 				general: "Yleinen",
@@ -9871,6 +9880,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			preset_modes: "Boutons preset",
 			additional_dashboards: "Dashboards additionnels",
 			state_icons_layout: "Icônes d'état",
+			show_power_value: "Afficher la valeur de la jauge",
 			border_glow_on_action: "Les bordures brillent uniquement quand le HVAC est actif",
 			tabs: {
 				general: "Général",
@@ -10144,6 +10154,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			preset_modes: "כפתורי פריסט",
 			additional_dashboards: "לוחות מחוונים נוספים",
 			state_icons_layout: "סמלי מצב",
+			show_power_value: "הצג את ערך המד",
 			border_glow_on_action: "המסגרות זוהרות רק כאשר ה-HVAC פעיל",
 			tabs: {
 				general: "כללי",
@@ -10411,6 +10422,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Zárolási gomb elrejtése",
 			additional_dashboards: "További irányítópultok",
 			state_icons_layout: "Állapot ikonok",
+			show_power_value: "Mérőérték megjelenítése",
 			border_glow_on_action: "A keretek csak akkor ragyognak, ha a HVAC aktív",
 			tabs: {
 				general: "Általános",
@@ -10680,6 +10692,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Nascondi pulsante blocco",
 			additional_dashboards: "Dashboard aggiuntivi",
 			state_icons_layout: "Icone di stato",
+			show_power_value: "Mostra il valore dell'indicatore",
 			border_glow_on_action: "I bordi brillano solo quando l'HVAC è attivo",
 			tabs: {
 				general: "Generale",
@@ -10949,6 +10962,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Vergrendelingsknop verbergen",
 			additional_dashboards: "Aanvullende dashboards",
 			state_icons_layout: "Statuspictogrammen",
+			show_power_value: "Meterwaarde tonen",
 			border_glow_on_action: "De randen gloeien alleen wanneer HVAC actief is",
 			tabs: {
 				general: "Algemeen",
@@ -11218,6 +11232,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Skjul låseknapp",
 			additional_dashboards: "Tilleggssamler",
 			state_icons_layout: "Tilstands ikoner",
+			show_power_value: "Vis målerverdi",
 			border_glow_on_action: "Kantene lyser bare når HVAC er aktiv",
 			tabs: {
 				general: "Generelt",
@@ -11487,6 +11502,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Ukryj przycisk blokady",
 			additional_dashboards: "Dodatkowe pulpity nawigacyjne",
 			state_icons_layout: "Ikony stanu",
+			show_power_value: "Pokaż wartość wskaźnika",
 			border_glow_on_action: "Krawędzie świecą tylko gdy HVAC jest aktywny",
 			tabs: {
 				general: "Ogólne",
@@ -11756,6 +11772,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Ocultar botão de bloqueio",
 			additional_dashboards: "Painéis adicionais",
 			state_icons_layout: "Ícones de estado",
+			show_power_value: "Mostrar valor do indicador",
 			border_glow_on_action: "As bordas brilham apenas quando o HVAC está ativo",
 			tabs: {
 				general: "Geral",
@@ -12025,6 +12042,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Скрыть кнопку блокировки",
 			additional_dashboards: "Дополнительные панели",
 			state_icons_layout: "Значки состояния",
+			show_power_value: "Показывать значение индикатора",
 			border_glow_on_action: "Края светятся только когда HVAC активен",
 			tabs: {
 				general: "Общие",
@@ -12294,6 +12312,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "Skryť tlačítko zámku",
 			additional_dashboards: "Ďalšie panely",
 			state_icons_layout: "Ikony stavu",
+			show_power_value: "Zobraziť hodnotu ukazovateľa",
 			border_glow_on_action: "Okraje žiaria len keď je HVAC aktívny",
 			tabs: {
 				general: "Všeobecné",
@@ -12563,6 +12582,7 @@ var no = "Equinox", ro = "custom:equinox-card", io = "equinox-card", ao = "equin
 			hide_lock_button: "隐藏锁定按钮",
 			additional_dashboards: "附加仪表板",
 			state_icons_layout: "状态图标",
+			show_power_value: "显示仪表数值",
 			border_glow_on_action: "仅在 HVAC 处于活动状态时边框发光",
 			tabs: {
 				general: "常规",
@@ -12809,6 +12829,7 @@ var Vo = ["flat", "liquid_glow"], Ho = [
 	hide_lock_button: !1,
 	additional_dashboards: uo,
 	state_icons_layout: "horizontal",
+	show_power_value: !0,
 	border_glow_on_action: !0
 };
 //#endregion
@@ -13196,6 +13217,9 @@ var Zo = class extends E {
 			selector: { boolean: {} }
 		}, {
 			name: "hide_lock_button",
+			selector: { boolean: {} }
+		}, {
+			name: "show_power_value",
 			selector: { boolean: {} }
 		}), this._config.theme === "liquid_glow" && i.push({
 			name: "border_glow_on_action",
@@ -23236,6 +23260,187 @@ var zc = class extends E {
         cursor: pointer;
       }
 
+      .power-info-button[has-gauge] {
+        --power-gauge-color: var(--equinox-info-color);
+        width: auto;
+        min-width: 50px;
+        border-radius: 999px;
+        color: var(--equinox-muted-color);
+        padding: 0 3px;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) {
+        width: 26px;
+        min-width: 26px;
+        height: 26px;
+        padding: 0;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) .power-gauge {
+        gap: 0;
+        padding: 0;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) .power-gauge-icon {
+        width: 12px;
+        height: 12px;
+        --mdc-icon-size: 12px;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) .power-gauge-ring {
+        width: 22px;
+        height: 22px;
+        flex-basis: 22px;
+      }
+
+      .power-info-button[has-gauge][tone="idle"] {
+        --power-gauge-color: var(--equinox-muted-color);
+      }
+
+      .power-info-button[has-gauge][tone="heat"] {
+        --power-gauge-color: var(--equinox-heat-color);
+      }
+
+      .power-info-button[has-gauge][tone="cool"] {
+        --power-gauge-color: var(--equinox-cool-color);
+      }
+
+      .power-gauge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 0 2px;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .power-gauge-ring {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+      }
+
+      .power-gauge-ring svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        transform: rotate(-90deg);
+      }
+
+      .power-gauge-track,
+      .power-gauge-progress {
+        fill: none;
+        stroke-width: 1.8;
+      }
+
+      .power-gauge-track {
+        stroke: color-mix(in srgb, var(--power-gauge-color) 22%, transparent);
+      }
+
+      .power-gauge-progress {
+        stroke: var(--power-gauge-color);
+        stroke-dasharray: 100;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.25s ease;
+      }
+
+      .power-info-button[has-gauge] .power-gauge-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        --mdc-icon-size: 12px;
+        transform: translate(-50%, -50%);
+        color: var(--power-gauge-color);
+      }
+
+      .power-gauge-value {
+        font-size: var(--rail-power-font-size, 11px);
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .thin-status .power-info-button[has-gauge] {
+        width: auto;
+        min-width: 46px;
+        height: 24px;
+        padding-inline: 2px;
+      }
+
+      .thin-status .power-info-button[has-gauge]:not([show-value]) {
+        width: 24px;
+        min-width: 24px;
+        height: 24px;
+        padding: 0;
+      }
+
+      .thin-status .power-info-button[has-gauge]:not([show-value]) .power-gauge-ring {
+        width: 18px;
+        height: 18px;
+        flex-basis: 18px;
+      }
+
+      .thin-status .power-info-button[has-gauge]:not([show-value]) .power-gauge-icon {
+        width: 10px;
+        height: 10px;
+        --mdc-icon-size: 10px;
+      }
+
+      .state-rail .power-info-button[has-gauge] {
+        width: 32px;
+        min-width: 32px;
+        height: 38px;
+        border-radius: 8px;
+        padding: 1px 0;
+      }
+
+      .state-rail .power-info-button[has-gauge]:not([show-value]) {
+        width: var(--rail-icon-size);
+        min-width: var(--rail-icon-size);
+        height: var(--rail-icon-size);
+        border-radius: 50%;
+      }
+
+      .state-rail .power-info-button[has-gauge]:not([show-value]) .power-gauge-ring {
+        width: var(--rail-icon-inner-size);
+        height: var(--rail-icon-inner-size);
+        flex-basis: var(--rail-icon-inner-size);
+      }
+
+      .state-rail .power-info-button[has-gauge]:not([show-value]) .power-gauge-icon {
+        width: clamp(10px, 3.8cqi, 12px);
+        height: clamp(10px, 3.8cqi, 12px);
+        --mdc-icon-size: clamp(10px, 3.8cqi, 12px);
+      }
+
+      .state-rail .power-gauge {
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+      }
+
+      .state-rail .power-gauge-ring {
+        width: 23px;
+        height: 23px;
+        flex-basis: 23px;
+      }
+
+      .state-rail .power-gauge-value {
+        font-size: 9px;
+        line-height: 10px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .power-gauge-progress {
+          transition: none;
+        }
+      }
+
       .power-info-button:hover,
       .power-info-button:focus-visible {
         background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
@@ -23263,6 +23468,30 @@ var zc = class extends E {
           gap: 8px;
         }
 
+        .status .power-info-button[has-gauge][show-value],
+        .thin-status .power-info-button[has-gauge][show-value] {
+          min-width: 42px;
+          padding-inline: 1px;
+        }
+
+        .status .power-info-button[has-gauge][show-value] .power-gauge-ring,
+        .thin-status .power-info-button[has-gauge][show-value] .power-gauge-ring {
+          width: 20px;
+          height: 20px;
+          flex-basis: 20px;
+        }
+
+        .status .power-info-button[has-gauge][show-value] .power-gauge-icon,
+        .thin-status .power-info-button[has-gauge][show-value] .power-gauge-icon {
+          width: 10px;
+          height: 10px;
+          --mdc-icon-size: 10px;
+        }
+
+        .status .power-gauge-value,
+        .thin-status .power-gauge-value {
+          font-size: 10px;
+        }
       }
 
       /* Locked = red so the color flags why the controls are blocked.
@@ -24260,20 +24489,44 @@ var zc = class extends E {
 	}
 	_renderPowerInfoButton() {
 		if (!this._hasPowerInfo()) return T;
-		let e = L(this._language(), "main.actions.open_power_info");
+		let e = this._powerValveValue(), t = L(this._language(), "main.actions.open_power_info"), n = e ? `${e.name}: ${e.label}` : void 0, r = n ?? t, i = n ? `${n}. ${t}` : t, a = e ? Math.min(100, Math.max(0, e.value)) : 0, o = e && this.config?.show_power_value !== !1;
 		return C`
       <button
         class="power-info power-info-button"
-        title=${e}
-        aria-label=${e}
+        ?has-gauge=${!!e}
+        ?show-value=${!!o}
+        tone=${e ? this._powerGaugeTone(e.value) : T}
+        title=${r}
+        aria-label=${i}
         @click=${(e) => this._openSensorMoreInfo({ kind: "power" }, e)}
       >
-        <ha-icon .icon=${this._powerInfoButtonIcon()}></ha-icon>
+        ${e ? C`
+              <span class="power-gauge" aria-hidden="true">
+                <span class="power-gauge-ring">
+                  <svg viewBox="0 0 24 24">
+                    <circle class="power-gauge-track" cx="12" cy="12" r="10.5"></circle>
+                    <circle
+                      class="power-gauge-progress"
+                      cx="12"
+                      cy="12"
+                      r="10.5"
+                      pathLength="100"
+                      stroke-dashoffset=${100 - a}
+                    ></circle>
+                  </svg>
+                  <ha-icon class="power-gauge-icon" .icon=${e.icon}></ha-icon>
+                </span>
+                ${o ? C`<span class="power-gauge-value">${e.label}</span>` : T}
+              </span>
+            ` : C`<ha-icon .icon=${this._powerInfoButtonIcon()}></ha-icon>`}
       </button>
     `;
 	}
 	_powerInfoButtonIcon() {
 		return this._powerValveValue()?.icon === "mdi:pipe-valve" ? "mdi:pipe-valve" : "mdi:flash";
+	}
+	_powerGaugeTone(e) {
+		return e <= 0 ? "idle" : this._activeHvacAction() ?? "info";
 	}
 	_renderFanButton() {
 		return C`
@@ -24357,11 +24610,15 @@ var zc = class extends E {
 		if (e) {
 			if (e.types.includes("over_valve") || e.types.includes("over_climate_valve")) return J(e.powerValve.valveOpenPercent) ? {
 				icon: "mdi:pipe-valve",
-				label: this._formatPercent(e.powerValve.valveOpenPercent)
+				label: this._formatPercent(e.powerValve.valveOpenPercent),
+				name: L(this._language(), "dialog.sensor_more_info.valve_opening"),
+				value: e.powerValve.valveOpenPercent
 			} : void 0;
 			if (e.types.includes("over_switch")) return J(e.powerValve.powerPercent) ? {
 				icon: "mdi:meter-electric",
-				label: this._formatPercent(e.powerValve.powerPercent)
+				label: this._formatPercent(e.powerValve.powerPercent),
+				name: L(this._language(), "dialog.sensor_more_info.power_request"),
+				value: e.powerValve.powerPercent
 			} : void 0;
 		}
 	}

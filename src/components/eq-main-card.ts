@@ -1734,6 +1734,187 @@ export class EquinoxMainCard extends LitElement {
         cursor: pointer;
       }
 
+      .power-info-button[has-gauge] {
+        --power-gauge-color: var(--equinox-info-color);
+        width: auto;
+        min-width: 50px;
+        border-radius: 999px;
+        color: var(--equinox-muted-color);
+        padding: 0 3px;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) {
+        width: 26px;
+        min-width: 26px;
+        height: 26px;
+        padding: 0;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) .power-gauge {
+        gap: 0;
+        padding: 0;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) .power-gauge-icon {
+        width: 12px;
+        height: 12px;
+        --mdc-icon-size: 12px;
+      }
+
+      .power-info-button[has-gauge]:not([show-value]) .power-gauge-ring {
+        width: 22px;
+        height: 22px;
+        flex-basis: 22px;
+      }
+
+      .power-info-button[has-gauge][tone="idle"] {
+        --power-gauge-color: var(--equinox-muted-color);
+      }
+
+      .power-info-button[has-gauge][tone="heat"] {
+        --power-gauge-color: var(--equinox-heat-color);
+      }
+
+      .power-info-button[has-gauge][tone="cool"] {
+        --power-gauge-color: var(--equinox-cool-color);
+      }
+
+      .power-gauge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 0 2px;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .power-gauge-ring {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+      }
+
+      .power-gauge-ring svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        transform: rotate(-90deg);
+      }
+
+      .power-gauge-track,
+      .power-gauge-progress {
+        fill: none;
+        stroke-width: 1.8;
+      }
+
+      .power-gauge-track {
+        stroke: color-mix(in srgb, var(--power-gauge-color) 22%, transparent);
+      }
+
+      .power-gauge-progress {
+        stroke: var(--power-gauge-color);
+        stroke-dasharray: 100;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.25s ease;
+      }
+
+      .power-info-button[has-gauge] .power-gauge-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        --mdc-icon-size: 12px;
+        transform: translate(-50%, -50%);
+        color: var(--power-gauge-color);
+      }
+
+      .power-gauge-value {
+        font-size: var(--rail-power-font-size, 11px);
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .thin-status .power-info-button[has-gauge] {
+        width: auto;
+        min-width: 46px;
+        height: 24px;
+        padding-inline: 2px;
+      }
+
+      .thin-status .power-info-button[has-gauge]:not([show-value]) {
+        width: 24px;
+        min-width: 24px;
+        height: 24px;
+        padding: 0;
+      }
+
+      .thin-status .power-info-button[has-gauge]:not([show-value]) .power-gauge-ring {
+        width: 18px;
+        height: 18px;
+        flex-basis: 18px;
+      }
+
+      .thin-status .power-info-button[has-gauge]:not([show-value]) .power-gauge-icon {
+        width: 10px;
+        height: 10px;
+        --mdc-icon-size: 10px;
+      }
+
+      .state-rail .power-info-button[has-gauge] {
+        width: 32px;
+        min-width: 32px;
+        height: 38px;
+        border-radius: 8px;
+        padding: 1px 0;
+      }
+
+      .state-rail .power-info-button[has-gauge]:not([show-value]) {
+        width: var(--rail-icon-size);
+        min-width: var(--rail-icon-size);
+        height: var(--rail-icon-size);
+        border-radius: 50%;
+      }
+
+      .state-rail .power-info-button[has-gauge]:not([show-value]) .power-gauge-ring {
+        width: var(--rail-icon-inner-size);
+        height: var(--rail-icon-inner-size);
+        flex-basis: var(--rail-icon-inner-size);
+      }
+
+      .state-rail .power-info-button[has-gauge]:not([show-value]) .power-gauge-icon {
+        width: clamp(10px, 3.8cqi, 12px);
+        height: clamp(10px, 3.8cqi, 12px);
+        --mdc-icon-size: clamp(10px, 3.8cqi, 12px);
+      }
+
+      .state-rail .power-gauge {
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+      }
+
+      .state-rail .power-gauge-ring {
+        width: 23px;
+        height: 23px;
+        flex-basis: 23px;
+      }
+
+      .state-rail .power-gauge-value {
+        font-size: 9px;
+        line-height: 10px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .power-gauge-progress {
+          transition: none;
+        }
+      }
+
       .power-info-button:hover,
       .power-info-button:focus-visible {
         background: color-mix(in srgb, var(--equinox-control-bg) 80%, var(--equinox-text-color) 14%);
@@ -1761,6 +1942,30 @@ export class EquinoxMainCard extends LitElement {
           gap: 8px;
         }
 
+        .status .power-info-button[has-gauge][show-value],
+        .thin-status .power-info-button[has-gauge][show-value] {
+          min-width: 42px;
+          padding-inline: 1px;
+        }
+
+        .status .power-info-button[has-gauge][show-value] .power-gauge-ring,
+        .thin-status .power-info-button[has-gauge][show-value] .power-gauge-ring {
+          width: 20px;
+          height: 20px;
+          flex-basis: 20px;
+        }
+
+        .status .power-info-button[has-gauge][show-value] .power-gauge-icon,
+        .thin-status .power-info-button[has-gauge][show-value] .power-gauge-icon {
+          width: 10px;
+          height: 10px;
+          --mdc-icon-size: 10px;
+        }
+
+        .status .power-gauge-value,
+        .thin-status .power-gauge-value {
+          font-size: 10px;
+        }
       }
 
       /* Locked = red so the color flags why the controls are blocked.
@@ -3272,22 +3477,59 @@ export class EquinoxMainCard extends LitElement {
       return nothing;
     }
 
-    const label = localize(this._language(), "main.actions.open_power_info");
+    const gauge = this._powerValveValue();
+    const actionLabel = localize(this._language(), "main.actions.open_power_info");
+    const metricLabel = gauge ? `${gauge.name}: ${gauge.label}` : undefined;
+    const title = metricLabel ?? actionLabel;
+    const ariaLabel = metricLabel ? `${metricLabel}. ${actionLabel}` : actionLabel;
+    const progress = gauge ? Math.min(100, Math.max(0, gauge.value)) : 0;
+    const showGaugeValue = gauge && this.config?.show_power_value !== false;
 
     return html`
       <button
         class="power-info power-info-button"
-        title=${label}
-        aria-label=${label}
+        ?has-gauge=${!!gauge}
+        ?show-value=${!!showGaugeValue}
+        tone=${gauge ? this._powerGaugeTone(gauge.value) : nothing}
+        title=${title}
+        aria-label=${ariaLabel}
         @click=${(event: Event) => this._openSensorMoreInfo({ kind: "power" }, event)}
       >
-        <ha-icon .icon=${this._powerInfoButtonIcon()}></ha-icon>
+        ${gauge
+          ? html`
+              <span class="power-gauge" aria-hidden="true">
+                <span class="power-gauge-ring">
+                  <svg viewBox="0 0 24 24">
+                    <circle class="power-gauge-track" cx="12" cy="12" r="10.5"></circle>
+                    <circle
+                      class="power-gauge-progress"
+                      cx="12"
+                      cy="12"
+                      r="10.5"
+                      pathLength="100"
+                      stroke-dashoffset=${100 - progress}
+                    ></circle>
+                  </svg>
+                  <ha-icon class="power-gauge-icon" .icon=${gauge.icon}></ha-icon>
+                </span>
+                ${showGaugeValue ? html`<span class="power-gauge-value">${gauge.label}</span>` : nothing}
+              </span>
+            `
+          : html`<ha-icon .icon=${this._powerInfoButtonIcon()}></ha-icon>`}
       </button>
     `;
   }
 
   private _powerInfoButtonIcon(): string {
     return this._powerValveValue()?.icon === "mdi:pipe-valve" ? "mdi:pipe-valve" : "mdi:flash";
+  }
+
+  private _powerGaugeTone(value: number): "idle" | "heat" | "cool" | "info" {
+    if (value <= 0) {
+      return "idle";
+    }
+
+    return this._activeHvacAction() ?? "info";
   }
 
   private _renderFanButton(): TemplateResult {
@@ -3404,7 +3646,7 @@ export class EquinoxMainCard extends LitElement {
     this._activeMessageKey = undefined;
   }
 
-  private _powerValveValue(): { icon: string; label: string } | undefined {
+  private _powerValveValue(): { icon: string; label: string; name: string; value: number } | undefined {
     const vt = this.viewModel?.vt;
 
     if (!vt) {
@@ -3413,13 +3655,23 @@ export class EquinoxMainCard extends LitElement {
 
     if (vt.types.includes("over_valve") || vt.types.includes("over_climate_valve")) {
       return finite(vt.powerValve.valveOpenPercent)
-        ? { icon: "mdi:pipe-valve", label: this._formatPercent(vt.powerValve.valveOpenPercent) }
+        ? {
+            icon: "mdi:pipe-valve",
+            label: this._formatPercent(vt.powerValve.valveOpenPercent),
+            name: localize(this._language(), "dialog.sensor_more_info.valve_opening"),
+            value: vt.powerValve.valveOpenPercent
+          }
         : undefined;
     }
 
     if (vt.types.includes("over_switch")) {
       return finite(vt.powerValve.powerPercent)
-        ? { icon: "mdi:meter-electric", label: this._formatPercent(vt.powerValve.powerPercent) }
+        ? {
+            icon: "mdi:meter-electric",
+            label: this._formatPercent(vt.powerValve.powerPercent),
+            name: localize(this._language(), "dialog.sensor_more_info.power_request"),
+            value: vt.powerValve.powerPercent
+          }
         : undefined;
     }
 

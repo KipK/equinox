@@ -472,6 +472,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         selector: {
           boolean: {}
         }
+      },
+      {
+        name: "show_power_value",
+        selector: {
+          boolean: {}
+        }
       }
     );
 

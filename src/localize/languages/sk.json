@@ -218,6 +218,7 @@
     "hide_lock_button": "Skryť tlačítko zámku",
     "additional_dashboards": "Ďalšie panely",
     "state_icons_layout": "Ikony stavu",
+    "show_power_value": "Zobraziť hodnotu ukazovateľa",
     "border_glow_on_action": "Okraje žiaria len keď je HVAC aktívny",
     "tabs": {
       "general": "Všeobecné",

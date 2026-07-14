@@ -65,6 +65,7 @@ export interface EquinoxCardConfig {
   mode_customizations?: EquinoxModeCustomizations;
   additional_dashboards?: EquinoxAdditionalDashboards;
   state_icons_layout?: EquinoxLayoutOrientation;
+  show_power_value?: boolean;
   border_glow_on_action?: boolean;
 }
 
@@ -83,6 +84,7 @@ export const DEFAULT_CONFIG = {
   hide_lock_button: false,
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
   state_icons_layout: "horizontal",
+  show_power_value: true,
   border_glow_on_action: true
 } satisfies Pick<
   EquinoxCardConfig,
@@ -96,6 +98,7 @@ export const DEFAULT_CONFIG = {
   | "hide_lock_button"
   | "additional_dashboards"
   | "state_icons_layout"
+  | "show_power_value"
   | "border_glow_on_action"
 >;
 

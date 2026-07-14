@@ -218,6 +218,7 @@
     "hide_lock_button": "Απόκρυψη κουμπιού κλειδώματος",
     "additional_dashboards": "Πρόσθετα ταμπλό",
     "state_icons_layout": "Εικονίδια κατάστασης",
+    "show_power_value": "Εμφάνιση τιμής ένδειξης",
     "border_glow_on_action": "Τα περιθώρια λάμπουν μόνο όταν το HVAC είναι ενεργό",
     "tabs": {
       "general": "Γενικά",

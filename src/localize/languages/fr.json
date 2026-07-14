@@ -241,6 +241,7 @@
     "preset_modes": "Boutons preset",
     "additional_dashboards": "Dashboards additionnels",
     "state_icons_layout": "Icônes d'état",
+    "show_power_value": "Afficher la valeur de la jauge",
     "border_glow_on_action": "Les bordures brillent uniquement quand le HVAC est actif",
     "tabs": {
       "general": "Général",

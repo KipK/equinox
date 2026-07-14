@@ -218,6 +218,7 @@
     "hide_lock_button": "Ukryj przycisk blokady",
     "additional_dashboards": "Dodatkowe pulpity nawigacyjne",
     "state_icons_layout": "Ikony stanu",
+    "show_power_value": "Pokaż wartość wskaźnika",
     "border_glow_on_action": "Krawędzie świecą tylko gdy HVAC jest aktywny",
     "tabs": {
       "general": "Ogólne",

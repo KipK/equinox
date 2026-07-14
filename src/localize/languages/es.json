@@ -218,6 +218,7 @@
     "hide_lock_button": "Ocultar botón de bloqueo",
     "additional_dashboards": "Paneles adicionales",
     "state_icons_layout": "Iconos de estado",
+    "show_power_value": "Mostrar el valor del indicador",
     "border_glow_on_action": "Los bordes brillan solo cuando el HVAC está activo",
     "tabs": {
       "general": "General",

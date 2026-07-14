@@ -147,7 +147,7 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | ------------------------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `entity`                  | yes      | -                    | Climate entity to display. Must use the `climate` domain.                                                                             |
 | `name`                    | no       | Entity friendly name | Display name; hidden in the editor when `display_mode: thin`.                                                                         |
-| `power_entity`            | no       | -                    | Sensor or input number for instant power.                                                                                             |
+| `power_entity`            | no       | -                    | Sensor or input number for instant power, shown in the detailed power dialog.                                                         |
 | `humidity_entity`         | no       | -                    | External humidity sensor when climate humidity is unavailable.                                                                        |
 | `theme`                   | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                                                                                                |
 | `display_mode`            | no       | `classic`            | Display format: `classic`, `compact`, or `thin`.                                                                                      |
@@ -162,6 +162,14 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | `enable_lock`             | no       | `true`               | Enable lock UI when supported by VT.                                                                                                  |
 | `additional_dashboards`   | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.                                                                           |
 | `state_icons_layout`      | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal.                                   |
+| `show_power_value`        | no       | `true`               | Show the numeric percentage beside the valve/power gauge; set to `false` for the gauge alone.                                         |
+
+For Versatile Thermostat entities, the main-card power indicator is a live
+percentage gauge: valve-controlled thermostats show `valve_open_percent`, while
+switch-controlled thermostats show `power_percent`. Clicking the gauge opens the
+detailed dialog and history. A configured `power_entity` is shown in that dialog
+but does not replace the regulation percentage on the main card. Set
+`show_power_value: false` to keep only the radial gauge on the card.
 
 Regulation diagnostics are discovered automatically from the climate entity
 attribute `specific_states.regulation_diagnostics` when the thermostat

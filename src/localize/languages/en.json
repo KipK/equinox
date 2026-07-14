@@ -241,6 +241,7 @@
     "preset_modes": "Preset buttons",
     "additional_dashboards": "Additional dashboards",
     "state_icons_layout": "State icons",
+    "show_power_value": "Show gauge value",
     "border_glow_on_action": "Borders glow only while HVAC is active",
     "tabs": {
       "general": "General",
