@@ -2,10 +2,6 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.2.6-dev
-
-- Fixed visual-editor mode fields losing their previous value while moving between fields, including Home Assistant's `hasOwnProperty` failure on normalized mode maps.
-- Fixed custom HVAC `off` labels on the main card and VT auto-fan detection when its attributes are null.
 
 ## 0.2.5
 
