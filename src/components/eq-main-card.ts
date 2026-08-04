@@ -2022,7 +2022,7 @@ export class EquinoxMainCard extends LitElement {
   private _sensorTargetFromHistory(value: unknown): SensorMoreInfoTarget | undefined {
     if (typeof value !== "object" || value === null) return undefined;
 
-    const record = value as Partial<Extract<SensorMoreInfoTarget, { kind: "entity" }>> & { kind?: unknown };
+    const record = value as Record<string, unknown>;
     if (record.kind === "power") {
       return { kind: "power" };
     }
@@ -2790,10 +2790,6 @@ export class EquinoxMainCard extends LitElement {
     }
 
     return html`<div class="thin-selectors thin-extra-selectors">${fan}${swing}</div>`;
-  }
-
-  private _hasThinExtraSelectors(): boolean {
-    return this._thinExtraSelectorCount() > 0;
   }
 
   private _thinExtraSelectorCount(): number {

@@ -9,7 +9,6 @@ export const SUPPORTED_LANGUAGES = [
 ] as const;
 
 const loaded = new Map<string, TranslationMap>();
-const supported = new Set<string>(SUPPORTED_LANGUAGES);
 
 for (const [lang, tree] of Object.entries(translations)) {
   loaded.set(lang, tree as TranslationMap);

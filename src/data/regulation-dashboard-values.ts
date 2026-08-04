@@ -27,7 +27,7 @@ export function normalizeRegulationPath(path: string | readonly string[] | undef
     return [];
   }
 
-  if (Array.isArray(path)) {
+  if (typeof path !== "string") {
     return path.map((part) => String(part)).filter((part) => part.length > 0);
   }
 
