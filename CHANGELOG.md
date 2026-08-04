@@ -2,6 +2,12 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.3.1-dev
+
+- bump ha-better-history to 0.3.1
+- bump load-ha-compnenents to 2.0.0
+- updated equinox to new load-ha-compnents api
+
 ## 0.3.0
 
 - Replaced static valve and power-request icons with borderless radial percentage gauges, added an option to hide the adjacent value while matching the gauge's outer diameter to other status icons, simplified gauge hover text, and kept instant power in the detailed dialog.

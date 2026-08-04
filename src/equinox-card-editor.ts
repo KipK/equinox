@@ -9,8 +9,6 @@ import { DEFAULT_CONFIG } from "./types/config";
 import type { EquinoxCardConfig, EquinoxCardConfigInput, EquinoxModeCustomization } from "./types/config";
 import type { HaFormChangedEvent, HaFormSchema, HassEntity, HomeAssistant, LovelaceCardEditor } from "./types/ha";
 
-void ensureHaComponents();
-
 function rgbChannel(value: unknown): number | undefined {
   const channel = Number(value);
   if (!Number.isFinite(channel)) return undefined;
@@ -154,6 +152,11 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
   private _config: EquinoxCardConfigInput = {};
   private _activeTab: "general" | "presentation" | ModeFamily = "general";
   private _pendingModeCustomizations = new Map<ModeFamily, Map<string, Partial<EquinoxModeCustomization>>>();
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    void ensureHaComponents().catch(() => undefined);
+  }
 
   setConfig(config: EquinoxCardConfigInput): void {
     this._config = cleanEditorConfig(config);
