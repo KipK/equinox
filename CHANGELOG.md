@@ -2,7 +2,7 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.3.1-dev
+## 0.3.1
 
 - Fix the full TypeScript check for sensor-history restoration, readonly Regulation paths, and statically loaded translations.
 - bump ha-better-history to 0.3.1
