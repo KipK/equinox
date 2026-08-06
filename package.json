@@ -1,6 +1,6 @@
 {
   "name": "equinox-card",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Custom Lovelace card for Versatile Thermostat and standard climate entities.",
   "type": "module",
   "private": true,
@@ -9,8 +9,8 @@
     "gzip:dist": "node scripts/gzip-dist.mjs"
   },
   "dependencies": {
-    "@kipk/ha-better-history": "^0.3.1",
-    "@kipk/load-ha-components": "^2.0.0",
+    "@kipk/ha-better-history": "^0.4.1",
+    "@kipk/load-ha-components": "^2.1.0",
     "lit": "^3.3.3"
   },
   "devDependencies": {
