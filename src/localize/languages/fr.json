@@ -74,6 +74,8 @@
       "auto_fan_turbo": "Turbo",
       "None": "Aucune",
       "Turbo": "Turbo",
+      "plugin_enabled": "Auto-fan activé",
+      "plugin_disabled": "Auto-fan désactivé",
       "unavailable": "Ventilation"
     },
     "swing": {
@@ -102,6 +104,8 @@
     "messages": {
       "hvac_off_manual": "Eteint manuellement",
       "hvac_off_auto_start_stop": "Eteint par auto-start/stop",
+      "hvac_fan_only_auto_start_stop": "Ventilation seule par auto-start/stop",
+      "hvac_dry_auto_start_stop": "Déshumidification par auto-start/stop",
       "hvac_off_window_detection": "Eteint par détection d'ouverture",
       "hvac_off_sleep_mode": "Eteint par le mode endormi",
       "hvac_off_safety_detection": "Eteint par le mode sécurité",
@@ -137,7 +141,25 @@
     "back": "Retour",
     "fan": {
       "title": "Ventilation",
-      "description_auto": "Le mode Auto adapte automatiquement la ventilation selon les besoins."
+      "description_auto": "Le mode Auto adapte automatiquement la ventilation selon les besoins.",
+      "plugin_enabled": "L'auto-fan est activé",
+      "plugin_disabled": "L'auto-fan est désactivé",
+      "enable_plugin": "Activer l'auto-fan",
+      "disable_plugin": "Désactiver l'auto-fan",
+      "selected_mode": "Mode de ventilation sélectionné",
+      "plugin_read_only": "Configurez l'entité switch de l'auto-fan pour piloter ce plugin depuis Equinox.",
+      "action_failed": "L'action auto-fan a échoué."
+    },
+    "auto_start_stop": {
+      "title": "Auto-start/stop",
+      "read_only": "Configurez le switch auto-start/stop et le select du mode d'arrêt pour piloter cette fonction depuis Equinox.",
+      "action_failed": "L'action auto-start/stop a échoué.",
+      "mode": {
+        "disabled": "Désactivé",
+        "off": "Extinction",
+        "fan_only": "Ventilation seule",
+        "dry": "Déshumidification"
+      }
     },
     "swing": {
       "title": "Oscillation",
@@ -227,6 +249,9 @@
     "power_entity": "Entité puissance",
     "humidity_entity": "Entité humidité",
     "temperature_entity": "Entité température",
+    "auto_start_stop_enable_entity": "Switch auto-start/stop",
+    "auto_start_stop_stop_mode_entity": "Mode d'arrêt auto-start/stop",
+    "auto_fan_enable_entity": "Switch du plugin auto-fan",
     "theme": "Thème",
     "display_mode": "Format",
     "primary_display": "Priorité d'affichage",

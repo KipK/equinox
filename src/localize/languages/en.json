@@ -74,6 +74,8 @@
       "auto_fan_turbo": "Turbo",
       "None": "None",
       "Turbo": "Turbo",
+      "plugin_enabled": "Auto-fan enabled",
+      "plugin_disabled": "Auto-fan disabled",
       "unavailable": "Fan"
     },
     "swing": {
@@ -102,6 +104,8 @@
     "messages": {
       "hvac_off_manual": "Turned off manually",
       "hvac_off_auto_start_stop": "Turned off by auto-start/stop",
+      "hvac_fan_only_auto_start_stop": "Set to fan only by auto-start/stop",
+      "hvac_dry_auto_start_stop": "Set to dry by auto-start/stop",
       "hvac_off_window_detection": "Turned off by window detection",
       "hvac_off_sleep_mode": "Turned off by sleep mode",
       "hvac_off_safety_detection": "Turned off by safety mode",
@@ -137,7 +141,25 @@
     "back": "Back",
     "fan": {
       "title": "Ventilation",
-      "description_auto": "Auto mode automatically adapts ventilation to heating needs."
+      "description_auto": "Auto mode automatically adapts ventilation to heating needs.",
+      "plugin_enabled": "Auto-fan is enabled",
+      "plugin_disabled": "Auto-fan is disabled",
+      "enable_plugin": "Enable auto-fan",
+      "disable_plugin": "Disable auto-fan",
+      "selected_mode": "Selected fan mode",
+      "plugin_read_only": "Configure the auto-fan switch entity to control this plugin from Equinox.",
+      "action_failed": "The auto-fan action failed."
+    },
+    "auto_start_stop": {
+      "title": "Auto-start/stop",
+      "read_only": "Configure the auto-start/stop switch and stop-mode select entities to control this feature from Equinox.",
+      "action_failed": "The auto-start/stop action failed.",
+      "mode": {
+        "disabled": "Disabled",
+        "off": "Turn off",
+        "fan_only": "Fan only",
+        "dry": "Dry"
+      }
     },
     "swing": {
       "title": "Swing",
@@ -227,6 +249,9 @@
     "power_entity": "Power entity",
     "humidity_entity": "Humidity entity",
     "temperature_entity": "Temperature entity",
+    "auto_start_stop_enable_entity": "Auto-start/stop switch",
+    "auto_start_stop_stop_mode_entity": "Auto-start/stop stop mode",
+    "auto_fan_enable_entity": "Auto-fan plugin switch",
     "theme": "Theme",
     "display_mode": "Format",
     "primary_display": "Display priority",

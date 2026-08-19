@@ -1,4 +1,4 @@
-import { asNumber, asString, firstDefined } from "./format";
+import { asNumber, asString, asStringArray, firstDefined, isUnavailableState } from "./format";
 import type { EquinoxCardConfig } from "../types/config";
 import type { HassEntity, HomeAssistant } from "../types/ha";
 import type {
@@ -81,8 +81,24 @@ function readTypes(attributes: Record<string, unknown>): EquinoxVtType[] {
   return types;
 }
 
-function readMessages(attributes: Record<string, unknown>, hass: HomeAssistant): EquinoxVtMessage[] {
+const AUTO_START_STOP_REASONS = new Set([
+  "hvac_off_auto_start_stop",
+  "hvac_fan_only_auto_start_stop",
+  "hvac_dry_auto_start_stop"
+]);
+
+const AUTO_START_STOP_STOP_MODES = new Set(["off", "fan_only", "dry"]);
+
+function readMessages(
+  attributes: Record<string, unknown>,
+  hass: HomeAssistant,
+  hvacModeReason?: string
+): EquinoxVtMessage[] {
   const messages = asMessageList(readPath(attributes, ["specific_states", "messages"]));
+
+  if (hvacModeReason && AUTO_START_STOP_REASONS.has(hvacModeReason)) {
+    messages.push(hvacModeReason);
+  }
 
   if (readPath(attributes, ["safety_manager", "safety_state"]) === "on") {
     messages.push("safety_detected");
@@ -139,6 +155,10 @@ function isSmartPiCalibrationActive(attributes: Record<string, unknown>, hass: H
   return phase === "Calibration" || (calibrationState !== undefined && calibrationState !== "Idle");
 }
 
+function isControlEntityAvailable(entity: HassEntity | undefined, domain: "select" | "switch"): boolean {
+  return entity !== undefined && entity.entity_id.startsWith(`${domain}.`) && !isUnavailableState(entity.state);
+}
+
 export function buildVtViewModel(
   config: EquinoxCardConfig,
   hass: HomeAssistant,
@@ -169,9 +189,32 @@ export function buildVtViewModel(
     readPath(attributes, ["lock_manager", "is_locked"]) === true ? true : undefined,
     readPath(attributes, ["specific_states", "is_locked"]) === true ? true : undefined
   ) === true;
-  const messages = readMessages(attributes, hass);
+  const hvacModeReason = firstDefined(
+    asString(readPath(attributes, ["specific_states", "hvac_mode_reason"])),
+    asString(readPath(attributes, ["specific_states", "hvac_off_reason"]))
+  );
+  const messages = readMessages(attributes, hass, hvacModeReason);
   const autoFanMode = asString(readPath(attributes, ["vtherm_over_climate", "auto_fan_mode"]));
   const currentAutoFanMode = asString(readPath(attributes, ["vtherm_over_climate", "current_auto_fan_mode"]));
+  const autoFanPlugin = Array.isArray(attributes.auto_fan) ? undefined : readObject(attributes.auto_fan);
+  const autoFanKind = autoFanPlugin
+    ? "plugin"
+    : autoFanMode !== undefined || currentAutoFanMode !== undefined
+      ? "legacy"
+      : "none";
+  const autoFanSwitch = config.auto_fan_enable_entity
+    ? hass.states[config.auto_fan_enable_entity]
+    : undefined;
+  const autoFanSwitchAvailable = isControlEntityAvailable(autoFanSwitch, "switch");
+  const autoStartStopManager = readObject(attributes.auto_start_stop_manager);
+  const autoStartStopEnableEntity = config.auto_start_stop_enable_entity
+    ? hass.states[config.auto_start_stop_enable_entity]
+    : undefined;
+  const autoStartStopModeEntity = config.auto_start_stop_stop_mode_entity
+    ? hass.states[config.auto_start_stop_stop_mode_entity]
+    : undefined;
+  const stopModeOptions = asStringArray(autoStartStopModeEntity?.attributes.options)
+    .filter((mode) => AUTO_START_STOP_STOP_MODES.has(mode));
   const instantPowerEntity = config.power_entity ? hass.states[config.power_entity] : undefined;
   const requestedHvacMode = asString(readPath(attributes, ["requested_state", "hvac_mode"]));
 
@@ -225,9 +268,26 @@ export function buildVtViewModel(
     },
     messages,
     fan: {
+      kind: autoFanKind,
       autoFanMode,
       currentAutoFanMode,
-      hasAutoFan: autoFanMode !== undefined || currentAutoFanMode !== undefined
+      isEnabled: autoFanKind === "plugin"
+        ? autoFanSwitchAvailable
+          ? autoFanSwitch?.state === "on"
+          : autoFanPlugin?.enabled === true
+        : currentAutoFanMode !== undefined && currentAutoFanMode !== "auto_fan_none",
+      selectedFanMode: asString(autoFanPlugin?.selected_fan_mode),
+      pluginSwitchAvailable: autoFanKind === "plugin" && autoFanSwitchAvailable,
+      hasAutoFan: autoFanKind !== "none"
+    },
+    autoStartStop: {
+      isConfigured: attributes.is_auto_start_stop_configured === true,
+      isEnabled: autoStartStopManager?.auto_start_stop_enable === true,
+      stopMode: asString(autoStartStopManager?.auto_start_stop_stop_mode),
+      stopModeOptions,
+      hvacModeReason,
+      enableEntityAvailable: isControlEntityAvailable(autoStartStopEnableEntity, "switch"),
+      stopModeEntityAvailable: isControlEntityAvailable(autoStartStopModeEntity, "select")
     },
     specificStates,
     currentState: readObject(attributes.current_state),

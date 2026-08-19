@@ -2,8 +2,9 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.3.2-dev
+## 0.3.2
 
+- Add capability-gated Versatile Thermostat auto-start/stop stop-mode controls, `hvac_mode_reason` status messages, and auto-fan plugin support while preserving legacy auto-fan and standard climate fan modes.
 - updated ha-better-history to 0.4.1
 - updated load-ha-components to 2.1.0
 

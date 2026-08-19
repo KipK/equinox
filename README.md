@@ -149,6 +149,9 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | `name`                    | no       | Entity friendly name | Display name; hidden in the editor when `display_mode: thin`.                                                                         |
 | `power_entity`            | no       | -                    | Sensor or input number for instant power, shown in the detailed power dialog.                                                         |
 | `humidity_entity`         | no       | -                    | External humidity sensor when climate humidity is unavailable.                                                                        |
+| `auto_start_stop_enable_entity` | no | -                    | VTherm auto-start/stop enable switch. Shown in the visual editor only when the selected VTherm reports that the feature is configured. |
+| `auto_start_stop_stop_mode_entity` | no | -                 | VTherm auto-start/stop stop-mode select. Its HA options determine whether `off`, `fan_only`, and `dry` are offered.                     |
+| `auto_fan_enable_entity`  | no       | -                    | Enable switch for the VTherm auto-fan plugin. Shown in the visual editor only when the selected climate exposes `auto_fan`.            |
 | `theme`                   | no       | `liquid_glow`        | Visual theme: `flat` or `liquid_glow`.                                                                                                |
 | `display_mode`            | no       | `classic`            | Display format: `classic`, `compact`, or `thin`.                                                                                      |
 | `primary_display`         | no       | `setpoint`           | Main emphasis: `setpoint` or `sensors`; ignored in `thin`.                                                                            |
@@ -170,6 +173,44 @@ switch-controlled thermostats show `power_percent`. Clicking the gauge opens the
 detailed dialog and history. A configured `power_entity` is shown in that dialog
 but does not replace the regulation percentage on the main card. Set
 `show_power_value: false` to keep only the radial gauge on the card.
+
+### VTherm auto-start/stop and auto-fan
+
+When a VTherm reports `is_auto_start_stop_configured: true`, Equinox displays
+an auto-start/stop control. Configure both related entities to make it
+writable:
+
+```yaml
+type: custom:equinox-card
+entity: climate.salon
+auto_start_stop_enable_entity: switch.salon_enable_auto_start_stop
+auto_start_stop_stop_mode_entity: select.salon_auto_start_stop_stop_mode
+```
+
+The popup adds a synthetic **Disabled** choice that turns off the switch. The
+other choices come directly from the select entity, so Equinox never offers
+`fan_only` or `dry` unless the VTherm equipment supports them. Without both
+entities, the current state remains visible but read-only.
+
+Equinox also supports both auto-fan implementations:
+
+- Legacy auto-fan keeps using `versatile_thermostat.set_auto_fan_mode` and the
+  existing `AUTO_FAN_MODES` selector.
+- The plugin is detected from the climate `auto_fan` attribute. It displays
+  `selected_fan_mode` and reads `enabled`; configure its switch to make the
+  control writable:
+
+```yaml
+type: custom:equinox-card
+entity: climate.salon
+auto_fan_enable_entity: switch.salon_enable_auto_fan
+```
+
+These fields only appear in the visual editor when the selected VTherm exposes
+the corresponding capability. Hidden fields are preserved rather than removed
+silently. Equinox uses `specific_states.hvac_mode_reason` for the active-mode
+cause and falls back to the deprecated `hvac_off_reason` for older VTherm
+installations.
 
 Regulation diagnostics are discovered automatically from the climate entity
 attribute `specific_states.regulation_diagnostics` when the thermostat

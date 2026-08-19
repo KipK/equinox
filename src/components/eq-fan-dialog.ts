@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from "lit";
-import { setAutoFanMode, setFanMode } from "../data/actions";
+import { setAutoFanMode, setAutoFanPluginEnabled, setFanMode, type EquinoxActionErrorCode } from "../data/actions";
 import { DEFAULT_THEME } from "../const";
 import { fanTone } from "../data/colors";
 import { AUTO_FAN_MODES, FAN_MODE_ICONS } from "../data/fan";
@@ -19,7 +19,8 @@ export class EquinoxFanDialog extends LitElement {
     language: {},
     floating: { type: Boolean },
     closeOnLeave: { type: Boolean },
-    anchor: { attribute: false }
+    anchor: { attribute: false },
+    _error: { state: true }
   };
 
   static styles = css`
@@ -272,6 +273,33 @@ export class EquinoxFanDialog extends LitElement {
       display: none;
     }
 
+    .plugin-summary {
+      display: grid;
+      gap: 12px;
+    }
+
+    .plugin-mode {
+      color: var(--secondary-text-color);
+      font-size: 14px;
+    }
+
+    .plugin-action:disabled {
+      cursor: default;
+      opacity: 0.65;
+    }
+
+    .plugin-note,
+    .error {
+      margin: 0;
+      color: var(--secondary-text-color);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .error {
+      color: var(--error-color, #db4437);
+    }
+
     @media (max-width: 600px) {
       .fan-desktop {
         display: none;
@@ -291,6 +319,7 @@ export class EquinoxFanDialog extends LitElement {
   floating = false;
   closeOnLeave = false;
   anchor?: { element: HTMLElement };
+  private _error?: EquinoxActionErrorCode;
 
   protected willUpdate(): void {
     // Mirror the active equinox theme onto our host so :host([theme="..."]) rules apply.
@@ -299,7 +328,7 @@ export class EquinoxFanDialog extends LitElement {
   }
 
   private _getOptions(): string[] {
-    if (this.viewModel?.vt?.fan.hasAutoFan === true) {
+    if (this.viewModel?.vt?.fan.kind === "legacy") {
       return AUTO_FAN_MODES.filter((mode) => !isModeHidden(this.config, "fan", mode));
     }
 
@@ -307,7 +336,7 @@ export class EquinoxFanDialog extends LitElement {
   }
 
   private _getActiveMode(): string | undefined {
-    if (this.viewModel?.vt?.fan.hasAutoFan === true) {
+    if (this.viewModel?.vt?.fan.kind === "legacy") {
       return this.viewModel.vt.fan.currentAutoFanMode;
     }
 
@@ -335,21 +364,80 @@ export class EquinoxFanDialog extends LitElement {
       return;
     }
 
-    const ctx = { hass: this.hass, entityId: this.config.entity, viewModel: this.viewModel };
+    const ctx = { hass: this.hass, entityId: this.config.entity, config: this.config, viewModel: this.viewModel };
 
-    if (this.viewModel?.vt?.fan.hasAutoFan === true) {
-      await setAutoFanMode(ctx, mode);
+    this._error = undefined;
+    const result = this.viewModel?.vt?.fan.kind === "legacy"
+      ? await setAutoFanMode(ctx, mode)
+      : await setFanMode(ctx, mode);
+
+    if (result.ok) {
+      this._dispatchClose();
     } else {
-      await setFanMode(ctx, mode);
+      this._error = result.error;
+    }
+  }
+
+  private async _togglePlugin(): Promise<void> {
+    const fan = this.viewModel?.vt?.fan;
+
+    if (!this.hass || !this.config || fan?.kind !== "plugin" || !fan.pluginSwitchAvailable) {
+      return;
     }
 
-    this._dispatchClose();
+    this._error = undefined;
+    const result = await setAutoFanPluginEnabled(
+      { hass: this.hass, entityId: this.config.entity, config: this.config, viewModel: this.viewModel },
+      fan.isEnabled !== true
+    );
+
+    if (result.ok) {
+      this._dispatchClose();
+    } else {
+      this._error = result.error;
+    }
+  }
+
+  private _renderPlugin() {
+    const fan = this.viewModel?.vt?.fan;
+    const enabled = fan?.isEnabled === true;
+    const writable = fan?.pluginSwitchAvailable === true;
+    const actionDisabled =
+      !writable ||
+      this.viewModel?.climate.availability !== "available" ||
+      this.viewModel?.vt?.lock.isUserLocked === true;
+    const stateLabel = localize(this.language, enabled ? "dialog.fan.plugin_enabled" : "dialog.fan.plugin_disabled");
+    const actionLabel = localize(this.language, enabled ? "dialog.fan.disable_plugin" : "dialog.fan.enable_plugin");
+
+    return html`
+      <div class="plugin-summary">
+        <button
+          class="option-list-item plugin-action"
+          type="button"
+          ?active=${enabled}
+          ?disabled=${actionDisabled}
+          @click=${this._togglePlugin}
+        >
+          <span class="option-icon" tone=${enabled ? "fan-auto" : "fan-off"}>
+            <ha-icon .icon=${enabled ? "mdi:fan-auto" : "mdi:fan-off"}></ha-icon>
+          </span>
+          <span>${writable ? actionLabel : stateLabel}</span>
+          ${enabled ? html`<ha-icon class="option-check" icon="mdi:check"></ha-icon>` : nothing}
+        </button>
+        ${fan?.selectedFanMode
+          ? html`<div class="plugin-mode">${localize(this.language, "dialog.fan.selected_mode")}: ${fan.selectedFanMode}</div>`
+          : nothing}
+        ${!writable ? html`<p class="plugin-note">${localize(this.language, "dialog.fan.plugin_read_only")}</p>` : nothing}
+        ${this._error ? html`<p class="error">${localize(this.language, "dialog.fan.action_failed")}</p>` : nothing}
+      </div>
+    `;
   }
 
   protected render() {
     const options = this._getOptions();
     const activeMode = this._getActiveMode();
     const title = localize(this.language, "dialog.fan.title");
+    const plugin = this.viewModel?.vt?.fan.kind === "plugin";
 
     return html`
       <eq-dialog
@@ -361,6 +449,7 @@ export class EquinoxFanDialog extends LitElement {
         .anchor=${this.anchor}
         @eq-dialog-close=${this._dispatchClose}
       >
+        ${plugin ? this._renderPlugin() : html`
         <!-- Desktop: horizontal grid of icon buttons -->
         <div class="fan-desktop">
           <div class="fan-grid">
@@ -406,6 +495,8 @@ export class EquinoxFanDialog extends LitElement {
           )}
           </div>
         </div>
+        ${this._error ? html`<p class="error">${localize(this.language, "dialog.fan.action_failed")}</p>` : nothing}
+        `}
       </eq-dialog>
     `;
   }

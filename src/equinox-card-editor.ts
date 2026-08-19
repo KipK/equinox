@@ -297,6 +297,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
 
   private _generalSchema(language: string | undefined, displayMode: EquinoxCardConfigInput["display_mode"]): HaFormSchema[] {
     const isThin = displayMode === "thin";
+    const featureVisibility = this._vtFeatureVisibility();
     const schema: HaFormSchema[] = [
       {
         name: "entity",
@@ -353,6 +354,42 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         }
       });
     }
+
+    const featureFields: HaFormSchema[] = [];
+
+    if (featureVisibility.autoStartStop) {
+      featureFields.push(
+        {
+          name: "auto_start_stop_enable_entity",
+          selector: {
+            entity: {
+              domain: ["switch"]
+            }
+          }
+        },
+        {
+          name: "auto_start_stop_stop_mode_entity",
+          selector: {
+            entity: {
+              domain: ["select"]
+            }
+          }
+        }
+      );
+    }
+
+    if (featureVisibility.autoFanPlugin) {
+      featureFields.push({
+        name: "auto_fan_enable_entity",
+        selector: {
+          entity: {
+            domain: ["switch"]
+          }
+        }
+      });
+    }
+
+    schema.splice(isThin ? 1 : 2, 0, ...featureFields);
 
     return schema;
   }
@@ -530,6 +567,16 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     const entityId = this._config.entity;
 
     return entityId ? this.hass?.states[entityId] : undefined;
+  }
+
+  private _vtFeatureVisibility(): { autoStartStop: boolean; autoFanPlugin: boolean } {
+    const attributes = this._climateEntity()?.attributes;
+    const autoFan = attributes?.auto_fan;
+
+    return {
+      autoStartStop: attributes?.is_auto_start_stop_configured === true,
+      autoFanPlugin: typeof autoFan === "object" && autoFan !== null && !Array.isArray(autoFan)
+    };
   }
 
   private _attributeModes(attribute: "hvac_modes" | "preset_modes" | "fan_modes" | "swing_modes" | "swing_horizontal_modes"): string[] {

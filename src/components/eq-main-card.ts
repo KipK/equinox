@@ -18,6 +18,7 @@ import type { RegulationDashboard } from "../types/regulation-dashboard";
 import type { EquinoxVtMessage } from "../types/vt";
 import type { EquinoxViewModel } from "../types/view-model";
 import type { SensorMoreInfoTarget } from "./eq-sensor-more-info-dialog";
+import "./eq-auto-start-stop-dialog";
 import "./eq-fan-dialog";
 import "./eq-hvac-dialog";
 import "./eq-swing-dialog";
@@ -49,7 +50,7 @@ type EventIconDefinition = {
 };
 
 type TemperatureRangeBound = "low" | "high";
-type LightweightDialog = "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu" | "boost";
+type LightweightDialog = "fan" | "swing" | "hvac" | "preset" | "temperature" | "auto-start-stop" | "menu" | "boost";
 
 type RgbColor = {
   r: number;
@@ -110,6 +111,8 @@ const MESSAGE_ICONS: Record<string, { icon: string; tone: string }> = {
   target_temp_window_eco: { icon: "mdi:window-open-variant", tone: "info" },
   target_temp_window_frost: { icon: "mdi:window-open-variant", tone: "info" },
   hvac_off_auto_start_stop: { icon: "mdi:power-sleep", tone: "boost" },
+  hvac_fan_only_auto_start_stop: { icon: "mdi:power-sleep", tone: "boost" },
+  hvac_dry_auto_start_stop: { icon: "mdi:power-sleep", tone: "boost" },
   hvac_off_sleep_mode: { icon: "mdi:sleep", tone: "boost" },
   target_temp_timed_preset: { icon: "mdi:timer-outline", tone: "boost" },
   target_temp_activity_detected: { icon: "mdi:motion-sensor", tone: "info" },
@@ -551,9 +554,11 @@ export class EquinoxMainCard extends LitElement {
       .state-rail .lock,
       .state-rail .fan,
       .state-rail .swing,
+      .state-rail .auto-start-stop,
       .state-rail .menu,
       .left-rail .fan,
       .left-rail .swing,
+      .left-rail .auto-start-stop,
       .left-rail .power-info,
       .state-rail .power-info {
         flex: 0 0 auto;
@@ -570,8 +575,10 @@ export class EquinoxMainCard extends LitElement {
 
       .state-rail .fan,
       .state-rail .swing,
+      .state-rail .auto-start-stop,
       .left-rail .fan,
-      .left-rail .swing {
+      .left-rail .swing,
+      .left-rail .auto-start-stop {
         width: var(--rail-mode-button-size);
         height: var(--rail-mode-button-size);
       }
@@ -586,9 +593,11 @@ export class EquinoxMainCard extends LitElement {
       .state-rail .lock ha-icon,
       .state-rail .fan ha-icon,
       .state-rail .swing ha-icon,
+      .state-rail .auto-start-stop ha-icon,
       .state-rail .menu ha-icon,
       .left-rail .fan ha-icon,
       .left-rail .swing ha-icon,
+      .left-rail .auto-start-stop ha-icon,
       .left-rail .power-info-button ha-icon,
       .state-rail .power-info-button ha-icon {
         --mdc-icon-size: var(--rail-icon-inner-size);
@@ -1314,6 +1323,10 @@ export class EquinoxMainCard extends LitElement {
         width: 101px;
       }
 
+      .thin-layout[extra-count="3"] .thin-extra-selectors {
+        width: 154px;
+      }
+
       .thin-selectors ha-control-button {
         width: 48px;
         height: 34px;
@@ -1353,6 +1366,10 @@ export class EquinoxMainCard extends LitElement {
 
         .thin-layout[extra-count="2"] {
           --thin-extra-column-width: 101px;
+        }
+
+        .thin-layout[extra-count="3"] {
+          --thin-extra-column-width: 154px;
         }
 
         .thin-layout:not([has-extra]) {
@@ -1642,7 +1659,8 @@ export class EquinoxMainCard extends LitElement {
       }
 
       .fan,
-      .swing {
+      .swing,
+      .auto-start-stop {
         width: 36px;
         height: 40px;
         display: inline-flex;
@@ -1670,22 +1688,28 @@ export class EquinoxMainCard extends LitElement {
       .swing[tone="swing-both"]                                     { --eq-tone-color: var(--equinox-swing-both-color); }
       .swing[tone="swing-off"]                                      { --eq-tone-color: var(--state-unavailable-color, var(--disabled-text-color, #7e8792)); }
       .fan[tone="off"], .swing[tone="off"]                          { --eq-tone-color: var(--disabled-text-color, var(--equinox-muted-color)); }
+      .auto-start-stop[tone="boost"]                                 { --eq-tone-color: var(--equinox-boost-color); }
+      .auto-start-stop[tone="off"]                                   { --eq-tone-color: var(--disabled-text-color, var(--equinox-muted-color)); }
 
       .fan[tone^="fan-"],
       .swing[tone^="swing-"],
+      .auto-start-stop[tone="boost"],
+      .auto-start-stop[tone="off"],
       .fan[tone="off"],
       .swing[tone="off"] {
         color: var(--eq-tone-color);
       }
 
       .status .fan,
-      .status .swing {
+      .status .swing,
+      .status .auto-start-stop {
         width: 32px;
         height: 32px;
       }
 
       .fan-label,
-      .swing-label {
+      .swing-label,
+      .auto-start-stop-label {
         display: none;
       }
 
@@ -1704,13 +1728,15 @@ export class EquinoxMainCard extends LitElement {
 
       .menu,
       .fan,
-      .swing {
+      .swing,
+      .auto-start-stop {
         border-radius: var(--equinox-control-radius);
       }
 
       .menu:hover,
       .fan:hover,
-      .swing:hover {
+      .swing:hover,
+      .auto-start-stop:hover {
         background: var(--equinox-mode-control-hover-bg);
       }
 
@@ -2476,6 +2502,20 @@ export class EquinoxMainCard extends LitElement {
             @eq-dialog-close=${() => this._closeLightweightDialog("temperature")}
           ></eq-temperature-dialog>
         `;
+      case "auto-start-stop":
+        return html`
+          <eq-auto-start-stop-dialog
+            .open=${true}
+            .hass=${this.hass}
+            .viewModel=${this.viewModel}
+            .config=${this.config}
+            .language=${this._language()}
+            .floating=${true}
+            .closeOnLeave=${true}
+            .anchor=${this._dialogAnchor}
+            @eq-dialog-close=${() => this._closeLightweightDialog("auto-start-stop")}
+          ></eq-auto-start-stop-dialog>
+        `;
       case "menu":
         return html`
           <eq-menu-dialog
@@ -2782,18 +2822,19 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderThinExtraSelectors(): TemplateResult | typeof nothing {
+    const autoStartStop = this._shouldShowAutoStartStopControl() ? this._renderThinAutoStartStopButton() : nothing;
     const fan = this._shouldShowFanControl() ? this._renderThinFanButton() : nothing;
     const swing = this._shouldShowSwingControl() ? this._renderThinSwingButton() : nothing;
 
-    if (fan === nothing && swing === nothing) {
+    if (autoStartStop === nothing && fan === nothing && swing === nothing) {
       return nothing;
     }
 
-    return html`<div class="thin-selectors thin-extra-selectors">${fan}${swing}</div>`;
+    return html`<div class="thin-selectors thin-extra-selectors">${autoStartStop}${fan}${swing}</div>`;
   }
 
   private _thinExtraSelectorCount(): number {
-    return (this._shouldShowFanControl() ? 1 : 0) + (this._shouldShowSwingControl() ? 1 : 0);
+    return (this._shouldShowAutoStartStopControl() ? 1 : 0) + (this._shouldShowFanControl() ? 1 : 0) + (this._shouldShowSwingControl() ? 1 : 0);
   }
 
   private _renderThinHvacButton(): TemplateResult | typeof nothing {
@@ -2860,6 +2901,21 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
+  private _renderThinAutoStartStopButton(): TemplateResult {
+    return html`
+      <ha-control-button
+        class="thin-selector-extra auto-start-stop-selector"
+        .label=${this._autoStartStopLabel()}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(event: Event) => this._openDialog("auto-start-stop", event)}
+      >
+        <span class="btn-icon" tone=${this._autoStartStopTone()}>
+          <ha-icon icon="mdi:power-cycle"></ha-icon>
+        </span>
+      </ha-control-button>
+    `;
+  }
+
   private _renderThinSwingButton(): TemplateResult {
     return html`
       <ha-control-button
@@ -2884,9 +2940,11 @@ export class EquinoxMainCard extends LitElement {
       : localize(this._language(), "main.lock.unlocked");
     const showFan = this.config?.display_mode !== "compact" && this._shouldShowFanControl();
     const showSwing = this.config?.display_mode !== "compact" && this._shouldShowSwingControl();
+    const showAutoStartStop = this._shouldShowAutoStartStopControl();
 
     return html`
       <div class="status">
+        ${showAutoStartStop ? this._renderAutoStartStopButton() : nothing}
         ${showFan ? this._renderFanButton() : nothing}
         ${showSwing ? this._renderSwingButton() : nothing}
         <span class="status-spacer"></span>
@@ -2916,6 +2974,7 @@ export class EquinoxMainCard extends LitElement {
 
   private _renderLeftRail(): Array<TemplateResult | typeof nothing> {
     return [
+      ...(this._shouldShowAutoStartStopControl() ? [this._renderAutoStartStopButton()] : []),
       ...(this.config?.display_mode !== "compact" && this._shouldShowFanControl() ? [this._renderFanButton()] : []),
       ...(this.config?.display_mode !== "compact" && this._shouldShowSwingControl() ? [this._renderSwingButton()] : [])
     ];
@@ -3537,6 +3596,38 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
+  private _renderAutoStartStopButton(): TemplateResult {
+    const label = this._autoStartStopLabel();
+
+    return html`
+      <button
+        class="auto-start-stop"
+        tone=${this._autoStartStopTone()}
+        title=${label}
+        aria-label=${label}
+        ?disabled=${this._isControlDisabled()}
+        @click=${(event: Event) => this._openDialog("auto-start-stop", event)}
+      >
+        <ha-icon icon="mdi:power-cycle"></ha-icon>
+        <span class="auto-start-stop-label">${label}</span>
+      </button>
+    `;
+  }
+
+  private _shouldShowAutoStartStopControl(): boolean {
+    return this.viewModel?.vt?.autoStartStop.isConfigured === true;
+  }
+
+  private _autoStartStopTone(): "boost" | "off" {
+    return this.viewModel?.vt?.autoStartStop.isEnabled ? "boost" : "off";
+  }
+
+  private _autoStartStopLabel(): string {
+    const state = this.viewModel?.vt?.autoStartStop;
+    const mode = state?.isEnabled ? state.stopMode ?? "off" : "disabled";
+    return localize(this._language(), `dialog.auto_start_stop.mode.${mode}`);
+  }
+
   private _renderSwingButton(): TemplateResult {
     const label = localize(this._language(), "main.actions.open_swing");
 
@@ -3553,7 +3644,8 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _shouldShowFanControl(): boolean {
-    return this.config?.show_fan_mode !== false && this._hasFanControl() && this._visibleFanModes().length > 0;
+    const plugin = this.viewModel?.vt?.fan.kind === "plugin";
+    return this.config?.show_fan_mode !== false && this._hasFanControl() && (plugin || this._visibleFanModes().length > 0);
   }
 
   private _hasSwingControl(): boolean {
@@ -3744,7 +3836,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _visibleFanModes(): string[] {
-    const modes = this.viewModel?.vt?.fan.hasAutoFan === true ? AUTO_FAN_MODES : this.viewModel?.climate.fanModes ?? [];
+    const modes = this.viewModel?.vt?.fan.kind === "legacy" ? AUTO_FAN_MODES : this.viewModel?.climate.fanModes ?? [];
     return orderedVisibleModes({ config: this.config, family: "fan", modes, standardOrder: [] });
   }
 
@@ -3757,17 +3849,23 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _activeFanDisplayMode(): string | undefined {
-    if (this.viewModel?.vt?.fan.hasAutoFan === true && this.viewModel.vt.fan.currentAutoFanMode) return this.viewModel.vt.fan.currentAutoFanMode;
+    if (this.viewModel?.vt?.fan.kind === "plugin") return this.viewModel.vt.fan.selectedFanMode;
+    if (this.viewModel?.vt?.fan.kind === "legacy" && this.viewModel.vt.fan.currentAutoFanMode) return this.viewModel.vt.fan.currentAutoFanMode;
     return this.viewModel?.climate.fanMode ?? (this.viewModel?.climate.fanModes.includes("auto") ? "auto" : undefined);
   }
 
   private _fanIcon(): string {
+    if (this.viewModel?.vt?.fan.kind === "plugin") {
+      return this.viewModel.vt.fan.isEnabled ? "mdi:fan-auto" : "mdi:fan-off";
+    }
+
     const mode = this._activeFanDisplayMode();
     return mode ? modeIcon({ config: this.config, family: "fan", mode, defaultIcon: FAN_MODE_ICONS[mode] ?? "mdi:fan" }) ?? "mdi:fan" : "mdi:fan";
   }
 
   private _fanRailTone(): string {
     if (this.viewModel?.climate.availability !== "available") return "off";
+    if (this.viewModel?.vt?.fan.kind === "plugin") return this.viewModel.vt.fan.isEnabled ? "fan-auto" : "fan-off";
     const mode = this._activeFanDisplayMode();
     return mode ? modeTone({ config: this.config, family: "fan", mode, defaultTone: fanTone(mode) }) : "";
   }
@@ -3791,6 +3889,9 @@ export class EquinoxMainCard extends LitElement {
 
   private _fanLabel(): string {
     const mode = this._activeFanDisplayMode();
+    if (this.viewModel?.vt?.fan.kind === "plugin") {
+      return mode ?? localize(this._language(), this.viewModel.vt.fan.isEnabled ? "main.fan.plugin_enabled" : "main.fan.plugin_disabled");
+    }
     return mode ? modeLabel({ config: this.config, language: this._language(), family: "fan", mode }) : localize(this._language(), "main.fan.unavailable");
   }
 

@@ -62,9 +62,23 @@ export interface EquinoxVtMessage {
 }
 
 export interface EquinoxVtFanState {
+  kind: "none" | "legacy" | "plugin";
   autoFanMode?: string;
   currentAutoFanMode?: string;
+  isEnabled?: boolean;
+  selectedFanMode?: string;
+  pluginSwitchAvailable: boolean;
   hasAutoFan: boolean;
+}
+
+export interface EquinoxVtAutoStartStopState {
+  isConfigured: boolean;
+  isEnabled: boolean;
+  stopMode?: string;
+  stopModeOptions: string[];
+  hvacModeReason?: string;
+  enableEntityAvailable: boolean;
+  stopModeEntityAvailable: boolean;
 }
 
 export interface EquinoxVtViewModel {
@@ -78,6 +92,7 @@ export interface EquinoxVtViewModel {
   events: EquinoxVtEventState;
   messages: EquinoxVtMessage[];
   fan: EquinoxVtFanState;
+  autoStartStop: EquinoxVtAutoStartStopState;
   specificStates?: Record<string, unknown>;
   currentState?: Record<string, unknown>;
   requestedState?: Record<string, unknown>;

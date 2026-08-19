@@ -1,4 +1,5 @@
 import type { EquinoxViewModel } from "../types/view-model";
+import type { EquinoxCardConfig } from "../types/config";
 import type { HomeAssistant } from "../types/ha";
 
 export type EquinoxActionErrorCode = "locked" | "unsupported" | "invalid_payload" | "service_error";
@@ -12,6 +13,7 @@ export interface EquinoxActionResult {
 export interface EquinoxActionContext {
   hass: HomeAssistant;
   entityId: string;
+  config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 }
 
@@ -210,7 +212,7 @@ export async function setAutoFanMode(context: EquinoxActionContext, autoFanMode:
     return lockedResult();
   }
 
-  if (!context.viewModel?.vt?.fan.hasAutoFan) {
+  if (context.viewModel?.vt?.fan.kind !== "legacy") {
     return unsupportedResult();
   }
 
@@ -223,6 +225,85 @@ export async function setAutoFanMode(context: EquinoxActionContext, autoFanMode:
   return callService(context, "versatile_thermostat", "set_auto_fan_mode", {
     entity_id: context.entityId,
     auto_fan_mode: mappedMode
+  });
+}
+
+export async function setAutoFanPluginEnabled(
+  context: EquinoxActionContext,
+  enabled: boolean
+): Promise<EquinoxActionResult> {
+  if (isLocked(context)) {
+    return lockedResult();
+  }
+
+  const entityId = context.config?.auto_fan_enable_entity;
+
+  if (
+    context.viewModel?.vt?.fan.kind !== "plugin" ||
+    !context.viewModel.vt.fan.pluginSwitchAvailable ||
+    !entityId
+  ) {
+    return unsupportedResult();
+  }
+
+  if (!entityId.startsWith("switch.")) {
+    return invalidPayloadResult();
+  }
+
+  return callService(context, "switch", enabled ? "turn_on" : "turn_off", {
+    entity_id: entityId
+  });
+}
+
+export async function setAutoStartStopMode(
+  context: EquinoxActionContext,
+  mode: string
+): Promise<EquinoxActionResult> {
+  if (isLocked(context)) {
+    return lockedResult();
+  }
+
+  const state = context.viewModel?.vt?.autoStartStop;
+  const enableEntityId = context.config?.auto_start_stop_enable_entity;
+  const stopModeEntityId = context.config?.auto_start_stop_stop_mode_entity;
+
+  if (
+    !state?.isConfigured ||
+    !state.enableEntityAvailable ||
+    !state.stopModeEntityAvailable ||
+    !enableEntityId ||
+    !stopModeEntityId
+  ) {
+    return unsupportedResult();
+  }
+
+  if (!enableEntityId.startsWith("switch.") || !stopModeEntityId.startsWith("select.")) {
+    return invalidPayloadResult();
+  }
+
+  if (mode === "disabled") {
+    return callService(context, "switch", "turn_off", {
+      entity_id: enableEntityId
+    });
+  }
+
+  if (!state.stopModeOptions.includes(mode)) {
+    return invalidPayloadResult();
+  }
+
+  if (!state.isEnabled) {
+    const enableResult = await callService(context, "switch", "turn_on", {
+      entity_id: enableEntityId
+    });
+
+    if (!enableResult.ok) {
+      return enableResult;
+    }
+  }
+
+  return callService(context, "select", "select_option", {
+    entity_id: stopModeEntityId,
+    option: mode
   });
 }
 

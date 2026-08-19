@@ -48,6 +48,9 @@ export interface EquinoxCardConfig {
   power_entity?: string;
   humidity_entity?: string;
   temperature_entity?: string;
+  auto_start_stop_enable_entity?: string;
+  auto_start_stop_stop_mode_entity?: string;
+  auto_fan_enable_entity?: string;
   theme?: EquinoxTheme;
   display_mode?: EquinoxDisplayMode;
   primary_display?: EquinoxPrimaryDisplay;
