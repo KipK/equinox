@@ -817,6 +817,7 @@
           "items": [
             {
               "type": "metric_grid",
+              "columns": 2,
               "metrics": [
                 { "label_key": "metrics.applied", "source": "diagnostic", "path": "power/applied_percent", "unit": "%", "digits": 1 },
                 { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "power/next_cycle_percent", "unit": "%", "digits": 1 }
@@ -827,6 +828,7 @@
               "label_key": "metrics.governance",
               "source": "diagnostic",
               "path": "governance/regime",
+              "align": "center",
               "map": {
                 "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" },
                 "excited_stable": { "label_key": "status.regime.excited_stable", "tone": "ok", "icon": "mdi:check-circle-outline" },
@@ -847,12 +849,12 @@
           "title_key": "groups.overview.influence",
           "min_width": 140,
           "items": [
-            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "temperature/integral_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.feedforward_status", "source": "diagnostic", "path": "feedforward/ff3_status", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim", "source": "diagnostic", "path": "feedforward/fftrim/state", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.trajectory", "source": "diagnostic", "path": "setpoint/trajectory_active", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:chart-timeline-variant" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/setpoint/trajectory_active" }, true] } },
-            { "type": "status", "label_key": "metrics.landing", "source": "diagnostic", "path": "setpoint/landing_active", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:airplane-landing" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] } }
+            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "temperature/integral_mode", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.feedforward_status", "source": "diagnostic", "path": "feedforward/ff3_status", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim", "source": "diagnostic", "path": "feedforward/fftrim/state", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.trajectory", "source": "diagnostic", "path": "setpoint/trajectory_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:chart-timeline-variant" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/setpoint/trajectory_active" }, true] } },
+            { "type": "status", "label_key": "metrics.landing", "source": "diagnostic", "path": "setpoint/landing_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:airplane-landing" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] } }
           ]
         },
         {
@@ -896,8 +898,8 @@
               { "label_key": "metrics.limited", "source": "diagnostic", "path": "power/limited_percent", "unit": "%", "digits": 1 },
               { "label_key": "metrics.applied", "source": "diagnostic", "path": "power/applied_percent", "unit": "%", "digits": 1 }
             ] },
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand-empty" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" } }
+            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand-empty" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" } }
           ]
         },
         {

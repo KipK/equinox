@@ -185,9 +185,11 @@ export class EquinoxRegulationRenderer extends LitElement {
     .metric {
       display: grid;
       gap: 4px;
+      align-content: center;
       justify-items: center;
       text-align: center;
       min-width: 0;
+      box-sizing: border-box;
       flex: 1 1 128px;
       max-width: 180px;
       padding: 8px 10px;
@@ -207,9 +209,17 @@ export class EquinoxRegulationRenderer extends LitElement {
 
     .status {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: auto minmax(0, 1fr);
       gap: 10px;
-      align-items: start;
+      align-items: center;
+    }
+
+    .status > div {
+      display: grid;
+      min-width: 0;
+      gap: 4px;
+      justify-items: center;
+      text-align: center;
     }
 
     .status.center {
@@ -218,24 +228,29 @@ export class EquinoxRegulationRenderer extends LitElement {
       text-align: center;
     }
 
-    .status.center > div {
-      display: grid;
-      justify-items: center;
-      gap: 4px;
-    }
-
     .status-pill {
       display: inline-flex;
       width: fit-content;
       max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       padding: 4px 8px;
-      border-radius: 999px;
+      border-radius: 8px;
       background: color-mix(in srgb, var(--regulation-tone-color, var(--secondary-text-color)) 16%, transparent);
       color: var(--primary-text-color);
       font-size: 13px;
       font-weight: 600;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .status-pill.raw {
+      width: 100%;
     }
 
     .progress-line {
@@ -272,6 +287,7 @@ export class EquinoxRegulationRenderer extends LitElement {
       container-type: inline-size;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
+      align-items: start;
       gap: 10px;
     }
 
@@ -595,17 +611,22 @@ export class EquinoxRegulationRenderer extends LitElement {
     const tone = (valueMissing || fallbackUsed) && item.fallback_show_value ? "muted" : entry?.tone ?? "muted";
     const label = entry ? this._translate(entry.label_key, entry.label ?? key) : VALUE_FALLBACK;
     const displayedValue = item.show_value ? this._formatStatusValue(item, value) : "";
-    const fallbackValue = fallbackUsed && item.fallback_show_value ? this._formatRawStatusValue(value) : "";
+    const rawFallback = fallbackUsed && item.fallback_show_value === true;
+    const fallbackValue = rawFallback ? this._formatRawStatusValue(value) : "";
     const valueSuffix = [displayedValue, fallbackValue].filter(Boolean).join(" · ");
-    const pillLabel = valueSuffix && label !== VALUE_FALLBACK ? `${label} · ${valueSuffix}` : label;
-    const description = entry ? this._translate(entry.description_key, entry.description) : "";
+    const pillLabel = rawFallback
+      ? fallbackValue || VALUE_FALLBACK
+      : valueSuffix && label !== VALUE_FALLBACK
+        ? `${label} · ${valueSuffix}`
+        : label;
+    const description = rawFallback || !entry ? "" : this._translate(entry.description_key, entry.description);
 
     return html`
       <article class="block status ${item.align === "center" ? "center" : ""}" tone=${tone}>
         ${entry?.icon ? html`<ha-icon icon=${entry.icon}></ha-icon>` : html`<ha-icon icon="mdi:circle-medium"></ha-icon>`}
         <div>
           ${this._translate(item.label_key, item.label) ? html`<div class="label">${this._translate(item.label_key, item.label)}</div>` : nothing}
-          <div class="status-pill">${pillLabel}</div>
+          <div class="status-pill ${rawFallback ? "raw" : ""}">${pillLabel}</div>
           ${description ? html`<p class="description">${description}</p>` : nothing}
           ${this._sourceMissing(item.source) ? html`<p class="missing">${localize(this.language, "dialog.regulation.source_missing")}</p>` : nothing}
         </div>

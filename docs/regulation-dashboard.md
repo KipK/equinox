@@ -492,7 +492,7 @@ Fields:
 | `map` | yes | object | Keys are raw source values converted to strings. Use `{}` when only numeric `ranges` are needed. |
 | `ranges` | no | array | Ordered numeric ranges used when no exact `map` entry matches. |
 | `fallback` | no | object | Entry used when no map key matches. |
-| `fallback_show_value` | no | boolean | When the fallback entry is used, appends the raw source code. Missing sources still render only `--`. |
+| `fallback_show_value` | no | boolean | When the fallback entry is used, displays only the raw source code. Missing sources still render only `--`. |
 | `align` | no | `"start"` or `"center"` | Centers compact status content when set to `"center"`. |
 | `show_value` | no | boolean | Appends the numeric source value to the mapped label. |
 | `value_multiplier` | no | number | Multiplies the displayed value, for example `100` for ratio-to-percent. |
@@ -552,14 +552,15 @@ Forward-compatible external enum example:
   "map": {
     "NORMAL": { "label": "Normal", "tone": "ok" }
   },
-  "fallback": { "label": "Unknown state", "tone": "muted" },
+  "fallback": { "tone": "muted", "icon": "mdi:help-circle-outline" },
   "fallback_show_value": true
 }
 ```
 
 An exact `map` or `ranges` match shows only its mapped label. An unknown value
-uses the neutral fallback followed by its raw string or boolean code. This does
-not change the existing `show_value` behavior for numeric statuses.
+uses the neutral fallback styling but displays only its raw string or boolean
+code. This avoids adding a redundant generic “unknown” label and does not change
+the existing `show_value` behavior for numeric statuses.
 
 Numeric range example:
 
@@ -659,7 +660,8 @@ Example:
 ## Block: `layout_grid`
 
 A responsive grid for grouping related blocks. The grid itself is unframed; each
-child block keeps its own visual surface.
+child block keeps its own visual surface and natural height instead of stretching
+to match the tallest sibling in its row.
 
 Fields:
 
