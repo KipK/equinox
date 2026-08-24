@@ -6,6 +6,7 @@ All notable changes to Equinox will be documented in this file.
 
 - add regulation value formatter to dashboard engine
 - redesign SmartPI regulation overview.
+- Add a detailed seven-section SmartPI Regulation dialog covering the summary, command, FFTrim, anticipation, learning, thermal model, and supervision/actions.
 
 ## 0.3.2
 

@@ -42,8 +42,28 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation overview, including active calibration highlighting, A/B learning, thermal model reliability, the `ab_bootstrap` confidence state, command breakdown, and safety actions.
+- `smartpi.json` — Smart PI regulation dashboard with seven sections covering the current regulation state, command, FFTrim, anticipation, learning, thermal model, and supervision/actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
+
+### Built-in SmartPI dashboard
+
+The SmartPI dashboard is organized as **Summary**, **Command**, **Balance /
+FFTrim**, **Anticipation**, **Learning**, **Thermal model**, and **Monitoring
+and actions**. Summary prioritizes exceptional states, the current temperature
+and filtered setpoint, applied and next-cycle power, active influences, and a
+short history. The specialized sections then expose the published actuator
+chain, stationary and periodic FFTrim observations, trajectory/landing and FF3
+state, A/B learning, model reliability, and safeguards plus confirmed
+maintenance actions.
+
+The built-in definition reads only the compact diagnostics published by
+SmartPI; it does not read `debug` fields or reproduce controller formulas.
+Published `power/*_percent` values are already percentages. Ratios inside
+`feedforward/fftrim` and `setpoint/landing_u_cap` use an explicit
+`value_multiplier: 100`, while absent fields remain `--` for compatibility with
+older diagnostics. Evolving enum values use a neutral fallback that keeps the
+raw code visible. Offset-aware ISO dates may use the Home Assistant timezone;
+naive ISO dates are displayed without inventing a source timezone.
 
 ## Diagnostic Entity Detection
 
