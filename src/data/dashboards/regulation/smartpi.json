@@ -17,8 +17,10 @@
       "sections.fftrim.summary": "Observation de la puissance de maintien et repartition entre integrale et trim.",
       "sections.anticipation.title": "Anticipation",
       "sections.anticipation.summary": "Trajectoire de consigne, atterrissage et correction predictive.",
-      "sections.health.title": "Supervision et actions",
-      "sections.health.summary": "Gouvernance, protections, calibration et actions de maintenance.",
+      "sections.health.title": "Supervision",
+      "sections.health.summary": "Gouvernance, protections et calibration en cours.",
+      "sections.actions.title": "Actions",
+      "sections.actions.summary": "Commandes de maintenance de l'apprentissage et de la regulation.",
       "hero.overview.title": "Smart PI pilote la regulation",
       "hero.overview.bootstrap": "Smart PI collecte les premiers echantillons et regule provisoirement en hysteresis.",
       "hero.overview.hysteresis_learning": "Le modele se consolide encore ; la regulation reste prudente pendant l'apprentissage.",
@@ -37,6 +39,8 @@
       "hero.command.subtitle": "La commande finale combine PI, feed-forward, maintien et limitations.",
       "hero.health.title": "Surveillance active",
       "hero.health.subtitle": "Les protections peuvent figer l'apprentissage ou demander une calibration.",
+      "hero.actions.title": "Actions Smart PI",
+      "hero.actions.subtitle": "Les actions sont appliquees au thermostat configure apres confirmation.",
       "metrics.phase": "Phase",
       "metrics.mode": "Mode",
       "metrics.hysteresis": "Etat hysteresis",
@@ -177,6 +181,8 @@
       "groups.health.restart": "Redemarrage",
       "groups.health.autocalib": "Autocalibration",
       "groups.health.calibration": "Calibration",
+      "groups.actions.learning": "Apprentissage thermique",
+      "groups.actions.maintenance": "Maintenance",
       "status.phase.Hysteresis": "Bootstrap hysteresis",
       "status.phase.Stable": "Stable",
       "status.phase.Calibration": "Calibration",
@@ -376,8 +382,10 @@
       "sections.fftrim.summary": "Observation of holding power and ownership distribution between integral and trim.",
       "sections.anticipation.title": "Anticipation",
       "sections.anticipation.summary": "Setpoint trajectory, landing and predictive correction.",
-      "sections.health.title": "Monitoring and actions",
-      "sections.health.summary": "Governance, safeguards, calibration and maintenance actions.",
+      "sections.health.title": "Monitoring",
+      "sections.health.summary": "Current governance, safeguards and calibration.",
+      "sections.actions.title": "Actions",
+      "sections.actions.summary": "Learning and regulation maintenance commands.",
       "hero.overview.title": "Smart PI is driving regulation",
       "hero.overview.bootstrap": "Smart PI is collecting the first samples and temporarily regulating with hysteresis.",
       "hero.overview.hysteresis_learning": "The model is still consolidating; regulation remains cautious during learning.",
@@ -396,6 +404,8 @@
       "hero.command.subtitle": "The final command combines PI, feed-forward, hold and limits.",
       "hero.health.title": "Active supervision",
       "hero.health.subtitle": "Protections may freeze learning or request calibration.",
+      "hero.actions.title": "Smart PI actions",
+      "hero.actions.subtitle": "Actions are applied to the configured thermostat after confirmation.",
       "metrics.phase": "Phase",
       "metrics.mode": "Mode",
       "metrics.hysteresis": "Hysteresis state",
@@ -536,6 +546,8 @@
       "groups.health.restart": "Restart",
       "groups.health.autocalib": "Auto-calibration",
       "groups.health.calibration": "Calibration",
+      "groups.actions.learning": "Thermal learning",
+      "groups.actions.maintenance": "Maintenance",
       "status.phase.Hysteresis": "Bootstrap hysteresis",
       "status.phase.Stable": "Stable",
       "status.phase.Calibration": "Calibration",
@@ -860,8 +872,8 @@
             {
               "type": "status",
               "label_key": "metrics.learning_enabled",
-              "source": "climate",
-              "path": "specific_states/smartpi_learning_enabled",
+              "source": "diagnostic",
+              "path": "ab_learning/enabled",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" },
@@ -1888,12 +1900,40 @@
             { "label_key": "metrics.calibration_retry", "source": "diagnostic", "path": "calibration/retry_count", "digits": 0 },
             { "label_key": "metrics.calibration_last_time", "source": "diagnostic", "path": "calibration/last_time", "format": "datetime" }
           ]
+        }
+      ]
+    },
+    {
+      "id": "actions",
+      "title_key": "sections.actions.title",
+      "icon": "mdi:gesture-tap-button",
+      "summary_key": "sections.actions.summary",
+      "items": [
+        {
+          "type": "hero_status",
+          "title_key": "hero.actions.title",
+          "subtitle_key": "hero.actions.subtitle",
+          "icon": "mdi:gesture-tap-button",
+          "tone": "info"
         },
         {
           "type": "layout_grid",
-          "min_width": 100,
+          "title_key": "groups.actions.learning",
+          "min_width": 150,
           "stretch_items": false,
           "items": [
+            {
+              "type": "status",
+              "label_key": "metrics.learning_enabled",
+              "source": "diagnostic",
+              "path": "ab_learning/enabled",
+              "align": "center",
+              "map": {
+                "true": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" },
+                "false": { "label_key": "status.learning.paused", "tone": "warning", "icon": "mdi:pause-circle-outline" }
+              },
+              "fallback": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" }
+            },
             {
               "type": "action",
               "label_key": "actions.pause_learning",
@@ -1901,7 +1941,7 @@
               "service": "vtherm_smartpi.set_smartpi_learning",
               "target": { "entity_id": "$climate_entity" },
               "data": { "learning_enabled": false },
-              "visible_if": { "==": [{ "var": "climate/specific_states/smartpi_learning_enabled" }, true] },
+              "visible_if": { "==": [{ "var": "diagnostic/ab_learning/enabled" }, true] },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.pause_learning.confirm"
@@ -1914,12 +1954,20 @@
               "service": "vtherm_smartpi.set_smartpi_learning",
               "target": { "entity_id": "$climate_entity" },
               "data": { "learning_enabled": true },
-              "visible_if": { "==": [{ "var": "climate/specific_states/smartpi_learning_enabled" }, false] },
+              "visible_if": { "==": [{ "var": "diagnostic/ab_learning/enabled" }, false] },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.resume_learning.confirm"
               }
-            },
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.actions.maintenance",
+          "min_width": 100,
+          "stretch_items": false,
+          "items": [
             {
               "type": "action",
               "label_key": "actions.reset_learning",

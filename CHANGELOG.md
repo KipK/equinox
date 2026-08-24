@@ -8,6 +8,7 @@ All notable changes to Equinox will be documented in this file.
 - Add regulation value formatter to dashboard engine
 - Reworked SmartPI Regulation dialog covering the summary, command, FFTrim, anticipation, learning, thermal model, and supervision/actions.
 - Show the SmartPI thermal-learning enabled/paused state in Regulation Summary and add confirmed pause/resume actions.
+- Split SmartPI supervision from maintenance actions and bind the learning control to the published diagnostics state so its pause/resume label follows the current setting.
 
 ## 0.3.2
 
