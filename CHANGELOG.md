@@ -2,10 +2,6 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.3.4-dev
-
-- Improve Regulation dashboard readability with raw-only enum fallbacks, centered incomplete rows, balanced card heights, a compact two-row SmartPI limitation chain, and task-oriented section ordering.
-
 ## 0.3.3
 
 - Add regulation value formatter to dashboard engine
