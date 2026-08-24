@@ -848,6 +848,7 @@
           "type": "layout_grid",
           "title_key": "groups.overview.influence",
           "min_width": 140,
+          "stretch_items": false,
           "items": [
             { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "temperature/integral_mode", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
             { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
@@ -946,12 +947,14 @@
           "type": "layout_grid",
           "title_key": "groups.fftrim.observer",
           "min_width": 180,
+          "stretch_items": false,
           "items": [
             {
               "type": "status",
               "label_key": "metrics.fftrim.state",
               "source": "diagnostic",
               "path": "feedforward/fftrim/state",
+              "align": "center",
               "map": {
                 "warming_up": { "label_key": "status.fftrim.state.warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
                 "waiting_deadtime": { "label_key": "status.fftrim.state.waiting_deadtime", "tone": "info", "icon": "mdi:timer-sand" },
@@ -967,6 +970,7 @@
               "label_key": "metrics.fftrim.observation_mode",
               "source": "diagnostic",
               "path": "feedforward/fftrim/observation_mode",
+              "align": "center",
               "map": {
                 "stationary": { "label_key": "status.fftrim.mode.stationary", "tone": "info", "icon": "mdi:chart-bell-curve-cumulative" },
                 "periodic": { "label_key": "status.fftrim.mode.periodic", "tone": "info", "icon": "mdi:sine-wave" }
@@ -986,6 +990,7 @@
               "label_key": "metrics.fftrim.last_update_reason",
               "source": "diagnostic",
               "path": "feedforward/fftrim/last_update_reason",
+              "align": "center",
               "map": {
                 "none": { "label_key": "status.fftrim.reason.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
                 "skipped": { "label_key": "status.fftrim.reason.skipped", "tone": "muted", "icon": "mdi:skip-next-circle-outline" },
@@ -1004,6 +1009,7 @@
               "label_key": "metrics.fftrim.last_reject_reason",
               "source": "diagnostic",
               "path": "feedforward/fftrim/last_reject_reason",
+              "align": "center",
               "map": {
                 "deadtime_unreliable": { "label_key": "status.fftrim.reason.deadtime_unreliable", "tone": "muted", "icon": "mdi:timer-alert-outline" },
                 "deadtime_changed": { "label_key": "status.fftrim.reason.deadtime_changed", "tone": "muted", "icon": "mdi:timer-sync-outline" },
@@ -1241,6 +1247,7 @@
           "type": "layout_grid",
           "title_key": "groups.anticipation.trajectory_landing",
           "min_width": 180,
+          "stretch_items": false,
           "items": [
             {
               "type": "metric_grid",
@@ -1254,6 +1261,7 @@
               "label_key": "metrics.trajectory",
               "source": "diagnostic",
               "path": "setpoint/trajectory_active",
+              "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:chart-timeline-variant" },
                 "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:chart-timeline-variant" }
@@ -1266,6 +1274,7 @@
               "label_key": "metrics.trajectory.source",
               "source": "diagnostic",
               "path": "setpoint/trajectory_source",
+              "align": "center",
               "map": {
                 "setpoint": { "label_key": "status.trajectory.setpoint", "tone": "info", "icon": "mdi:thermometer-chevron-up" },
                 "disturbance": { "label_key": "status.trajectory.disturbance", "tone": "info", "icon": "mdi:weather-windy" },
@@ -1280,6 +1289,7 @@
               "label_key": "metrics.landing",
               "source": "diagnostic",
               "path": "setpoint/landing_active",
+              "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:airplane-landing" },
                 "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:airplane-landing" }
@@ -1292,6 +1302,7 @@
               "label_key": "metrics.landing.reason",
               "source": "diagnostic",
               "path": "setpoint/landing_reason",
+              "align": "center",
               "map": {
                 "cap": { "label_key": "status.landing.cap", "tone": "info", "icon": "mdi:chart-bell-curve" },
                 "coast": { "label_key": "status.landing.coast", "tone": "info", "icon": "mdi:weather-windy" }
@@ -1313,6 +1324,7 @@
               "label_key": "metrics.landing.coast_required",
               "source": "diagnostic",
               "path": "setpoint/landing_coast_required",
+              "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:weather-windy" },
                 "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:weather-windy" }
@@ -1327,12 +1339,14 @@
           "type": "layout_grid",
           "title_key": "groups.anticipation.ff3_twin",
           "min_width": 180,
+          "stretch_items": false,
           "items": [
             {
               "type": "status",
               "label_key": "metrics.feedforward_status",
               "source": "diagnostic",
               "path": "feedforward/ff3_status",
+              "align": "center",
               "map": {
                 "active": { "label_key": "status.ff3.active", "tone": "info", "icon": "mdi:crystal-ball" },
                 "inactive": { "label_key": "status.ff3.inactive", "tone": "muted", "icon": "mdi:crystal-ball" },
@@ -1372,6 +1386,7 @@
               "label_key": "metrics.ff3.twin_usable",
               "source": "diagnostic",
               "path": "feedforward/ff3_twin_usable",
+              "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
                 "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:close-circle-outline" }
@@ -1384,6 +1399,7 @@
               "label_key": "metrics.twin_status",
               "source": "diagnostic",
               "path": "feedforward/twin_status",
+              "align": "center",
               "map": {
                 "ok": { "label_key": "status.twin.ok", "tone": "ok", "icon": "mdi:home-thermometer-outline" },
                 "unavailable": { "label_key": "status.twin.unavailable", "tone": "muted", "icon": "mdi:home-thermometer-outline" }
@@ -1396,6 +1412,7 @@
               "label_key": "metrics.deadband_source",
               "source": "diagnostic",
               "path": "feedforward/deadband_power_source",
+              "align": "center",
               "map": {
                 "none": { "label_key": "status.deadband.power_source.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
                 "ff_plus_pi": { "label_key": "status.deadband.power_source.ff_plus_pi", "tone": "info", "icon": "mdi:source-merge" }
@@ -1408,6 +1425,7 @@
               "label_key": "metrics.deadband_mode",
               "source": "diagnostic",
               "path": "feedforward/deadband_p_mode",
+              "align": "center",
               "map": {
                 "init": { "label_key": "status.deadband.p_mode.init", "tone": "muted", "icon": "mdi:progress-clock" },
                 "deadband_frozen": { "label_key": "status.deadband.p_mode.deadband_frozen", "tone": "muted", "icon": "mdi:snowflake" },
@@ -1545,12 +1563,14 @@
           "type": "layout_grid",
           "title_key": "groups.learning.drift",
           "min_width": 160,
+          "stretch_items": false,
           "items": [
             {
               "type": "status",
               "label_key": "metrics.a_drift",
               "source": "diagnostic",
               "path": "ab_learning/a_drift_state",
+              "align": "center",
               "map": {
                 "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
                 "DRIFT_SUSPECTED": { "label_key": "status.drift.DRIFT_SUSPECTED", "tone": "info", "icon": "mdi:chart-timeline-variant" },
@@ -1564,6 +1584,7 @@
               "label_key": "metrics.b_drift",
               "source": "diagnostic",
               "path": "ab_learning/b_drift_state",
+              "align": "center",
               "map": {
                 "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
                 "DRIFT_SUSPECTED": { "label_key": "status.drift.DRIFT_SUSPECTED", "tone": "info", "icon": "mdi:chart-timeline-variant" },
@@ -1577,6 +1598,7 @@
               "label_key": "metrics.learn_b_converged",
               "source": "diagnostic",
               "path": "ab_learning/learn_b_converged",
+              "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
                 "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:progress-clock" }
@@ -1589,6 +1611,7 @@
               "label_key": "metrics.learning_last_reason",
               "source": "diagnostic",
               "path": "ab_learning/last_reason",
+              "align": "center",
               "map": {},
               "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" },
               "fallback_show_value": true
@@ -1638,6 +1661,8 @@
         },
         {
           "type": "layout_grid",
+          "min_width": 240,
+          "stretch_items": false,
           "items": [
             {
               "type": "metric_grid",
@@ -1658,6 +1683,7 @@
             {
               "type": "layout_grid",
               "min_width": 140,
+              "stretch_items": false,
               "items": [
                 {
                   "type": "status",
@@ -1703,6 +1729,8 @@
         {
           "type": "layout_grid",
           "title_key": "metrics.reliability",
+          "min_width": 160,
+          "stretch_items": false,
           "items": [
             {
               "type": "status",
@@ -1717,10 +1745,6 @@
               "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
             },
             {
-              "type": "layout_grid",
-              "min_width": 140,
-              "items": [
-                {
                   "type": "status",
                   "label_key": "metrics.deadtime_heat_reliable",
                   "source": "diagnostic",
@@ -1731,8 +1755,8 @@
                     "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
                   },
                   "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
-                },
-                {
+            },
+            {
                   "type": "status",
                   "label_key": "metrics.deadtime_cool_reliable",
                   "source": "diagnostic",
@@ -1743,8 +1767,6 @@
                     "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
                   },
                   "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
-                }
-              ]
             }
           ]
         },
@@ -1795,11 +1817,12 @@
           "type": "layout_grid",
           "title_key": "groups.health.protections",
           "min_width": 160,
+          "stretch_items": false,
           "items": [
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadband", "source": "diagnostic", "path": "control/in_deadband", "map": { "true": { "label_key": "status.boolean.true", "tone": "muted", "icon": "mdi:circle-outline" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_near_band", "source": "diagnostic", "path": "control/in_near_band", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:target" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:target" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true }
+            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_deadband", "source": "diagnostic", "path": "control/in_deadband", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "muted", "icon": "mdi:circle-outline" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_near_band", "source": "diagnostic", "path": "control/in_near_band", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:target" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:target" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true }
           ]
         },
         {

@@ -295,9 +295,15 @@ export class EquinoxRegulationRenderer extends LitElement {
       grid-template-columns: repeat(var(--grid-columns, 1), minmax(0, 1fr));
     }
 
+    .layout-grid[fixed-items] {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
     .layout-grid[fixed-items] > * {
+      flex: 0 1 var(--grid-min-width, 240px);
       width: min(100%, var(--grid-min-width, 240px));
-      justify-self: center;
     }
 
     @container (min-width: 610px) {
