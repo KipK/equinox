@@ -17,8 +17,8 @@
       "sections.fftrim.summary": "Observation de la puissance de maintien et repartition entre integrale et trim.",
       "sections.anticipation.title": "Anticipation",
       "sections.anticipation.summary": "Trajectoire de consigne, atterrissage et correction predictive.",
-      "sections.health.title": "Securite et actions",
-      "sections.health.summary": "Garde-fous, calibration et actions de maintenance.",
+      "sections.health.title": "Supervision et actions",
+      "sections.health.summary": "Gouvernance, protections, calibration et actions de maintenance.",
       "hero.overview.title": "Smart PI pilote la regulation",
       "hero.overview.bootstrap": "Smart PI collecte les premiers echantillons et regule provisoirement en hysteresis.",
       "hero.overview.hysteresis_learning": "Le modele se consolide encore ; la regulation reste prudente pendant l'apprentissage.",
@@ -57,7 +57,7 @@
       "metrics.hold": "Maintien",
       "metrics.kp": "Kp",
       "metrics.ki": "Ki",
-      "metrics.a": "A - Reponse active",
+      "metrics.a": "A - Reponse signee (chauffage + / refroidissement -)",
       "metrics.b": "B - Pertes thermiques",
       "metrics.tau": "Tau",
       "metrics.deadtime_heat": "Temps mort chauffe",
@@ -74,6 +74,10 @@
       "metrics.history_a": "Echantillons A",
       "metrics.history_b": "Echantillons B",
       "metrics.learning_stage": "Etat apprentissage",
+      "metrics.a_drift": "Derive A",
+      "metrics.b_drift": "Derive B",
+      "metrics.learn_b_converged": "B converge",
+      "metrics.learning_last_reason": "Derniere raison",
       "metrics.bootstrap_status": "Etat bootstrap",
       "metrics.confidence": "Confiance modele",
       "metrics.reliability": "Fiabilite",
@@ -93,12 +97,16 @@
       "metrics.saturation": "Saturation",
       "metrics.integral_mode": "Mode integrale",
       "metrics.integral_hold": "Maintien integrale",
+      "metrics.integral_guard_source": "Source de protection integrale",
+      "metrics.restart_reason": "Raison du redemarrage",
       "metrics.autocalib_state": "Autocalibration",
       "metrics.autocalib_degraded": "Modele degrade",
       "metrics.autocalib_snapshot_age": "Age du snapshot",
       "metrics.autocalib_next_check": "Prochain controle",
+      "metrics.autocalib_last_trigger": "Dernier declenchement",
       "metrics.calibration_state": "Calibration",
       "metrics.calibration_retry": "Essais calibration",
+      "metrics.calibration_last_time": "Derniere calibration",
       "metrics.trajectory": "Trajectoire",
       "metrics.landing": "Atterrissage",
       "metrics.fftrim": "FFTrim",
@@ -161,6 +169,13 @@
       "groups.fftrim.deltas": "Deltas de propriete",
       "groups.anticipation.trajectory_landing": "Trajectoire et atterrissage",
       "groups.anticipation.ff3_twin": "FF3 et jumeau thermique",
+      "groups.learning.drift": "Derive et convergence",
+      "groups.health.governance": "Gouvernance et decision thermique",
+      "groups.health.protections": "Protections thermiques",
+      "groups.health.integral": "Integrale",
+      "groups.health.restart": "Redemarrage",
+      "groups.health.autocalib": "Autocalibration",
+      "groups.health.calibration": "Calibration",
       "status.phase.Hysteresis": "Bootstrap hysteresis",
       "status.phase.Stable": "Stable",
       "status.phase.Calibration": "Calibration",
@@ -173,6 +188,9 @@
       "status.learning.learning": "Apprentissage",
       "status.learning.monitoring": "Surveillance",
       "status.learning.degraded": "Degrade",
+      "status.drift.NORMAL": "Normale",
+      "status.drift.DRIFT_SUSPECTED": "Derive suspectee",
+      "status.drift.RECENTERING": "Recentrement en cours",
       "status.confidence.ab_ok": "Modele fiable",
       "status.confidence.ab_bootstrap": "Bootstrap du modele",
       "status.confidence.ab_degraded": "Modele partiel",
@@ -335,7 +353,7 @@
       "graphs.overview.filtered_setpoint": "Consigne filtree",
       "graphs.overview.applied": "Puissance appliquee",
       "graphs.model.title": "Parametres A et B (1R1C) (24h)",
-      "graphs.model.a": "A - Reponse active",
+      "graphs.model.a": "A - Reponse signee (chauffage + / refroidissement -)",
       "graphs.model.b": "B - Pertes thermiques"
     },
     "en": {
@@ -351,8 +369,8 @@
       "sections.fftrim.summary": "Observation of holding power and ownership distribution between integral and trim.",
       "sections.anticipation.title": "Anticipation",
       "sections.anticipation.summary": "Setpoint trajectory, landing and predictive correction.",
-      "sections.health.title": "Safety and actions",
-      "sections.health.summary": "Guards, calibration and maintenance actions.",
+      "sections.health.title": "Monitoring and actions",
+      "sections.health.summary": "Governance, safeguards, calibration and maintenance actions.",
       "hero.overview.title": "Smart PI is driving regulation",
       "hero.overview.bootstrap": "Smart PI is collecting the first samples and temporarily regulating with hysteresis.",
       "hero.overview.hysteresis_learning": "The model is still consolidating; regulation remains cautious during learning.",
@@ -391,7 +409,7 @@
       "metrics.hold": "Hold",
       "metrics.kp": "Kp",
       "metrics.ki": "Ki",
-      "metrics.a": "A - Active response",
+      "metrics.a": "A - Signed response (heat + / cool -)",
       "metrics.b": "B - Thermal losses",
       "metrics.tau": "Tau",
       "metrics.deadtime_heat": "Heat dead time",
@@ -408,6 +426,10 @@
       "metrics.history_a": "A samples",
       "metrics.history_b": "B samples",
       "metrics.learning_stage": "Learning state",
+      "metrics.a_drift": "A drift",
+      "metrics.b_drift": "B drift",
+      "metrics.learn_b_converged": "B converged",
+      "metrics.learning_last_reason": "Latest reason",
       "metrics.bootstrap_status": "Bootstrap state",
       "metrics.confidence": "Model confidence",
       "metrics.reliability": "Reliability",
@@ -427,12 +449,16 @@
       "metrics.saturation": "Saturation",
       "metrics.integral_mode": "Integral mode",
       "metrics.integral_hold": "Integral hold",
+      "metrics.integral_guard_source": "Integral guard source",
+      "metrics.restart_reason": "Restart reason",
       "metrics.autocalib_state": "Auto-calibration",
       "metrics.autocalib_degraded": "Model degraded",
       "metrics.autocalib_snapshot_age": "Snapshot age",
       "metrics.autocalib_next_check": "Next check",
+      "metrics.autocalib_last_trigger": "Last trigger",
       "metrics.calibration_state": "Calibration",
       "metrics.calibration_retry": "Calibration retries",
+      "metrics.calibration_last_time": "Last calibration",
       "metrics.trajectory": "Trajectory",
       "metrics.landing": "Landing",
       "metrics.fftrim": "FFTrim",
@@ -495,6 +521,13 @@
       "groups.fftrim.deltas": "Ownership deltas",
       "groups.anticipation.trajectory_landing": "Trajectory and landing",
       "groups.anticipation.ff3_twin": "FF3 and thermal twin",
+      "groups.learning.drift": "Drift and convergence",
+      "groups.health.governance": "Governance and thermal decision",
+      "groups.health.protections": "Thermal safeguards",
+      "groups.health.integral": "Integral",
+      "groups.health.restart": "Restart",
+      "groups.health.autocalib": "Auto-calibration",
+      "groups.health.calibration": "Calibration",
       "status.phase.Hysteresis": "Bootstrap hysteresis",
       "status.phase.Stable": "Stable",
       "status.phase.Calibration": "Calibration",
@@ -507,6 +540,9 @@
       "status.learning.learning": "Learning",
       "status.learning.monitoring": "Monitoring",
       "status.learning.degraded": "Degraded",
+      "status.drift.NORMAL": "Normal",
+      "status.drift.DRIFT_SUSPECTED": "Drift suspected",
+      "status.drift.RECENTERING": "Recentering in progress",
       "status.confidence.ab_ok": "Reliable model",
       "status.confidence.ab_bootstrap": "Model bootstrap",
       "status.confidence.ab_degraded": "Partial model",
@@ -669,7 +705,7 @@
       "graphs.overview.filtered_setpoint": "Filtered setpoint",
       "graphs.overview.applied": "Applied power",
       "graphs.model.title": "1R1C Parameters A and B (24h)",
-      "graphs.model.a": "A - Active response",
+      "graphs.model.a": "A - Signed response (heat + / cool -)",
       "graphs.model.b": "B - Thermal losses"
     }
   },
@@ -1497,6 +1533,60 @@
           "fallback": { "label_key": "status.confidence.unknown", "description_key": "status.confidence.unknown.description", "tone": "muted", "icon": "mdi:help-circle-outline" }
         },
         {
+          "type": "layout_grid",
+          "title_key": "groups.learning.drift",
+          "min_width": 160,
+          "items": [
+            {
+              "type": "status",
+              "label_key": "metrics.a_drift",
+              "source": "diagnostic",
+              "path": "ab_learning/a_drift_state",
+              "map": {
+                "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
+                "DRIFT_SUSPECTED": { "label_key": "status.drift.DRIFT_SUSPECTED", "tone": "info", "icon": "mdi:chart-timeline-variant" },
+                "RECENTERING": { "label_key": "status.drift.RECENTERING", "tone": "info", "icon": "mdi:target-variant" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.b_drift",
+              "source": "diagnostic",
+              "path": "ab_learning/b_drift_state",
+              "map": {
+                "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
+                "DRIFT_SUSPECTED": { "label_key": "status.drift.DRIFT_SUSPECTED", "tone": "info", "icon": "mdi:chart-timeline-variant" },
+                "RECENTERING": { "label_key": "status.drift.RECENTERING", "tone": "info", "icon": "mdi:target-variant" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.learn_b_converged",
+              "source": "diagnostic",
+              "path": "ab_learning/learn_b_converged",
+              "map": {
+                "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
+                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:progress-clock" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.learning_last_reason",
+              "source": "diagnostic",
+              "path": "ab_learning/last_reason",
+              "map": {},
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" },
+              "fallback_show_value": true
+            }
+          ]
+        },
+        {
           "type": "section_note",
           "text_key": "notes.learning",
           "tone": "info",
@@ -1683,49 +1773,61 @@
           "tone": "info"
         },
         {
-          "type": "status",
-          "label_key": "metrics.governance",
-          "source": "diagnostic",
-          "path": "governance/regime",
-          "map": {
-            "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" },
-            "excited_stable": { "label_key": "status.regime.excited_stable", "tone": "ok", "icon": "mdi:check-circle-outline" },
-            "near_band": { "label_key": "status.regime.near_band", "tone": "info", "icon": "mdi:target" },
-            "dead_band": { "label_key": "status.regime.dead_band", "tone": "muted", "icon": "mdi:pause-circle-outline" },
-            "hold": { "label_key": "status.regime.hold", "tone": "warning", "icon": "mdi:hand-back-left-outline" },
-            "perturbed": { "label_key": "status.regime.perturbed", "tone": "warning", "icon": "mdi:weather-windy" },
-            "degraded": { "label_key": "status.regime.degraded", "tone": "danger", "icon": "mdi:alert-outline" },
-            "saturated": { "label_key": "status.regime.saturated", "tone": "warning", "icon": "mdi:gauge-full" }
-          },
-          "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+          "type": "layout_grid",
+          "title_key": "groups.health.governance",
+          "min_width": 180,
+          "items": [
+            { "type": "status", "label_key": "metrics.governance", "source": "diagnostic", "path": "governance/regime", "map": { "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" }, "excited_stable": { "label_key": "status.regime.excited_stable", "tone": "ok", "icon": "mdi:check-circle-outline" }, "near_band": { "label_key": "status.regime.near_band", "tone": "info", "icon": "mdi:target" }, "dead_band": { "label_key": "status.regime.dead_band", "tone": "muted", "icon": "mdi:pause-circle-outline" }, "hold": { "label_key": "status.regime.hold", "tone": "warning", "icon": "mdi:hand-back-left-outline" }, "perturbed": { "label_key": "status.regime.perturbed", "tone": "warning", "icon": "mdi:weather-windy" }, "degraded": { "label_key": "status.regime.degraded", "tone": "danger", "icon": "mdi:alert-outline" }, "saturated": { "label_key": "status.regime.saturated", "tone": "warning", "icon": "mdi:gauge-full" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.thermal_decision", "source": "diagnostic", "path": "governance/thermal_update_decision", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.thermal_reason", "source": "diagnostic", "path": "governance/thermal_update_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+          ]
         },
         {
           "type": "layout_grid",
+          "title_key": "groups.health.protections",
+          "min_width": 160,
           "items": [
-            {
-              "type": "metric_grid",
-              "title_key": "sections.health.title",
-              "metrics": [
-                { "label_key": "metrics.thermal_decision", "source": "diagnostic", "path": "governance/thermal_update_decision" },
-                { "label_key": "metrics.thermal_reason", "source": "diagnostic", "path": "governance/thermal_update_reason" },
-                { "label_key": "metrics.in_deadband", "source": "diagnostic", "path": "control/in_deadband" },
-                { "label_key": "metrics.in_near_band", "source": "diagnostic", "path": "control/in_near_band" },
-                { "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window" },
-                { "label_key": "metrics.integral_hold", "source": "diagnostic", "path": "temperature/integral_hold_mode" }
-              ]
-            },
-            {
-              "type": "metric_grid",
-              "title_key": "metrics.autocalib_state",
-              "metrics": [
-                { "label_key": "metrics.autocalib_state", "source": "diagnostic", "path": "autocalib/state" },
-                { "label_key": "metrics.autocalib_degraded", "source": "diagnostic", "path": "autocalib/model_degraded" },
-                { "label_key": "metrics.autocalib_snapshot_age", "source": "diagnostic", "path": "autocalib/snapshot_age_h", "unit": "h", "digits": 0 },
-                { "label_key": "metrics.autocalib_next_check", "source": "diagnostic", "path": "autocalib/next_check_ts" },
-                { "label_key": "metrics.calibration_state", "source": "diagnostic", "path": "calibration/state" },
-                { "label_key": "metrics.calibration_retry", "source": "diagnostic", "path": "calibration/retry_count", "digits": 0 }
-              ]
-            }
+            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_deadband", "source": "diagnostic", "path": "control/in_deadband", "map": { "true": { "label_key": "status.boolean.true", "tone": "muted", "icon": "mdi:circle-outline" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_near_band", "source": "diagnostic", "path": "control/in_near_band", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:target" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:target" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.health.integral",
+          "min_width": 180,
+          "items": [
+            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "temperature/integral_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.integral_hold", "source": "diagnostic", "path": "temperature/integral_hold_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.integral_guard_source", "source": "diagnostic", "path": "temperature/integral_guard_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.health.restart",
+          "items": [
+            { "type": "status", "label_key": "metrics.restart_reason", "source": "diagnostic", "path": "control/restart_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:restart" }, "fallback_show_value": true }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.health.autocalib",
+          "metrics": [
+            { "label_key": "metrics.autocalib_state", "source": "diagnostic", "path": "autocalib/state" },
+            { "label_key": "metrics.autocalib_degraded", "source": "diagnostic", "path": "autocalib/model_degraded" },
+            { "label_key": "metrics.autocalib_snapshot_age", "source": "diagnostic", "path": "autocalib/snapshot_age_h", "unit": "h", "digits": 0 },
+            { "label_key": "metrics.autocalib_last_trigger", "source": "diagnostic", "path": "autocalib/last_trigger_ts", "format": "datetime" },
+            { "label_key": "metrics.autocalib_next_check", "source": "diagnostic", "path": "autocalib/next_check_ts", "format": "datetime" }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.health.calibration",
+          "metrics": [
+            { "label_key": "metrics.calibration_state", "source": "diagnostic", "path": "calibration/state" },
+            { "label_key": "metrics.calibration_retry", "source": "diagnostic", "path": "calibration/retry_count", "digits": 0 },
+            { "label_key": "metrics.calibration_last_time", "source": "diagnostic", "path": "calibration/last_time", "format": "datetime" }
           ]
         },
         {
@@ -1766,12 +1868,6 @@
               }
             }
           ]
-        },
-        {
-          "type": "section_note",
-          "text_key": "notes.hysteresis_phase",
-          "tone": "muted",
-          "icon": "mdi:information-outline"
         }
       ]
     }
