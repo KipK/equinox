@@ -341,6 +341,8 @@ Fields:
 | `path` | no | string | Source path. |
 | `unit`, `unit_key` | no | string | Appended after non-missing values. |
 | `digits` | no | number | Decimal digits for numeric values. Defaults to `0`. |
+| `value_multiplier` | no | number | Multiplies a valid numeric value before rounding. Useful for explicit ratio-to-percent conversion. |
+| `format` | no | `"number"`, `"duration_s"`, or `"datetime"` | Applies the bounded formatter described below. An absent format keeps the compatible default rendering. |
 | `fallback` | no | string | Fallback for missing values. Defaults to `--`. |
 | `tone_map` | no | object | Maps raw value strings to tones. |
 | `transform` | no | object | Reserved in the type, not currently applied by the renderer. |
@@ -355,6 +357,22 @@ Example:
   "path": "temperature/error",
   "unit": "deg",
   "digits": 1
+}
+```
+
+Ratio-to-percent example (the multiplier runs before the two-decimal rounding,
+so `0.0001` renders as `0.01 %`):
+
+```json
+{
+  "type": "value",
+  "label": "Trim correction",
+  "source": "diagnostic",
+  "path": "feedforward/fftrim/correction",
+  "format": "number",
+  "value_multiplier": 100,
+  "unit": "%",
+  "digits": 2
 }
 ```
 
@@ -379,6 +397,8 @@ Metric fields:
 | `path` | no | string | Source path. |
 | `unit`, `unit_key` | no | string | Appended after non-missing values. |
 | `digits` | no | number | Decimal digits for numeric values. Defaults to `0`. |
+| `value_multiplier` | no | number | Multiplies a valid numeric value before rounding. |
+| `format` | no | `"number"`, `"duration_s"`, or `"datetime"` | Uses the same formatter as a `value` block. |
 | `fallback` | no | string | Fallback for missing values. |
 | `icon` | no | string | Home Assistant icon. |
 | `tone_map` | no | object | Maps raw value strings to tones. |
@@ -408,6 +428,35 @@ Example:
 }
 ```
 
+### Value formats
+
+`value` blocks and `metric_grid` metrics share these optional formats:
+
+| Format | Input and output |
+| ------ | ---------------- |
+| `number` | Requires a finite numeric value (numeric strings are accepted), applies `value_multiplier` first, then rounds with `digits`. |
+| `duration_s` | Requires a finite, non-negative number of seconds and displays a localized compact value in seconds, minutes, hours, or days. `digits` is the maximum decimal precision and defaults to `1`. |
+| `datetime` | Requires an ISO date-time string and displays a localized short date and time. Offset-aware values use `hass.config.time_zone` when available; ISO strings without an offset are displayed without timezone conversion. |
+
+Formats that provide their own unit (`duration_s` and `datetime`) do not append
+`unit` or `unit_key`. Missing values, non-finite numbers, negative durations,
+invalid ISO strings, and invalid timezones render the configured fallback or
+`--`; units are never appended to a fallback. A non-numeric string is left
+unchanged when no explicit `number` format is requested, and a multiplier is
+never applied to it.
+
+ISO date example:
+
+```json
+{
+  "type": "value",
+  "label": "Next check",
+  "source": "diagnostic",
+  "path": "autocalib/next_check_ts",
+  "format": "datetime"
+}
+```
+
 ## Block: `status`
 
 A mapped state with label, optional icon, tone, and description.
@@ -423,6 +472,7 @@ Fields:
 | `map` | yes | object | Keys are raw source values converted to strings. Use `{}` when only numeric `ranges` are needed. |
 | `ranges` | no | array | Ordered numeric ranges used when no exact `map` entry matches. |
 | `fallback` | no | object | Entry used when no map key matches. |
+| `fallback_show_value` | no | boolean | When the fallback entry is used, appends the raw source code. Missing sources still render only `--`. |
 | `align` | no | `"start"` or `"center"` | Centers compact status content when set to `"center"`. |
 | `show_value` | no | boolean | Appends the numeric source value to the mapped label. |
 | `value_multiplier` | no | number | Multiplies the displayed value, for example `100` for ratio-to-percent. |
@@ -471,6 +521,25 @@ Example:
   }
 }
 ```
+
+Forward-compatible external enum example:
+
+```json
+{
+  "type": "status",
+  "source": "diagnostic",
+  "path": "governance/regime",
+  "map": {
+    "NORMAL": { "label": "Normal", "tone": "ok" }
+  },
+  "fallback": { "label": "Unknown state", "tone": "muted" },
+  "fallback_show_value": true
+}
+```
+
+An exact `map` or `ranges` match shows only its mapped label. An unknown value
+uses the neutral fallback followed by its raw string or boolean code. This does
+not change the existing `show_value` behavior for numeric statuses.
 
 Numeric range example:
 
@@ -838,3 +907,9 @@ export default {
   ]
 };
 ```
+
+## Schema compatibility
+
+These formatter fields are optional additions to `schema_version: 1`. Built-in
+dashboards and existing custom dashboards that omit them retain their previous
+rendering; no schema-version change is required.

@@ -586,12 +586,18 @@ export class EquinoxRegulationRenderer extends LitElement {
 
   private _renderStatus(item: RegulationDashboardStatusItem): TemplateResult {
     const value = readRegulationSourceValue(this._context(), item.source, item.path);
-    const key = isMissingRegulationValue(value) ? "" : String(value);
-    const entry = item.map[key] ?? this._rangeStatusEntry(item, value) ?? item.fallback;
-    const tone = entry?.tone ?? "muted";
+    const valueMissing = isMissingRegulationValue(value);
+    const key = valueMissing ? "" : String(value);
+    const exactEntry = item.map[key];
+    const rangeEntry = exactEntry ? undefined : this._rangeStatusEntry(item, value);
+    const fallbackUsed = !valueMissing && !exactEntry && !rangeEntry && item.fallback !== undefined;
+    const entry = valueMissing && item.fallback_show_value ? undefined : exactEntry ?? rangeEntry ?? item.fallback;
+    const tone = (valueMissing || fallbackUsed) && item.fallback_show_value ? "muted" : entry?.tone ?? "muted";
     const label = entry ? this._translate(entry.label_key, entry.label ?? key) : VALUE_FALLBACK;
     const displayedValue = item.show_value ? this._formatStatusValue(item, value) : "";
-    const pillLabel = displayedValue && label !== VALUE_FALLBACK ? `${label} · ${displayedValue}` : label;
+    const fallbackValue = fallbackUsed && item.fallback_show_value ? this._formatRawStatusValue(value) : "";
+    const valueSuffix = [displayedValue, fallbackValue].filter(Boolean).join(" · ");
+    const pillLabel = valueSuffix && label !== VALUE_FALLBACK ? `${label} · ${valueSuffix}` : label;
     const description = entry ? this._translate(entry.description_key, entry.description) : "";
 
     return html`
@@ -917,18 +923,45 @@ export class EquinoxRegulationRenderer extends LitElement {
 
   private _formatSourceValue(item: RegulationDashboardValueItem | RegulationDashboardMetric): string {
     const value = readRegulationSourceValue(this._context(), item.source, item.path);
-    const formatted = this._formatPrimitive(value, item.digits, item.fallback);
+    const fallback = item.fallback || VALUE_FALLBACK;
+    const formatted = item.format === "duration_s"
+      ? this._formatDuration(value, item.digits, item.value_multiplier, fallback)
+      : item.format === "datetime"
+        ? this._formatDateTime(value, fallback)
+        : this._formatPrimitive(
+          value,
+          item.digits,
+          fallback,
+          item.value_multiplier,
+          item.format === "number"
+        );
     const unit = this._translate(item.unit_key, item.unit);
-    return formatted === VALUE_FALLBACK || !unit ? formatted : `${formatted} ${unit}`;
+    const formatProvidesUnit = item.format === "duration_s" || item.format === "datetime";
+    return formatted === fallback || !unit || formatProvidesUnit ? formatted : `${formatted} ${unit}`;
   }
 
-  private _formatPrimitive(value: unknown, digits?: number, fallback = VALUE_FALLBACK): string {
+  private _formatPrimitive(
+    value: unknown,
+    digits?: number,
+    fallback = VALUE_FALLBACK,
+    multiplier?: number,
+    requireNumber = false
+  ): string {
     if (isMissingRegulationValue(value)) {
       return fallback || VALUE_FALLBACK;
     }
 
-    if (typeof value === "number") {
-      return Number.isFinite(value) ? value.toFixed(Math.max(0, digits ?? 0)) : fallback || VALUE_FALLBACK;
+    if (typeof value === "number" || requireNumber || multiplier !== undefined) {
+      const valueNumber = this._asNumber(value);
+      if (valueNumber !== undefined) {
+        const multiplied = valueNumber * (multiplier ?? 1);
+        return Number.isFinite(multiplied)
+          ? multiplied.toFixed(Math.max(0, digits ?? 0))
+          : fallback || VALUE_FALLBACK;
+      }
+      if (typeof value === "number" || requireNumber) {
+        return fallback || VALUE_FALLBACK;
+      }
     }
 
     if (typeof value === "boolean") {
@@ -946,8 +979,106 @@ export class EquinoxRegulationRenderer extends LitElement {
 
     const multiplier = item.value_multiplier ?? 1;
     const unit = this._translate(item.value_unit_key, item.value_unit);
-    const formatted = this._formatPrimitive(valueNumber * multiplier, item.value_digits);
+    const formatted = this._formatPrimitive(valueNumber, item.value_digits, VALUE_FALLBACK, multiplier, true);
     return unit ? `${formatted} ${unit}` : formatted;
+  }
+
+  private _formatRawStatusValue(value: unknown): string {
+    if (isMissingRegulationValue(value)) {
+      return "";
+    }
+    if (typeof value === "string" || typeof value === "boolean") {
+      return String(value);
+    }
+    return this._formatPrimitive(value);
+  }
+
+  private _formatDuration(
+    value: unknown,
+    digits: number | undefined,
+    multiplier: number | undefined,
+    fallback: string
+  ): string {
+    const valueNumber = this._asNumber(value);
+    const seconds = valueNumber === undefined ? undefined : valueNumber * (multiplier ?? 1);
+    if (seconds === undefined || !Number.isFinite(seconds) || seconds < 0) {
+      return fallback;
+    }
+
+    const [amount, unit]: [number, Intl.NumberFormatOptions["unit"]] = seconds >= 86400
+      ? [seconds / 86400, "day"]
+      : seconds >= 3600
+        ? [seconds / 3600, "hour"]
+        : seconds >= 60
+          ? [seconds / 60, "minute"]
+          : [seconds, "second"];
+
+    try {
+      return new Intl.NumberFormat(this._formatLocale(), {
+        style: "unit",
+        unit,
+        unitDisplay: "narrow",
+        maximumFractionDigits: Math.max(0, digits ?? 1)
+      }).format(amount);
+    } catch {
+      return fallback;
+    }
+  }
+
+  private _formatDateTime(value: unknown, fallback: string): string {
+    if (typeof value !== "string") {
+      return fallback;
+    }
+
+    const isoValue = value.trim();
+    const isoMatch = isoValue.match(
+      /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?$/u
+    );
+    if (!isoMatch) {
+      return fallback;
+    }
+
+    const [, yearText, monthText, dayText, hourText, minuteText, secondText] = isoMatch;
+    const year = Number(yearText);
+    const month = Number(monthText);
+    const day = Number(dayText);
+    const hour = Number(hourText);
+    const minute = Number(minuteText);
+    const second = Number(secondText ?? 0);
+    const leapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+    const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if (
+      month < 1
+      || month > 12
+      || day < 1
+      || day > daysInMonth[month - 1]
+      || hour > 23
+      || minute > 59
+      || second > 59
+    ) {
+      return fallback;
+    }
+
+    const date = new Date(isoValue);
+    if (!Number.isFinite(date.getTime())) {
+      return fallback;
+    }
+
+    const hasOffset = /(?:Z|[+-]\d{2}:\d{2})$/u.test(isoValue);
+    const timeZone = hasOffset ? this.hass?.config?.time_zone : undefined;
+    try {
+      return new Intl.DateTimeFormat(this._formatLocale(), {
+        dateStyle: "short",
+        timeStyle: "short",
+        ...(timeZone ? { timeZone } : {})
+      }).format(date);
+    } catch {
+      return fallback;
+    }
+  }
+
+  private _formatLocale(): string | undefined {
+    return this.language || this.hass?.locale?.language || this.hass?.language;
   }
 
   private _rangeStatusEntry(item: RegulationDashboardStatusItem, value: unknown): RegulationDashboardStatusMapEntry | undefined {

@@ -2,6 +2,7 @@ export type RegulationDashboardKind = "regulation-dashboard";
 export type RegulationDashboardSource = "climate" | "diagnostic" | "power" | "humidity" | "temperature" | "config";
 export type RegulationDashboardTone = "ok" | "info" | "warning" | "danger" | "muted";
 export type RegulationDashboardPath = string;
+export type RegulationDashboardValueFormat = "number" | "duration_s" | "datetime";
 export type RegulationDashboardTranslations = Record<string, Record<string, string>>;
 export type RegulationDashboardCondition = Record<string, unknown>;
 
@@ -87,6 +88,8 @@ export interface RegulationDashboardValueItem extends RegulationDashboardBaseIte
   unit?: string;
   unit_key?: string;
   digits?: number;
+  value_multiplier?: number;
+  format?: RegulationDashboardValueFormat;
   fallback?: string;
   tone_map?: RegulationDashboardToneMap;
   transform?: RegulationDashboardCondition;
@@ -106,6 +109,8 @@ export interface RegulationDashboardMetric extends RegulationDashboardLabelField
   unit?: string;
   unit_key?: string;
   digits?: number;
+  value_multiplier?: number;
+  format?: RegulationDashboardValueFormat;
   fallback?: string;
   icon?: string;
   tone_map?: RegulationDashboardToneMap;
@@ -119,6 +124,7 @@ export interface RegulationDashboardStatusItem extends RegulationDashboardBaseIt
   map: Record<string, RegulationDashboardStatusMapEntry>;
   ranges?: RegulationDashboardStatusRangeEntry[];
   fallback?: RegulationDashboardStatusMapEntry;
+  fallback_show_value?: boolean;
   align?: "start" | "center";
   show_value?: boolean;
   value_multiplier?: number;

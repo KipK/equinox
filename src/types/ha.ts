@@ -6,6 +6,9 @@ export interface HassEntity {
 
 export interface HomeAssistant {
   states: Record<string, HassEntity | undefined>;
+  config?: {
+    time_zone?: string;
+  };
   language?: string;
   locale?: {
     language?: string;
