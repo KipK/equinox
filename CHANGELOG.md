@@ -2,6 +2,11 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.3.3-dev
+
+- add regulation value formatter to dashboard engine
+- redesign SmartPI regulation overview.
+
 ## 0.3.2
 
 - Add capability-gated Versatile Thermostat auto-start/stop stop-mode controls, `hvac_mode_reason` status messages, and auto-fan plugin support while preserving legacy auto-fan and standard climate fan modes.
