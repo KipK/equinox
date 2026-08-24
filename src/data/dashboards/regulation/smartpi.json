@@ -891,15 +891,22 @@
         {
           "type": "layout_grid",
           "title_key": "groups.command.limitation_chain",
-          "min_width": 140,
+          "columns": 1,
           "items": [
-            { "type": "metric_grid", "metrics": [
+            { "type": "metric_grid", "columns": 3, "metrics": [
               { "label_key": "metrics.command", "source": "diagnostic", "path": "power/command_percent", "unit": "%", "digits": 1 },
               { "label_key": "metrics.limited", "source": "diagnostic", "path": "power/limited_percent", "unit": "%", "digits": 1 },
               { "label_key": "metrics.applied", "source": "diagnostic", "path": "power/applied_percent", "unit": "%", "digits": 1 }
             ] },
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand-empty" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" } }
+            {
+              "type": "layout_grid",
+              "min_width": 160,
+              "stretch_items": false,
+              "items": [
+                { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+                { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand-empty" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" } }
+              ]
+            }
           ]
         },
         {

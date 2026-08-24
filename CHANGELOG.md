@@ -4,7 +4,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.3.4-dev
 
-- Improve Regulation dashboard status readability with raw-only enum fallbacks, centered wrapping values, and compact non-stretched grids.
+- Improve Regulation dashboard readability with raw-only enum fallbacks, centered wrapping values, configurable grid widths, balanced row heights, and a compact two-row SmartPI limitation chain.
 
 ## 0.3.3
 

@@ -660,8 +660,8 @@ Example:
 ## Block: `layout_grid`
 
 A responsive grid for grouping related blocks. The grid itself is unframed; each
-child block keeps its own visual surface and natural height instead of stretching
-to match the tallest sibling in its row.
+child block keeps its own visual surface. Items in the same row share the tallest
+item height so their frames remain aligned.
 
 Fields:
 
@@ -670,6 +670,8 @@ Fields:
 | `type` | yes | `"layout_grid"` | |
 | `title`, `title_key` | no | string | Optional heading displayed above the grid. |
 | `min_width` | no | number | Minimum responsive column width in pixels. Defaults to `240`. |
+| `columns` | no | number | Fixed desktop column count. The grid collapses to one column on narrow screens. |
+| `stretch_items` | no | boolean | Defaults to `true`. Set to `false` to keep each child at `min_width` and center it inside its grid track. |
 | `center_orphan` | no | boolean | Centers the last item when it is alone on a desktop two-column row. Useful for 3-card groups. |
 | `items` | yes | array | Child dashboard blocks. |
 
@@ -679,6 +681,8 @@ Example:
 {
   "type": "layout_grid",
   "title_key": "model.reliability",
+  "min_width": 180,
+  "stretch_items": false,
   "items": [
     {
       "type": "status",

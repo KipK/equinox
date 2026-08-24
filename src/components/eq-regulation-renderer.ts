@@ -287,8 +287,17 @@ export class EquinoxRegulationRenderer extends LitElement {
       container-type: inline-size;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 240px)), 1fr));
-      align-items: start;
+      align-items: stretch;
       gap: 10px;
+    }
+
+    .layout-grid[fixed-columns] {
+      grid-template-columns: repeat(var(--grid-columns, 1), minmax(0, 1fr));
+    }
+
+    .layout-grid[fixed-items] > * {
+      width: min(100%, var(--grid-min-width, 240px));
+      justify-self: center;
     }
 
     @container (min-width: 610px) {
@@ -400,6 +409,10 @@ export class EquinoxRegulationRenderer extends LitElement {
     }
 
     @media (max-width: 600px) {
+      .layout-grid[fixed-columns] {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
       .history-chart {
         height: min(320px, 42vh);
         min-height: 240px;
@@ -550,7 +563,12 @@ export class EquinoxRegulationRenderer extends LitElement {
           <div
             class="layout-grid"
             ?center-orphan=${item.center_orphan === true}
-            style=${item.min_width ? `--grid-min-width: ${item.min_width}px;` : nothing}
+            ?fixed-columns=${item.columns !== undefined}
+            ?fixed-items=${item.stretch_items === false}
+            style=${[
+              item.min_width ? `--grid-min-width: ${item.min_width}px;` : "",
+              item.columns ? `--grid-columns: ${Math.max(1, Math.floor(item.columns))};` : ""
+            ].filter(Boolean).join(" ") || nothing}
           >
             ${item.items.map((subItem) => this._renderItem(subItem))}
           </div>
