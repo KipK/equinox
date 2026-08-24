@@ -15,6 +15,8 @@
       "sections.command.summary": "Puissance demandee, limites et decomposition de la commande.",
       "sections.fftrim.title": "Equilibre / FFTrim",
       "sections.fftrim.summary": "Observation de la puissance de maintien et repartition entre integrale et trim.",
+      "sections.anticipation.title": "Anticipation",
+      "sections.anticipation.summary": "Trajectoire de consigne, atterrissage et correction predictive.",
       "sections.health.title": "Securite et actions",
       "sections.health.summary": "Garde-fous, calibration et actions de maintenance.",
       "hero.overview.title": "Smart PI pilote la regulation",
@@ -140,6 +142,11 @@
       "metrics.fftrim.requested_i_transfer": "Transfert I demande",
       "metrics.fftrim.applied_i_transfer": "Transfert I applique",
       "metrics.fftrim.net_command_delta": "Delta net de commande",
+      "metrics.trajectory.source": "Source de trajectoire",
+      "metrics.ff3.twin_usable": "Jumeau utilisable",
+      "metrics.landing.reason": "Raison d'atterrissage",
+      "metrics.landing.u_cap": "Plafond de commande",
+      "metrics.landing.coast_required": "Roue libre requise",
       "groups.overview.thermal": "Temperature et consigne",
       "groups.overview.command": "Commande en cours",
       "groups.overview.influence": "Influence actuelle",
@@ -152,6 +159,8 @@
       "groups.fftrim.thermal_balance": "Bilan thermique observe",
       "groups.fftrim.transfer": "Transfert sans a-coup et propriete PI/trim",
       "groups.fftrim.deltas": "Deltas de propriete",
+      "groups.anticipation.trajectory_landing": "Trajectoire et atterrissage",
+      "groups.anticipation.ff3_twin": "FF3 et jumeau thermique",
       "status.phase.Hysteresis": "Bootstrap hysteresis",
       "status.phase.Stable": "Stable",
       "status.phase.Calibration": "Calibration",
@@ -207,6 +216,51 @@
       "status.regime.degraded": "Degrade",
       "status.regime.saturated": "Sature",
       "status.boolean.active": "Actif",
+      "status.trajectory.setpoint": "Changement de consigne",
+      "status.trajectory.disturbance": "Perturbation",
+      "status.trajectory.none": "Aucune",
+      "status.landing.cap": "Plafonnement actif",
+      "status.landing.coast": "Roue libre requise",
+      "status.ff3.active": "FF3 actif",
+      "status.ff3.inactive": "FF3 inactif",
+      "status.ff3.disabled": "FF3 desactive",
+      "status.ff3.disabled.config_disabled": "FF3 desactive par configuration",
+      "status.ff3.disabled.deadband": "FF3 inactif en zone morte",
+      "status.ff3.disabled.not_near_band": "FF3 hors zone proche",
+      "status.ff3.disabled.pending_cycle_boundary": "FF3 en attente de fin de cycle",
+      "status.ff3.disabled.trajectory_setpoint_active": "FF3 bloque par la trajectoire de consigne",
+      "status.ff3.disabled.disturbance_unclassified": "Perturbation FF3 non classee",
+      "status.ff3.disabled.twin_warming_up": "Jumeau thermique en chauffe",
+      "status.ff3.disabled.twin_steady_invalid": "Etat stable du jumeau invalide",
+      "status.ff3.disabled.reset": "FF3 en reinitialisation",
+      "status.ff3.disabled.hvac_off": "FF3 arrete : chauffage coupe",
+      "status.ff3.disabled.first_cycle_after_restart": "FF3 attend le premier cycle apres redemarrage",
+      "status.ff3.disabled.cool_mode": "FF3 indisponible en refroidissement",
+      "status.ff3.disabled.missing_ext_temp": "Temperature exterieure absente",
+      "status.ff3.disabled.tau_not_reliable": "Temps caracteristique non fiable",
+      "status.ff3.disabled.twin_not_initialized": "Jumeau thermique non initialise",
+      "status.ff3.disabled.calibration": "FF3 suspendu pendant la calibration",
+      "status.ff3.disabled.power_shedding": "FF3 suspendu par la limitation de puissance",
+      "status.ff3.disabled.recent_setpoint_change": "FF3 attend apres un changement de consigne",
+      "status.ff3.disabled.no_disturbance_context": "Aucune perturbation confirmee",
+      "status.ff3.disabled.saturated_high": "FF3 suspendu a saturation haute",
+      "status.ff3.disabled.system_not_stable": "Systeme thermique pas encore stable",
+      "status.ff3.disabled.authority_zero": "Autorite FF3 nulle",
+      "status.ff3.disabled.scoring_failed": "Evaluation FF3 indisponible",
+      "status.ff3.disabled.horizon_no_candidate_effect": "Aucun effet candidat sur l'horizon",
+      "status.ff3.disabled.score_not_better": "Aucune amelioration predite",
+      "status.ff3.disabled.authority_tapered_to_zero": "Autorite FF3 reduite a zero",
+      "status.twin.ok": "Jumeau disponible",
+      "status.twin.unavailable": "Jumeau indisponible",
+      "status.deadband.power_source.none": "Aucune source de maintien",
+      "status.deadband.power_source.ff_plus_pi": "Feed-forward et PI",
+      "status.deadband.p_mode.init": "Initialisation",
+      "status.deadband.p_mode.deadband_frozen": "P gelee en zone morte",
+      "status.deadband.p_mode.deadband_quiet": "P nulle en zone morte",
+      "status.deadband.p_mode.off": "P hors zone morte",
+      "status.deadband.p_mode.deadband_edge": "P au bord de la zone morte",
+      "status.deadband.p_mode.deadband_edge_pending": "P au bord en attente",
+      "status.deadband.p_mode.deadzone_edge": "P au bord de la zone proche",
       "status.saturation.NO_SAT": "Sans saturation",
       "status.saturation.SAT_HI": "Limite haute",
       "status.saturation.SAT_LO": "Limite basse",
@@ -295,6 +349,8 @@
       "sections.command.summary": "Requested power, limits and command breakdown.",
       "sections.fftrim.title": "Balance / FFTrim",
       "sections.fftrim.summary": "Observation of holding power and ownership distribution between integral and trim.",
+      "sections.anticipation.title": "Anticipation",
+      "sections.anticipation.summary": "Setpoint trajectory, landing and predictive correction.",
       "sections.health.title": "Safety and actions",
       "sections.health.summary": "Guards, calibration and maintenance actions.",
       "hero.overview.title": "Smart PI is driving regulation",
@@ -420,6 +476,11 @@
       "metrics.fftrim.requested_i_transfer": "Requested I transfer",
       "metrics.fftrim.applied_i_transfer": "Applied I transfer",
       "metrics.fftrim.net_command_delta": "Net command delta",
+      "metrics.trajectory.source": "Trajectory source",
+      "metrics.ff3.twin_usable": "Usable twin",
+      "metrics.landing.reason": "Landing reason",
+      "metrics.landing.u_cap": "Command cap",
+      "metrics.landing.coast_required": "Coasting required",
       "groups.overview.thermal": "Temperature and setpoint",
       "groups.overview.command": "Current command",
       "groups.overview.influence": "Current influence",
@@ -432,6 +493,8 @@
       "groups.fftrim.thermal_balance": "Observed thermal balance",
       "groups.fftrim.transfer": "Bumpless transfer and PI/trim ownership",
       "groups.fftrim.deltas": "Ownership deltas",
+      "groups.anticipation.trajectory_landing": "Trajectory and landing",
+      "groups.anticipation.ff3_twin": "FF3 and thermal twin",
       "status.phase.Hysteresis": "Bootstrap hysteresis",
       "status.phase.Stable": "Stable",
       "status.phase.Calibration": "Calibration",
@@ -487,6 +550,51 @@
       "status.regime.degraded": "Degraded",
       "status.regime.saturated": "Saturated",
       "status.boolean.active": "Active",
+      "status.trajectory.setpoint": "Setpoint change",
+      "status.trajectory.disturbance": "Disturbance",
+      "status.trajectory.none": "None",
+      "status.landing.cap": "Cap active",
+      "status.landing.coast": "Coasting required",
+      "status.ff3.active": "FF3 active",
+      "status.ff3.inactive": "FF3 inactive",
+      "status.ff3.disabled": "FF3 disabled",
+      "status.ff3.disabled.config_disabled": "FF3 disabled by configuration",
+      "status.ff3.disabled.deadband": "FF3 inactive in deadband",
+      "status.ff3.disabled.not_near_band": "FF3 outside near band",
+      "status.ff3.disabled.pending_cycle_boundary": "FF3 awaiting cycle boundary",
+      "status.ff3.disabled.trajectory_setpoint_active": "FF3 blocked by setpoint trajectory",
+      "status.ff3.disabled.disturbance_unclassified": "FF3 disturbance unclassified",
+      "status.ff3.disabled.twin_warming_up": "Thermal twin warming up",
+      "status.ff3.disabled.twin_steady_invalid": "Thermal twin steady state invalid",
+      "status.ff3.disabled.reset": "FF3 resetting",
+      "status.ff3.disabled.hvac_off": "FF3 off because HVAC is off",
+      "status.ff3.disabled.first_cycle_after_restart": "FF3 awaiting first cycle after restart",
+      "status.ff3.disabled.cool_mode": "FF3 unavailable in cooling mode",
+      "status.ff3.disabled.missing_ext_temp": "Outdoor temperature unavailable",
+      "status.ff3.disabled.tau_not_reliable": "Time constant not reliable",
+      "status.ff3.disabled.twin_not_initialized": "Thermal twin not initialized",
+      "status.ff3.disabled.calibration": "FF3 paused during calibration",
+      "status.ff3.disabled.power_shedding": "FF3 paused by power shedding",
+      "status.ff3.disabled.recent_setpoint_change": "FF3 waiting after a setpoint change",
+      "status.ff3.disabled.no_disturbance_context": "No confirmed disturbance",
+      "status.ff3.disabled.saturated_high": "FF3 paused at high saturation",
+      "status.ff3.disabled.system_not_stable": "Thermal system not yet stable",
+      "status.ff3.disabled.authority_zero": "FF3 authority is zero",
+      "status.ff3.disabled.scoring_failed": "FF3 evaluation unavailable",
+      "status.ff3.disabled.horizon_no_candidate_effect": "No candidate effect over the horizon",
+      "status.ff3.disabled.score_not_better": "No predicted improvement",
+      "status.ff3.disabled.authority_tapered_to_zero": "FF3 authority tapered to zero",
+      "status.twin.ok": "Twin available",
+      "status.twin.unavailable": "Twin unavailable",
+      "status.deadband.power_source.none": "No holding source",
+      "status.deadband.power_source.ff_plus_pi": "Feed-forward and PI",
+      "status.deadband.p_mode.init": "Initializing",
+      "status.deadband.p_mode.deadband_frozen": "P frozen in deadband",
+      "status.deadband.p_mode.deadband_quiet": "P zero in deadband",
+      "status.deadband.p_mode.off": "P outside deadband",
+      "status.deadband.p_mode.deadband_edge": "P at deadband edge",
+      "status.deadband.p_mode.deadband_edge_pending": "P at edge pending",
+      "status.deadband.p_mode.deadzone_edge": "P at near-band edge",
       "status.saturation.NO_SAT": "No saturation",
       "status.saturation.SAT_HI": "Upper limit",
       "status.saturation.SAT_LO": "Lower limit",
@@ -1074,6 +1182,199 @@
             { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
             { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
             { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "feedforward/fftrim/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "anticipation",
+      "title_key": "sections.anticipation.title",
+      "icon": "mdi:chart-timeline-variant",
+      "summary_key": "sections.anticipation.summary",
+      "items": [
+        {
+          "type": "layout_grid",
+          "title_key": "groups.anticipation.trajectory_landing",
+          "min_width": 180,
+          "items": [
+            {
+              "type": "metric_grid",
+              "columns": 1,
+              "metrics": [
+                { "label_key": "metrics.filtered_setpoint", "source": "diagnostic", "path": "setpoint/filtered_setpoint", "unit": "°C", "digits": 1 }
+              ]
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.trajectory",
+              "source": "diagnostic",
+              "path": "setpoint/trajectory_active",
+              "map": {
+                "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:chart-timeline-variant" },
+                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:chart-timeline-variant" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.trajectory.source",
+              "source": "diagnostic",
+              "path": "setpoint/trajectory_source",
+              "map": {
+                "setpoint": { "label_key": "status.trajectory.setpoint", "tone": "info", "icon": "mdi:thermometer-chevron-up" },
+                "disturbance": { "label_key": "status.trajectory.disturbance", "tone": "info", "icon": "mdi:weather-windy" },
+                "none": { "label_key": "status.trajectory.none", "tone": "muted", "icon": "mdi:minus-circle-outline" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true,
+              "visible_if": { "==": [{ "var": "diagnostic/setpoint/trajectory_active" }, true] }
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.landing",
+              "source": "diagnostic",
+              "path": "setpoint/landing_active",
+              "map": {
+                "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:airplane-landing" },
+                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:airplane-landing" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.landing.reason",
+              "source": "diagnostic",
+              "path": "setpoint/landing_reason",
+              "map": {
+                "cap": { "label_key": "status.landing.cap", "tone": "info", "icon": "mdi:chart-bell-curve" },
+                "coast": { "label_key": "status.landing.coast", "tone": "info", "icon": "mdi:weather-windy" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true,
+              "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] }
+            },
+            {
+              "type": "metric_grid",
+              "columns": 2,
+              "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] },
+              "metrics": [
+                { "label_key": "metrics.landing.u_cap", "source": "diagnostic", "path": "setpoint/landing_u_cap", "unit": "%", "digits": 1, "value_multiplier": 100 }
+              ]
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.landing.coast_required",
+              "source": "diagnostic",
+              "path": "setpoint/landing_coast_required",
+              "map": {
+                "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:weather-windy" },
+                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:weather-windy" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true,
+              "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] }
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.anticipation.ff3_twin",
+          "min_width": 180,
+          "items": [
+            {
+              "type": "status",
+              "label_key": "metrics.feedforward_status",
+              "source": "diagnostic",
+              "path": "feedforward/ff3_status",
+              "map": {
+                "active": { "label_key": "status.ff3.active", "tone": "info", "icon": "mdi:crystal-ball" },
+                "inactive": { "label_key": "status.ff3.inactive", "tone": "muted", "icon": "mdi:crystal-ball" },
+                "disabled:disabled": { "label_key": "status.ff3.disabled", "tone": "muted", "icon": "mdi:crystal-ball" },
+                "disabled:config_disabled": { "label_key": "status.ff3.disabled.config_disabled", "tone": "muted", "icon": "mdi:cog-off-outline" },
+                "disabled:deadband": { "label_key": "status.ff3.disabled.deadband", "tone": "muted", "icon": "mdi:circle-outline" },
+                "disabled:not_near_band": { "label_key": "status.ff3.disabled.not_near_band", "tone": "muted", "icon": "mdi:target-variant" },
+                "disabled:pending_cycle_boundary": { "label_key": "status.ff3.disabled.pending_cycle_boundary", "tone": "info", "icon": "mdi:timer-sand" },
+                "disabled:trajectory_setpoint_active": { "label_key": "status.ff3.disabled.trajectory_setpoint_active", "tone": "muted", "icon": "mdi:chart-timeline-variant" },
+                "disabled:disturbance_unclassified": { "label_key": "status.ff3.disabled.disturbance_unclassified", "tone": "muted", "icon": "mdi:help-circle-outline" },
+                "disabled:twin_warming_up": { "label_key": "status.ff3.disabled.twin_warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
+                "disabled:twin_steady_invalid": { "label_key": "status.ff3.disabled.twin_steady_invalid", "tone": "muted", "icon": "mdi:home-thermometer-outline" },
+                "disabled:reset": { "label_key": "status.ff3.disabled.reset", "tone": "info", "icon": "mdi:restart" },
+                "disabled:hvac_off": { "label_key": "status.ff3.disabled.hvac_off", "tone": "muted", "icon": "mdi:power" },
+                "disabled:first_cycle_after_restart": { "label_key": "status.ff3.disabled.first_cycle_after_restart", "tone": "info", "icon": "mdi:timer-sand" },
+                "disabled:cool_mode": { "label_key": "status.ff3.disabled.cool_mode", "tone": "muted", "icon": "mdi:snowflake" },
+                "disabled:missing_ext_temp": { "label_key": "status.ff3.disabled.missing_ext_temp", "tone": "muted", "icon": "mdi:thermometer-alert" },
+                "disabled:tau_not_reliable": { "label_key": "status.ff3.disabled.tau_not_reliable", "tone": "muted", "icon": "mdi:chart-bell-curve" },
+                "disabled:twin_not_initialized": { "label_key": "status.ff3.disabled.twin_not_initialized", "tone": "muted", "icon": "mdi:home-thermometer-outline" },
+                "disabled:calibration": { "label_key": "status.ff3.disabled.calibration", "tone": "info", "icon": "mdi:tune-variant" },
+                "disabled:power_shedding": { "label_key": "status.ff3.disabled.power_shedding", "tone": "info", "icon": "mdi:flash-off" },
+                "disabled:recent_setpoint_change": { "label_key": "status.ff3.disabled.recent_setpoint_change", "tone": "info", "icon": "mdi:thermometer-chevron-up" },
+                "disabled:no_disturbance_context": { "label_key": "status.ff3.disabled.no_disturbance_context", "tone": "muted", "icon": "mdi:weather-windy" },
+                "disabled:saturated_high": { "label_key": "status.ff3.disabled.saturated_high", "tone": "info", "icon": "mdi:gauge-full" },
+                "disabled:system_not_stable": { "label_key": "status.ff3.disabled.system_not_stable", "tone": "info", "icon": "mdi:chart-line-variant" },
+                "disabled:authority_zero": { "label_key": "status.ff3.disabled.authority_zero", "tone": "muted", "icon": "mdi:minus-circle-outline" },
+                "disabled:scoring_failed": { "label_key": "status.ff3.disabled.scoring_failed", "tone": "muted", "icon": "mdi:chart-scatter-plot" },
+                "disabled:horizon_no_candidate_effect": { "label_key": "status.ff3.disabled.horizon_no_candidate_effect", "tone": "muted", "icon": "mdi:chart-timeline-variant" },
+                "disabled:score_not_better": { "label_key": "status.ff3.disabled.score_not_better", "tone": "muted", "icon": "mdi:chart-line-variant" },
+                "disabled:authority_tapered_to_zero": { "label_key": "status.ff3.disabled.authority_tapered_to_zero", "tone": "muted", "icon": "mdi:minus-circle-outline" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.ff3.twin_usable",
+              "source": "diagnostic",
+              "path": "feedforward/ff3_twin_usable",
+              "map": {
+                "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
+                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:close-circle-outline" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.twin_status",
+              "source": "diagnostic",
+              "path": "feedforward/twin_status",
+              "map": {
+                "ok": { "label_key": "status.twin.ok", "tone": "ok", "icon": "mdi:home-thermometer-outline" },
+                "unavailable": { "label_key": "status.twin.unavailable", "tone": "muted", "icon": "mdi:home-thermometer-outline" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.deadband_source",
+              "source": "diagnostic",
+              "path": "feedforward/deadband_power_source",
+              "map": {
+                "none": { "label_key": "status.deadband.power_source.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
+                "ff_plus_pi": { "label_key": "status.deadband.power_source.ff_plus_pi", "tone": "info", "icon": "mdi:source-merge" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.deadband_mode",
+              "source": "diagnostic",
+              "path": "feedforward/deadband_p_mode",
+              "map": {
+                "init": { "label_key": "status.deadband.p_mode.init", "tone": "muted", "icon": "mdi:progress-clock" },
+                "deadband_frozen": { "label_key": "status.deadband.p_mode.deadband_frozen", "tone": "muted", "icon": "mdi:snowflake" },
+                "deadband_quiet": { "label_key": "status.deadband.p_mode.deadband_quiet", "tone": "muted", "icon": "mdi:minus-circle-outline" },
+                "off": { "label_key": "status.deadband.p_mode.off", "tone": "muted", "icon": "mdi:power" },
+                "deadband_edge": { "label_key": "status.deadband.p_mode.deadband_edge", "tone": "info", "icon": "mdi:circle-outline" },
+                "deadband_edge_pending": { "label_key": "status.deadband.p_mode.deadband_edge_pending", "tone": "info", "icon": "mdi:timer-sand" },
+                "deadzone_edge": { "label_key": "status.deadband.p_mode.deadzone_edge", "tone": "info", "icon": "mdi:target-variant" }
+              },
+              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback_show_value": true
+            }
           ]
         }
       ]
