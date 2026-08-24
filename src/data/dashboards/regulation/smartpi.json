@@ -74,6 +74,7 @@
       "metrics.history_a": "Echantillons A",
       "metrics.history_b": "Echantillons B",
       "metrics.learning_stage": "Etat apprentissage",
+      "metrics.learning_enabled": "Apprentissage thermique",
       "metrics.a_drift": "Derive A",
       "metrics.b_drift": "Derive B",
       "metrics.learn_b_converged": "B converge",
@@ -188,6 +189,8 @@
       "status.learning.learning": "Apprentissage",
       "status.learning.monitoring": "Surveillance",
       "status.learning.degraded": "Degrade",
+      "status.learning.enabled": "Actif",
+      "status.learning.paused": "En pause",
       "status.drift.NORMAL": "Normale",
       "status.drift.DRIFT_SUSPECTED": "Derive suspectee",
       "status.drift.RECENTERING": "Recentrement en cours",
@@ -339,6 +342,10 @@
       "notes.fftrim.periodic": "L'observateur periodique cherche un cycle thermique ferme avec montee et descente. Sa cible depend des cycles VT et du temps mort ; il partage la chronologie de puissance, conserve sa propre fenetre et ne transfere pas la propriete integrale/trim.",
       "actions.reset_learning": "Reinitialiser l'apprentissage",
       "actions.reset_learning.confirm": "Smart PI va effacer son apprentissage et revenir en bootstrap.",
+      "actions.pause_learning": "Mettre l'apprentissage en pause",
+      "actions.pause_learning.confirm": "Smart PI continuera a reguler avec le modele actuel, mais ne collectera plus d'observations thermiques ni de temps mort.",
+      "actions.resume_learning": "Reprendre l'apprentissage",
+      "actions.resume_learning.confirm": "Smart PI reprendra la collecte d'observations thermiques et de temps mort.",
       "actions.force_calibration": "Forcer une calibration",
       "actions.force_calibration.confirm": "Smart PI va lancer une calibration si l'etat courant le permet.",
       "actions.reset_integral": "Reinitialiser l'integrale",
@@ -426,6 +433,7 @@
       "metrics.history_a": "A samples",
       "metrics.history_b": "B samples",
       "metrics.learning_stage": "Learning state",
+      "metrics.learning_enabled": "Thermal learning",
       "metrics.a_drift": "A drift",
       "metrics.b_drift": "B drift",
       "metrics.learn_b_converged": "B converged",
@@ -540,6 +548,8 @@
       "status.learning.learning": "Learning",
       "status.learning.monitoring": "Monitoring",
       "status.learning.degraded": "Degraded",
+      "status.learning.enabled": "Enabled",
+      "status.learning.paused": "Paused",
       "status.drift.NORMAL": "Normal",
       "status.drift.DRIFT_SUSPECTED": "Drift suspected",
       "status.drift.RECENTERING": "Recentering in progress",
@@ -691,6 +701,10 @@
       "notes.fftrim.periodic": "The periodic observer seeks a closed thermal cycle with a rise and a fall. Its target depends on VT cycles and dead time; it shares the power timeline, keeps its own window and never transfers integral/trim ownership.",
       "actions.reset_learning": "Reset learning",
       "actions.reset_learning.confirm": "Smart PI will clear learning and return to bootstrap.",
+      "actions.pause_learning": "Pause learning",
+      "actions.pause_learning.confirm": "Smart PI will continue regulating with the current model, but will stop collecting thermal and dead-time observations.",
+      "actions.resume_learning": "Resume learning",
+      "actions.resume_learning.confirm": "Smart PI will resume collecting thermal and dead-time observations.",
       "actions.force_calibration": "Force calibration",
       "actions.force_calibration.confirm": "Smart PI will start a calibration cycle if the current state allows it.",
       "actions.reset_integral": "Reset integral",
@@ -814,6 +828,7 @@
           "type": "layout_grid",
           "title_key": "groups.overview.command",
           "min_width": 140,
+          "columns": 3,
           "items": [
             {
               "type": "metric_grid",
@@ -841,6 +856,18 @@
               },
               "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
               "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.learning_enabled",
+              "source": "climate",
+              "path": "specific_states/smartpi_learning_enabled",
+              "align": "center",
+              "map": {
+                "true": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" },
+                "false": { "label_key": "status.learning.paused", "tone": "warning", "icon": "mdi:pause-circle-outline" }
+              },
+              "fallback": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" }
             }
           ]
         },
@@ -1865,7 +1892,34 @@
         {
           "type": "layout_grid",
           "min_width": 100,
+          "stretch_items": false,
           "items": [
+            {
+              "type": "action",
+              "label_key": "actions.pause_learning",
+              "icon": "mdi:pause-circle-outline",
+              "service": "vtherm_smartpi.set_smartpi_learning",
+              "target": { "entity_id": "$climate_entity" },
+              "data": { "learning_enabled": false },
+              "visible_if": { "==": [{ "var": "climate/specific_states/smartpi_learning_enabled" }, true] },
+              "confirmation": {
+                "enabled": true,
+                "text_key": "actions.pause_learning.confirm"
+              }
+            },
+            {
+              "type": "action",
+              "label_key": "actions.resume_learning",
+              "icon": "mdi:play-circle-outline",
+              "service": "vtherm_smartpi.set_smartpi_learning",
+              "target": { "entity_id": "$climate_entity" },
+              "data": { "learning_enabled": true },
+              "visible_if": { "==": [{ "var": "climate/specific_states/smartpi_learning_enabled" }, false] },
+              "confirmation": {
+                "enabled": true,
+                "text_key": "actions.resume_learning.confirm"
+              }
+            },
             {
               "type": "action",
               "label_key": "actions.reset_learning",

@@ -50,20 +50,29 @@ Built-in dashboards currently include:
 The SmartPI dashboard is organized as **Summary**, **Command**, **Learning**,
 **Thermal model**, **Anticipation**, **Balance / FFTrim**, and **Monitoring and
 actions**. Summary prioritizes exceptional states, the current temperature
-and filtered setpoint, applied and next-cycle power, active influences, and a
-short history. The specialized sections then expose the published actuator
-chain, A/B learning, model reliability, trajectory/landing and FF3 state,
-stationary and periodic FFTrim observations, and safeguards plus confirmed
-maintenance actions.
+and filtered setpoint, applied and next-cycle power, the current learning
+state, active influences, and a short history. The specialized sections then
+expose the published actuator chain, A/B learning, model reliability,
+trajectory/landing and FF3 state, stationary and periodic FFTrim observations,
+and safeguards plus confirmed maintenance actions.
 
-The built-in definition reads only the compact diagnostics published by
-SmartPI; it does not read `debug` fields or reproduce controller formulas.
+The built-in definition reads SmartPI diagnostics for controller data and the
+thermostat plugin-control state; it does not read `debug` fields or reproduce
+controller formulas.
 Published `power/*_percent` values are already percentages. Ratios inside
 `feedforward/fftrim` and `setpoint/landing_u_cap` use an explicit
 `value_multiplier: 100`, while absent fields remain `--` for compatibility with
 older diagnostics. Evolving enum values use a neutral fallback that keeps the
 raw code visible. Offset-aware ISO dates may use the Home Assistant timezone;
 naive ISO dates are displayed without inventing a source timezone.
+
+With SmartPI versions that expose `specific_states.smartpi_learning_enabled`,
+Summary shows whether thermal learning is enabled or paused. Monitoring and
+actions offers the matching confirmed `vtherm_smartpi.set_smartpi_learning`
+service call with `learning_enabled: false` or `true`; it targets the configured
+climate entity when that state is published. Older SmartPI versions did not
+support pausing learning, so the dashboard treats a missing state as enabled for
+display compatibility and hides the unavailable action.
 
 ## Diagnostic Entity Detection
 
@@ -847,6 +856,11 @@ Known destructive services:
 
 Actions are disabled when the thermostat is locked. Service errors are shown as
 a short message in the dialog and logged with details in the browser console.
+
+The built-in SmartPI dashboard uses two mutually exclusive actions for
+`vtherm_smartpi.set_smartpi_learning`: pause sends
+`{ "learning_enabled": false }`, while resume sends
+`{ "learning_enabled": true }`. Both target `$climate_entity`.
 
 Example:
 

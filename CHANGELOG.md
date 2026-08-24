@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.3.4-dev
+
+- Show the SmartPI thermal-learning enabled/paused state in Regulation Summary and add confirmed pause/resume actions.
+
 ## 0.3.3
 
 - Add regulation value formatter to dashboard engine
