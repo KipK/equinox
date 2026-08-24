@@ -42,18 +42,18 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation dashboard with seven sections covering the current regulation state, command, FFTrim, anticipation, learning, thermal model, and supervision/actions.
+- `smartpi.json` — Smart PI regulation dashboard with seven sections covering the current regulation state, command, learning, thermal model, anticipation, FFTrim, and supervision/actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
 
 ### Built-in SmartPI dashboard
 
-The SmartPI dashboard is organized as **Summary**, **Command**, **Balance /
-FFTrim**, **Anticipation**, **Learning**, **Thermal model**, and **Monitoring
-and actions**. Summary prioritizes exceptional states, the current temperature
+The SmartPI dashboard is organized as **Summary**, **Command**, **Learning**,
+**Thermal model**, **Anticipation**, **Balance / FFTrim**, and **Monitoring and
+actions**. Summary prioritizes exceptional states, the current temperature
 and filtered setpoint, applied and next-cycle power, active influences, and a
 short history. The specialized sections then expose the published actuator
-chain, stationary and periodic FFTrim observations, trajectory/landing and FF3
-state, A/B learning, model reliability, and safeguards plus confirmed
+chain, A/B learning, model reliability, trajectory/landing and FF3 state,
+stationary and periodic FFTrim observations, and safeguards plus confirmed
 maintenance actions.
 
 The built-in definition reads only the compact diagnostics published by
