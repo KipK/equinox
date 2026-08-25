@@ -102,6 +102,7 @@
       "metrics.saturation": "Saturation",
       "metrics.integral_mode": "Mode intégrale",
       "metrics.integral_hold": "Maintien intégrale",
+      "metrics.integral_hold_source": "Source du maintien intégral",
       "metrics.integral_guard_source": "Source de protection intégrale",
       "metrics.restart_reason": "Raison du redémarrage",
       "metrics.autocalib_state": "Autocalibration",
@@ -155,6 +156,8 @@
       "metrics.fftrim.requested_i_transfer": "Transfert I demande",
       "metrics.fftrim.applied_i_transfer": "Transfert I appliqué",
       "metrics.fftrim.net_command_delta": "Delta net de commande",
+      "metrics.fftrim.window_duration": "Durée observée",
+      "metrics.fftrim.transaction_timestamp": "Application UTC",
       "metrics.trajectory.source": "Source de trajectoire",
       "metrics.ff3.twin_usable": "Jumeau utilisable",
       "metrics.landing.reason": "Raison d'atterrissage",
@@ -166,12 +169,15 @@
       "groups.command.actuator_cycle": "Cycle actionneur",
       "groups.command.limitation_chain": "Chaîne de limitation",
       "groups.command.contributions": "Contributions de contrôle",
-      "groups.fftrim.observer": "Observation stationnaire",
+      "groups.fftrim.observer": "Observation stationnaire live",
       "groups.fftrim.stationary_quality": "Qualité de la fenetre stationnaire",
       "groups.fftrim.periodic": "Observation d'équilibre périodique",
-      "groups.fftrim.thermal_balance": "Bilan thermique observe",
-      "groups.fftrim.transfer": "Transfert sans a-coup et propriété PI/trim",
-      "groups.fftrim.deltas": "Deltas de propriété",
+      "groups.fftrim.thermal_balance": "Dernier bilan thermique retenu",
+      "groups.fftrim.transfer": "Transfert sans a-coup live",
+      "groups.fftrim.deltas": "Deltas de propriété live",
+      "groups.fftrim.last_result": "Dernier résultat admissible retenu",
+      "groups.fftrim.last_transaction": "Dernière transaction appliquée",
+      "groups.fftrim.last_transaction_deltas": "Deltas de la dernière transaction appliquée",
       "groups.anticipation.trajectory_landing": "Trajectoire et atterrissage",
       "groups.anticipation.ff3_twin": "FF3 et jumeau thermique",
       "groups.learning.drift": "Dérive et convergence",
@@ -467,6 +473,7 @@
       "metrics.saturation": "Saturation",
       "metrics.integral_mode": "Integral mode",
       "metrics.integral_hold": "Integral hold",
+      "metrics.integral_hold_source": "Integral hold source",
       "metrics.integral_guard_source": "Integral guard source",
       "metrics.restart_reason": "Restart reason",
       "metrics.autocalib_state": "Auto-calibration",
@@ -520,6 +527,8 @@
       "metrics.fftrim.requested_i_transfer": "Requested I transfer",
       "metrics.fftrim.applied_i_transfer": "Applied I transfer",
       "metrics.fftrim.net_command_delta": "Net command delta",
+      "metrics.fftrim.window_duration": "Observed duration",
+      "metrics.fftrim.transaction_timestamp": "Applied at UTC",
       "metrics.trajectory.source": "Trajectory source",
       "metrics.ff3.twin_usable": "Usable twin",
       "metrics.landing.reason": "Landing reason",
@@ -531,12 +540,15 @@
       "groups.command.actuator_cycle": "Actuator cycle",
       "groups.command.limitation_chain": "Limitation chain",
       "groups.command.contributions": "Control contributions",
-      "groups.fftrim.observer": "Stationary observation",
+      "groups.fftrim.observer": "Live stationary observation",
       "groups.fftrim.stationary_quality": "Stationary window quality",
       "groups.fftrim.periodic": "Periodic equilibrium observation",
-      "groups.fftrim.thermal_balance": "Observed thermal balance",
-      "groups.fftrim.transfer": "Bumpless transfer and PI/trim ownership",
-      "groups.fftrim.deltas": "Ownership deltas",
+      "groups.fftrim.thermal_balance": "Retained thermal balance",
+      "groups.fftrim.transfer": "Live bumpless transfer",
+      "groups.fftrim.deltas": "Live ownership deltas",
+      "groups.fftrim.last_result": "Last retained admissible result",
+      "groups.fftrim.last_transaction": "Last applied transaction",
+      "groups.fftrim.last_transaction_deltas": "Last applied transaction deltas",
       "groups.anticipation.trajectory_landing": "Trajectory and landing",
       "groups.anticipation.ff3_twin": "FF3 and thermal twin",
       "groups.learning.drift": "Drift and convergence",
@@ -1545,7 +1557,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.state",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/state",
+              "path": "feedforward/fftrim/stationary/state",
               "align": "center",
               "map": {
                 "warming_up": { "label_key": "status.fftrim.state.warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
@@ -1630,8 +1642,8 @@
         {
           "type": "progress",
           "label_key": "metrics.fftrim.stationary_progress",
-          "value": { "source": "diagnostic", "path": "feedforward/fftrim/window_duration_s" },
-          "target": { "source": "diagnostic", "path": "feedforward/fftrim/window_target_duration_s" },
+          "value": { "source": "diagnostic", "path": "feedforward/fftrim/stationary/window_duration_s" },
+          "target": { "source": "diagnostic", "path": "feedforward/fftrim/stationary/window_target_duration_s" },
           "unit": "s",
           "digits": 0
         },
@@ -1640,7 +1652,7 @@
           "title_key": "groups.fftrim.stationary_quality",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "feedforward/fftrim/measurement_count", "digits": 0 },
+            { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "feedforward/fftrim/stationary/measurement_count", "digits": 0 },
             { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "feedforward/fftrim/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
             { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "feedforward/fftrim/alignment_delay_s", "format": "duration_s" }
           ]
@@ -1728,24 +1740,45 @@
           "icon": "mdi:sine-wave"
         },
         {
+          "type": "layout_grid",
+          "title_key": "groups.fftrim.last_result",
+          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_result" },
+          "min_width": 180,
+          "items": [
+            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "feedforward/fftrim/last_result/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.last_update_reason", "source": "diagnostic", "path": "feedforward/fftrim/last_result/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            {
+              "type": "metric_grid",
+              "columns": 2,
+              "metrics": [
+                { "label_key": "metrics.fftrim.window_duration", "source": "diagnostic", "path": "feedforward/fftrim/last_result/duration_s", "format": "duration_s" },
+                { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "feedforward/fftrim/last_result/measurement_count", "digits": 0 },
+                { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "feedforward/fftrim/last_result/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
+                { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "feedforward/fftrim/last_result/alignment_delay_s", "format": "duration_s" }
+              ]
+            }
+          ]
+        },
+        {
           "type": "metric_grid",
           "title_key": "groups.fftrim.thermal_balance",
           "columns": 3,
+          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_result" },
           "metrics": [
-            { "label_key": "metrics.fftrim.mean_causal_power", "source": "diagnostic", "path": "feedforward/fftrim/mean_causal_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_ff1", "source": "diagnostic", "path": "feedforward/fftrim/mean_ff1", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_p_power", "source": "diagnostic", "path": "feedforward/fftrim/mean_p_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_i_power", "source": "diagnostic", "path": "feedforward/fftrim/mean_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_visible_ff_power", "source": "diagnostic", "path": "feedforward/fftrim/mean_visible_ff_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.observed_hold_power", "source": "diagnostic", "path": "feedforward/fftrim/observed_hold_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.physical_power_deficit", "source": "diagnostic", "path": "feedforward/fftrim/physical_power_deficit", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.decomposed_correction", "source": "diagnostic", "path": "feedforward/fftrim/decomposed_correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.target_trim", "source": "diagnostic", "path": "feedforward/fftrim/target_trim", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.correction", "source": "diagnostic", "path": "feedforward/fftrim/correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_temperature", "source": "diagnostic", "path": "feedforward/fftrim/mean_temperature", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_error", "source": "diagnostic", "path": "feedforward/fftrim/mean_error", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_slope_h", "source": "diagnostic", "path": "feedforward/fftrim/mean_slope_h", "unit": "°C/h", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_delivery_residual", "source": "diagnostic", "path": "feedforward/fftrim/mean_delivery_residual", "unit": "%", "digits": 2, "value_multiplier": 100 }
+            { "label_key": "metrics.fftrim.mean_causal_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_causal_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_ff1", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_ff1", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_p_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_p_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_i_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_visible_ff_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_visible_ff_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.observed_hold_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/observed_hold_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.physical_power_deficit", "source": "diagnostic", "path": "feedforward/fftrim/last_result/physical_power_deficit", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.decomposed_correction", "source": "diagnostic", "path": "feedforward/fftrim/last_result/decomposed_correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.target_trim", "source": "diagnostic", "path": "feedforward/fftrim/last_result/target_trim", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.correction", "source": "diagnostic", "path": "feedforward/fftrim/last_result/correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_temperature", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_temperature", "unit": "°C", "digits": 2 },
+            { "label_key": "metrics.fftrim.mean_error", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_error", "unit": "°C", "digits": 2 },
+            { "label_key": "metrics.fftrim.mean_slope_h", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_slope_h", "unit": "°C/h", "digits": 2 },
+            { "label_key": "metrics.fftrim.mean_delivery_residual", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_delivery_residual", "unit": "%", "digits": 2, "value_multiplier": 100 }
           ]
         },
         {
@@ -1826,6 +1859,34 @@
             { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
             { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "feedforward/fftrim/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
           ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.fftrim.last_transaction",
+          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_transaction" },
+          "min_width": 180,
+          "items": [
+            { "type": "metric_grid", "columns": 1, "metrics": [{ "label_key": "metrics.fftrim.transaction_timestamp", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/timestamp_utc", "format": "datetime" }] },
+            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_state", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/state", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_reason", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.transfer_quality", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/quality", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.fftrim.last_transaction_deltas",
+          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_transaction" },
+          "columns": 3,
+          "metrics": [
+            { "label_key": "metrics.fftrim.requested_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/requested_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.stored_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/stored_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.applied_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/applied_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.transferable_i_power", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/transferable_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
+          ]
         }
       ]
     },
@@ -1871,6 +1932,7 @@
           "items": [
             { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "temperature/integral_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
             { "type": "status", "label_key": "metrics.integral_hold", "source": "diagnostic", "path": "temperature/integral_hold_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.integral_hold_source", "source": "diagnostic", "path": "temperature/integral_hold_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
             { "type": "status", "label_key": "metrics.integral_guard_source", "source": "diagnostic", "path": "temperature/integral_guard_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
           ]
         },

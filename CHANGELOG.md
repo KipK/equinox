@@ -5,6 +5,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.3.3-dev
 
+- Distinguish live FFTrim state from retained results and applied transactions, and expose the integral hold source in the SmartPI dashboard.
 - Add regulation value formatter to dashboard engine
 - Reworked SmartPI Regulation dialog covering the summary, command, FFTrim, anticipation, learning, thermal model, and supervision/actions.
 - Show the SmartPI thermal-learning enabled/paused state in Regulation Summary and add confirmed pause/resume actions.
