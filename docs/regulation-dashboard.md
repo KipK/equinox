@@ -686,6 +686,11 @@ Fields:
 | `center_orphan` | no | boolean | Centers the last item when it is alone on a desktop two-column row. Useful for 3-card groups. |
 | `items` | yes | array | Child dashboard blocks. |
 
+For compact status groups that should retain two columns on a mobile dialog,
+use `stretch_items: false` with a `min_width` around `140`. Nested pairs inside
+a narrower parent card can use a smaller minimum width when their labels remain
+readable; wrapping still occurs automatically when the available width is lower.
+
 Example:
 
 ```json

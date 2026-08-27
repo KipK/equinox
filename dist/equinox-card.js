@@ -15319,7 +15319,7 @@ var Mc = {
 							},
 							{
 								type: "layout_grid",
-								min_width: 140,
+								min_width: 110,
 								stretch_items: !1,
 								items: [{
 									type: "status",
@@ -15523,7 +15523,7 @@ var Mc = {
 				items: [{
 					type: "layout_grid",
 					title_key: "groups.anticipation.trajectory_landing",
-					min_width: 180,
+					min_width: 140,
 					stretch_items: !1,
 					items: [
 						{
@@ -15687,7 +15687,7 @@ var Mc = {
 				}, {
 					type: "layout_grid",
 					title_key: "groups.anticipation.ff3_twin",
-					min_width: 180,
+					min_width: 140,
 					stretch_items: !1,
 					items: [
 						{
@@ -15987,7 +15987,7 @@ var Mc = {
 					{
 						type: "layout_grid",
 						title_key: "groups.fftrim.observer",
-						min_width: 180,
+						min_width: 140,
 						stretch_items: !1,
 						items: [
 							{
