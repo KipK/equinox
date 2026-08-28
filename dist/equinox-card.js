@@ -14407,7 +14407,7 @@ var Mc = {
 						subtitle_key: "hero.overview.calibration",
 						icon: "mdi:tune-variant",
 						tone: "info",
-						visible_if: { and: [{ var: "diagnostic" }, { or: [{ "==": [{ var: "diagnostic/control/phase" }, "Calibration"] }, { and: [{ var: "diagnostic/calibration/state" }, { "!=": [{ var: "diagnostic/calibration/state" }, "Idle"] }] }] }] }
+						visible_if: { and: [{ var: "diagnostic" }, { or: [{ "==": [{ var: "diagnostic/live/control/phase" }, "Calibration"] }, { and: [{ var: "diagnostic/live/calibration/state" }, { "!=": [{ var: "diagnostic/live/calibration/state" }, "Idle"] }] }] }] }
 					},
 					{
 						type: "hero_status",
@@ -14417,8 +14417,8 @@ var Mc = {
 						tone: "warning",
 						visible_if: { and: [
 							{ var: "diagnostic" },
-							{ "==": [{ var: "diagnostic/control/phase" }, "Hysteresis"] },
-							{ "!": { or: [{ "==": [{ var: "diagnostic/control/phase" }, "Calibration"] }, { and: [{ var: "diagnostic/calibration/state" }, { "!=": [{ var: "diagnostic/calibration/state" }, "Idle"] }] }] } }
+							{ "==": [{ var: "diagnostic/live/control/phase" }, "Hysteresis"] },
+							{ "!": { or: [{ "==": [{ var: "diagnostic/live/control/phase" }, "Calibration"] }, { and: [{ var: "diagnostic/live/calibration/state" }, { "!=": [{ var: "diagnostic/live/calibration/state" }, "Idle"] }] }] } }
 						] }
 					},
 					{
@@ -14429,10 +14429,10 @@ var Mc = {
 						tone: "danger",
 						visible_if: { and: [
 							{ var: "diagnostic" },
-							{ "==": [{ var: "diagnostic/ab_learning/stage" }, "degraded"] },
-							{ "!=": [{ var: "diagnostic/control/phase" }, "Calibration"] },
-							{ "!=": [{ var: "diagnostic/control/phase" }, "Hysteresis"] },
-							{ "!": { or: [{ "==": [{ var: "diagnostic/control/phase" }, "Calibration"] }, { and: [{ var: "diagnostic/calibration/state" }, { "!=": [{ var: "diagnostic/calibration/state" }, "Idle"] }] }] } }
+							{ "==": [{ var: "diagnostic/live/learning/stage" }, "degraded"] },
+							{ "!=": [{ var: "diagnostic/live/control/phase" }, "Calibration"] },
+							{ "!=": [{ var: "diagnostic/live/control/phase" }, "Hysteresis"] },
+							{ "!": { or: [{ "==": [{ var: "diagnostic/live/control/phase" }, "Calibration"] }, { and: [{ var: "diagnostic/live/calibration/state" }, { "!=": [{ var: "diagnostic/live/calibration/state" }, "Idle"] }] }] } }
 						] }
 					},
 					{
@@ -14442,21 +14442,21 @@ var Mc = {
 							{
 								label_key: "metrics.temperature",
 								source: "diagnostic",
-								path: "temperature/sensor",
+								path: "live/temperature/indoor",
 								unit: "°",
 								digits: 1
 							},
 							{
 								label_key: "metrics.filtered_setpoint",
 								source: "diagnostic",
-								path: "setpoint/filtered_setpoint",
+								path: "live/setpoint/filtered_setpoint",
 								unit: "°",
 								digits: 1
 							},
 							{
 								label_key: "metrics.error",
 								source: "diagnostic",
-								path: "temperature/error",
+								path: "live/temperature/error",
 								unit: "°",
 								digits: 2
 							}
@@ -14474,13 +14474,13 @@ var Mc = {
 								metrics: [{
 									label_key: "metrics.applied",
 									source: "diagnostic",
-									path: "power/applied_percent",
+									path: "live/power/applied_percent",
 									unit: "%",
 									digits: 1
 								}, {
 									label_key: "metrics.next_cycle",
 									source: "diagnostic",
-									path: "power/next_cycle_percent",
+									path: "live/power/next_cycle_percent",
 									unit: "%",
 									digits: 1
 								}]
@@ -14489,7 +14489,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.governance",
 								source: "diagnostic",
-								path: "governance/regime",
+								path: "live/governance/regime",
 								align: "center",
 								map: {
 									warmup: {
@@ -14544,7 +14544,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.learning_enabled",
 								source: "diagnostic",
-								path: "ab_learning/enabled",
+								path: "live/learning/enabled",
 								align: "center",
 								map: {
 									true: {
@@ -14576,7 +14576,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.integral_mode",
 								source: "diagnostic",
-								path: "temperature/integral_mode",
+								path: "live/temperature/integral_mode",
 								align: "center",
 								map: {},
 								fallback: {
@@ -14590,7 +14590,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.saturation",
 								source: "diagnostic",
-								path: "control/saturation_state",
+								path: "live/control/saturation_state",
 								align: "center",
 								map: {
 									NO_SAT: {
@@ -14620,7 +14620,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.feedforward_status",
 								source: "diagnostic",
-								path: "feedforward/ff3_status",
+								path: "live/feedforward/ff3_status",
 								align: "center",
 								map: {},
 								fallback: {
@@ -14634,7 +14634,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim",
 								source: "diagnostic",
-								path: "feedforward/fftrim/state",
+								path: "live/feedforward/fftrim/stationary/state",
 								align: "center",
 								map: {},
 								fallback: {
@@ -14648,7 +14648,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.trajectory",
 								source: "diagnostic",
-								path: "setpoint/trajectory_active",
+								path: "live/setpoint/trajectory_active",
 								align: "center",
 								map: { true: {
 									label_key: "status.boolean.active",
@@ -14660,13 +14660,13 @@ var Mc = {
 									tone: "muted",
 									icon: "mdi:help-circle-outline"
 								},
-								visible_if: { "==": [{ var: "diagnostic/setpoint/trajectory_active" }, !0] }
+								visible_if: { "==": [{ var: "diagnostic/live/setpoint/trajectory_active" }, !0] }
 							},
 							{
 								type: "status",
 								label_key: "metrics.landing",
 								source: "diagnostic",
-								path: "setpoint/landing_active",
+								path: "live/setpoint/landing_active",
 								align: "center",
 								map: { true: {
 									label_key: "status.boolean.active",
@@ -14678,7 +14678,7 @@ var Mc = {
 									tone: "muted",
 									icon: "mdi:help-circle-outline"
 								},
-								visible_if: { "==": [{ var: "diagnostic/setpoint/landing_active" }, !0] }
+								visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] }
 							}
 						]
 					},
@@ -14689,21 +14689,21 @@ var Mc = {
 						series: [
 							{
 								entity: "$diagnostic_entity",
-								attribute: "temperature/sensor",
+								attribute: "history/temperature/indoor",
 								label_key: "graphs.overview.temperature",
 								unit: "°",
 								scale_group: "temperature"
 							},
 							{
 								entity: "$diagnostic_entity",
-								attribute: "setpoint/filtered_setpoint",
+								attribute: "history/setpoint/filtered_setpoint",
 								label_key: "graphs.overview.filtered_setpoint",
 								unit: "°",
 								scale_group: "temperature"
 							},
 							{
 								entity: "$diagnostic_entity",
-								attribute: "power/applied_percent",
+								attribute: "history/power/applied_percent",
 								label_key: "graphs.overview.applied",
 								unit: "%",
 								scale_group: "power"
@@ -14735,39 +14735,39 @@ var Mc = {
 							{
 								label_key: "metrics.current_cycle",
 								source: "diagnostic",
-								path: "power/current_cycle_percent",
+								path: "live/power/current_cycle_percent",
 								unit: "%",
 								digits: 1
 							},
 							{
 								label_key: "metrics.next_cycle",
 								source: "diagnostic",
-								path: "power/next_cycle_percent",
+								path: "live/power/next_cycle_percent",
 								unit: "%",
 								digits: 1
 							},
 							{
 								label_key: "metrics.applied",
 								source: "diagnostic",
-								path: "power/applied_percent",
+								path: "live/power/applied_percent",
 								unit: "%",
 								digits: 1
 							},
 							{
 								label_key: "metrics.linear_current_cycle",
 								source: "diagnostic",
-								path: "power/linear_current_cycle_percent",
+								path: "live/power/linear_current_cycle_percent",
 								unit: "%",
 								digits: 1,
-								visible_if: { "==": [{ var: "diagnostic/power/valve_linearization_enabled" }, !0] }
+								visible_if: { "==": [{ var: "diagnostic/live/power/valve_linearization_enabled" }, !0] }
 							},
 							{
 								label_key: "metrics.linear_next_cycle",
 								source: "diagnostic",
-								path: "power/linear_next_cycle_percent",
+								path: "live/power/linear_next_cycle_percent",
 								unit: "%",
 								digits: 1,
-								visible_if: { "==": [{ var: "diagnostic/power/valve_linearization_enabled" }, !0] }
+								visible_if: { "==": [{ var: "diagnostic/live/power/valve_linearization_enabled" }, !0] }
 							}
 						]
 					},
@@ -14782,21 +14782,21 @@ var Mc = {
 								{
 									label_key: "metrics.command",
 									source: "diagnostic",
-									path: "power/command_percent",
+									path: "live/power/command_percent",
 									unit: "%",
 									digits: 1
 								},
 								{
 									label_key: "metrics.limited",
 									source: "diagnostic",
-									path: "power/limited_percent",
+									path: "live/power/limited_percent",
 									unit: "%",
 									digits: 1
 								},
 								{
 									label_key: "metrics.applied",
 									source: "diagnostic",
-									path: "power/applied_percent",
+									path: "live/power/applied_percent",
 									unit: "%",
 									digits: 1
 								}
@@ -14809,7 +14809,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.saturation",
 								source: "diagnostic",
-								path: "control/saturation_state",
+								path: "live/control/saturation_state",
 								align: "center",
 								map: {
 									NO_SAT: {
@@ -14838,7 +14838,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.in_deadtime",
 								source: "diagnostic",
-								path: "control/in_deadtime_window",
+								path: "live/control/in_deadtime_window",
 								align: "center",
 								map: {
 									true: {
@@ -14868,40 +14868,40 @@ var Mc = {
 							{
 								label_key: "metrics.pi",
 								source: "diagnostic",
-								path: "power/pi_percent",
+								path: "live/power/pi_percent",
 								unit: "%",
 								digits: 1
 							},
 							{
 								label_key: "metrics.ff",
 								source: "diagnostic",
-								path: "power/ff_percent",
+								path: "live/power/ff_percent",
 								unit: "%",
 								digits: 1
 							},
 							{
 								label_key: "metrics.hold",
 								source: "diagnostic",
-								path: "power/hold_percent",
+								path: "live/power/hold_percent",
 								unit: "%",
 								digits: 1
 							},
 							{
 								label_key: "metrics.integral_error",
 								source: "diagnostic",
-								path: "temperature/integral_error",
+								path: "live/temperature/integral_error",
 								digits: 3
 							},
 							{
 								label_key: "metrics.kp",
 								source: "diagnostic",
-								path: "control/kp",
+								path: "live/control/kp",
 								digits: 3
 							},
 							{
 								label_key: "metrics.ki",
 								source: "diagnostic",
-								path: "control/ki",
+								path: "live/control/ki",
 								digits: 4
 							}
 						]
@@ -14913,28 +14913,28 @@ var Mc = {
 						series: [
 							{
 								entity: "$diagnostic_entity",
-								attribute: "power/applied_percent",
+								attribute: "history/power/applied_percent",
 								label_key: "graphs.command.applied",
 								unit: "%",
 								scale_group: "power"
 							},
 							{
 								entity: "$diagnostic_entity",
-								attribute: "power/command_percent",
+								attribute: "history/power/command_percent",
 								label_key: "graphs.command.command",
 								unit: "%",
 								scale_group: "power"
 							},
 							{
 								entity: "$diagnostic_entity",
-								attribute: "power/pi_percent",
+								attribute: "history/power/pi_percent",
 								label_key: "graphs.command.pi",
 								unit: "%",
 								scale_group: "power"
 							},
 							{
 								entity: "$diagnostic_entity",
-								attribute: "power/ff_percent",
+								attribute: "history/power/ff_percent",
 								label_key: "graphs.command.ff",
 								unit: "%",
 								scale_group: "power"
@@ -14970,12 +14970,12 @@ var Mc = {
 						label_key: "metrics.bootstrap_progress",
 						value: {
 							source: "diagnostic",
-							path: "ab_learning/bootstrap_progress_percent"
+							path: "live/learning/bootstrap_progress_percent"
 						},
 						target: 100,
 						unit: "%",
 						digits: 0,
-						visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
+						visible_if: { "==": [{ var: "diagnostic/live/learning/stage" }, "bootstrap"] }
 					},
 					{
 						type: "layout_grid",
@@ -14986,56 +14986,56 @@ var Mc = {
 								label_key: "metrics.bootstrap_a",
 								value: {
 									source: "diagnostic",
-									path: "ab_learning/emea_samples_a"
+									path: "live/learning/emea_samples_a"
 								},
 								target: {
 									source: "diagnostic",
-									path: "ab_learning/bootstrap_target_a"
+									path: "live/learning/bootstrap_target_a"
 								},
 								digits: 0,
-								visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
+								visible_if: { "==": [{ var: "diagnostic/live/learning/stage" }, "bootstrap"] }
 							},
 							{
 								type: "progress",
 								label_key: "metrics.bootstrap_b",
 								value: {
 									source: "diagnostic",
-									path: "ab_learning/emea_samples_b"
+									path: "live/learning/emea_samples_b"
 								},
 								target: {
 									source: "diagnostic",
-									path: "ab_learning/bootstrap_target_b"
+									path: "live/learning/bootstrap_target_b"
 								},
 								digits: 0,
-								visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
+								visible_if: { "==": [{ var: "diagnostic/live/learning/stage" }, "bootstrap"] }
 							},
 							{
 								type: "progress",
 								label_key: "metrics.history_a",
 								value: {
 									source: "diagnostic",
-									path: "ab_learning/emea_samples_a"
+									path: "live/learning/emea_samples_a"
 								},
 								target: {
 									source: "diagnostic",
-									path: "ab_learning/history_target"
+									path: "live/learning/history_target"
 								},
 								digits: 0,
-								visible_if: { "!=": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
+								visible_if: { "!=": [{ var: "diagnostic/live/learning/stage" }, "bootstrap"] }
 							},
 							{
 								type: "progress",
 								label_key: "metrics.history_b",
 								value: {
 									source: "diagnostic",
-									path: "ab_learning/emea_samples_b"
+									path: "live/learning/emea_samples_b"
 								},
 								target: {
 									source: "diagnostic",
-									path: "ab_learning/history_target"
+									path: "live/learning/history_target"
 								},
 								digits: 0,
-								visible_if: { "!=": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
+								visible_if: { "!=": [{ var: "diagnostic/live/learning/stage" }, "bootstrap"] }
 							}
 						]
 					},
@@ -15046,20 +15046,20 @@ var Mc = {
 							{
 								label_key: "metrics.accepted_a",
 								source: "diagnostic",
-								path: "ab_learning/accepted_updates_a",
+								path: "live/learning/accepted_updates_a",
 								digits: 0
 							},
 							{
 								label_key: "metrics.accepted_b",
 								source: "diagnostic",
-								path: "ab_learning/accepted_updates_b",
+								path: "live/learning/accepted_updates_b",
 								digits: 0
 							},
 							{
 								label_key: "metrics.bootstrap_status",
 								source: "diagnostic",
-								path: "ab_learning/bootstrap_status",
-								visible_if: { "==": [{ var: "diagnostic/ab_learning/stage" }, "bootstrap"] }
+								path: "live/learning/bootstrap_status",
+								visible_if: { "==": [{ var: "diagnostic/live/learning/stage" }, "bootstrap"] }
 							}
 						]
 					},
@@ -15067,7 +15067,7 @@ var Mc = {
 						type: "status",
 						label_key: "metrics.confidence",
 						source: "diagnostic",
-						path: "model/confidence",
+						path: "live/model/confidence",
 						map: {
 							ab_ok: {
 								label_key: "status.confidence.ab_ok",
@@ -15111,7 +15111,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.a_drift",
 								source: "diagnostic",
-								path: "ab_learning/a_drift_state",
+								path: "live/learning/a_drift_state",
 								align: "center",
 								map: {
 									NORMAL: {
@@ -15141,7 +15141,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.b_drift",
 								source: "diagnostic",
-								path: "ab_learning/b_drift_state",
+								path: "live/learning/b_drift_state",
 								align: "center",
 								map: {
 									NORMAL: {
@@ -15171,7 +15171,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.learn_b_converged",
 								source: "diagnostic",
-								path: "ab_learning/learn_b_converged",
+								path: "live/learning/learn_b_converged",
 								align: "center",
 								map: {
 									true: {
@@ -15196,7 +15196,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.learning_last_reason",
 								source: "diagnostic",
-								path: "ab_learning/last_reason",
+								path: "live/learning/last_reason",
 								align: "center",
 								map: {},
 								fallback: {
@@ -15233,7 +15233,7 @@ var Mc = {
 						type: "status",
 						label_key: "metrics.confidence",
 						source: "diagnostic",
-						path: "model/confidence",
+						path: "live/model/confidence",
 						map: {
 							ab_ok: {
 								label_key: "status.confidence.ab_ok",
@@ -15273,7 +15273,7 @@ var Mc = {
 						metrics: [{
 							label_key: "metrics.tau",
 							source: "diagnostic",
-							path: "model/tau_min",
+							path: "live/model/tau_min",
 							unit: "min",
 							digits: 1
 						}]
@@ -15289,13 +15289,13 @@ var Mc = {
 								metrics: [{
 									label_key: "metrics.a",
 									source: "diagnostic",
-									path: "model/a",
+									path: "live/model/a",
 									unit: "°C/min",
 									digits: 4
 								}, {
 									label_key: "metrics.b",
 									source: "diagnostic",
-									path: "model/b",
+									path: "live/model/b",
 									unit: "min⁻¹",
 									digits: 4
 								}]
@@ -15306,13 +15306,13 @@ var Mc = {
 								metrics: [{
 									label_key: "metrics.deadtime_heat",
 									source: "diagnostic",
-									path: "model/deadtime_heat_s",
+									path: "live/model/deadtime_heat_s",
 									unit: "s",
 									digits: 0
 								}, {
 									label_key: "metrics.deadtime_cool",
 									source: "diagnostic",
-									path: "model/deadtime_cool_s",
+									path: "live/model/deadtime_cool_s",
 									unit: "s",
 									digits: 0
 								}]
@@ -15325,7 +15325,7 @@ var Mc = {
 									type: "status",
 									label_key: "metrics.a_stability",
 									source: "diagnostic",
-									path: "model/a_stability_ratio",
+									path: "live/model/a_stability_ratio",
 									map: {},
 									align: "center",
 									ranges: [
@@ -15362,7 +15362,7 @@ var Mc = {
 									type: "status",
 									label_key: "metrics.b_stability",
 									source: "diagnostic",
-									path: "model/b_stability_ratio",
+									path: "live/model/b_stability_ratio",
 									map: {},
 									align: "center",
 									ranges: [
@@ -15416,7 +15416,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.tau_reliable",
 								source: "diagnostic",
-								path: "model/tau_reliable",
+								path: "live/model/tau_reliable",
 								align: "center",
 								map: {
 									true: {
@@ -15440,7 +15440,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.deadtime_heat_reliable",
 								source: "diagnostic",
-								path: "model/deadtime_heat_reliable",
+								path: "live/model/deadtime_heat_reliable",
 								align: "center",
 								map: {
 									true: {
@@ -15464,7 +15464,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.deadtime_cool_reliable",
 								source: "diagnostic",
-								path: "model/deadtime_cool_reliable",
+								path: "live/model/deadtime_cool_reliable",
 								align: "center",
 								map: {
 									true: {
@@ -15492,13 +15492,13 @@ var Mc = {
 						range: "24h",
 						series: [{
 							entity: "$diagnostic_entity",
-							attribute: "model/a",
+							attribute: "history/model/a",
 							label_key: "graphs.model.a",
 							unit: "°C/min",
 							scale_group: "coefficients"
 						}, {
 							entity: "$diagnostic_entity",
-							attribute: "model/b",
+							attribute: "history/model/b",
 							label_key: "graphs.model.b",
 							unit: "min⁻¹",
 							scale_group: "coefficients"
@@ -15532,7 +15532,7 @@ var Mc = {
 							metrics: [{
 								label_key: "metrics.filtered_setpoint",
 								source: "diagnostic",
-								path: "setpoint/filtered_setpoint",
+								path: "live/setpoint/filtered_setpoint",
 								unit: "°C",
 								digits: 1
 							}]
@@ -15541,7 +15541,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.trajectory",
 							source: "diagnostic",
-							path: "setpoint/trajectory_active",
+							path: "live/setpoint/trajectory_active",
 							align: "center",
 							map: {
 								true: {
@@ -15566,7 +15566,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.trajectory.source",
 							source: "diagnostic",
-							path: "setpoint/trajectory_source",
+							path: "live/setpoint/trajectory_source",
 							align: "center",
 							map: {
 								setpoint: {
@@ -15591,13 +15591,13 @@ var Mc = {
 								icon: "mdi:help-circle-outline"
 							},
 							fallback_show_value: !0,
-							visible_if: { "==": [{ var: "diagnostic/setpoint/trajectory_active" }, !0] }
+							visible_if: { "==": [{ var: "diagnostic/live/setpoint/trajectory_active" }, !0] }
 						},
 						{
 							type: "status",
 							label_key: "metrics.landing",
 							source: "diagnostic",
-							path: "setpoint/landing_active",
+							path: "live/setpoint/landing_active",
 							align: "center",
 							map: {
 								true: {
@@ -15622,7 +15622,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.landing.reason",
 							source: "diagnostic",
-							path: "setpoint/landing_reason",
+							path: "live/setpoint/landing_reason",
 							align: "center",
 							map: {
 								cap: {
@@ -15642,16 +15642,16 @@ var Mc = {
 								icon: "mdi:help-circle-outline"
 							},
 							fallback_show_value: !0,
-							visible_if: { "==": [{ var: "diagnostic/setpoint/landing_active" }, !0] }
+							visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] }
 						},
 						{
 							type: "metric_grid",
 							columns: 2,
-							visible_if: { "==": [{ var: "diagnostic/setpoint/landing_active" }, !0] },
+							visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] },
 							metrics: [{
 								label_key: "metrics.landing.u_cap",
 								source: "diagnostic",
-								path: "setpoint/landing_u_cap",
+								path: "live/setpoint/landing_u_cap",
 								unit: "%",
 								digits: 1,
 								value_multiplier: 100
@@ -15661,7 +15661,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.landing.coast_required",
 							source: "diagnostic",
-							path: "setpoint/landing_coast_required",
+							path: "live/setpoint/landing_coast_required",
 							align: "center",
 							map: {
 								true: {
@@ -15681,7 +15681,7 @@ var Mc = {
 								icon: "mdi:help-circle-outline"
 							},
 							fallback_show_value: !0,
-							visible_if: { "==": [{ var: "diagnostic/setpoint/landing_active" }, !0] }
+							visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] }
 						}
 					]
 				}, {
@@ -15694,7 +15694,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.feedforward_status",
 							source: "diagnostic",
-							path: "feedforward/ff3_status",
+							path: "live/feedforward/ff3_status",
 							align: "center",
 							map: {
 								active: {
@@ -15854,7 +15854,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.ff3.twin_usable",
 							source: "diagnostic",
-							path: "feedforward/ff3_twin_usable",
+							path: "live/feedforward/ff3_twin_usable",
 							align: "center",
 							map: {
 								true: {
@@ -15879,7 +15879,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.twin_status",
 							source: "diagnostic",
-							path: "feedforward/twin_status",
+							path: "live/feedforward/twin_status",
 							align: "center",
 							map: {
 								ok: {
@@ -15904,7 +15904,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.deadband_source",
 							source: "diagnostic",
-							path: "feedforward/deadband_power_source",
+							path: "live/feedforward/deadband_power_source",
 							align: "center",
 							map: {
 								none: {
@@ -15929,7 +15929,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.deadband_mode",
 							source: "diagnostic",
-							path: "feedforward/deadband_p_mode",
+							path: "live/feedforward/deadband_p_mode",
 							align: "center",
 							map: {
 								init: {
@@ -15994,7 +15994,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.state",
 								source: "diagnostic",
-								path: "feedforward/fftrim/stationary/state",
+								path: "live/feedforward/fftrim/stationary/state",
 								align: "center",
 								map: {
 									warming_up: {
@@ -16034,7 +16034,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.observation_mode",
 								source: "diagnostic",
-								path: "feedforward/fftrim/observation_mode",
+								path: "live/feedforward/fftrim/observation_mode",
 								align: "center",
 								map: {
 									stationary: {
@@ -16061,7 +16061,7 @@ var Mc = {
 								metrics: [{
 									label_key: "metrics.fftrim.windows_since_update",
 									source: "diagnostic",
-									path: "feedforward/fftrim/windows_since_update",
+									path: "live/feedforward/fftrim/windows_since_update",
 									digits: 0
 								}]
 							},
@@ -16069,7 +16069,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.last_update_reason",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_update_reason",
+								path: "live/feedforward/fftrim/last_update_reason",
 								align: "center",
 								map: {
 									none: {
@@ -16124,7 +16124,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.last_reject_reason",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_reject_reason",
+								path: "live/feedforward/fftrim/last_reject_reason",
 								align: "center",
 								map: {
 									deadtime_unreliable: {
@@ -16194,7 +16194,7 @@ var Mc = {
 									icon: "mdi:help-circle-outline"
 								},
 								fallback_show_value: !0,
-								visible_if: { and: [{ var: "diagnostic/feedforward/fftrim/last_reject_reason" }, { "!=": [{ var: "diagnostic/feedforward/fftrim/last_reject_reason" }, "none"] }] }
+								visible_if: { and: [{ var: "diagnostic/live/feedforward/fftrim/last_reject_reason" }, { "!=": [{ var: "diagnostic/live/feedforward/fftrim/last_reject_reason" }, "none"] }] }
 							}
 						]
 					},
@@ -16203,11 +16203,11 @@ var Mc = {
 						label_key: "metrics.fftrim.stationary_progress",
 						value: {
 							source: "diagnostic",
-							path: "feedforward/fftrim/stationary/window_duration_s"
+							path: "live/feedforward/fftrim/stationary/window_duration_s"
 						},
 						target: {
 							source: "diagnostic",
-							path: "feedforward/fftrim/stationary/window_target_duration_s"
+							path: "live/feedforward/fftrim/stationary/window_target_duration_s"
 						},
 						unit: "s",
 						digits: 0
@@ -16220,13 +16220,13 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.measurement_count",
 								source: "diagnostic",
-								path: "feedforward/fftrim/stationary/measurement_count",
+								path: "live/feedforward/fftrim/stationary/measurement_count",
 								digits: 0
 							},
 							{
 								label_key: "metrics.fftrim.power_coverage",
 								source: "diagnostic",
-								path: "feedforward/fftrim/power_coverage_ratio",
+								path: "live/feedforward/fftrim/last_result/power_coverage_ratio",
 								unit: "%",
 								digits: 1,
 								value_multiplier: 100
@@ -16234,7 +16234,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.alignment_delay",
 								source: "diagnostic",
-								path: "feedforward/fftrim/alignment_delay_s",
+								path: "live/feedforward/fftrim/last_result/alignment_delay_s",
 								format: "duration_s"
 							}
 						]
@@ -16253,7 +16253,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.fftrim.periodic_state",
 							source: "diagnostic",
-							path: "feedforward/fftrim/periodic_state",
+							path: "live/feedforward/fftrim/periodic/state",
 							map: {
 								warming_up: {
 									label_key: "status.fftrim.state.warming_up",
@@ -16297,11 +16297,11 @@ var Mc = {
 							label_key: "metrics.fftrim.periodic_progress",
 							value: {
 								source: "diagnostic",
-								path: "feedforward/fftrim/periodic_window_duration_s"
+								path: "live/feedforward/fftrim/periodic/window_duration_s"
 							},
 							target: {
 								source: "diagnostic",
-								path: "feedforward/fftrim/periodic_target_duration_s"
+								path: "live/feedforward/fftrim/periodic/target_duration_s"
 							},
 							unit: "s",
 							digits: 0
@@ -16314,20 +16314,20 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.periodic_measurement_count",
 								source: "diagnostic",
-								path: "feedforward/fftrim/periodic_measurement_count",
+								path: "live/feedforward/fftrim/periodic/measurement_count",
 								digits: 0
 							},
 							{
 								label_key: "metrics.fftrim.periodic_amplitude",
 								source: "diagnostic",
-								path: "feedforward/fftrim/periodic_amplitude_c",
+								path: "live/feedforward/fftrim/periodic/amplitude_c",
 								unit: "°C",
 								digits: 2
 							},
 							{
 								label_key: "metrics.fftrim.periodic_closure_error",
 								source: "diagnostic",
-								path: "feedforward/fftrim/periodic_closure_error_c",
+								path: "live/feedforward/fftrim/periodic/closure_error_c",
 								unit: "°C",
 								digits: 2
 							}
@@ -16337,7 +16337,7 @@ var Mc = {
 						type: "status",
 						label_key: "metrics.fftrim.periodic_last_reject_reason",
 						source: "diagnostic",
-						path: "feedforward/fftrim/periodic_last_reject_reason",
+						path: "live/feedforward/fftrim/periodic/last_reject_reason",
 						map: {
 							deadtime_unreliable: {
 								label_key: "status.fftrim.reason.deadtime_unreliable",
@@ -16416,7 +16416,7 @@ var Mc = {
 							icon: "mdi:help-circle-outline"
 						},
 						fallback_show_value: !0,
-						visible_if: { and: [{ var: "diagnostic/feedforward/fftrim/periodic_last_reject_reason" }, { "!=": [{ var: "diagnostic/feedforward/fftrim/periodic_last_reject_reason" }, "none"] }] }
+						visible_if: { and: [{ var: "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason" }, { "!=": [{ var: "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason" }, "none"] }] }
 					},
 					{
 						type: "section_note",
@@ -16427,14 +16427,14 @@ var Mc = {
 					{
 						type: "layout_grid",
 						title_key: "groups.fftrim.last_result",
-						visible_if: { var: "diagnostic/feedforward/fftrim/last_result" },
+						visible_if: { var: "diagnostic/live/feedforward/fftrim/last_result" },
 						min_width: 180,
 						items: [
 							{
 								type: "status",
 								label_key: "metrics.fftrim.observation_mode",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/observation_mode",
+								path: "live/feedforward/fftrim/last_result/observation_mode",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -16447,7 +16447,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.last_update_reason",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/reason",
+								path: "live/feedforward/fftrim/last_result/reason",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -16463,19 +16463,19 @@ var Mc = {
 									{
 										label_key: "metrics.fftrim.window_duration",
 										source: "diagnostic",
-										path: "feedforward/fftrim/last_result/duration_s",
+										path: "live/feedforward/fftrim/last_result/duration_s",
 										format: "duration_s"
 									},
 									{
 										label_key: "metrics.fftrim.measurement_count",
 										source: "diagnostic",
-										path: "feedforward/fftrim/last_result/measurement_count",
+										path: "live/feedforward/fftrim/last_result/measurement_count",
 										digits: 0
 									},
 									{
 										label_key: "metrics.fftrim.power_coverage",
 										source: "diagnostic",
-										path: "feedforward/fftrim/last_result/power_coverage_ratio",
+										path: "live/feedforward/fftrim/last_result/power_coverage_ratio",
 										unit: "%",
 										digits: 1,
 										value_multiplier: 100
@@ -16483,7 +16483,7 @@ var Mc = {
 									{
 										label_key: "metrics.fftrim.alignment_delay",
 										source: "diagnostic",
-										path: "feedforward/fftrim/last_result/alignment_delay_s",
+										path: "live/feedforward/fftrim/last_result/alignment_delay_s",
 										format: "duration_s"
 									}
 								]
@@ -16494,12 +16494,12 @@ var Mc = {
 						type: "metric_grid",
 						title_key: "groups.fftrim.thermal_balance",
 						columns: 3,
-						visible_if: { var: "diagnostic/feedforward/fftrim/last_result" },
+						visible_if: { var: "diagnostic/live/feedforward/fftrim/last_result" },
 						metrics: [
 							{
 								label_key: "metrics.fftrim.mean_causal_power",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_causal_power",
+								path: "live/feedforward/fftrim/last_result/mean_causal_power",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16507,7 +16507,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.mean_ff1",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_ff1",
+								path: "live/feedforward/fftrim/last_result/mean_ff1",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16515,7 +16515,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.mean_p_power",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_p_power",
+								path: "live/feedforward/fftrim/last_result/mean_p_power",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16523,7 +16523,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.mean_i_power",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_i_power",
+								path: "live/feedforward/fftrim/last_result/mean_i_power",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16531,7 +16531,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.mean_visible_ff_power",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_visible_ff_power",
+								path: "live/feedforward/fftrim/last_result/mean_visible_ff_power",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16539,7 +16539,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.observed_hold_power",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/observed_hold_power",
+								path: "live/feedforward/fftrim/last_result/observed_hold_power",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16547,7 +16547,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.physical_power_deficit",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/physical_power_deficit",
+								path: "live/feedforward/fftrim/last_result/physical_power_deficit",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16555,7 +16555,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.decomposed_correction",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/decomposed_correction",
+								path: "live/feedforward/fftrim/last_result/decomposed_correction",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16563,7 +16563,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.target_trim",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/target_trim",
+								path: "live/feedforward/fftrim/last_result/target_trim",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16571,7 +16571,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.correction",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/correction",
+								path: "live/feedforward/fftrim/last_result/correction",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16579,28 +16579,28 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.mean_temperature",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_temperature",
+								path: "live/feedforward/fftrim/last_result/mean_temperature",
 								unit: "°C",
 								digits: 2
 							},
 							{
 								label_key: "metrics.fftrim.mean_error",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_error",
+								path: "live/feedforward/fftrim/last_result/mean_error",
 								unit: "°C",
 								digits: 2
 							},
 							{
 								label_key: "metrics.fftrim.mean_slope_h",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_slope_h",
+								path: "live/feedforward/fftrim/last_result/mean_slope_h",
 								unit: "°C/h",
 								digits: 2
 							},
 							{
 								label_key: "metrics.fftrim.mean_delivery_residual",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_result/mean_delivery_residual",
+								path: "live/feedforward/fftrim/last_result/mean_delivery_residual",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16616,7 +16616,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.bumpless_transfer_state",
 								source: "diagnostic",
-								path: "feedforward/fftrim/bumpless_transfer_state",
+								path: "live/feedforward/fftrim/transfer/state",
 								map: {
 									idle: {
 										label_key: "status.fftrim.transfer.idle",
@@ -16670,7 +16670,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.bumpless_transfer_reason",
 								source: "diagnostic",
-								path: "feedforward/fftrim/bumpless_transfer_reason",
+								path: "live/feedforward/fftrim/transfer/reason",
 								map: {
 									none: {
 										label_key: "status.fftrim.reason.none",
@@ -16709,7 +16709,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.transfer_quality",
 								source: "diagnostic",
-								path: "feedforward/fftrim/transfer_quality",
+								path: "live/feedforward/fftrim/transfer/quality",
 								map: {
 									unavailable: {
 										label_key: "status.fftrim.quality.unavailable",
@@ -16743,7 +16743,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.transfer_pending_engagement",
 								source: "diagnostic",
-								path: "feedforward/fftrim/transfer_pending_engagement",
+								path: "live/feedforward/fftrim/transfer/pending_engagement",
 								map: { true: {
 									label_key: "status.fftrim.transfer.pending_engagement",
 									tone: "info",
@@ -16754,7 +16754,7 @@ var Mc = {
 									tone: "muted",
 									icon: "mdi:help-circle-outline"
 								},
-								visible_if: { "==": [{ var: "diagnostic/feedforward/fftrim/transfer_pending_engagement" }, !0] }
+								visible_if: { "==": [{ var: "diagnostic/live/feedforward/fftrim/transfer/pending_engagement" }, !0] }
 							}
 						]
 					},
@@ -16766,7 +16766,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.requested_trim_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/requested_trim_delta",
+								path: "live/feedforward/fftrim/transfer/requested_trim_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16774,7 +16774,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.stored_trim_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/stored_trim_delta",
+								path: "live/feedforward/fftrim/transfer/stored_trim_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16782,7 +16782,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.applied_trim_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/applied_trim_delta",
+								path: "live/feedforward/fftrim/transfer/applied_trim_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16790,7 +16790,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.transferable_i_power",
 								source: "diagnostic",
-								path: "feedforward/fftrim/transferable_i_power",
+								path: "live/feedforward/fftrim/transfer/transferable_i_power",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16798,7 +16798,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.requested_i_transfer",
 								source: "diagnostic",
-								path: "feedforward/fftrim/requested_i_transfer",
+								path: "live/feedforward/fftrim/transfer/requested_i_transfer",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16806,7 +16806,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.applied_i_transfer",
 								source: "diagnostic",
-								path: "feedforward/fftrim/applied_i_transfer",
+								path: "live/feedforward/fftrim/transfer/applied_i_transfer",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16814,7 +16814,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.net_command_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/net_command_delta",
+								path: "live/feedforward/fftrim/transfer/net_command_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16824,7 +16824,7 @@ var Mc = {
 					{
 						type: "layout_grid",
 						title_key: "groups.fftrim.last_transaction",
-						visible_if: { var: "diagnostic/feedforward/fftrim/last_transaction" },
+						visible_if: { var: "diagnostic/live/feedforward/fftrim/last_transaction" },
 						min_width: 180,
 						items: [
 							{
@@ -16833,7 +16833,7 @@ var Mc = {
 								metrics: [{
 									label_key: "metrics.fftrim.transaction_timestamp",
 									source: "diagnostic",
-									path: "feedforward/fftrim/last_transaction/timestamp_utc",
+									path: "live/feedforward/fftrim/last_transaction/timestamp_utc",
 									format: "datetime"
 								}]
 							},
@@ -16841,7 +16841,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.observation_mode",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/observation_mode",
+								path: "live/feedforward/fftrim/last_transaction/observation_mode",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -16854,7 +16854,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.bumpless_transfer_state",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/state",
+								path: "live/feedforward/fftrim/last_transaction/state",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -16867,7 +16867,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.bumpless_transfer_reason",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/reason",
+								path: "live/feedforward/fftrim/last_transaction/reason",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -16880,7 +16880,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.fftrim.transfer_quality",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/quality",
+								path: "live/feedforward/fftrim/last_transaction/quality",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -16894,13 +16894,13 @@ var Mc = {
 					{
 						type: "metric_grid",
 						title_key: "groups.fftrim.last_transaction_deltas",
-						visible_if: { var: "diagnostic/feedforward/fftrim/last_transaction" },
+						visible_if: { var: "diagnostic/live/feedforward/fftrim/last_transaction" },
 						columns: 3,
 						metrics: [
 							{
 								label_key: "metrics.fftrim.requested_trim_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/requested_trim_delta",
+								path: "live/feedforward/fftrim/last_transaction/requested_trim_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16908,7 +16908,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.stored_trim_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/stored_trim_delta",
+								path: "live/feedforward/fftrim/last_transaction/stored_trim_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16916,7 +16916,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.applied_trim_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/applied_trim_delta",
+								path: "live/feedforward/fftrim/last_transaction/applied_trim_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16924,7 +16924,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.transferable_i_power",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/transferable_i_power",
+								path: "live/feedforward/fftrim/last_transaction/transferable_i_power",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16932,7 +16932,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.requested_i_transfer",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/requested_i_transfer",
+								path: "live/feedforward/fftrim/last_transaction/requested_i_transfer",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16940,7 +16940,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.applied_i_transfer",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/applied_i_transfer",
+								path: "live/feedforward/fftrim/last_transaction/applied_i_transfer",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16948,7 +16948,7 @@ var Mc = {
 							{
 								label_key: "metrics.fftrim.net_command_delta",
 								source: "diagnostic",
-								path: "feedforward/fftrim/last_transaction/net_command_delta",
+								path: "live/feedforward/fftrim/last_transaction/net_command_delta",
 								unit: "%",
 								digits: 2,
 								value_multiplier: 100
@@ -16979,7 +16979,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.governance",
 								source: "diagnostic",
-								path: "governance/regime",
+								path: "live/governance/regime",
 								map: {
 									warmup: {
 										label_key: "status.regime.warmup",
@@ -17033,7 +17033,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.thermal_decision",
 								source: "diagnostic",
-								path: "governance/thermal_update_decision",
+								path: "live/governance/thermal_update_decision",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -17046,7 +17046,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.thermal_reason",
 								source: "diagnostic",
-								path: "governance/thermal_update_reason",
+								path: "live/governance/thermal_update_reason",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -17067,7 +17067,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.saturation",
 								source: "diagnostic",
-								path: "control/saturation_state",
+								path: "live/control/saturation_state",
 								align: "center",
 								map: {
 									NO_SAT: {
@@ -17097,7 +17097,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.in_deadband",
 								source: "diagnostic",
-								path: "control/in_deadband",
+								path: "live/control/in_deadband",
 								align: "center",
 								map: {
 									true: {
@@ -17122,7 +17122,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.in_near_band",
 								source: "diagnostic",
-								path: "control/in_near_band",
+								path: "live/control/in_near_band",
 								align: "center",
 								map: {
 									true: {
@@ -17147,7 +17147,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.in_deadtime",
 								source: "diagnostic",
-								path: "control/in_deadtime_window",
+								path: "live/control/in_deadtime_window",
 								align: "center",
 								map: {
 									true: {
@@ -17179,7 +17179,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.integral_mode",
 								source: "diagnostic",
-								path: "temperature/integral_mode",
+								path: "live/temperature/integral_mode",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -17192,7 +17192,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.integral_hold",
 								source: "diagnostic",
-								path: "temperature/integral_hold_mode",
+								path: "live/temperature/integral_hold_mode",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -17205,7 +17205,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.integral_hold_source",
 								source: "diagnostic",
-								path: "temperature/integral_hold_source",
+								path: "live/temperature/integral_hold_source",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -17218,7 +17218,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.integral_guard_source",
 								source: "diagnostic",
-								path: "temperature/integral_guard_source",
+								path: "live/temperature/integral_guard_source",
 								map: {},
 								fallback: {
 									label_key: "fallback.unknown_code",
@@ -17236,7 +17236,7 @@ var Mc = {
 							type: "status",
 							label_key: "metrics.restart_reason",
 							source: "diagnostic",
-							path: "control/restart_reason",
+							path: "live/control/restart_reason",
 							map: {},
 							fallback: {
 								label_key: "fallback.unknown_code",
@@ -17253,30 +17253,30 @@ var Mc = {
 							{
 								label_key: "metrics.autocalib_state",
 								source: "diagnostic",
-								path: "autocalib/state"
+								path: "live/autocalib/state"
 							},
 							{
 								label_key: "metrics.autocalib_degraded",
 								source: "diagnostic",
-								path: "autocalib/model_degraded"
+								path: "live/autocalib/model_degraded"
 							},
 							{
 								label_key: "metrics.autocalib_snapshot_age",
 								source: "diagnostic",
-								path: "autocalib/snapshot_age_h",
+								path: "live/autocalib/snapshot_age_h",
 								unit: "h",
 								digits: 0
 							},
 							{
 								label_key: "metrics.autocalib_last_trigger",
 								source: "diagnostic",
-								path: "autocalib/last_trigger_ts",
+								path: "live/autocalib/last_trigger_ts",
 								format: "datetime"
 							},
 							{
 								label_key: "metrics.autocalib_next_check",
 								source: "diagnostic",
-								path: "autocalib/next_check_ts",
+								path: "live/autocalib/next_check_ts",
 								format: "datetime"
 							}
 						]
@@ -17288,18 +17288,18 @@ var Mc = {
 							{
 								label_key: "metrics.calibration_state",
 								source: "diagnostic",
-								path: "calibration/state"
+								path: "live/calibration/state"
 							},
 							{
 								label_key: "metrics.calibration_retry",
 								source: "diagnostic",
-								path: "calibration/retry_count",
+								path: "live/calibration/retry_count",
 								digits: 0
 							},
 							{
 								label_key: "metrics.calibration_last_time",
 								source: "diagnostic",
-								path: "calibration/last_time",
+								path: "live/calibration/last_time",
 								format: "datetime"
 							}
 						]
@@ -17329,7 +17329,7 @@ var Mc = {
 								type: "status",
 								label_key: "metrics.learning_enabled",
 								source: "diagnostic",
-								path: "ab_learning/enabled",
+								path: "live/learning/enabled",
 								align: "center",
 								map: {
 									true: {
@@ -17356,7 +17356,7 @@ var Mc = {
 								service: "vtherm_smartpi.set_smartpi_learning",
 								target: { entity_id: "$climate_entity" },
 								data: { learning_enabled: !1 },
-								visible_if: { "==": [{ var: "diagnostic/ab_learning/enabled" }, !0] },
+								visible_if: { "==": [{ var: "diagnostic/live/learning/enabled" }, !0] },
 								confirmation: {
 									enabled: !0,
 									text_key: "actions.pause_learning.confirm"
@@ -17369,7 +17369,7 @@ var Mc = {
 								service: "vtherm_smartpi.set_smartpi_learning",
 								target: { entity_id: "$climate_entity" },
 								data: { learning_enabled: !0 },
-								visible_if: { "==": [{ var: "diagnostic/ab_learning/enabled" }, !1] },
+								visible_if: { "==": [{ var: "diagnostic/live/learning/enabled" }, !1] },
 								confirmation: {
 									enabled: !0,
 									text_key: "actions.resume_learning.confirm"
@@ -22267,14 +22267,10 @@ var bl = {
 	on_percent: "%",
 	power_percent: "%",
 	valve_open_percent: "%",
-	"ab_learning.bootstrap_progress_percent": "%",
 	"auto_start_stop_manager.auto_start_stop_dtmin": "min",
-	"autocalib.snapshot_age_h": "h",
 	"configuration.cycle_min": "min",
 	"configuration.minimal_activation_delay_sec": "s",
 	"configuration.minimal_deactivation_delay_sec": "s",
-	"control.ki": "coeff",
-	"control.kp": "coeff",
 	"heating_failure_detection_manager.cooling_tracking.current_temperature": "temperature",
 	"heating_failure_detection_manager.cooling_tracking.elapsed_time_min": "min",
 	"heating_failure_detection_manager.cooling_tracking.initial_temperature": "temperature",
@@ -22285,28 +22281,19 @@ var bl = {
 	"heating_failure_detection_manager.heating_tracking.initial_temperature": "temperature",
 	"heating_failure_detection_manager.heating_tracking.remaining_time_min": "min",
 	"heating_failure_detection_manager.temperature_change_tolerance": "temperature",
+	"history.model.a": "coeff",
+	"history.model.b": "coeff",
+	"history.power.applied_percent": "%",
+	"history.power.command_percent": "%",
+	"history.power.ff_percent": "%",
+	"history.power.pi_percent": "%",
+	"history.setpoint.filtered_setpoint": "temperature",
+	"history.temperature.indoor": "temperature",
 	"lock_manager.auto_relock_sec": "s",
-	"model.a": "coeff",
-	"model.b": "coeff",
-	"model.a_stability_ratio": "ratio",
-	"model.b_stability_ratio": "ratio",
-	"model.deadtime_cool_s": "s",
-	"model.deadtime_heat_s": "s",
-	"model.tau_min": "min",
 	"motion_manager.motion_delay_sec": "s",
 	"motion_manager.motion_off_delay_sec": "s",
 	"power_manager.device_power": "W",
 	"power_manager.mean_cycle_power": "W",
-	"power.applied_percent": "%",
-	"power.command_percent": "%",
-	"power.current_cycle_percent": "%",
-	"power.ff_percent": "%",
-	"power.hold_percent": "%",
-	"power.limited_percent": "%",
-	"power.linear_current_cycle_percent": "%",
-	"power.linear_next_cycle_percent": "%",
-	"power.next_cycle_percent": "%",
-	"power.pi_percent": "%",
 	"preset_temperatures.boost_away_temp": "temperature",
 	"preset_temperatures.boost_temp": "temperature",
 	"preset_temperatures.comfort_away_temp": "temperature",
@@ -22316,12 +22303,8 @@ var bl = {
 	"preset_temperatures.frost_away_temp": "temperature",
 	"preset_temperatures.frost_temp": "temperature",
 	"safety_manager.safety_delay_min": "min",
-	"setpoint.filtered_setpoint": "temperature",
 	"specific_states.ema_temp": "temperature",
 	"specific_states.ext_current_temperature": "temperature",
-	"temperature.error": "temperature",
-	"temperature.ext_sensor": "temperature",
-	"temperature.sensor": "temperature",
 	"timed_preset_manager.remaining_time_min": "min",
 	"vtherm_over_climate.regulation.regulated_target_temperature": "temperature",
 	"vtherm_over_climate.regulation.regulation_accumulated_error": "temperature",
@@ -28433,18 +28416,18 @@ function mu(e) {
 	])), Y($(e, ["specific_states", "proportional_function"])));
 }
 function hu(e, t) {
-	let n = mu(e)?.toLowerCase(), r = Y($(e, ["specific_states", "regulation_diagnostics"])), i = r ? t.states[r]?.attributes : void 0, a = Z(Y($(i, ["control", "phase"])), Y($(e, [
-		"specific_states",
-		"smartpi",
+	let n = mu(e)?.toLowerCase(), r = Y($(e, ["specific_states", "regulation_diagnostics"])), i = r ? t.states[r]?.attributes : void 0;
+	if (n !== "smartpi" || $(i, ["schema_version"]) !== 2) return !1;
+	let a = Y($(i, [
+		"live",
 		"control",
 		"phase"
-	]))), o = Z(Y($(i, ["calibration", "state"])), Y($(e, [
-		"specific_states",
-		"smartpi",
+	])), o = Y($(i, [
+		"live",
 		"calibration",
 		"state"
-	])));
-	return n === "smartpi" ? a === "Calibration" || o !== void 0 && o !== "Idle" : !1;
+	]));
+	return a === "Calibration" || o !== void 0 && o !== "Idle";
 }
 function gu(e, t) {
 	return e !== void 0 && e.entity_id.startsWith(`${t}.`) && !iu(e.state);

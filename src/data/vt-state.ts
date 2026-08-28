@@ -139,18 +139,13 @@ function isSmartPiCalibrationActive(attributes: Record<string, unknown>, hass: H
   const algorithm = resolveAlgorithm(attributes)?.toLowerCase();
   const diagnosticEntityId = asString(readPath(attributes, ["specific_states", "regulation_diagnostics"]));
   const diagnosticAttributes = diagnosticEntityId ? hass.states[diagnosticEntityId]?.attributes : undefined;
-  const phase = firstDefined(
-    asString(readPath(diagnosticAttributes, ["control", "phase"])),
-    asString(readPath(attributes, ["specific_states", "smartpi", "control", "phase"]))
-  );
-  const calibrationState = firstDefined(
-    asString(readPath(diagnosticAttributes, ["calibration", "state"])),
-    asString(readPath(attributes, ["specific_states", "smartpi", "calibration", "state"]))
-  );
 
-  if (algorithm !== "smartpi") {
+  if (algorithm !== "smartpi" || readPath(diagnosticAttributes, ["schema_version"]) !== 2) {
     return false;
   }
+
+  const phase = asString(readPath(diagnosticAttributes, ["live", "control", "phase"]));
+  const calibrationState = asString(readPath(diagnosticAttributes, ["live", "calibration", "state"]));
 
   return phase === "Calibration" || (calibrationState !== undefined && calibrationState !== "Idle");
 }

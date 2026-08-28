@@ -773,11 +773,11 @@
               { "var": "diagnostic" },
               {
                 "or": [
-                  { "==": [{ "var": "diagnostic/control/phase" }, "Calibration"] },
+                  { "==": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
                   {
                     "and": [
-                      { "var": "diagnostic/calibration/state" },
-                      { "!=": [{ "var": "diagnostic/calibration/state" }, "Idle"] }
+                      { "var": "diagnostic/live/calibration/state" },
+                      { "!=": [{ "var": "diagnostic/live/calibration/state" }, "Idle"] }
                     ]
                   }
                 ]
@@ -794,15 +794,15 @@
           "visible_if": {
             "and": [
               { "var": "diagnostic" },
-              { "==": [{ "var": "diagnostic/control/phase" }, "Hysteresis"] },
+              { "==": [{ "var": "diagnostic/live/control/phase" }, "Hysteresis"] },
               {
                 "!": {
                   "or": [
-                    { "==": [{ "var": "diagnostic/control/phase" }, "Calibration"] },
+                    { "==": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
                     {
                       "and": [
-                        { "var": "diagnostic/calibration/state" },
-                        { "!=": [{ "var": "diagnostic/calibration/state" }, "Idle"] }
+                        { "var": "diagnostic/live/calibration/state" },
+                        { "!=": [{ "var": "diagnostic/live/calibration/state" }, "Idle"] }
                       ]
                     }
                   ]
@@ -820,17 +820,17 @@
           "visible_if": {
             "and": [
               { "var": "diagnostic" },
-              { "==": [{ "var": "diagnostic/ab_learning/stage" }, "degraded"] },
-              { "!=": [{ "var": "diagnostic/control/phase" }, "Calibration"] },
-              { "!=": [{ "var": "diagnostic/control/phase" }, "Hysteresis"] },
+              { "==": [{ "var": "diagnostic/live/learning/stage" }, "degraded"] },
+              { "!=": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
+              { "!=": [{ "var": "diagnostic/live/control/phase" }, "Hysteresis"] },
               {
                 "!": {
                   "or": [
-                    { "==": [{ "var": "diagnostic/control/phase" }, "Calibration"] },
+                    { "==": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
                     {
                       "and": [
-                        { "var": "diagnostic/calibration/state" },
-                        { "!=": [{ "var": "diagnostic/calibration/state" }, "Idle"] }
+                        { "var": "diagnostic/live/calibration/state" },
+                        { "!=": [{ "var": "diagnostic/live/calibration/state" }, "Idle"] }
                       ]
                     }
                   ]
@@ -843,9 +843,9 @@
           "type": "metric_grid",
           "title_key": "groups.overview.thermal",
           "metrics": [
-            { "label_key": "metrics.temperature", "source": "diagnostic", "path": "temperature/sensor", "unit": "°", "digits": 1 },
-            { "label_key": "metrics.filtered_setpoint", "source": "diagnostic", "path": "setpoint/filtered_setpoint", "unit": "°", "digits": 1 },
-            { "label_key": "metrics.error", "source": "diagnostic", "path": "temperature/error", "unit": "°", "digits": 2 }
+            { "label_key": "metrics.temperature", "source": "diagnostic", "path": "live/temperature/indoor", "unit": "°", "digits": 1 },
+            { "label_key": "metrics.filtered_setpoint", "source": "diagnostic", "path": "live/setpoint/filtered_setpoint", "unit": "°", "digits": 1 },
+            { "label_key": "metrics.error", "source": "diagnostic", "path": "live/temperature/error", "unit": "°", "digits": 2 }
           ]
         },
         {
@@ -858,15 +858,15 @@
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.applied", "source": "diagnostic", "path": "power/applied_percent", "unit": "%", "digits": 1 },
-                { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "power/next_cycle_percent", "unit": "%", "digits": 1 }
+                { "label_key": "metrics.applied", "source": "diagnostic", "path": "live/power/applied_percent", "unit": "%", "digits": 1 },
+                { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "live/power/next_cycle_percent", "unit": "%", "digits": 1 }
               ]
             },
             {
               "type": "status",
               "label_key": "metrics.governance",
               "source": "diagnostic",
-              "path": "governance/regime",
+              "path": "live/governance/regime",
               "align": "center",
               "map": {
                 "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" },
@@ -885,7 +885,7 @@
               "type": "status",
               "label_key": "metrics.learning_enabled",
               "source": "diagnostic",
-              "path": "ab_learning/enabled",
+              "path": "live/learning/enabled",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" },
@@ -901,12 +901,12 @@
           "min_width": 140,
           "stretch_items": false,
           "items": [
-            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "temperature/integral_mode", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.feedforward_status", "source": "diagnostic", "path": "feedforward/ff3_status", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim", "source": "diagnostic", "path": "feedforward/fftrim/state", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.trajectory", "source": "diagnostic", "path": "setpoint/trajectory_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:chart-timeline-variant" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/setpoint/trajectory_active" }, true] } },
-            { "type": "status", "label_key": "metrics.landing", "source": "diagnostic", "path": "setpoint/landing_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:airplane-landing" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] } }
+            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "live/temperature/integral_mode", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "live/control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.feedforward_status", "source": "diagnostic", "path": "live/feedforward/ff3_status", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim", "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/state", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.trajectory", "source": "diagnostic", "path": "live/setpoint/trajectory_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:chart-timeline-variant" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/trajectory_active" }, true] } },
+            { "type": "status", "label_key": "metrics.landing", "source": "diagnostic", "path": "live/setpoint/landing_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:airplane-landing" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] } }
           ]
         },
         {
@@ -914,9 +914,9 @@
           "title_key": "graphs.overview.title",
           "range": "6h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "temperature/sensor", "label_key": "graphs.overview.temperature", "unit": "°", "scale_group": "temperature" },
-            { "entity": "$diagnostic_entity", "attribute": "setpoint/filtered_setpoint", "label_key": "graphs.overview.filtered_setpoint", "unit": "°", "scale_group": "temperature" },
-            { "entity": "$diagnostic_entity", "attribute": "power/applied_percent", "label_key": "graphs.overview.applied", "unit": "%", "scale_group": "power" }
+            { "entity": "$diagnostic_entity", "attribute": "history/temperature/indoor", "label_key": "graphs.overview.temperature", "unit": "°", "scale_group": "temperature" },
+            { "entity": "$diagnostic_entity", "attribute": "history/setpoint/filtered_setpoint", "label_key": "graphs.overview.filtered_setpoint", "unit": "°", "scale_group": "temperature" },
+            { "entity": "$diagnostic_entity", "attribute": "history/power/applied_percent", "label_key": "graphs.overview.applied", "unit": "%", "scale_group": "power" }
           ],
           "options": { "tooltip": true, "legend": true, "scales": true, "tools": false, "date_picker": false, "entity_picker": false, "range_picker": false }
         }
@@ -933,11 +933,11 @@
           "title_key": "groups.command.actuator_cycle",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.current_cycle", "source": "diagnostic", "path": "power/current_cycle_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "power/next_cycle_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.applied", "source": "diagnostic", "path": "power/applied_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.linear_current_cycle", "source": "diagnostic", "path": "power/linear_current_cycle_percent", "unit": "%", "digits": 1, "visible_if": { "==": [{ "var": "diagnostic/power/valve_linearization_enabled" }, true] } },
-            { "label_key": "metrics.linear_next_cycle", "source": "diagnostic", "path": "power/linear_next_cycle_percent", "unit": "%", "digits": 1, "visible_if": { "==": [{ "var": "diagnostic/power/valve_linearization_enabled" }, true] } }
+            { "label_key": "metrics.current_cycle", "source": "diagnostic", "path": "live/power/current_cycle_percent", "unit": "%", "digits": 1 },
+            { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "live/power/next_cycle_percent", "unit": "%", "digits": 1 },
+            { "label_key": "metrics.applied", "source": "diagnostic", "path": "live/power/applied_percent", "unit": "%", "digits": 1 },
+            { "label_key": "metrics.linear_current_cycle", "source": "diagnostic", "path": "live/power/linear_current_cycle_percent", "unit": "%", "digits": 1, "visible_if": { "==": [{ "var": "diagnostic/live/power/valve_linearization_enabled" }, true] } },
+            { "label_key": "metrics.linear_next_cycle", "source": "diagnostic", "path": "live/power/linear_next_cycle_percent", "unit": "%", "digits": 1, "visible_if": { "==": [{ "var": "diagnostic/live/power/valve_linearization_enabled" }, true] } }
           ]
         },
         {
@@ -946,17 +946,17 @@
           "columns": 1,
           "items": [
             { "type": "metric_grid", "columns": 3, "metrics": [
-              { "label_key": "metrics.command", "source": "diagnostic", "path": "power/command_percent", "unit": "%", "digits": 1 },
-              { "label_key": "metrics.limited", "source": "diagnostic", "path": "power/limited_percent", "unit": "%", "digits": 1 },
-              { "label_key": "metrics.applied", "source": "diagnostic", "path": "power/applied_percent", "unit": "%", "digits": 1 }
+              { "label_key": "metrics.command", "source": "diagnostic", "path": "live/power/command_percent", "unit": "%", "digits": 1 },
+              { "label_key": "metrics.limited", "source": "diagnostic", "path": "live/power/limited_percent", "unit": "%", "digits": 1 },
+              { "label_key": "metrics.applied", "source": "diagnostic", "path": "live/power/applied_percent", "unit": "%", "digits": 1 }
             ] },
             {
               "type": "layout_grid",
               "min_width": 160,
               "stretch_items": false,
               "items": [
-                { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-                { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand-empty" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" } }
+                { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "live/control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+                { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "live/control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand-empty" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" } }
               ]
             }
           ]
@@ -966,12 +966,12 @@
           "title_key": "groups.command.contributions",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.pi", "source": "diagnostic", "path": "power/pi_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.ff", "source": "diagnostic", "path": "power/ff_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.hold", "source": "diagnostic", "path": "power/hold_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.integral_error", "source": "diagnostic", "path": "temperature/integral_error", "digits": 3 },
-            { "label_key": "metrics.kp", "source": "diagnostic", "path": "control/kp", "digits": 3 },
-            { "label_key": "metrics.ki", "source": "diagnostic", "path": "control/ki", "digits": 4 }
+            { "label_key": "metrics.pi", "source": "diagnostic", "path": "live/power/pi_percent", "unit": "%", "digits": 1 },
+            { "label_key": "metrics.ff", "source": "diagnostic", "path": "live/power/ff_percent", "unit": "%", "digits": 1 },
+            { "label_key": "metrics.hold", "source": "diagnostic", "path": "live/power/hold_percent", "unit": "%", "digits": 1 },
+            { "label_key": "metrics.integral_error", "source": "diagnostic", "path": "live/temperature/integral_error", "digits": 3 },
+            { "label_key": "metrics.kp", "source": "diagnostic", "path": "live/control/kp", "digits": 3 },
+            { "label_key": "metrics.ki", "source": "diagnostic", "path": "live/control/ki", "digits": 4 }
           ]
         },
         {
@@ -979,10 +979,10 @@
           "title_key": "graphs.command.title",
           "range": "12h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "power/applied_percent", "label_key": "graphs.command.applied", "unit": "%", "scale_group": "power" },
-            { "entity": "$diagnostic_entity", "attribute": "power/command_percent", "label_key": "graphs.command.command", "unit": "%", "scale_group": "power" },
-            { "entity": "$diagnostic_entity", "attribute": "power/pi_percent", "label_key": "graphs.command.pi", "unit": "%", "scale_group": "power" },
-            { "entity": "$diagnostic_entity", "attribute": "power/ff_percent", "label_key": "graphs.command.ff", "unit": "%", "scale_group": "power" }
+            { "entity": "$diagnostic_entity", "attribute": "history/power/applied_percent", "label_key": "graphs.command.applied", "unit": "%", "scale_group": "power" },
+            { "entity": "$diagnostic_entity", "attribute": "history/power/command_percent", "label_key": "graphs.command.command", "unit": "%", "scale_group": "power" },
+            { "entity": "$diagnostic_entity", "attribute": "history/power/pi_percent", "label_key": "graphs.command.pi", "unit": "%", "scale_group": "power" },
+            { "entity": "$diagnostic_entity", "attribute": "history/power/ff_percent", "label_key": "graphs.command.ff", "unit": "%", "scale_group": "power" }
           ],
           "options": { "tooltip": true, "legend": true, "scales": true, "tools": false, "date_picker": false, "entity_picker": false, "range_picker": false }
         }
@@ -1004,13 +1004,13 @@
         {
           "type": "progress",
           "label_key": "metrics.bootstrap_progress",
-          "value": { "source": "diagnostic", "path": "ab_learning/bootstrap_progress_percent" },
+          "value": { "source": "diagnostic", "path": "live/learning/bootstrap_progress_percent" },
           "target": 100,
           "unit": "%",
           "digits": 0,
           "visible_if": {
             "==": [
-              { "var": "diagnostic/ab_learning/stage" },
+              { "var": "diagnostic/live/learning/stage" },
               "bootstrap"
             ]
           }
@@ -1022,12 +1022,12 @@
             {
               "type": "progress",
               "label_key": "metrics.bootstrap_a",
-              "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_a" },
-              "target": { "source": "diagnostic", "path": "ab_learning/bootstrap_target_a" },
+              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_a" },
+              "target": { "source": "diagnostic", "path": "live/learning/bootstrap_target_a" },
               "digits": 0,
               "visible_if": {
                 "==": [
-                  { "var": "diagnostic/ab_learning/stage" },
+                  { "var": "diagnostic/live/learning/stage" },
                   "bootstrap"
                 ]
               }
@@ -1035,12 +1035,12 @@
             {
               "type": "progress",
               "label_key": "metrics.bootstrap_b",
-              "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_b" },
-              "target": { "source": "diagnostic", "path": "ab_learning/bootstrap_target_b" },
+              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_b" },
+              "target": { "source": "diagnostic", "path": "live/learning/bootstrap_target_b" },
               "digits": 0,
               "visible_if": {
                 "==": [
-                  { "var": "diagnostic/ab_learning/stage" },
+                  { "var": "diagnostic/live/learning/stage" },
                   "bootstrap"
                 ]
               }
@@ -1048,12 +1048,12 @@
             {
               "type": "progress",
               "label_key": "metrics.history_a",
-              "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_a" },
-              "target": { "source": "diagnostic", "path": "ab_learning/history_target" },
+              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_a" },
+              "target": { "source": "diagnostic", "path": "live/learning/history_target" },
               "digits": 0,
               "visible_if": {
                 "!=": [
-                  { "var": "diagnostic/ab_learning/stage" },
+                  { "var": "diagnostic/live/learning/stage" },
                   "bootstrap"
                 ]
               }
@@ -1061,12 +1061,12 @@
             {
               "type": "progress",
               "label_key": "metrics.history_b",
-              "value": { "source": "diagnostic", "path": "ab_learning/emea_samples_b" },
-              "target": { "source": "diagnostic", "path": "ab_learning/history_target" },
+              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_b" },
+              "target": { "source": "diagnostic", "path": "live/learning/history_target" },
               "digits": 0,
               "visible_if": {
                 "!=": [
-                  { "var": "diagnostic/ab_learning/stage" },
+                  { "var": "diagnostic/live/learning/stage" },
                   "bootstrap"
                 ]
               }
@@ -1077,15 +1077,15 @@
           "type": "metric_grid",
           "title_key": "sections.learning.title",
           "metrics": [
-            { "label_key": "metrics.accepted_a", "source": "diagnostic", "path": "ab_learning/accepted_updates_a", "digits": 0 },
-            { "label_key": "metrics.accepted_b", "source": "diagnostic", "path": "ab_learning/accepted_updates_b", "digits": 0 },
+            { "label_key": "metrics.accepted_a", "source": "diagnostic", "path": "live/learning/accepted_updates_a", "digits": 0 },
+            { "label_key": "metrics.accepted_b", "source": "diagnostic", "path": "live/learning/accepted_updates_b", "digits": 0 },
             {
               "label_key": "metrics.bootstrap_status",
               "source": "diagnostic",
-              "path": "ab_learning/bootstrap_status",
+              "path": "live/learning/bootstrap_status",
               "visible_if": {
                 "==": [
-                  { "var": "diagnostic/ab_learning/stage" },
+                  { "var": "diagnostic/live/learning/stage" },
                   "bootstrap"
                 ]
               }
@@ -1096,7 +1096,7 @@
           "type": "status",
           "label_key": "metrics.confidence",
           "source": "diagnostic",
-          "path": "model/confidence",
+          "path": "live/model/confidence",
           "map": {
             "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
             "ab_bootstrap": { "label_key": "status.confidence.ab_bootstrap", "description_key": "status.confidence.ab_bootstrap.description", "tone": "info", "icon": "mdi:progress-clock" },
@@ -1115,7 +1115,7 @@
               "type": "status",
               "label_key": "metrics.a_drift",
               "source": "diagnostic",
-              "path": "ab_learning/a_drift_state",
+              "path": "live/learning/a_drift_state",
               "align": "center",
               "map": {
                 "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
@@ -1129,7 +1129,7 @@
               "type": "status",
               "label_key": "metrics.b_drift",
               "source": "diagnostic",
-              "path": "ab_learning/b_drift_state",
+              "path": "live/learning/b_drift_state",
               "align": "center",
               "map": {
                 "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
@@ -1143,7 +1143,7 @@
               "type": "status",
               "label_key": "metrics.learn_b_converged",
               "source": "diagnostic",
-              "path": "ab_learning/learn_b_converged",
+              "path": "live/learning/learn_b_converged",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
@@ -1156,7 +1156,7 @@
               "type": "status",
               "label_key": "metrics.learning_last_reason",
               "source": "diagnostic",
-              "path": "ab_learning/last_reason",
+              "path": "live/learning/last_reason",
               "align": "center",
               "map": {},
               "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" },
@@ -1189,7 +1189,7 @@
           "type": "status",
           "label_key": "metrics.confidence",
           "source": "diagnostic",
-          "path": "model/confidence",
+          "path": "live/model/confidence",
           "map": {
             "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
             "ab_bootstrap": { "label_key": "status.confidence.ab_bootstrap", "description_key": "status.confidence.ab_bootstrap.description", "tone": "info", "icon": "mdi:progress-clock" },
@@ -1202,7 +1202,7 @@
           "type": "metric_grid",
           "columns": 1,
           "metrics": [
-            { "label_key": "metrics.tau", "source": "diagnostic", "path": "model/tau_min", "unit": "min", "digits": 1 }
+            { "label_key": "metrics.tau", "source": "diagnostic", "path": "live/model/tau_min", "unit": "min", "digits": 1 }
           ]
         },
         {
@@ -1214,16 +1214,16 @@
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.a", "source": "diagnostic", "path": "model/a", "unit": "°C/min", "digits": 4 },
-                { "label_key": "metrics.b", "source": "diagnostic", "path": "model/b", "unit": "min⁻¹", "digits": 4 }
+                { "label_key": "metrics.a", "source": "diagnostic", "path": "live/model/a", "unit": "°C/min", "digits": 4 },
+                { "label_key": "metrics.b", "source": "diagnostic", "path": "live/model/b", "unit": "min⁻¹", "digits": 4 }
               ]
             },
             {
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.deadtime_heat", "source": "diagnostic", "path": "model/deadtime_heat_s", "unit": "s", "digits": 0 },
-                { "label_key": "metrics.deadtime_cool", "source": "diagnostic", "path": "model/deadtime_cool_s", "unit": "s", "digits": 0 }
+                { "label_key": "metrics.deadtime_heat", "source": "diagnostic", "path": "live/model/deadtime_heat_s", "unit": "s", "digits": 0 },
+                { "label_key": "metrics.deadtime_cool", "source": "diagnostic", "path": "live/model/deadtime_cool_s", "unit": "s", "digits": 0 }
               ]
             },
             {
@@ -1235,7 +1235,7 @@
                   "type": "status",
                   "label_key": "metrics.a_stability",
                   "source": "diagnostic",
-                  "path": "model/a_stability_ratio",
+                  "path": "live/model/a_stability_ratio",
                   "map": {},
                   "align": "center",
                   "ranges": [
@@ -1253,7 +1253,7 @@
                   "type": "status",
                   "label_key": "metrics.b_stability",
                   "source": "diagnostic",
-                  "path": "model/b_stability_ratio",
+                  "path": "live/model/b_stability_ratio",
                   "map": {},
                   "align": "center",
                   "ranges": [
@@ -1282,7 +1282,7 @@
               "type": "status",
               "label_key": "metrics.tau_reliable",
               "source": "diagnostic",
-              "path": "model/tau_reliable",
+              "path": "live/model/tau_reliable",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
@@ -1294,7 +1294,7 @@
                   "type": "status",
                   "label_key": "metrics.deadtime_heat_reliable",
                   "source": "diagnostic",
-                  "path": "model/deadtime_heat_reliable",
+                  "path": "live/model/deadtime_heat_reliable",
                   "align": "center",
                   "map": {
                     "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
@@ -1306,7 +1306,7 @@
                   "type": "status",
                   "label_key": "metrics.deadtime_cool_reliable",
                   "source": "diagnostic",
-                  "path": "model/deadtime_cool_reliable",
+                  "path": "live/model/deadtime_cool_reliable",
                   "align": "center",
                   "map": {
                     "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
@@ -1321,8 +1321,8 @@
           "title_key": "graphs.model.title",
           "range": "24h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "model/a", "label_key": "graphs.model.a", "unit": "°C/min", "scale_group": "coefficients" },
-            { "entity": "$diagnostic_entity", "attribute": "model/b", "label_key": "graphs.model.b", "unit": "min⁻¹", "scale_group": "coefficients" }
+            { "entity": "$diagnostic_entity", "attribute": "history/model/a", "label_key": "graphs.model.a", "unit": "°C/min", "scale_group": "coefficients" },
+            { "entity": "$diagnostic_entity", "attribute": "history/model/b", "label_key": "graphs.model.b", "unit": "min⁻¹", "scale_group": "coefficients" }
           ],
           "options": {
             "tooltip": true,
@@ -1352,14 +1352,14 @@
               "type": "metric_grid",
               "columns": 1,
               "metrics": [
-                { "label_key": "metrics.filtered_setpoint", "source": "diagnostic", "path": "setpoint/filtered_setpoint", "unit": "°C", "digits": 1 }
+                { "label_key": "metrics.filtered_setpoint", "source": "diagnostic", "path": "live/setpoint/filtered_setpoint", "unit": "°C", "digits": 1 }
               ]
             },
             {
               "type": "status",
               "label_key": "metrics.trajectory",
               "source": "diagnostic",
-              "path": "setpoint/trajectory_active",
+              "path": "live/setpoint/trajectory_active",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:chart-timeline-variant" },
@@ -1372,7 +1372,7 @@
               "type": "status",
               "label_key": "metrics.trajectory.source",
               "source": "diagnostic",
-              "path": "setpoint/trajectory_source",
+              "path": "live/setpoint/trajectory_source",
               "align": "center",
               "map": {
                 "setpoint": { "label_key": "status.trajectory.setpoint", "tone": "info", "icon": "mdi:thermometer-chevron-up" },
@@ -1381,13 +1381,13 @@
               },
               "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
               "fallback_show_value": true,
-              "visible_if": { "==": [{ "var": "diagnostic/setpoint/trajectory_active" }, true] }
+              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/trajectory_active" }, true] }
             },
             {
               "type": "status",
               "label_key": "metrics.landing",
               "source": "diagnostic",
-              "path": "setpoint/landing_active",
+              "path": "live/setpoint/landing_active",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:airplane-landing" },
@@ -1400,7 +1400,7 @@
               "type": "status",
               "label_key": "metrics.landing.reason",
               "source": "diagnostic",
-              "path": "setpoint/landing_reason",
+              "path": "live/setpoint/landing_reason",
               "align": "center",
               "map": {
                 "cap": { "label_key": "status.landing.cap", "tone": "info", "icon": "mdi:chart-bell-curve" },
@@ -1408,21 +1408,21 @@
               },
               "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
               "fallback_show_value": true,
-              "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] }
+              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] }
             },
             {
               "type": "metric_grid",
               "columns": 2,
-              "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] },
+              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] },
               "metrics": [
-                { "label_key": "metrics.landing.u_cap", "source": "diagnostic", "path": "setpoint/landing_u_cap", "unit": "%", "digits": 1, "value_multiplier": 100 }
+                { "label_key": "metrics.landing.u_cap", "source": "diagnostic", "path": "live/setpoint/landing_u_cap", "unit": "%", "digits": 1, "value_multiplier": 100 }
               ]
             },
             {
               "type": "status",
               "label_key": "metrics.landing.coast_required",
               "source": "diagnostic",
-              "path": "setpoint/landing_coast_required",
+              "path": "live/setpoint/landing_coast_required",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:weather-windy" },
@@ -1430,7 +1430,7 @@
               },
               "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
               "fallback_show_value": true,
-              "visible_if": { "==": [{ "var": "diagnostic/setpoint/landing_active" }, true] }
+              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] }
             }
           ]
         },
@@ -1444,7 +1444,7 @@
               "type": "status",
               "label_key": "metrics.feedforward_status",
               "source": "diagnostic",
-              "path": "feedforward/ff3_status",
+              "path": "live/feedforward/ff3_status",
               "align": "center",
               "map": {
                 "active": { "label_key": "status.ff3.active", "tone": "info", "icon": "mdi:crystal-ball" },
@@ -1484,7 +1484,7 @@
               "type": "status",
               "label_key": "metrics.ff3.twin_usable",
               "source": "diagnostic",
-              "path": "feedforward/ff3_twin_usable",
+              "path": "live/feedforward/ff3_twin_usable",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
@@ -1497,7 +1497,7 @@
               "type": "status",
               "label_key": "metrics.twin_status",
               "source": "diagnostic",
-              "path": "feedforward/twin_status",
+              "path": "live/feedforward/twin_status",
               "align": "center",
               "map": {
                 "ok": { "label_key": "status.twin.ok", "tone": "ok", "icon": "mdi:home-thermometer-outline" },
@@ -1510,7 +1510,7 @@
               "type": "status",
               "label_key": "metrics.deadband_source",
               "source": "diagnostic",
-              "path": "feedforward/deadband_power_source",
+              "path": "live/feedforward/deadband_power_source",
               "align": "center",
               "map": {
                 "none": { "label_key": "status.deadband.power_source.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
@@ -1523,7 +1523,7 @@
               "type": "status",
               "label_key": "metrics.deadband_mode",
               "source": "diagnostic",
-              "path": "feedforward/deadband_p_mode",
+              "path": "live/feedforward/deadband_p_mode",
               "align": "center",
               "map": {
                 "init": { "label_key": "status.deadband.p_mode.init", "tone": "muted", "icon": "mdi:progress-clock" },
@@ -1557,7 +1557,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.state",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/stationary/state",
+              "path": "live/feedforward/fftrim/stationary/state",
               "align": "center",
               "map": {
                 "warming_up": { "label_key": "status.fftrim.state.warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
@@ -1573,7 +1573,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.observation_mode",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/observation_mode",
+              "path": "live/feedforward/fftrim/observation_mode",
               "align": "center",
               "map": {
                 "stationary": { "label_key": "status.fftrim.mode.stationary", "tone": "info", "icon": "mdi:chart-bell-curve-cumulative" },
@@ -1586,14 +1586,14 @@
               "type": "metric_grid",
               "columns": 1,
               "metrics": [
-                { "label_key": "metrics.fftrim.windows_since_update", "source": "diagnostic", "path": "feedforward/fftrim/windows_since_update", "digits": 0 }
+                { "label_key": "metrics.fftrim.windows_since_update", "source": "diagnostic", "path": "live/feedforward/fftrim/windows_since_update", "digits": 0 }
               ]
             },
             {
               "type": "status",
               "label_key": "metrics.fftrim.last_update_reason",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/last_update_reason",
+              "path": "live/feedforward/fftrim/last_update_reason",
               "align": "center",
               "map": {
                 "none": { "label_key": "status.fftrim.reason.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
@@ -1612,7 +1612,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.last_reject_reason",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/last_reject_reason",
+              "path": "live/feedforward/fftrim/last_reject_reason",
               "align": "center",
               "map": {
                 "deadtime_unreliable": { "label_key": "status.fftrim.reason.deadtime_unreliable", "tone": "muted", "icon": "mdi:timer-alert-outline" },
@@ -1632,8 +1632,8 @@
               "fallback_show_value": true,
               "visible_if": {
                 "and": [
-                  { "var": "diagnostic/feedforward/fftrim/last_reject_reason" },
-                  { "!=": [{ "var": "diagnostic/feedforward/fftrim/last_reject_reason" }, "none"] }
+                  { "var": "diagnostic/live/feedforward/fftrim/last_reject_reason" },
+                  { "!=": [{ "var": "diagnostic/live/feedforward/fftrim/last_reject_reason" }, "none"] }
                 ]
               }
             }
@@ -1642,8 +1642,8 @@
         {
           "type": "progress",
           "label_key": "metrics.fftrim.stationary_progress",
-          "value": { "source": "diagnostic", "path": "feedforward/fftrim/stationary/window_duration_s" },
-          "target": { "source": "diagnostic", "path": "feedforward/fftrim/stationary/window_target_duration_s" },
+          "value": { "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/window_duration_s" },
+          "target": { "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/window_target_duration_s" },
           "unit": "s",
           "digits": 0
         },
@@ -1652,9 +1652,9 @@
           "title_key": "groups.fftrim.stationary_quality",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "feedforward/fftrim/stationary/measurement_count", "digits": 0 },
-            { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "feedforward/fftrim/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "feedforward/fftrim/alignment_delay_s", "format": "duration_s" }
+            { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/measurement_count", "digits": 0 },
+            { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/alignment_delay_s", "format": "duration_s" }
           ]
         },
         {
@@ -1672,7 +1672,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.periodic_state",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/periodic_state",
+              "path": "live/feedforward/fftrim/periodic/state",
               "map": {
                 "warming_up": { "label_key": "status.fftrim.state.warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
                 "waiting_deadtime": { "label_key": "status.fftrim.state.waiting_deadtime", "tone": "info", "icon": "mdi:timer-sand" },
@@ -1687,8 +1687,8 @@
             {
               "type": "progress",
               "label_key": "metrics.fftrim.periodic_progress",
-              "value": { "source": "diagnostic", "path": "feedforward/fftrim/periodic_window_duration_s" },
-              "target": { "source": "diagnostic", "path": "feedforward/fftrim/periodic_target_duration_s" },
+              "value": { "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/window_duration_s" },
+              "target": { "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/target_duration_s" },
               "unit": "s",
               "digits": 0
             }
@@ -1698,16 +1698,16 @@
           "type": "metric_grid",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.periodic_measurement_count", "source": "diagnostic", "path": "feedforward/fftrim/periodic_measurement_count", "digits": 0 },
-            { "label_key": "metrics.fftrim.periodic_amplitude", "source": "diagnostic", "path": "feedforward/fftrim/periodic_amplitude_c", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.periodic_closure_error", "source": "diagnostic", "path": "feedforward/fftrim/periodic_closure_error_c", "unit": "°C", "digits": 2 }
+            { "label_key": "metrics.fftrim.periodic_measurement_count", "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/measurement_count", "digits": 0 },
+            { "label_key": "metrics.fftrim.periodic_amplitude", "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/amplitude_c", "unit": "°C", "digits": 2 },
+            { "label_key": "metrics.fftrim.periodic_closure_error", "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/closure_error_c", "unit": "°C", "digits": 2 }
           ]
         },
         {
           "type": "status",
           "label_key": "metrics.fftrim.periodic_last_reject_reason",
           "source": "diagnostic",
-          "path": "feedforward/fftrim/periodic_last_reject_reason",
+          "path": "live/feedforward/fftrim/periodic/last_reject_reason",
           "map": {
             "deadtime_unreliable": { "label_key": "status.fftrim.reason.deadtime_unreliable", "tone": "muted", "icon": "mdi:timer-alert-outline" },
             "deadtime_changed": { "label_key": "status.fftrim.reason.deadtime_changed", "tone": "muted", "icon": "mdi:timer-sync-outline" },
@@ -1728,8 +1728,8 @@
           "fallback_show_value": true,
           "visible_if": {
             "and": [
-              { "var": "diagnostic/feedforward/fftrim/periodic_last_reject_reason" },
-              { "!=": [{ "var": "diagnostic/feedforward/fftrim/periodic_last_reject_reason" }, "none"] }
+              { "var": "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason" },
+              { "!=": [{ "var": "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason" }, "none"] }
             ]
           }
         },
@@ -1742,19 +1742,19 @@
         {
           "type": "layout_grid",
           "title_key": "groups.fftrim.last_result",
-          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_result" },
+          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_result" },
           "min_width": 180,
           "items": [
-            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "feedforward/fftrim/last_result/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.last_update_reason", "source": "diagnostic", "path": "feedforward/fftrim/last_result/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.last_update_reason", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
             {
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.fftrim.window_duration", "source": "diagnostic", "path": "feedforward/fftrim/last_result/duration_s", "format": "duration_s" },
-                { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "feedforward/fftrim/last_result/measurement_count", "digits": 0 },
-                { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "feedforward/fftrim/last_result/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
-                { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "feedforward/fftrim/last_result/alignment_delay_s", "format": "duration_s" }
+                { "label_key": "metrics.fftrim.window_duration", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/duration_s", "format": "duration_s" },
+                { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/measurement_count", "digits": 0 },
+                { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
+                { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/alignment_delay_s", "format": "duration_s" }
               ]
             }
           ]
@@ -1763,22 +1763,22 @@
           "type": "metric_grid",
           "title_key": "groups.fftrim.thermal_balance",
           "columns": 3,
-          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_result" },
+          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_result" },
           "metrics": [
-            { "label_key": "metrics.fftrim.mean_causal_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_causal_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_ff1", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_ff1", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_p_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_p_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_i_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_visible_ff_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_visible_ff_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.observed_hold_power", "source": "diagnostic", "path": "feedforward/fftrim/last_result/observed_hold_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.physical_power_deficit", "source": "diagnostic", "path": "feedforward/fftrim/last_result/physical_power_deficit", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.decomposed_correction", "source": "diagnostic", "path": "feedforward/fftrim/last_result/decomposed_correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.target_trim", "source": "diagnostic", "path": "feedforward/fftrim/last_result/target_trim", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.correction", "source": "diagnostic", "path": "feedforward/fftrim/last_result/correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_temperature", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_temperature", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_error", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_error", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_slope_h", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_slope_h", "unit": "°C/h", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_delivery_residual", "source": "diagnostic", "path": "feedforward/fftrim/last_result/mean_delivery_residual", "unit": "%", "digits": 2, "value_multiplier": 100 }
+            { "label_key": "metrics.fftrim.mean_causal_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_causal_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_ff1", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_ff1", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_p_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_p_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_i_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_visible_ff_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_visible_ff_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.observed_hold_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/observed_hold_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.physical_power_deficit", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/physical_power_deficit", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.decomposed_correction", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/decomposed_correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.target_trim", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/target_trim", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.correction", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.mean_temperature", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_temperature", "unit": "°C", "digits": 2 },
+            { "label_key": "metrics.fftrim.mean_error", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_error", "unit": "°C", "digits": 2 },
+            { "label_key": "metrics.fftrim.mean_slope_h", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_slope_h", "unit": "°C/h", "digits": 2 },
+            { "label_key": "metrics.fftrim.mean_delivery_residual", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_delivery_residual", "unit": "%", "digits": 2, "value_multiplier": 100 }
           ]
         },
         {
@@ -1790,7 +1790,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.bumpless_transfer_state",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/bumpless_transfer_state",
+              "path": "live/feedforward/fftrim/transfer/state",
               "map": {
                 "idle": { "label_key": "status.fftrim.transfer.idle", "tone": "muted", "icon": "mdi:minus-circle-outline" },
                 "observer_rejected": { "label_key": "status.fftrim.transfer.observer_rejected", "tone": "muted", "icon": "mdi:close-circle-outline" },
@@ -1808,7 +1808,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.bumpless_transfer_reason",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/bumpless_transfer_reason",
+              "path": "live/feedforward/fftrim/transfer/reason",
               "map": {
                 "none": { "label_key": "status.fftrim.reason.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
                 "quasi_equilibrium": { "label_key": "status.fftrim.transfer.reason.quasi_equilibrium", "tone": "ok", "icon": "mdi:scale-balance" },
@@ -1823,7 +1823,7 @@
               "type": "status",
               "label_key": "metrics.fftrim.transfer_quality",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/transfer_quality",
+              "path": "live/feedforward/fftrim/transfer/quality",
               "map": {
                 "unavailable": { "label_key": "status.fftrim.quality.unavailable", "tone": "muted", "icon": "mdi:help-circle-outline" },
                 "switch_cycle_equivalent": { "label_key": "status.fftrim.quality.switch_cycle_equivalent", "tone": "info", "icon": "mdi:electric-switch" },
@@ -1837,12 +1837,12 @@
               "type": "status",
               "label_key": "metrics.fftrim.transfer_pending_engagement",
               "source": "diagnostic",
-              "path": "feedforward/fftrim/transfer_pending_engagement",
+              "path": "live/feedforward/fftrim/transfer/pending_engagement",
               "map": {
                 "true": { "label_key": "status.fftrim.transfer.pending_engagement", "tone": "info", "icon": "mdi:progress-clock" }
               },
               "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" },
-              "visible_if": { "==": [{ "var": "diagnostic/feedforward/fftrim/transfer_pending_engagement" }, true] }
+              "visible_if": { "==": [{ "var": "diagnostic/live/feedforward/fftrim/transfer/pending_engagement" }, true] }
             }
           ]
         },
@@ -1851,41 +1851,41 @@
           "title_key": "groups.fftrim.deltas",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.requested_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/requested_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.stored_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/stored_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/applied_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.transferable_i_power", "source": "diagnostic", "path": "feedforward/fftrim/transferable_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "feedforward/fftrim/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
+            { "label_key": "metrics.fftrim.requested_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/requested_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.stored_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/stored_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.applied_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/applied_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.transferable_i_power", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/transferable_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
           ]
         },
         {
           "type": "layout_grid",
           "title_key": "groups.fftrim.last_transaction",
-          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_transaction" },
+          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_transaction" },
           "min_width": 180,
           "items": [
-            { "type": "metric_grid", "columns": 1, "metrics": [{ "label_key": "metrics.fftrim.transaction_timestamp", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/timestamp_utc", "format": "datetime" }] },
-            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_state", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/state", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_reason", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.transfer_quality", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/quality", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+            { "type": "metric_grid", "columns": 1, "metrics": [{ "label_key": "metrics.fftrim.transaction_timestamp", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/timestamp_utc", "format": "datetime" }] },
+            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_state", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/state", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_reason", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.fftrim.transfer_quality", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/quality", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
           ]
         },
         {
           "type": "metric_grid",
           "title_key": "groups.fftrim.last_transaction_deltas",
-          "visible_if": { "var": "diagnostic/feedforward/fftrim/last_transaction" },
+          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_transaction" },
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.requested_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/requested_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.stored_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/stored_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_trim_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/applied_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.transferable_i_power", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/transferable_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "feedforward/fftrim/last_transaction/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
+            { "label_key": "metrics.fftrim.requested_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/requested_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.stored_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/stored_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.applied_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/applied_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.transferable_i_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/transferable_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
+            { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
           ]
         }
       ]
@@ -1908,9 +1908,9 @@
           "title_key": "groups.health.governance",
           "min_width": 180,
           "items": [
-            { "type": "status", "label_key": "metrics.governance", "source": "diagnostic", "path": "governance/regime", "map": { "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" }, "excited_stable": { "label_key": "status.regime.excited_stable", "tone": "ok", "icon": "mdi:check-circle-outline" }, "near_band": { "label_key": "status.regime.near_band", "tone": "info", "icon": "mdi:target" }, "dead_band": { "label_key": "status.regime.dead_band", "tone": "muted", "icon": "mdi:pause-circle-outline" }, "hold": { "label_key": "status.regime.hold", "tone": "warning", "icon": "mdi:hand-back-left-outline" }, "perturbed": { "label_key": "status.regime.perturbed", "tone": "warning", "icon": "mdi:weather-windy" }, "degraded": { "label_key": "status.regime.degraded", "tone": "danger", "icon": "mdi:alert-outline" }, "saturated": { "label_key": "status.regime.saturated", "tone": "warning", "icon": "mdi:gauge-full" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.thermal_decision", "source": "diagnostic", "path": "governance/thermal_update_decision", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.thermal_reason", "source": "diagnostic", "path": "governance/thermal_update_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+            { "type": "status", "label_key": "metrics.governance", "source": "diagnostic", "path": "live/governance/regime", "map": { "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" }, "excited_stable": { "label_key": "status.regime.excited_stable", "tone": "ok", "icon": "mdi:check-circle-outline" }, "near_band": { "label_key": "status.regime.near_band", "tone": "info", "icon": "mdi:target" }, "dead_band": { "label_key": "status.regime.dead_band", "tone": "muted", "icon": "mdi:pause-circle-outline" }, "hold": { "label_key": "status.regime.hold", "tone": "warning", "icon": "mdi:hand-back-left-outline" }, "perturbed": { "label_key": "status.regime.perturbed", "tone": "warning", "icon": "mdi:weather-windy" }, "degraded": { "label_key": "status.regime.degraded", "tone": "danger", "icon": "mdi:alert-outline" }, "saturated": { "label_key": "status.regime.saturated", "tone": "warning", "icon": "mdi:gauge-full" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.thermal_decision", "source": "diagnostic", "path": "live/governance/thermal_update_decision", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.thermal_reason", "source": "diagnostic", "path": "live/governance/thermal_update_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
           ]
         },
         {
@@ -1919,10 +1919,10 @@
           "min_width": 160,
           "stretch_items": false,
           "items": [
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadband", "source": "diagnostic", "path": "control/in_deadband", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "muted", "icon": "mdi:circle-outline" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_near_band", "source": "diagnostic", "path": "control/in_near_band", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:target" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:target" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true }
+            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "live/control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_deadband", "source": "diagnostic", "path": "live/control/in_deadband", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "muted", "icon": "mdi:circle-outline" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_near_band", "source": "diagnostic", "path": "live/control/in_near_band", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:target" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:target" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "live/control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true }
           ]
         },
         {
@@ -1930,37 +1930,37 @@
           "title_key": "groups.health.integral",
           "min_width": 180,
           "items": [
-            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "temperature/integral_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.integral_hold", "source": "diagnostic", "path": "temperature/integral_hold_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.integral_hold_source", "source": "diagnostic", "path": "temperature/integral_hold_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.integral_guard_source", "source": "diagnostic", "path": "temperature/integral_guard_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "live/temperature/integral_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.integral_hold", "source": "diagnostic", "path": "live/temperature/integral_hold_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.integral_hold_source", "source": "diagnostic", "path": "live/temperature/integral_hold_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            { "type": "status", "label_key": "metrics.integral_guard_source", "source": "diagnostic", "path": "live/temperature/integral_guard_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
           ]
         },
         {
           "type": "layout_grid",
           "title_key": "groups.health.restart",
           "items": [
-            { "type": "status", "label_key": "metrics.restart_reason", "source": "diagnostic", "path": "control/restart_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:restart" }, "fallback_show_value": true }
+            { "type": "status", "label_key": "metrics.restart_reason", "source": "diagnostic", "path": "live/control/restart_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:restart" }, "fallback_show_value": true }
           ]
         },
         {
           "type": "metric_grid",
           "title_key": "groups.health.autocalib",
           "metrics": [
-            { "label_key": "metrics.autocalib_state", "source": "diagnostic", "path": "autocalib/state" },
-            { "label_key": "metrics.autocalib_degraded", "source": "diagnostic", "path": "autocalib/model_degraded" },
-            { "label_key": "metrics.autocalib_snapshot_age", "source": "diagnostic", "path": "autocalib/snapshot_age_h", "unit": "h", "digits": 0 },
-            { "label_key": "metrics.autocalib_last_trigger", "source": "diagnostic", "path": "autocalib/last_trigger_ts", "format": "datetime" },
-            { "label_key": "metrics.autocalib_next_check", "source": "diagnostic", "path": "autocalib/next_check_ts", "format": "datetime" }
+            { "label_key": "metrics.autocalib_state", "source": "diagnostic", "path": "live/autocalib/state" },
+            { "label_key": "metrics.autocalib_degraded", "source": "diagnostic", "path": "live/autocalib/model_degraded" },
+            { "label_key": "metrics.autocalib_snapshot_age", "source": "diagnostic", "path": "live/autocalib/snapshot_age_h", "unit": "h", "digits": 0 },
+            { "label_key": "metrics.autocalib_last_trigger", "source": "diagnostic", "path": "live/autocalib/last_trigger_ts", "format": "datetime" },
+            { "label_key": "metrics.autocalib_next_check", "source": "diagnostic", "path": "live/autocalib/next_check_ts", "format": "datetime" }
           ]
         },
         {
           "type": "metric_grid",
           "title_key": "groups.health.calibration",
           "metrics": [
-            { "label_key": "metrics.calibration_state", "source": "diagnostic", "path": "calibration/state" },
-            { "label_key": "metrics.calibration_retry", "source": "diagnostic", "path": "calibration/retry_count", "digits": 0 },
-            { "label_key": "metrics.calibration_last_time", "source": "diagnostic", "path": "calibration/last_time", "format": "datetime" }
+            { "label_key": "metrics.calibration_state", "source": "diagnostic", "path": "live/calibration/state" },
+            { "label_key": "metrics.calibration_retry", "source": "diagnostic", "path": "live/calibration/retry_count", "digits": 0 },
+            { "label_key": "metrics.calibration_last_time", "source": "diagnostic", "path": "live/calibration/last_time", "format": "datetime" }
           ]
         }
       ]
@@ -1988,7 +1988,7 @@
               "type": "status",
               "label_key": "metrics.learning_enabled",
               "source": "diagnostic",
-              "path": "ab_learning/enabled",
+              "path": "live/learning/enabled",
               "align": "center",
               "map": {
                 "true": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" },
@@ -2003,7 +2003,7 @@
               "service": "vtherm_smartpi.set_smartpi_learning",
               "target": { "entity_id": "$climate_entity" },
               "data": { "learning_enabled": false },
-              "visible_if": { "==": [{ "var": "diagnostic/ab_learning/enabled" }, true] },
+              "visible_if": { "==": [{ "var": "diagnostic/live/learning/enabled" }, true] },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.pause_learning.confirm"
@@ -2016,7 +2016,7 @@
               "service": "vtherm_smartpi.set_smartpi_learning",
               "target": { "entity_id": "$climate_entity" },
               "data": { "learning_enabled": true },
-              "visible_if": { "==": [{ "var": "diagnostic/ab_learning/enabled" }, false] },
+              "visible_if": { "==": [{ "var": "diagnostic/live/learning/enabled" }, false] },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.resume_learning.confirm"

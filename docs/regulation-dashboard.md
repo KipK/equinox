@@ -57,24 +57,23 @@ trajectory/landing and FF3 state, stationary and periodic FFTrim observations,
 and safeguards. The dedicated Actions section contains the confirmed maintenance
 commands.
 
-The built-in definition reads its displayed controller data from SmartPI
-diagnostics; it does not read `debug` fields or reproduce controller formulas.
-Published `power/*_percent` values are already percentages. Ratios inside
-`feedforward/fftrim` and `setpoint/landing_u_cap` use an explicit
+The built-in definition requires SmartPI diagnostic schema v2. It reads current
+controller data directly from `live/...` and its eight historical series from
+`history/...`; it does not branch on SmartPI debug mode or reproduce controller
+formulas. Published `live/power/*_percent` values are already percentages.
+Ratios inside `live/feedforward/fftrim` and `live/setpoint/landing_u_cap` use an explicit
 `value_multiplier: 100`, while absent fields remain `--` for compatibility with
-older diagnostics. Evolving enum values use a neutral fallback that keeps the
-raw code visible. Offset-aware ISO dates may use the Home Assistant timezone;
-naive ISO dates are displayed without inventing a source timezone.
+temporarily unavailable live data. Evolving enum values use a neutral fallback
+that keeps the raw code visible. Offset-aware ISO dates may use the Home
+Assistant timezone; naive ISO dates are displayed without inventing a source
+timezone.
 
-With SmartPI versions that expose `ab_learning.enabled` on the published
-diagnostics entity, Summary and Actions show whether thermal learning is enabled
-or paused. Actions offers the matching confirmed
+The `live/learning/enabled` diagnostic controls whether Summary and Actions
+show thermal learning as enabled or paused. Actions offers the matching confirmed
 `vtherm_smartpi.set_smartpi_learning` service call with `learning_enabled: false`
 or `true`; it targets the configured climate entity. Its label and icon follow
 the current diagnostic state: enabled learning shows Pause, while paused learning
-shows Resume. Older SmartPI versions did not support pausing learning, so the
-dashboard treats a missing diagnostic value as enabled for display and hides both
-actions.
+shows Resume. Missing live data hides both actions.
 
 ## Diagnostic Entity Detection
 
@@ -88,6 +87,11 @@ needs a `diagnostic_entity` YAML field, and changing the thermostat regulation
 algorithm can switch diagnostics without reconfiguring the card. Existing
 configs that still contain `diagnostic_entity` are kept as a compatibility
 fallback when the thermostat has not published the new attribute.
+
+For SmartPI, the resolved entity must expose `schema_version: 2`. The main card
+reads calibration state only from `live/control/phase` and
+`live/calibration/state`; the built-in graphs read only the Recorder-safe
+`history` block.
 
 ## Custom Dashboard File
 
@@ -250,7 +254,7 @@ For Home Assistant entities, paths read attributes by default:
 ```json
 {
   "source": "diagnostic",
-  "path": "model/confidence"
+  "path": "live/model/confidence"
 }
 ```
 

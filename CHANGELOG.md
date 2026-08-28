@@ -3,8 +3,9 @@
 All notable changes to Equinox will be documented in this file.
 
 
-## 0.3.3-dev
+## 0.4.0-dev
 
+- Migrate the built-in SmartPI dashboard and calibration indicator to diagnostic schema v2, using `live` for current values and `history` for Recorder graphs.
 - Distinguish live FFTrim state from retained results and applied transactions, and expose the integral hold source in the SmartPI dashboard.
 - Add regulation value formatter to dashboard engine
 - Reworked SmartPI Regulation dialog covering the summary, command, FFTrim, anticipation, learning, thermal model, and supervision/actions.
