@@ -2,6 +2,11 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.1
+
+- Keep the frost-protection preset visible when a Versatile Thermostat is turned off.
+- Allow thin cards to display their configured or entity name as a compact title.
+
 
 ## 0.4.0
 

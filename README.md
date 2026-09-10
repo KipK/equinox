@@ -146,7 +146,7 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | Option                    | Required | Default              | Description                                                                                                                           |
 | ------------------------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `entity`                  | yes      | -                    | Climate entity to display. Must use the `climate` domain.                                                                             |
-| `name`                    | no       | Entity friendly name | Display name; hidden in the editor when `display_mode: thin`.                                                                         |
+| `name`                    | no       | Entity friendly name | Display name; rendered as a compact title in `thin` mode.                                                                              |
 | `power_entity`            | no       | -                    | Sensor or input number for instant power, shown in the detailed power dialog.                                                         |
 | `humidity_entity`         | no       | -                    | External humidity sensor when climate humidity is unavailable.                                                                        |
 | `auto_start_stop_enable_entity` | no | -                    | VTherm auto-start/stop enable switch. Shown in the visual editor only when the selected VTherm reports that the feature is configured. |
@@ -158,7 +158,7 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | `setpoint_selector`       | no       | `slider`             | Setpoint selector for `classic`/`compact`: `slider` opens the popup slider, `buttons` keeps the inline +/- selector. `thin` always uses the slider popup. |
 | `card_background_color`   | no       | HA card background   | CSS color for the card background, editable with the visual editor color picker. HVAC and preset selectors follow this surface.       |
 | `card_background_opacity` | no       | `100`                | Card background opacity from `0` to `100`; lower values make the card more transparent.                                               |
-| `disable_name`            | no       | `false`              | Hide the header name; hidden in the editor when `display_mode: thin`.                                                                 |
+| `disable_name`            | no       | `false`              | Hide the card name, including the compact title used in `thin` mode.                                                                  |
 | `show_fan_mode`           | no       | `true`               | Show the fan mode selector when the climate entity supports fan modes.                                                                |
 | `show_swing_mode`         | no       | `true`               | Show the swing mode selector when the climate entity supports swing modes.                                                            |
 | `mode_customizations`     | no       | -                    | Per-mode label, icon, tone, and visibility overrides for HVAC, preset, fan, and vertical/horizontal swing modes.                       |

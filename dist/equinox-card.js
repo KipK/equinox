@@ -13816,7 +13816,7 @@ var lc = class extends D {
               <ha-form
                 .hass=${this.hass}
                 .data=${t}
-                .schema=${this._generalSchema(e, t.display_mode)}
+                .schema=${this._generalSchema(e)}
                 .computeLabel=${this._computeLabel(e)}
                 @value-changed=${this._valueChanged}
               ></ha-form>
@@ -13896,11 +13896,15 @@ var lc = class extends D {
       @change=${(e) => i(e.currentTarget.value)}
     /></label>`;
 	}
-	_generalSchema(e, t) {
-		let n = t === "thin", r = this._vtFeatureVisibility(), i = [
+	_generalSchema(e) {
+		let t = this._vtFeatureVisibility(), n = [
 			{
 				name: "entity",
 				selector: { entity: { domain: ["climate"] } }
+			},
+			{
+				name: "name",
+				selector: { text: {} }
 			},
 			{
 				name: "power_entity",
@@ -13934,22 +13938,17 @@ var lc = class extends D {
 					]
 				} }
 			}
-		];
-		n || i.splice(1, 0, {
-			name: "name",
-			selector: { text: {} }
-		});
-		let a = [];
-		return r.autoStartStop && a.push({
+		], r = [];
+		return t.autoStartStop && r.push({
 			name: "auto_start_stop_enable_entity",
 			selector: { entity: { domain: ["switch"] } }
 		}, {
 			name: "auto_start_stop_stop_mode_entity",
 			selector: { entity: { domain: ["select"] } }
-		}), r.autoFanPlugin && a.push({
+		}), t.autoFanPlugin && r.push({
 			name: "auto_fan_enable_entity",
 			selector: { entity: { domain: ["switch"] } }
-		}), i.splice(n ? 1 : 2, 0, ...a), i;
+		}), n.splice(2, 0, ...r), n;
 	}
 	_presentationSchema(e, t) {
 		let n = [{
@@ -14031,7 +14030,7 @@ var lc = class extends D {
 				mode: "slider",
 				unit_of_measurement: "%"
 			} }
-		}), r || i.push({
+		}), i.push({
 			name: "disable_name",
 			selector: { boolean: {} }
 		}), i.push({
@@ -21002,7 +21001,7 @@ var fl = class extends D {
 			family: "preset",
 			modes: e.filter((e) => e !== "none"),
 			standardOrder: Ts
-		}).filter((e) => e !== "frost" || t === "heat");
+		}).filter((e) => e !== "frost" || t === "heat" || t === "off");
 	}
 	_presetLabel(e) {
 		return Gs({
@@ -25833,8 +25832,24 @@ var nu = class extends D {
         min-width: 0;
       }
 
+      .thin-layout[has-name] {
+        grid-template-areas:
+          "name name name"
+          "readings readings status"
+          "setpoint primary extra";
+        grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(34px, auto);
+        row-gap: 4px;
+      }
+
       .thin-layout:not([has-extra]) {
         grid-template-areas:
+          "readings readings status"
+          "setpoint primary primary";
+      }
+
+      .thin-layout[has-name]:not([has-extra]) {
+        grid-template-areas:
+          "name name name"
           "readings readings status"
           "setpoint primary primary";
       }
@@ -25851,6 +25866,18 @@ var nu = class extends D {
 
       .thin-summary {
         display: contents;
+      }
+
+      .thin-name {
+        grid-area: name;
+        min-width: 0;
+        overflow: hidden;
+        color: var(--equinox-muted-color);
+        font-size: 12px;
+        font-weight: var(--ha-font-weight-medium, 500);
+        line-height: 14px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .thin-readings {
@@ -26112,6 +26139,15 @@ var nu = class extends D {
           grid-template-rows: minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
         }
 
+        .thin-layout[has-name] {
+          grid-template-areas:
+            "name name"
+            "status status"
+            "readings extra"
+            "setpoint primary";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
+        }
+
         .thin-layout[extra-count="1"] {
           --thin-extra-column-width: 48px;
         }
@@ -26126,6 +26162,14 @@ var nu = class extends D {
 
         .thin-layout:not([has-extra]) {
           grid-template-areas:
+            "status status"
+            "readings readings"
+            "setpoint primary";
+        }
+
+        .thin-layout[has-name]:not([has-extra]) {
+          grid-template-areas:
+            "name name"
             "status status"
             "readings readings"
             "setpoint primary";
@@ -27170,14 +27214,16 @@ var nu = class extends D {
     `;
 	}
 	_renderThinLayout() {
-		let e = J(this.viewModel?.climate.currentHumidity), t = this._thinExtraSelectorCount();
+		let e = J(this.viewModel?.climate.currentHumidity), t = this._thinExtraSelectorCount(), n = this.viewModel?.climate.name, r = !this.config?.disable_name && !!n;
 		return w`
       <div
         class="thin-layout"
         ?has-extra=${t > 0}
         ?has-humidity=${e}
+        ?has-name=${r}
         extra-count=${t}
       >
+        ${r ? w`<div class="thin-name">${n}</div>` : E}
         ${this._renderThinSummaryRow()}
         ${this._renderThinControlRow()}
       </div>
@@ -27963,7 +28009,7 @@ var nu = class extends D {
 	}
 	_hidePreset(e) {
 		let t = this.viewModel?.climate.hvacMode;
-		return e === "frost" && t !== "heat";
+		return e === "frost" && t !== "heat" && t !== "off";
 	}
 	_visibleHvacModes() {
 		return V({

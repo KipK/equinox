@@ -439,7 +439,7 @@ export class EquinoxPresetDialog extends LitElement {
     const available = this.viewModel?.climate.presetModes ?? [];
     const hvacMode = this.viewModel?.climate.hvacMode;
     return orderedVisibleModes({ config: this.config, family: "preset", modes: available.filter((preset) => preset !== "none"), standardOrder: PRESET_ORDER })
-      .filter((preset) => !(preset === "frost" && hvacMode !== "heat"));
+      .filter((preset) => !(preset === "frost" && hvacMode !== "heat" && hvacMode !== "off"));
   }
 
   private _presetLabel(preset: string): string {

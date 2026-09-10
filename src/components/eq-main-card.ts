@@ -1081,8 +1081,24 @@ export class EquinoxMainCard extends LitElement {
         min-width: 0;
       }
 
+      .thin-layout[has-name] {
+        grid-template-areas:
+          "name name name"
+          "readings readings status"
+          "setpoint primary extra";
+        grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(34px, auto);
+        row-gap: 4px;
+      }
+
       .thin-layout:not([has-extra]) {
         grid-template-areas:
+          "readings readings status"
+          "setpoint primary primary";
+      }
+
+      .thin-layout[has-name]:not([has-extra]) {
+        grid-template-areas:
+          "name name name"
           "readings readings status"
           "setpoint primary primary";
       }
@@ -1099,6 +1115,18 @@ export class EquinoxMainCard extends LitElement {
 
       .thin-summary {
         display: contents;
+      }
+
+      .thin-name {
+        grid-area: name;
+        min-width: 0;
+        overflow: hidden;
+        color: var(--equinox-muted-color);
+        font-size: 12px;
+        font-weight: var(--ha-font-weight-medium, 500);
+        line-height: 14px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .thin-readings {
@@ -1360,6 +1388,15 @@ export class EquinoxMainCard extends LitElement {
           grid-template-rows: minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
         }
 
+        .thin-layout[has-name] {
+          grid-template-areas:
+            "name name"
+            "status status"
+            "readings extra"
+            "setpoint primary";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(24px, auto) minmax(34px, auto);
+        }
+
         .thin-layout[extra-count="1"] {
           --thin-extra-column-width: 48px;
         }
@@ -1374,6 +1411,14 @@ export class EquinoxMainCard extends LitElement {
 
         .thin-layout:not([has-extra]) {
           grid-template-areas:
+            "status status"
+            "readings readings"
+            "setpoint primary";
+        }
+
+        .thin-layout[has-name]:not([has-extra]) {
+          grid-template-areas:
+            "name name"
             "status status"
             "readings readings"
             "setpoint primary";
@@ -2699,14 +2744,18 @@ export class EquinoxMainCard extends LitElement {
   private _renderThinLayout(): TemplateResult {
     const showHumidity = finite(this.viewModel?.climate.currentHumidity);
     const extraCount = this._thinExtraSelectorCount();
+    const name = this.viewModel?.climate.name;
+    const showName = !this.config?.disable_name && !!name;
 
     return html`
       <div
         class="thin-layout"
         ?has-extra=${extraCount > 0}
         ?has-humidity=${showHumidity}
+        ?has-name=${showName}
         extra-count=${extraCount}
       >
+        ${showName ? html`<div class="thin-name">${name}</div>` : nothing}
         ${this._renderThinSummaryRow()}
         ${this._renderThinControlRow()}
       </div>
@@ -3823,7 +3872,7 @@ export class EquinoxMainCard extends LitElement {
   private _hidePreset(preset: string): boolean {
     const hvacMode = this.viewModel?.climate.hvacMode;
 
-    return preset === "frost" && hvacMode !== "heat";
+    return preset === "frost" && hvacMode !== "heat" && hvacMode !== "off";
   }
 
   private _visibleHvacModes(): string[] {

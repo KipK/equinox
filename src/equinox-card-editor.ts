@@ -192,7 +192,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
               <ha-form
                 .hass=${this.hass}
                 .data=${data}
-                .schema=${this._generalSchema(language, data.display_mode)}
+                .schema=${this._generalSchema(language)}
                 .computeLabel=${this._computeLabel(language)}
                 @value-changed=${this._valueChanged}
               ></ha-form>
@@ -295,8 +295,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     /></label>`;
   }
 
-  private _generalSchema(language: string | undefined, displayMode: EquinoxCardConfigInput["display_mode"]): HaFormSchema[] {
-    const isThin = displayMode === "thin";
+  private _generalSchema(language: string | undefined): HaFormSchema[] {
     const featureVisibility = this._vtFeatureVisibility();
     const schema: HaFormSchema[] = [
       {
@@ -305,6 +304,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
           entity: {
             domain: ["climate"]
           }
+        }
+      },
+      {
+        name: "name",
+        selector: {
+          text: {}
         }
       },
       {
@@ -346,15 +351,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       }
     ];
 
-    if (!isThin) {
-      schema.splice(1, 0, {
-        name: "name",
-        selector: {
-          text: {}
-        }
-      });
-    }
-
     const featureFields: HaFormSchema[] = [];
 
     if (featureVisibility.autoStartStop) {
@@ -389,7 +385,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       });
     }
 
-    schema.splice(isThin ? 1 : 2, 0, ...featureFields);
+    schema.splice(2, 0, ...featureFields);
 
     return schema;
   }
@@ -485,14 +481,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       }
     );
 
-    if (!isThin) {
-      schema.push({
-        name: "disable_name",
-        selector: {
-          boolean: {}
-        }
-      });
-    }
+    schema.push({
+      name: "disable_name",
+      selector: {
+        boolean: {}
+      }
+    });
 
     schema.push(
       {
