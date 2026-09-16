@@ -760,7 +760,11 @@
           "subtitle_key": "hero.overview.diagnostic_missing",
           "icon": "mdi:alert-circle-outline",
           "tone": "warning",
-          "visible_if": { "!": { "var": "diagnostic" } }
+          "visible_if": {
+            "!": {
+              "var": "diagnostic"
+            }
+          }
         },
         {
           "type": "hero_status",
@@ -770,14 +774,32 @@
           "tone": "info",
           "visible_if": {
             "and": [
-              { "var": "diagnostic" },
+              {
+                "var": "diagnostic"
+              },
               {
                 "or": [
-                  { "==": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
+                  {
+                    "==": [
+                      {
+                        "var": "diagnostic/live/control/phase"
+                      },
+                      "Calibration"
+                    ]
+                  },
                   {
                     "and": [
-                      { "var": "diagnostic/live/calibration/state" },
-                      { "!=": [{ "var": "diagnostic/live/calibration/state" }, "Idle"] }
+                      {
+                        "var": "diagnostic/live/calibration/state"
+                      },
+                      {
+                        "!=": [
+                          {
+                            "var": "diagnostic/live/calibration/state"
+                          },
+                          "Idle"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -793,16 +815,41 @@
           "tone": "warning",
           "visible_if": {
             "and": [
-              { "var": "diagnostic" },
-              { "==": [{ "var": "diagnostic/live/control/phase" }, "Hysteresis"] },
+              {
+                "var": "diagnostic"
+              },
+              {
+                "==": [
+                  {
+                    "var": "diagnostic/live/control/phase"
+                  },
+                  "Hysteresis"
+                ]
+              },
               {
                 "!": {
                   "or": [
-                    { "==": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
+                    {
+                      "==": [
+                        {
+                          "var": "diagnostic/live/control/phase"
+                        },
+                        "Calibration"
+                      ]
+                    },
                     {
                       "and": [
-                        { "var": "diagnostic/live/calibration/state" },
-                        { "!=": [{ "var": "diagnostic/live/calibration/state" }, "Idle"] }
+                        {
+                          "var": "diagnostic/live/calibration/state"
+                        },
+                        {
+                          "!=": [
+                            {
+                              "var": "diagnostic/live/calibration/state"
+                            },
+                            "Idle"
+                          ]
+                        }
                       ]
                     }
                   ]
@@ -819,18 +866,57 @@
           "tone": "danger",
           "visible_if": {
             "and": [
-              { "var": "diagnostic" },
-              { "==": [{ "var": "diagnostic/live/learning/stage" }, "degraded"] },
-              { "!=": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
-              { "!=": [{ "var": "diagnostic/live/control/phase" }, "Hysteresis"] },
+              {
+                "var": "diagnostic"
+              },
+              {
+                "==": [
+                  {
+                    "var": "diagnostic/live/learning/stage"
+                  },
+                  "degraded"
+                ]
+              },
+              {
+                "!=": [
+                  {
+                    "var": "diagnostic/live/control/phase"
+                  },
+                  "Calibration"
+                ]
+              },
+              {
+                "!=": [
+                  {
+                    "var": "diagnostic/live/control/phase"
+                  },
+                  "Hysteresis"
+                ]
+              },
               {
                 "!": {
                   "or": [
-                    { "==": [{ "var": "diagnostic/live/control/phase" }, "Calibration"] },
+                    {
+                      "==": [
+                        {
+                          "var": "diagnostic/live/control/phase"
+                        },
+                        "Calibration"
+                      ]
+                    },
                     {
                       "and": [
-                        { "var": "diagnostic/live/calibration/state" },
-                        { "!=": [{ "var": "diagnostic/live/calibration/state" }, "Idle"] }
+                        {
+                          "var": "diagnostic/live/calibration/state"
+                        },
+                        {
+                          "!=": [
+                            {
+                              "var": "diagnostic/live/calibration/state"
+                            },
+                            "Idle"
+                          ]
+                        }
                       ]
                     }
                   ]
@@ -843,9 +929,27 @@
           "type": "metric_grid",
           "title_key": "groups.overview.thermal",
           "metrics": [
-            { "label_key": "metrics.temperature", "source": "diagnostic", "path": "live/temperature/indoor", "unit": "°", "digits": 1 },
-            { "label_key": "metrics.filtered_setpoint", "source": "diagnostic", "path": "live/setpoint/filtered_setpoint", "unit": "°", "digits": 1 },
-            { "label_key": "metrics.error", "source": "diagnostic", "path": "live/temperature/error", "unit": "°", "digits": 2 }
+            {
+              "label_key": "metrics.temperature",
+              "source": "diagnostic",
+              "path": "live/temperature/indoor",
+              "unit": "°",
+              "digits": 2
+            },
+            {
+              "label_key": "metrics.filtered_setpoint",
+              "source": "diagnostic",
+              "path": "live/setpoint/filtered_setpoint",
+              "unit": "°",
+              "digits": 2
+            },
+            {
+              "label_key": "metrics.error",
+              "source": "diagnostic",
+              "path": "live/temperature/error",
+              "unit": "°",
+              "digits": 2
+            }
           ]
         },
         {
@@ -858,8 +962,20 @@
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.applied", "source": "diagnostic", "path": "live/power/applied_percent", "unit": "%", "digits": 1 },
-                { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "live/power/next_cycle_percent", "unit": "%", "digits": 1 }
+                {
+                  "label_key": "metrics.applied",
+                  "source": "diagnostic",
+                  "path": "live/power/applied_percent",
+                  "unit": "%",
+                  "digits": 1
+                },
+                {
+                  "label_key": "metrics.next_cycle",
+                  "source": "diagnostic",
+                  "path": "live/power/next_cycle_percent",
+                  "unit": "%",
+                  "digits": 1
+                }
               ]
             },
             {
@@ -869,16 +985,52 @@
               "path": "live/governance/regime",
               "align": "center",
               "map": {
-                "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" },
-                "excited_stable": { "label_key": "status.regime.excited_stable", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                "near_band": { "label_key": "status.regime.near_band", "tone": "info", "icon": "mdi:target" },
-                "dead_band": { "label_key": "status.regime.dead_band", "tone": "muted", "icon": "mdi:pause-circle-outline" },
-                "hold": { "label_key": "status.regime.hold", "tone": "warning", "icon": "mdi:hand-back-left-outline" },
-                "perturbed": { "label_key": "status.regime.perturbed", "tone": "warning", "icon": "mdi:weather-windy" },
-                "degraded": { "label_key": "status.regime.degraded", "tone": "danger", "icon": "mdi:alert-outline" },
-                "saturated": { "label_key": "status.regime.saturated", "tone": "warning", "icon": "mdi:gauge-full" }
+                "warmup": {
+                  "label_key": "status.regime.warmup",
+                  "tone": "warning",
+                  "icon": "mdi:timer-sand"
+                },
+                "excited_stable": {
+                  "label_key": "status.regime.excited_stable",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "near_band": {
+                  "label_key": "status.regime.near_band",
+                  "tone": "info",
+                  "icon": "mdi:target"
+                },
+                "dead_band": {
+                  "label_key": "status.regime.dead_band",
+                  "tone": "muted",
+                  "icon": "mdi:pause-circle-outline"
+                },
+                "hold": {
+                  "label_key": "status.regime.hold",
+                  "tone": "warning",
+                  "icon": "mdi:hand-back-left-outline"
+                },
+                "perturbed": {
+                  "label_key": "status.regime.perturbed",
+                  "tone": "warning",
+                  "icon": "mdi:weather-windy"
+                },
+                "degraded": {
+                  "label_key": "status.regime.degraded",
+                  "tone": "danger",
+                  "icon": "mdi:alert-outline"
+                },
+                "saturated": {
+                  "label_key": "status.regime.saturated",
+                  "tone": "warning",
+                  "icon": "mdi:gauge-full"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -888,10 +1040,22 @@
               "path": "live/learning/enabled",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" },
-                "false": { "label_key": "status.learning.paused", "tone": "warning", "icon": "mdi:pause-circle-outline" }
+                "true": {
+                  "label_key": "status.learning.enabled",
+                  "tone": "ok",
+                  "icon": "mdi:school-outline"
+                },
+                "false": {
+                  "label_key": "status.learning.paused",
+                  "tone": "warning",
+                  "icon": "mdi:pause-circle-outline"
+                }
               },
-              "fallback": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" }
+              "fallback": {
+                "label_key": "status.learning.enabled",
+                "tone": "ok",
+                "icon": "mdi:school-outline"
+              }
             }
           ]
         },
@@ -901,12 +1065,132 @@
           "min_width": 140,
           "stretch_items": false,
           "items": [
-            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "live/temperature/integral_mode", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "live/control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.feedforward_status", "source": "diagnostic", "path": "live/feedforward/ff3_status", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim", "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/state", "align": "center", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.trajectory", "source": "diagnostic", "path": "live/setpoint/trajectory_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:chart-timeline-variant" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/trajectory_active" }, true] } },
-            { "type": "status", "label_key": "metrics.landing", "source": "diagnostic", "path": "live/setpoint/landing_active", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:airplane-landing" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }, "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] } }
+            {
+              "type": "status",
+              "label_key": "metrics.integral_mode",
+              "source": "diagnostic",
+              "path": "live/temperature/integral_mode",
+              "align": "center",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.saturation",
+              "source": "diagnostic",
+              "path": "live/control/saturation_state",
+              "align": "center",
+              "map": {
+                "NO_SAT": {
+                  "label_key": "status.saturation.NO_SAT",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "SAT_HI": {
+                  "label_key": "status.saturation.SAT_HI",
+                  "tone": "warning",
+                  "icon": "mdi:arrow-up-bold-circle-outline"
+                },
+                "SAT_LO": {
+                  "label_key": "status.saturation.SAT_LO",
+                  "tone": "warning",
+                  "icon": "mdi:arrow-down-bold-circle-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.feedforward_status",
+              "source": "diagnostic",
+              "path": "live/feedforward/ff3_status",
+              "align": "center",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.fftrim",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/stationary/state",
+              "align": "center",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.trajectory",
+              "source": "diagnostic",
+              "path": "live/setpoint/trajectory_active",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.boolean.active",
+                  "tone": "info",
+                  "icon": "mdi:chart-timeline-variant"
+                }
+              },
+              "fallback": {
+                "label": "--",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/setpoint/trajectory_active"
+                  },
+                  true
+                ]
+              }
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.landing",
+              "source": "diagnostic",
+              "path": "live/setpoint/landing_active",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.boolean.active",
+                  "tone": "info",
+                  "icon": "mdi:airplane-landing"
+                }
+              },
+              "fallback": {
+                "label": "--",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/setpoint/landing_active"
+                  },
+                  true
+                ]
+              }
+            }
           ]
         },
         {
@@ -914,11 +1198,37 @@
           "title_key": "graphs.overview.title",
           "range": "6h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "history/temperature/indoor", "label_key": "graphs.overview.temperature", "unit": "°", "scale_group": "temperature" },
-            { "entity": "$diagnostic_entity", "attribute": "history/setpoint/filtered_setpoint", "label_key": "graphs.overview.filtered_setpoint", "unit": "°", "scale_group": "temperature" },
-            { "entity": "$diagnostic_entity", "attribute": "history/power/applied_percent", "label_key": "graphs.overview.applied", "unit": "%", "scale_group": "power" }
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/temperature/indoor",
+              "label_key": "graphs.overview.temperature",
+              "unit": "°",
+              "scale_group": "temperature"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/setpoint/filtered_setpoint",
+              "label_key": "graphs.overview.filtered_setpoint",
+              "unit": "°",
+              "scale_group": "temperature"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/power/applied_percent",
+              "label_key": "graphs.overview.applied",
+              "unit": "%",
+              "scale_group": "power"
+            }
           ],
-          "options": { "tooltip": true, "legend": true, "scales": true, "tools": false, "date_picker": false, "entity_picker": false, "range_picker": false }
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
         }
       ]
     },
@@ -933,11 +1243,57 @@
           "title_key": "groups.command.actuator_cycle",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.current_cycle", "source": "diagnostic", "path": "live/power/current_cycle_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.next_cycle", "source": "diagnostic", "path": "live/power/next_cycle_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.applied", "source": "diagnostic", "path": "live/power/applied_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.linear_current_cycle", "source": "diagnostic", "path": "live/power/linear_current_cycle_percent", "unit": "%", "digits": 1, "visible_if": { "==": [{ "var": "diagnostic/live/power/valve_linearization_enabled" }, true] } },
-            { "label_key": "metrics.linear_next_cycle", "source": "diagnostic", "path": "live/power/linear_next_cycle_percent", "unit": "%", "digits": 1, "visible_if": { "==": [{ "var": "diagnostic/live/power/valve_linearization_enabled" }, true] } }
+            {
+              "label_key": "metrics.current_cycle",
+              "source": "diagnostic",
+              "path": "live/power/current_cycle_percent",
+              "unit": "%",
+              "digits": 1
+            },
+            {
+              "label_key": "metrics.next_cycle",
+              "source": "diagnostic",
+              "path": "live/power/next_cycle_percent",
+              "unit": "%",
+              "digits": 1
+            },
+            {
+              "label_key": "metrics.applied",
+              "source": "diagnostic",
+              "path": "live/power/applied_percent",
+              "unit": "%",
+              "digits": 1
+            },
+            {
+              "label_key": "metrics.linear_current_cycle",
+              "source": "diagnostic",
+              "path": "live/power/linear_current_cycle_percent",
+              "unit": "%",
+              "digits": 1,
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/power/valve_linearization_enabled"
+                  },
+                  true
+                ]
+              }
+            },
+            {
+              "label_key": "metrics.linear_next_cycle",
+              "source": "diagnostic",
+              "path": "live/power/linear_next_cycle_percent",
+              "unit": "%",
+              "digits": 1,
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/power/valve_linearization_enabled"
+                  },
+                  true
+                ]
+              }
+            }
           ]
         },
         {
@@ -945,18 +1301,92 @@
           "title_key": "groups.command.limitation_chain",
           "columns": 1,
           "items": [
-            { "type": "metric_grid", "columns": 3, "metrics": [
-              { "label_key": "metrics.command", "source": "diagnostic", "path": "live/power/command_percent", "unit": "%", "digits": 1 },
-              { "label_key": "metrics.limited", "source": "diagnostic", "path": "live/power/limited_percent", "unit": "%", "digits": 1 },
-              { "label_key": "metrics.applied", "source": "diagnostic", "path": "live/power/applied_percent", "unit": "%", "digits": 1 }
-            ] },
+            {
+              "type": "metric_grid",
+              "columns": 3,
+              "metrics": [
+                {
+                  "label_key": "metrics.command",
+                  "source": "diagnostic",
+                  "path": "live/power/command_percent",
+                  "unit": "%",
+                  "digits": 1
+                },
+                {
+                  "label_key": "metrics.limited",
+                  "source": "diagnostic",
+                  "path": "live/power/limited_percent",
+                  "unit": "%",
+                  "digits": 1
+                },
+                {
+                  "label_key": "metrics.applied",
+                  "source": "diagnostic",
+                  "path": "live/power/applied_percent",
+                  "unit": "%",
+                  "digits": 1
+                }
+              ]
+            },
             {
               "type": "layout_grid",
               "min_width": 160,
               "stretch_items": false,
               "items": [
-                { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "live/control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-                { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "live/control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.active", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand-empty" } }, "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" } }
+                {
+                  "type": "status",
+                  "label_key": "metrics.saturation",
+                  "source": "diagnostic",
+                  "path": "live/control/saturation_state",
+                  "align": "center",
+                  "map": {
+                    "NO_SAT": {
+                      "label_key": "status.saturation.NO_SAT",
+                      "tone": "ok",
+                      "icon": "mdi:check-circle-outline"
+                    },
+                    "SAT_HI": {
+                      "label_key": "status.saturation.SAT_HI",
+                      "tone": "warning",
+                      "icon": "mdi:arrow-up-bold-circle-outline"
+                    },
+                    "SAT_LO": {
+                      "label_key": "status.saturation.SAT_LO",
+                      "tone": "warning",
+                      "icon": "mdi:arrow-down-bold-circle-outline"
+                    }
+                  },
+                  "fallback": {
+                    "label_key": "fallback.unknown_code",
+                    "tone": "muted",
+                    "icon": "mdi:help-circle-outline"
+                  },
+                  "fallback_show_value": true
+                },
+                {
+                  "type": "status",
+                  "label_key": "metrics.in_deadtime",
+                  "source": "diagnostic",
+                  "path": "live/control/in_deadtime_window",
+                  "align": "center",
+                  "map": {
+                    "true": {
+                      "label_key": "status.boolean.active",
+                      "tone": "info",
+                      "icon": "mdi:timer-sand"
+                    },
+                    "false": {
+                      "label_key": "status.boolean.false",
+                      "tone": "muted",
+                      "icon": "mdi:timer-sand-empty"
+                    }
+                  },
+                  "fallback": {
+                    "label": "--",
+                    "tone": "muted",
+                    "icon": "mdi:help-circle-outline"
+                  }
+                }
               ]
             }
           ]
@@ -966,12 +1396,45 @@
           "title_key": "groups.command.contributions",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.pi", "source": "diagnostic", "path": "live/power/pi_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.ff", "source": "diagnostic", "path": "live/power/ff_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.hold", "source": "diagnostic", "path": "live/power/hold_percent", "unit": "%", "digits": 1 },
-            { "label_key": "metrics.integral_error", "source": "diagnostic", "path": "live/temperature/integral_error", "digits": 3 },
-            { "label_key": "metrics.kp", "source": "diagnostic", "path": "live/control/kp", "digits": 3 },
-            { "label_key": "metrics.ki", "source": "diagnostic", "path": "live/control/ki", "digits": 4 }
+            {
+              "label_key": "metrics.pi",
+              "source": "diagnostic",
+              "path": "live/power/pi_percent",
+              "unit": "%",
+              "digits": 1
+            },
+            {
+              "label_key": "metrics.ff",
+              "source": "diagnostic",
+              "path": "live/power/ff_percent",
+              "unit": "%",
+              "digits": 1
+            },
+            {
+              "label_key": "metrics.hold",
+              "source": "diagnostic",
+              "path": "live/power/hold_percent",
+              "unit": "%",
+              "digits": 1
+            },
+            {
+              "label_key": "metrics.integral_error",
+              "source": "diagnostic",
+              "path": "live/temperature/integral_error",
+              "digits": 3
+            },
+            {
+              "label_key": "metrics.kp",
+              "source": "diagnostic",
+              "path": "live/control/kp",
+              "digits": 4
+            },
+            {
+              "label_key": "metrics.ki",
+              "source": "diagnostic",
+              "path": "live/control/ki",
+              "digits": 5
+            }
           ]
         },
         {
@@ -979,12 +1442,44 @@
           "title_key": "graphs.command.title",
           "range": "12h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "history/power/applied_percent", "label_key": "graphs.command.applied", "unit": "%", "scale_group": "power" },
-            { "entity": "$diagnostic_entity", "attribute": "history/power/command_percent", "label_key": "graphs.command.command", "unit": "%", "scale_group": "power" },
-            { "entity": "$diagnostic_entity", "attribute": "history/power/pi_percent", "label_key": "graphs.command.pi", "unit": "%", "scale_group": "power" },
-            { "entity": "$diagnostic_entity", "attribute": "history/power/ff_percent", "label_key": "graphs.command.ff", "unit": "%", "scale_group": "power" }
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/power/applied_percent",
+              "label_key": "graphs.command.applied",
+              "unit": "%",
+              "scale_group": "power"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/power/command_percent",
+              "label_key": "graphs.command.command",
+              "unit": "%",
+              "scale_group": "power"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/power/pi_percent",
+              "label_key": "graphs.command.pi",
+              "unit": "%",
+              "scale_group": "power"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/power/ff_percent",
+              "label_key": "graphs.command.ff",
+              "unit": "%",
+              "scale_group": "power"
+            }
           ],
-          "options": { "tooltip": true, "legend": true, "scales": true, "tools": false, "date_picker": false, "entity_picker": false, "range_picker": false }
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
         }
       ]
     },
@@ -1004,13 +1499,18 @@
         {
           "type": "progress",
           "label_key": "metrics.bootstrap_progress",
-          "value": { "source": "diagnostic", "path": "live/learning/bootstrap_progress_percent" },
+          "value": {
+            "source": "diagnostic",
+            "path": "live/learning/bootstrap_progress_percent"
+          },
           "target": 100,
           "unit": "%",
           "digits": 0,
           "visible_if": {
             "==": [
-              { "var": "diagnostic/live/learning/stage" },
+              {
+                "var": "diagnostic/live/learning/stage"
+              },
               "bootstrap"
             ]
           }
@@ -1022,12 +1522,20 @@
             {
               "type": "progress",
               "label_key": "metrics.bootstrap_a",
-              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_a" },
-              "target": { "source": "diagnostic", "path": "live/learning/bootstrap_target_a" },
+              "value": {
+                "source": "diagnostic",
+                "path": "live/learning/emea_samples_a"
+              },
+              "target": {
+                "source": "diagnostic",
+                "path": "live/learning/bootstrap_target_a"
+              },
               "digits": 0,
               "visible_if": {
                 "==": [
-                  { "var": "diagnostic/live/learning/stage" },
+                  {
+                    "var": "diagnostic/live/learning/stage"
+                  },
                   "bootstrap"
                 ]
               }
@@ -1035,12 +1543,20 @@
             {
               "type": "progress",
               "label_key": "metrics.bootstrap_b",
-              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_b" },
-              "target": { "source": "diagnostic", "path": "live/learning/bootstrap_target_b" },
+              "value": {
+                "source": "diagnostic",
+                "path": "live/learning/emea_samples_b"
+              },
+              "target": {
+                "source": "diagnostic",
+                "path": "live/learning/bootstrap_target_b"
+              },
               "digits": 0,
               "visible_if": {
                 "==": [
-                  { "var": "diagnostic/live/learning/stage" },
+                  {
+                    "var": "diagnostic/live/learning/stage"
+                  },
                   "bootstrap"
                 ]
               }
@@ -1048,12 +1564,20 @@
             {
               "type": "progress",
               "label_key": "metrics.history_a",
-              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_a" },
-              "target": { "source": "diagnostic", "path": "live/learning/history_target" },
+              "value": {
+                "source": "diagnostic",
+                "path": "live/learning/emea_samples_a"
+              },
+              "target": {
+                "source": "diagnostic",
+                "path": "live/learning/history_target"
+              },
               "digits": 0,
               "visible_if": {
                 "!=": [
-                  { "var": "diagnostic/live/learning/stage" },
+                  {
+                    "var": "diagnostic/live/learning/stage"
+                  },
                   "bootstrap"
                 ]
               }
@@ -1061,12 +1585,20 @@
             {
               "type": "progress",
               "label_key": "metrics.history_b",
-              "value": { "source": "diagnostic", "path": "live/learning/emea_samples_b" },
-              "target": { "source": "diagnostic", "path": "live/learning/history_target" },
+              "value": {
+                "source": "diagnostic",
+                "path": "live/learning/emea_samples_b"
+              },
+              "target": {
+                "source": "diagnostic",
+                "path": "live/learning/history_target"
+              },
               "digits": 0,
               "visible_if": {
                 "!=": [
-                  { "var": "diagnostic/live/learning/stage" },
+                  {
+                    "var": "diagnostic/live/learning/stage"
+                  },
                   "bootstrap"
                 ]
               }
@@ -1077,15 +1609,27 @@
           "type": "metric_grid",
           "title_key": "sections.learning.title",
           "metrics": [
-            { "label_key": "metrics.accepted_a", "source": "diagnostic", "path": "live/learning/accepted_updates_a", "digits": 0 },
-            { "label_key": "metrics.accepted_b", "source": "diagnostic", "path": "live/learning/accepted_updates_b", "digits": 0 },
+            {
+              "label_key": "metrics.accepted_a",
+              "source": "diagnostic",
+              "path": "live/learning/accepted_updates_a",
+              "digits": 0
+            },
+            {
+              "label_key": "metrics.accepted_b",
+              "source": "diagnostic",
+              "path": "live/learning/accepted_updates_b",
+              "digits": 0
+            },
             {
               "label_key": "metrics.bootstrap_status",
               "source": "diagnostic",
               "path": "live/learning/bootstrap_status",
               "visible_if": {
                 "==": [
-                  { "var": "diagnostic/live/learning/stage" },
+                  {
+                    "var": "diagnostic/live/learning/stage"
+                  },
                   "bootstrap"
                 ]
               }
@@ -1098,12 +1642,37 @@
           "source": "diagnostic",
           "path": "live/model/confidence",
           "map": {
-            "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
-            "ab_bootstrap": { "label_key": "status.confidence.ab_bootstrap", "description_key": "status.confidence.ab_bootstrap.description", "tone": "info", "icon": "mdi:progress-clock" },
-            "ab_degraded": { "label_key": "status.confidence.ab_degraded", "description_key": "status.confidence.ab_degraded.description", "tone": "warning", "icon": "mdi:alert-outline" },
-            "ab_bad": { "label_key": "status.confidence.ab_bad", "description_key": "status.confidence.ab_bad.description", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+            "ab_ok": {
+              "label_key": "status.confidence.ab_ok",
+              "description_key": "status.confidence.ab_ok.description",
+              "tone": "ok",
+              "icon": "mdi:check-circle-outline"
+            },
+            "ab_bootstrap": {
+              "label_key": "status.confidence.ab_bootstrap",
+              "description_key": "status.confidence.ab_bootstrap.description",
+              "tone": "info",
+              "icon": "mdi:progress-clock"
+            },
+            "ab_degraded": {
+              "label_key": "status.confidence.ab_degraded",
+              "description_key": "status.confidence.ab_degraded.description",
+              "tone": "warning",
+              "icon": "mdi:alert-outline"
+            },
+            "ab_bad": {
+              "label_key": "status.confidence.ab_bad",
+              "description_key": "status.confidence.ab_bad.description",
+              "tone": "danger",
+              "icon": "mdi:alert-octagon-outline"
+            }
           },
-          "fallback": { "label_key": "status.confidence.unknown", "description_key": "status.confidence.unknown.description", "tone": "muted", "icon": "mdi:help-circle-outline" }
+          "fallback": {
+            "label_key": "status.confidence.unknown",
+            "description_key": "status.confidence.unknown.description",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          }
         },
         {
           "type": "layout_grid",
@@ -1118,11 +1687,27 @@
               "path": "live/learning/a_drift_state",
               "align": "center",
               "map": {
-                "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
-                "DRIFT_SUSPECTED": { "label_key": "status.drift.DRIFT_SUSPECTED", "tone": "info", "icon": "mdi:chart-timeline-variant" },
-                "RECENTERING": { "label_key": "status.drift.RECENTERING", "tone": "info", "icon": "mdi:target-variant" }
+                "NORMAL": {
+                  "label_key": "status.drift.NORMAL",
+                  "tone": "muted",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "DRIFT_SUSPECTED": {
+                  "label_key": "status.drift.DRIFT_SUSPECTED",
+                  "tone": "info",
+                  "icon": "mdi:chart-timeline-variant"
+                },
+                "RECENTERING": {
+                  "label_key": "status.drift.RECENTERING",
+                  "tone": "info",
+                  "icon": "mdi:target-variant"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1132,11 +1717,27 @@
               "path": "live/learning/b_drift_state",
               "align": "center",
               "map": {
-                "NORMAL": { "label_key": "status.drift.NORMAL", "tone": "muted", "icon": "mdi:check-circle-outline" },
-                "DRIFT_SUSPECTED": { "label_key": "status.drift.DRIFT_SUSPECTED", "tone": "info", "icon": "mdi:chart-timeline-variant" },
-                "RECENTERING": { "label_key": "status.drift.RECENTERING", "tone": "info", "icon": "mdi:target-variant" }
+                "NORMAL": {
+                  "label_key": "status.drift.NORMAL",
+                  "tone": "muted",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "DRIFT_SUSPECTED": {
+                  "label_key": "status.drift.DRIFT_SUSPECTED",
+                  "tone": "info",
+                  "icon": "mdi:chart-timeline-variant"
+                },
+                "RECENTERING": {
+                  "label_key": "status.drift.RECENTERING",
+                  "tone": "info",
+                  "icon": "mdi:target-variant"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1146,10 +1747,22 @@
               "path": "live/learning/learn_b_converged",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:progress-clock" }
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:progress-clock"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1159,7 +1772,11 @@
               "path": "live/learning/last_reason",
               "align": "center",
               "map": {},
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
               "fallback_show_value": true
             }
           ]
@@ -1191,18 +1808,49 @@
           "source": "diagnostic",
           "path": "live/model/confidence",
           "map": {
-            "ab_ok": { "label_key": "status.confidence.ab_ok", "description_key": "status.confidence.ab_ok.description", "tone": "ok", "icon": "mdi:check-circle-outline" },
-            "ab_bootstrap": { "label_key": "status.confidence.ab_bootstrap", "description_key": "status.confidence.ab_bootstrap.description", "tone": "info", "icon": "mdi:progress-clock" },
-            "ab_degraded": { "label_key": "status.confidence.ab_degraded", "description_key": "status.confidence.ab_degraded.description", "tone": "warning", "icon": "mdi:alert-outline" },
-            "ab_bad": { "label_key": "status.confidence.ab_bad", "description_key": "status.confidence.ab_bad.description", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+            "ab_ok": {
+              "label_key": "status.confidence.ab_ok",
+              "description_key": "status.confidence.ab_ok.description",
+              "tone": "ok",
+              "icon": "mdi:check-circle-outline"
+            },
+            "ab_bootstrap": {
+              "label_key": "status.confidence.ab_bootstrap",
+              "description_key": "status.confidence.ab_bootstrap.description",
+              "tone": "info",
+              "icon": "mdi:progress-clock"
+            },
+            "ab_degraded": {
+              "label_key": "status.confidence.ab_degraded",
+              "description_key": "status.confidence.ab_degraded.description",
+              "tone": "warning",
+              "icon": "mdi:alert-outline"
+            },
+            "ab_bad": {
+              "label_key": "status.confidence.ab_bad",
+              "description_key": "status.confidence.ab_bad.description",
+              "tone": "danger",
+              "icon": "mdi:alert-octagon-outline"
+            }
           },
-          "fallback": { "label_key": "status.confidence.unknown", "description_key": "status.confidence.unknown.description", "tone": "muted", "icon": "mdi:help-circle-outline" }
+          "fallback": {
+            "label_key": "status.confidence.unknown",
+            "description_key": "status.confidence.unknown.description",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          }
         },
         {
           "type": "metric_grid",
           "columns": 1,
           "metrics": [
-            { "label_key": "metrics.tau", "source": "diagnostic", "path": "live/model/tau_min", "unit": "min", "digits": 1 }
+            {
+              "label_key": "metrics.tau",
+              "source": "diagnostic",
+              "path": "live/model/tau_min",
+              "unit": "min",
+              "digits": 1
+            }
           ]
         },
         {
@@ -1214,16 +1862,40 @@
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.a", "source": "diagnostic", "path": "live/model/a", "unit": "°C/min", "digits": 4 },
-                { "label_key": "metrics.b", "source": "diagnostic", "path": "live/model/b", "unit": "min⁻¹", "digits": 4 }
+                {
+                  "label_key": "metrics.a",
+                  "source": "diagnostic",
+                  "path": "live/model/a",
+                  "unit": "°C/min",
+                  "digits": 4
+                },
+                {
+                  "label_key": "metrics.b",
+                  "source": "diagnostic",
+                  "path": "live/model/b",
+                  "unit": "min⁻¹",
+                  "digits": 4
+                }
               ]
             },
             {
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.deadtime_heat", "source": "diagnostic", "path": "live/model/deadtime_heat_s", "unit": "s", "digits": 0 },
-                { "label_key": "metrics.deadtime_cool", "source": "diagnostic", "path": "live/model/deadtime_cool_s", "unit": "s", "digits": 0 }
+                {
+                  "label_key": "metrics.deadtime_heat",
+                  "source": "diagnostic",
+                  "path": "live/model/deadtime_heat_s",
+                  "unit": "s",
+                  "digits": 0
+                },
+                {
+                  "label_key": "metrics.deadtime_cool",
+                  "source": "diagnostic",
+                  "path": "live/model/deadtime_cool_s",
+                  "unit": "s",
+                  "digits": 0
+                }
               ]
             },
             {
@@ -1239,11 +1911,31 @@
                   "map": {},
                   "align": "center",
                   "ranges": [
-                    { "max": 0.15, "label_key": "status.coherence.coherent", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                    { "min": 0.150000001, "max": 0.25, "label_key": "status.coherence.watch", "tone": "warning", "icon": "mdi:alert-outline" },
-                    { "min": 0.250000001, "label_key": "status.coherence.dispersed", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+                    {
+                      "max": 0.15,
+                      "label_key": "status.coherence.coherent",
+                      "tone": "ok",
+                      "icon": "mdi:check-circle-outline"
+                    },
+                    {
+                      "min": 0.150000001,
+                      "max": 0.25,
+                      "label_key": "status.coherence.watch",
+                      "tone": "warning",
+                      "icon": "mdi:alert-outline"
+                    },
+                    {
+                      "min": 0.250000001,
+                      "label_key": "status.coherence.dispersed",
+                      "tone": "danger",
+                      "icon": "mdi:alert-octagon-outline"
+                    }
                   ],
-                  "fallback": { "label_key": "status.coherence.collecting", "tone": "muted", "icon": "mdi:progress-clock" },
+                  "fallback": {
+                    "label_key": "status.coherence.collecting",
+                    "tone": "muted",
+                    "icon": "mdi:progress-clock"
+                  },
                   "show_value": true,
                   "value_multiplier": 100,
                   "value_unit": "%",
@@ -1257,12 +1949,38 @@
                   "map": {},
                   "align": "center",
                   "ranges": [
-                    { "max": 0.20, "label_key": "status.coherence.coherent", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                    { "min": 0.200000001, "max": 0.30, "label_key": "status.coherence.acceptable", "tone": "info", "icon": "mdi:check-circle-outline" },
-                    { "min": 0.300000001, "max": 0.60, "label_key": "status.coherence.unstable", "tone": "warning", "icon": "mdi:alert-outline" },
-                    { "min": 0.600000001, "label_key": "status.coherence.very_unstable", "tone": "danger", "icon": "mdi:alert-octagon-outline" }
+                    {
+                      "max": 0.20,
+                      "label_key": "status.coherence.coherent",
+                      "tone": "ok",
+                      "icon": "mdi:check-circle-outline"
+                    },
+                    {
+                      "min": 0.200000001,
+                      "max": 0.30,
+                      "label_key": "status.coherence.acceptable",
+                      "tone": "info",
+                      "icon": "mdi:check-circle-outline"
+                    },
+                    {
+                      "min": 0.300000001,
+                      "max": 0.60,
+                      "label_key": "status.coherence.unstable",
+                      "tone": "warning",
+                      "icon": "mdi:alert-outline"
+                    },
+                    {
+                      "min": 0.600000001,
+                      "label_key": "status.coherence.very_unstable",
+                      "tone": "danger",
+                      "icon": "mdi:alert-octagon-outline"
+                    }
                   ],
-                  "fallback": { "label_key": "status.coherence.collecting", "tone": "muted", "icon": "mdi:progress-clock" },
+                  "fallback": {
+                    "label_key": "status.coherence.collecting",
+                    "tone": "muted",
+                    "icon": "mdi:progress-clock"
+                  },
                   "show_value": true,
                   "value_multiplier": 100,
                   "value_unit": "%",
@@ -1285,34 +2003,70 @@
               "path": "live/model/tau_reliable",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
+                "true": {
+                  "label_key": "status.reliability.true",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "false": {
+                  "label_key": "status.reliability.false",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                }
               },
-              "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+              "fallback": {
+                "label": "--",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              }
             },
             {
-                  "type": "status",
-                  "label_key": "metrics.deadtime_heat_reliable",
-                  "source": "diagnostic",
-                  "path": "live/model/deadtime_heat_reliable",
-                  "align": "center",
-                  "map": {
-                    "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                    "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
-                  },
-                  "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+              "type": "status",
+              "label_key": "metrics.deadtime_heat_reliable",
+              "source": "diagnostic",
+              "path": "live/model/deadtime_heat_reliable",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.reliability.true",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "false": {
+                  "label_key": "status.reliability.false",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                }
+              },
+              "fallback": {
+                "label": "--",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              }
             },
             {
-                  "type": "status",
-                  "label_key": "metrics.deadtime_cool_reliable",
-                  "source": "diagnostic",
-                  "path": "live/model/deadtime_cool_reliable",
-                  "align": "center",
-                  "map": {
-                    "true": { "label_key": "status.reliability.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                    "false": { "label_key": "status.reliability.false", "tone": "warning", "icon": "mdi:alert-outline" }
-                  },
-                  "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" }
+              "type": "status",
+              "label_key": "metrics.deadtime_cool_reliable",
+              "source": "diagnostic",
+              "path": "live/model/deadtime_cool_reliable",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.reliability.true",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "false": {
+                  "label_key": "status.reliability.false",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                }
+              },
+              "fallback": {
+                "label": "--",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              }
             }
           ]
         },
@@ -1321,8 +2075,20 @@
           "title_key": "graphs.model.title",
           "range": "24h",
           "series": [
-            { "entity": "$diagnostic_entity", "attribute": "history/model/a", "label_key": "graphs.model.a", "unit": "°C/min", "scale_group": "coefficients" },
-            { "entity": "$diagnostic_entity", "attribute": "history/model/b", "label_key": "graphs.model.b", "unit": "min⁻¹", "scale_group": "coefficients" }
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/model/a",
+              "label_key": "graphs.model.a",
+              "unit": "°C/min",
+              "scale_group": "coefficients"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/model/b",
+              "label_key": "graphs.model.b",
+              "unit": "min⁻¹",
+              "scale_group": "coefficients"
+            }
           ],
           "options": {
             "tooltip": true,
@@ -1352,7 +2118,13 @@
               "type": "metric_grid",
               "columns": 1,
               "metrics": [
-                { "label_key": "metrics.filtered_setpoint", "source": "diagnostic", "path": "live/setpoint/filtered_setpoint", "unit": "°C", "digits": 1 }
+                {
+                  "label_key": "metrics.filtered_setpoint",
+                  "source": "diagnostic",
+                  "path": "live/setpoint/filtered_setpoint",
+                  "unit": "°C",
+                  "digits": 2
+                }
               ]
             },
             {
@@ -1362,10 +2134,22 @@
               "path": "live/setpoint/trajectory_active",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:chart-timeline-variant" },
-                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:chart-timeline-variant" }
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "info",
+                  "icon": "mdi:chart-timeline-variant"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1375,13 +2159,36 @@
               "path": "live/setpoint/trajectory_source",
               "align": "center",
               "map": {
-                "setpoint": { "label_key": "status.trajectory.setpoint", "tone": "info", "icon": "mdi:thermometer-chevron-up" },
-                "disturbance": { "label_key": "status.trajectory.disturbance", "tone": "info", "icon": "mdi:weather-windy" },
-                "none": { "label_key": "status.trajectory.none", "tone": "muted", "icon": "mdi:minus-circle-outline" }
+                "setpoint": {
+                  "label_key": "status.trajectory.setpoint",
+                  "tone": "info",
+                  "icon": "mdi:thermometer-chevron-up"
+                },
+                "disturbance": {
+                  "label_key": "status.trajectory.disturbance",
+                  "tone": "info",
+                  "icon": "mdi:weather-windy"
+                },
+                "none": {
+                  "label_key": "status.trajectory.none",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true,
-              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/trajectory_active" }, true] }
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/setpoint/trajectory_active"
+                  },
+                  true
+                ]
+              }
             },
             {
               "type": "status",
@@ -1390,10 +2197,22 @@
               "path": "live/setpoint/landing_active",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:airplane-landing" },
-                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:airplane-landing" }
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "info",
+                  "icon": "mdi:airplane-landing"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:airplane-landing"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1403,19 +2222,52 @@
               "path": "live/setpoint/landing_reason",
               "align": "center",
               "map": {
-                "cap": { "label_key": "status.landing.cap", "tone": "info", "icon": "mdi:chart-bell-curve" },
-                "coast": { "label_key": "status.landing.coast", "tone": "info", "icon": "mdi:weather-windy" }
+                "cap": {
+                  "label_key": "status.landing.cap",
+                  "tone": "info",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "coast": {
+                  "label_key": "status.landing.coast",
+                  "tone": "info",
+                  "icon": "mdi:weather-windy"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true,
-              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] }
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/setpoint/landing_active"
+                  },
+                  true
+                ]
+              }
             },
             {
               "type": "metric_grid",
               "columns": 2,
-              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] },
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/setpoint/landing_active"
+                  },
+                  true
+                ]
+              },
               "metrics": [
-                { "label_key": "metrics.landing.u_cap", "source": "diagnostic", "path": "live/setpoint/landing_u_cap", "unit": "%", "digits": 1, "value_multiplier": 100 }
+                {
+                  "label_key": "metrics.landing.u_cap",
+                  "source": "diagnostic",
+                  "path": "live/setpoint/landing_u_cap",
+                  "unit": "%",
+                  "digits": 1,
+                  "value_multiplier": 100
+                }
               ]
             },
             {
@@ -1425,12 +2277,31 @@
               "path": "live/setpoint/landing_coast_required",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:weather-windy" },
-                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:weather-windy" }
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "info",
+                  "icon": "mdi:weather-windy"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:weather-windy"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true,
-              "visible_if": { "==": [{ "var": "diagnostic/live/setpoint/landing_active" }, true] }
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/setpoint/landing_active"
+                  },
+                  true
+                ]
+              }
             }
           ]
         },
@@ -1447,37 +2318,157 @@
               "path": "live/feedforward/ff3_status",
               "align": "center",
               "map": {
-                "active": { "label_key": "status.ff3.active", "tone": "info", "icon": "mdi:crystal-ball" },
-                "inactive": { "label_key": "status.ff3.inactive", "tone": "muted", "icon": "mdi:crystal-ball" },
-                "disabled:disabled": { "label_key": "status.ff3.disabled", "tone": "muted", "icon": "mdi:crystal-ball" },
-                "disabled:config_disabled": { "label_key": "status.ff3.disabled.config_disabled", "tone": "muted", "icon": "mdi:cog-off-outline" },
-                "disabled:deadband": { "label_key": "status.ff3.disabled.deadband", "tone": "muted", "icon": "mdi:circle-outline" },
-                "disabled:not_near_band": { "label_key": "status.ff3.disabled.not_near_band", "tone": "muted", "icon": "mdi:target-variant" },
-                "disabled:pending_cycle_boundary": { "label_key": "status.ff3.disabled.pending_cycle_boundary", "tone": "info", "icon": "mdi:timer-sand" },
-                "disabled:trajectory_setpoint_active": { "label_key": "status.ff3.disabled.trajectory_setpoint_active", "tone": "muted", "icon": "mdi:chart-timeline-variant" },
-                "disabled:disturbance_unclassified": { "label_key": "status.ff3.disabled.disturbance_unclassified", "tone": "muted", "icon": "mdi:help-circle-outline" },
-                "disabled:twin_warming_up": { "label_key": "status.ff3.disabled.twin_warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
-                "disabled:twin_steady_invalid": { "label_key": "status.ff3.disabled.twin_steady_invalid", "tone": "muted", "icon": "mdi:home-thermometer-outline" },
-                "disabled:reset": { "label_key": "status.ff3.disabled.reset", "tone": "info", "icon": "mdi:restart" },
-                "disabled:hvac_off": { "label_key": "status.ff3.disabled.hvac_off", "tone": "muted", "icon": "mdi:power" },
-                "disabled:first_cycle_after_restart": { "label_key": "status.ff3.disabled.first_cycle_after_restart", "tone": "info", "icon": "mdi:timer-sand" },
-                "disabled:cool_mode": { "label_key": "status.ff3.disabled.cool_mode", "tone": "muted", "icon": "mdi:snowflake" },
-                "disabled:missing_ext_temp": { "label_key": "status.ff3.disabled.missing_ext_temp", "tone": "muted", "icon": "mdi:thermometer-alert" },
-                "disabled:tau_not_reliable": { "label_key": "status.ff3.disabled.tau_not_reliable", "tone": "muted", "icon": "mdi:chart-bell-curve" },
-                "disabled:twin_not_initialized": { "label_key": "status.ff3.disabled.twin_not_initialized", "tone": "muted", "icon": "mdi:home-thermometer-outline" },
-                "disabled:calibration": { "label_key": "status.ff3.disabled.calibration", "tone": "info", "icon": "mdi:tune-variant" },
-                "disabled:power_shedding": { "label_key": "status.ff3.disabled.power_shedding", "tone": "info", "icon": "mdi:flash-off" },
-                "disabled:recent_setpoint_change": { "label_key": "status.ff3.disabled.recent_setpoint_change", "tone": "info", "icon": "mdi:thermometer-chevron-up" },
-                "disabled:no_disturbance_context": { "label_key": "status.ff3.disabled.no_disturbance_context", "tone": "muted", "icon": "mdi:weather-windy" },
-                "disabled:saturated_high": { "label_key": "status.ff3.disabled.saturated_high", "tone": "info", "icon": "mdi:gauge-full" },
-                "disabled:system_not_stable": { "label_key": "status.ff3.disabled.system_not_stable", "tone": "info", "icon": "mdi:chart-line-variant" },
-                "disabled:authority_zero": { "label_key": "status.ff3.disabled.authority_zero", "tone": "muted", "icon": "mdi:minus-circle-outline" },
-                "disabled:scoring_failed": { "label_key": "status.ff3.disabled.scoring_failed", "tone": "muted", "icon": "mdi:chart-scatter-plot" },
-                "disabled:horizon_no_candidate_effect": { "label_key": "status.ff3.disabled.horizon_no_candidate_effect", "tone": "muted", "icon": "mdi:chart-timeline-variant" },
-                "disabled:score_not_better": { "label_key": "status.ff3.disabled.score_not_better", "tone": "muted", "icon": "mdi:chart-line-variant" },
-                "disabled:authority_tapered_to_zero": { "label_key": "status.ff3.disabled.authority_tapered_to_zero", "tone": "muted", "icon": "mdi:minus-circle-outline" }
+                "active": {
+                  "label_key": "status.ff3.active",
+                  "tone": "info",
+                  "icon": "mdi:crystal-ball"
+                },
+                "inactive": {
+                  "label_key": "status.ff3.inactive",
+                  "tone": "muted",
+                  "icon": "mdi:crystal-ball"
+                },
+                "disabled:disabled": {
+                  "label_key": "status.ff3.disabled",
+                  "tone": "muted",
+                  "icon": "mdi:crystal-ball"
+                },
+                "disabled:config_disabled": {
+                  "label_key": "status.ff3.disabled.config_disabled",
+                  "tone": "muted",
+                  "icon": "mdi:cog-off-outline"
+                },
+                "disabled:deadband": {
+                  "label_key": "status.ff3.disabled.deadband",
+                  "tone": "muted",
+                  "icon": "mdi:circle-outline"
+                },
+                "disabled:not_near_band": {
+                  "label_key": "status.ff3.disabled.not_near_band",
+                  "tone": "muted",
+                  "icon": "mdi:target-variant"
+                },
+                "disabled:pending_cycle_boundary": {
+                  "label_key": "status.ff3.disabled.pending_cycle_boundary",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "disabled:trajectory_setpoint_active": {
+                  "label_key": "status.ff3.disabled.trajectory_setpoint_active",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant"
+                },
+                "disabled:disturbance_unclassified": {
+                  "label_key": "status.ff3.disabled.disturbance_unclassified",
+                  "tone": "muted",
+                  "icon": "mdi:help-circle-outline"
+                },
+                "disabled:twin_warming_up": {
+                  "label_key": "status.ff3.disabled.twin_warming_up",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "disabled:twin_steady_invalid": {
+                  "label_key": "status.ff3.disabled.twin_steady_invalid",
+                  "tone": "muted",
+                  "icon": "mdi:home-thermometer-outline"
+                },
+                "disabled:reset": {
+                  "label_key": "status.ff3.disabled.reset",
+                  "tone": "info",
+                  "icon": "mdi:restart"
+                },
+                "disabled:hvac_off": {
+                  "label_key": "status.ff3.disabled.hvac_off",
+                  "tone": "muted",
+                  "icon": "mdi:power"
+                },
+                "disabled:first_cycle_after_restart": {
+                  "label_key": "status.ff3.disabled.first_cycle_after_restart",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "disabled:cool_mode": {
+                  "label_key": "status.ff3.disabled.cool_mode",
+                  "tone": "muted",
+                  "icon": "mdi:snowflake"
+                },
+                "disabled:missing_ext_temp": {
+                  "label_key": "status.ff3.disabled.missing_ext_temp",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "disabled:tau_not_reliable": {
+                  "label_key": "status.ff3.disabled.tau_not_reliable",
+                  "tone": "muted",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "disabled:twin_not_initialized": {
+                  "label_key": "status.ff3.disabled.twin_not_initialized",
+                  "tone": "muted",
+                  "icon": "mdi:home-thermometer-outline"
+                },
+                "disabled:calibration": {
+                  "label_key": "status.ff3.disabled.calibration",
+                  "tone": "info",
+                  "icon": "mdi:tune-variant"
+                },
+                "disabled:power_shedding": {
+                  "label_key": "status.ff3.disabled.power_shedding",
+                  "tone": "info",
+                  "icon": "mdi:flash-off"
+                },
+                "disabled:recent_setpoint_change": {
+                  "label_key": "status.ff3.disabled.recent_setpoint_change",
+                  "tone": "info",
+                  "icon": "mdi:thermometer-chevron-up"
+                },
+                "disabled:no_disturbance_context": {
+                  "label_key": "status.ff3.disabled.no_disturbance_context",
+                  "tone": "muted",
+                  "icon": "mdi:weather-windy"
+                },
+                "disabled:saturated_high": {
+                  "label_key": "status.ff3.disabled.saturated_high",
+                  "tone": "info",
+                  "icon": "mdi:gauge-full"
+                },
+                "disabled:system_not_stable": {
+                  "label_key": "status.ff3.disabled.system_not_stable",
+                  "tone": "info",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "disabled:authority_zero": {
+                  "label_key": "status.ff3.disabled.authority_zero",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                },
+                "disabled:scoring_failed": {
+                  "label_key": "status.ff3.disabled.scoring_failed",
+                  "tone": "muted",
+                  "icon": "mdi:chart-scatter-plot"
+                },
+                "disabled:horizon_no_candidate_effect": {
+                  "label_key": "status.ff3.disabled.horizon_no_candidate_effect",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant"
+                },
+                "disabled:score_not_better": {
+                  "label_key": "status.ff3.disabled.score_not_better",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "disabled:authority_tapered_to_zero": {
+                  "label_key": "status.ff3.disabled.authority_tapered_to_zero",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1487,10 +2478,22 @@
               "path": "live/feedforward/ff3_twin_usable",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.boolean.true", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:close-circle-outline" }
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:close-circle-outline"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1500,10 +2503,22 @@
               "path": "live/feedforward/twin_status",
               "align": "center",
               "map": {
-                "ok": { "label_key": "status.twin.ok", "tone": "ok", "icon": "mdi:home-thermometer-outline" },
-                "unavailable": { "label_key": "status.twin.unavailable", "tone": "muted", "icon": "mdi:home-thermometer-outline" }
+                "ok": {
+                  "label_key": "status.twin.ok",
+                  "tone": "ok",
+                  "icon": "mdi:home-thermometer-outline"
+                },
+                "unavailable": {
+                  "label_key": "status.twin.unavailable",
+                  "tone": "muted",
+                  "icon": "mdi:home-thermometer-outline"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1513,10 +2528,22 @@
               "path": "live/feedforward/deadband_power_source",
               "align": "center",
               "map": {
-                "none": { "label_key": "status.deadband.power_source.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
-                "ff_plus_pi": { "label_key": "status.deadband.power_source.ff_plus_pi", "tone": "info", "icon": "mdi:source-merge" }
+                "none": {
+                  "label_key": "status.deadband.power_source.none",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                },
+                "ff_plus_pi": {
+                  "label_key": "status.deadband.power_source.ff_plus_pi",
+                  "tone": "info",
+                  "icon": "mdi:source-merge"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1526,15 +2553,47 @@
               "path": "live/feedforward/deadband_p_mode",
               "align": "center",
               "map": {
-                "init": { "label_key": "status.deadband.p_mode.init", "tone": "muted", "icon": "mdi:progress-clock" },
-                "deadband_frozen": { "label_key": "status.deadband.p_mode.deadband_frozen", "tone": "muted", "icon": "mdi:snowflake" },
-                "deadband_quiet": { "label_key": "status.deadband.p_mode.deadband_quiet", "tone": "muted", "icon": "mdi:minus-circle-outline" },
-                "off": { "label_key": "status.deadband.p_mode.off", "tone": "muted", "icon": "mdi:power" },
-                "deadband_edge": { "label_key": "status.deadband.p_mode.deadband_edge", "tone": "info", "icon": "mdi:circle-outline" },
-                "deadband_edge_pending": { "label_key": "status.deadband.p_mode.deadband_edge_pending", "tone": "info", "icon": "mdi:timer-sand" },
-                "deadzone_edge": { "label_key": "status.deadband.p_mode.deadzone_edge", "tone": "info", "icon": "mdi:target-variant" }
+                "init": {
+                  "label_key": "status.deadband.p_mode.init",
+                  "tone": "muted",
+                  "icon": "mdi:progress-clock"
+                },
+                "deadband_frozen": {
+                  "label_key": "status.deadband.p_mode.deadband_frozen",
+                  "tone": "muted",
+                  "icon": "mdi:snowflake"
+                },
+                "deadband_quiet": {
+                  "label_key": "status.deadband.p_mode.deadband_quiet",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                },
+                "off": {
+                  "label_key": "status.deadband.p_mode.off",
+                  "tone": "muted",
+                  "icon": "mdi:power"
+                },
+                "deadband_edge": {
+                  "label_key": "status.deadband.p_mode.deadband_edge",
+                  "tone": "info",
+                  "icon": "mdi:circle-outline"
+                },
+                "deadband_edge_pending": {
+                  "label_key": "status.deadband.p_mode.deadband_edge_pending",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "deadzone_edge": {
+                  "label_key": "status.deadband.p_mode.deadzone_edge",
+                  "tone": "info",
+                  "icon": "mdi:target-variant"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             }
           ]
@@ -1560,13 +2619,37 @@
               "path": "live/feedforward/fftrim/stationary/state",
               "align": "center",
               "map": {
-                "warming_up": { "label_key": "status.fftrim.state.warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
-                "waiting_deadtime": { "label_key": "status.fftrim.state.waiting_deadtime", "tone": "info", "icon": "mdi:timer-sand" },
-                "collecting": { "label_key": "status.fftrim.state.collecting", "tone": "info", "icon": "mdi:progress-clock" },
-                "ready": { "label_key": "status.fftrim.state.ready", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                "rejected": { "label_key": "status.fftrim.state.rejected", "tone": "muted", "icon": "mdi:close-circle-outline" }
+                "warming_up": {
+                  "label_key": "status.fftrim.state.warming_up",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "waiting_deadtime": {
+                  "label_key": "status.fftrim.state.waiting_deadtime",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "collecting": {
+                  "label_key": "status.fftrim.state.collecting",
+                  "tone": "info",
+                  "icon": "mdi:progress-clock"
+                },
+                "ready": {
+                  "label_key": "status.fftrim.state.ready",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "rejected": {
+                  "label_key": "status.fftrim.state.rejected",
+                  "tone": "muted",
+                  "icon": "mdi:close-circle-outline"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1576,17 +2659,34 @@
               "path": "live/feedforward/fftrim/observation_mode",
               "align": "center",
               "map": {
-                "stationary": { "label_key": "status.fftrim.mode.stationary", "tone": "info", "icon": "mdi:chart-bell-curve-cumulative" },
-                "periodic": { "label_key": "status.fftrim.mode.periodic", "tone": "info", "icon": "mdi:sine-wave" }
+                "stationary": {
+                  "label_key": "status.fftrim.mode.stationary",
+                  "tone": "info",
+                  "icon": "mdi:chart-bell-curve-cumulative"
+                },
+                "periodic": {
+                  "label_key": "status.fftrim.mode.periodic",
+                  "tone": "info",
+                  "icon": "mdi:sine-wave"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
               "type": "metric_grid",
               "columns": 1,
               "metrics": [
-                { "label_key": "metrics.fftrim.windows_since_update", "source": "diagnostic", "path": "live/feedforward/fftrim/windows_since_update", "digits": 0 }
+                {
+                  "label_key": "metrics.fftrim.windows_since_update",
+                  "source": "diagnostic",
+                  "path": "live/feedforward/fftrim/windows_since_update",
+                  "digits": 0
+                }
               ]
             },
             {
@@ -1596,16 +2696,52 @@
               "path": "live/feedforward/fftrim/last_update_reason",
               "align": "center",
               "map": {
-                "none": { "label_key": "status.fftrim.reason.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
-                "skipped": { "label_key": "status.fftrim.reason.skipped", "tone": "muted", "icon": "mdi:skip-next-circle-outline" },
-                "causal_window_ready": { "label_key": "status.fftrim.reason.causal_window_ready", "tone": "info", "icon": "mdi:check-circle-outline" },
-                "periodic_window_ready": { "label_key": "status.fftrim.reason.periodic_window_ready", "tone": "info", "icon": "mdi:check-circle-outline" },
-                "persistent_ready": { "label_key": "status.fftrim.reason.persistent_ready", "tone": "info", "icon": "mdi:check-decagram-outline" },
-                "updated_persistent": { "label_key": "status.fftrim.reason.updated_persistent", "tone": "ok", "icon": "mdi:check-decagram-outline" },
-                "updated_bumpless": { "label_key": "status.fftrim.reason.updated_bumpless", "tone": "ok", "icon": "mdi:swap-horizontal-circle-outline" },
-                "awaiting_cycle_boundary": { "label_key": "status.fftrim.reason.awaiting_cycle_boundary", "tone": "info", "icon": "mdi:timer-sand" }
+                "none": {
+                  "label_key": "status.fftrim.reason.none",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                },
+                "skipped": {
+                  "label_key": "status.fftrim.reason.skipped",
+                  "tone": "muted",
+                  "icon": "mdi:skip-next-circle-outline"
+                },
+                "causal_window_ready": {
+                  "label_key": "status.fftrim.reason.causal_window_ready",
+                  "tone": "info",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "periodic_window_ready": {
+                  "label_key": "status.fftrim.reason.periodic_window_ready",
+                  "tone": "info",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "persistent_ready": {
+                  "label_key": "status.fftrim.reason.persistent_ready",
+                  "tone": "info",
+                  "icon": "mdi:check-decagram-outline"
+                },
+                "updated_persistent": {
+                  "label_key": "status.fftrim.reason.updated_persistent",
+                  "tone": "ok",
+                  "icon": "mdi:check-decagram-outline"
+                },
+                "updated_bumpless": {
+                  "label_key": "status.fftrim.reason.updated_bumpless",
+                  "tone": "ok",
+                  "icon": "mdi:swap-horizontal-circle-outline"
+                },
+                "awaiting_cycle_boundary": {
+                  "label_key": "status.fftrim.reason.awaiting_cycle_boundary",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1615,25 +2751,86 @@
               "path": "live/feedforward/fftrim/last_reject_reason",
               "align": "center",
               "map": {
-                "deadtime_unreliable": { "label_key": "status.fftrim.reason.deadtime_unreliable", "tone": "muted", "icon": "mdi:timer-alert-outline" },
-                "deadtime_changed": { "label_key": "status.fftrim.reason.deadtime_changed", "tone": "muted", "icon": "mdi:timer-sync-outline" },
-                "causal_power_not_covered": { "label_key": "status.fftrim.reason.causal_power_not_covered", "tone": "muted", "icon": "mdi:chart-timeline-variant-shimmer" },
-                "not_enough_measurements": { "label_key": "status.fftrim.reason.not_enough_measurements", "tone": "muted", "icon": "mdi:counter" },
-                "window_too_short": { "label_key": "status.fftrim.reason.window_too_short", "tone": "muted", "icon": "mdi:timer-sand" },
-                "setpoint_changed": { "label_key": "status.fftrim.reason.setpoint_changed", "tone": "muted", "icon": "mdi:thermometer-chevron-up" },
-                "trajectory_active": { "label_key": "status.fftrim.reason.trajectory_active", "tone": "muted", "icon": "mdi:chart-timeline-variant" },
-                "ff3_active": { "label_key": "status.fftrim.reason.ff3_active", "tone": "muted", "icon": "mdi:crystal-ball" },
-                "model_confidence": { "label_key": "status.fftrim.reason.model_confidence", "tone": "muted", "icon": "mdi:chart-bell-curve" },
-                "missing_outdoor_temperature": { "label_key": "status.fftrim.reason.missing_outdoor_temperature", "tone": "muted", "icon": "mdi:thermometer-alert" },
-                "saturated": { "label_key": "status.fftrim.reason.saturated", "tone": "muted", "icon": "mdi:gauge-full" },
-                "pi_unstable": { "label_key": "status.fftrim.reason.pi_unstable", "tone": "muted", "icon": "mdi:chart-line-variant" }
+                "deadtime_unreliable": {
+                  "label_key": "status.fftrim.reason.deadtime_unreliable",
+                  "tone": "muted",
+                  "icon": "mdi:timer-alert-outline"
+                },
+                "deadtime_changed": {
+                  "label_key": "status.fftrim.reason.deadtime_changed",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sync-outline"
+                },
+                "causal_power_not_covered": {
+                  "label_key": "status.fftrim.reason.causal_power_not_covered",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant-shimmer"
+                },
+                "not_enough_measurements": {
+                  "label_key": "status.fftrim.reason.not_enough_measurements",
+                  "tone": "muted",
+                  "icon": "mdi:counter"
+                },
+                "window_too_short": {
+                  "label_key": "status.fftrim.reason.window_too_short",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "setpoint_changed": {
+                  "label_key": "status.fftrim.reason.setpoint_changed",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-chevron-up"
+                },
+                "trajectory_active": {
+                  "label_key": "status.fftrim.reason.trajectory_active",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant"
+                },
+                "ff3_active": {
+                  "label_key": "status.fftrim.reason.ff3_active",
+                  "tone": "muted",
+                  "icon": "mdi:crystal-ball"
+                },
+                "model_confidence": {
+                  "label_key": "status.fftrim.reason.model_confidence",
+                  "tone": "muted",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "missing_outdoor_temperature": {
+                  "label_key": "status.fftrim.reason.missing_outdoor_temperature",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "saturated": {
+                  "label_key": "status.fftrim.reason.saturated",
+                  "tone": "muted",
+                  "icon": "mdi:gauge-full"
+                },
+                "pi_unstable": {
+                  "label_key": "status.fftrim.reason.pi_unstable",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true,
               "visible_if": {
                 "and": [
-                  { "var": "diagnostic/live/feedforward/fftrim/last_reject_reason" },
-                  { "!=": [{ "var": "diagnostic/live/feedforward/fftrim/last_reject_reason" }, "none"] }
+                  {
+                    "var": "diagnostic/live/feedforward/fftrim/last_reject_reason"
+                  },
+                  {
+                    "!=": [
+                      {
+                        "var": "diagnostic/live/feedforward/fftrim/last_reject_reason"
+                      },
+                      "none"
+                    ]
+                  }
                 ]
               }
             }
@@ -1642,8 +2839,14 @@
         {
           "type": "progress",
           "label_key": "metrics.fftrim.stationary_progress",
-          "value": { "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/window_duration_s" },
-          "target": { "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/window_target_duration_s" },
+          "value": {
+            "source": "diagnostic",
+            "path": "live/feedforward/fftrim/stationary/window_duration_s"
+          },
+          "target": {
+            "source": "diagnostic",
+            "path": "live/feedforward/fftrim/stationary/window_target_duration_s"
+          },
           "unit": "s",
           "digits": 0
         },
@@ -1652,9 +2855,26 @@
           "title_key": "groups.fftrim.stationary_quality",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "live/feedforward/fftrim/stationary/measurement_count", "digits": 0 },
-            { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/alignment_delay_s", "format": "duration_s" }
+            {
+              "label_key": "metrics.fftrim.measurement_count",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/stationary/measurement_count",
+              "digits": 0
+            },
+            {
+              "label_key": "metrics.fftrim.power_coverage",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/power_coverage_ratio",
+              "unit": "%",
+              "digits": 1,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.alignment_delay",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/alignment_delay_s",
+              "format": "duration_s"
+            }
           ]
         },
         {
@@ -1674,21 +2894,55 @@
               "source": "diagnostic",
               "path": "live/feedforward/fftrim/periodic/state",
               "map": {
-                "warming_up": { "label_key": "status.fftrim.state.warming_up", "tone": "muted", "icon": "mdi:timer-sand" },
-                "waiting_deadtime": { "label_key": "status.fftrim.state.waiting_deadtime", "tone": "info", "icon": "mdi:timer-sand" },
-                "collecting": { "label_key": "status.fftrim.state.collecting", "tone": "info", "icon": "mdi:progress-clock" },
-                "waiting_phase": { "label_key": "status.fftrim.state.waiting_phase", "tone": "info", "icon": "mdi:sine-wave" },
-                "ready": { "label_key": "status.fftrim.state.ready", "tone": "ok", "icon": "mdi:check-circle-outline" },
-                "rejected": { "label_key": "status.fftrim.state.rejected", "tone": "muted", "icon": "mdi:close-circle-outline" }
+                "warming_up": {
+                  "label_key": "status.fftrim.state.warming_up",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "waiting_deadtime": {
+                  "label_key": "status.fftrim.state.waiting_deadtime",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "collecting": {
+                  "label_key": "status.fftrim.state.collecting",
+                  "tone": "info",
+                  "icon": "mdi:progress-clock"
+                },
+                "waiting_phase": {
+                  "label_key": "status.fftrim.state.waiting_phase",
+                  "tone": "info",
+                  "icon": "mdi:sine-wave"
+                },
+                "ready": {
+                  "label_key": "status.fftrim.state.ready",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "rejected": {
+                  "label_key": "status.fftrim.state.rejected",
+                  "tone": "muted",
+                  "icon": "mdi:close-circle-outline"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
               "type": "progress",
               "label_key": "metrics.fftrim.periodic_progress",
-              "value": { "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/window_duration_s" },
-              "target": { "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/target_duration_s" },
+              "value": {
+                "source": "diagnostic",
+                "path": "live/feedforward/fftrim/periodic/window_duration_s"
+              },
+              "target": {
+                "source": "diagnostic",
+                "path": "live/feedforward/fftrim/periodic/target_duration_s"
+              },
               "unit": "s",
               "digits": 0
             }
@@ -1698,9 +2952,26 @@
           "type": "metric_grid",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.periodic_measurement_count", "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/measurement_count", "digits": 0 },
-            { "label_key": "metrics.fftrim.periodic_amplitude", "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/amplitude_c", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.periodic_closure_error", "source": "diagnostic", "path": "live/feedforward/fftrim/periodic/closure_error_c", "unit": "°C", "digits": 2 }
+            {
+              "label_key": "metrics.fftrim.periodic_measurement_count",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/periodic/measurement_count",
+              "digits": 0
+            },
+            {
+              "label_key": "metrics.fftrim.periodic_amplitude",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/periodic/amplitude_c",
+              "unit": "°C",
+              "digits": 2
+            },
+            {
+              "label_key": "metrics.fftrim.periodic_closure_error",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/periodic/closure_error_c",
+              "unit": "°C",
+              "digits": 2
+            }
           ]
         },
         {
@@ -1709,27 +2980,96 @@
           "source": "diagnostic",
           "path": "live/feedforward/fftrim/periodic/last_reject_reason",
           "map": {
-            "deadtime_unreliable": { "label_key": "status.fftrim.reason.deadtime_unreliable", "tone": "muted", "icon": "mdi:timer-alert-outline" },
-            "deadtime_changed": { "label_key": "status.fftrim.reason.deadtime_changed", "tone": "muted", "icon": "mdi:timer-sync-outline" },
-            "causal_power_not_covered": { "label_key": "status.fftrim.reason.causal_power_not_covered", "tone": "muted", "icon": "mdi:chart-timeline-variant-shimmer" },
-            "not_enough_measurements": { "label_key": "status.fftrim.reason.not_enough_measurements", "tone": "muted", "icon": "mdi:counter" },
-            "window_too_short": { "label_key": "status.fftrim.reason.window_too_short", "tone": "muted", "icon": "mdi:timer-sand" },
-            "cycle_not_reversed": { "label_key": "status.fftrim.reason.cycle_not_reversed", "tone": "muted", "icon": "mdi:swap-vertical" },
-            "cycle_amplitude_too_small": { "label_key": "status.fftrim.reason.cycle_amplitude_too_small", "tone": "muted", "icon": "mdi:sine-wave" },
-            "cycle_not_closed": { "label_key": "status.fftrim.reason.cycle_not_closed", "tone": "muted", "icon": "mdi:vector-circle-variant" },
-            "saturated_high": { "label_key": "status.fftrim.reason.saturated_high", "tone": "muted", "icon": "mdi:gauge-full" },
-            "setpoint_changed": { "label_key": "status.fftrim.reason.setpoint_changed", "tone": "muted", "icon": "mdi:thermometer-chevron-up" },
-            "trajectory_active": { "label_key": "status.fftrim.reason.trajectory_active", "tone": "muted", "icon": "mdi:chart-timeline-variant" },
-            "ff3_active": { "label_key": "status.fftrim.reason.ff3_active", "tone": "muted", "icon": "mdi:crystal-ball" },
-            "model_confidence": { "label_key": "status.fftrim.reason.model_confidence", "tone": "muted", "icon": "mdi:chart-bell-curve" },
-            "missing_outdoor_temperature": { "label_key": "status.fftrim.reason.missing_outdoor_temperature", "tone": "muted", "icon": "mdi:thermometer-alert" }
+            "deadtime_unreliable": {
+              "label_key": "status.fftrim.reason.deadtime_unreliable",
+              "tone": "muted",
+              "icon": "mdi:timer-alert-outline"
+            },
+            "deadtime_changed": {
+              "label_key": "status.fftrim.reason.deadtime_changed",
+              "tone": "muted",
+              "icon": "mdi:timer-sync-outline"
+            },
+            "causal_power_not_covered": {
+              "label_key": "status.fftrim.reason.causal_power_not_covered",
+              "tone": "muted",
+              "icon": "mdi:chart-timeline-variant-shimmer"
+            },
+            "not_enough_measurements": {
+              "label_key": "status.fftrim.reason.not_enough_measurements",
+              "tone": "muted",
+              "icon": "mdi:counter"
+            },
+            "window_too_short": {
+              "label_key": "status.fftrim.reason.window_too_short",
+              "tone": "muted",
+              "icon": "mdi:timer-sand"
+            },
+            "cycle_not_reversed": {
+              "label_key": "status.fftrim.reason.cycle_not_reversed",
+              "tone": "muted",
+              "icon": "mdi:swap-vertical"
+            },
+            "cycle_amplitude_too_small": {
+              "label_key": "status.fftrim.reason.cycle_amplitude_too_small",
+              "tone": "muted",
+              "icon": "mdi:sine-wave"
+            },
+            "cycle_not_closed": {
+              "label_key": "status.fftrim.reason.cycle_not_closed",
+              "tone": "muted",
+              "icon": "mdi:vector-circle-variant"
+            },
+            "saturated_high": {
+              "label_key": "status.fftrim.reason.saturated_high",
+              "tone": "muted",
+              "icon": "mdi:gauge-full"
+            },
+            "setpoint_changed": {
+              "label_key": "status.fftrim.reason.setpoint_changed",
+              "tone": "muted",
+              "icon": "mdi:thermometer-chevron-up"
+            },
+            "trajectory_active": {
+              "label_key": "status.fftrim.reason.trajectory_active",
+              "tone": "muted",
+              "icon": "mdi:chart-timeline-variant"
+            },
+            "ff3_active": {
+              "label_key": "status.fftrim.reason.ff3_active",
+              "tone": "muted",
+              "icon": "mdi:crystal-ball"
+            },
+            "model_confidence": {
+              "label_key": "status.fftrim.reason.model_confidence",
+              "tone": "muted",
+              "icon": "mdi:chart-bell-curve"
+            },
+            "missing_outdoor_temperature": {
+              "label_key": "status.fftrim.reason.missing_outdoor_temperature",
+              "tone": "muted",
+              "icon": "mdi:thermometer-alert"
+            }
           },
-          "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
           "fallback_show_value": true,
           "visible_if": {
             "and": [
-              { "var": "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason" },
-              { "!=": [{ "var": "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason" }, "none"] }
+              {
+                "var": "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason"
+              },
+              {
+                "!=": [
+                  {
+                    "var": "diagnostic/live/feedforward/fftrim/periodic/last_reject_reason"
+                  },
+                  "none"
+                ]
+              }
             ]
           }
         },
@@ -1742,19 +3082,67 @@
         {
           "type": "layout_grid",
           "title_key": "groups.fftrim.last_result",
-          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_result" },
+          "visible_if": {
+            "var": "diagnostic/live/feedforward/fftrim/last_result"
+          },
           "min_width": 180,
           "items": [
-            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.last_update_reason", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
+            {
+              "type": "status",
+              "label_key": "metrics.fftrim.observation_mode",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/observation_mode",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.fftrim.last_update_reason",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/reason",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
             {
               "type": "metric_grid",
               "columns": 2,
               "metrics": [
-                { "label_key": "metrics.fftrim.window_duration", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/duration_s", "format": "duration_s" },
-                { "label_key": "metrics.fftrim.measurement_count", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/measurement_count", "digits": 0 },
-                { "label_key": "metrics.fftrim.power_coverage", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/power_coverage_ratio", "unit": "%", "digits": 1, "value_multiplier": 100 },
-                { "label_key": "metrics.fftrim.alignment_delay", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/alignment_delay_s", "format": "duration_s" }
+                {
+                  "label_key": "metrics.fftrim.window_duration",
+                  "source": "diagnostic",
+                  "path": "live/feedforward/fftrim/last_result/duration_s",
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.fftrim.measurement_count",
+                  "source": "diagnostic",
+                  "path": "live/feedforward/fftrim/last_result/measurement_count",
+                  "digits": 0
+                },
+                {
+                  "label_key": "metrics.fftrim.power_coverage",
+                  "source": "diagnostic",
+                  "path": "live/feedforward/fftrim/last_result/power_coverage_ratio",
+                  "unit": "%",
+                  "digits": 1,
+                  "value_multiplier": 100
+                },
+                {
+                  "label_key": "metrics.fftrim.alignment_delay",
+                  "source": "diagnostic",
+                  "path": "live/feedforward/fftrim/last_result/alignment_delay_s",
+                  "format": "duration_s"
+                }
               ]
             }
           ]
@@ -1763,22 +3151,119 @@
           "type": "metric_grid",
           "title_key": "groups.fftrim.thermal_balance",
           "columns": 3,
-          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_result" },
+          "visible_if": {
+            "var": "diagnostic/live/feedforward/fftrim/last_result"
+          },
           "metrics": [
-            { "label_key": "metrics.fftrim.mean_causal_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_causal_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_ff1", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_ff1", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_p_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_p_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_i_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_visible_ff_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_visible_ff_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.observed_hold_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/observed_hold_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.physical_power_deficit", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/physical_power_deficit", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.decomposed_correction", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/decomposed_correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.target_trim", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/target_trim", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.correction", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/correction", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.mean_temperature", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_temperature", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_error", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_error", "unit": "°C", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_slope_h", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_slope_h", "unit": "°C/h", "digits": 2 },
-            { "label_key": "metrics.fftrim.mean_delivery_residual", "source": "diagnostic", "path": "live/feedforward/fftrim/last_result/mean_delivery_residual", "unit": "%", "digits": 2, "value_multiplier": 100 }
+            {
+              "label_key": "metrics.fftrim.mean_causal_power",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_causal_power",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.mean_ff1",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_ff1",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.mean_p_power",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_p_power",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.mean_i_power",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_i_power",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.mean_visible_ff_power",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_visible_ff_power",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.observed_hold_power",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/observed_hold_power",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.physical_power_deficit",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/physical_power_deficit",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.decomposed_correction",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/decomposed_correction",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.target_trim",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/target_trim",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.correction",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/correction",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.mean_temperature",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_temperature",
+              "unit": "°C",
+              "digits": 2
+            },
+            {
+              "label_key": "metrics.fftrim.mean_error",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_error",
+              "unit": "°C",
+              "digits": 2
+            },
+            {
+              "label_key": "metrics.fftrim.mean_slope_h",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_slope_h",
+              "unit": "°C/h",
+              "digits": 2
+            },
+            {
+              "label_key": "metrics.fftrim.mean_delivery_residual",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_result/mean_delivery_residual",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            }
           ]
         },
         {
@@ -1792,16 +3277,52 @@
               "source": "diagnostic",
               "path": "live/feedforward/fftrim/transfer/state",
               "map": {
-                "idle": { "label_key": "status.fftrim.transfer.idle", "tone": "muted", "icon": "mdi:minus-circle-outline" },
-                "observer_rejected": { "label_key": "status.fftrim.transfer.observer_rejected", "tone": "muted", "icon": "mdi:close-circle-outline" },
-                "pending": { "label_key": "status.fftrim.transfer.pending", "tone": "info", "icon": "mdi:progress-clock" },
-                "ineligible": { "label_key": "status.fftrim.transfer.ineligible", "tone": "muted", "icon": "mdi:swap-horizontal-circle-outline" },
-                "awaiting_cycle_boundary": { "label_key": "status.fftrim.transfer.awaiting_cycle_boundary", "tone": "info", "icon": "mdi:timer-sand" },
-                "causal_update_without_transfer": { "label_key": "status.fftrim.transfer.causal_update_without_transfer", "tone": "info", "icon": "mdi:tune-variant" },
-                "applied": { "label_key": "status.fftrim.transfer.applied", "tone": "ok", "icon": "mdi:swap-horizontal-circle-outline" },
-                "rejected": { "label_key": "status.fftrim.transfer.rejected", "tone": "muted", "icon": "mdi:close-circle-outline" }
+                "idle": {
+                  "label_key": "status.fftrim.transfer.idle",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                },
+                "observer_rejected": {
+                  "label_key": "status.fftrim.transfer.observer_rejected",
+                  "tone": "muted",
+                  "icon": "mdi:close-circle-outline"
+                },
+                "pending": {
+                  "label_key": "status.fftrim.transfer.pending",
+                  "tone": "info",
+                  "icon": "mdi:progress-clock"
+                },
+                "ineligible": {
+                  "label_key": "status.fftrim.transfer.ineligible",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal-circle-outline"
+                },
+                "awaiting_cycle_boundary": {
+                  "label_key": "status.fftrim.transfer.awaiting_cycle_boundary",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "causal_update_without_transfer": {
+                  "label_key": "status.fftrim.transfer.causal_update_without_transfer",
+                  "tone": "info",
+                  "icon": "mdi:tune-variant"
+                },
+                "applied": {
+                  "label_key": "status.fftrim.transfer.applied",
+                  "tone": "ok",
+                  "icon": "mdi:swap-horizontal-circle-outline"
+                },
+                "rejected": {
+                  "label_key": "status.fftrim.transfer.rejected",
+                  "tone": "muted",
+                  "icon": "mdi:close-circle-outline"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1810,13 +3331,37 @@
               "source": "diagnostic",
               "path": "live/feedforward/fftrim/transfer/reason",
               "map": {
-                "none": { "label_key": "status.fftrim.reason.none", "tone": "muted", "icon": "mdi:minus-circle-outline" },
-                "quasi_equilibrium": { "label_key": "status.fftrim.transfer.reason.quasi_equilibrium", "tone": "ok", "icon": "mdi:scale-balance" },
-                "periodic_equilibrium": { "label_key": "status.fftrim.transfer.reason.periodic_equilibrium", "tone": "info", "icon": "mdi:sine-wave" },
-                "awaiting_post_aw_boundary": { "label_key": "status.fftrim.transfer.reason.awaiting_post_aw_boundary", "tone": "info", "icon": "mdi:timer-sand" },
-                "quiet_trim_delta": { "label_key": "status.fftrim.transfer.reason.quiet_trim_delta", "tone": "muted", "icon": "mdi:signal-cellular-1" }
+                "none": {
+                  "label_key": "status.fftrim.reason.none",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
+                },
+                "quasi_equilibrium": {
+                  "label_key": "status.fftrim.transfer.reason.quasi_equilibrium",
+                  "tone": "ok",
+                  "icon": "mdi:scale-balance"
+                },
+                "periodic_equilibrium": {
+                  "label_key": "status.fftrim.transfer.reason.periodic_equilibrium",
+                  "tone": "info",
+                  "icon": "mdi:sine-wave"
+                },
+                "awaiting_post_aw_boundary": {
+                  "label_key": "status.fftrim.transfer.reason.awaiting_post_aw_boundary",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "quiet_trim_delta": {
+                  "label_key": "status.fftrim.transfer.reason.quiet_trim_delta",
+                  "tone": "muted",
+                  "icon": "mdi:signal-cellular-1"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1825,12 +3370,32 @@
               "source": "diagnostic",
               "path": "live/feedforward/fftrim/transfer/quality",
               "map": {
-                "unavailable": { "label_key": "status.fftrim.quality.unavailable", "tone": "muted", "icon": "mdi:help-circle-outline" },
-                "switch_cycle_equivalent": { "label_key": "status.fftrim.quality.switch_cycle_equivalent", "tone": "info", "icon": "mdi:electric-switch" },
-                "valve_segmented_linear": { "label_key": "status.fftrim.quality.valve_segmented_linear", "tone": "info", "icon": "mdi:valve" },
-                "mixed": { "label_key": "status.fftrim.quality.mixed", "tone": "muted", "icon": "mdi:source-merge" }
+                "unavailable": {
+                  "label_key": "status.fftrim.quality.unavailable",
+                  "tone": "muted",
+                  "icon": "mdi:help-circle-outline"
+                },
+                "switch_cycle_equivalent": {
+                  "label_key": "status.fftrim.quality.switch_cycle_equivalent",
+                  "tone": "info",
+                  "icon": "mdi:electric-switch"
+                },
+                "valve_segmented_linear": {
+                  "label_key": "status.fftrim.quality.valve_segmented_linear",
+                  "tone": "info",
+                  "icon": "mdi:valve"
+                },
+                "mixed": {
+                  "label_key": "status.fftrim.quality.mixed",
+                  "tone": "muted",
+                  "icon": "mdi:source-merge"
+                }
               },
-              "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
               "fallback_show_value": true
             },
             {
@@ -1839,10 +3404,25 @@
               "source": "diagnostic",
               "path": "live/feedforward/fftrim/transfer/pending_engagement",
               "map": {
-                "true": { "label_key": "status.fftrim.transfer.pending_engagement", "tone": "info", "icon": "mdi:progress-clock" }
+                "true": {
+                  "label_key": "status.fftrim.transfer.pending_engagement",
+                  "tone": "info",
+                  "icon": "mdi:progress-clock"
+                }
               },
-              "fallback": { "label": "--", "tone": "muted", "icon": "mdi:help-circle-outline" },
-              "visible_if": { "==": [{ "var": "diagnostic/live/feedforward/fftrim/transfer/pending_engagement" }, true] }
+              "fallback": {
+                "label": "--",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/feedforward/fftrim/transfer/pending_engagement"
+                  },
+                  true
+                ]
+              }
             }
           ]
         },
@@ -1851,41 +3431,202 @@
           "title_key": "groups.fftrim.deltas",
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.requested_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/requested_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.stored_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/stored_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/applied_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.transferable_i_power", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/transferable_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/transfer/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
+            {
+              "label_key": "metrics.fftrim.requested_trim_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/transfer/requested_trim_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.stored_trim_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/transfer/stored_trim_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.applied_trim_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/transfer/applied_trim_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.transferable_i_power",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/transfer/transferable_i_power",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.requested_i_transfer",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/transfer/requested_i_transfer",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.applied_i_transfer",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/transfer/applied_i_transfer",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.net_command_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/transfer/net_command_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            }
           ]
         },
         {
           "type": "layout_grid",
           "title_key": "groups.fftrim.last_transaction",
-          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_transaction" },
+          "visible_if": {
+            "var": "diagnostic/live/feedforward/fftrim/last_transaction"
+          },
           "min_width": 180,
           "items": [
-            { "type": "metric_grid", "columns": 1, "metrics": [{ "label_key": "metrics.fftrim.transaction_timestamp", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/timestamp_utc", "format": "datetime" }] },
-            { "type": "status", "label_key": "metrics.fftrim.observation_mode", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/observation_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_state", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/state", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.bumpless_transfer_reason", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.fftrim.transfer_quality", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/quality", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+            {
+              "type": "metric_grid",
+              "columns": 1,
+              "metrics": [
+                {
+                  "label_key": "metrics.fftrim.transaction_timestamp",
+                  "source": "diagnostic",
+                  "path": "live/feedforward/fftrim/last_transaction/timestamp_utc",
+                  "format": "datetime"
+                }
+              ]
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.fftrim.observation_mode",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/observation_mode",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.fftrim.bumpless_transfer_state",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/state",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.fftrim.bumpless_transfer_reason",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/reason",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.fftrim.transfer_quality",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/quality",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            }
           ]
         },
         {
           "type": "metric_grid",
           "title_key": "groups.fftrim.last_transaction_deltas",
-          "visible_if": { "var": "diagnostic/live/feedforward/fftrim/last_transaction" },
+          "visible_if": {
+            "var": "diagnostic/live/feedforward/fftrim/last_transaction"
+          },
           "columns": 3,
           "metrics": [
-            { "label_key": "metrics.fftrim.requested_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/requested_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.stored_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/stored_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_trim_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/applied_trim_delta", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.transferable_i_power", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/transferable_i_power", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.requested_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/requested_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.applied_i_transfer", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/applied_i_transfer", "unit": "%", "digits": 2, "value_multiplier": 100 },
-            { "label_key": "metrics.fftrim.net_command_delta", "source": "diagnostic", "path": "live/feedforward/fftrim/last_transaction/net_command_delta", "unit": "%", "digits": 2, "value_multiplier": 100 }
+            {
+              "label_key": "metrics.fftrim.requested_trim_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/requested_trim_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.stored_trim_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/stored_trim_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.applied_trim_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/applied_trim_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.transferable_i_power",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/transferable_i_power",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.requested_i_transfer",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/requested_i_transfer",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.applied_i_transfer",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/applied_i_transfer",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            },
+            {
+              "label_key": "metrics.fftrim.net_command_delta",
+              "source": "diagnostic",
+              "path": "live/feedforward/fftrim/last_transaction/net_command_delta",
+              "unit": "%",
+              "digits": 2,
+              "value_multiplier": 100
+            }
           ]
         }
       ]
@@ -1908,9 +3649,86 @@
           "title_key": "groups.health.governance",
           "min_width": 180,
           "items": [
-            { "type": "status", "label_key": "metrics.governance", "source": "diagnostic", "path": "live/governance/regime", "map": { "warmup": { "label_key": "status.regime.warmup", "tone": "warning", "icon": "mdi:timer-sand" }, "excited_stable": { "label_key": "status.regime.excited_stable", "tone": "ok", "icon": "mdi:check-circle-outline" }, "near_band": { "label_key": "status.regime.near_band", "tone": "info", "icon": "mdi:target" }, "dead_band": { "label_key": "status.regime.dead_band", "tone": "muted", "icon": "mdi:pause-circle-outline" }, "hold": { "label_key": "status.regime.hold", "tone": "warning", "icon": "mdi:hand-back-left-outline" }, "perturbed": { "label_key": "status.regime.perturbed", "tone": "warning", "icon": "mdi:weather-windy" }, "degraded": { "label_key": "status.regime.degraded", "tone": "danger", "icon": "mdi:alert-outline" }, "saturated": { "label_key": "status.regime.saturated", "tone": "warning", "icon": "mdi:gauge-full" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.thermal_decision", "source": "diagnostic", "path": "live/governance/thermal_update_decision", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.thermal_reason", "source": "diagnostic", "path": "live/governance/thermal_update_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+            {
+              "type": "status",
+              "label_key": "metrics.governance",
+              "source": "diagnostic",
+              "path": "live/governance/regime",
+              "map": {
+                "warmup": {
+                  "label_key": "status.regime.warmup",
+                  "tone": "warning",
+                  "icon": "mdi:timer-sand"
+                },
+                "excited_stable": {
+                  "label_key": "status.regime.excited_stable",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "near_band": {
+                  "label_key": "status.regime.near_band",
+                  "tone": "info",
+                  "icon": "mdi:target"
+                },
+                "dead_band": {
+                  "label_key": "status.regime.dead_band",
+                  "tone": "muted",
+                  "icon": "mdi:pause-circle-outline"
+                },
+                "hold": {
+                  "label_key": "status.regime.hold",
+                  "tone": "warning",
+                  "icon": "mdi:hand-back-left-outline"
+                },
+                "perturbed": {
+                  "label_key": "status.regime.perturbed",
+                  "tone": "warning",
+                  "icon": "mdi:weather-windy"
+                },
+                "degraded": {
+                  "label_key": "status.regime.degraded",
+                  "tone": "danger",
+                  "icon": "mdi:alert-outline"
+                },
+                "saturated": {
+                  "label_key": "status.regime.saturated",
+                  "tone": "warning",
+                  "icon": "mdi:gauge-full"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.thermal_decision",
+              "source": "diagnostic",
+              "path": "live/governance/thermal_update_decision",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.thermal_reason",
+              "source": "diagnostic",
+              "path": "live/governance/thermal_update_reason",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            }
           ]
         },
         {
@@ -1919,10 +3737,111 @@
           "min_width": 160,
           "stretch_items": false,
           "items": [
-            { "type": "status", "label_key": "metrics.saturation", "source": "diagnostic", "path": "live/control/saturation_state", "align": "center", "map": { "NO_SAT": { "label_key": "status.saturation.NO_SAT", "tone": "ok", "icon": "mdi:check-circle-outline" }, "SAT_HI": { "label_key": "status.saturation.SAT_HI", "tone": "warning", "icon": "mdi:arrow-up-bold-circle-outline" }, "SAT_LO": { "label_key": "status.saturation.SAT_LO", "tone": "warning", "icon": "mdi:arrow-down-bold-circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadband", "source": "diagnostic", "path": "live/control/in_deadband", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "muted", "icon": "mdi:circle-outline" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:circle-outline" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_near_band", "source": "diagnostic", "path": "live/control/in_near_band", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:target" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:target" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.in_deadtime", "source": "diagnostic", "path": "live/control/in_deadtime_window", "align": "center", "map": { "true": { "label_key": "status.boolean.true", "tone": "info", "icon": "mdi:timer-sand" }, "false": { "label_key": "status.boolean.false", "tone": "muted", "icon": "mdi:timer-sand" } }, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:help-circle-outline" }, "fallback_show_value": true }
+            {
+              "type": "status",
+              "label_key": "metrics.saturation",
+              "source": "diagnostic",
+              "path": "live/control/saturation_state",
+              "align": "center",
+              "map": {
+                "NO_SAT": {
+                  "label_key": "status.saturation.NO_SAT",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "SAT_HI": {
+                  "label_key": "status.saturation.SAT_HI",
+                  "tone": "warning",
+                  "icon": "mdi:arrow-up-bold-circle-outline"
+                },
+                "SAT_LO": {
+                  "label_key": "status.saturation.SAT_LO",
+                  "tone": "warning",
+                  "icon": "mdi:arrow-down-bold-circle-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.in_deadband",
+              "source": "diagnostic",
+              "path": "live/control/in_deadband",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "muted",
+                  "icon": "mdi:circle-outline"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:circle-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.in_near_band",
+              "source": "diagnostic",
+              "path": "live/control/in_near_band",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "info",
+                  "icon": "mdi:target"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:target"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.in_deadtime",
+              "source": "diagnostic",
+              "path": "live/control/in_deadtime_window",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            }
           ]
         },
         {
@@ -1930,37 +3849,135 @@
           "title_key": "groups.health.integral",
           "min_width": 180,
           "items": [
-            { "type": "status", "label_key": "metrics.integral_mode", "source": "diagnostic", "path": "live/temperature/integral_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.integral_hold", "source": "diagnostic", "path": "live/temperature/integral_hold_mode", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.integral_hold_source", "source": "diagnostic", "path": "live/temperature/integral_hold_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true },
-            { "type": "status", "label_key": "metrics.integral_guard_source", "source": "diagnostic", "path": "live/temperature/integral_guard_source", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:information-outline" }, "fallback_show_value": true }
+            {
+              "type": "status",
+              "label_key": "metrics.integral_mode",
+              "source": "diagnostic",
+              "path": "live/temperature/integral_mode",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.integral_hold",
+              "source": "diagnostic",
+              "path": "live/temperature/integral_hold_mode",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.integral_hold_source",
+              "source": "diagnostic",
+              "path": "live/temperature/integral_hold_source",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.integral_guard_source",
+              "source": "diagnostic",
+              "path": "live/temperature/integral_guard_source",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:information-outline"
+              },
+              "fallback_show_value": true
+            }
           ]
         },
         {
           "type": "layout_grid",
           "title_key": "groups.health.restart",
           "items": [
-            { "type": "status", "label_key": "metrics.restart_reason", "source": "diagnostic", "path": "live/control/restart_reason", "map": {}, "fallback": { "label_key": "fallback.unknown_code", "tone": "muted", "icon": "mdi:restart" }, "fallback_show_value": true }
+            {
+              "type": "status",
+              "label_key": "metrics.restart_reason",
+              "source": "diagnostic",
+              "path": "live/control/restart_reason",
+              "map": {},
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:restart"
+              },
+              "fallback_show_value": true
+            }
           ]
         },
         {
           "type": "metric_grid",
           "title_key": "groups.health.autocalib",
           "metrics": [
-            { "label_key": "metrics.autocalib_state", "source": "diagnostic", "path": "live/autocalib/state" },
-            { "label_key": "metrics.autocalib_degraded", "source": "diagnostic", "path": "live/autocalib/model_degraded" },
-            { "label_key": "metrics.autocalib_snapshot_age", "source": "diagnostic", "path": "live/autocalib/snapshot_age_h", "unit": "h", "digits": 0 },
-            { "label_key": "metrics.autocalib_last_trigger", "source": "diagnostic", "path": "live/autocalib/last_trigger_ts", "format": "datetime" },
-            { "label_key": "metrics.autocalib_next_check", "source": "diagnostic", "path": "live/autocalib/next_check_ts", "format": "datetime" }
+            {
+              "label_key": "metrics.autocalib_state",
+              "source": "diagnostic",
+              "path": "live/autocalib/state"
+            },
+            {
+              "label_key": "metrics.autocalib_degraded",
+              "source": "diagnostic",
+              "path": "live/autocalib/model_degraded"
+            },
+            {
+              "label_key": "metrics.autocalib_snapshot_age",
+              "source": "diagnostic",
+              "path": "live/autocalib/snapshot_age_h",
+              "unit": "h",
+              "digits": 0
+            },
+            {
+              "label_key": "metrics.autocalib_last_trigger",
+              "source": "diagnostic",
+              "path": "live/autocalib/last_trigger_ts",
+              "format": "datetime"
+            },
+            {
+              "label_key": "metrics.autocalib_next_check",
+              "source": "diagnostic",
+              "path": "live/autocalib/next_check_ts",
+              "format": "datetime"
+            }
           ]
         },
         {
           "type": "metric_grid",
           "title_key": "groups.health.calibration",
           "metrics": [
-            { "label_key": "metrics.calibration_state", "source": "diagnostic", "path": "live/calibration/state" },
-            { "label_key": "metrics.calibration_retry", "source": "diagnostic", "path": "live/calibration/retry_count", "digits": 0 },
-            { "label_key": "metrics.calibration_last_time", "source": "diagnostic", "path": "live/calibration/last_time", "format": "datetime" }
+            {
+              "label_key": "metrics.calibration_state",
+              "source": "diagnostic",
+              "path": "live/calibration/state"
+            },
+            {
+              "label_key": "metrics.calibration_retry",
+              "source": "diagnostic",
+              "path": "live/calibration/retry_count",
+              "digits": 0
+            },
+            {
+              "label_key": "metrics.calibration_last_time",
+              "source": "diagnostic",
+              "path": "live/calibration/last_time",
+              "format": "datetime"
+            }
           ]
         }
       ]
@@ -1991,19 +4008,42 @@
               "path": "live/learning/enabled",
               "align": "center",
               "map": {
-                "true": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" },
-                "false": { "label_key": "status.learning.paused", "tone": "warning", "icon": "mdi:pause-circle-outline" }
+                "true": {
+                  "label_key": "status.learning.enabled",
+                  "tone": "ok",
+                  "icon": "mdi:school-outline"
+                },
+                "false": {
+                  "label_key": "status.learning.paused",
+                  "tone": "warning",
+                  "icon": "mdi:pause-circle-outline"
+                }
               },
-              "fallback": { "label_key": "status.learning.enabled", "tone": "ok", "icon": "mdi:school-outline" }
+              "fallback": {
+                "label_key": "status.learning.enabled",
+                "tone": "ok",
+                "icon": "mdi:school-outline"
+              }
             },
             {
               "type": "action",
               "label_key": "actions.pause_learning",
               "icon": "mdi:pause-circle-outline",
               "service": "vtherm_smartpi.set_smartpi_learning",
-              "target": { "entity_id": "$climate_entity" },
-              "data": { "learning_enabled": false },
-              "visible_if": { "==": [{ "var": "diagnostic/live/learning/enabled" }, true] },
+              "target": {
+                "entity_id": "$climate_entity"
+              },
+              "data": {
+                "learning_enabled": false
+              },
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/learning/enabled"
+                  },
+                  true
+                ]
+              },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.pause_learning.confirm"
@@ -2014,9 +4054,20 @@
               "label_key": "actions.resume_learning",
               "icon": "mdi:play-circle-outline",
               "service": "vtherm_smartpi.set_smartpi_learning",
-              "target": { "entity_id": "$climate_entity" },
-              "data": { "learning_enabled": true },
-              "visible_if": { "==": [{ "var": "diagnostic/live/learning/enabled" }, false] },
+              "target": {
+                "entity_id": "$climate_entity"
+              },
+              "data": {
+                "learning_enabled": true
+              },
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "diagnostic/live/learning/enabled"
+                  },
+                  false
+                ]
+              },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.resume_learning.confirm"
@@ -2035,7 +4086,9 @@
               "label_key": "actions.reset_learning",
               "icon": "mdi:school-outline",
               "service": "vtherm_smartpi.reset_smartpi_learning",
-              "target": { "entity_id": "$climate_entity" },
+              "target": {
+                "entity_id": "$climate_entity"
+              },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.reset_learning.confirm"
@@ -2046,7 +4099,9 @@
               "label_key": "actions.force_calibration",
               "icon": "mdi:tune-variant",
               "service": "vtherm_smartpi.force_smartpi_calibration",
-              "target": { "entity_id": "$climate_entity" },
+              "target": {
+                "entity_id": "$climate_entity"
+              },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.force_calibration.confirm"
@@ -2057,7 +4112,9 @@
               "label_key": "actions.reset_integral",
               "icon": "mdi:restart",
               "service": "vtherm_smartpi.reset_smartpi_integral",
-              "target": { "entity_id": "$climate_entity" },
+              "target": {
+                "entity_id": "$climate_entity"
+              },
               "confirmation": {
                 "enabled": true,
                 "text_key": "actions.reset_integral.confirm"

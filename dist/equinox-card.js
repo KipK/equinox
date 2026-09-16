@@ -14443,14 +14443,14 @@ var Mc = {
 								source: "diagnostic",
 								path: "live/temperature/indoor",
 								unit: "°",
-								digits: 1
+								digits: 2
 							},
 							{
 								label_key: "metrics.filtered_setpoint",
 								source: "diagnostic",
 								path: "live/setpoint/filtered_setpoint",
 								unit: "°",
-								digits: 1
+								digits: 2
 							},
 							{
 								label_key: "metrics.error",
@@ -14895,13 +14895,13 @@ var Mc = {
 								label_key: "metrics.kp",
 								source: "diagnostic",
 								path: "live/control/kp",
-								digits: 3
+								digits: 4
 							},
 							{
 								label_key: "metrics.ki",
 								source: "diagnostic",
 								path: "live/control/ki",
-								digits: 4
+								digits: 5
 							}
 						]
 					},
@@ -15533,7 +15533,7 @@ var Mc = {
 								source: "diagnostic",
 								path: "live/setpoint/filtered_setpoint",
 								unit: "°C",
-								digits: 1
+								digits: 2
 							}]
 						},
 						{
