@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "vite build",
+    "test:smartpi": "node --test --test-isolation=none tests/smartpi-dashboard.test.mjs",
     "gzip:dist": "node scripts/gzip-dist.mjs"
   },
   "dependencies": {

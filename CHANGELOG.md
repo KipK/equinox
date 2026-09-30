@@ -2,6 +2,12 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.2-dev
+
+- Reorganize the SmartPI dashboard around target approach and predictive braking, with distinct profile, followed and admissible references, current governor diagnostics, and neutral inactive/absent states.
+- Move FF3/twin diagnostics to Model and prediction, preserve the eight section IDs and maintenance actions, and add separate temperature/setpoint and command histories to Target approach.
+- Retain the eight established Recorder series; optional braking histories await reliable gaps for absent values in the history component.
+
 ## 0.4.1
 
 - Keep the frost-protection preset visible when a Versatile Thermostat is turned off.

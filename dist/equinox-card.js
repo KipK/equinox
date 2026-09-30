@@ -14384,7 +14384,7 @@ var Mc = {
 		kind: "regulation-dashboard",
 		algorithm: "smartpi",
 		title: "Smart PI",
-		translations: /* @__PURE__ */ JSON.parse("{\"fr\":{\"sections.overview.title\":\"Synthèse\",\"sections.overview.summary\":\"Température, consigne et commande Smart PI en cours.\",\"sections.learning.title\":\"Apprentissage\",\"sections.learning.summary\":\"État de la collecte des échantillons A/B du modèle thermique.\",\"sections.model.title\":\"Modèle thermique\",\"sections.model.summary\":\"Fiabilité du modèle et temps morts estimés.\",\"sections.command.title\":\"Commande\",\"sections.command.summary\":\"Puissance demandée, limites et décomposition de la commande.\",\"sections.fftrim.title\":\"Équilibre / FFTrim\",\"sections.fftrim.summary\":\"Observation de la puissance de maintien et répartition entre intégrale et trim.\",\"sections.anticipation.title\":\"Anticipation\",\"sections.anticipation.summary\":\"Trajectoire de consigne, atterrissage et correction prédictive.\",\"sections.health.title\":\"Supervision\",\"sections.health.summary\":\"Gouvernance, protections et calibration en cours.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Commandes de maintenance de l'apprentissage et de la régulation.\",\"hero.overview.title\":\"Smart PI pilote la régulation\",\"hero.overview.bootstrap\":\"Smart PI collecte les premiers échantillons et régule provisoirement en hystérésis.\",\"hero.overview.hysteresis_learning\":\"Le modèle se consolide encore ; la régulation reste prudente pendant l'apprentissage.\",\"hero.overview.stable_learning\":\"Smart PI affine le modèle tout en pilotant la régulation active.\",\"hero.overview.monitoring\":\"Le modèle thermique est exploité pour anticiper la puissance nécessaire.\",\"hero.overview.calibration\":\"Une calibration est en cours pour recaler le comportement thermique.\",\"hero.overview.degraded\":\"La régulation limite l'adaptation car le modèle manque de fiabilité.\",\"hero.overview.fallback\":\"Smart PI ajuste la puissance selon la phase courante, l'apprentissage A/B et les limites de sécurité.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics indisponibles\",\"hero.overview.diagnostic_missing\":\"L'entité de diagnostic Smart PI n'est pas disponible.\",\"hero.learning.title\":\"Apprentissage A/B\",\"hero.learning.subtitle\":\"État de la collecte des échantillons A/B du modèle thermique.\",\"hero.model.title\":\"Modèle thermique\",\"hero.model.subtitle\":\"La confiance du modèle détermine la part de feed-forward et les limites de prudence.\",\"hero.command.title\":\"Commande appliquée\",\"hero.command.subtitle\":\"La commande finale combine PI, feed-forward, maintien et limitations.\",\"hero.health.title\":\"Surveillance active\",\"hero.health.subtitle\":\"Les protections peuvent figer l'apprentissage ou demander une calibration.\",\"hero.actions.title\":\"Actions Smart PI\",\"hero.actions.subtitle\":\"Les actions sont appliquées au thermostat configuré après confirmation.\",\"metrics.phase\":\"Phase\",\"metrics.mode\":\"Mode\",\"metrics.hysteresis\":\"État hystérésis\",\"metrics.temperature\":\"Température\",\"metrics.external_temperature\":\"Température externe\",\"metrics.error\":\"Écart consigne\",\"metrics.integral_error\":\"Intégrale\",\"metrics.filtered_setpoint\":\"Consigne filtrée\",\"metrics.current_cycle\":\"Cycle courant\",\"metrics.next_cycle\":\"Prochain cycle\",\"metrics.linear_current_cycle\":\"Cycle courant linéaire\",\"metrics.linear_next_cycle\":\"Prochain cycle linéaire\",\"metrics.command\":\"Commande\",\"metrics.limited\":\"Limitée\",\"metrics.applied\":\"Appliquée\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Maintien\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"metrics.b\":\"B - Pertes thermiques\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Temps mort chauffe\",\"metrics.deadtime_cool\":\"Temps mort refroidissement\",\"metrics.a_stability\":\"Dispersion A\",\"metrics.b_stability\":\"Dispersion B\",\"metrics.samples_a\":\"Historique A\",\"metrics.samples_b\":\"Historique B\",\"metrics.accepted_a\":\"Mises à jour A acceptées\",\"metrics.accepted_b\":\"Mises à jour B acceptées\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"Échantillons A\",\"metrics.bootstrap_b\":\"Échantillons B\",\"metrics.history_a\":\"Échantillons A\",\"metrics.history_b\":\"Échantillons B\",\"metrics.learning_stage\":\"État apprentissage\",\"metrics.learning_enabled\":\"Apprentissage thermique\",\"metrics.a_drift\":\"Dérive A\",\"metrics.b_drift\":\"Dérive B\",\"metrics.learn_b_converged\":\"B convergé\",\"metrics.learning_last_reason\":\"Dernière raison\",\"metrics.bootstrap_status\":\"État bootstrap\",\"metrics.confidence\":\"Confiance modèle\",\"metrics.reliability\":\"Fiabilité\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Temps mort chauffe\",\"metrics.deadtime_cool_reliable\":\"Temps mort refroidissement\",\"metrics.governance\":\"Régime de sécurité\",\"metrics.thermal_decision\":\"Décision thermique\",\"metrics.thermal_reason\":\"Raison\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Jumeau thermique\",\"metrics.deadband_source\":\"Source deadband\",\"metrics.deadband_mode\":\"Mode deadband\",\"metrics.in_deadband\":\"Dans la bande morte\",\"metrics.in_near_band\":\"Zone proche\",\"metrics.in_deadtime\":\"Fenêtre temps mort\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Mode intégrale\",\"metrics.integral_hold\":\"Maintien intégrale\",\"metrics.integral_hold_source\":\"Source du maintien intégral\",\"metrics.integral_guard_source\":\"Source de protection intégrale\",\"metrics.restart_reason\":\"Raison du redémarrage\",\"metrics.autocalib_state\":\"Autocalibration\",\"metrics.autocalib_degraded\":\"Modèle dégradé\",\"metrics.autocalib_snapshot_age\":\"Âge du snapshot\",\"metrics.autocalib_next_check\":\"Prochain contrôle\",\"metrics.autocalib_last_trigger\":\"Dernier déclenchement\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Essais calibration\",\"metrics.calibration_last_time\":\"Dernière calibration\",\"metrics.trajectory\":\"Trajectoire\",\"metrics.landing\":\"Atterrissage\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Observateur stationnaire\",\"metrics.fftrim.observation_mode\":\"Dernière méthode\",\"metrics.fftrim.windows_since_update\":\"Fenetres depuis la mise à jour\",\"metrics.fftrim.last_update_reason\":\"Dernier résultat\",\"metrics.fftrim.last_reject_reason\":\"Dernier rejet FFTrim\",\"metrics.fftrim.stationary_progress\":\"Fenêtre stationnaire\",\"metrics.fftrim.measurement_count\":\"Mesures distinctes\",\"metrics.fftrim.power_coverage\":\"Couverture de puissance\",\"metrics.fftrim.alignment_delay\":\"Délai d'alignement\",\"metrics.fftrim.periodic_state\":\"Observateur périodique\",\"metrics.fftrim.periodic_progress\":\"Fenêtre périodique\",\"metrics.fftrim.periodic_measurement_count\":\"Mesures périodiques\",\"metrics.fftrim.periodic_amplitude\":\"Amplitude thermique\",\"metrics.fftrim.periodic_closure_error\":\"Erreur de fermeture\",\"metrics.fftrim.periodic_last_reject_reason\":\"Dernier rejet périodique\",\"metrics.fftrim.mean_causal_power\":\"Puissance causale moyenne\",\"metrics.fftrim.mean_ff1\":\"FF1 moyen\",\"metrics.fftrim.mean_p_power\":\"Contribution P moyenne\",\"metrics.fftrim.mean_i_power\":\"Contribution I moyenne\",\"metrics.fftrim.mean_visible_ff_power\":\"Feed-forward visible moyen\",\"metrics.fftrim.observed_hold_power\":\"Puissance de maintien observée\",\"metrics.fftrim.physical_power_deficit\":\"Déficit physique de puissance\",\"metrics.fftrim.decomposed_correction\":\"Correction décomposée\",\"metrics.fftrim.target_trim\":\"Trim cible\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Température moyenne\",\"metrics.fftrim.mean_error\":\"Erreur moyenne\",\"metrics.fftrim.mean_slope_h\":\"Pente moyenne\",\"metrics.fftrim.mean_delivery_residual\":\"Résiduel de livraison moyen\",\"metrics.fftrim.bumpless_transfer_state\":\"Transfert sans a-coup\",\"metrics.fftrim.bumpless_transfer_reason\":\"Raison du transfert\",\"metrics.fftrim.transfer_quality\":\"Qualité de propriété\",\"metrics.fftrim.transfer_pending_engagement\":\"Engagement actionneur\",\"metrics.fftrim.requested_trim_delta\":\"Delta trim demande\",\"metrics.fftrim.stored_trim_delta\":\"Delta trim stocké\",\"metrics.fftrim.applied_trim_delta\":\"Delta trim appliqué\",\"metrics.fftrim.transferable_i_power\":\"Puissance I transférable\",\"metrics.fftrim.requested_i_transfer\":\"Transfert I demande\",\"metrics.fftrim.applied_i_transfer\":\"Transfert I appliqué\",\"metrics.fftrim.net_command_delta\":\"Delta net de commande\",\"metrics.fftrim.window_duration\":\"Durée observée\",\"metrics.fftrim.transaction_timestamp\":\"Application UTC\",\"metrics.trajectory.source\":\"Source de trajectoire\",\"metrics.ff3.twin_usable\":\"Jumeau utilisable\",\"metrics.landing.reason\":\"Raison d'atterrissage\",\"metrics.landing.u_cap\":\"Plafond de commande\",\"metrics.landing.coast_required\":\"Roue libre requise\",\"groups.overview.thermal\":\"Température et consigne\",\"groups.overview.command\":\"Commande en cours\",\"groups.overview.influence\":\"Influence actuelle\",\"groups.command.actuator_cycle\":\"Cycle actionneur\",\"groups.command.limitation_chain\":\"Chaîne de limitation\",\"groups.command.contributions\":\"Contributions de contrôle\",\"groups.fftrim.observer\":\"Observation stationnaire live\",\"groups.fftrim.stationary_quality\":\"Qualité de la fenetre stationnaire\",\"groups.fftrim.periodic\":\"Observation d'équilibre périodique\",\"groups.fftrim.thermal_balance\":\"Dernier bilan thermique retenu\",\"groups.fftrim.transfer\":\"Transfert sans a-coup live\",\"groups.fftrim.deltas\":\"Deltas de propriété live\",\"groups.fftrim.last_result\":\"Dernier résultat admissible retenu\",\"groups.fftrim.last_transaction\":\"Dernière transaction appliquée\",\"groups.fftrim.last_transaction_deltas\":\"Deltas de la dernière transaction appliquée\",\"groups.anticipation.trajectory_landing\":\"Trajectoire et atterrissage\",\"groups.anticipation.ff3_twin\":\"FF3 et jumeau thermique\",\"groups.learning.drift\":\"Dérive et convergence\",\"groups.health.governance\":\"Gouvernance et decision thermique\",\"groups.health.protections\":\"Protections thermiques\",\"groups.health.integral\":\"Intégrale\",\"groups.health.restart\":\"Redémarrage\",\"groups.health.autocalib\":\"Autocalibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Apprentissage thermique\",\"groups.actions.maintenance\":\"Maintenance\",\"status.phase.Hysteresis\":\"Bootstrap hystérésis\",\"status.phase.Stable\":\"Stable\",\"status.phase.Calibration\":\"Calibration\",\"status.mode.smartpi\":\"Smart PI\",\"status.mode.hysteresis\":\"Hysteresis\",\"status.hysteresis.on\":\"Chauffe\",\"status.hysteresis.off\":\"Arrêt\",\"status.hysteresis.band\":\"Bande morte\",\"status.learning.bootstrap\":\"Bootstrap\",\"status.learning.learning\":\"Apprentissage\",\"status.learning.monitoring\":\"Surveillance\",\"status.learning.degraded\":\"Dégradé\",\"status.learning.enabled\":\"Actif\",\"status.learning.paused\":\"En pause\",\"status.drift.NORMAL\":\"Normale\",\"status.drift.DRIFT_SUSPECTED\":\"Dérive suspectée\",\"status.drift.RECENTERING\":\"Recentrement en cours\",\"status.confidence.ab_ok\":\"Modèle fiable\",\"status.confidence.ab_bootstrap\":\"Bootstrap du modèle\",\"status.confidence.ab_degraded\":\"Modèle partiel\",\"status.confidence.ab_bad\":\"Modèle insuffisant\",\"status.confidence.unknown\":\"Confiance inconnue\",\"status.confidence.ab_ok.description\":\"Les échantillons A et B sont suffisamment cohérents pour utiliser le modèle normalement.\",\"status.confidence.ab_bootstrap.description\":\"Smart PI collecte encore les échantillons de bootstrap ; le modèle n'est pas encore prêt.\",\"status.confidence.ab_degraded.description\":\"Une partie du modèle est exploitable, mais la régulation reste prudente.\",\"status.confidence.ab_bad.description\":\"Le modèle n'est pas assez fiable ; Smart PI limite ou évite son influence.\",\"status.confidence.unknown.description\":\"L'etat de confiance n'est pas encore publié par le diagnostic.\",\"status.boolean.true\":\"Oui\",\"status.boolean.false\":\"Non\",\"status.reliability.true\":\"Fiable\",\"status.reliability.false\":\"Non fiable\",\"status.coherence.collecting\":\"En collecte\",\"status.coherence.coherent\":\"Cohérente\",\"status.coherence.watch\":\"A surveiller\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersée\",\"status.coherence.unstable\":\"Instable\",\"status.coherence.very_unstable\":\"Très instable\",\"status.autocalib.idle\":\"Désactivée\",\"status.autocalib.waiting_snapshot\":\"Attente snapshot\",\"status.autocalib.monitoring\":\"Surveillance\",\"status.autocalib.triggered\":\"Déclenchée\",\"status.autocalib.post_calib_check\":\"Vérification\",\"status.calibration.Idle\":\"Inactive\",\"status.calibration.CoolDown\":\"Refroidissement\",\"status.calibration.HeatUp\":\"Chauffe\",\"status.calibration.CoolDownFinal\":\"Refroidissement final\",\"status.decision.adapt_on\":\"Adaptation autorisée\",\"status.decision.freeze\":\"Figé\",\"status.decision.hard_freeze\":\"Blocage strict\",\"status.decision.soft_freeze_down\":\"Baisse seule\",\"status.regime.warmup\":\"Échauffement\",\"status.regime.excited_stable\":\"Stable excité\",\"status.regime.near_band\":\"Zone proche\",\"status.regime.dead_band\":\"Bande morte\",\"status.regime.hold\":\"Maintien\",\"status.regime.perturbed\":\"Perturbé\",\"status.regime.degraded\":\"Dégradé\",\"status.regime.saturated\":\"Saturé\",\"status.boolean.active\":\"Actif\",\"status.trajectory.setpoint\":\"Changement de consigne\",\"status.trajectory.disturbance\":\"Perturbation\",\"status.trajectory.none\":\"Aucune\",\"status.landing.cap\":\"Plafonnement actif\",\"status.landing.coast\":\"Roue libre requise\",\"status.ff3.active\":\"FF3 actif\",\"status.ff3.inactive\":\"FF3 inactif\",\"status.ff3.disabled\":\"FF3 désactivé\",\"status.ff3.disabled.config_disabled\":\"FF3 désactivé par configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactif en zone morte\",\"status.ff3.disabled.not_near_band\":\"FF3 hors zone proche\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 en attente de fin de cycle\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 bloqué par la trajectoire de consigne\",\"status.ff3.disabled.disturbance_unclassified\":\"Perturbation FF3 non classée\",\"status.ff3.disabled.twin_warming_up\":\"Jumeau thermique en chauffe\",\"status.ff3.disabled.twin_steady_invalid\":\"État stable du jumeau invalide\",\"status.ff3.disabled.reset\":\"FF3 en réinitialisation\",\"status.ff3.disabled.hvac_off\":\"FF3 arrêté : chauffage coupé\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 attend le premier cycle après redémarrage\",\"status.ff3.disabled.cool_mode\":\"FF3 indisponible en refroidissement\",\"status.ff3.disabled.missing_ext_temp\":\"Température extérieure absente\",\"status.ff3.disabled.tau_not_reliable\":\"Temps caractéristique non fiable\",\"status.ff3.disabled.twin_not_initialized\":\"Jumeau thermique non initialisé\",\"status.ff3.disabled.calibration\":\"FF3 suspendu pendant la calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 suspendu par la limitation de puissance\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 attend après un changement de consigne\",\"status.ff3.disabled.no_disturbance_context\":\"Aucune perturbation confirmée\",\"status.ff3.disabled.saturated_high\":\"FF3 suspendu à saturation haute\",\"status.ff3.disabled.system_not_stable\":\"Système thermique pas encore stable\",\"status.ff3.disabled.authority_zero\":\"Autorité FF3 nulle\",\"status.ff3.disabled.scoring_failed\":\"Évaluation FF3 indisponible\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"Aucun effet candidat sur l'horizon\",\"status.ff3.disabled.score_not_better\":\"Aucune amélioration predite\",\"status.ff3.disabled.authority_tapered_to_zero\":\"Autorité FF3 réduite a zéro\",\"status.twin.ok\":\"Jumeau disponible\",\"status.twin.unavailable\":\"Jumeau indisponible\",\"status.deadband.power_source.none\":\"Aucune source de maintien\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward et PI\",\"status.deadband.p_mode.init\":\"Initialisation\",\"status.deadband.p_mode.deadband_frozen\":\"P gelée en zone morte\",\"status.deadband.p_mode.deadband_quiet\":\"P nulle en zone morte\",\"status.deadband.p_mode.off\":\"P hors zone morte\",\"status.deadband.p_mode.deadband_edge\":\"P au bord de la zone morte\",\"status.deadband.p_mode.deadband_edge_pending\":\"P au bord en attente\",\"status.deadband.p_mode.deadzone_edge\":\"P au bord de la zone proche\",\"status.saturation.NO_SAT\":\"Sans saturation\",\"status.saturation.SAT_HI\":\"Limite haute\",\"status.saturation.SAT_LO\":\"Limite basse\",\"status.fftrim.state.warming_up\":\"Mise en route\",\"status.fftrim.state.waiting_deadtime\":\"Attente du temps mort\",\"status.fftrim.state.collecting\":\"Collecte en cours\",\"status.fftrim.state.waiting_phase\":\"Attente de fermeture du cycle\",\"status.fftrim.state.ready\":\"Fenêtre prete\",\"status.fftrim.state.rejected\":\"Fenêtre rejetée\",\"status.fftrim.mode.stationary\":\"Observation stationnaire\",\"status.fftrim.mode.periodic\":\"Équilibre périodique\",\"status.fftrim.reason.none\":\"Aucune\",\"status.fftrim.reason.skipped\":\"Mise à jour ignorée\",\"status.fftrim.reason.causal_window_ready\":\"Fenêtre causale prete\",\"status.fftrim.reason.periodic_window_ready\":\"Cycle périodique prêt\",\"status.fftrim.reason.persistent_ready\":\"Correction persistante confirmée\",\"status.fftrim.reason.updated_persistent\":\"Trim mis a jour\",\"status.fftrim.reason.updated_bumpless\":\"Transfert appliqué sans a-coup\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.reason.deadtime_unreliable\":\"Temps mort non fiable\",\"status.fftrim.reason.deadtime_changed\":\"Temps mort modifié\",\"status.fftrim.reason.causal_power_not_covered\":\"Chronologie de puissance incomplète\",\"status.fftrim.reason.not_enough_measurements\":\"Mesures insuffisantes\",\"status.fftrim.reason.window_too_short\":\"Fenêtre trop courte\",\"status.fftrim.reason.setpoint_changed\":\"Consigne modifiée\",\"status.fftrim.reason.trajectory_active\":\"Trajectoire active\",\"status.fftrim.reason.ff3_active\":\"FF3 actif\",\"status.fftrim.reason.model_confidence\":\"Modèle insuffisamment fiable\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Température extérieure absente\",\"status.fftrim.reason.saturated\":\"Commande saturée\",\"status.fftrim.reason.pi_unstable\":\"Branche PI instable\",\"status.fftrim.reason.cycle_not_reversed\":\"Montée et descente incompletes\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Amplitude du cycle insuffisante\",\"status.fftrim.reason.cycle_not_closed\":\"Cycle thermique non fermé\",\"status.fftrim.reason.saturated_high\":\"Saturation haute\",\"status.fftrim.transfer.idle\":\"Inactif\",\"status.fftrim.transfer.observer_rejected\":\"Observation non retenue\",\"status.fftrim.transfer.pending\":\"Confirmation en cours\",\"status.fftrim.transfer.ineligible\":\"Transfert non applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction sans transfert I/trim\",\"status.fftrim.transfer.applied\":\"Transfert appliqué\",\"status.fftrim.transfer.rejected\":\"Transfert rejeté\",\"status.fftrim.transfer.pending_engagement\":\"En attente d'engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-équilibre confirme\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Équilibre périodique sans transfert\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Attente de la frontière post anti-windup\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction sous le seuil utile\",\"status.fftrim.quality.unavailable\":\"Indisponible\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Cycle switch équivalent\",\"status.fftrim.quality.valve_segmented_linear\":\"Timeline de vanne linéarisée\",\"status.fftrim.quality.mixed\":\"Sources mixtes\",\"fallback.unknown_code\":\"Code inconnu\",\"notes.diagnostic_required\":\"Le thermostat n'a pas encore publié l'entité de diagnostic Smart PI.\",\"notes.learning\":\"A mesure la réponse à la commande ; B mesure les pertes thermiques. Smart PI collecte les deux séries d'échantillons pour fiabiliser le modèle.\",\"notes.hysteresis_phase\":\"En phase bootstrap, Smart PI peut fonctionner en hystérésis le temps de collecter assez d'observations.\",\"notes.fftrim.stationary\":\"L'observateur stationnaire aligne les mesures thermiques sur la puissance déjà appliquée en tenant compte du temps mort.\",\"notes.fftrim.periodic\":\"L'observateur périodique cherche un cycle thermique fermé avec montée et descente. Sa cible depend des cycles VT et du temps mort ; il partage la chronologie de puissance, conserve sa propre fenetre et ne transfère pas la propriété intégrale/trim.\",\"actions.reset_learning\":\"Réinitialiser l'apprentissage\",\"actions.reset_learning.confirm\":\"Smart PI va effacer son apprentissage et revenir en bootstrap.\",\"actions.pause_learning\":\"Mettre l'apprentissage en pause\",\"actions.pause_learning.confirm\":\"Smart PI continuera a réguler avec le modèle actuel, mais ne collectera plus d'observations thermiques ni de temps mort.\",\"actions.resume_learning\":\"Reprendre l'apprentissage\",\"actions.resume_learning.confirm\":\"Smart PI reprendra la collecte d'observations thermiques et de temps mort.\",\"actions.force_calibration\":\"Forcer une calibration\",\"actions.force_calibration.confirm\":\"Smart PI va lancer une calibration si l'etat courant le permet.\",\"actions.reset_integral\":\"Réinitialiser l'intégrale\",\"actions.reset_integral.confirm\":\"Smart PI va remettre le terme integral a zéro sans effacer le modèle appris.\",\"graphs.command.title\":\"Commande Smart PI\",\"graphs.command.applied\":\"Puissance appliquée\",\"graphs.command.command\":\"Commande calculée\",\"graphs.command.pi\":\"Branche PI\",\"graphs.command.ff\":\"Feed-forward total\",\"graphs.overview.title\":\"Température, consigne et puissance (6 h)\",\"graphs.overview.temperature\":\"Température mesurée\",\"graphs.overview.filtered_setpoint\":\"Consigne filtrée\",\"graphs.overview.applied\":\"Puissance appliquée\",\"graphs.model.title\":\"Paramètres A et B (1R1C) (24h)\",\"graphs.model.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"graphs.model.b\":\"B - Pertes thermiques\"},\"en\":{\"sections.overview.title\":\"Summary\",\"sections.overview.summary\":\"Current Smart PI temperature, setpoint and command.\",\"sections.learning.title\":\"Learning\",\"sections.learning.summary\":\"Sample collection state for the A/B thermal model.\",\"sections.model.title\":\"Thermal model\",\"sections.model.summary\":\"Model reliability and estimated dead times.\",\"sections.command.title\":\"Command\",\"sections.command.summary\":\"Requested power, limits and command breakdown.\",\"sections.fftrim.title\":\"Balance / FFTrim\",\"sections.fftrim.summary\":\"Observation of holding power and ownership distribution between integral and trim.\",\"sections.anticipation.title\":\"Anticipation\",\"sections.anticipation.summary\":\"Setpoint trajectory, landing and predictive correction.\",\"sections.health.title\":\"Monitoring\",\"sections.health.summary\":\"Current governance, safeguards and calibration.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Learning and regulation maintenance commands.\",\"hero.overview.title\":\"Smart PI is driving regulation\",\"hero.overview.bootstrap\":\"Smart PI is collecting the first samples and temporarily regulating with hysteresis.\",\"hero.overview.hysteresis_learning\":\"The model is still consolidating; regulation remains cautious during learning.\",\"hero.overview.stable_learning\":\"Smart PI is refining the model while driving active regulation.\",\"hero.overview.monitoring\":\"The thermal model is used to anticipate the required power.\",\"hero.overview.calibration\":\"Calibration is running to realign the thermal behavior.\",\"hero.overview.degraded\":\"Regulation limits adaptation because the model lacks reliability.\",\"hero.overview.fallback\":\"Smart PI adjusts power from the current phase, A/B learning and safety limits.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics unavailable\",\"hero.overview.diagnostic_missing\":\"The Smart PI diagnostics entity is unavailable.\",\"hero.learning.title\":\"A/B learning\",\"hero.learning.subtitle\":\"Sample collection state for the A/B thermal model.\",\"hero.model.title\":\"Thermal model\",\"hero.model.subtitle\":\"Model confidence controls the feed-forward share and cautious limits.\",\"hero.command.title\":\"Applied command\",\"hero.command.subtitle\":\"The final command combines PI, feed-forward, hold and limits.\",\"hero.health.title\":\"Active supervision\",\"hero.health.subtitle\":\"Protections may freeze learning or request calibration.\",\"hero.actions.title\":\"Smart PI actions\",\"hero.actions.subtitle\":\"Actions are applied to the configured thermostat after confirmation.\",\"metrics.phase\":\"Phase\",\"metrics.mode\":\"Mode\",\"metrics.hysteresis\":\"Hysteresis state\",\"metrics.temperature\":\"Temperature\",\"metrics.external_temperature\":\"External temperature\",\"metrics.error\":\"Setpoint error\",\"metrics.integral_error\":\"Integral\",\"metrics.filtered_setpoint\":\"Filtered setpoint\",\"metrics.current_cycle\":\"Current cycle\",\"metrics.next_cycle\":\"Next cycle\",\"metrics.linear_current_cycle\":\"Linear current cycle\",\"metrics.linear_next_cycle\":\"Linear next cycle\",\"metrics.command\":\"Command\",\"metrics.limited\":\"Limited\",\"metrics.applied\":\"Applied\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Hold\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Signed response (heat + / cool -)\",\"metrics.b\":\"B - Thermal losses\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Heat dead time\",\"metrics.deadtime_cool\":\"Cool dead time\",\"metrics.a_stability\":\"A dispersion\",\"metrics.b_stability\":\"B dispersion\",\"metrics.samples_a\":\"A history\",\"metrics.samples_b\":\"B history\",\"metrics.accepted_a\":\"Accepted A updates\",\"metrics.accepted_b\":\"Accepted B updates\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"A samples\",\"metrics.bootstrap_b\":\"B samples\",\"metrics.history_a\":\"A samples\",\"metrics.history_b\":\"B samples\",\"metrics.learning_stage\":\"Learning state\",\"metrics.learning_enabled\":\"Thermal learning\",\"metrics.a_drift\":\"A drift\",\"metrics.b_drift\":\"B drift\",\"metrics.learn_b_converged\":\"B converged\",\"metrics.learning_last_reason\":\"Latest reason\",\"metrics.bootstrap_status\":\"Bootstrap state\",\"metrics.confidence\":\"Model confidence\",\"metrics.reliability\":\"Reliability\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Heat dead time\",\"metrics.deadtime_cool_reliable\":\"Cool dead time\",\"metrics.governance\":\"Safety regime\",\"metrics.thermal_decision\":\"Thermal decision\",\"metrics.thermal_reason\":\"Reason\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Thermal twin\",\"metrics.deadband_source\":\"Deadband source\",\"metrics.deadband_mode\":\"Deadband mode\",\"metrics.in_deadband\":\"In dead band\",\"metrics.in_near_band\":\"Near band\",\"metrics.in_deadtime\":\"Dead-time window\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Integral mode\",\"metrics.integral_hold\":\"Integral hold\",\"metrics.integral_hold_source\":\"Integral hold source\",\"metrics.integral_guard_source\":\"Integral guard source\",\"metrics.restart_reason\":\"Restart reason\",\"metrics.autocalib_state\":\"Auto-calibration\",\"metrics.autocalib_degraded\":\"Model degraded\",\"metrics.autocalib_snapshot_age\":\"Snapshot age\",\"metrics.autocalib_next_check\":\"Next check\",\"metrics.autocalib_last_trigger\":\"Last trigger\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Calibration retries\",\"metrics.calibration_last_time\":\"Last calibration\",\"metrics.trajectory\":\"Trajectory\",\"metrics.landing\":\"Landing\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Stationary observer\",\"metrics.fftrim.observation_mode\":\"Latest method\",\"metrics.fftrim.windows_since_update\":\"Windows since update\",\"metrics.fftrim.last_update_reason\":\"Latest result\",\"metrics.fftrim.last_reject_reason\":\"Latest FFTrim rejection\",\"metrics.fftrim.stationary_progress\":\"Stationary window\",\"metrics.fftrim.measurement_count\":\"Distinct measurements\",\"metrics.fftrim.power_coverage\":\"Power coverage\",\"metrics.fftrim.alignment_delay\":\"Alignment delay\",\"metrics.fftrim.periodic_state\":\"Periodic observer\",\"metrics.fftrim.periodic_progress\":\"Periodic window\",\"metrics.fftrim.periodic_measurement_count\":\"Periodic measurements\",\"metrics.fftrim.periodic_amplitude\":\"Thermal amplitude\",\"metrics.fftrim.periodic_closure_error\":\"Closure error\",\"metrics.fftrim.periodic_last_reject_reason\":\"Latest periodic rejection\",\"metrics.fftrim.mean_causal_power\":\"Mean causal power\",\"metrics.fftrim.mean_ff1\":\"Mean FF1\",\"metrics.fftrim.mean_p_power\":\"Mean P contribution\",\"metrics.fftrim.mean_i_power\":\"Mean I contribution\",\"metrics.fftrim.mean_visible_ff_power\":\"Mean visible feed-forward\",\"metrics.fftrim.observed_hold_power\":\"Observed holding power\",\"metrics.fftrim.physical_power_deficit\":\"Physical power deficit\",\"metrics.fftrim.decomposed_correction\":\"Decomposed correction\",\"metrics.fftrim.target_trim\":\"Target trim\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Mean temperature\",\"metrics.fftrim.mean_error\":\"Mean error\",\"metrics.fftrim.mean_slope_h\":\"Mean slope\",\"metrics.fftrim.mean_delivery_residual\":\"Mean delivery residual\",\"metrics.fftrim.bumpless_transfer_state\":\"Bumpless transfer\",\"metrics.fftrim.bumpless_transfer_reason\":\"Transfer reason\",\"metrics.fftrim.transfer_quality\":\"Ownership quality\",\"metrics.fftrim.transfer_pending_engagement\":\"Actuator engagement\",\"metrics.fftrim.requested_trim_delta\":\"Requested trim delta\",\"metrics.fftrim.stored_trim_delta\":\"Stored trim delta\",\"metrics.fftrim.applied_trim_delta\":\"Applied trim delta\",\"metrics.fftrim.transferable_i_power\":\"Transferable I power\",\"metrics.fftrim.requested_i_transfer\":\"Requested I transfer\",\"metrics.fftrim.applied_i_transfer\":\"Applied I transfer\",\"metrics.fftrim.net_command_delta\":\"Net command delta\",\"metrics.fftrim.window_duration\":\"Observed duration\",\"metrics.fftrim.transaction_timestamp\":\"Applied at UTC\",\"metrics.trajectory.source\":\"Trajectory source\",\"metrics.ff3.twin_usable\":\"Usable twin\",\"metrics.landing.reason\":\"Landing reason\",\"metrics.landing.u_cap\":\"Command cap\",\"metrics.landing.coast_required\":\"Coasting required\",\"groups.overview.thermal\":\"Temperature and setpoint\",\"groups.overview.command\":\"Current command\",\"groups.overview.influence\":\"Current influence\",\"groups.command.actuator_cycle\":\"Actuator cycle\",\"groups.command.limitation_chain\":\"Limitation chain\",\"groups.command.contributions\":\"Control contributions\",\"groups.fftrim.observer\":\"Live stationary observation\",\"groups.fftrim.stationary_quality\":\"Stationary window quality\",\"groups.fftrim.periodic\":\"Periodic equilibrium observation\",\"groups.fftrim.thermal_balance\":\"Retained thermal balance\",\"groups.fftrim.transfer\":\"Live bumpless transfer\",\"groups.fftrim.deltas\":\"Live ownership deltas\",\"groups.fftrim.last_result\":\"Last retained admissible result\",\"groups.fftrim.last_transaction\":\"Last applied transaction\",\"groups.fftrim.last_transaction_deltas\":\"Last applied transaction deltas\",\"groups.anticipation.trajectory_landing\":\"Trajectory and landing\",\"groups.anticipation.ff3_twin\":\"FF3 and thermal twin\",\"groups.learning.drift\":\"Drift and convergence\",\"groups.health.governance\":\"Governance and thermal decision\",\"groups.health.protections\":\"Thermal safeguards\",\"groups.health.integral\":\"Integral\",\"groups.health.restart\":\"Restart\",\"groups.health.autocalib\":\"Auto-calibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Thermal learning\",\"groups.actions.maintenance\":\"Maintenance\",\"status.phase.Hysteresis\":\"Bootstrap hysteresis\",\"status.phase.Stable\":\"Stable\",\"status.phase.Calibration\":\"Calibration\",\"status.mode.smartpi\":\"Smart PI\",\"status.mode.hysteresis\":\"Hysteresis\",\"status.hysteresis.on\":\"Heating\",\"status.hysteresis.off\":\"Off\",\"status.hysteresis.band\":\"Dead band\",\"status.learning.bootstrap\":\"Bootstrap\",\"status.learning.learning\":\"Learning\",\"status.learning.monitoring\":\"Monitoring\",\"status.learning.degraded\":\"Degraded\",\"status.learning.enabled\":\"Enabled\",\"status.learning.paused\":\"Paused\",\"status.drift.NORMAL\":\"Normal\",\"status.drift.DRIFT_SUSPECTED\":\"Drift suspected\",\"status.drift.RECENTERING\":\"Recentering in progress\",\"status.confidence.ab_ok\":\"Reliable model\",\"status.confidence.ab_bootstrap\":\"Model bootstrap\",\"status.confidence.ab_degraded\":\"Partial model\",\"status.confidence.ab_bad\":\"Insufficient model\",\"status.confidence.unknown\":\"Unknown confidence\",\"status.confidence.ab_ok.description\":\"A and B samples are coherent enough to use the model normally.\",\"status.confidence.ab_bootstrap.description\":\"Smart PI is still collecting bootstrap samples; the model is not ready yet.\",\"status.confidence.ab_degraded.description\":\"Part of the model is usable, but regulation remains cautious.\",\"status.confidence.ab_bad.description\":\"The model is not reliable enough; Smart PI limits or avoids its influence.\",\"status.confidence.unknown.description\":\"The confidence state has not been published by diagnostics yet.\",\"status.boolean.true\":\"Yes\",\"status.boolean.false\":\"No\",\"status.reliability.true\":\"Reliable\",\"status.reliability.false\":\"Not reliable\",\"status.coherence.collecting\":\"Collecting\",\"status.coherence.coherent\":\"Coherent\",\"status.coherence.watch\":\"Watch\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersed\",\"status.coherence.unstable\":\"Unstable\",\"status.coherence.very_unstable\":\"Very unstable\",\"status.autocalib.idle\":\"Disabled\",\"status.autocalib.waiting_snapshot\":\"Waiting for snapshot\",\"status.autocalib.monitoring\":\"Monitoring\",\"status.autocalib.triggered\":\"Triggered\",\"status.autocalib.post_calib_check\":\"Checking\",\"status.calibration.Idle\":\"Inactive\",\"status.calibration.CoolDown\":\"Cool down\",\"status.calibration.HeatUp\":\"Heat up\",\"status.calibration.CoolDownFinal\":\"Final cool down\",\"status.decision.adapt_on\":\"Adaptation allowed\",\"status.decision.freeze\":\"Frozen\",\"status.decision.hard_freeze\":\"Hard freeze\",\"status.decision.soft_freeze_down\":\"Downward only\",\"status.regime.warmup\":\"Warmup\",\"status.regime.excited_stable\":\"Excited stable\",\"status.regime.near_band\":\"Near band\",\"status.regime.dead_band\":\"Dead band\",\"status.regime.hold\":\"Hold\",\"status.regime.perturbed\":\"Perturbed\",\"status.regime.degraded\":\"Degraded\",\"status.regime.saturated\":\"Saturated\",\"status.boolean.active\":\"Active\",\"status.trajectory.setpoint\":\"Setpoint change\",\"status.trajectory.disturbance\":\"Disturbance\",\"status.trajectory.none\":\"None\",\"status.landing.cap\":\"Cap active\",\"status.landing.coast\":\"Coasting required\",\"status.ff3.active\":\"FF3 active\",\"status.ff3.inactive\":\"FF3 inactive\",\"status.ff3.disabled\":\"FF3 disabled\",\"status.ff3.disabled.config_disabled\":\"FF3 disabled by configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactive in deadband\",\"status.ff3.disabled.not_near_band\":\"FF3 outside near band\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 awaiting cycle boundary\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 blocked by setpoint trajectory\",\"status.ff3.disabled.disturbance_unclassified\":\"FF3 disturbance unclassified\",\"status.ff3.disabled.twin_warming_up\":\"Thermal twin warming up\",\"status.ff3.disabled.twin_steady_invalid\":\"Thermal twin steady state invalid\",\"status.ff3.disabled.reset\":\"FF3 resetting\",\"status.ff3.disabled.hvac_off\":\"FF3 off because HVAC is off\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 awaiting first cycle after restart\",\"status.ff3.disabled.cool_mode\":\"FF3 unavailable in cooling mode\",\"status.ff3.disabled.missing_ext_temp\":\"Outdoor temperature unavailable\",\"status.ff3.disabled.tau_not_reliable\":\"Time constant not reliable\",\"status.ff3.disabled.twin_not_initialized\":\"Thermal twin not initialized\",\"status.ff3.disabled.calibration\":\"FF3 paused during calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 paused by power shedding\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 waiting after a setpoint change\",\"status.ff3.disabled.no_disturbance_context\":\"No confirmed disturbance\",\"status.ff3.disabled.saturated_high\":\"FF3 paused at high saturation\",\"status.ff3.disabled.system_not_stable\":\"Thermal system not yet stable\",\"status.ff3.disabled.authority_zero\":\"FF3 authority is zero\",\"status.ff3.disabled.scoring_failed\":\"FF3 evaluation unavailable\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"No candidate effect over the horizon\",\"status.ff3.disabled.score_not_better\":\"No predicted improvement\",\"status.ff3.disabled.authority_tapered_to_zero\":\"FF3 authority tapered to zero\",\"status.twin.ok\":\"Twin available\",\"status.twin.unavailable\":\"Twin unavailable\",\"status.deadband.power_source.none\":\"No holding source\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward and PI\",\"status.deadband.p_mode.init\":\"Initializing\",\"status.deadband.p_mode.deadband_frozen\":\"P frozen in deadband\",\"status.deadband.p_mode.deadband_quiet\":\"P zero in deadband\",\"status.deadband.p_mode.off\":\"P outside deadband\",\"status.deadband.p_mode.deadband_edge\":\"P at deadband edge\",\"status.deadband.p_mode.deadband_edge_pending\":\"P at edge pending\",\"status.deadband.p_mode.deadzone_edge\":\"P at near-band edge\",\"status.saturation.NO_SAT\":\"No saturation\",\"status.saturation.SAT_HI\":\"Upper limit\",\"status.saturation.SAT_LO\":\"Lower limit\",\"status.fftrim.state.warming_up\":\"Warming up\",\"status.fftrim.state.waiting_deadtime\":\"Waiting for dead time\",\"status.fftrim.state.collecting\":\"Collecting\",\"status.fftrim.state.waiting_phase\":\"Waiting for cycle closure\",\"status.fftrim.state.ready\":\"Window ready\",\"status.fftrim.state.rejected\":\"Window rejected\",\"status.fftrim.mode.stationary\":\"Stationary observation\",\"status.fftrim.mode.periodic\":\"Periodic equilibrium\",\"status.fftrim.reason.none\":\"None\",\"status.fftrim.reason.skipped\":\"Update skipped\",\"status.fftrim.reason.causal_window_ready\":\"Causal window ready\",\"status.fftrim.reason.periodic_window_ready\":\"Periodic cycle ready\",\"status.fftrim.reason.persistent_ready\":\"Persistent correction confirmed\",\"status.fftrim.reason.updated_persistent\":\"Trim updated\",\"status.fftrim.reason.updated_bumpless\":\"Bumpless transfer applied\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.reason.deadtime_unreliable\":\"Dead time is unreliable\",\"status.fftrim.reason.deadtime_changed\":\"Dead time changed\",\"status.fftrim.reason.causal_power_not_covered\":\"Power timeline is incomplete\",\"status.fftrim.reason.not_enough_measurements\":\"Not enough measurements\",\"status.fftrim.reason.window_too_short\":\"Window is too short\",\"status.fftrim.reason.setpoint_changed\":\"Setpoint changed\",\"status.fftrim.reason.trajectory_active\":\"Trajectory is active\",\"status.fftrim.reason.ff3_active\":\"FF3 is active\",\"status.fftrim.reason.model_confidence\":\"Model confidence is insufficient\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Outdoor temperature is missing\",\"status.fftrim.reason.saturated\":\"Command is saturated\",\"status.fftrim.reason.pi_unstable\":\"PI branch is unstable\",\"status.fftrim.reason.cycle_not_reversed\":\"Rise and fall are incomplete\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Cycle amplitude is too small\",\"status.fftrim.reason.cycle_not_closed\":\"Thermal cycle is not closed\",\"status.fftrim.reason.saturated_high\":\"Upper saturation\",\"status.fftrim.transfer.idle\":\"Idle\",\"status.fftrim.transfer.observer_rejected\":\"Observation not retained\",\"status.fftrim.transfer.pending\":\"Confirmation in progress\",\"status.fftrim.transfer.ineligible\":\"Transfer not applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction without I/trim transfer\",\"status.fftrim.transfer.applied\":\"Transfer applied\",\"status.fftrim.transfer.rejected\":\"Transfer rejected\",\"status.fftrim.transfer.pending_engagement\":\"Awaiting engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-equilibrium confirmed\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Periodic equilibrium without transfer\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Waiting for post anti-windup boundary\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction is below the useful threshold\",\"status.fftrim.quality.unavailable\":\"Unavailable\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Equivalent switch cycle\",\"status.fftrim.quality.valve_segmented_linear\":\"Linearized valve timeline\",\"status.fftrim.quality.mixed\":\"Mixed sources\",\"fallback.unknown_code\":\"Unknown code\",\"notes.diagnostic_required\":\"The thermostat has not published the Smart PI diagnostics entity yet.\",\"notes.learning\":\"A measures the command response; B measures thermal losses. Smart PI collects both sample series to make the model reliable.\",\"notes.hysteresis_phase\":\"During bootstrap, Smart PI may run in hysteresis while collecting enough observations.\",\"notes.fftrim.stationary\":\"The stationary observer aligns thermal measurements with previously applied power while accounting for dead time.\",\"notes.fftrim.periodic\":\"The periodic observer seeks a closed thermal cycle with a rise and a fall. Its target depends on VT cycles and dead time; it shares the power timeline, keeps its own window and never transfers integral/trim ownership.\",\"actions.reset_learning\":\"Reset learning\",\"actions.reset_learning.confirm\":\"Smart PI will clear learning and return to bootstrap.\",\"actions.pause_learning\":\"Pause learning\",\"actions.pause_learning.confirm\":\"Smart PI will continue regulating with the current model, but will stop collecting thermal and dead-time observations.\",\"actions.resume_learning\":\"Resume learning\",\"actions.resume_learning.confirm\":\"Smart PI will resume collecting thermal and dead-time observations.\",\"actions.force_calibration\":\"Force calibration\",\"actions.force_calibration.confirm\":\"Smart PI will start a calibration cycle if the current state allows it.\",\"actions.reset_integral\":\"Reset integral\",\"actions.reset_integral.confirm\":\"Smart PI will reset the integral term without clearing the learned model.\",\"graphs.command.title\":\"Smart PI command\",\"graphs.command.applied\":\"Applied power\",\"graphs.command.command\":\"Calculated command\",\"graphs.command.pi\":\"PI branch\",\"graphs.command.ff\":\"Total feed-forward\",\"graphs.overview.title\":\"Temperature, setpoint and power (6h)\",\"graphs.overview.temperature\":\"Measured temperature\",\"graphs.overview.filtered_setpoint\":\"Filtered setpoint\",\"graphs.overview.applied\":\"Applied power\",\"graphs.model.title\":\"1R1C Parameters A and B (24h)\",\"graphs.model.a\":\"A - Signed response (heat + / cool -)\",\"graphs.model.b\":\"B - Thermal losses\"}}"),
+		translations: /* @__PURE__ */ JSON.parse("{\"fr\":{\"sections.overview.title\":\"Synthèse\",\"sections.overview.summary\":\"Température, consigne et commande Smart PI.\",\"sections.learning.title\":\"Apprentissage\",\"sections.learning.summary\":\"Collecte des échantillons A/B du modèle thermique.\",\"sections.model.title\":\"Modèle et prévision\",\"sections.model.summary\":\"Modèle A/B, fiabilité, temps de réponse et correction prédictive FF3.\",\"sections.command.title\":\"Commande\",\"sections.command.summary\":\"Demande de puissance, limites et détail de la commande.\",\"sections.fftrim.title\":\"Équilibre / FFTrim\",\"sections.fftrim.summary\":\"Observation de la puissance de maintien et répartition entre intégrale et trim.\",\"sections.anticipation.title\":\"Approche de consigne\",\"sections.anticipation.summary\":\"Trajectoire vers la consigne, freinage prédictif et effet du plafond sur la commande.\",\"sections.health.title\":\"Protections\",\"sections.health.summary\":\"Gouvernance, protections et calibration.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Actions de maintenance de l'apprentissage et de la régulation.\",\"hero.overview.title\":\"Smart PI pilote la régulation\",\"hero.overview.bootstrap\":\"Smart PI collecte les premiers échantillons et régule provisoirement en hystérésis.\",\"hero.overview.calibration\":\"Une calibration est en cours pour recaler le comportement thermique.\",\"hero.overview.degraded\":\"La régulation limite l'adaptation car le modèle manque de fiabilité.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics indisponibles\",\"hero.overview.diagnostic_missing\":\"L'entité de diagnostic Smart PI n'est pas disponible.\",\"hero.learning.title\":\"Apprentissage A/B\",\"hero.learning.subtitle\":\"État de la collecte des échantillons A/B du modèle thermique.\",\"hero.model.title\":\"Modèle et prévision thermique\",\"hero.model.subtitle\":\"A/B et retards alimentent la prévision ; FF3 peut corriger la puissance selon le contexte.\",\"hero.health.title\":\"Surveillance active\",\"hero.health.subtitle\":\"Les protections peuvent figer l'apprentissage ou demander une calibration.\",\"hero.actions.title\":\"Actions Smart PI\",\"hero.actions.subtitle\":\"Les actions sont appliquées au thermostat configuré après confirmation.\",\"metrics.temperature\":\"Température\",\"metrics.error\":\"Écart consigne\",\"metrics.integral_error\":\"Intégrale\",\"metrics.filtered_setpoint\":\"Référence filtrée suivie par P\",\"metrics.current_cycle\":\"Cycle courant\",\"metrics.next_cycle\":\"Prochain cycle\",\"metrics.linear_current_cycle\":\"Cycle courant linéaire\",\"metrics.linear_next_cycle\":\"Prochain cycle linéaire\",\"metrics.command\":\"Commande\",\"metrics.limited\":\"Limitée\",\"metrics.applied\":\"Commande appliquée\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Maintien\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"metrics.b\":\"B - Pertes thermiques\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Temps mort chauffe\",\"metrics.deadtime_cool\":\"Temps mort refroidissement\",\"metrics.a_stability\":\"Dispersion A\",\"metrics.b_stability\":\"Dispersion B\",\"metrics.accepted_a\":\"Mises à jour A acceptées\",\"metrics.accepted_b\":\"Mises à jour B acceptées\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"Échantillons A\",\"metrics.bootstrap_b\":\"Échantillons B\",\"metrics.history_a\":\"Échantillons A\",\"metrics.history_b\":\"Échantillons B\",\"metrics.learning_enabled\":\"Apprentissage thermique\",\"metrics.a_drift\":\"Dérive A\",\"metrics.b_drift\":\"Dérive B\",\"metrics.learn_b_converged\":\"B convergé\",\"metrics.learning_last_reason\":\"Dernière raison\",\"metrics.bootstrap_status\":\"État bootstrap\",\"metrics.confidence\":\"Confiance modèle\",\"metrics.reliability\":\"Fiabilité\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Temps mort chauffe\",\"metrics.deadtime_cool_reliable\":\"Temps mort refroidissement\",\"metrics.governance\":\"Régime de gouvernance\",\"metrics.thermal_decision\":\"Décision thermique\",\"metrics.thermal_reason\":\"Raison\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Jumeau thermique\",\"metrics.deadband_source\":\"Source deadband\",\"metrics.deadband_mode\":\"Mode deadband\",\"metrics.in_deadband\":\"Dans la bande morte\",\"metrics.in_near_band\":\"Zone proche\",\"metrics.in_deadtime\":\"Fenêtre temps mort\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Mode intégrale\",\"metrics.integral_hold\":\"Maintien intégrale\",\"metrics.integral_hold_source\":\"Source du maintien intégral\",\"metrics.integral_guard_source\":\"Source de protection intégrale\",\"metrics.restart_reason\":\"Raison du redémarrage\",\"metrics.autocalib_state\":\"Autocalibration\",\"metrics.autocalib_degraded\":\"Modèle dégradé\",\"metrics.autocalib_snapshot_age\":\"Âge du snapshot\",\"metrics.autocalib_next_check\":\"Prochain contrôle\",\"metrics.autocalib_last_trigger\":\"Dernier déclenchement\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Essais calibration\",\"metrics.calibration_last_time\":\"Dernière calibration\",\"metrics.trajectory\":\"Trajectoire\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Observateur stationnaire\",\"metrics.fftrim.observation_mode\":\"Dernière méthode\",\"metrics.fftrim.windows_since_update\":\"Fenêtres depuis la mise à jour\",\"metrics.fftrim.last_update_reason\":\"Dernier résultat\",\"metrics.fftrim.last_reject_reason\":\"Dernier rejet FFTrim\",\"metrics.fftrim.stationary_progress\":\"Fenêtre stationnaire\",\"metrics.fftrim.measurement_count\":\"Mesures distinctes\",\"metrics.fftrim.power_coverage\":\"Couverture de puissance\",\"metrics.fftrim.alignment_delay\":\"Délai d'alignement\",\"metrics.fftrim.periodic_state\":\"Observateur périodique\",\"metrics.fftrim.periodic_progress\":\"Fenêtre périodique\",\"metrics.fftrim.periodic_measurement_count\":\"Mesures périodiques\",\"metrics.fftrim.periodic_amplitude\":\"Amplitude thermique\",\"metrics.fftrim.periodic_closure_error\":\"Erreur de fermeture\",\"metrics.fftrim.periodic_last_reject_reason\":\"Dernier rejet périodique\",\"metrics.fftrim.mean_causal_power\":\"Puissance causale moyenne\",\"metrics.fftrim.mean_ff1\":\"FF1 moyen\",\"metrics.fftrim.mean_p_power\":\"Contribution P moyenne\",\"metrics.fftrim.mean_i_power\":\"Contribution I moyenne\",\"metrics.fftrim.mean_visible_ff_power\":\"Feed-forward visible moyen\",\"metrics.fftrim.observed_hold_power\":\"Puissance de maintien observée\",\"metrics.fftrim.physical_power_deficit\":\"Déficit physique de puissance\",\"metrics.fftrim.decomposed_correction\":\"Correction décomposée\",\"metrics.fftrim.target_trim\":\"Trim cible\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Température moyenne\",\"metrics.fftrim.mean_error\":\"Erreur moyenne\",\"metrics.fftrim.mean_slope_h\":\"Pente moyenne\",\"metrics.fftrim.mean_delivery_residual\":\"Résiduel de livraison moyen\",\"metrics.fftrim.bumpless_transfer_state\":\"Transfert sans a-coup\",\"metrics.fftrim.bumpless_transfer_reason\":\"Raison du transfert\",\"metrics.fftrim.transfer_quality\":\"Qualité du transfert\",\"metrics.fftrim.transfer_pending_engagement\":\"Engagement actionneur\",\"metrics.fftrim.requested_trim_delta\":\"Variation de trim demandée\",\"metrics.fftrim.stored_trim_delta\":\"Variation de trim mémorisée\",\"metrics.fftrim.applied_trim_delta\":\"Variation de trim appliquée\",\"metrics.fftrim.transferable_i_power\":\"Puissance I transférable\",\"metrics.fftrim.requested_i_transfer\":\"Transfert I demandé\",\"metrics.fftrim.applied_i_transfer\":\"Transfert I appliqué\",\"metrics.fftrim.net_command_delta\":\"Variation nette de commande\",\"metrics.fftrim.window_duration\":\"Durée observée\",\"metrics.fftrim.transaction_timestamp\":\"Application (UTC)\",\"metrics.trajectory.source\":\"Source de trajectoire\",\"metrics.ff3.twin_usable\":\"Jumeau utilisable\",\"groups.overview.thermal\":\"Température et consigne\",\"groups.overview.command\":\"Commande en cours\",\"groups.overview.influence\":\"Influence actuelle\",\"groups.command.actuator_cycle\":\"Cycle actionneur\",\"groups.command.limitation_chain\":\"Chaîne de limitation\",\"groups.command.contributions\":\"Contributions de contrôle\",\"groups.fftrim.observer\":\"Observation stationnaire en cours\",\"groups.fftrim.stationary_quality\":\"Qualité de la fenêtre stationnaire\",\"groups.fftrim.periodic\":\"Observation d'équilibre périodique\",\"groups.fftrim.thermal_balance\":\"Dernier bilan thermique retenu\",\"groups.fftrim.transfer\":\"Transfert sans à-coup en cours\",\"groups.fftrim.deltas\":\"Variations de transfert en cours\",\"groups.fftrim.last_result\":\"Dernier résultat accepté\",\"groups.fftrim.last_transaction\":\"Dernière transaction appliquée\",\"groups.fftrim.last_transaction_deltas\":\"Deltas de la dernière transaction appliquée\",\"groups.learning.drift\":\"Dérive et convergence\",\"groups.health.governance\":\"Gouvernance et décision thermique\",\"groups.health.protections\":\"Protections thermiques\",\"groups.health.integral\":\"Intégrale\",\"groups.health.restart\":\"Redémarrage\",\"groups.health.autocalib\":\"Autocalibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Apprentissage thermique\",\"groups.actions.maintenance\":\"Maintenance\",\"status.learning.enabled\":\"Actif\",\"status.learning.paused\":\"En pause\",\"status.drift.NORMAL\":\"Normale\",\"status.drift.DRIFT_SUSPECTED\":\"Dérive suspectée\",\"status.drift.RECENTERING\":\"Recentrement en cours\",\"status.confidence.ab_ok\":\"Modèle fiable\",\"status.confidence.ab_bootstrap\":\"Bootstrap du modèle\",\"status.confidence.ab_degraded\":\"Modèle partiel\",\"status.confidence.ab_bad\":\"Modèle insuffisant\",\"status.confidence.unknown\":\"Confiance inconnue\",\"status.confidence.ab_ok.description\":\"Les échantillons A et B sont suffisamment cohérents pour utiliser le modèle normalement.\",\"status.confidence.ab_bootstrap.description\":\"Smart PI collecte encore les échantillons de bootstrap ; le modèle n'est pas encore prêt.\",\"status.confidence.ab_degraded.description\":\"Une partie du modèle est exploitable, mais la régulation reste prudente.\",\"status.confidence.ab_bad.description\":\"Le modèle n'est pas assez fiable ; Smart PI limite ou évite son influence.\",\"status.confidence.unknown.description\":\"Le niveau de confiance n'est pas encore publié par le diagnostic.\",\"status.boolean.true\":\"Oui\",\"status.boolean.false\":\"Non\",\"status.reliability.true\":\"Fiable\",\"status.reliability.false\":\"Non fiable\",\"status.coherence.collecting\":\"En collecte\",\"status.coherence.coherent\":\"Cohérente\",\"status.coherence.watch\":\"À surveiller\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersée\",\"status.coherence.unstable\":\"Instable\",\"status.coherence.very_unstable\":\"Très instable\",\"status.regime.warmup\":\"Échauffement\",\"status.regime.excited_stable\":\"Stable excité\",\"status.regime.near_band\":\"Zone proche\",\"status.regime.dead_band\":\"Bande morte\",\"status.regime.hold\":\"Maintien\",\"status.regime.perturbed\":\"Perturbé\",\"status.regime.degraded\":\"Dégradé\",\"status.regime.saturated\":\"Saturé\",\"status.boolean.active\":\"Actif\",\"status.trajectory.setpoint\":\"Changement de consigne\",\"status.trajectory.disturbance\":\"Perturbation\",\"status.trajectory.none\":\"Aucune\",\"status.ff3.active\":\"FF3 actif\",\"status.ff3.inactive\":\"FF3 inactif\",\"status.ff3.disabled\":\"FF3 désactivé\",\"status.ff3.disabled.config_disabled\":\"FF3 désactivé par configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactif en zone morte\",\"status.ff3.disabled.not_near_band\":\"FF3 hors zone proche\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 en attente de fin de cycle\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 bloqué par la trajectoire de consigne\",\"status.ff3.disabled.disturbance_unclassified\":\"Perturbation FF3 non classée\",\"status.ff3.disabled.twin_warming_up\":\"Jumeau thermique en chauffe\",\"status.ff3.disabled.twin_steady_invalid\":\"État stable du jumeau invalide\",\"status.ff3.disabled.reset\":\"FF3 en réinitialisation\",\"status.ff3.disabled.hvac_off\":\"FF3 arrêté : chauffage coupé\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 attend le premier cycle après redémarrage\",\"status.ff3.disabled.cool_mode\":\"FF3 indisponible en refroidissement\",\"status.ff3.disabled.missing_ext_temp\":\"Température extérieure absente\",\"status.ff3.disabled.tau_not_reliable\":\"Temps caractéristique non fiable\",\"status.ff3.disabled.twin_not_initialized\":\"Jumeau thermique non initialisé\",\"status.ff3.disabled.calibration\":\"FF3 suspendu pendant la calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 suspendu par la limitation de puissance\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 attend après un changement de consigne\",\"status.ff3.disabled.no_disturbance_context\":\"Aucune perturbation confirmée\",\"status.ff3.disabled.saturated_high\":\"FF3 suspendu à saturation haute\",\"status.ff3.disabled.system_not_stable\":\"Système thermique pas encore stable\",\"status.ff3.disabled.authority_zero\":\"Autorité FF3 nulle\",\"status.ff3.disabled.scoring_failed\":\"Évaluation FF3 indisponible\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"Aucun effet candidat sur l'horizon\",\"status.ff3.disabled.score_not_better\":\"Aucune amélioration prévue\",\"status.ff3.disabled.authority_tapered_to_zero\":\"Autorité FF3 réduite à zéro\",\"status.twin.ok\":\"Jumeau disponible\",\"status.twin.unavailable\":\"Jumeau indisponible\",\"status.deadband.power_source.none\":\"Aucune source de maintien\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward et PI\",\"status.deadband.p_mode.init\":\"Initialisation\",\"status.deadband.p_mode.deadband_frozen\":\"P gelée en zone morte\",\"status.deadband.p_mode.deadband_quiet\":\"P nulle en zone morte\",\"status.deadband.p_mode.off\":\"P hors zone morte\",\"status.deadband.p_mode.deadband_edge\":\"P au bord de la zone morte\",\"status.deadband.p_mode.deadband_edge_pending\":\"P au bord en attente\",\"status.deadband.p_mode.deadzone_edge\":\"P au bord de la zone proche\",\"status.saturation.NO_SAT\":\"Sans saturation\",\"status.saturation.SAT_HI\":\"Limite haute\",\"status.saturation.SAT_LO\":\"Limite basse\",\"status.fftrim.state.warming_up\":\"Mise en route\",\"status.fftrim.state.waiting_deadtime\":\"Attente du temps mort\",\"status.fftrim.state.collecting\":\"Collecte en cours\",\"status.fftrim.state.waiting_phase\":\"Attente de fermeture du cycle\",\"status.fftrim.state.ready\":\"Fenêtre prête\",\"status.fftrim.state.rejected\":\"Fenêtre rejetée\",\"status.fftrim.mode.stationary\":\"Observation stationnaire\",\"status.fftrim.mode.periodic\":\"Équilibre périodique\",\"status.fftrim.reason.none\":\"Aucune\",\"status.fftrim.reason.skipped\":\"Mise à jour ignorée\",\"status.fftrim.reason.causal_window_ready\":\"Fenêtre causale prête\",\"status.fftrim.reason.periodic_window_ready\":\"Cycle périodique prêt\",\"status.fftrim.reason.persistent_ready\":\"Correction persistante confirmée\",\"status.fftrim.reason.updated_persistent\":\"Trim mis à jour\",\"status.fftrim.reason.updated_bumpless\":\"Transfert appliqué sans à-coup\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.reason.deadtime_unreliable\":\"Temps mort non fiable\",\"status.fftrim.reason.deadtime_changed\":\"Temps mort modifié\",\"status.fftrim.reason.causal_power_not_covered\":\"Chronologie de puissance incomplète\",\"status.fftrim.reason.not_enough_measurements\":\"Mesures insuffisantes\",\"status.fftrim.reason.window_too_short\":\"Fenêtre trop courte\",\"status.fftrim.reason.setpoint_changed\":\"Consigne modifiée\",\"status.fftrim.reason.trajectory_active\":\"Trajectoire active\",\"status.fftrim.reason.ff3_active\":\"FF3 actif\",\"status.fftrim.reason.model_confidence\":\"Modèle insuffisamment fiable\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Température extérieure absente\",\"status.fftrim.reason.saturated\":\"Commande saturée\",\"status.fftrim.reason.pi_unstable\":\"Branche PI instable\",\"status.fftrim.reason.cycle_not_reversed\":\"Montée et descente incomplètes\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Amplitude du cycle insuffisante\",\"status.fftrim.reason.cycle_not_closed\":\"Cycle thermique non fermé\",\"status.fftrim.reason.saturated_high\":\"Saturation haute\",\"status.fftrim.transfer.idle\":\"Inactif\",\"status.fftrim.transfer.observer_rejected\":\"Observation non retenue\",\"status.fftrim.transfer.pending\":\"Confirmation en cours\",\"status.fftrim.transfer.ineligible\":\"Transfert non applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction sans transfert I/trim\",\"status.fftrim.transfer.applied\":\"Transfert appliqué\",\"status.fftrim.transfer.rejected\":\"Transfert rejeté\",\"status.fftrim.transfer.pending_engagement\":\"En attente d'engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-équilibre confirmé\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Équilibre périodique sans transfert\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Attente de la frontière post anti-windup\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction sous le seuil utile\",\"status.fftrim.quality.unavailable\":\"Indisponible\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Cycle switch équivalent\",\"status.fftrim.quality.valve_segmented_linear\":\"Timeline de vanne linéarisée\",\"status.fftrim.quality.mixed\":\"Sources mixtes\",\"fallback.unknown_code\":\"Code inconnu\",\"notes.learning\":\"A mesure la réponse à la commande ; B mesure les pertes thermiques. Smart PI collecte les deux séries d'échantillons pour fiabiliser le modèle.\",\"notes.fftrim.stationary\":\"L'observateur stationnaire aligne les mesures thermiques sur la puissance déjà appliquée en tenant compte du temps mort.\",\"notes.fftrim.periodic\":\"L'observateur périodique recherche un cycle thermique complet, avec une phase de montée et une phase de descente. Sa cible dépend des cycles VT et du temps mort. Il utilise la même chronologie de puissance, garde sa propre fenêtre et ne transfère pas la propriété intégrale/trim.\",\"actions.reset_learning\":\"Réinitialiser l'apprentissage\",\"actions.reset_learning.confirm\":\"Smart PI va effacer son apprentissage et revenir en bootstrap.\",\"actions.pause_learning\":\"Mettre l'apprentissage en pause\",\"actions.pause_learning.confirm\":\"Smart PI continuera à réguler avec le modèle actuel, mais cessera de collecter des observations thermiques et des mesures de temps mort.\",\"actions.resume_learning\":\"Reprendre l'apprentissage\",\"actions.resume_learning.confirm\":\"Smart PI reprendra la collecte d'observations thermiques et de temps mort.\",\"actions.force_calibration\":\"Forcer une calibration\",\"actions.force_calibration.confirm\":\"Smart PI lancera une calibration si l'état actuel le permet.\",\"actions.reset_integral\":\"Réinitialiser l'intégrale\",\"actions.reset_integral.confirm\":\"Smart PI remettra le terme intégral à zéro sans effacer le modèle appris.\",\"graphs.command.title\":\"Commande Smart PI\",\"graphs.command.applied\":\"Commande appliquée\",\"graphs.command.command\":\"Commande calculée\",\"graphs.command.pi\":\"Branche PI\",\"graphs.command.ff\":\"Feed-forward total\",\"graphs.overview.title\":\"Température, consigne et puissance (6 h)\",\"graphs.overview.temperature\":\"Température mesurée\",\"graphs.overview.filtered_setpoint\":\"Référence filtrée suivie par P\",\"graphs.overview.applied\":\"Commande appliquée\",\"graphs.model.title\":\"Paramètres A et B (1R1C) (24h)\",\"graphs.model.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"graphs.model.b\":\"B - Pertes thermiques\",\"metrics.user_setpoint\":\"Consigne utilisateur\",\"metrics.trajectory.phase\":\"Phase de trajectoire\",\"status.trajectory.phase.idle\":\"Inactive\",\"status.trajectory.phase.tracking\":\"Suivi du profil\",\"status.trajectory.phase.release\":\"Retour progressif à la consigne\",\"groups.approach.followed\":\"Consigne suivie\",\"metrics.governor.nominal\":\"Référence nominale du profil\",\"metrics.governor.admissible\":\"Référence admissible du governor\",\"status.boolean.inactive\":\"Inactif\",\"groups.approach.details\":\"Détails de trajectoire\",\"metrics.trajectory.start\":\"Consigne de départ\",\"metrics.trajectory.target\":\"Cible du profil\",\"metrics.trajectory.tau\":\"Constante de temps du profil\",\"metrics.trajectory.elapsed\":\"Temps écoulé\",\"metrics.trajectory.remaining\":\"Cycle restant\",\"metrics.trajectory.next_reference\":\"Référence de puissance au cycle suivant\",\"metrics.trajectory.bumpless_delta\":\"Écart de commande sans à-coup\",\"groups.approach.readiness\":\"Indicateurs de trajectoire\",\"metrics.trajectory.braking_needed\":\"Freinage requis\",\"metrics.trajectory.pending\":\"Freinage pour changement de cible en attente\",\"metrics.trajectory.model_ready\":\"Modèle prêt pour la trajectoire\",\"metrics.trajectory.bumpless_ready\":\"Passage sans à-coup prêt\",\"metrics.governor.handoff_ready\":\"Passage de relais du governor prêt\",\"metrics.governor.phase\":\"Phase du governor\",\"status.governor.phase.idle\":\"Inactif\",\"status.governor.phase.governed\":\"Approche gouvernée\",\"status.governor.phase.handoff\":\"Passage de relais\",\"metrics.governor.reason\":\"Raison du governor\",\"status.governor.reason.inactive\":\"Inactif\",\"status.governor.reason.cap\":\"Plafond thermique\",\"status.governor.reason.coast\":\"Commande nulle requise\",\"status.governor.reason.unconstrained\":\"Sans contrainte thermique\",\"status.governor.reason.no_positive_demand\":\"Pas de demande positive\",\"status.governor.reason.handoff_waiting\":\"Passage de relais en attente\",\"status.governor.reason.handoff_complete\":\"Passage de relais terminé\",\"status.governor.reason.disarmed\":\"Governor désarmé\",\"groups.approach.braking\":\"Freinage\",\"metrics.governor.active\":\"Façonnage de référence actif\",\"metrics.governor.constraint\":\"Contrainte thermique active\",\"metrics.governor.coast\":\"Commande nulle requise\",\"metrics.governor.prediction\":\"Température prévue en fin d'horizon\",\"metrics.governor.bound\":\"Limite thermique\",\"metrics.governor.reserve\":\"Réserve dynamique\",\"metrics.governor.cap\":\"Plafond du governor\",\"groups.approach.command\":\"Commande sous contrainte\",\"metrics.governor.before\":\"Demande avant plafond\",\"metrics.governor.after\":\"Demande après plafond\",\"groups.model.ff3_twin\":\"FF3 et jumeau thermique\",\"notes.approach\":\"La phase de retour de trajectoire (release) est distincte du passage de relais du governor (handoff). Un façonnage actif ne signifie pas forcément une réduction de puissance. « Freinage requis : non » ne prouve pas la fin de l'épisode. La prévision de fin d'horizon ne mesure pas un dépassement futur et ne certifie pas la sûreté du retour.\",\"graphs.approach.temperature\":\"Température et consignes\",\"graphs.approach.command\":\"Commande après plafond et commande appliquée\",\"notes.approach.history\":\"La commande appliquée est une consigne envoyée à l'actionneur, pas une mesure de chaleur délivrée. Ces courbes n'indiquent pas la cause d'un plateau. Sa durée et les retours réussis ne sont pas publiés.\"},\"en\":{\"sections.overview.title\":\"Overview\",\"sections.overview.summary\":\"Smart PI temperature, setpoint and command.\",\"sections.learning.title\":\"Learning\",\"sections.learning.summary\":\"A/B thermal model sample collection.\",\"sections.model.title\":\"Model and prediction\",\"sections.model.summary\":\"A/B model, reliability, response times and FF3 prediction correction.\",\"sections.command.title\":\"Command\",\"sections.command.summary\":\"Power demand, limits and command breakdown.\",\"sections.fftrim.title\":\"Equilibrium / FFTrim\",\"sections.fftrim.summary\":\"Observation of holding power and ownership distribution between integral and trim.\",\"sections.anticipation.title\":\"Target approach\",\"sections.anticipation.summary\":\"Setpoint approach, predictive braking and the command ceiling effect.\",\"sections.health.title\":\"Protections\",\"sections.health.summary\":\"Governor, safeguards and calibration.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Learning and regulation maintenance actions.\",\"hero.overview.title\":\"Smart PI regulation\",\"hero.overview.bootstrap\":\"Smart PI is collecting the first samples and temporarily regulating with hysteresis.\",\"hero.overview.calibration\":\"Calibration is running to realign the thermal behavior.\",\"hero.overview.degraded\":\"Regulation limits adaptation because the model is unreliable.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics unavailable\",\"hero.overview.diagnostic_missing\":\"The Smart PI diagnostics entity is unavailable.\",\"hero.learning.title\":\"A/B learning\",\"hero.learning.subtitle\":\"Sample collection state for the A/B thermal model.\",\"hero.model.title\":\"Thermal model and prediction\",\"hero.model.subtitle\":\"A/B and delays inform the forecast; FF3 may correct power according to context.\",\"hero.health.title\":\"Active supervision\",\"hero.health.subtitle\":\"Protections may freeze learning or request calibration.\",\"hero.actions.title\":\"Smart PI actions\",\"hero.actions.subtitle\":\"Actions are applied to the configured thermostat after confirmation.\",\"metrics.temperature\":\"Temperature\",\"metrics.error\":\"Setpoint error\",\"metrics.integral_error\":\"Integral\",\"metrics.filtered_setpoint\":\"Filtered reference followed by P\",\"metrics.current_cycle\":\"Current cycle\",\"metrics.next_cycle\":\"Next cycle\",\"metrics.linear_current_cycle\":\"Linear current cycle\",\"metrics.linear_next_cycle\":\"Linear next cycle\",\"metrics.command\":\"Command\",\"metrics.limited\":\"Limited\",\"metrics.applied\":\"Applied command\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Hold\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Signed response (heat + / cool -)\",\"metrics.b\":\"B - Thermal losses\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Heat dead time\",\"metrics.deadtime_cool\":\"Cool dead time\",\"metrics.a_stability\":\"A dispersion\",\"metrics.b_stability\":\"B dispersion\",\"metrics.accepted_a\":\"Accepted A updates\",\"metrics.accepted_b\":\"Accepted B updates\",\"metrics.bootstrap_progress\":\"Bootstrap\",\"metrics.bootstrap_a\":\"A samples\",\"metrics.bootstrap_b\":\"B samples\",\"metrics.history_a\":\"A samples\",\"metrics.history_b\":\"B samples\",\"metrics.learning_enabled\":\"Thermal learning\",\"metrics.a_drift\":\"A drift\",\"metrics.b_drift\":\"B drift\",\"metrics.learn_b_converged\":\"B converged\",\"metrics.learning_last_reason\":\"Latest reason\",\"metrics.bootstrap_status\":\"Bootstrap state\",\"metrics.confidence\":\"Model confidence\",\"metrics.reliability\":\"Reliability\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Heat dead time\",\"metrics.deadtime_cool_reliable\":\"Cool dead time\",\"metrics.governance\":\"Governance regime\",\"metrics.thermal_decision\":\"Thermal decision\",\"metrics.thermal_reason\":\"Reason\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Thermal twin\",\"metrics.deadband_source\":\"Deadband source\",\"metrics.deadband_mode\":\"Deadband mode\",\"metrics.in_deadband\":\"In dead band\",\"metrics.in_near_band\":\"Near band\",\"metrics.in_deadtime\":\"Dead-time window\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Integral mode\",\"metrics.integral_hold\":\"Integral hold\",\"metrics.integral_hold_source\":\"Integral hold source\",\"metrics.integral_guard_source\":\"Integral guard source\",\"metrics.restart_reason\":\"Restart reason\",\"metrics.autocalib_state\":\"Auto-calibration\",\"metrics.autocalib_degraded\":\"Model degraded\",\"metrics.autocalib_snapshot_age\":\"Snapshot age\",\"metrics.autocalib_next_check\":\"Next check\",\"metrics.autocalib_last_trigger\":\"Last trigger\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Calibration retries\",\"metrics.calibration_last_time\":\"Last calibration\",\"metrics.trajectory\":\"Trajectory\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Stationary observer\",\"metrics.fftrim.observation_mode\":\"Latest method\",\"metrics.fftrim.windows_since_update\":\"Windows since update\",\"metrics.fftrim.last_update_reason\":\"Latest result\",\"metrics.fftrim.last_reject_reason\":\"Latest FFTrim rejection\",\"metrics.fftrim.stationary_progress\":\"Stationary window\",\"metrics.fftrim.measurement_count\":\"Distinct measurements\",\"metrics.fftrim.power_coverage\":\"Power coverage\",\"metrics.fftrim.alignment_delay\":\"Alignment delay\",\"metrics.fftrim.periodic_state\":\"Periodic observer\",\"metrics.fftrim.periodic_progress\":\"Periodic window\",\"metrics.fftrim.periodic_measurement_count\":\"Periodic measurements\",\"metrics.fftrim.periodic_amplitude\":\"Thermal amplitude\",\"metrics.fftrim.periodic_closure_error\":\"Closure error\",\"metrics.fftrim.periodic_last_reject_reason\":\"Latest periodic rejection\",\"metrics.fftrim.mean_causal_power\":\"Mean causal power\",\"metrics.fftrim.mean_ff1\":\"Mean FF1\",\"metrics.fftrim.mean_p_power\":\"Mean P contribution\",\"metrics.fftrim.mean_i_power\":\"Mean I contribution\",\"metrics.fftrim.mean_visible_ff_power\":\"Mean visible feed-forward\",\"metrics.fftrim.observed_hold_power\":\"Observed holding power\",\"metrics.fftrim.physical_power_deficit\":\"Physical power deficit\",\"metrics.fftrim.decomposed_correction\":\"Decomposed correction\",\"metrics.fftrim.target_trim\":\"Target trim\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Mean temperature\",\"metrics.fftrim.mean_error\":\"Mean error\",\"metrics.fftrim.mean_slope_h\":\"Mean slope\",\"metrics.fftrim.mean_delivery_residual\":\"Mean delivery residual\",\"metrics.fftrim.bumpless_transfer_state\":\"Bumpless transfer\",\"metrics.fftrim.bumpless_transfer_reason\":\"Transfer reason\",\"metrics.fftrim.transfer_quality\":\"Transfer quality\",\"metrics.fftrim.transfer_pending_engagement\":\"Actuator engagement\",\"metrics.fftrim.requested_trim_delta\":\"Requested trim delta\",\"metrics.fftrim.stored_trim_delta\":\"Stored trim delta\",\"metrics.fftrim.applied_trim_delta\":\"Applied trim delta\",\"metrics.fftrim.transferable_i_power\":\"Transferable I power\",\"metrics.fftrim.requested_i_transfer\":\"Requested I transfer\",\"metrics.fftrim.applied_i_transfer\":\"Applied I transfer\",\"metrics.fftrim.net_command_delta\":\"Net command delta\",\"metrics.fftrim.window_duration\":\"Observed duration\",\"metrics.fftrim.transaction_timestamp\":\"Applied at UTC\",\"metrics.trajectory.source\":\"Trajectory source\",\"metrics.ff3.twin_usable\":\"Usable twin\",\"groups.overview.thermal\":\"Temperature and setpoint\",\"groups.overview.command\":\"Current command\",\"groups.overview.influence\":\"Current influence\",\"groups.command.actuator_cycle\":\"Actuator cycle\",\"groups.command.limitation_chain\":\"Limitation chain\",\"groups.command.contributions\":\"Control contributions\",\"groups.fftrim.observer\":\"Current stationary observation\",\"groups.fftrim.stationary_quality\":\"Stationary window quality\",\"groups.fftrim.periodic\":\"Periodic equilibrium observation\",\"groups.fftrim.thermal_balance\":\"Retained thermal balance\",\"groups.fftrim.transfer\":\"Current bumpless transfer\",\"groups.fftrim.deltas\":\"Current transfer deltas\",\"groups.fftrim.last_result\":\"Last accepted result\",\"groups.fftrim.last_transaction\":\"Last applied transaction\",\"groups.fftrim.last_transaction_deltas\":\"Last applied transaction deltas\",\"groups.learning.drift\":\"Drift and convergence\",\"groups.health.governance\":\"Governance and thermal decision\",\"groups.health.protections\":\"Thermal safeguards\",\"groups.health.integral\":\"Integral\",\"groups.health.restart\":\"Restart\",\"groups.health.autocalib\":\"Auto-calibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Thermal learning\",\"groups.actions.maintenance\":\"Maintenance\",\"status.learning.enabled\":\"Enabled\",\"status.learning.paused\":\"Paused\",\"status.drift.NORMAL\":\"Normal\",\"status.drift.DRIFT_SUSPECTED\":\"Drift suspected\",\"status.drift.RECENTERING\":\"Recentering in progress\",\"status.confidence.ab_ok\":\"Reliable model\",\"status.confidence.ab_bootstrap\":\"Model bootstrap\",\"status.confidence.ab_degraded\":\"Partial model\",\"status.confidence.ab_bad\":\"Insufficient model\",\"status.confidence.unknown\":\"Unknown confidence\",\"status.confidence.ab_ok.description\":\"A and B samples are coherent enough to use the model normally.\",\"status.confidence.ab_bootstrap.description\":\"Smart PI is still collecting bootstrap samples; the model is not ready yet.\",\"status.confidence.ab_degraded.description\":\"Part of the model is usable, but regulation remains cautious.\",\"status.confidence.ab_bad.description\":\"The model is not reliable enough; Smart PI limits or avoids its influence.\",\"status.confidence.unknown.description\":\"The confidence state has not been published by diagnostics yet.\",\"status.boolean.true\":\"Yes\",\"status.boolean.false\":\"No\",\"status.reliability.true\":\"Reliable\",\"status.reliability.false\":\"Not reliable\",\"status.coherence.collecting\":\"Collecting\",\"status.coherence.coherent\":\"Coherent\",\"status.coherence.watch\":\"Watch\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersed\",\"status.coherence.unstable\":\"Unstable\",\"status.coherence.very_unstable\":\"Very unstable\",\"status.regime.warmup\":\"Warmup\",\"status.regime.excited_stable\":\"Excited stable\",\"status.regime.near_band\":\"Near band\",\"status.regime.dead_band\":\"Dead band\",\"status.regime.hold\":\"Hold\",\"status.regime.perturbed\":\"Perturbed\",\"status.regime.degraded\":\"Degraded\",\"status.regime.saturated\":\"Saturated\",\"status.boolean.active\":\"Active\",\"status.trajectory.setpoint\":\"Setpoint change\",\"status.trajectory.disturbance\":\"Disturbance\",\"status.trajectory.none\":\"None\",\"status.ff3.active\":\"FF3 active\",\"status.ff3.inactive\":\"FF3 inactive\",\"status.ff3.disabled\":\"FF3 disabled\",\"status.ff3.disabled.config_disabled\":\"FF3 disabled by configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactive in deadband\",\"status.ff3.disabled.not_near_band\":\"FF3 outside near band\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 awaiting cycle boundary\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 blocked by setpoint trajectory\",\"status.ff3.disabled.disturbance_unclassified\":\"FF3 disturbance unclassified\",\"status.ff3.disabled.twin_warming_up\":\"Thermal twin warming up\",\"status.ff3.disabled.twin_steady_invalid\":\"Thermal twin steady state invalid\",\"status.ff3.disabled.reset\":\"FF3 resetting\",\"status.ff3.disabled.hvac_off\":\"FF3 off because HVAC is off\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 awaiting first cycle after restart\",\"status.ff3.disabled.cool_mode\":\"FF3 unavailable in cooling mode\",\"status.ff3.disabled.missing_ext_temp\":\"Outdoor temperature unavailable\",\"status.ff3.disabled.tau_not_reliable\":\"Time constant not reliable\",\"status.ff3.disabled.twin_not_initialized\":\"Thermal twin not initialized\",\"status.ff3.disabled.calibration\":\"FF3 paused during calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 paused by power shedding\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 waiting after a setpoint change\",\"status.ff3.disabled.no_disturbance_context\":\"No confirmed disturbance\",\"status.ff3.disabled.saturated_high\":\"FF3 paused at high saturation\",\"status.ff3.disabled.system_not_stable\":\"Thermal system not yet stable\",\"status.ff3.disabled.authority_zero\":\"FF3 authority is zero\",\"status.ff3.disabled.scoring_failed\":\"FF3 evaluation unavailable\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"No candidate effect over the horizon\",\"status.ff3.disabled.score_not_better\":\"No predicted improvement\",\"status.ff3.disabled.authority_tapered_to_zero\":\"FF3 authority tapered to zero\",\"status.twin.ok\":\"Twin available\",\"status.twin.unavailable\":\"Twin unavailable\",\"status.deadband.power_source.none\":\"No holding source\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward and PI\",\"status.deadband.p_mode.init\":\"Initializing\",\"status.deadband.p_mode.deadband_frozen\":\"P frozen in deadband\",\"status.deadband.p_mode.deadband_quiet\":\"P zero in deadband\",\"status.deadband.p_mode.off\":\"P outside deadband\",\"status.deadband.p_mode.deadband_edge\":\"P at deadband edge\",\"status.deadband.p_mode.deadband_edge_pending\":\"P at edge pending\",\"status.deadband.p_mode.deadzone_edge\":\"P at near-band edge\",\"status.saturation.NO_SAT\":\"No saturation\",\"status.saturation.SAT_HI\":\"Upper limit\",\"status.saturation.SAT_LO\":\"Lower limit\",\"status.fftrim.state.warming_up\":\"Warming up\",\"status.fftrim.state.waiting_deadtime\":\"Waiting for dead time\",\"status.fftrim.state.collecting\":\"Collecting\",\"status.fftrim.state.waiting_phase\":\"Waiting for cycle closure\",\"status.fftrim.state.ready\":\"Window ready\",\"status.fftrim.state.rejected\":\"Window rejected\",\"status.fftrim.mode.stationary\":\"Stationary observation\",\"status.fftrim.mode.periodic\":\"Periodic equilibrium\",\"status.fftrim.reason.none\":\"None\",\"status.fftrim.reason.skipped\":\"Update skipped\",\"status.fftrim.reason.causal_window_ready\":\"Causal window ready\",\"status.fftrim.reason.periodic_window_ready\":\"Periodic cycle ready\",\"status.fftrim.reason.persistent_ready\":\"Persistent correction confirmed\",\"status.fftrim.reason.updated_persistent\":\"Trim updated\",\"status.fftrim.reason.updated_bumpless\":\"Bumpless transfer applied\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.reason.deadtime_unreliable\":\"Dead time is unreliable\",\"status.fftrim.reason.deadtime_changed\":\"Dead time changed\",\"status.fftrim.reason.causal_power_not_covered\":\"Power timeline is incomplete\",\"status.fftrim.reason.not_enough_measurements\":\"Not enough measurements\",\"status.fftrim.reason.window_too_short\":\"Window is too short\",\"status.fftrim.reason.setpoint_changed\":\"Setpoint changed\",\"status.fftrim.reason.trajectory_active\":\"Trajectory is active\",\"status.fftrim.reason.ff3_active\":\"FF3 is active\",\"status.fftrim.reason.model_confidence\":\"Model confidence is insufficient\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Outdoor temperature is missing\",\"status.fftrim.reason.saturated\":\"Command is saturated\",\"status.fftrim.reason.pi_unstable\":\"PI branch is unstable\",\"status.fftrim.reason.cycle_not_reversed\":\"Rise and fall are incomplete\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Cycle amplitude is too small\",\"status.fftrim.reason.cycle_not_closed\":\"Thermal cycle is not closed\",\"status.fftrim.reason.saturated_high\":\"Upper saturation\",\"status.fftrim.transfer.idle\":\"Idle\",\"status.fftrim.transfer.observer_rejected\":\"Observation not retained\",\"status.fftrim.transfer.pending\":\"Confirmation in progress\",\"status.fftrim.transfer.ineligible\":\"Transfer not applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction without I/trim transfer\",\"status.fftrim.transfer.applied\":\"Transfer applied\",\"status.fftrim.transfer.rejected\":\"Transfer rejected\",\"status.fftrim.transfer.pending_engagement\":\"Awaiting engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-equilibrium confirmed\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Periodic equilibrium without transfer\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Waiting for post anti-windup boundary\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction is below the useful threshold\",\"status.fftrim.quality.unavailable\":\"Unavailable\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Equivalent switch cycle\",\"status.fftrim.quality.valve_segmented_linear\":\"Linearized valve timeline\",\"status.fftrim.quality.mixed\":\"Mixed sources\",\"fallback.unknown_code\":\"Unknown code\",\"notes.learning\":\"A measures the command response; B measures thermal losses. Smart PI collects both sample series to make the model reliable.\",\"notes.fftrim.stationary\":\"The stationary observer aligns thermal measurements with previously applied power while accounting for dead time.\",\"notes.fftrim.periodic\":\"The periodic observer looks for a complete thermal cycle with a rising and a falling phase. Its target depends on VT cycles and dead time. It uses the same power timeline, keeps its own window and does not transfer integral/trim ownership.\",\"actions.reset_learning\":\"Reset learning\",\"actions.reset_learning.confirm\":\"Smart PI will clear learning and return to bootstrap.\",\"actions.pause_learning\":\"Pause learning\",\"actions.pause_learning.confirm\":\"Smart PI will continue regulating with the current model, but stop collecting thermal and dead-time observations.\",\"actions.resume_learning\":\"Resume learning\",\"actions.resume_learning.confirm\":\"Smart PI will resume collecting thermal and dead-time observations.\",\"actions.force_calibration\":\"Force calibration\",\"actions.force_calibration.confirm\":\"Smart PI will start calibration if the current state allows it.\",\"actions.reset_integral\":\"Reset integral\",\"actions.reset_integral.confirm\":\"Smart PI will set the integral term to zero without clearing the learned model.\",\"graphs.command.title\":\"Smart PI command\",\"graphs.command.applied\":\"Applied command\",\"graphs.command.command\":\"Calculated command\",\"graphs.command.pi\":\"PI branch\",\"graphs.command.ff\":\"Total feed-forward\",\"graphs.overview.title\":\"Temperature, setpoint and power (6h)\",\"graphs.overview.temperature\":\"Measured temperature\",\"graphs.overview.filtered_setpoint\":\"Filtered reference followed by P\",\"graphs.overview.applied\":\"Applied command\",\"graphs.model.title\":\"1R1C Parameters A and B (24h)\",\"graphs.model.a\":\"A - Signed response (heat + / cool -)\",\"graphs.model.b\":\"B - Thermal losses\",\"metrics.user_setpoint\":\"User setpoint\",\"metrics.trajectory.phase\":\"Trajectory phase\",\"status.trajectory.phase.idle\":\"Inactive\",\"status.trajectory.phase.tracking\":\"Profile tracking\",\"status.trajectory.phase.release\":\"Progressive return to setpoint\",\"groups.approach.followed\":\"Followed setpoint\",\"metrics.governor.nominal\":\"Nominal profile reference\",\"metrics.governor.admissible\":\"Governor admissible reference\",\"status.boolean.inactive\":\"Inactive\",\"groups.approach.details\":\"Trajectory details\",\"metrics.trajectory.start\":\"Starting setpoint\",\"metrics.trajectory.target\":\"Profile target\",\"metrics.trajectory.tau\":\"Profile time constant\",\"metrics.trajectory.elapsed\":\"Elapsed time\",\"metrics.trajectory.remaining\":\"Remaining cycle\",\"metrics.trajectory.next_reference\":\"Next cycle power reference\",\"metrics.trajectory.bumpless_delta\":\"Bumpless command delta\",\"groups.approach.readiness\":\"Trajectory indicators\",\"metrics.trajectory.braking_needed\":\"Braking needed\",\"metrics.trajectory.pending\":\"Pending target-change braking\",\"metrics.trajectory.model_ready\":\"Trajectory model ready\",\"metrics.trajectory.bumpless_ready\":\"Bumpless transition ready\",\"metrics.governor.handoff_ready\":\"Governor handoff ready\",\"metrics.governor.phase\":\"Governor phase\",\"status.governor.phase.idle\":\"Inactive\",\"status.governor.phase.governed\":\"Governed approach\",\"status.governor.phase.handoff\":\"Handoff\",\"metrics.governor.reason\":\"Governor reason\",\"status.governor.reason.inactive\":\"Inactive\",\"status.governor.reason.cap\":\"Thermal ceiling\",\"status.governor.reason.coast\":\"Zero command required\",\"status.governor.reason.unconstrained\":\"Thermally unconstrained\",\"status.governor.reason.no_positive_demand\":\"No positive demand\",\"status.governor.reason.handoff_waiting\":\"Handoff pending\",\"status.governor.reason.handoff_complete\":\"Handoff complete\",\"status.governor.reason.disarmed\":\"Governor disarmed\",\"groups.approach.braking\":\"Braking\",\"metrics.governor.active\":\"Reference shaping active\",\"metrics.governor.constraint\":\"Active thermal constraint\",\"metrics.governor.coast\":\"Zero command required\",\"metrics.governor.prediction\":\"Predicted end-of-horizon temperature\",\"metrics.governor.bound\":\"Thermal bound\",\"metrics.governor.reserve\":\"Dynamic reserve\",\"metrics.governor.cap\":\"Governor ceiling\",\"groups.approach.command\":\"Command under constraint\",\"metrics.governor.before\":\"Demand before ceiling\",\"metrics.governor.after\":\"Demand after ceiling\",\"groups.model.ff3_twin\":\"FF3 and thermal twin\",\"notes.approach\":\"Trajectory release and governor handoff are separate phases. Active shaping does not necessarily reduce power. “Braking needed: no” does not prove the episode has ended. The end-of-horizon forecast does not measure future overshoot or certify that release is safe.\",\"graphs.approach.temperature\":\"Temperature and setpoints\",\"graphs.approach.command\":\"Command after ceiling and applied command\",\"notes.approach.history\":\"The applied command is sent to the actuator; it does not measure delivered heat. These curves do not show the cause of a plateau. Its duration and successful releases are not published.\"}}"),
 		sections: [
 			{
 				id: "overview",
@@ -14444,6 +14444,13 @@ var Mc = {
 								path: "live/temperature/indoor",
 								unit: "°",
 								digits: 2
+							},
+							{
+								label_key: "metrics.user_setpoint",
+								source: "climate",
+								path: "temperature",
+								digits: 2,
+								unit: "°C"
 							},
 							{
 								label_key: "metrics.filtered_setpoint",
@@ -14621,7 +14628,153 @@ var Mc = {
 								source: "diagnostic",
 								path: "live/feedforward/ff3_status",
 								align: "center",
-								map: {},
+								map: {
+									active: {
+										label_key: "status.ff3.active",
+										tone: "info",
+										icon: "mdi:crystal-ball"
+									},
+									inactive: {
+										label_key: "status.ff3.inactive",
+										tone: "muted",
+										icon: "mdi:crystal-ball"
+									},
+									"disabled:disabled": {
+										label_key: "status.ff3.disabled",
+										tone: "muted",
+										icon: "mdi:crystal-ball"
+									},
+									"disabled:config_disabled": {
+										label_key: "status.ff3.disabled.config_disabled",
+										tone: "muted",
+										icon: "mdi:cog-off-outline"
+									},
+									"disabled:deadband": {
+										label_key: "status.ff3.disabled.deadband",
+										tone: "muted",
+										icon: "mdi:circle-outline"
+									},
+									"disabled:not_near_band": {
+										label_key: "status.ff3.disabled.not_near_band",
+										tone: "muted",
+										icon: "mdi:target-variant"
+									},
+									"disabled:pending_cycle_boundary": {
+										label_key: "status.ff3.disabled.pending_cycle_boundary",
+										tone: "info",
+										icon: "mdi:timer-sand"
+									},
+									"disabled:trajectory_setpoint_active": {
+										label_key: "status.ff3.disabled.trajectory_setpoint_active",
+										tone: "muted",
+										icon: "mdi:chart-timeline-variant"
+									},
+									"disabled:disturbance_unclassified": {
+										label_key: "status.ff3.disabled.disturbance_unclassified",
+										tone: "muted",
+										icon: "mdi:help-circle-outline"
+									},
+									"disabled:twin_warming_up": {
+										label_key: "status.ff3.disabled.twin_warming_up",
+										tone: "muted",
+										icon: "mdi:timer-sand"
+									},
+									"disabled:twin_steady_invalid": {
+										label_key: "status.ff3.disabled.twin_steady_invalid",
+										tone: "muted",
+										icon: "mdi:home-thermometer-outline"
+									},
+									"disabled:reset": {
+										label_key: "status.ff3.disabled.reset",
+										tone: "info",
+										icon: "mdi:restart"
+									},
+									"disabled:hvac_off": {
+										label_key: "status.ff3.disabled.hvac_off",
+										tone: "muted",
+										icon: "mdi:power"
+									},
+									"disabled:first_cycle_after_restart": {
+										label_key: "status.ff3.disabled.first_cycle_after_restart",
+										tone: "info",
+										icon: "mdi:timer-sand"
+									},
+									"disabled:cool_mode": {
+										label_key: "status.ff3.disabled.cool_mode",
+										tone: "muted",
+										icon: "mdi:snowflake"
+									},
+									"disabled:missing_ext_temp": {
+										label_key: "status.ff3.disabled.missing_ext_temp",
+										tone: "muted",
+										icon: "mdi:thermometer-alert"
+									},
+									"disabled:tau_not_reliable": {
+										label_key: "status.ff3.disabled.tau_not_reliable",
+										tone: "muted",
+										icon: "mdi:chart-bell-curve"
+									},
+									"disabled:twin_not_initialized": {
+										label_key: "status.ff3.disabled.twin_not_initialized",
+										tone: "muted",
+										icon: "mdi:home-thermometer-outline"
+									},
+									"disabled:calibration": {
+										label_key: "status.ff3.disabled.calibration",
+										tone: "info",
+										icon: "mdi:tune-variant"
+									},
+									"disabled:power_shedding": {
+										label_key: "status.ff3.disabled.power_shedding",
+										tone: "info",
+										icon: "mdi:flash-off"
+									},
+									"disabled:recent_setpoint_change": {
+										label_key: "status.ff3.disabled.recent_setpoint_change",
+										tone: "info",
+										icon: "mdi:thermometer-chevron-up"
+									},
+									"disabled:no_disturbance_context": {
+										label_key: "status.ff3.disabled.no_disturbance_context",
+										tone: "muted",
+										icon: "mdi:weather-windy"
+									},
+									"disabled:saturated_high": {
+										label_key: "status.ff3.disabled.saturated_high",
+										tone: "info",
+										icon: "mdi:gauge-full"
+									},
+									"disabled:system_not_stable": {
+										label_key: "status.ff3.disabled.system_not_stable",
+										tone: "info",
+										icon: "mdi:chart-line-variant"
+									},
+									"disabled:authority_zero": {
+										label_key: "status.ff3.disabled.authority_zero",
+										tone: "muted",
+										icon: "mdi:minus-circle-outline"
+									},
+									"disabled:scoring_failed": {
+										label_key: "status.ff3.disabled.scoring_failed",
+										tone: "muted",
+										icon: "mdi:chart-scatter-plot"
+									},
+									"disabled:horizon_no_candidate_effect": {
+										label_key: "status.ff3.disabled.horizon_no_candidate_effect",
+										tone: "muted",
+										icon: "mdi:chart-timeline-variant"
+									},
+									"disabled:score_not_better": {
+										label_key: "status.ff3.disabled.score_not_better",
+										tone: "muted",
+										icon: "mdi:chart-line-variant"
+									},
+									"disabled:authority_tapered_to_zero": {
+										label_key: "status.ff3.disabled.authority_tapered_to_zero",
+										tone: "muted",
+										icon: "mdi:minus-circle-outline"
+									}
+								},
 								fallback: {
 									label_key: "fallback.unknown_code",
 									tone: "muted",
@@ -14645,39 +14798,33 @@ var Mc = {
 							},
 							{
 								type: "status",
-								label_key: "metrics.trajectory",
+								label_key: "metrics.governor.phase",
 								source: "diagnostic",
-								path: "live/setpoint/trajectory_active",
+								path: "live/setpoint/governor_phase",
 								align: "center",
-								map: { true: {
-									label_key: "status.boolean.active",
-									tone: "info",
-									icon: "mdi:chart-timeline-variant"
-								} },
+								map: {
+									idle: {
+										label_key: "status.governor.phase.idle",
+										tone: "muted",
+										icon: "mdi:circle-outline"
+									},
+									governed: {
+										label_key: "status.governor.phase.governed",
+										tone: "info",
+										icon: "mdi:circle-outline"
+									},
+									handoff: {
+										label_key: "status.governor.phase.handoff",
+										tone: "info",
+										icon: "mdi:circle-outline"
+									}
+								},
 								fallback: {
-									label: "--",
+									label_key: "fallback.unknown_code",
 									tone: "muted",
 									icon: "mdi:help-circle-outline"
 								},
-								visible_if: { "==": [{ var: "diagnostic/live/setpoint/trajectory_active" }, !0] }
-							},
-							{
-								type: "status",
-								label_key: "metrics.landing",
-								source: "diagnostic",
-								path: "live/setpoint/landing_active",
-								align: "center",
-								map: { true: {
-									label_key: "status.boolean.active",
-									tone: "info",
-									icon: "mdi:airplane-landing"
-								} },
-								fallback: {
-									label: "--",
-									tone: "muted",
-									icon: "mdi:help-circle-outline"
-								},
-								visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] }
+								fallback_show_value: !0
 							}
 						]
 					},
@@ -14939,6 +15086,1248 @@ var Mc = {
 								scale_group: "power"
 							}
 						],
+						options: {
+							tooltip: !0,
+							legend: !0,
+							scales: !0,
+							tools: !1,
+							date_picker: !1,
+							entity_picker: !1,
+							range_picker: !1
+						}
+					}
+				]
+			},
+			{
+				id: "anticipation",
+				title_key: "sections.anticipation.title",
+				icon: "mdi:chart-timeline-variant",
+				summary_key: "sections.anticipation.summary",
+				items: [
+					{
+						type: "layout_grid",
+						title_key: "groups.approach.followed",
+						columns: 1,
+						items: [
+							{
+								type: "metric_grid",
+								columns: 3,
+								metrics: [
+									{
+										label_key: "metrics.user_setpoint",
+										source: "climate",
+										path: "temperature",
+										digits: 2,
+										unit: "°C"
+									},
+									{
+										label_key: "metrics.temperature",
+										source: "diagnostic",
+										path: "live/temperature/indoor",
+										digits: 2,
+										unit: "°C"
+									},
+									{
+										label_key: "metrics.filtered_setpoint",
+										source: "diagnostic",
+										path: "live/setpoint/filtered_setpoint",
+										digits: 2,
+										unit: "°C"
+									},
+									{
+										label_key: "metrics.governor.nominal",
+										source: "diagnostic",
+										path: "live/analysis/reference_governor/nominal_reference",
+										digits: 2,
+										unit: "°C"
+									},
+									{
+										label_key: "metrics.governor.admissible",
+										source: "diagnostic",
+										path: "live/analysis/reference_governor/admissible_reference",
+										digits: 2,
+										unit: "°C"
+									}
+								]
+							},
+							{
+								type: "layout_grid",
+								min_width: 140,
+								stretch_items: !1,
+								items: [
+									{
+										type: "status",
+										label_key: "metrics.trajectory",
+										source: "diagnostic",
+										path: "live/setpoint/trajectory_active",
+										align: "center",
+										map: {
+											true: {
+												label_key: "status.boolean.active",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											},
+											false: {
+												label_key: "status.boolean.inactive",
+												tone: "muted",
+												icon: "mdi:circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									},
+									{
+										type: "status",
+										label_key: "metrics.trajectory.phase",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/phase",
+										align: "center",
+										map: {
+											idle: {
+												label_key: "status.trajectory.phase.idle",
+												tone: "muted",
+												icon: "mdi:circle-outline"
+											},
+											tracking: {
+												label_key: "status.trajectory.phase.tracking",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											},
+											release: {
+												label_key: "status.trajectory.phase.release",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									},
+									{
+										type: "status",
+										label_key: "metrics.trajectory.source",
+										source: "diagnostic",
+										path: "live/setpoint/trajectory_source",
+										align: "center",
+										map: {
+											setpoint: {
+												label_key: "status.trajectory.setpoint",
+												tone: "info",
+												icon: "mdi:thermometer-chevron-up"
+											},
+											disturbance: {
+												label_key: "status.trajectory.disturbance",
+												tone: "info",
+												icon: "mdi:weather-windy"
+											},
+											none: {
+												label_key: "status.trajectory.none",
+												tone: "muted",
+												icon: "mdi:minus-circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									}
+								]
+							},
+							{
+								type: "metric_grid",
+								title_key: "groups.approach.details",
+								columns: 3,
+								visible_if: { "==": [{ var: "diagnostic/live/setpoint/trajectory_active" }, !0] },
+								metrics: [
+									{
+										label_key: "metrics.trajectory.start",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/start_setpoint",
+										digits: 2,
+										unit: "°C"
+									},
+									{
+										label_key: "metrics.trajectory.target",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/target_setpoint",
+										digits: 2,
+										unit: "°C"
+									},
+									{
+										label_key: "metrics.trajectory.tau",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/tau_ref_min",
+										digits: 1,
+										unit: "min"
+									},
+									{
+										label_key: "metrics.trajectory.elapsed",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/elapsed_s",
+										digits: 0,
+										unit: "s"
+									},
+									{
+										label_key: "metrics.trajectory.remaining",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/remaining_cycle_min",
+										digits: 1,
+										unit: "min"
+									},
+									{
+										label_key: "metrics.trajectory.next_reference",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/next_cycle_reference",
+										digits: 1,
+										unit: "%",
+										value_multiplier: 100
+									},
+									{
+										label_key: "metrics.trajectory.bumpless_delta",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/bumpless_delta",
+										digits: 1,
+										unit: "%",
+										value_multiplier: 100
+									}
+								]
+							},
+							{
+								type: "layout_grid",
+								title_key: "groups.approach.readiness",
+								min_width: 140,
+								stretch_items: !1,
+								visible_if: { "==": [{ var: "diagnostic/live/setpoint/trajectory_active" }, !0] },
+								items: [
+									{
+										type: "status",
+										label_key: "metrics.trajectory.braking_needed",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/braking_needed",
+										align: "center",
+										map: {
+											true: {
+												label_key: "status.boolean.true",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											},
+											false: {
+												label_key: "status.boolean.false",
+												tone: "muted",
+												icon: "mdi:circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									},
+									{
+										type: "status",
+										label_key: "metrics.trajectory.pending",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/pending_target_change_braking",
+										align: "center",
+										map: {
+											true: {
+												label_key: "status.boolean.true",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											},
+											false: {
+												label_key: "status.boolean.false",
+												tone: "muted",
+												icon: "mdi:circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									},
+									{
+										type: "status",
+										label_key: "metrics.trajectory.model_ready",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/model_ready",
+										align: "center",
+										map: {
+											true: {
+												label_key: "status.boolean.true",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											},
+											false: {
+												label_key: "status.boolean.false",
+												tone: "muted",
+												icon: "mdi:circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									},
+									{
+										type: "status",
+										label_key: "metrics.trajectory.bumpless_ready",
+										source: "diagnostic",
+										path: "live/analysis/trajectory/bumpless_ready",
+										align: "center",
+										map: {
+											true: {
+												label_key: "status.boolean.true",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											},
+											false: {
+												label_key: "status.boolean.false",
+												tone: "muted",
+												icon: "mdi:circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									},
+									{
+										type: "status",
+										label_key: "metrics.governor.handoff_ready",
+										source: "diagnostic",
+										path: "live/analysis/reference_governor/handoff_ready",
+										align: "center",
+										map: {
+											true: {
+												label_key: "status.boolean.true",
+												tone: "info",
+												icon: "mdi:circle-outline"
+											},
+											false: {
+												label_key: "status.boolean.false",
+												tone: "muted",
+												icon: "mdi:circle-outline"
+											}
+										},
+										fallback: {
+											label_key: "fallback.unknown_code",
+											tone: "muted",
+											icon: "mdi:help-circle-outline"
+										},
+										fallback_show_value: !0
+									}
+								]
+							}
+						]
+					},
+					{
+						type: "layout_grid",
+						title_key: "groups.approach.braking",
+						columns: 1,
+						items: [{
+							type: "layout_grid",
+							min_width: 140,
+							stretch_items: !1,
+							items: [
+								{
+									type: "status",
+									label_key: "metrics.governor.active",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/active",
+									align: "center",
+									map: {
+										true: {
+											label_key: "status.boolean.active",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										false: {
+											label_key: "status.boolean.inactive",
+											tone: "muted",
+											icon: "mdi:circle-outline"
+										}
+									},
+									fallback: {
+										label_key: "fallback.unknown_code",
+										tone: "muted",
+										icon: "mdi:help-circle-outline"
+									},
+									fallback_show_value: !0
+								},
+								{
+									type: "status",
+									label_key: "metrics.governor.phase",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/phase",
+									align: "center",
+									map: {
+										idle: {
+											label_key: "status.governor.phase.idle",
+											tone: "muted",
+											icon: "mdi:circle-outline"
+										},
+										governed: {
+											label_key: "status.governor.phase.governed",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										handoff: {
+											label_key: "status.governor.phase.handoff",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										}
+									},
+									fallback: {
+										label_key: "fallback.unknown_code",
+										tone: "muted",
+										icon: "mdi:help-circle-outline"
+									},
+									fallback_show_value: !0
+								},
+								{
+									type: "status",
+									label_key: "metrics.governor.reason",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/reason",
+									align: "center",
+									map: {
+										inactive: {
+											label_key: "status.governor.reason.inactive",
+											tone: "muted",
+											icon: "mdi:circle-outline"
+										},
+										cap: {
+											label_key: "status.governor.reason.cap",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										coast: {
+											label_key: "status.governor.reason.coast",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										unconstrained: {
+											label_key: "status.governor.reason.unconstrained",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										no_positive_demand: {
+											label_key: "status.governor.reason.no_positive_demand",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										handoff_waiting: {
+											label_key: "status.governor.reason.handoff_waiting",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										handoff_complete: {
+											label_key: "status.governor.reason.handoff_complete",
+											tone: "muted",
+											icon: "mdi:circle-outline"
+										},
+										disarmed: {
+											label_key: "status.governor.reason.disarmed",
+											tone: "muted",
+											icon: "mdi:circle-outline"
+										}
+									},
+									fallback: {
+										label_key: "fallback.unknown_code",
+										tone: "muted",
+										icon: "mdi:help-circle-outline"
+									},
+									fallback_show_value: !0
+								},
+								{
+									type: "status",
+									label_key: "metrics.governor.constraint",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/constraint_active",
+									align: "center",
+									map: {
+										true: {
+											label_key: "status.boolean.true",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										false: {
+											label_key: "status.boolean.false",
+											tone: "muted",
+											icon: "mdi:circle-outline"
+										}
+									},
+									fallback: {
+										label_key: "fallback.unknown_code",
+										tone: "muted",
+										icon: "mdi:help-circle-outline"
+									},
+									fallback_show_value: !0
+								},
+								{
+									type: "status",
+									label_key: "metrics.governor.coast",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/coast_required",
+									align: "center",
+									map: {
+										true: {
+											label_key: "status.boolean.true",
+											tone: "info",
+											icon: "mdi:circle-outline"
+										},
+										false: {
+											label_key: "status.boolean.false",
+											tone: "muted",
+											icon: "mdi:circle-outline"
+										}
+									},
+									fallback: {
+										label_key: "fallback.unknown_code",
+										tone: "muted",
+										icon: "mdi:help-circle-outline"
+									},
+									fallback_show_value: !0
+								}
+							]
+						}, {
+							type: "metric_grid",
+							columns: 3,
+							metrics: [
+								{
+									label_key: "metrics.governor.prediction",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/predicted_terminal_temperature",
+									digits: 2,
+									unit: "°C"
+								},
+								{
+									label_key: "metrics.governor.bound",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/target_bound",
+									digits: 2,
+									unit: "°C"
+								},
+								{
+									label_key: "metrics.governor.reserve",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/dynamic_reserve_c",
+									digits: 2,
+									unit: "°C"
+								}
+							]
+						}]
+					},
+					{
+						type: "layout_grid",
+						title_key: "groups.approach.command",
+						columns: 1,
+						items: [{
+							type: "metric_grid",
+							columns: 3,
+							metrics: [
+								{
+									label_key: "metrics.governor.before",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/command_before_cap",
+									digits: 1,
+									unit: "%",
+									value_multiplier: 100
+								},
+								{
+									label_key: "metrics.governor.cap",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/command_cap",
+									digits: 1,
+									unit: "%",
+									value_multiplier: 100
+								},
+								{
+									label_key: "metrics.governor.after",
+									source: "diagnostic",
+									path: "live/analysis/reference_governor/command_after_cap",
+									digits: 1,
+									unit: "%",
+									value_multiplier: 100
+								}
+							]
+						}]
+					},
+					{
+						type: "section_note",
+						tone: "muted",
+						icon: "mdi:information-outline",
+						text_key: "notes.approach"
+					},
+					{
+						type: "history",
+						title_key: "graphs.approach.temperature",
+						range: "6h",
+						series: [
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/temperature/indoor",
+								label_key: "graphs.overview.temperature",
+								unit: "°C",
+								scale_group: "temperature"
+							},
+							{
+								entity: "$climate_entity",
+								attribute: "temperature",
+								label_key: "metrics.user_setpoint",
+								unit: "°C",
+								scale_group: "temperature"
+							},
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/setpoint/filtered_setpoint",
+								label_key: "metrics.filtered_setpoint",
+								unit: "°C",
+								scale_group: "temperature"
+							}
+						],
+						options: {
+							tooltip: !0,
+							legend: !0,
+							scales: !0,
+							tools: !1,
+							date_picker: !1,
+							entity_picker: !1,
+							range_picker: !1
+						}
+					},
+					{
+						type: "history",
+						title_key: "graphs.approach.command",
+						range: "6h",
+						series: [{
+							entity: "$diagnostic_entity",
+							attribute: "history/power/command_percent",
+							label_key: "metrics.governor.after",
+							unit: "%",
+							scale_group: "power"
+						}, {
+							entity: "$diagnostic_entity",
+							attribute: "history/power/applied_percent",
+							label_key: "graphs.overview.applied",
+							unit: "%",
+							scale_group: "power"
+						}],
+						options: {
+							tooltip: !0,
+							legend: !0,
+							scales: !0,
+							tools: !1,
+							date_picker: !1,
+							entity_picker: !1,
+							range_picker: !1
+						}
+					},
+					{
+						type: "section_note",
+						tone: "muted",
+						icon: "mdi:information-outline",
+						text_key: "notes.approach.history"
+					}
+				]
+			},
+			{
+				id: "model",
+				title_key: "sections.model.title",
+				icon: "mdi:home-thermometer-outline",
+				summary_key: "sections.model.summary",
+				items: [
+					{
+						type: "hero_status",
+						title_key: "hero.model.title",
+						subtitle_key: "hero.model.subtitle",
+						icon: "mdi:home-thermometer-outline",
+						tone: "info"
+					},
+					{
+						type: "status",
+						label_key: "metrics.confidence",
+						source: "diagnostic",
+						path: "live/model/confidence",
+						map: {
+							ab_ok: {
+								label_key: "status.confidence.ab_ok",
+								description_key: "status.confidence.ab_ok.description",
+								tone: "ok",
+								icon: "mdi:check-circle-outline"
+							},
+							ab_bootstrap: {
+								label_key: "status.confidence.ab_bootstrap",
+								description_key: "status.confidence.ab_bootstrap.description",
+								tone: "info",
+								icon: "mdi:progress-clock"
+							},
+							ab_degraded: {
+								label_key: "status.confidence.ab_degraded",
+								description_key: "status.confidence.ab_degraded.description",
+								tone: "warning",
+								icon: "mdi:alert-outline"
+							},
+							ab_bad: {
+								label_key: "status.confidence.ab_bad",
+								description_key: "status.confidence.ab_bad.description",
+								tone: "danger",
+								icon: "mdi:alert-octagon-outline"
+							}
+						},
+						fallback: {
+							label_key: "status.confidence.unknown",
+							description_key: "status.confidence.unknown.description",
+							tone: "muted",
+							icon: "mdi:help-circle-outline"
+						}
+					},
+					{
+						type: "metric_grid",
+						columns: 1,
+						metrics: [{
+							label_key: "metrics.tau",
+							source: "diagnostic",
+							path: "live/model/tau_min",
+							unit: "min",
+							digits: 1
+						}]
+					},
+					{
+						type: "layout_grid",
+						min_width: 240,
+						stretch_items: !1,
+						items: [
+							{
+								type: "metric_grid",
+								columns: 2,
+								metrics: [{
+									label_key: "metrics.a",
+									source: "diagnostic",
+									path: "live/model/a",
+									unit: "°C/min",
+									digits: 4
+								}, {
+									label_key: "metrics.b",
+									source: "diagnostic",
+									path: "live/model/b",
+									unit: "min⁻¹",
+									digits: 4
+								}]
+							},
+							{
+								type: "metric_grid",
+								columns: 2,
+								metrics: [{
+									label_key: "metrics.deadtime_heat",
+									source: "diagnostic",
+									path: "live/model/deadtime_heat_s",
+									unit: "s",
+									digits: 0
+								}, {
+									label_key: "metrics.deadtime_cool",
+									source: "diagnostic",
+									path: "live/model/deadtime_cool_s",
+									unit: "s",
+									digits: 0
+								}]
+							},
+							{
+								type: "layout_grid",
+								min_width: 110,
+								stretch_items: !1,
+								items: [{
+									type: "status",
+									label_key: "metrics.a_stability",
+									source: "diagnostic",
+									path: "live/model/a_stability_ratio",
+									map: {},
+									align: "center",
+									ranges: [
+										{
+											max: .15,
+											label_key: "status.coherence.coherent",
+											tone: "ok",
+											icon: "mdi:check-circle-outline"
+										},
+										{
+											min: .150000001,
+											max: .25,
+											label_key: "status.coherence.watch",
+											tone: "warning",
+											icon: "mdi:alert-outline"
+										},
+										{
+											min: .250000001,
+											label_key: "status.coherence.dispersed",
+											tone: "danger",
+											icon: "mdi:alert-octagon-outline"
+										}
+									],
+									fallback: {
+										label_key: "status.coherence.collecting",
+										tone: "muted",
+										icon: "mdi:progress-clock"
+									},
+									show_value: !0,
+									value_multiplier: 100,
+									value_unit: "%",
+									value_digits: 0
+								}, {
+									type: "status",
+									label_key: "metrics.b_stability",
+									source: "diagnostic",
+									path: "live/model/b_stability_ratio",
+									map: {},
+									align: "center",
+									ranges: [
+										{
+											max: .2,
+											label_key: "status.coherence.coherent",
+											tone: "ok",
+											icon: "mdi:check-circle-outline"
+										},
+										{
+											min: .200000001,
+											max: .3,
+											label_key: "status.coherence.acceptable",
+											tone: "info",
+											icon: "mdi:check-circle-outline"
+										},
+										{
+											min: .300000001,
+											max: .6,
+											label_key: "status.coherence.unstable",
+											tone: "warning",
+											icon: "mdi:alert-outline"
+										},
+										{
+											min: .600000001,
+											label_key: "status.coherence.very_unstable",
+											tone: "danger",
+											icon: "mdi:alert-octagon-outline"
+										}
+									],
+									fallback: {
+										label_key: "status.coherence.collecting",
+										tone: "muted",
+										icon: "mdi:progress-clock"
+									},
+									show_value: !0,
+									value_multiplier: 100,
+									value_unit: "%",
+									value_digits: 0
+								}]
+							}
+						]
+					},
+					{
+						type: "layout_grid",
+						title_key: "metrics.reliability",
+						min_width: 160,
+						stretch_items: !1,
+						items: [
+							{
+								type: "status",
+								label_key: "metrics.tau_reliable",
+								source: "diagnostic",
+								path: "live/model/tau_reliable",
+								align: "center",
+								map: {
+									true: {
+										label_key: "status.reliability.true",
+										tone: "ok",
+										icon: "mdi:check-circle-outline"
+									},
+									false: {
+										label_key: "status.reliability.false",
+										tone: "warning",
+										icon: "mdi:alert-outline"
+									}
+								},
+								fallback: {
+									label: "--",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								}
+							},
+							{
+								type: "status",
+								label_key: "metrics.deadtime_heat_reliable",
+								source: "diagnostic",
+								path: "live/model/deadtime_heat_reliable",
+								align: "center",
+								map: {
+									true: {
+										label_key: "status.reliability.true",
+										tone: "ok",
+										icon: "mdi:check-circle-outline"
+									},
+									false: {
+										label_key: "status.reliability.false",
+										tone: "warning",
+										icon: "mdi:alert-outline"
+									}
+								},
+								fallback: {
+									label: "--",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								}
+							},
+							{
+								type: "status",
+								label_key: "metrics.deadtime_cool_reliable",
+								source: "diagnostic",
+								path: "live/model/deadtime_cool_reliable",
+								align: "center",
+								map: {
+									true: {
+										label_key: "status.reliability.true",
+										tone: "ok",
+										icon: "mdi:check-circle-outline"
+									},
+									false: {
+										label_key: "status.reliability.false",
+										tone: "warning",
+										icon: "mdi:alert-outline"
+									}
+								},
+								fallback: {
+									label: "--",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								}
+							}
+						]
+					},
+					{
+						type: "layout_grid",
+						title_key: "groups.model.ff3_twin",
+						min_width: 140,
+						stretch_items: !1,
+						items: [
+							{
+								type: "status",
+								label_key: "metrics.feedforward_status",
+								source: "diagnostic",
+								path: "live/feedforward/ff3_status",
+								align: "center",
+								map: {
+									active: {
+										label_key: "status.ff3.active",
+										tone: "info",
+										icon: "mdi:crystal-ball"
+									},
+									inactive: {
+										label_key: "status.ff3.inactive",
+										tone: "muted",
+										icon: "mdi:crystal-ball"
+									},
+									"disabled:disabled": {
+										label_key: "status.ff3.disabled",
+										tone: "muted",
+										icon: "mdi:crystal-ball"
+									},
+									"disabled:config_disabled": {
+										label_key: "status.ff3.disabled.config_disabled",
+										tone: "muted",
+										icon: "mdi:cog-off-outline"
+									},
+									"disabled:deadband": {
+										label_key: "status.ff3.disabled.deadband",
+										tone: "muted",
+										icon: "mdi:circle-outline"
+									},
+									"disabled:not_near_band": {
+										label_key: "status.ff3.disabled.not_near_band",
+										tone: "muted",
+										icon: "mdi:target-variant"
+									},
+									"disabled:pending_cycle_boundary": {
+										label_key: "status.ff3.disabled.pending_cycle_boundary",
+										tone: "info",
+										icon: "mdi:timer-sand"
+									},
+									"disabled:trajectory_setpoint_active": {
+										label_key: "status.ff3.disabled.trajectory_setpoint_active",
+										tone: "muted",
+										icon: "mdi:chart-timeline-variant"
+									},
+									"disabled:disturbance_unclassified": {
+										label_key: "status.ff3.disabled.disturbance_unclassified",
+										tone: "muted",
+										icon: "mdi:help-circle-outline"
+									},
+									"disabled:twin_warming_up": {
+										label_key: "status.ff3.disabled.twin_warming_up",
+										tone: "muted",
+										icon: "mdi:timer-sand"
+									},
+									"disabled:twin_steady_invalid": {
+										label_key: "status.ff3.disabled.twin_steady_invalid",
+										tone: "muted",
+										icon: "mdi:home-thermometer-outline"
+									},
+									"disabled:reset": {
+										label_key: "status.ff3.disabled.reset",
+										tone: "info",
+										icon: "mdi:restart"
+									},
+									"disabled:hvac_off": {
+										label_key: "status.ff3.disabled.hvac_off",
+										tone: "muted",
+										icon: "mdi:power"
+									},
+									"disabled:first_cycle_after_restart": {
+										label_key: "status.ff3.disabled.first_cycle_after_restart",
+										tone: "info",
+										icon: "mdi:timer-sand"
+									},
+									"disabled:cool_mode": {
+										label_key: "status.ff3.disabled.cool_mode",
+										tone: "muted",
+										icon: "mdi:snowflake"
+									},
+									"disabled:missing_ext_temp": {
+										label_key: "status.ff3.disabled.missing_ext_temp",
+										tone: "muted",
+										icon: "mdi:thermometer-alert"
+									},
+									"disabled:tau_not_reliable": {
+										label_key: "status.ff3.disabled.tau_not_reliable",
+										tone: "muted",
+										icon: "mdi:chart-bell-curve"
+									},
+									"disabled:twin_not_initialized": {
+										label_key: "status.ff3.disabled.twin_not_initialized",
+										tone: "muted",
+										icon: "mdi:home-thermometer-outline"
+									},
+									"disabled:calibration": {
+										label_key: "status.ff3.disabled.calibration",
+										tone: "info",
+										icon: "mdi:tune-variant"
+									},
+									"disabled:power_shedding": {
+										label_key: "status.ff3.disabled.power_shedding",
+										tone: "info",
+										icon: "mdi:flash-off"
+									},
+									"disabled:recent_setpoint_change": {
+										label_key: "status.ff3.disabled.recent_setpoint_change",
+										tone: "info",
+										icon: "mdi:thermometer-chevron-up"
+									},
+									"disabled:no_disturbance_context": {
+										label_key: "status.ff3.disabled.no_disturbance_context",
+										tone: "muted",
+										icon: "mdi:weather-windy"
+									},
+									"disabled:saturated_high": {
+										label_key: "status.ff3.disabled.saturated_high",
+										tone: "info",
+										icon: "mdi:gauge-full"
+									},
+									"disabled:system_not_stable": {
+										label_key: "status.ff3.disabled.system_not_stable",
+										tone: "info",
+										icon: "mdi:chart-line-variant"
+									},
+									"disabled:authority_zero": {
+										label_key: "status.ff3.disabled.authority_zero",
+										tone: "muted",
+										icon: "mdi:minus-circle-outline"
+									},
+									"disabled:scoring_failed": {
+										label_key: "status.ff3.disabled.scoring_failed",
+										tone: "muted",
+										icon: "mdi:chart-scatter-plot"
+									},
+									"disabled:horizon_no_candidate_effect": {
+										label_key: "status.ff3.disabled.horizon_no_candidate_effect",
+										tone: "muted",
+										icon: "mdi:chart-timeline-variant"
+									},
+									"disabled:score_not_better": {
+										label_key: "status.ff3.disabled.score_not_better",
+										tone: "muted",
+										icon: "mdi:chart-line-variant"
+									},
+									"disabled:authority_tapered_to_zero": {
+										label_key: "status.ff3.disabled.authority_tapered_to_zero",
+										tone: "muted",
+										icon: "mdi:minus-circle-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								label_key: "metrics.ff3.twin_usable",
+								source: "diagnostic",
+								path: "live/feedforward/ff3_twin_usable",
+								align: "center",
+								map: {
+									true: {
+										label_key: "status.boolean.true",
+										tone: "ok",
+										icon: "mdi:check-circle-outline"
+									},
+									false: {
+										label_key: "status.boolean.false",
+										tone: "muted",
+										icon: "mdi:close-circle-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								label_key: "metrics.twin_status",
+								source: "diagnostic",
+								path: "live/feedforward/twin_status",
+								align: "center",
+								map: {
+									ok: {
+										label_key: "status.twin.ok",
+										tone: "ok",
+										icon: "mdi:home-thermometer-outline"
+									},
+									unavailable: {
+										label_key: "status.twin.unavailable",
+										tone: "muted",
+										icon: "mdi:home-thermometer-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								label_key: "metrics.deadband_source",
+								source: "diagnostic",
+								path: "live/feedforward/deadband_power_source",
+								align: "center",
+								map: {
+									none: {
+										label_key: "status.deadband.power_source.none",
+										tone: "muted",
+										icon: "mdi:minus-circle-outline"
+									},
+									ff_plus_pi: {
+										label_key: "status.deadband.power_source.ff_plus_pi",
+										tone: "info",
+										icon: "mdi:source-merge"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								label_key: "metrics.deadband_mode",
+								source: "diagnostic",
+								path: "live/feedforward/deadband_p_mode",
+								align: "center",
+								map: {
+									init: {
+										label_key: "status.deadband.p_mode.init",
+										tone: "muted",
+										icon: "mdi:progress-clock"
+									},
+									deadband_frozen: {
+										label_key: "status.deadband.p_mode.deadband_frozen",
+										tone: "muted",
+										icon: "mdi:snowflake"
+									},
+									deadband_quiet: {
+										label_key: "status.deadband.p_mode.deadband_quiet",
+										tone: "muted",
+										icon: "mdi:minus-circle-outline"
+									},
+									off: {
+										label_key: "status.deadband.p_mode.off",
+										tone: "muted",
+										icon: "mdi:power"
+									},
+									deadband_edge: {
+										label_key: "status.deadband.p_mode.deadband_edge",
+										tone: "info",
+										icon: "mdi:circle-outline"
+									},
+									deadband_edge_pending: {
+										label_key: "status.deadband.p_mode.deadband_edge_pending",
+										tone: "info",
+										icon: "mdi:timer-sand"
+									},
+									deadzone_edge: {
+										label_key: "status.deadband.p_mode.deadzone_edge",
+										tone: "info",
+										icon: "mdi:target-variant"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							}
+						]
+					},
+					{
+						type: "history",
+						title_key: "graphs.model.title",
+						range: "24h",
+						series: [{
+							entity: "$diagnostic_entity",
+							attribute: "history/model/a",
+							label_key: "graphs.model.a",
+							unit: "°C/min",
+							scale_group: "coefficients"
+						}, {
+							entity: "$diagnostic_entity",
+							attribute: "history/model/b",
+							label_key: "graphs.model.b",
+							unit: "min⁻¹",
+							scale_group: "coefficients"
+						}],
 						options: {
 							tooltip: !0,
 							legend: !0,
@@ -15214,768 +16603,6 @@ var Mc = {
 						icon: "mdi:information-outline"
 					}
 				]
-			},
-			{
-				id: "model",
-				title_key: "sections.model.title",
-				icon: "mdi:home-thermometer-outline",
-				summary_key: "sections.model.summary",
-				items: [
-					{
-						type: "hero_status",
-						title_key: "hero.model.title",
-						subtitle_key: "hero.model.subtitle",
-						icon: "mdi:home-thermometer-outline",
-						tone: "info"
-					},
-					{
-						type: "status",
-						label_key: "metrics.confidence",
-						source: "diagnostic",
-						path: "live/model/confidence",
-						map: {
-							ab_ok: {
-								label_key: "status.confidence.ab_ok",
-								description_key: "status.confidence.ab_ok.description",
-								tone: "ok",
-								icon: "mdi:check-circle-outline"
-							},
-							ab_bootstrap: {
-								label_key: "status.confidence.ab_bootstrap",
-								description_key: "status.confidence.ab_bootstrap.description",
-								tone: "info",
-								icon: "mdi:progress-clock"
-							},
-							ab_degraded: {
-								label_key: "status.confidence.ab_degraded",
-								description_key: "status.confidence.ab_degraded.description",
-								tone: "warning",
-								icon: "mdi:alert-outline"
-							},
-							ab_bad: {
-								label_key: "status.confidence.ab_bad",
-								description_key: "status.confidence.ab_bad.description",
-								tone: "danger",
-								icon: "mdi:alert-octagon-outline"
-							}
-						},
-						fallback: {
-							label_key: "status.confidence.unknown",
-							description_key: "status.confidence.unknown.description",
-							tone: "muted",
-							icon: "mdi:help-circle-outline"
-						}
-					},
-					{
-						type: "metric_grid",
-						columns: 1,
-						metrics: [{
-							label_key: "metrics.tau",
-							source: "diagnostic",
-							path: "live/model/tau_min",
-							unit: "min",
-							digits: 1
-						}]
-					},
-					{
-						type: "layout_grid",
-						min_width: 240,
-						stretch_items: !1,
-						items: [
-							{
-								type: "metric_grid",
-								columns: 2,
-								metrics: [{
-									label_key: "metrics.a",
-									source: "diagnostic",
-									path: "live/model/a",
-									unit: "°C/min",
-									digits: 4
-								}, {
-									label_key: "metrics.b",
-									source: "diagnostic",
-									path: "live/model/b",
-									unit: "min⁻¹",
-									digits: 4
-								}]
-							},
-							{
-								type: "metric_grid",
-								columns: 2,
-								metrics: [{
-									label_key: "metrics.deadtime_heat",
-									source: "diagnostic",
-									path: "live/model/deadtime_heat_s",
-									unit: "s",
-									digits: 0
-								}, {
-									label_key: "metrics.deadtime_cool",
-									source: "diagnostic",
-									path: "live/model/deadtime_cool_s",
-									unit: "s",
-									digits: 0
-								}]
-							},
-							{
-								type: "layout_grid",
-								min_width: 110,
-								stretch_items: !1,
-								items: [{
-									type: "status",
-									label_key: "metrics.a_stability",
-									source: "diagnostic",
-									path: "live/model/a_stability_ratio",
-									map: {},
-									align: "center",
-									ranges: [
-										{
-											max: .15,
-											label_key: "status.coherence.coherent",
-											tone: "ok",
-											icon: "mdi:check-circle-outline"
-										},
-										{
-											min: .150000001,
-											max: .25,
-											label_key: "status.coherence.watch",
-											tone: "warning",
-											icon: "mdi:alert-outline"
-										},
-										{
-											min: .250000001,
-											label_key: "status.coherence.dispersed",
-											tone: "danger",
-											icon: "mdi:alert-octagon-outline"
-										}
-									],
-									fallback: {
-										label_key: "status.coherence.collecting",
-										tone: "muted",
-										icon: "mdi:progress-clock"
-									},
-									show_value: !0,
-									value_multiplier: 100,
-									value_unit: "%",
-									value_digits: 0
-								}, {
-									type: "status",
-									label_key: "metrics.b_stability",
-									source: "diagnostic",
-									path: "live/model/b_stability_ratio",
-									map: {},
-									align: "center",
-									ranges: [
-										{
-											max: .2,
-											label_key: "status.coherence.coherent",
-											tone: "ok",
-											icon: "mdi:check-circle-outline"
-										},
-										{
-											min: .200000001,
-											max: .3,
-											label_key: "status.coherence.acceptable",
-											tone: "info",
-											icon: "mdi:check-circle-outline"
-										},
-										{
-											min: .300000001,
-											max: .6,
-											label_key: "status.coherence.unstable",
-											tone: "warning",
-											icon: "mdi:alert-outline"
-										},
-										{
-											min: .600000001,
-											label_key: "status.coherence.very_unstable",
-											tone: "danger",
-											icon: "mdi:alert-octagon-outline"
-										}
-									],
-									fallback: {
-										label_key: "status.coherence.collecting",
-										tone: "muted",
-										icon: "mdi:progress-clock"
-									},
-									show_value: !0,
-									value_multiplier: 100,
-									value_unit: "%",
-									value_digits: 0
-								}]
-							}
-						]
-					},
-					{
-						type: "layout_grid",
-						title_key: "metrics.reliability",
-						min_width: 160,
-						stretch_items: !1,
-						items: [
-							{
-								type: "status",
-								label_key: "metrics.tau_reliable",
-								source: "diagnostic",
-								path: "live/model/tau_reliable",
-								align: "center",
-								map: {
-									true: {
-										label_key: "status.reliability.true",
-										tone: "ok",
-										icon: "mdi:check-circle-outline"
-									},
-									false: {
-										label_key: "status.reliability.false",
-										tone: "warning",
-										icon: "mdi:alert-outline"
-									}
-								},
-								fallback: {
-									label: "--",
-									tone: "muted",
-									icon: "mdi:help-circle-outline"
-								}
-							},
-							{
-								type: "status",
-								label_key: "metrics.deadtime_heat_reliable",
-								source: "diagnostic",
-								path: "live/model/deadtime_heat_reliable",
-								align: "center",
-								map: {
-									true: {
-										label_key: "status.reliability.true",
-										tone: "ok",
-										icon: "mdi:check-circle-outline"
-									},
-									false: {
-										label_key: "status.reliability.false",
-										tone: "warning",
-										icon: "mdi:alert-outline"
-									}
-								},
-								fallback: {
-									label: "--",
-									tone: "muted",
-									icon: "mdi:help-circle-outline"
-								}
-							},
-							{
-								type: "status",
-								label_key: "metrics.deadtime_cool_reliable",
-								source: "diagnostic",
-								path: "live/model/deadtime_cool_reliable",
-								align: "center",
-								map: {
-									true: {
-										label_key: "status.reliability.true",
-										tone: "ok",
-										icon: "mdi:check-circle-outline"
-									},
-									false: {
-										label_key: "status.reliability.false",
-										tone: "warning",
-										icon: "mdi:alert-outline"
-									}
-								},
-								fallback: {
-									label: "--",
-									tone: "muted",
-									icon: "mdi:help-circle-outline"
-								}
-							}
-						]
-					},
-					{
-						type: "history",
-						title_key: "graphs.model.title",
-						range: "24h",
-						series: [{
-							entity: "$diagnostic_entity",
-							attribute: "history/model/a",
-							label_key: "graphs.model.a",
-							unit: "°C/min",
-							scale_group: "coefficients"
-						}, {
-							entity: "$diagnostic_entity",
-							attribute: "history/model/b",
-							label_key: "graphs.model.b",
-							unit: "min⁻¹",
-							scale_group: "coefficients"
-						}],
-						options: {
-							tooltip: !0,
-							legend: !0,
-							scales: !0,
-							tools: !1,
-							date_picker: !1,
-							entity_picker: !1,
-							range_picker: !1
-						}
-					}
-				]
-			},
-			{
-				id: "anticipation",
-				title_key: "sections.anticipation.title",
-				icon: "mdi:chart-timeline-variant",
-				summary_key: "sections.anticipation.summary",
-				items: [{
-					type: "layout_grid",
-					title_key: "groups.anticipation.trajectory_landing",
-					min_width: 140,
-					stretch_items: !1,
-					items: [
-						{
-							type: "metric_grid",
-							columns: 1,
-							metrics: [{
-								label_key: "metrics.filtered_setpoint",
-								source: "diagnostic",
-								path: "live/setpoint/filtered_setpoint",
-								unit: "°C",
-								digits: 2
-							}]
-						},
-						{
-							type: "status",
-							label_key: "metrics.trajectory",
-							source: "diagnostic",
-							path: "live/setpoint/trajectory_active",
-							align: "center",
-							map: {
-								true: {
-									label_key: "status.boolean.true",
-									tone: "info",
-									icon: "mdi:chart-timeline-variant"
-								},
-								false: {
-									label_key: "status.boolean.false",
-									tone: "muted",
-									icon: "mdi:chart-timeline-variant"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0
-						},
-						{
-							type: "status",
-							label_key: "metrics.trajectory.source",
-							source: "diagnostic",
-							path: "live/setpoint/trajectory_source",
-							align: "center",
-							map: {
-								setpoint: {
-									label_key: "status.trajectory.setpoint",
-									tone: "info",
-									icon: "mdi:thermometer-chevron-up"
-								},
-								disturbance: {
-									label_key: "status.trajectory.disturbance",
-									tone: "info",
-									icon: "mdi:weather-windy"
-								},
-								none: {
-									label_key: "status.trajectory.none",
-									tone: "muted",
-									icon: "mdi:minus-circle-outline"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0,
-							visible_if: { "==": [{ var: "diagnostic/live/setpoint/trajectory_active" }, !0] }
-						},
-						{
-							type: "status",
-							label_key: "metrics.landing",
-							source: "diagnostic",
-							path: "live/setpoint/landing_active",
-							align: "center",
-							map: {
-								true: {
-									label_key: "status.boolean.true",
-									tone: "info",
-									icon: "mdi:airplane-landing"
-								},
-								false: {
-									label_key: "status.boolean.false",
-									tone: "muted",
-									icon: "mdi:airplane-landing"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0
-						},
-						{
-							type: "status",
-							label_key: "metrics.landing.reason",
-							source: "diagnostic",
-							path: "live/setpoint/landing_reason",
-							align: "center",
-							map: {
-								cap: {
-									label_key: "status.landing.cap",
-									tone: "info",
-									icon: "mdi:chart-bell-curve"
-								},
-								coast: {
-									label_key: "status.landing.coast",
-									tone: "info",
-									icon: "mdi:weather-windy"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0,
-							visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] }
-						},
-						{
-							type: "metric_grid",
-							columns: 2,
-							visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] },
-							metrics: [{
-								label_key: "metrics.landing.u_cap",
-								source: "diagnostic",
-								path: "live/setpoint/landing_u_cap",
-								unit: "%",
-								digits: 1,
-								value_multiplier: 100
-							}]
-						},
-						{
-							type: "status",
-							label_key: "metrics.landing.coast_required",
-							source: "diagnostic",
-							path: "live/setpoint/landing_coast_required",
-							align: "center",
-							map: {
-								true: {
-									label_key: "status.boolean.true",
-									tone: "info",
-									icon: "mdi:weather-windy"
-								},
-								false: {
-									label_key: "status.boolean.false",
-									tone: "muted",
-									icon: "mdi:weather-windy"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0,
-							visible_if: { "==": [{ var: "diagnostic/live/setpoint/landing_active" }, !0] }
-						}
-					]
-				}, {
-					type: "layout_grid",
-					title_key: "groups.anticipation.ff3_twin",
-					min_width: 140,
-					stretch_items: !1,
-					items: [
-						{
-							type: "status",
-							label_key: "metrics.feedforward_status",
-							source: "diagnostic",
-							path: "live/feedforward/ff3_status",
-							align: "center",
-							map: {
-								active: {
-									label_key: "status.ff3.active",
-									tone: "info",
-									icon: "mdi:crystal-ball"
-								},
-								inactive: {
-									label_key: "status.ff3.inactive",
-									tone: "muted",
-									icon: "mdi:crystal-ball"
-								},
-								"disabled:disabled": {
-									label_key: "status.ff3.disabled",
-									tone: "muted",
-									icon: "mdi:crystal-ball"
-								},
-								"disabled:config_disabled": {
-									label_key: "status.ff3.disabled.config_disabled",
-									tone: "muted",
-									icon: "mdi:cog-off-outline"
-								},
-								"disabled:deadband": {
-									label_key: "status.ff3.disabled.deadband",
-									tone: "muted",
-									icon: "mdi:circle-outline"
-								},
-								"disabled:not_near_band": {
-									label_key: "status.ff3.disabled.not_near_band",
-									tone: "muted",
-									icon: "mdi:target-variant"
-								},
-								"disabled:pending_cycle_boundary": {
-									label_key: "status.ff3.disabled.pending_cycle_boundary",
-									tone: "info",
-									icon: "mdi:timer-sand"
-								},
-								"disabled:trajectory_setpoint_active": {
-									label_key: "status.ff3.disabled.trajectory_setpoint_active",
-									tone: "muted",
-									icon: "mdi:chart-timeline-variant"
-								},
-								"disabled:disturbance_unclassified": {
-									label_key: "status.ff3.disabled.disturbance_unclassified",
-									tone: "muted",
-									icon: "mdi:help-circle-outline"
-								},
-								"disabled:twin_warming_up": {
-									label_key: "status.ff3.disabled.twin_warming_up",
-									tone: "muted",
-									icon: "mdi:timer-sand"
-								},
-								"disabled:twin_steady_invalid": {
-									label_key: "status.ff3.disabled.twin_steady_invalid",
-									tone: "muted",
-									icon: "mdi:home-thermometer-outline"
-								},
-								"disabled:reset": {
-									label_key: "status.ff3.disabled.reset",
-									tone: "info",
-									icon: "mdi:restart"
-								},
-								"disabled:hvac_off": {
-									label_key: "status.ff3.disabled.hvac_off",
-									tone: "muted",
-									icon: "mdi:power"
-								},
-								"disabled:first_cycle_after_restart": {
-									label_key: "status.ff3.disabled.first_cycle_after_restart",
-									tone: "info",
-									icon: "mdi:timer-sand"
-								},
-								"disabled:cool_mode": {
-									label_key: "status.ff3.disabled.cool_mode",
-									tone: "muted",
-									icon: "mdi:snowflake"
-								},
-								"disabled:missing_ext_temp": {
-									label_key: "status.ff3.disabled.missing_ext_temp",
-									tone: "muted",
-									icon: "mdi:thermometer-alert"
-								},
-								"disabled:tau_not_reliable": {
-									label_key: "status.ff3.disabled.tau_not_reliable",
-									tone: "muted",
-									icon: "mdi:chart-bell-curve"
-								},
-								"disabled:twin_not_initialized": {
-									label_key: "status.ff3.disabled.twin_not_initialized",
-									tone: "muted",
-									icon: "mdi:home-thermometer-outline"
-								},
-								"disabled:calibration": {
-									label_key: "status.ff3.disabled.calibration",
-									tone: "info",
-									icon: "mdi:tune-variant"
-								},
-								"disabled:power_shedding": {
-									label_key: "status.ff3.disabled.power_shedding",
-									tone: "info",
-									icon: "mdi:flash-off"
-								},
-								"disabled:recent_setpoint_change": {
-									label_key: "status.ff3.disabled.recent_setpoint_change",
-									tone: "info",
-									icon: "mdi:thermometer-chevron-up"
-								},
-								"disabled:no_disturbance_context": {
-									label_key: "status.ff3.disabled.no_disturbance_context",
-									tone: "muted",
-									icon: "mdi:weather-windy"
-								},
-								"disabled:saturated_high": {
-									label_key: "status.ff3.disabled.saturated_high",
-									tone: "info",
-									icon: "mdi:gauge-full"
-								},
-								"disabled:system_not_stable": {
-									label_key: "status.ff3.disabled.system_not_stable",
-									tone: "info",
-									icon: "mdi:chart-line-variant"
-								},
-								"disabled:authority_zero": {
-									label_key: "status.ff3.disabled.authority_zero",
-									tone: "muted",
-									icon: "mdi:minus-circle-outline"
-								},
-								"disabled:scoring_failed": {
-									label_key: "status.ff3.disabled.scoring_failed",
-									tone: "muted",
-									icon: "mdi:chart-scatter-plot"
-								},
-								"disabled:horizon_no_candidate_effect": {
-									label_key: "status.ff3.disabled.horizon_no_candidate_effect",
-									tone: "muted",
-									icon: "mdi:chart-timeline-variant"
-								},
-								"disabled:score_not_better": {
-									label_key: "status.ff3.disabled.score_not_better",
-									tone: "muted",
-									icon: "mdi:chart-line-variant"
-								},
-								"disabled:authority_tapered_to_zero": {
-									label_key: "status.ff3.disabled.authority_tapered_to_zero",
-									tone: "muted",
-									icon: "mdi:minus-circle-outline"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0
-						},
-						{
-							type: "status",
-							label_key: "metrics.ff3.twin_usable",
-							source: "diagnostic",
-							path: "live/feedforward/ff3_twin_usable",
-							align: "center",
-							map: {
-								true: {
-									label_key: "status.boolean.true",
-									tone: "ok",
-									icon: "mdi:check-circle-outline"
-								},
-								false: {
-									label_key: "status.boolean.false",
-									tone: "muted",
-									icon: "mdi:close-circle-outline"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0
-						},
-						{
-							type: "status",
-							label_key: "metrics.twin_status",
-							source: "diagnostic",
-							path: "live/feedforward/twin_status",
-							align: "center",
-							map: {
-								ok: {
-									label_key: "status.twin.ok",
-									tone: "ok",
-									icon: "mdi:home-thermometer-outline"
-								},
-								unavailable: {
-									label_key: "status.twin.unavailable",
-									tone: "muted",
-									icon: "mdi:home-thermometer-outline"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0
-						},
-						{
-							type: "status",
-							label_key: "metrics.deadband_source",
-							source: "diagnostic",
-							path: "live/feedforward/deadband_power_source",
-							align: "center",
-							map: {
-								none: {
-									label_key: "status.deadband.power_source.none",
-									tone: "muted",
-									icon: "mdi:minus-circle-outline"
-								},
-								ff_plus_pi: {
-									label_key: "status.deadband.power_source.ff_plus_pi",
-									tone: "info",
-									icon: "mdi:source-merge"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0
-						},
-						{
-							type: "status",
-							label_key: "metrics.deadband_mode",
-							source: "diagnostic",
-							path: "live/feedforward/deadband_p_mode",
-							align: "center",
-							map: {
-								init: {
-									label_key: "status.deadband.p_mode.init",
-									tone: "muted",
-									icon: "mdi:progress-clock"
-								},
-								deadband_frozen: {
-									label_key: "status.deadband.p_mode.deadband_frozen",
-									tone: "muted",
-									icon: "mdi:snowflake"
-								},
-								deadband_quiet: {
-									label_key: "status.deadband.p_mode.deadband_quiet",
-									tone: "muted",
-									icon: "mdi:minus-circle-outline"
-								},
-								off: {
-									label_key: "status.deadband.p_mode.off",
-									tone: "muted",
-									icon: "mdi:power"
-								},
-								deadband_edge: {
-									label_key: "status.deadband.p_mode.deadband_edge",
-									tone: "info",
-									icon: "mdi:circle-outline"
-								},
-								deadband_edge_pending: {
-									label_key: "status.deadband.p_mode.deadband_edge_pending",
-									tone: "info",
-									icon: "mdi:timer-sand"
-								},
-								deadzone_edge: {
-									label_key: "status.deadband.p_mode.deadzone_edge",
-									tone: "info",
-									icon: "mdi:target-variant"
-								}
-							},
-							fallback: {
-								label_key: "fallback.unknown_code",
-								tone: "muted",
-								icon: "mdi:help-circle-outline"
-							},
-							fallback_show_value: !0
-						}
-					]
-				}]
 			},
 			{
 				id: "fftrim",

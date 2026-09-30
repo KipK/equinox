@@ -42,31 +42,108 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation dashboard with eight sections covering the current regulation state, command, learning, thermal model, anticipation, FFTrim, supervision, and maintenance actions.
+- `smartpi.json` — Smart PI regulation dashboard with eight sections covering the current regulation state, command, target approach, model and prediction, learning, FFTrim, protections, and maintenance actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
 
 ### Built-in SmartPI dashboard
 
-The SmartPI dashboard is organized as **Summary**, **Command**, **Learning**,
-**Thermal model**, **Anticipation**, **Balance / FFTrim**, **Monitoring**, and
-**Actions**. Summary prioritizes exceptional states, the current temperature
-and filtered setpoint, applied and next-cycle power, the current learning
-state, active influences, and a short history. The specialized sections then
-expose the published actuator chain, A/B learning, model reliability,
-trajectory/landing and FF3 state, stationary and periodic FFTrim observations,
-and safeguards. The dedicated Actions section contains the confirmed maintenance
-commands.
+The SmartPI dashboard uses these eight sections in this order:
+
+| English / French | Stable section ID | Purpose |
+| --- | --- | --- |
+| Overview / Synthèse | `overview` | Temperature, user and followed setpoints, applied command and useful current influences |
+| Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
+| Target approach / Approche de consigne | `anticipation` | Followed setpoint, predictive braking and command ceiling effect |
+| Model and prediction / Modèle et prévision | `model` | A/B, confidence, delays and the relocated FF3/twin block |
+| Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
+| Equilibrium / FFTrim / Équilibre / FFTrim | `fftrim` | Holding power and integral/trim transfers |
+| Protections / Protections | `health` | Guards, holds, governance and calibration |
+| Actions / Actions | `actions` | Existing confirmed maintenance commands |
+
+The existing section IDs remain valid for selection, desktop navigation and
+the mobile section menu. There is no separate Governor section.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
 controller data directly from `live/...` and its eight historical series from
 `history/...`; it does not branch on SmartPI debug mode or reproduce controller
 formulas. Published `live/power/*_percent` values are already percentages.
-Ratios inside `live/feedforward/fftrim` and `live/setpoint/landing_u_cap` use an explicit
-`value_multiplier: 100`, while absent fields remain `--` for compatibility with
-temporarily unavailable live data. Evolving enum values use a neutral fallback
+Ratios inside `live/feedforward/fftrim`, governor commands/caps and trajectory
+`next_cycle_reference` / `bumpless_delta` use an explicit `value_multiplier: 100`.
+References, forecast temperatures, the thermal bound and reserve are in °C.
+Absent fields remain `--`; `null` never becomes zero, and a zero ceiling and
+`false` remain valid data. Evolving enum values use a neutral fallback
 that keeps the raw code visible. Offset-aware ISO dates may use the Home
 Assistant timezone; naive ISO dates are displayed without inventing a source
 timezone.
+
+Target approach contains three compact groups:
+
+1. **Followed setpoint** reads the user setpoint from climate `temperature` and
+   the canonical indoor temperature from `live/temperature/indoor`. The nominal
+   profile reference is the profile proposal, the filtered setpoint is the
+   reference followed by P, and the admissible reference is the governor decision.
+   Trajectory phase/source and timing/bumpless details use `live/analysis/trajectory`.
+2. **Braking** uses `live/analysis/reference_governor` for shaping state, phase,
+   reason, kernel thermal constraint, predicted terminal temperature, physical
+   target bound, reserve and whether a zero command is required.
+3. **Command under constraint** compares demand before the governor cap, the
+   cap and demand after it. Command retains the downstream limited/applied chain.
+
+Trajectory `idle/tracking/release` and governor `idle/governed/handoff` are
+independent state machines: `release` does not mean `handoff`. Active shaping
+does not necessarily reduce power; `constraint_active` reports the thermal
+kernel decision, while before/after commands show the command effect.
+`braking_needed=false` does not establish that an episode has ended.
+
+After terminal retirement, the filtered setpoint returns to the user setpoint,
+trajectory is inactive/source `none`, governor is inactive/`idle`/reason
+`inactive`, and cap/reference/forecast/reserve may be absent. The dashboard reads
+the current payload without retaining old constraints. Before/after demand may
+still be published by normal control. No persistent successful-release event,
+terminal refusal reason or plateau duration is published; none is inferred from
+`idle`. HEAT and COOL share this contract, and COOL bounds stay in physical
+temperature coordinates.
+
+FF3 being disabled or governor handoff is not inherently an error. A forecast
+is not a measurement of future overshoot. The curves and statuses neither prove
+the cause of a plateau nor certify thermal safety after release; target crossing
+and overshoot still require live radiator validation. FFTrim keeps the canonical
+`live/feedforward/fftrim/{stationary,periodic,transfer,last_result,last_transaction,command_ownership}`
+contract. Internal causal admission/balance is not published, and thermal bias
+is not connected to the governor; the dashboard adds no such correction.
+
+Target approach reuses the recorded indoor/filtered-setpoint series with the
+climate user-setpoint history in one °C graph, then recorded post-cap command and
+applied command in a separate % graph. Both use a 6-hour window. Applied power
+is an actuator command, not a measurement of delivered heat.
+
+#### Optional braking history: pending gap support
+
+Newer SmartPI payloads add three optional Recorder series to schema v2:
+`history/setpoint/nominal_reference`, `history/power/governor_cap_percent` and
+`history/power/before_governor_cap_percent`. SmartPI stores the reference at
+0.01 °C and the commands at 0.1 %; no second conversion belongs in a chart.
+The pre-cap demand already uses the filtered P reference and is not a
+counterfactual PI calculation on the user setpoint. Older payloads and older
+recordings lack these fields.
+
+These optional curves are **not enabled in this migration**. The current
+ha-better-history loader drops absent numeric points and extends the last
+numeric value; its renderer connects the remaining points. A disappearing cap
+could therefore appear to persist through a `null` interval. Reliable breaks
+must first be validated through loading, downsampling and rendering, including
+an episode ending with `null` and a genuine zero cap. Equinox and
+ha-better-history runtime code are unchanged by this dashboard migration.
+The prepared SmartPI publication also awaits the user's pytest validation
+before deployment and Recorder-volume evaluation before general adoption.
+No governor state, reason, prediction or cap is charted from `live`.
+
+The configuration and actual renderer methods are covered by
+`npm run test:smartpi` (Node 24). This checks active/handoff/idle transitions,
+missing/null/zero values, unknown enums, HEAT/COOL units, the eight retained
+Recorder paths and desktop/mobile selection templates. It does not paint a
+browser: final mobile/desktop and Flat/Liquid Glow appearance needs checking
+in Home Assistant.
 
 The `live/learning/enabled` diagnostic controls whether Summary and Actions
 show thermal learning as enabled or paused. Actions offers the matching confirmed
