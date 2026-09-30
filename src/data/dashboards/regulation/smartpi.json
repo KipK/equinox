@@ -374,10 +374,9 @@
       "metrics.governor.before": "Demande avant plafond",
       "metrics.governor.after": "Demande après plafond",
       "groups.model.ff3_twin": "FF3 et jumeau thermique",
-      "notes.approach": "La phase de retour de trajectoire (release) est distincte du passage de relais du governor (handoff). Un façonnage actif ne signifie pas forcément une réduction de puissance. « Freinage requis : non » ne prouve pas la fin de l'épisode. La prévision de fin d'horizon ne mesure pas un dépassement futur et ne certifie pas la sûreté du retour.",
       "graphs.approach.temperature": "Température et consignes",
       "graphs.approach.command": "Commande après plafond et commande appliquée",
-      "notes.approach.history": "La commande appliquée est une consigne envoyée à l'actionneur, pas une mesure de chaleur délivrée. Ces courbes n'indiquent pas la cause d'un plateau. Sa durée et les retours réussis ne sont pas publiés."
+      "notes.approach.history": "Le premier graphique compare la température de la pièce aux consignes. Le second montre comment la commande du thermostat évolue au fil du temps."
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -749,10 +748,9 @@
       "metrics.governor.before": "Demand before ceiling",
       "metrics.governor.after": "Demand after ceiling",
       "groups.model.ff3_twin": "FF3 and thermal twin",
-      "notes.approach": "Trajectory release and governor handoff are separate phases. Active shaping does not necessarily reduce power. “Braking needed: no” does not prove the episode has ended. The end-of-horizon forecast does not measure future overshoot or certify that release is safe.",
       "graphs.approach.temperature": "Temperature and setpoints",
       "graphs.approach.command": "Command after ceiling and applied command",
-      "notes.approach.history": "The applied command is sent to the actuator; it does not measure delivered heat. These curves do not show the cause of a plateau. Its duration and successful releases are not published."
+      "notes.approach.history": "The first graph compares room temperature with the setpoints. The second shows how the thermostat command changes over time."
     }
   },
   "sections": [
@@ -2210,12 +2208,6 @@
               ]
             }
           ]
-        },
-        {
-          "type": "section_note",
-          "tone": "muted",
-          "icon": "mdi:information-outline",
-          "text_key": "notes.approach"
         },
         {
           "type": "history",

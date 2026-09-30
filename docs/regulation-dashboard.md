@@ -117,6 +117,9 @@ climate user-setpoint history in one °C graph, then recorded post-cap command a
 applied command in a separate % graph. Both use a 6-hour window. Applied power
 is an actuator command, not a measurement of delivered heat.
 
+The on-screen note briefly explains what the two graphs show for novice users.
+The technical interpretation and contract limitations are documented here.
+
 #### Optional braking history: pending gap support
 
 Newer SmartPI payloads add three optional Recorder series to schema v2:
