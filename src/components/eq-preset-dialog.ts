@@ -26,7 +26,7 @@ export class EquinoxPresetDialog extends LitElement {
     .option-grid {
       display: flex;
       overflow: hidden;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
@@ -209,21 +209,21 @@ export class EquinoxPresetDialog extends LitElement {
     :host([theme="liquid_glow"]) .option-row[active]:first-child {
       margin-inline-start: -1px;
       width: calc(100% + 1px);
-      border-start-start-radius: var(--equinox-control-radius, 8px);
-      border-end-start-radius: var(--equinox-control-radius, 8px);
+      border-start-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:last-child {
       margin-inline-end: -1px;
       width: calc(100% + 1px);
-      border-start-end-radius: var(--equinox-control-radius, 8px);
-      border-end-end-radius: var(--equinox-control-radius, 8px);
+      border-start-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:only-child {
       margin: -1px;
       width: calc(100% + 2px);
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active] .option-icon {
@@ -380,7 +380,7 @@ export class EquinoxPresetDialog extends LitElement {
       width: 100%;
       min-height: 48px;
       padding: 8px 12px;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       border: 1px solid transparent;
       background: transparent;
       color: var(--primary-text-color, #fff);

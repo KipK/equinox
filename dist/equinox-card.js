@@ -17999,6 +17999,7 @@ var rl = o`
     display: block;
     color: var(--equinox-text-color);
     font-family: var(--paper-font-body1_-_font-family, var(--ha-font-family-body, inherit));
+    --equinox-radius: var(--ha-card-border-radius, var(--ha-border-radius-lg, 8px));
   }
 
   button {
@@ -18065,8 +18066,8 @@ var rl = o`
     --equinox-swing-vertical-color: color-mix(in srgb, var(--state-climate-fan_only-color, #00bcd4) 80%, var(--primary-color, #03a9f4));
     --equinox-swing-horizontal-color: color-mix(in srgb, var(--state-climate-fan_only-color, #00bcd4) 80%, var(--accent-color, #b06cff));
     --equinox-swing-both-color: var(--accent-color, #b06cff);
-    --equinox-radius: 8px;
-    --equinox-control-radius: 8px;
+    --equinox-radius: var(--ha-card-border-radius, var(--ha-border-radius-lg, 8px));
+    --equinox-control-radius: var(--ha-border-radius-md, 8px);
     --equinox-shadow: var(--ha-card-box-shadow, 0 1px 2px rgb(0 0 0 / 34%));
   }
 
@@ -18711,7 +18712,7 @@ var rl = o`
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 9000;
-      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
+      border-radius: var(--eq-dialog-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-3xl, 24px)));
     }
 
     .panel {
@@ -18728,7 +18729,7 @@ var rl = o`
         ),
         var(--equinox-dialog-opaque-base, #1c1c1c);
       color: var(--primary-text-color);
-      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
+      border-radius: var(--eq-dialog-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-3xl, 24px)));
       overflow: var(--eq-dialog-panel-overflow, hidden);
     }
 
@@ -18826,7 +18827,7 @@ var rl = o`
         bottom: 0;
         top: auto;
         inset-inline: 0;
-        border-radius: var(--eq-dialog-radius, 16px) var(--eq-dialog-radius, 16px) 0 0;
+        border-radius: var(--eq-dialog-mobile-radius, var(--ha-bottom-sheet-border-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-2xl, 20px)))) var(--eq-dialog-mobile-radius, var(--ha-bottom-sheet-border-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-2xl, 20px)))) 0 0;
         max-height: 80vh;
         overflow-y: auto;
       }
@@ -19089,7 +19090,7 @@ var sl = "disabled", cl = class extends D {
       min-height: 48px;
       padding: 8px 12px;
       border: 1px solid transparent;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: transparent;
       color: var(--primary-text-color, #fff);
       cursor: pointer;
@@ -19247,7 +19248,7 @@ var ll = class extends D {
     .fan-grid {
       display: flex;
       overflow: hidden;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
@@ -19380,21 +19381,21 @@ var ll = class extends D {
     :host([theme="liquid_glow"]) .fan-option[active]:first-child {
       margin-inline-start: -1px;
       width: calc(100% + 1px);
-      border-start-start-radius: var(--equinox-control-radius, 8px);
-      border-end-start-radius: var(--equinox-control-radius, 8px);
+      border-start-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .fan-option[active]:last-child {
       margin-inline-end: -1px;
       width: calc(100% + 1px);
-      border-start-end-radius: var(--equinox-control-radius, 8px);
-      border-end-end-radius: var(--equinox-control-radius, 8px);
+      border-start-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .fan-option[active]:only-child {
       margin: -1px;
       width: calc(100% + 2px);
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .fan-option[active] .fan-option-icon {
@@ -19442,7 +19443,7 @@ var ll = class extends D {
       width: 100%;
       min-height: 48px;
       padding: 8px 12px;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       border: 1px solid transparent;
       background: transparent;
       color: var(--primary-text-color, #fff);
@@ -19699,7 +19700,7 @@ var ul = class extends D {
     .option-grid {
       display: flex;
       overflow: hidden;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
@@ -19854,21 +19855,21 @@ var ul = class extends D {
     :host([theme="liquid_glow"]) .option-row[active]:first-child {
       margin-inline-start: -1px;
       width: calc(100% + 1px);
-      border-start-start-radius: var(--equinox-control-radius, 8px);
-      border-end-start-radius: var(--equinox-control-radius, 8px);
+      border-start-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:last-child {
       margin-inline-end: -1px;
       width: calc(100% + 1px);
-      border-start-end-radius: var(--equinox-control-radius, 8px);
-      border-end-end-radius: var(--equinox-control-radius, 8px);
+      border-start-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:only-child {
       margin: -1px;
       width: calc(100% + 2px);
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active] .option-icon {
@@ -20040,7 +20041,7 @@ var ul = class extends D {
       width: 100%;
       min-height: 48px;
       padding: 8px 12px;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       border: 1px solid transparent;
       background: transparent;
       color: var(--primary-text-color, #fff);
@@ -20224,7 +20225,7 @@ var dl = class extends D {
     .swing-grid {
       display: flex;
       overflow: hidden;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
@@ -20325,7 +20326,7 @@ var dl = class extends D {
       width: 100%;
       min-height: 48px;
       padding: 8px 12px;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       border: 1px solid transparent;
       background: transparent;
       color: var(--primary-text-color, #fff);
@@ -20385,15 +20386,15 @@ var dl = class extends D {
     :host([theme="liquid_glow"]) .swing-option[active]:first-child {
       margin-inline-start: -1px;
       width: calc(100% + 1px);
-      border-start-start-radius: var(--equinox-control-radius, 8px);
-      border-end-start-radius: var(--equinox-control-radius, 8px);
+      border-start-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .swing-option[active]:last-child {
       margin-inline-end: -1px;
       width: calc(100% + 1px);
-      border-start-end-radius: var(--equinox-control-radius, 8px);
-      border-end-end-radius: var(--equinox-control-radius, 8px);
+      border-start-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .swing-option[active] .swing-option-icon,
@@ -20596,7 +20597,7 @@ var fl = class extends D {
     .option-grid {
       display: flex;
       overflow: hidden;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       border: 1px solid var(--equinox-border-color, rgba(128, 128, 128, 0.2));
     }
@@ -20779,21 +20780,21 @@ var fl = class extends D {
     :host([theme="liquid_glow"]) .option-row[active]:first-child {
       margin-inline-start: -1px;
       width: calc(100% + 1px);
-      border-start-start-radius: var(--equinox-control-radius, 8px);
-      border-end-start-radius: var(--equinox-control-radius, 8px);
+      border-start-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-start-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:last-child {
       margin-inline-end: -1px;
       width: calc(100% + 1px);
-      border-start-end-radius: var(--equinox-control-radius, 8px);
-      border-end-end-radius: var(--equinox-control-radius, 8px);
+      border-start-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
+      border-end-end-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active]:only-child {
       margin: -1px;
       width: calc(100% + 2px);
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
     }
 
     :host([theme="liquid_glow"]) .option-row[active] .option-icon {
@@ -20950,7 +20951,7 @@ var fl = class extends D {
       width: 100%;
       min-height: 48px;
       padding: 8px 12px;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       border: 1px solid transparent;
       background: transparent;
       color: var(--primary-text-color, #fff);
@@ -21721,7 +21722,7 @@ var gl = class extends D {
       width: 100%;
       min-height: 52px;
       padding: 8px 12px;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       border: 1px solid transparent;
       background: transparent;
       color: var(--primary-text-color, #fff);
@@ -22044,7 +22045,7 @@ var _l = 60, vl = [
       gap: 6px;
       padding: 0 10px;
       border: 1px solid color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 55%, transparent);
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       color: var(--equinox-text-color, var(--primary-text-color, #fff));
       cursor: pointer;
@@ -24501,7 +24502,7 @@ var Hl = 4, Ul = [
           var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color, #1c1c1c)))
         ),
         var(--equinox-dialog-opaque-base, #1c1c1c);
-      border-radius: var(--equinox-radius, 8px);
+      border-radius: var(--equinox-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
       border: 1px solid var(--equinox-border-color, var(--divider-color));
       box-shadow: var(--equinox-shadow, 0 4px 20px rgba(0, 0, 0, 0.35));
       color: var(--equinox-text-color, var(--primary-text-color));
@@ -24593,7 +24594,7 @@ var Hl = 4, Ul = [
       align-items: center;
       justify-content: center;
       border: 0;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, var(--secondary-background-color));
       color: var(--equinox-text-color, var(--primary-text-color));
       cursor: pointer;
@@ -24630,7 +24631,7 @@ var Hl = 4, Ul = [
       padding: 4px;
       text-align: center;
       width: 100%;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       transition: color 0.12s;
     }
 
@@ -24645,7 +24646,7 @@ var Hl = 4, Ul = [
 
       .dialog {
         max-width: 100%;
-        border-radius: var(--equinox-radius, 8px) var(--equinox-radius, 8px) 0 0;
+        border-radius: var(--equinox-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px))) var(--equinox-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px))) 0 0;
         padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
       }
     }
@@ -25029,7 +25030,7 @@ var nu = class extends D {
       ha-card {
         height: 100%;
         overflow: visible;
-        border-radius: var(--equinox-radius);
+        border-radius: var(--equinox-card-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
         background: var(--equinox-card-surface-bg);
         border: 1px solid var(--equinox-border-color);
         box-shadow: var(--equinox-shadow);
@@ -25666,7 +25667,7 @@ var nu = class extends D {
         min-width: 0;
         width: 100%;
         height: 45px;
-        --control-button-border-radius: var(--equinox-control-radius);
+        --control-button-border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
         --control-button-background-color: transparent;
         --control-button-background-opacity: 0;
         --control-button-focus-color: var(--primary-color);
@@ -26115,7 +26116,7 @@ var nu = class extends D {
         border-radius: var(--equinox-control-radius);
         background: var(--equinox-mode-control-bg);
         overflow: hidden;
-        --control-button-border-radius: var(--equinox-control-radius);
+        --control-button-border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
         --control-button-background-color: transparent;
         --control-button-background-opacity: 0;
         --control-button-focus-color: var(--primary-color);
@@ -26290,7 +26291,7 @@ var nu = class extends D {
           width: max-content;
           min-width: 42px;
           padding: 8px 10px;
-          border-radius: var(--equinox-radius);
+          border-radius: var(--equinox-card-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
           border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
           background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
           box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
@@ -26361,7 +26362,7 @@ var nu = class extends D {
           width: max-content;
           min-width: 42px;
           padding: 8px 10px;
-          border-radius: var(--equinox-radius);
+          border-radius: var(--equinox-card-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
           border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
           background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
           box-shadow: 0 10px 28px rgb(0 0 0 / 28%);

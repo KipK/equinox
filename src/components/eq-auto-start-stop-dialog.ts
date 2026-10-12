@@ -39,7 +39,7 @@ export class EquinoxAutoStartStopDialog extends LitElement {
       min-height: 48px;
       padding: 8px 12px;
       border: 1px solid transparent;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: transparent;
       color: var(--primary-text-color, #fff);
       cursor: pointer;

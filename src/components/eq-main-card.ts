@@ -278,7 +278,7 @@ export class EquinoxMainCard extends LitElement {
       ha-card {
         height: 100%;
         overflow: visible;
-        border-radius: var(--equinox-radius);
+        border-radius: var(--equinox-card-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
         background: var(--equinox-card-surface-bg);
         border: 1px solid var(--equinox-border-color);
         box-shadow: var(--equinox-shadow);
@@ -915,7 +915,7 @@ export class EquinoxMainCard extends LitElement {
         min-width: 0;
         width: 100%;
         height: 45px;
-        --control-button-border-radius: var(--equinox-control-radius);
+        --control-button-border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
         --control-button-background-color: transparent;
         --control-button-background-opacity: 0;
         --control-button-focus-color: var(--primary-color);
@@ -1364,7 +1364,7 @@ export class EquinoxMainCard extends LitElement {
         border-radius: var(--equinox-control-radius);
         background: var(--equinox-mode-control-bg);
         overflow: hidden;
-        --control-button-border-radius: var(--equinox-control-radius);
+        --control-button-border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
         --control-button-background-color: transparent;
         --control-button-background-opacity: 0;
         --control-button-focus-color: var(--primary-color);
@@ -1539,7 +1539,7 @@ export class EquinoxMainCard extends LitElement {
           width: max-content;
           min-width: 42px;
           padding: 8px 10px;
-          border-radius: var(--equinox-radius);
+          border-radius: var(--equinox-card-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
           border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
           background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
           box-shadow: 0 10px 28px rgb(0 0 0 / 28%);
@@ -1610,7 +1610,7 @@ export class EquinoxMainCard extends LitElement {
           width: max-content;
           min-width: 42px;
           padding: 8px 10px;
-          border-radius: var(--equinox-radius);
+          border-radius: var(--equinox-card-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
           border: 1px solid color-mix(in srgb, var(--equinox-border-color, var(--divider-color)) 70%, transparent);
           background: color-mix(in srgb, var(--equinox-card-bg, var(--card-background-color, #1c1c1c)) 82%, transparent);
           box-shadow: 0 10px 28px rgb(0 0 0 / 28%);

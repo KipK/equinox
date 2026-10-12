@@ -163,7 +163,7 @@ export class EquinoxBoostDialog extends LitElement {
       gap: 6px;
       padding: 0 10px;
       border: 1px solid color-mix(in srgb, var(--equinox-boost-color, var(--accent-color)) 55%, transparent);
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, rgba(128, 128, 128, 0.08));
       color: var(--equinox-text-color, var(--primary-text-color, #fff));
       cursor: pointer;

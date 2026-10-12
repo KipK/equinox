@@ -26,7 +26,7 @@ export class EquinoxDialog extends LitElement {
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 9000;
-      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
+      border-radius: var(--eq-dialog-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-3xl, 24px)));
     }
 
     .panel {
@@ -43,7 +43,7 @@ export class EquinoxDialog extends LitElement {
         ),
         var(--equinox-dialog-opaque-base, #1c1c1c);
       color: var(--primary-text-color);
-      border-radius: var(--eq-dialog-radius, var(--equinox-radius, 12px));
+      border-radius: var(--eq-dialog-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-3xl, 24px)));
       overflow: var(--eq-dialog-panel-overflow, hidden);
     }
 
@@ -141,7 +141,7 @@ export class EquinoxDialog extends LitElement {
         bottom: 0;
         top: auto;
         inset-inline: 0;
-        border-radius: var(--eq-dialog-radius, 16px) var(--eq-dialog-radius, 16px) 0 0;
+        border-radius: var(--eq-dialog-mobile-radius, var(--ha-bottom-sheet-border-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-2xl, 20px)))) var(--eq-dialog-mobile-radius, var(--ha-bottom-sheet-border-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-2xl, 20px)))) 0 0;
         max-height: 80vh;
         overflow-y: auto;
       }

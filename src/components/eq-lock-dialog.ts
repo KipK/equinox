@@ -46,7 +46,7 @@ export class EqLockDialog extends LitElement {
           var(--equinox-card-bg, var(--ha-card-background, var(--card-background-color, #1c1c1c)))
         ),
         var(--equinox-dialog-opaque-base, #1c1c1c);
-      border-radius: var(--equinox-radius, 8px);
+      border-radius: var(--equinox-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
       border: 1px solid var(--equinox-border-color, var(--divider-color));
       box-shadow: var(--equinox-shadow, 0 4px 20px rgba(0, 0, 0, 0.35));
       color: var(--equinox-text-color, var(--primary-text-color));
@@ -138,7 +138,7 @@ export class EqLockDialog extends LitElement {
       align-items: center;
       justify-content: center;
       border: 0;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       background: var(--equinox-control-bg, var(--secondary-background-color));
       color: var(--equinox-text-color, var(--primary-text-color));
       cursor: pointer;
@@ -175,7 +175,7 @@ export class EqLockDialog extends LitElement {
       padding: 4px;
       text-align: center;
       width: 100%;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       transition: color 0.12s;
     }
 
@@ -190,7 +190,7 @@ export class EqLockDialog extends LitElement {
 
       .dialog {
         max-width: 100%;
-        border-radius: var(--equinox-radius, 8px) var(--equinox-radius, 8px) 0 0;
+        border-radius: var(--equinox-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px))) var(--equinox-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px))) 0 0;
         padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
       }
     }

@@ -41,7 +41,7 @@ export class EquinoxMenuDialog extends LitElement {
       width: 100%;
       min-height: 52px;
       padding: 8px 12px;
-      border-radius: var(--equinox-control-radius, 8px);
+      border-radius: var(--equinox-control-radius, var(--ha-border-radius-md, 8px));
       border: 1px solid transparent;
       background: transparent;
       color: var(--primary-text-color, #fff);

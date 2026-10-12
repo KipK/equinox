@@ -55,8 +55,8 @@ export const flatStyles = css`
     --equinox-swing-vertical-color: color-mix(in srgb, var(--state-climate-fan_only-color, #00bcd4) 80%, var(--primary-color, #03a9f4));
     --equinox-swing-horizontal-color: color-mix(in srgb, var(--state-climate-fan_only-color, #00bcd4) 80%, var(--accent-color, #b06cff));
     --equinox-swing-both-color: var(--accent-color, #b06cff);
-    --equinox-radius: 8px;
-    --equinox-control-radius: 8px;
+    --equinox-radius: var(--ha-card-border-radius, var(--ha-border-radius-lg, 8px));
+    --equinox-control-radius: var(--ha-border-radius-md, 8px);
     --equinox-shadow: var(--ha-card-box-shadow, 0 1px 2px rgb(0 0 0 / 34%));
   }
 
