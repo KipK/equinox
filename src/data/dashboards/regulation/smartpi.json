@@ -16,7 +16,7 @@
       "sections.fftrim.title": "Équilibre / FFTrim",
       "sections.fftrim.summary": "Observation de la puissance de maintien et répartition entre intégrale et trim.",
       "sections.anticipation.title": "Approche de consigne",
-      "sections.anticipation.summary": "Trajectoire vers la consigne, freinage prédictif et effet du plafond sur la commande.",
+      "sections.anticipation.summary": "Consigne suivie, profil de trajectoire et évolution de la commande.",
       "sections.health.title": "Protections",
       "sections.health.summary": "Gouvernance, protections et calibration.",
       "sections.actions.title": "Actions",
@@ -95,7 +95,7 @@
       "metrics.autocalib_state": "Autocalibration",
       "metrics.autocalib_degraded": "Modèle dégradé",
       "metrics.autocalib_snapshot_age": "Âge du snapshot",
-      "metrics.autocalib_next_check": "Prochain contrôle",
+      "metrics.autocalib_next_check": "Prochaine relance automatique",
       "metrics.autocalib_last_trigger": "Dernier déclenchement",
       "metrics.calibration_state": "Calibration",
       "metrics.calibration_retry": "Essais calibration",
@@ -332,8 +332,6 @@
       "status.trajectory.phase.tracking": "Suivi du profil",
       "status.trajectory.phase.release": "Retour progressif à la consigne",
       "groups.approach.followed": "Consigne suivie",
-      "metrics.governor.nominal": "Référence nominale du profil",
-      "metrics.governor.admissible": "Référence admissible du governor",
       "status.boolean.inactive": "Inactif",
       "groups.approach.details": "Détails de trajectoire",
       "metrics.trajectory.start": "Consigne de départ",
@@ -348,35 +346,12 @@
       "metrics.trajectory.pending": "Freinage pour changement de cible en attente",
       "metrics.trajectory.model_ready": "Modèle prêt pour la trajectoire",
       "metrics.trajectory.bumpless_ready": "Passage sans à-coup prêt",
-      "metrics.governor.handoff_ready": "Passage de relais du governor prêt",
-      "metrics.governor.phase": "Phase du governor",
-      "status.governor.phase.idle": "Inactif",
-      "status.governor.phase.governed": "Approche gouvernée",
-      "status.governor.phase.handoff": "Passage de relais",
-      "metrics.governor.reason": "Raison du governor",
-      "status.governor.reason.inactive": "Inactif",
-      "status.governor.reason.cap": "Plafond thermique",
-      "status.governor.reason.coast": "Commande nulle requise",
-      "status.governor.reason.unconstrained": "Sans contrainte thermique",
-      "status.governor.reason.no_positive_demand": "Pas de demande positive",
-      "status.governor.reason.handoff_waiting": "Passage de relais en attente",
-      "status.governor.reason.handoff_complete": "Passage de relais terminé",
-      "status.governor.reason.disarmed": "Governor désarmé",
-      "groups.approach.braking": "Freinage",
-      "metrics.governor.active": "Façonnage de référence actif",
-      "metrics.governor.constraint": "Contrainte thermique active",
-      "metrics.governor.coast": "Commande nulle requise",
-      "metrics.governor.prediction": "Température prévue en fin d'horizon",
-      "metrics.governor.bound": "Limite thermique",
-      "metrics.governor.reserve": "Réserve dynamique",
-      "metrics.governor.cap": "Plafond du governor",
-      "groups.approach.command": "Commande sous contrainte",
-      "metrics.governor.before": "Demande avant plafond",
-      "metrics.governor.after": "Demande après plafond",
       "groups.model.ff3_twin": "FF3 et jumeau thermique",
       "graphs.approach.temperature": "Température et consignes",
-      "graphs.approach.command": "Commande après plafond et commande appliquée",
-      "notes.approach.history": "Le premier graphique compare la température de la pièce aux consignes. Le second montre comment la commande du thermostat évolue au fil du temps."
+      "graphs.approach.command": "Commande calculée et commande appliquée",
+      "notes.approach.history": "Le premier graphique compare la température de la pièce aux consignes. Le second montre comment la commande du thermostat évolue au fil du temps.",
+      "metrics.ti": "Temps intégral effectif (Ti)",
+      "groups.command.gains": "Gains PI"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -390,9 +365,9 @@
       "sections.fftrim.title": "Equilibrium / FFTrim",
       "sections.fftrim.summary": "Observation of holding power and ownership distribution between integral and trim.",
       "sections.anticipation.title": "Target approach",
-      "sections.anticipation.summary": "Setpoint approach, predictive braking and the command ceiling effect.",
+      "sections.anticipation.summary": "Followed setpoint, trajectory profile and command history.",
       "sections.health.title": "Protections",
-      "sections.health.summary": "Governor, safeguards and calibration.",
+      "sections.health.summary": "Governance, safeguards and calibration.",
       "sections.actions.title": "Actions",
       "sections.actions.summary": "Learning and regulation maintenance actions.",
       "hero.overview.title": "Smart PI regulation",
@@ -469,7 +444,7 @@
       "metrics.autocalib_state": "Auto-calibration",
       "metrics.autocalib_degraded": "Model degraded",
       "metrics.autocalib_snapshot_age": "Snapshot age",
-      "metrics.autocalib_next_check": "Next check",
+      "metrics.autocalib_next_check": "Next automatic retry",
       "metrics.autocalib_last_trigger": "Last trigger",
       "metrics.calibration_state": "Calibration",
       "metrics.calibration_retry": "Calibration retries",
@@ -706,8 +681,6 @@
       "status.trajectory.phase.tracking": "Profile tracking",
       "status.trajectory.phase.release": "Progressive return to setpoint",
       "groups.approach.followed": "Followed setpoint",
-      "metrics.governor.nominal": "Nominal profile reference",
-      "metrics.governor.admissible": "Governor admissible reference",
       "status.boolean.inactive": "Inactive",
       "groups.approach.details": "Trajectory details",
       "metrics.trajectory.start": "Starting setpoint",
@@ -722,35 +695,12 @@
       "metrics.trajectory.pending": "Pending target-change braking",
       "metrics.trajectory.model_ready": "Trajectory model ready",
       "metrics.trajectory.bumpless_ready": "Bumpless transition ready",
-      "metrics.governor.handoff_ready": "Governor handoff ready",
-      "metrics.governor.phase": "Governor phase",
-      "status.governor.phase.idle": "Inactive",
-      "status.governor.phase.governed": "Governed approach",
-      "status.governor.phase.handoff": "Handoff",
-      "metrics.governor.reason": "Governor reason",
-      "status.governor.reason.inactive": "Inactive",
-      "status.governor.reason.cap": "Thermal ceiling",
-      "status.governor.reason.coast": "Zero command required",
-      "status.governor.reason.unconstrained": "Thermally unconstrained",
-      "status.governor.reason.no_positive_demand": "No positive demand",
-      "status.governor.reason.handoff_waiting": "Handoff pending",
-      "status.governor.reason.handoff_complete": "Handoff complete",
-      "status.governor.reason.disarmed": "Governor disarmed",
-      "groups.approach.braking": "Braking",
-      "metrics.governor.active": "Reference shaping active",
-      "metrics.governor.constraint": "Active thermal constraint",
-      "metrics.governor.coast": "Zero command required",
-      "metrics.governor.prediction": "Predicted end-of-horizon temperature",
-      "metrics.governor.bound": "Thermal bound",
-      "metrics.governor.reserve": "Dynamic reserve",
-      "metrics.governor.cap": "Governor ceiling",
-      "groups.approach.command": "Command under constraint",
-      "metrics.governor.before": "Demand before ceiling",
-      "metrics.governor.after": "Demand after ceiling",
       "groups.model.ff3_twin": "FF3 and thermal twin",
       "graphs.approach.temperature": "Temperature and setpoints",
-      "graphs.approach.command": "Command after ceiling and applied command",
-      "notes.approach.history": "The first graph compares room temperature with the setpoints. The second shows how the thermostat command changes over time."
+      "graphs.approach.command": "Calculated and applied command",
+      "notes.approach.history": "The first graph compares room temperature with the setpoints. The second shows how the thermostat command changes over time.",
+      "metrics.ti": "Effective integral time (Ti)",
+      "groups.command.gains": "PI gains"
     }
   },
   "sections": [
@@ -1298,23 +1248,23 @@
             },
             {
               "type": "status",
-              "label_key": "metrics.governor.phase",
+              "label_key": "metrics.trajectory.phase",
               "source": "diagnostic",
-              "path": "live/setpoint/governor_phase",
+              "path": "live/analysis/trajectory/phase",
               "align": "center",
               "map": {
                 "idle": {
-                  "label_key": "status.governor.phase.idle",
+                  "label_key": "status.trajectory.phase.idle",
                   "tone": "muted",
                   "icon": "mdi:circle-outline"
                 },
-                "governed": {
-                  "label_key": "status.governor.phase.governed",
+                "tracking": {
+                  "label_key": "status.trajectory.phase.tracking",
                   "tone": "info",
                   "icon": "mdi:circle-outline"
                 },
-                "handoff": {
-                  "label_key": "status.governor.phase.handoff",
+                "release": {
+                  "label_key": "status.trajectory.phase.release",
                   "tone": "info",
                   "icon": "mdi:circle-outline"
                 }
@@ -1529,7 +1479,7 @@
         {
           "type": "metric_grid",
           "title_key": "groups.command.contributions",
-          "columns": 3,
+          "columns": 2,
           "metrics": [
             {
               "label_key": "metrics.pi",
@@ -1557,7 +1507,14 @@
               "source": "diagnostic",
               "path": "live/temperature/integral_error",
               "digits": 3
-            },
+            }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.command.gains",
+          "columns": 3,
+          "metrics": [
             {
               "label_key": "metrics.kp",
               "source": "diagnostic",
@@ -1569,6 +1526,13 @@
               "source": "diagnostic",
               "path": "live/control/ki",
               "digits": 5
+            },
+            {
+              "label_key": "metrics.ti",
+              "source": "diagnostic",
+              "path": "live/control/ti_min",
+              "digits": 1,
+              "unit": "min"
             }
           ]
         },
@@ -1651,20 +1615,6 @@
                   "label_key": "metrics.filtered_setpoint",
                   "source": "diagnostic",
                   "path": "live/setpoint/filtered_setpoint",
-                  "digits": 2,
-                  "unit": "°C"
-                },
-                {
-                  "label_key": "metrics.governor.nominal",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/nominal_reference",
-                  "digits": 2,
-                  "unit": "°C"
-                },
-                {
-                  "label_key": "metrics.governor.admissible",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/admissible_reference",
                   "digits": 2,
                   "unit": "°C"
                 }
@@ -1941,269 +1891,6 @@
                     "icon": "mdi:help-circle-outline"
                   },
                   "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.governor.handoff_ready",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/handoff_ready",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.true",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.false",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "layout_grid",
-          "title_key": "groups.approach.braking",
-          "columns": 1,
-          "items": [
-            {
-              "type": "layout_grid",
-              "min_width": 140,
-              "stretch_items": false,
-              "items": [
-                {
-                  "type": "status",
-                  "label_key": "metrics.governor.active",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/active",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.active",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.inactive",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.governor.phase",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/phase",
-                  "align": "center",
-                  "map": {
-                    "idle": {
-                      "label_key": "status.governor.phase.idle",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "governed": {
-                      "label_key": "status.governor.phase.governed",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "handoff": {
-                      "label_key": "status.governor.phase.handoff",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.governor.reason",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/reason",
-                  "align": "center",
-                  "map": {
-                    "inactive": {
-                      "label_key": "status.governor.reason.inactive",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "cap": {
-                      "label_key": "status.governor.reason.cap",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "coast": {
-                      "label_key": "status.governor.reason.coast",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "unconstrained": {
-                      "label_key": "status.governor.reason.unconstrained",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "no_positive_demand": {
-                      "label_key": "status.governor.reason.no_positive_demand",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "handoff_waiting": {
-                      "label_key": "status.governor.reason.handoff_waiting",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "handoff_complete": {
-                      "label_key": "status.governor.reason.handoff_complete",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "disarmed": {
-                      "label_key": "status.governor.reason.disarmed",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.governor.constraint",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/constraint_active",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.true",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.false",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.governor.coast",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/coast_required",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.true",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.false",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                }
-              ]
-            },
-            {
-              "type": "metric_grid",
-              "columns": 3,
-              "metrics": [
-                {
-                  "label_key": "metrics.governor.prediction",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/predicted_terminal_temperature",
-                  "digits": 2,
-                  "unit": "°C"
-                },
-                {
-                  "label_key": "metrics.governor.bound",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/target_bound",
-                  "digits": 2,
-                  "unit": "°C"
-                },
-                {
-                  "label_key": "metrics.governor.reserve",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/dynamic_reserve_c",
-                  "digits": 2,
-                  "unit": "°C"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "layout_grid",
-          "title_key": "groups.approach.command",
-          "columns": 1,
-          "items": [
-            {
-              "type": "metric_grid",
-              "columns": 3,
-              "metrics": [
-                {
-                  "label_key": "metrics.governor.before",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/command_before_cap",
-                  "digits": 1,
-                  "unit": "%",
-                  "value_multiplier": 100
-                },
-                {
-                  "label_key": "metrics.governor.cap",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/command_cap",
-                  "digits": 1,
-                  "unit": "%",
-                  "value_multiplier": 100
-                },
-                {
-                  "label_key": "metrics.governor.after",
-                  "source": "diagnostic",
-                  "path": "live/analysis/reference_governor/command_after_cap",
-                  "digits": 1,
-                  "unit": "%",
-                  "value_multiplier": 100
                 }
               ]
             }
@@ -2254,7 +1941,7 @@
             {
               "entity": "$diagnostic_entity",
               "attribute": "history/power/command_percent",
-              "label_key": "metrics.governor.after",
+              "label_key": "graphs.command.command",
               "unit": "%",
               "scale_group": "power"
             },

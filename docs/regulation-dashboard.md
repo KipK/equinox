@@ -53,7 +53,7 @@ The SmartPI dashboard uses these eight sections in this order:
 | --- | --- | --- |
 | Overview / Synthèse | `overview` | Temperature, user and followed setpoints, applied command and useful current influences |
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
-| Target approach / Approche de consigne | `anticipation` | Followed setpoint, predictive braking and command ceiling effect |
+| Target approach / Approche de consigne | `anticipation` | Followed setpoint, trajectory profile and command history |
 | Model and prediction / Modèle et prévision | `model` | A/B, confidence, delays and the relocated FF3/twin block |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
 | Equilibrium / FFTrim / Équilibre / FFTrim | `fftrim` | Holding power and integral/trim transfers |
@@ -61,92 +61,73 @@ The SmartPI dashboard uses these eight sections in this order:
 | Actions / Actions | `actions` | Existing confirmed maintenance commands |
 
 The existing section IDs remain valid for selection, desktop navigation and
-the mobile section menu. There is no separate Governor section.
+the mobile section menu. Overview includes the current trajectory phase.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
 controller data directly from `live/...` and its eight historical series from
 `history/...`; it does not branch on SmartPI debug mode or reproduce controller
 formulas. Published `live/power/*_percent` values are already percentages.
-Ratios inside `live/feedforward/fftrim`, governor commands/caps and trajectory
-`next_cycle_reference` / `bumpless_delta` use an explicit `value_multiplier: 100`.
-References, forecast temperatures, the thermal bound and reserve are in °C.
-Absent fields remain `--`; `null` never becomes zero, and a zero ceiling and
-`false` remain valid data. Evolving enum values use a neutral fallback
-that keeps the raw code visible. Offset-aware ISO dates may use the Home
-Assistant timezone; naive ISO dates are displayed without inventing a source
-timezone.
+Ratios inside `live/feedforward/fftrim` and trajectory `next_cycle_reference` /
+`bumpless_delta` use an explicit `value_multiplier: 100`. Temperatures and
+setpoints remain in physical °C coordinates in both HEAT and COOL.
+Absent fields remain `--`; `null` never becomes zero, and zero and `false`
+remain valid data. Evolving enum values use a neutral fallback that keeps the
+raw code visible. Offset-aware ISO dates may use the Home Assistant timezone;
+naive ISO dates are displayed without inventing a source timezone.
 
-Target approach contains three compact groups:
+Target approach shows the user setpoint from climate `temperature`, the measured
+indoor temperature from `live/temperature/indoor`, and the filtered reference
+followed by P from `live/setpoint/filtered_setpoint`. Trajectory activity and
+source use `live/setpoint/trajectory_active` and `live/setpoint/trajectory_source`.
+Phase, timing, profile targets and bumpless indicators use
+`live/analysis/trajectory`. Details and readiness indicators appear while the
+trajectory is active. Its `idle/tracking/release` phase is displayed as published;
+`braking_needed=false` alone does not establish that the trajectory has ended.
 
-1. **Followed setpoint** reads the user setpoint from climate `temperature` and
-   the canonical indoor temperature from `live/temperature/indoor`. The nominal
-   profile reference is the profile proposal, the filtered setpoint is the
-   reference followed by P, and the admissible reference is the governor decision.
-   Trajectory phase/source and timing/bumpless details use `live/analysis/trajectory`.
-2. **Braking** uses `live/analysis/reference_governor` for shaping state, phase,
-   reason, kernel thermal constraint, predicted terminal temperature, physical
-   target bound, reserve and whether a zero command is required.
-3. **Command under constraint** compares demand before the governor cap, the
-   cap and demand after it. Command retains the downstream limited/applied chain.
+The section also compares recorded indoor temperature, filtered reference and
+climate user setpoint in a °C graph, then calculated and applied commands in a
+separate % graph. Both use a 6-hour window. Applied power is an actuator command,
+not a measurement of delivered heat. The on-screen note briefly explains the
+two graphs.
 
-Trajectory `idle/tracking/release` and governor `idle/governed/handoff` are
-independent state machines: `release` does not mean `handoff`. Active shaping
-does not necessarily reduce power; `constraint_active` reports the thermal
-kernel decision, while before/after commands show the command effect.
-`braking_needed=false` does not establish that an episode has ended.
+The eight diagnostic Recorder series are:
 
-After terminal retirement, the filtered setpoint returns to the user setpoint,
-trajectory is inactive/source `none`, governor is inactive/`idle`/reason
-`inactive`, and cap/reference/forecast/reserve may be absent. The dashboard reads
-the current payload without retaining old constraints. Before/after demand may
-still be published by normal control. No persistent successful-release event,
-terminal refusal reason or plateau duration is published; none is inferred from
-`idle`. HEAT and COOL share this contract, and COOL bounds stay in physical
-temperature coordinates.
+- `history/temperature/indoor`
+- `history/setpoint/filtered_setpoint`
+- `history/power/applied_percent`
+- `history/power/command_percent`
+- `history/power/pi_percent`
+- `history/power/ff_percent`
+- `history/model/a`
+- `history/model/b`
 
-FF3 being disabled or governor handoff is not inherently an error. A forecast
-is not a measurement of future overshoot. The curves and statuses neither prove
-the cause of a plateau nor certify thermal safety after release; target crossing
-and overshoot still require live radiator validation. FFTrim keeps the canonical
-`live/feedforward/fftrim/{stationary,periodic,transfer,last_result,last_transaction,command_ownership}`
-contract. Internal causal admission/balance is not published, and thermal bias
-is not connected to the governor; the dashboard adds no such correction.
+Command separates the PI/FF/holding contributions and integral value from a
+three-column **PI gains** group: `live/control/kp`, `live/control/ki` and
+`live/control/ti_min`. Ti is the effective integral time Kp/Ki in minutes,
+published by SmartPI. When Ki is non-positive, SmartPI publishes `null` and Ti
+renders as `--`; Equinox does not calculate a replacement value.
 
-Target approach reuses the recorded indoor/filtered-setpoint series with the
-climate user-setpoint history in one °C graph, then recorded post-cap command and
-applied command in a separate % graph. Both use a 6-hour window. Applied power
-is an actuator command, not a measurement of delivered heat.
+FF3 and thermal-twin statuses are grouped in Model and prediction. FFTrim uses
+`live/feedforward/fftrim/{stationary,periodic,transfer,last_result,last_transaction}`.
+Its published `live/feedforward/fftrim/command_ownership` namespace includes
+`receipts_supported`, `kind`, `alterations` and `rejection_counts`; the built-in
+dashboard does not display this block.
 
-The on-screen note briefly explains what the two graphs show for novice users.
-The technical interpretation and contract limitations are documented here.
-
-#### Optional braking history: pending gap support
-
-Newer SmartPI payloads add three optional Recorder series to schema v2:
-`history/setpoint/nominal_reference`, `history/power/governor_cap_percent` and
-`history/power/before_governor_cap_percent`. SmartPI stores the reference at
-0.01 °C and the commands at 0.1 %; no second conversion belongs in a chart.
-The pre-cap demand already uses the filtered P reference and is not a
-counterfactual PI calculation on the user setpoint. Older payloads and older
-recordings lack these fields.
-
-These optional curves are **not enabled in this migration**. The current
-ha-better-history loader drops absent numeric points and extends the last
-numeric value; its renderer connects the remaining points. A disappearing cap
-could therefore appear to persist through a `null` interval. Reliable breaks
-must first be validated through loading, downsampling and rendering, including
-an episode ending with `null` and a genuine zero cap. Equinox and
-ha-better-history runtime code are unchanged by this dashboard migration.
-The prepared SmartPI publication also awaits the user's pytest validation
-before deployment and Recorder-volume evaluation before general adoption.
-No governor state, reason, prediction or cap is charted from `live`.
+In Protections, `live/autocalib/next_check_ts` is labeled **Next automatic retry**:
+it is the scheduled re-trigger time, cleared when an attempt starts or a
+snapshot is taken. `live/autocalib/last_trigger_ts` reports the actual trigger
+time, and `live/autocalib/snapshot_age_h` reports the actual snapshot age.
 
 The configuration and actual renderer methods are covered by
-`npm run test:smartpi` (Node 24). This checks active/handoff/idle transitions,
-missing/null/zero values, unknown enums, HEAT/COOL units, the eight retained
-Recorder paths and desktop/mobile selection templates. It does not paint a
-browser: final mobile/desktop and Flat/Liquid Glow appearance needs checking
-in Home Assistant.
+`npm run test:smartpi` (Node 24), including published diagnostic bindings and
+documentation examples, trajectory transitions, missing/null/zero values,
+unknown enums, HEAT/COOL units, Ti, the eight Recorder paths and desktop/mobile
+selection templates. The reference fixture in
+`tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from
+vtherm_smartpi revision `f64e02f` and records its source files. Update it from the
+publisher when that contract changes. These tests do not paint a browser:
+final mobile/desktop and Flat/Liquid Glow appearance needs checking in Home
+Assistant.
 
 The `live/learning/enabled` diagnostic controls whether Summary and Actions
 show thermal learning as enabled or paused. Actions offers the matching confirmed
@@ -401,16 +382,16 @@ Supported operators:
 
 | Operator | Example |
 | -------- | ------- |
-| `var` | `{ "var": "diagnostic/model/confidence" }` |
-| `!` | `{ "!": { "var": "diagnostic/model/ready" } }` |
-| `and` | `{ "and": [{ "var": "diagnostic/model/ready" }, { ">": [{ "var": "diagnostic/history/samples" }, 10] }] }` |
+| `var` | `{ "var": "diagnostic/live/model/confidence" }` |
+| `!` | `{ "!": { "var": "diagnostic/live/model/tau_reliable" } }` |
+| `and` | `{ "and": [{ "var": "diagnostic/live/model/tau_reliable" }, { ">": [{ "var": "diagnostic/live/learning/emea_samples_a" }, 10] }] }` |
 | `or` | `{ "or": [{ "==": [{ "var": "climate/state" }, "heat"] }, { "==": [{ "var": "climate/state" }, "heat_cool"] }] }` |
-| `==` | `{ "==": [{ "var": "diagnostic/model/confidence" }, "ok"] }` |
+| `==` | `{ "==": [{ "var": "diagnostic/live/model/confidence" }, "ab_ok"] }` |
 | `!=` | `{ "!=": [{ "var": "climate/state" }, "off"] }` |
-| `>` | `{ ">": [{ "var": "diagnostic/history/samples" }, 10] }` |
-| `>=` | `{ ">=": [{ "var": "diagnostic/history/samples" }, 10] }` |
-| `<` | `{ "<": [{ "var": "diagnostic/history/samples" }, 10] }` |
-| `<=` | `{ "<=": [{ "var": "diagnostic/history/samples" }, 10] }` |
+| `>` | `{ ">": [{ "var": "diagnostic/live/learning/emea_samples_a" }, 10] }` |
+| `>=` | `{ ">=": [{ "var": "diagnostic/live/learning/emea_samples_a" }, 10] }` |
+| `<` | `{ "<": [{ "var": "diagnostic/live/learning/emea_samples_a" }, 10] }` |
+| `<=` | `{ "<=": [{ "var": "diagnostic/live/learning/emea_samples_a" }, 10] }` |
 
 Truthy values are anything except `false`, `undefined`, `null`, empty string,
 and `0`.
@@ -469,7 +450,7 @@ Example:
   "type": "value",
   "label_key": "metrics.error",
   "source": "diagnostic",
-  "path": "temperature/error",
+  "path": "live/temperature/error",
   "unit": "deg",
   "digits": 1
 }
@@ -483,7 +464,7 @@ so `0.0001` renders as `0.01 %`):
   "type": "value",
   "label": "Trim correction",
   "source": "diagnostic",
-  "path": "feedforward/fftrim/correction",
+  "path": "live/feedforward/fftrim/last_result/correction",
   "format": "number",
   "value_multiplier": 100,
   "unit": "%",
@@ -528,14 +509,14 @@ Example:
     {
       "label_key": "command.next_cycle",
       "source": "diagnostic",
-      "path": "power/next_cycle_percent",
+      "path": "live/power/next_cycle_percent",
       "unit": "%",
       "digits": 0
     },
     {
       "label_key": "command.applied",
       "source": "diagnostic",
-      "path": "power/applied_percent",
+      "path": "live/power/applied_percent",
       "unit": "%",
       "digits": 0
     }
@@ -565,9 +546,9 @@ ISO date example:
 ```json
 {
   "type": "value",
-  "label": "Next check",
+  "label": "Next automatic retry",
   "source": "diagnostic",
-  "path": "autocalib/next_check_ts",
+  "path": "live/autocalib/next_check_ts",
   "format": "datetime"
 }
 ```
@@ -621,7 +602,7 @@ Example:
   "type": "status",
   "label_key": "model.confidence",
   "source": "diagnostic",
-  "path": "model/confidence",
+  "path": "live/model/confidence",
   "map": {
     "ab_ok": {
       "label_key": "model.confidence.ok",
@@ -643,9 +624,9 @@ Forward-compatible external enum example:
 {
   "type": "status",
   "source": "diagnostic",
-  "path": "governance/regime",
+  "path": "live/governance/regime",
   "map": {
-    "NORMAL": { "label": "Normal", "tone": "ok" }
+    "near_band": { "label": "Near band", "tone": "ok" }
   },
   "fallback": { "tone": "muted", "icon": "mdi:help-circle-outline" },
   "fallback_show_value": true
@@ -664,7 +645,7 @@ Numeric range example:
   "type": "status",
   "label_key": "model.a_coherence",
   "source": "diagnostic",
-  "path": "model/a_stability_ratio",
+  "path": "live/model/a_stability_ratio",
   "map": {},
   "ranges": [
     { "max": 0.15, "label": "Coherent", "tone": "ok" },
@@ -701,8 +682,8 @@ Example:
 {
   "type": "progress",
   "label_key": "learning.history",
-  "value": { "source": "diagnostic", "path": "learning/history_samples" },
-  "target": { "source": "diagnostic", "path": "learning/history_target" },
+  "value": { "source": "diagnostic", "path": "live/learning/emea_samples_a" },
+  "target": { "source": "diagnostic", "path": "live/learning/history_target" },
   "unit_key": "units.samples",
   "digits": 0
 }
@@ -788,7 +769,7 @@ Example:
       "type": "status",
       "label_key": "model.tau",
       "source": "diagnostic",
-      "path": "model/tau_reliable",
+      "path": "live/model/tau_reliable",
       "map": {
         "true": { "label": "Reliable", "tone": "ok" },
         "false": { "label": "Not reliable", "tone": "warning" }
@@ -798,7 +779,7 @@ Example:
       "type": "status",
       "label_key": "model.deadtime_heat",
       "source": "diagnostic",
-      "path": "model/deadtime_heat_reliable",
+      "path": "live/model/deadtime_heat_reliable",
       "map": {
         "true": { "label": "Reliable", "tone": "ok" },
         "false": { "label": "Not reliable", "tone": "warning" }
@@ -868,14 +849,14 @@ Example:
   "series": [
     {
       "entity": "$diagnostic_entity",
-      "attribute": "power/next_cycle_percent",
-      "label_key": "graphs.command.next_cycle",
+      "attribute": "history/power/command_percent",
+      "label_key": "graphs.command.command",
       "unit": "%",
       "scale_group": "power"
     },
     {
       "entity": "$diagnostic_entity",
-      "attribute": "power/pi_percent",
+      "attribute": "history/power/pi_percent",
       "label_key": "graphs.command.pi",
       "unit": "%",
       "scale_group": "power"
@@ -950,7 +931,7 @@ a short message in the dialog and logged with details in the browser console.
 
 The built-in SmartPI dashboard Actions section uses two mutually exclusive
 actions for `vtherm_smartpi.set_smartpi_learning`, selected from
-`diagnostic/ab_learning/enabled`: pause sends
+`diagnostic/live/learning/enabled`: pause sends
 `{ "learning_enabled": false }`, while resume sends
 `{ "learning_enabled": true }`. Both target `$climate_entity`.
 

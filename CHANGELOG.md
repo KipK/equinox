@@ -4,9 +4,10 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.2-dev
 
-- Reorganize the SmartPI dashboard around target approach and predictive braking, with distinct profile, followed and admissible references, current governor diagnostics, and neutral inactive/absent states.
-- Move FF3/twin diagnostics to Model and prediction, preserve the eight section IDs and maintenance actions, and add separate temperature/setpoint and command histories to Target approach.
-- Retain the eight established Recorder series; optional braking histories await reliable gaps for absent values in the history component.
+- Align the SmartPI dashboard with current schema v2 diagnostics, removing reference-governor widgets and obsolete history documentation while preserving trajectory details and the eight Recorder series.
+- Show the current trajectory phase in Overview, group Kp/Ki with the published effective integral time Ti, and clarify the next automatic calibration retry.
+- Keep FF3/twin diagnostics in Model and prediction and separate temperature/setpoint and calculated/applied command histories in Target approach.
+- Validate dashboard bindings, conditions, test payloads and documentation examples against a versioned snapshot of the published SmartPI paths.
 
 ## 0.4.1
 

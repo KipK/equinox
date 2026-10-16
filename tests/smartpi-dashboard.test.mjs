@@ -28,6 +28,11 @@ const { EquinoxRegulationRenderer } = await import("../src/components/eq-regulat
 const { EquinoxRegulationDialog } = await import("../src/components/eq-regulation-dialog.ts");
 const { translateRegulationDashboardText: translate } = await import("../src/data/regulation-dashboard-i18n.ts");
 const dashboard = JSON.parse(readFileSync(new URL("../src/data/dashboards/regulation/smartpi.json", import.meta.url)));
+const published = JSON.parse(readFileSync(new URL("./fixtures/smartpi-diagnostics-paths.json", import.meta.url)));
+const publishedPaths = new Set([
+  ...published.live.map((path) => `live/${path.replaceAll(".", "/")}`),
+  ...published.history.map((path) => `history/${path}`)
+]);
 const section = (id) => dashboard.sections.find((entry) => entry.id === id);
 function* walk(value) {
   if (!value || typeof value !== "object") return;
@@ -37,9 +42,36 @@ function* walk(value) {
 const nodes = [...walk(dashboard.sections)];
 const approach = [...walk(section("anticipation"))];
 const byPath = (path) => approach.find((entry) => entry.path === path);
-const governor = "live/analysis/reference_governor/";
+
+function assertPublished(path) {
+  assert.ok(publishedPaths.has(path), `Unpublished SmartPI diagnostic path: ${path}`);
+}
+
+function assertLivePayload(value, prefix = "live") {
+  for (const [key, child] of Object.entries(value ?? {})) {
+    const path = `${prefix}/${key}`;
+    assertPublished(path);
+    if (child && typeof child === "object") assertLivePayload(child, path);
+  }
+}
+
+function assertBindings(value) {
+  for (const entry of walk(value)) {
+    const currentPath = entry.source === "diagnostic" ? entry.path
+      : typeof entry.var === "string" && entry.var.startsWith("diagnostic/") ? entry.var.slice("diagnostic/".length) : undefined;
+    if (currentPath !== undefined) {
+      assert.ok(currentPath.startsWith("live/"), `Current SmartPI values must use live/: ${currentPath}`);
+      assertPublished(currentPath);
+    }
+    if (entry.entity === "$diagnostic_entity" && entry.attribute) {
+      assert.ok(entry.attribute.startsWith("history/"));
+      assertPublished(entry.attribute);
+    }
+  }
+}
 
 function renderer(live, mode = "heat") {
+  assertLivePayload(live);
   const result = new EquinoxRegulationRenderer();
   result.config = { entity: "climate.test" };
   result.dashboard = dashboard;
@@ -47,7 +79,7 @@ function renderer(live, mode = "heat") {
   result.activeSectionId = "anticipation";
   result.hass = { states: {
     "climate.test": { entity_id: "climate.test", state: mode, attributes: { temperature: 21, specific_states: { regulation_diagnostics: "sensor.diag" } } },
-    ...(live === undefined ? {} : { "sensor.diag": { entity_id: "sensor.diag", state: "PI", attributes: { schema_version: 2, live } } })
+    ...(live === undefined ? {} : { "sensor.diag": { entity_id: "sensor.diag", state: "PI", attributes: { schema_version: published.schema_version, live } } })
   } };
   return result;
 }
@@ -60,9 +92,25 @@ function templateText(value) {
   return String(value);
 }
 
+test("dashboard bindings and conditions use only published schema v2 paths", () => {
+  assert.equal(published.schema_version, 2);
+  assertBindings(dashboard.sections);
+});
+
+test("documentation examples and named diagnostic paths match the published contract", () => {
+  const documentation = readFileSync(new URL("../docs/regulation-dashboard.md", import.meta.url), "utf8");
+  for (const [, json] of documentation.matchAll(/```json\n([\s\S]*?)```/gu)) assertBindings(JSON.parse(json));
+  for (const [, path] of documentation.matchAll(/diagnostic\/([a-zA-Z0-9_/]+)/gu)) assertPublished(path);
+  for (const [, path] of documentation.matchAll(/`((?:live|history)\/[^`]+)`/gu)) {
+    if (path.includes("...") || path.includes("*")) continue;
+    const group = /^(.*)\{([^}]+)\}$/u.exec(path);
+    for (const expanded of group ? group[2].split(",").map((leaf) => group[1] + leaf) : [path]) assertPublished(expanded);
+  }
+});
+
 test("eight sections retain navigation IDs, with no legacy bindings or unused translations", () => {
   assert.deepEqual(dashboard.sections.map((entry) => entry.id), ["overview", "command", "anticipation", "model", "learning", "fftrim", "health", "actions"]);
-  assert.doesNotMatch(JSON.stringify(dashboard), /landing|user_setpoint"\s*,\s*"source"\s*:\s*"diagnostic/);
+  assert.doesNotMatch(JSON.stringify(dashboard), /landing|governor|user_setpoint"\s*,\s*"source"\s*:\s*"diagnostic/iu);
   const usedKeys = new Set(nodes.flatMap((entry) => Object.entries(entry).filter(([key]) => key.endsWith("_key")).map(([, value]) => value)));
   for (const language of ["fr", "en"]) assert.deepEqual(new Set(Object.keys(dashboard.translations[language])), usedKeys);
   assert.equal(translate(dashboard, "fr-FR", section("anticipation").title_key), "Approche de consigne");
@@ -83,57 +131,52 @@ test("FF3/twin move together; command constraints, FFTrim nesting and confirmed 
   assert.ok(actions.every((entry) => entry.confirmation.enabled && entry.target.entity_id === "$climate_entity"));
 });
 
-test("governed shaping, thermal constraint and cap effect stay separate", () => {
-  const view = renderer({ analysis: { reference_governor: { active: true, phase: "governed", reason: "cap", constraint_active: false, command_cap: 0.35, command_before_cap: 0.6, command_after_cap: 0.35 } } });
-  assert.match(templateText(view._renderStatus(byPath(governor + "phase"))), /Governed approach/);
-  assert.match(templateText(view._renderStatus(byPath(governor + "constraint_active"))), /tone="?muted"?/);
-  assert.equal(view._formatSourceValue(byPath(governor + "command_cap")), "35.0 %");
-  assert.equal(view._formatSourceValue(byPath(governor + "command_before_cap")), "60.0 %");
-  assert.equal(view._formatSourceValue(byPath(governor + "command_after_cap")), "35.0 %");
+test("trajectory tracking and release keep details visible, including braking_needed=false", () => {
+  for (const phase of ["tracking", "release"]) {
+    const view = renderer({ setpoint: { trajectory_active: true, trajectory_source: "setpoint" }, analysis: { trajectory: { phase, braking_needed: false } } });
+    assert.match(templateText(view._renderStatus(byPath("live/analysis/trajectory/phase"))), phase === "tracking" ? /Profile tracking/ : /Progressive return to setpoint/);
+    assert.match(templateText(view._renderStatus(byPath("live/setpoint/trajectory_active"))), /Active/);
+    assert.match(templateText(view._renderStatus(byPath("live/analysis/trajectory/braking_needed"))), /tone="?muted"?/);
+    for (const title of ["groups.approach.details", "groups.approach.readiness"]) assert.ok(view._conditionMatches(approach.find((entry) => entry.title_key === title).visible_if));
+    const overviewPhase = [...walk(section("overview"))].find((entry) => entry.path === "live/analysis/trajectory/phase");
+    assert.equal(templateText(view._renderStatus(overviewPhase)), templateText(view._renderStatus(byPath("live/analysis/trajectory/phase"))));
+  }
 });
 
-test("release and handoff are independent, including braking_needed=false", () => {
-  const view = renderer({ setpoint: { trajectory_active: true, trajectory_source: "setpoint" }, analysis: { trajectory: { phase: "release", braking_needed: false }, reference_governor: { active: true, phase: "handoff", reason: "handoff_waiting" } } });
-  assert.match(templateText(view._renderStatus(byPath("live/analysis/trajectory/phase"))), /Progressive return to setpoint/);
-  assert.match(templateText(view._renderStatus(byPath(governor + "phase"))), /Handoff/);
-  assert.match(templateText(view._renderStatus(byPath(governor + "active"))), /Active/);
-  assert.ok(view._conditionMatches(approach.find((entry) => entry.title_key === "groups.approach.readiness").visible_if));
-});
-
-test("retirement drops previous cap/forecast and leaves an explicit neutral inactive state", () => {
-  const view = renderer({ analysis: { reference_governor: { active: true, phase: "governed", command_cap: 0.2, predicted_terminal_temperature: 21.2 } } });
-  assert.equal(view._formatSourceValue(byPath(governor + "command_cap")), "20.0 %");
-  view.hass.states["sensor.diag"].attributes.live = { setpoint: { filtered_setpoint: 21, trajectory_active: false, trajectory_source: "none" }, analysis: { trajectory: { phase: "idle" }, reference_governor: { active: false, phase: "idle", reason: "inactive", command_cap: null, nominal_reference: null, admissible_reference: null, predicted_terminal_temperature: null, target_bound: null, dynamic_reserve_c: null, coast_required: false, command_before_cap: 0.4, command_after_cap: 0.4 } } };
-  for (const name of ["command_cap", "nominal_reference", "admissible_reference", "predicted_terminal_temperature", "target_bound", "dynamic_reserve_c"]) assert.equal(view._formatSourceValue(byPath(governor + name)), "--");
-  for (const name of ["active", "phase", "reason"]) {
-    const text = templateText(view._renderStatus(byPath(governor + name)));
+test("inactive trajectory displays neutral current state and hides stale profile details", () => {
+  const view = renderer({ setpoint: { trajectory_active: true }, analysis: { trajectory: { phase: "tracking", start_setpoint: 19 } } });
+  assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/start_setpoint")), "19.00 °C");
+  const live = { setpoint: { filtered_setpoint: 21, trajectory_active: false, trajectory_source: "none" }, analysis: { trajectory: { phase: "idle", start_setpoint: null } } };
+  assertLivePayload(live);
+  view.hass.states["sensor.diag"].attributes.live = live;
+  assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/start_setpoint")), "--");
+  for (const path of ["live/setpoint/trajectory_active", "live/analysis/trajectory/phase"]) {
+    const text = templateText(view._renderStatus(byPath(path)));
     assert.match(text, /Inactive/);
     assert.match(text, /tone="?muted"?/);
     assert.doesNotMatch(text, /tone="?warning"?|tone="?danger"?|successful|plateau/i);
   }
   assert.equal(view._formatSourceValue(byPath("live/setpoint/filtered_setpoint")), "21.00 °C");
-  assert.equal(view._formatSourceValue(byPath(governor + "command_before_cap")), "40.0 %");
-  assert.equal(view._conditionMatches(approach.find((entry) => entry.title_key === "groups.approach.details").visible_if), false);
+  for (const title of ["groups.approach.details", "groups.approach.readiness"]) assert.equal(view._conditionMatches(approach.find((entry) => entry.title_key === title).visible_if), false);
 });
 
-test("missing/null diagnostics are absent while cap zero and false remain valid", () => {
-  for (const live of [undefined, {}, { analysis: { reference_governor: { command_cap: null, active: null } } }]) {
+test("missing/null diagnostics are absent while zero and false remain valid", () => {
+  for (const live of [undefined, {}, { analysis: { trajectory: { next_cycle_reference: null } }, setpoint: { trajectory_active: null } }]) {
     const view = renderer(live);
-    assert.equal(view._formatSourceValue(byPath(governor + "command_cap")), "--");
-    const text = templateText(view._renderStatus(byPath(governor + "active")));
+    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/next_cycle_reference")), "--");
+    const text = templateText(view._renderStatus(byPath("live/setpoint/trajectory_active")));
     assert.match(text, /tone="?muted"?/);
     assert.doesNotMatch(text, />Active</);
+    assert.equal(view._conditionMatches(approach.find((entry) => entry.title_key === "groups.approach.details").visible_if), false);
   }
-  const view = renderer({ analysis: { reference_governor: { command_cap: 0, coast_required: false } } });
-  const cap = byPath(governor + "command_cap");
-  assert.equal(view._formatSourceValue(cap), "0.0 %");
-  assert.ok(view._conditionMatches(cap.visible_if));
-  assert.match(templateText(view._renderStatus(byPath(governor + "coast_required"))), /tone="?muted"?/);
+  const view = renderer({ analysis: { trajectory: { next_cycle_reference: 0, braking_needed: false } } });
+  assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/next_cycle_reference")), "0.0 %");
+  assert.match(templateText(view._renderStatus(byPath("live/analysis/trajectory/braking_needed"))), /No/);
 });
 
-test("unknown enums expose the raw code with neutral styling", () => {
-  const view = renderer({ analysis: { trajectory: { phase: "future_release" }, reference_governor: { phase: "future_phase", reason: "future_reason" } } });
-  for (const path of ["live/analysis/trajectory/phase", governor + "phase", governor + "reason"]) {
+test("unknown trajectory enums expose the raw code with neutral styling", () => {
+  const view = renderer({ setpoint: { trajectory_source: "future_source" }, analysis: { trajectory: { phase: "future_phase" } } });
+  for (const path of ["live/analysis/trajectory/phase", "live/setpoint/trajectory_source"]) {
     const text = templateText(view._renderStatus(byPath(path)));
     assert.match(text, /future_/);
     assert.match(text, /tone="?muted"?/);
@@ -143,9 +186,9 @@ test("unknown enums expose the raw code with neutral styling", () => {
 
 test("HEAT/COOL preserve physical temperatures and convert ratios only once", () => {
   for (const mode of ["heat", "cool"]) {
-    const view = renderer({ power: { applied_percent: 45 }, analysis: { reference_governor: { target_bound: 20.8, dynamic_reserve_c: 0.12 }, trajectory: { next_cycle_reference: 0.42, bumpless_delta: -0.02 } } }, mode);
-    assert.equal(view._formatSourceValue(byPath(governor + "target_bound")), "20.80 °C");
-    assert.equal(view._formatSourceValue(byPath(governor + "dynamic_reserve_c")), "0.12 °C");
+    const view = renderer({ power: { applied_percent: 45 }, analysis: { trajectory: { start_setpoint: 20.8, target_setpoint: 21, next_cycle_reference: 0.42, bumpless_delta: -0.02 } } }, mode);
+    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/start_setpoint")), "20.80 °C");
+    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/target_setpoint")), "21.00 °C");
     assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/next_cycle_reference")), "42.0 %");
     assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/bumpless_delta")), "-2.0 %");
     assert.equal(view._formatSourceValue(nodes.find((entry) => entry.path === "live/power/applied_percent")), "45.0 %");
@@ -154,7 +197,20 @@ test("HEAT/COOL preserve physical temperatures and convert ratios only once", ()
   for (const entry of nodes.filter((entry) => entry.path?.startsWith("live/power/") && entry.path.endsWith("_percent"))) assert.equal(entry.value_multiplier, undefined);
 });
 
-test("history retains exactly eight safe diagnostic paths and separate compact approach graphs", () => {
+test("PI gains display the published Ti in minutes and keep unavailable values absent", () => {
+  const gains = section("command").items.find((entry) => entry.title_key === "groups.command.gains");
+  assert.equal(gains.columns, 3);
+  assert.deepEqual(gains.metrics.map((entry) => entry.path), ["live/control/kp", "live/control/ki", "live/control/ti_min"]);
+  const ti = gains.metrics[2];
+  const view = renderer({ control: { kp: 0.3, ki: 0.01, ti_min: 30 } });
+  assert.equal(view._formatSourceValue(ti), "30.0 min");
+  // Ti must be displayed from diagnostics, without recomputing Kp/Ki in the card.
+  const supplied = renderer({ control: { kp: 0.3, ki: 0.01, ti_min: 27.5 } });
+  assert.equal(supplied._formatSourceValue(ti), "27.5 min");
+  for (const live of [undefined, {}, { control: { kp: 0.3, ki: 0, ti_min: null } }, { control: { kp: 0.3, ki: -0.01, ti_min: null } }]) assert.equal(renderer(live)._formatSourceValue(ti), "--");
+});
+
+test("history retains exactly eight published diagnostic paths and separate compact approach graphs", () => {
   const histories = nodes.filter((entry) => entry.type === "history");
   const diagnosticPaths = new Set(histories.flatMap((entry) => entry.series).filter((entry) => entry.entity === "$diagnostic_entity").map((entry) => entry.attribute));
   assert.deepEqual(diagnosticPaths, new Set(["history/temperature/indoor", "history/setpoint/filtered_setpoint", "history/power/applied_percent", "history/power/command_percent", "history/power/pi_percent", "history/power/ff_percent", "history/model/a", "history/model/b"]));
