@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.3
+
+- update ha-better-history to 0.5.0
+
 ## 0.4.2
 
 - Prevent date-picker close and focus events from dismissing the History dialog; protect the dialog backdrop while a history picker is open.
