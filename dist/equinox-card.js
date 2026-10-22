@@ -1,4 +1,4 @@
-//#region node_modules/@lit/reactive-element/css-tag.js
+// node_modules/@lit/reactive-element/css-tag.js
 var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, n = Symbol(), r = /* @__PURE__ */ new WeakMap(), i = class {
 	constructor(e, t, r) {
 		if (this._$cssResult$ = !0, r !== n) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -252,8 +252,7 @@ var x = class extends HTMLElement {
 	firstUpdated(e) {}
 };
 x.elementStyles = [], x.shadowRootOptions = { mode: "open" }, x[y("elementProperties")] = /* @__PURE__ */ new Map(), x[y("finalized")] = /* @__PURE__ */ new Map(), v?.({ ReactiveElement: x }), (h.reactiveElementVersions ??= []).push("2.1.2");
-//#endregion
-//#region node_modules/lit-html/lit-html.js
+// node_modules/lit-html/lit-html.js
 var ne = globalThis, re = (e) => e, S = ne.trustedTypes, ie = S ? S.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ae = "$lit$", C = `lit$${Math.random().toFixed(9).slice(2)}$`, oe = "?" + C, se = `<${oe}>`, ce = document, le = () => ce.createComment(""), ue = (e) => e === null || typeof e != "object" && typeof e != "function", de = Array.isArray, fe = (e) => de(e) || typeof e?.[Symbol.iterator] == "function", pe = "[ 	\n\f\r]", me = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, he = /-->/g, ge = />/g, _e = RegExp(`>|${pe}(?:([^\\s"'>=/]+)(${pe}*=${pe}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ve = /'/g, ye = /"/g, be = /^(?:script|style|textarea|title)$/i, xe = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
@@ -508,8 +507,7 @@ var Le = (e, t, n) => {
 D._$litElement$ = !0, D.finalized = !0, Re.litElementHydrateSupport?.({ LitElement: D });
 var ze = Re.litElementPolyfillSupport;
 ze?.({ LitElement: D }), (Re.litElementVersions ??= []).push("4.2.2");
-//#endregion
-//#region node_modules/@lit/reactive-element/decorators/property.js
+// node_modules/@lit/reactive-element/decorators/property.js
 var Be = {
 	attribute: !0,
 	type: String,
@@ -545,8 +543,7 @@ function O(e) {
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
 }
-//#endregion
-//#region node_modules/@lit/reactive-element/decorators/state.js
+// node_modules/@lit/reactive-element/decorators/state.js
 function k(e) {
 	return O({
 		...e,
@@ -554,8 +551,7 @@ function k(e) {
 		attribute: !1
 	});
 }
-//#endregion
-//#region node_modules/@kipk/load-ha-components/dist/load-ha-components.js
+// node_modules/@kipk/load-ha-components/dist/load-ha-components.js
 var He = 1e4, Ue = class extends Error {
 	result;
 	cause;
@@ -766,8 +762,7 @@ async function gt(e, t) {
 	if (c !== void 0 || l.missing.length > 0) throw ht(l.missing, s, o), new Ue(l, c);
 	return l;
 }
-//#endregion
-//#region node_modules/@kipk/ha-better-history/dist/all.js
+// ../ha-better-history/dist/all.js
 var _t = /* @__PURE__ */ new Set(["unknown", "unavailable"]);
 function vt(e) {
 	return e == null || typeof e == "string" && _t.has(e);
@@ -1429,7 +1424,7 @@ var Tn = class {
 	}
 	_activeSession(e, t) {
 		let n = this._session;
-		if (!(!n || n.cancelled)) return n.startTime === e.getTime() && n.endTime === t.getTime() ? n : void 0;
+		if (n && !n.cancelled) return n.startTime === e.getTime() && n.endTime === t.getTime() ? n : void 0;
 	}
 	_isCurrentSession(e) {
 		return this._session === e && !e.cancelled;
@@ -1465,7 +1460,7 @@ var Tn = class {
 	}
 	_availableSessionSeries(e, t, n, r, i) {
 		let a = this._sessionSources(e, i), o = new Set(a.map((e) => e.source.id));
-		for (let i of e.sources) o.has(i.id) || !e.sourceStates.has(i.id) || this._hasAccumulatorSeries(e, i) && (a.push(e.accumulator.buildSeries(i, t, n, r)), o.add(i.id));
+		for (let i of e.sources) !o.has(i.id) && e.sourceStates.has(i.id) && this._hasAccumulatorSeries(e, i) && (a.push(e.accumulator.buildSeries(i, t, n, r)), o.add(i.id));
 		return a;
 	}
 	_requestProgressUpdate(e) {
@@ -1564,9 +1559,7 @@ var Tn = class {
 				sourceCount: o.length,
 				existingSourceCount: this.series.length
 			});
-			return;
-		}
-		this.loading = !0, this._beginLoad(i, c), this.debugPerformance && j(this.debugPerformance, "controller.add_sources_start", {
+		} else this.loading = !0, this._beginLoad(i, c), this.debugPerformance && j(this.debugPerformance, "controller.add_sources_start", {
 			sessionId: i.id,
 			sourceCount: c.length,
 			joinedActiveSourceCount: o.length - c.length,
@@ -2259,11 +2252,8 @@ function Ur(e, t) {
 }
 function Wr(e, t) {
 	let n = [], r;
-	for (let i of e) {
-		if (i.time < t.start) {
-			r = i;
-			continue;
-		}
+	for (let i of e) if (i.time < t.start) r = i;
+	else {
 		if (i.time > t.end) break;
 		n.push(i);
 	}
@@ -2548,13 +2538,9 @@ var si = class {
 		this._queuePoint(t);
 	}
 	_queuePoint(e) {
-		if (!e) {
-			this._clear();
-			return;
-		}
-		this._pendingPoint = e, this._frame === void 0 && (this._frame = requestAnimationFrame(() => {
+		e ? (this._pendingPoint = e, this._frame === void 0 && (this._frame = requestAnimationFrame(() => {
 			this._frame = void 0, this._apply();
-		}));
+		}))) : this._clear();
 	}
 	handlePointerLeave() {
 		this._pendingPoint = void 0, this._clear();
@@ -4767,13 +4753,7 @@ async function $i() {
 	return Xi;
 }
 function ea(e) {
-	if (!Zi) {
-		if (Zi = !0, e instanceof Ue) {
-			console.warn(`[ha-better-history] Failed to load ha-target-picker. Missing: ${e.result.missing.join(", ") || "unknown"}. Falling back to entity-only selection.`, e.cause ?? e);
-			return;
-		}
-		console.warn("[ha-better-history] Failed to load ha-target-picker. Falling back to entity-only selection.", e);
-	}
+	Zi || (Zi = !0, e instanceof Ue ? console.warn(`[ha-better-history] Failed to load ha-target-picker. Missing: ${e.result.missing.join(", ") || "unknown"}. Falling back to entity-only selection.`, e.cause ?? e) : console.warn("[ha-better-history] Failed to load ha-target-picker. Falling back to entity-only selection.", e));
 }
 async function ta(e, t) {
 	try {
@@ -4805,11 +4785,7 @@ function aa(e) {
 	return w`
     <div
       class="date-picker-wrapper"
-      @focusin=${t}
-      @pointerdown=${t}
-      @keydown=${(t) => {
-		t.key === "Escape" && e.onClose?.();
-	}}
+      @click=${t}
     >
       <ha-date-range-picker
         .hass=${e.hass}
@@ -4817,9 +4793,11 @@ function aa(e) {
         .endDate=${e.endDate}
         time-picker
         extended-presets
+        @wa-show=${t}
+        @picker-closed=${() => e.onClose?.()}
         @value-changed=${(t) => {
 		let n = t.detail, r = n.value?.startDate ?? n.startDate, i = n.value?.endDate ?? n.endDate;
-		r instanceof Date && i instanceof Date && (e.onChange(r, i), e.onClose?.());
+		r instanceof Date && i instanceof Date && e.onChange(r, i);
 	}}
       ></ha-date-range-picker>
     </div>
@@ -4929,19 +4907,7 @@ function xa(e, t) {
 			continue;
 		}
 		let t = r.split(/[\s_.-]+/).filter(Boolean);
-		if (t.some((t) => t === e)) {
-			n = Math.max(n ?? 0, 110);
-			continue;
-		}
-		if (t.some((t) => t.startsWith(e))) {
-			n = Math.max(n ?? 0, 95);
-			continue;
-		}
-		if (r.includes(e)) {
-			n = Math.max(n ?? 0, 80);
-			continue;
-		}
-		e.length >= 4 && t.some((t) => ya(e, t) <= 1) && (n = Math.max(n ?? 0, 65));
+		t.some((t) => t === e) ? n = Math.max(n ?? 0, 110) : t.some((t) => t.startsWith(e)) ? n = Math.max(n ?? 0, 95) : r.includes(e) ? n = Math.max(n ?? 0, 80) : e.length >= 4 && t.some((t) => ya(e, t) <= 1) && (n = Math.max(n ?? 0, 65));
 	}
 	return n;
 }
@@ -5016,7 +4982,7 @@ function Ea(e) {
 function Da(e) {
 	let t = (t) => {
 		let n = ua(t);
-		!n || !e.explicitTargetEntityIds?.includes(n.entityId) || e.onEntityActionsOpen?.(n.entityId, n.host, t) && (t.preventDefault(), t.stopPropagation());
+		n && e.explicitTargetEntityIds?.includes(n.entityId) && e.onEntityActionsOpen?.(n.entityId, n.host, t) && (t.preventDefault(), t.stopPropagation());
 	};
 	return e.disableTargetPickerWhileLoading ? w`
     <ha-target-picker
@@ -5148,7 +5114,7 @@ function Na(e, t) {
       ?dragging=${s}
       @contextmenu=${f}
       @pointerdown=${(e) => {
-		!c || e.button !== 0 || (u = {
+		c && e.button === 0 && (u = {
 			x: e.clientX,
 			y: e.clientY
 		}, l = setTimeout(() => {
@@ -5456,7 +5422,7 @@ function Qa(e, t, n) {
 				continue;
 			}
 			let l = Yt(c), u = l ? Zt(e, t) : void 0;
-			!l || !u || $a(t, c).includes(r) && i.push({
+			l && u && $a(t, c).includes(r) && i.push({
 				key: s,
 				dottedPath: t.join("."),
 				valueType: l,
@@ -5678,9 +5644,9 @@ function cs(e) {
 }
 var L = class extends D {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._targetPickerReady = !1, this._targetPickerLoadComplete = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._selectedTargets = {}, this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._pendingAddedSources = [], this._data = new Tn(this), this._tooltip = new si(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedSources = [], this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._graphTouchPointers = /* @__PURE__ */ new Map(), this._handleBrowserPopState = (e) => {
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._targetPickerReady = !1, this._targetPickerLoadComplete = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._selectedTargets = {}, this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._pendingAddedSources = [], this._data = new Tn(this), this._tooltip = new si(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._datePickerHistoryClosing = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedSources = [], this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._graphTouchPointers = /* @__PURE__ */ new Map(), this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
-			this._syncingBrowserHistory = !0;
+			this._datePickerHistoryClosing = !1, this._syncingBrowserHistory = !0;
 			try {
 				if (!t) {
 					this._closeBrowserHistoryOverlays();
@@ -5695,24 +5661,14 @@ var L = class extends D {
 			let t = new Set(this._pickerEntities().map((e) => e.entity_id));
 			return Sa(va(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
 		}, this._handleDocumentPointerDown = (e) => {
-			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), !(!this._attributeMenuOpen && !this._sourceSettingsSourceId && !this._entityActionsEntityId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
+			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), (this._attributeMenuOpen || this._sourceSettingsSourceId || this._entityActionsEntityId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
 		}, this._handleDocumentClick = (e) => {
 			if (!this._attributeMenuOpen && !this._sourceSettingsSourceId && !this._entityActionsEntityId) {
 				this._lastPointerDownInside = !1;
 				return;
 			}
 			let t = this._lastPointerDownInside;
-			if (this._lastPointerDownInside = !1, !t && !this._isEventInsideAttributeOverlay(e)) {
-				if (this._entityActionsEntityId) {
-					e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeEntityActions();
-					return;
-				}
-				if (this._sourceSettingsSourceId) {
-					e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0;
-					return;
-				}
-				e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu();
-			}
+			this._lastPointerDownInside = !1, t || this._isEventInsideAttributeOverlay(e) || (this._entityActionsEntityId ? (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeEntityActions()) : this._sourceSettingsSourceId ? (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0) : (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu()));
 		};
 	}
 	static {
@@ -5746,7 +5702,7 @@ var L = class extends D {
 		}), this._resizeObserver.observe(this);
 	}
 	disconnectedCallback() {
-		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.removeEventListener("click", this._handleDocumentClick, !0), window.removeEventListener("popstate", this._handleBrowserPopState), this._resizeObserver?.disconnect(), this._resizeObserver = void 0, this._surfaceHeaderObserver?.disconnect(), this._surfaceHeaderObserver = void 0, this._resetGraphGestureState(), this._sourceAddBatchTimer !== void 0 && (clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = void 0), this._pendingAttributeOpenTimer !== void 0 && (clearTimeout(this._pendingAttributeOpenTimer), this._pendingAttributeOpenTimer = void 0), this._closeEntityActions(), this._stopLiveClock();
+		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.removeEventListener("click", this._handleDocumentClick, !0), window.removeEventListener("popstate", this._handleBrowserPopState), this._datePickerHistoryClosing = !1, this._resizeObserver?.disconnect(), this._resizeObserver = void 0, this._surfaceHeaderObserver?.disconnect(), this._surfaceHeaderObserver = void 0, this._resetGraphGestureState(), this._sourceAddBatchTimer !== void 0 && (clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = void 0), this._pendingAttributeOpenTimer !== void 0 && (clearTimeout(this._pendingAttributeOpenTimer), this._pendingAttributeOpenTimer = void 0), this._closeEntityActions(), this._stopLiveClock();
 	}
 	_maxXTicks() {
 		if (this._containerWidth <= 0) return 12;
@@ -5762,11 +5718,7 @@ var L = class extends D {
 		if (this._measureGraphLayout(n ?? void 0, r), this._lastContentHeight > 0 && r > 0 && r === this._lastContentHeight && Math.abs(t - this._chartSurfaceHeight) > qo) return;
 		this._lastContentHeight = r;
 		let i = r < t - qo || t < r - qo, a = t < this._chartSurfaceHeight - qo, o = this._graphGroupRenderCache?.graphHeight ?? 180, s = this._chartSurfaceConstrained && o !== 180;
-		if (i || a || s) {
-			this._chartSurfaceHeight !== t && (this._chartSurfaceHeight = t), this._chartSurfaceConstrained ||= !0;
-			return;
-		}
-		this._chartSurfaceHeight !== 0 && (this._chartSurfaceHeight = 0), this._chartSurfaceConstrained &&= !1;
+		i || a || s ? (this._chartSurfaceHeight !== t && (this._chartSurfaceHeight = t), this._chartSurfaceConstrained ||= !0) : (this._chartSurfaceHeight !== 0 && (this._chartSurfaceHeight = 0), this._chartSurfaceConstrained &&= !1);
 	}
 	_observeSurfaceHeader() {
 		let e = this.renderRoot.querySelector(".surface-header");
@@ -5884,14 +5836,10 @@ var L = class extends D {
 		this._syncingBrowserHistory || window.history.replaceState(this._browserHistoryState(e), "", window.location.href);
 	}
 	_closeBrowserHistoryLayer(e, t) {
-		if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e) {
-			window.history.back();
-			return;
-		}
-		t();
+		!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e ? window.history.back() : t();
 	}
 	_openBrowserHistoryLayer(e) {
-		this._datePickerOpen = e === "date-picker", this._entityPickerOpen = e === "target-picker", this._attributeMenuOpen = e === "attribute-picker", e !== "attribute-picker" && (this._attributeSearch = "");
+		this._datePickerOpen = e === "date-picker", this._entityPickerOpen = e === "target-picker", this._attributeMenuOpen = e === "attribute-picker", e === "date-picker" && this.renderRoot.querySelector("ha-date-range-picker")?.open?.(), e !== "attribute-picker" && (this._attributeSearch = "");
 	}
 	_closeBrowserHistoryOverlays() {
 		this._datePickerOpen && this._closeDatePickerOverlay(), (this._attributeMenuOpen || this._entityPickerOpen) && this._closePickerOverlay();
@@ -5900,15 +5848,10 @@ var L = class extends D {
 		this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._attributeSearch = "", this._sourceSettingsSourceId = void 0, this._closeEntityActions();
 	}
 	_closeDatePickerOverlay() {
-		if (!this._datePickerOpen) return;
-		this._datePickerOpen = !1;
-		let e = this.renderRoot.querySelector("ha-date-range-picker");
-		e?.dispatchEvent(new KeyboardEvent("keydown", {
-			key: "Escape",
-			bubbles: !0
-		})), e?.blur();
-		let t = this.getRootNode(), n = t instanceof Document || t instanceof ShadowRoot ? t.activeElement : void 0;
-		n instanceof HTMLElement && n.blur();
+		this._datePickerOpen && (this._datePickerOpen = !1, this.renderRoot.querySelector("ha-date-range-picker")?.shadowRoot?.querySelector("date-range-picker")?.dispatchEvent(new Event("cancel-date-picker", {
+			bubbles: !0,
+			composed: !0
+		})));
 	}
 	_effectiveLineMode() {
 		return this._runtimeLineMode ?? this.config?.lineMode ?? this.lineMode;
@@ -6026,7 +5969,7 @@ var L = class extends D {
 				hass: this.hass,
 				attributeUnits: this.attributeUnits
 			});
-			this._reconcileRemovedConfigSourceIds(i), this._resolved = i, !this._rangeStart && !this._rangeEnd && !t && (this._rangeStart = i.startDate, this._rangeEnd = i.endDate), !this._viewStart && !this._viewEnd && !t && (this._viewStart = i.startDate, this._viewEnd = i.endDate);
+			this._reconcileRemovedConfigSourceIds(i), this._resolved = i, this._rangeStart || this._rangeEnd || t || (this._rangeStart = i.startDate, this._rangeEnd = i.endDate), this._viewStart || this._viewEnd || t || (this._viewStart = i.startDate, this._viewEnd = i.endDate);
 			let o = this._fetchSources(), s = St(o), c = t ? `${s}|rolling|${this._relativeRangeMs()}` : `${s}|${i.startDate.getTime()}|${i.endDate.getTime()}`;
 			if (c !== this._lastFetchKey) {
 				let e = s === St(this._lastFetchSources) && this._lastFetchKey !== "";
@@ -6066,10 +6009,13 @@ var L = class extends D {
 		})), this.requestUpdate();
 	}
 	_onDatePickerOpened() {
-		this._datePickerOpen || (this._datePickerOpen = !0, this._pushBrowserHistoryLayer("date-picker"));
+		if (this._datePickerOpen || this._datePickerHistoryClosing) return;
+		this._datePickerOpen = !0;
+		let e = window.history.state;
+		typeof e == "object" && e && ("dialog" in e || "dialogData" in e || "opensDialog" in e) || this._pushBrowserHistoryLayer("date-picker");
 	}
 	_onDatePickerClosed() {
-		this._closeBrowserHistoryLayer("date-picker", () => this._closeDatePickerOverlay());
+		this._datePickerOpen && (this._datePickerOpen = !1, this._datePickerHistoryClosing = !this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "date-picker", this._datePickerHistoryClosing && window.history.back());
 	}
 	_pickScaleGroup(e, t, n) {
 		if (e.valueType !== "number") return `series:${e.id}`;
@@ -6477,11 +6423,7 @@ var L = class extends D {
 		return i ? e.series.filter((e) => i.ids.has(e.id)).every((e) => rs(e.unit) === rs(r.unit)) : n === "right";
 	}
 	_onAxisDotDragStart(e, t, n, r) {
-		if (!this._canDragAxisSeries(e, t, n)) {
-			r.preventDefault();
-			return;
-		}
-		this._draggingAxisSeriesId = t, r.dataTransfer?.setData("text/plain", t), r.dataTransfer && (r.dataTransfer.effectAllowed = "move");
+		this._canDragAxisSeries(e, t, n) ? (this._draggingAxisSeriesId = t, r.dataTransfer?.setData("text/plain", t), r.dataTransfer && (r.dataTransfer.effectAllowed = "move")) : r.preventDefault();
 	}
 	_clearAxisDrag() {
 		this._draggingAxisSeriesId = void 0, this._axisDropTarget = void 0;
@@ -6726,9 +6668,7 @@ var L = class extends D {
 					active: !1,
 					target: t
 				}, t.setPointerCapture(e.pointerId);
-				return;
-			}
-			if (e.pointerType === "touch" && (this._graphTouchPointers.set(e.pointerId, {
+			} else if (e.pointerType === "touch" && (this._graphTouchPointers.set(e.pointerId, {
 				x: e.clientX,
 				y: e.clientY
 			}), this._graphTouchPointers.size === 2)) {
@@ -6738,11 +6678,7 @@ var L = class extends D {
 		}
 	}
 	_onGraphPointerMove(e) {
-		if (e.pointerType === "mouse" && this._graphMouseDrag?.pointerId === e.pointerId) {
-			this._moveGraphMouseDrag(e);
-			return;
-		}
-		e.pointerType !== "touch" || !this._graphTouchPointers.has(e.pointerId) || (this._graphTouchPointers.set(e.pointerId, {
+		e.pointerType === "mouse" && this._graphMouseDrag?.pointerId === e.pointerId ? this._moveGraphMouseDrag(e) : e.pointerType === "touch" && this._graphTouchPointers.has(e.pointerId) && (this._graphTouchPointers.set(e.pointerId, {
 			x: e.clientX,
 			y: e.clientY
 		}), this._moveGraphTouchGesture(e));
@@ -6808,7 +6744,6 @@ var L = class extends D {
 		if (t.mode !== "scroll" && (e.preventDefault(), e.stopPropagation(), t.mode === "pinch")) {
 			let e = (Math.max(1, s) - t.startDistanceX) / t.width;
 			this._zoomGraphViewAt(t.anchorPercent, Math.exp(-e * zo), t.width, t.startViewStart, t.startViewEnd, Bo, Vo);
-			return;
 		}
 	}
 	_graphTouchPair() {
@@ -7259,20 +7194,12 @@ var L = class extends D {
 		});
 	}
 	_onEntityPickerOpened() {
-		this._entityPickerOpen && !this._attributeMenuOpen || (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Qi().then((e) => {
+		(!this._entityPickerOpen || this._attributeMenuOpen) && (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Qi().then((e) => {
 			this._targetPickerReady = e && customElements.get("ha-target-picker") !== void 0, this._targetPickerLoadComplete = !0;
 		}));
 	}
 	_onEntityPickerClosed() {
-		if (this._pendingAttributeEntityId) {
-			this._entityPickerOpen = !1, this._schedulePendingAttributeMenu();
-			return;
-		}
-		if (this._selectingEntityForAttributeMenu) {
-			this._entityPickerOpen = !1;
-			return;
-		}
-		this._closeBrowserHistoryLayer("target-picker", () => {
+		this._pendingAttributeEntityId ? (this._entityPickerOpen = !1, this._schedulePendingAttributeMenu()) : this._selectingEntityForAttributeMenu ? this._entityPickerOpen = !1 : this._closeBrowserHistoryLayer("target-picker", () => {
 			this._entityPickerOpen = !1;
 		});
 	}
@@ -7427,20 +7354,15 @@ var L = class extends D {
 	}
 	_removeSource(e) {
 		let t = this._selectedSources.find((t) => t.id === e);
-		if (this._pendingAddedSources = this._pendingAddedSources.filter((t) => t.id !== e), this._sourceSettingsSourceId === e && (this._sourceSettingsSourceId = void 0), this._activeResolvedSeries().find((t) => t.id === e && t.forced === !1)) {
-			this._removedConfigSourceIds = [...this._removedConfigSourceIds, e], this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this._data.removeSources([e]), this.dispatchEvent(new CustomEvent("series-removed", {
-				detail: { sourceId: e },
-				bubbles: !0,
-				composed: !0
-			}));
-			return;
-		}
-		if (e.startsWith("state:")) {
+		if (this._pendingAddedSources = this._pendingAddedSources.filter((t) => t.id !== e), this._sourceSettingsSourceId === e && (this._sourceSettingsSourceId = void 0), this._activeResolvedSeries().find((t) => t.id === e && t.forced === !1)) this._removedConfigSourceIds = [...this._removedConfigSourceIds, e], this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this._data.removeSources([e]), this.dispatchEvent(new CustomEvent("series-removed", {
+			detail: { sourceId: e },
+			bubbles: !0,
+			composed: !0
+		}));
+		else if (e.startsWith("state:")) {
 			let t = e.slice(6);
 			F(this._selectedTargets).includes(t) && this._setExplicitTargetEntity(t, !1);
-			return;
-		}
-		!t || this._isDefaultSource(t) || (this._selectedSources = this._selectedSources.filter((t) => t.id !== e), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
+		} else t && !this._isDefaultSource(t) && (this._selectedSources = this._selectedSources.filter((t) => t.id !== e), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
 			detail: { sourceId: e },
 			bubbles: !0,
 			composed: !0
@@ -7461,11 +7383,7 @@ var L = class extends D {
 	}
 	_onSourceDragStart(e, t) {
 		let n = this._selectedSources.find((t) => t.id === e);
-		if (!n || this._isDefaultSource(n)) {
-			t.preventDefault();
-			return;
-		}
-		this._draggingSourceId = e, this._dragStartSourceIds = this._selectedSources.map((e) => e.id), this._dragDropCommitted = !1, t.dataTransfer?.setData("text/plain", e), t.dataTransfer && (t.dataTransfer.effectAllowed = "move");
+		!n || this._isDefaultSource(n) ? t.preventDefault() : (this._draggingSourceId = e, this._dragStartSourceIds = this._selectedSources.map((e) => e.id), this._dragDropCommitted = !1, t.dataTransfer?.setData("text/plain", e), t.dataTransfer && (t.dataTransfer.effectAllowed = "move"));
 	}
 	_onSourceDragEnd() {
 		if (!this._dragDropCommitted && this._dragStartSourceIds) {
@@ -7552,26 +7470,16 @@ function ds(e) {
 var R = class extends D {
 	constructor(...e) {
 		super(...e), this.browserHistory = !0, this._selectedSources = [], this._selectedTargets = {}, this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._entitySearch = "", this._path = [], this._attributeSearch = "", this._componentsReady = !1, this._targetPickerReady = !1, this._targetPickerLoadComplete = !1, this._customEntityIds = [], this._browserHistoryInstanceId = `abh-picker-${Math.random().toString(36).slice(2)}`, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._handleDocumentPointerDown = (e) => {
-			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), !(!this._attributeMenuOpen && !this._sourceSettingsSourceId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
+			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), (this._attributeMenuOpen || this._sourceSettingsSourceId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
 		}, this._handleDocumentClick = (e) => {
 			if (!this._attributeMenuOpen && !this._entityPickerOpen && !this._sourceSettingsSourceId) {
 				this._lastPointerDownInside = !1;
 				return;
 			}
 			let t = this._lastPointerDownInside;
-			if (this._lastPointerDownInside = !1, !t && !this._isEventInsideAttributeOverlay(e)) {
-				if (this._sourceSettingsSourceId) {
-					e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0;
-					return;
-				}
-				if (this._entityPickerOpen && !this._attributeMenuOpen) {
-					this._closeBrowserHistoryLayer("target-picker", () => {
-						this._entityPickerOpen = !1, this._entitySearch = "";
-					});
-					return;
-				}
-				e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu();
-			}
+			this._lastPointerDownInside = !1, t || this._isEventInsideAttributeOverlay(e) || (this._sourceSettingsSourceId ? (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0) : this._entityPickerOpen && !this._attributeMenuOpen ? this._closeBrowserHistoryLayer("target-picker", () => {
+				this._entityPickerOpen = !1, this._entitySearch = "";
+			}) : (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu()));
 		}, this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
 			this._syncingBrowserHistory = !0;
@@ -7679,11 +7587,7 @@ var R = class extends D {
 		this.browserHistory && (this._syncingBrowserHistory || window.history.replaceState(this._browserHistoryState(e), "", window.location.href));
 	}
 	_closeBrowserHistoryLayer(e, t) {
-		if (this.browserHistory && !this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e) {
-			window.history.back();
-			return;
-		}
-		t();
+		this.browserHistory && !this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e ? window.history.back() : t();
 	}
 	_pickerEntities() {
 		return this.hass ? this._customEntityIds.filter((e) => typeof e == "string" && e !== "").filter((e, t, n) => n.indexOf(e) === t).map((e) => this.hass?.states[e]).filter((e) => e !== void 0) : [];
@@ -7747,20 +7651,12 @@ var R = class extends D {
 			getItems: this._getItems,
 			getAdditionalItems: this._getAdditionalItems,
 			onEntityPickerOpened: () => {
-				this._entityPickerOpen && !this._attributeMenuOpen || (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Qi().then((e) => {
+				(!this._entityPickerOpen || this._attributeMenuOpen) && (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Qi().then((e) => {
 					this._targetPickerReady = e && customElements.get("ha-target-picker") !== void 0, this._targetPickerLoadComplete = !0;
 				}));
 			},
 			onEntityPickerClosed: () => {
-				if (this._pendingAttributeEntityId) {
-					this._entityPickerOpen = !1, this._schedulePendingAttributeMenu();
-					return;
-				}
-				if (this._selectingEntityForAttributeMenu) {
-					this._entityPickerOpen = !1;
-					return;
-				}
-				this._closeBrowserHistoryLayer("target-picker", () => {
+				this._pendingAttributeEntityId ? (this._entityPickerOpen = !1, this._schedulePendingAttributeMenu()) : this._selectingEntityForAttributeMenu ? this._entityPickerOpen = !1 : this._closeBrowserHistoryLayer("target-picker", () => {
 					this._entityPickerOpen = !1;
 				});
 			},
@@ -7838,8 +7734,7 @@ I([O({ attribute: !1 })], R.prototype, "hass", void 0), I([O({ attribute: !1 })]
 function fs(e = "ha-better-history") {
 	customElements.get(e) || customElements.define(e, L);
 }
-//#endregion
-//#region src/const.ts
+// src/const.ts
 var ps = "Equinox", ms = "custom:equinox-card", hs = "equinox-card", gs = "equinox-better-history", _s = "equinox-card-editor", vs = "liquid_glow", ys = "classic", bs = "setpoint", xs = "auto", Ss = [
 	"heat",
 	"cool",
@@ -13473,8 +13368,7 @@ function Fs(e) {
 function Is(e) {
 	return Ps.get(Fs(e));
 }
-//#endregion
-//#region src/localize/localize.ts
+// src/localize/localize.ts
 function Ls(e) {
 	return (e ?? "en").toLowerCase().split("-")[0] || "en";
 }
@@ -13499,8 +13393,7 @@ function z(e, t, n = {}) {
 	let r = Is(Ls(e)), i = Is("en");
 	return zs((r == null ? void 0 : Rs(r, t)) ?? (i == null ? void 0 : Rs(i, t)) ?? t, n);
 }
-//#endregion
-//#region src/data/mode-customizations.ts
+// src/data/mode-customizations.ts
 var Bs = {
 	hvac: [
 		"heat",
@@ -13596,8 +13489,7 @@ function qs(e) {
 	}
 	return Object.keys(n).length > 0 ? n : void 0;
 }
-//#endregion
-//#region src/ha/load-components.ts
+// src/ha/load-components.ts
 var Js = [
 	"ha-form",
 	"ha-icon",
@@ -13620,8 +13512,7 @@ async function Qs() {
 		throw Ys = void 0, Xs || (Xs = !0, e instanceof Ue ? console.warn(`[equinox-card] Failed to load Home Assistant UI components. Missing: ${e.result.missing.join(", ") || "unknown"}.`, e.cause ?? e) : console.warn("[equinox-card] Failed to load Home Assistant UI components.", e)), e;
 	}
 }
-//#endregion
-//#region src/types/config.ts
+// src/types/config.ts
 var $s = ["flat", "liquid_glow"], ec = [
 	"classic",
 	"compact",
@@ -13644,8 +13535,7 @@ var $s = ["flat", "liquid_glow"], ec = [
 	show_power_value: !0,
 	border_glow_on_action: !0
 };
-//#endregion
-//#region src/equinox-card-editor.ts
+// src/equinox-card-editor.ts
 function oc(e) {
 	let t = Number(e);
 	if (Number.isFinite(t)) return Math.min(255, Math.max(0, Math.round(t)));
@@ -13662,7 +13552,7 @@ function sc(e) {
 }
 function cc(e) {
 	let t = { ...e };
-	delete t.card_height, delete t.diagnostic_entity, t.setpoint_selector === void 0 && typeof t.use_temperature_popup == "boolean" && (t.setpoint_selector = t.use_temperature_popup ? "slider" : "buttons"), delete t.use_temperature_popup, (!Array.isArray(t.hidden_hvac_modes) || t.hidden_hvac_modes.length === 0) && delete t.hidden_hvac_modes, (!Array.isArray(t.hidden_preset_modes) || t.hidden_preset_modes.length === 0) && delete t.hidden_preset_modes;
+	delete t.card_height, delete t.diagnostic_entity, t.setpoint_selector === void 0 && typeof t.use_temperature_popup == "boolean" && (t.setpoint_selector = t.use_temperature_popup ? "slider" : "buttons"), delete t.use_temperature_popup, Array.isArray(t.hidden_hvac_modes) && t.hidden_hvac_modes.length !== 0 || delete t.hidden_hvac_modes, Array.isArray(t.hidden_preset_modes) && t.hidden_preset_modes.length !== 0 || delete t.hidden_preset_modes;
 	let n = qs(t.mode_customizations);
 	return n ? t.mode_customizations = n : delete t.mode_customizations, t;
 }
@@ -14174,8 +14064,7 @@ var lc = class extends D {
 	}
 };
 customElements.get("equinox-card-editor") || customElements.define(_s, lc);
-//#endregion
-//#region src/data/actions.ts
+// src/data/actions.ts
 var uc = {
 	auto_fan_none: "None",
 	auto_fan_low: "Low",
@@ -14308,8 +14197,7 @@ async function Tc(e, t) {
 	let n = { entity_id: e.entityId };
 	return t && (n.code = t), G(e, "versatile_thermostat", "unlock", n);
 }
-//#endregion
-//#region src/data/colors.ts
+// src/data/colors.ts
 var Ec = {
 	cooling: "cool",
 	defrosting: "heat",
@@ -14376,8 +14264,7 @@ function Ac(e) {
 function jc(e) {
 	return e ? "lock-locked" : "lock-unlocked";
 }
-//#endregion
-//#region src/data/dashboards/index.ts
+// src/data/dashboards/index.ts
 var Mc = {
 	smartpi: {
 		schema_version: 1,
@@ -18159,8 +18046,7 @@ function Nc(e) {
 function Pc(e) {
 	return e in Mc;
 }
-//#endregion
-//#region src/data/regulation-dashboard-loader.ts
+// src/data/regulation-dashboard-loader.ts
 var Fc = /* @__PURE__ */ new Map();
 function Ic(e) {
 	if (!e.available) return Promise.resolve({
@@ -18240,8 +18126,7 @@ function Hc(e) {
 		"action"
 	].includes(e.type);
 }
-//#endregion
-//#region src/data/regulation-dashboard-values.ts
+// src/data/regulation-dashboard-values.ts
 var Uc = "specific_states/regulation_diagnostics";
 function Wc(e) {
 	return typeof e == "string" && e.trim().length > 0 ? e.trim() : void 0;
@@ -18257,10 +18142,10 @@ function Kc(e, t) {
 			let t = Number(e);
 			if (!Number.isInteger(t) || t < 0 || t >= r.length) return;
 			r = r[t];
-			continue;
+		} else {
+			if (typeof r != "object") return;
+			r = r[e];
 		}
-		if (typeof r != "object") return;
-		r = r[e];
 	}
 	return r;
 }
@@ -18296,8 +18181,7 @@ function Zc(e, t, n) {
 	let o = Kc(r.attributes, i);
 	return o === void 0 ? Kc(r, i) : o;
 }
-//#endregion
-//#region src/data/regulation-dashboard-resolver.ts
+// src/data/regulation-dashboard-resolver.ts
 var Qc = [
 	"configuration/proportional_function",
 	"vtherm_over_valve/function",
@@ -18308,7 +18192,7 @@ var Qc = [
 function $c(e) {
 	if (typeof e != "string") return;
 	let t = e.trim().toLowerCase();
-	if (!(!t || !/^[a-z0-9_-]+$/u.test(t))) return t;
+	if (t && /^[a-z0-9_-]+$/u.test(t)) return t;
 }
 function el(e, t) {
 	let n = e.states[t.entity]?.attributes;
@@ -18355,8 +18239,7 @@ function nl(e, t) {
 		if (t != null && t !== "") return t;
 	}
 }
-//#endregion
-//#region src/styles/base.ts
+// src/styles/base.ts
 var rl = o`
   :host {
     display: block;
@@ -19330,7 +19213,7 @@ var rl = o`
 			return;
 		}
 		let e = this.renderRoot.querySelector(".panel.popover");
-		!e || e === this._observedPopoverPanel || (this._disconnectPopoverResizeObserver(), this._observedPopoverPanel = e, this._popoverResizeObserver = new ResizeObserver(() => this._positionPopover()), this._popoverResizeObserver.observe(e));
+		e && e !== this._observedPopoverPanel && (this._disconnectPopoverResizeObserver(), this._observedPopoverPanel = e, this._popoverResizeObserver = new ResizeObserver(() => this._positionPopover()), this._popoverResizeObserver.observe(e));
 	}
 	_supportsNativePopover() {
 		return typeof HTMLElement.prototype.showPopover == "function";
@@ -19341,7 +19224,7 @@ var rl = o`
 	_syncNativePopover() {
 		if (!this._usesNativePopover()) return;
 		let e = this.renderRoot.querySelector(".panel[popover]");
-		!e || e.matches(":popover-open") || e.showPopover();
+		e && !e.matches(":popover-open") && e.showPopover();
 	}
 	_handlePopoverToggle(e) {
 		e.newState === "closed" && this.open && this._dispatchClose();
@@ -19416,8 +19299,7 @@ var rl = o`
 	}
 };
 customElements.get("eq-dialog") || customElements.define("eq-dialog", ol);
-//#endregion
-//#region src/components/eq-auto-start-stop-dialog.ts
+// src/components/eq-auto-start-stop-dialog.ts
 var sl = "disabled", cl = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1, this._pending = !1;
@@ -19587,8 +19469,7 @@ var sl = "disabled", cl = class extends D {
 	}
 };
 customElements.get("eq-auto-start-stop-dialog") || customElements.define("eq-auto-start-stop-dialog", cl);
-//#endregion
-//#region src/components/eq-fan-dialog.ts
+// src/components/eq-fan-dialog.ts
 var ll = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
@@ -20040,8 +19921,7 @@ var ll = class extends D {
 	}
 };
 customElements.get("eq-fan-dialog") || customElements.define("eq-fan-dialog", ll);
-//#endregion
-//#region src/components/eq-hvac-dialog.ts
+// src/components/eq-hvac-dialog.ts
 var ul = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
@@ -20472,7 +20352,7 @@ var ul = class extends D {
 		}));
 	}
 	async _selectMode(e) {
-		!this.hass || !this.config || (await mc({
+		this.hass && this.config && (await mc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -20544,8 +20424,7 @@ var ul = class extends D {
 	}
 };
 customElements.get("eq-hvac-dialog") || customElements.define("eq-hvac-dialog", ul);
-//#endregion
-//#region src/components/eq-swing-dialog.ts
+// src/components/eq-swing-dialog.ts
 var dl = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
@@ -20832,14 +20711,14 @@ var dl = class extends D {
 		}));
 	}
 	async _selectVerticalMode(e) {
-		!this.hass || !this.config || (await _c({
+		this.hass && this.config && (await _c({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e), this._dispatchClose());
 	}
 	async _selectHorizontalMode(e) {
-		!this.hass || !this.config || (await vc({
+		this.hass && this.config && (await vc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -20937,8 +20816,7 @@ var dl = class extends D {
 	}
 };
 customElements.get("eq-swing-dialog") || customElements.define("eq-swing-dialog", dl);
-//#endregion
-//#region src/components/eq-preset-dialog.ts
+// src/components/eq-preset-dialog.ts
 var fl = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this.floating = !1, this.closeOnLeave = !1;
@@ -21390,7 +21268,7 @@ var fl = class extends D {
 		}));
 	}
 	async _selectPreset(e) {
-		!this.hass || !this.config || (await hc({
+		this.hass && this.config && (await hc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -21452,8 +21330,7 @@ var fl = class extends D {
 	}
 };
 customElements.get("eq-preset-dialog") || customElements.define("eq-preset-dialog", fl);
-//#endregion
-//#region src/components/eq-temperature-dialog.ts
+// src/components/eq-temperature-dialog.ts
 function pl(e) {
 	return typeof e == "number" && Number.isFinite(e);
 }
@@ -21798,22 +21675,14 @@ var hl = class extends D {
 		e.target.select();
 	}
 	_onTextKeyDown(e) {
-		if (e.key === "Enter") {
-			e.target.blur();
-			return;
-		}
-		e.key === "Escape" && (this._syncValuesFromModel(), e.target.blur());
+		e.key === "Enter" ? e.target.blur() : e.key === "Escape" && (this._syncValuesFromModel(), e.target.blur());
 	}
 	async _onSingleTextBlur(e) {
 		let t = e.target, n = this._parseInput(t.value);
-		if (n === void 0 || this._isDisabled()) {
-			t.value = this._formatInput(this._singleValue());
-			return;
-		}
-		this._temperature = this._snap(n), t.value = this._formatInput(this._singleValue()), await this._commitSingle();
+		n === void 0 || this._isDisabled() ? t.value = this._formatInput(this._singleValue()) : (this._temperature = this._snap(n), t.value = this._formatInput(this._singleValue()), await this._commitSingle());
 	}
 	async _commitSingle() {
-		!this.hass || !this.config || !this.viewModel || this._isDisabled() || await pc({
+		this.hass && this.config && this.viewModel && !this._isDisabled() && await pc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -21821,11 +21690,7 @@ var hl = class extends D {
 	}
 	_setRangeValue(e, t) {
 		let n = this._snap(t);
-		if (e === "low") {
-			this._low = Math.min(n, this._highValue());
-			return;
-		}
-		this._high = Math.max(n, this._lowValue());
+		e === "low" ? this._low = Math.min(n, this._highValue()) : this._high = Math.max(n, this._lowValue());
 	}
 	_rangePointerValue(e) {
 		let t = e.currentTarget.closest(".range-slider"), n = (t?.querySelector(".range-track") ?? t)?.getBoundingClientRect();
@@ -21838,7 +21703,7 @@ var hl = class extends D {
 	}
 	_onRangePointerMove(e, t) {
 		let n = t.currentTarget;
-		this._isDisabled() || !n.hasPointerCapture(t.pointerId) || (t.preventDefault(), this._setRangeValue(e, this._rangePointerValue(t)));
+		!this._isDisabled() && n.hasPointerCapture(t.pointerId) && (t.preventDefault(), this._setRangeValue(e, this._rangePointerValue(t)));
 	}
 	_onRangePointerUp(e) {
 		let t = e.currentTarget;
@@ -21893,7 +21758,7 @@ var hl = class extends D {
 		}
 	}
 	async _commitRange() {
-		!this.hass || !this.config || !this.viewModel || this._isDisabled() || await pc({
+		this.hass && this.config && this.viewModel && !this._isDisabled() && await pc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -22040,8 +21905,7 @@ var hl = class extends D {
 	}
 };
 customElements.get("eq-temperature-dialog") || customElements.define("eq-temperature-dialog", hl);
-//#endregion
-//#region src/components/eq-menu-dialog.ts
+// src/components/eq-menu-dialog.ts
 var gl = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this.regulationAvailable = !1, this.floating = !1, this.closeOnLeave = !1;
@@ -22228,8 +22092,7 @@ var gl = class extends D {
 	}
 };
 customElements.get("eq-menu-dialog") || customElements.define("eq-menu-dialog", gl);
-//#endregion
-//#region src/components/eq-boost-dialog.ts
+// src/components/eq-boost-dialog.ts
 var _l = 60, vl = [
 	15,
 	30,
@@ -22549,7 +22412,7 @@ var _l = 60, vl = [
 		(this._hasTimedPreset() ? await yc(e, "boost", this._durationMinutes) : await hc(e, "boost")).ok && this._dispatchClose();
 	}
 	async _stopBoost() {
-		!this.hass || !this.config || (await bc({
+		this.hass && this.config && (await bc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -22703,12 +22566,11 @@ function wl() {
 function Tl(e) {
 	return e ?? xl;
 }
-//#endregion
-//#region src/components/eq-history-dialog.ts
+// src/components/eq-history-dialog.ts
 var El = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._attributeUnitsLoadStarted = !1, this._historyPickerOverlayOpen = !1, this._suppressNextDialogClose = !1, this._handleDocumentPointerDown = () => {
-			!this.open || !this._historyPickerOverlayOpen || (this._suppressNextDialogClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
+			this.open && this._historyPickerOverlayOpen && (this._suppressNextDialogClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
 				this._suppressNextDialogClose = !1, this._suppressCloseTimer = void 0;
 			}, 1e3));
 		}, this._configCacheKey = "";
@@ -22722,7 +22584,8 @@ var El = class extends D {
 			_fullscreen: { state: !0 },
 			_controlsVisible: { state: !0 },
 			_toolsOpen: { state: !0 },
-			_staticAttributeUnits: { state: !0 }
+			_staticAttributeUnits: { state: !0 },
+			_historyPickerOverlayOpen: { state: !0 }
 		};
 	}
 	static {
@@ -22789,9 +22652,7 @@ var El = class extends D {
 			e.stopPropagation(), this._suppressNextDialogClose = !1, this._suppressCloseTimer !== void 0 && (clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = void 0);
 			let t = e.currentTarget;
 			t.open = !0, this.requestUpdate();
-			return;
-		}
-		this.dispatchEvent(new CustomEvent("eq-dialog-close", {
+		} else this.dispatchEvent(new CustomEvent("eq-dialog-close", {
 			bubbles: !0,
 			composed: !0
 		}));
@@ -22841,6 +22702,7 @@ var El = class extends D {
 		return w`
       <ha-dialog
         .open=${this.open}
+        .preventScrimClose=${this._historyPickerOverlayOpen}
         .headerTitle=${this.hass?.states[this.config?.entity ?? ""]?.attributes?.friendly_name ?? this.config?.entity ?? z(this.language, "dialog.history.title")}
         width="large"
         flexcontent
@@ -22891,8 +22753,7 @@ var El = class extends D {
 	}
 };
 customElements.get("eq-history-dialog") || customElements.define("eq-history-dialog", El);
-//#endregion
-//#region src/components/eq-sensor-more-info-dialog.ts
+// src/components/eq-sensor-more-info-dialog.ts
 var Dl = "var(--primary-color, #03a9f4)", Ol = "var(--equinox-boost-color, var(--accent-color, #b06cff))";
 function kl(e) {
 	return typeof e == "number" && Number.isFinite(e);
@@ -23325,7 +23186,7 @@ var Il = class extends D {
 	}
 	_betterHistoryConfig(e) {
 		let t = e.map((e) => `${e.id}|${e.entityId}|${Nl(e.attribute)}|${e.unit ?? ""}|${e.scaleGroup}|${e.scalePreference ?? ""}|${e.color ?? ""}`).join(";");
-		return t === this._configCacheKey && this._configCache ? this._configCache : (this._configCacheKey = t, this._configCache = {
+		return t === this._configCacheKey && this._configCache || (this._configCacheKey = t, this._configCache = {
 			hours: 24,
 			showDatePicker: !0,
 			showEntityPicker: !0,
@@ -23349,7 +23210,7 @@ var Il = class extends D {
 				group: e.scaleGroup,
 				scalePreference: e.scalePreference
 			}))
-		}, this._configCache);
+		}), this._configCache;
 	}
 	_renderMetric(e) {
 		let t = this._relativeTime(e.lastChanged);
@@ -23434,8 +23295,7 @@ var Il = class extends D {
 	}
 };
 customElements.get("eq-sensor-more-info-dialog") || customElements.define("eq-sensor-more-info-dialog", Il);
-//#endregion
-//#region src/data/regulation-dashboard-i18n.ts
+// src/data/regulation-dashboard-i18n.ts
 function Ll(e) {
 	return (e?.trim().toLowerCase().replace("_", "-"))?.split("-")[0] || "en";
 }
@@ -23444,8 +23304,7 @@ function Rl(e, t, n, r) {
 	let i = Ll(t), a = e.translations;
 	return a?.[i]?.[n] ?? a?.en?.[n] ?? r ?? n;
 }
-//#endregion
-//#region src/components/eq-regulation-renderer.ts
+// src/components/eq-regulation-renderer.ts
 var q = "--", zl = /* @__PURE__ */ new Set([
 	"vtherm_smartpi.reset_smartpi_learning",
 	"vtherm_smartpi.force_smartpi_calibration",
@@ -24319,14 +24178,14 @@ var q = "--", zl = /* @__PURE__ */ new Set([
 	_readConditionVariable(e) {
 		if (typeof e != "string") return;
 		let t = Gc(e), n = t[0];
-		if (!(!n || ![
+		if (n && [
 			"climate",
 			"diagnostic",
 			"power",
 			"humidity",
 			"temperature",
 			"config"
-		].includes(n))) return Zc(this._context(), n, t.slice(1));
+		].includes(n)) return Zc(this._context(), n, t.slice(1));
 	}
 	_compareCondition(e, t, n) {
 		switch (e) {
@@ -24344,8 +24203,7 @@ var q = "--", zl = /* @__PURE__ */ new Set([
 	}
 };
 customElements.get("eq-regulation-renderer") || customElements.define("eq-regulation-renderer", Bl);
-//#endregion
-//#region src/components/eq-regulation-dialog.ts
+// src/components/eq-regulation-dialog.ts
 var Vl = class extends D {
 	constructor(...e) {
 		super(...e), this.open = !1, this.mobileSectionMenuOpen = !1;
@@ -24799,8 +24657,7 @@ var Vl = class extends D {
 	}
 };
 customElements.get("eq-regulation-dialog") || customElements.define("eq-regulation-dialog", Vl);
-//#endregion
-//#region src/components/eq-lock-dialog.ts
+// src/components/eq-lock-dialog.ts
 var Hl = 4, Ul = [
 	"1",
 	"2",
@@ -25105,8 +24962,7 @@ var Hl = 4, Ul = [
 	}
 };
 customElements.get("eq-lock-dialog") || customElements.define("eq-lock-dialog", Wl);
-//#endregion
-//#region src/components/eq-main-card.ts
+// src/components/eq-main-card.ts
 var Gl = "equinox", Kl = /* @__PURE__ */ new Set(/* @__PURE__ */ "primary.accent.red.pink.purple.deep-purple.indigo.blue.light-blue.cyan.teal.green.light-green.lime.yellow.amber.orange.deep-orange.brown.light-grey.grey.dark-grey.blue-grey.black.white.primary-text.secondary-text.disabled".split(".")), ql = [
 	{
 		key: "hasOverpowering",
@@ -27267,18 +27123,10 @@ var nu = class extends D {
 		this._activeDialog = "history", this._activeMessageKey = void 0, this._pushHistoryDialogState();
 	}
 	_closeHistoryDialog() {
-		if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "history-dialog") {
-			this._activeDialog = null, this._clearBrowserHistoryState();
-			return;
-		}
-		this._activeDialog = null;
+		!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "history-dialog" ? (this._activeDialog = null, this._clearBrowserHistoryState()) : this._activeDialog = null;
 	}
 	_closeSensorMoreInfoDialog() {
-		if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "sensor-more-info-dialog") {
-			this._activeDialog = null, this._activeSensorInfoTarget = void 0, this._clearBrowserHistoryState();
-			return;
-		}
-		this._activeDialog = null, this._activeSensorInfoTarget = void 0;
+		!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "sensor-more-info-dialog" ? (this._activeDialog = null, this._activeSensorInfoTarget = void 0, this._clearBrowserHistoryState()) : (this._activeDialog = null, this._activeSensorInfoTarget = void 0);
 	}
 	_regulationDashboard() {
 		return this._regulationLoadResult?.status === "loaded" ? this._regulationLoadResult.dashboard : void 0;
@@ -27303,19 +27151,11 @@ var nu = class extends D {
 	async _openRegulationDialog(e) {
 		this._activeDialog = "regulation", this._activeMessageKey = void 0, this._regulationMobileSectionMenuOpen = !1, e && (this._regulationActiveSectionId = e);
 		let t = await this._ensureRegulationDashboard();
-		if (t?.status === "loaded") {
-			this._regulationActiveSectionId = e ?? t.dashboard.sections[0]?.id, this._pushRegulationDialogState(this._regulationActiveSectionId);
-			return;
-		}
-		this.config?.additional_dashboards === "custom" ? this._pushRegulationDialogState(e) : this._activeDialog = null;
+		t?.status === "loaded" ? (this._regulationActiveSectionId = e ?? t.dashboard.sections[0]?.id, this._pushRegulationDialogState(this._regulationActiveSectionId)) : this.config?.additional_dashboards === "custom" ? this._pushRegulationDialogState(e) : this._activeDialog = null;
 	}
 	_closeRegulationDialog() {
 		let e = this._browserHistoryEntry();
-		if (!this._syncingBrowserHistory && e?.layer === "regulation-dialog") {
-			window.history.go(-Math.max(1, e.regulationDepth ?? this._regulationBrowserHistoryDepth));
-			return;
-		}
-		this._activeDialog = null, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0;
+		!this._syncingBrowserHistory && e?.layer === "regulation-dialog" ? window.history.go(-Math.max(1, e.regulationDepth ?? this._regulationBrowserHistoryDepth)) : (this._activeDialog = null, this._regulationMobileSectionMenuOpen = !1, this._regulationBrowserHistoryDepth = 0);
 	}
 	_setRegulationMobileSectionMenu(e) {
 		this._activeDialog === "regulation" && (this._regulationMobileSectionMenuOpen = e);
@@ -28284,37 +28124,35 @@ var nu = class extends D {
 	}
 	_openDialog(e, t) {
 		let n = t.currentTarget instanceof HTMLElement ? t.currentTarget : void 0;
-		if (this._activeDialog === e) {
-			this._activeDialog = null, this._activeMessageKey = void 0, this._dialogAnchor = void 0;
-			return;
+		if (this._activeDialog === e) this._activeDialog = null, this._activeMessageKey = void 0, this._dialogAnchor = void 0;
+		else {
+			if (n) {
+				let r = e === "menu", i = t instanceof MouseEvent ? t.clientX : void 0, a = r && t instanceof MouseEvent ? t.clientY : void 0;
+				this._dialogAnchor = {
+					element: n,
+					clientX: i,
+					clientY: a
+				};
+			} else this._dialogAnchor = void 0;
+			this._activeDialog = e, this._activeMessageKey = void 0;
 		}
-		if (n) {
-			let r = e === "menu", i = t instanceof MouseEvent ? t.clientX : void 0, a = r && t instanceof MouseEvent ? t.clientY : void 0;
-			this._dialogAnchor = {
-				element: n,
-				clientX: i,
-				clientY: a
-			};
-		} else this._dialogAnchor = void 0;
-		this._activeDialog = e, this._activeMessageKey = void 0;
 	}
 	_closeLightweightDialog(e) {
 		this._activeDialog === e && (this._activeDialog = null);
 	}
 	_openBoost(e) {
 		let t = e.currentTarget instanceof HTMLElement ? e.currentTarget : void 0;
-		if (this._activeDialog === "boost") {
-			this._activeDialog = null, this._activeMessageKey = void 0, this._dialogAnchor = void 0;
-			return;
+		if (this._activeDialog === "boost") this._activeDialog = null, this._activeMessageKey = void 0, this._dialogAnchor = void 0;
+		else {
+			if (t) {
+				let n = e instanceof MouseEvent ? e.clientX : void 0;
+				this._dialogAnchor = {
+					element: t,
+					clientX: n
+				};
+			}
+			this._activeDialog = "boost", this._activeMessageKey = void 0;
 		}
-		if (t) {
-			let n = e instanceof MouseEvent ? e.clientX : void 0;
-			this._dialogAnchor = {
-				element: t,
-				clientX: n
-			};
-		}
-		this._activeDialog = "boost", this._activeMessageKey = void 0;
 	}
 	_openMessage(e, t) {
 		let n = t.currentTarget instanceof HTMLElement ? t.currentTarget : void 0;
@@ -28670,14 +28508,14 @@ var nu = class extends D {
 		return Number(i.toFixed(2));
 	}
 	_setHvacMode(e) {
-		!this.hass || !this.config || !this.viewModel || mc({
+		this.hass && this.config && this.viewModel && mc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		}, e);
 	}
 	_setPresetMode(e) {
-		!this.hass || !this.config || !this.viewModel || hc({
+		this.hass && this.config && this.viewModel && hc({
 			hass: this.hass,
 			entityId: this.config.entity,
 			viewModel: this.viewModel
@@ -28710,15 +28548,11 @@ var nu = class extends D {
 	_openTemperatureInfo(e) {
 		if (!this.config) return;
 		let t = this.viewModel?.climate.temperatureEntityId;
-		if (t) {
-			this._openSensorMoreInfo({
-				kind: "entity",
-				entityId: t,
-				icon: "mdi:thermometer"
-			}, e);
-			return;
-		}
-		this._openSensorMoreInfo({
+		t ? this._openSensorMoreInfo({
+			kind: "entity",
+			entityId: t,
+			icon: "mdi:thermometer"
+		}, e) : this._openSensorMoreInfo({
 			kind: "entity",
 			entityId: this.config.entity,
 			attribute: "current_temperature",
@@ -28738,16 +28572,11 @@ var nu = class extends D {
 			entityId: this.config.entity,
 			viewModel: this.viewModel
 		};
-		if (this.viewModel.vt.lock.isLocked) {
-			Tc(e);
-			return;
-		}
-		wc(e);
+		this.viewModel.vt.lock.isLocked ? Tc(e) : wc(e);
 	}
 };
 customElements.get("eq-main-card") || customElements.define("eq-main-card", nu);
-//#endregion
-//#region src/data/format.ts
+// src/data/format.ts
 var ru = /* @__PURE__ */ new Set(["unknown", "unavailable"]);
 function iu(e) {
 	return e == null || typeof e == "string" && ru.has(e);
@@ -28768,8 +28597,7 @@ function au(e) {
 function Z(...e) {
 	return e.find((e) => e !== void 0);
 }
-//#endregion
-//#region src/data/vt-state.ts
+// src/data/vt-state.ts
 function Q(e) {
 	return typeof e == "object" && e ? e : void 0;
 }
@@ -28928,8 +28756,7 @@ function _u(e, t, n) {
 		vthermOverClimateValve: Q(r.vtherm_over_climate_valve)
 	};
 }
-//#endregion
-//#region src/data/climate-state.ts
+// src/data/climate-state.ts
 function vu(e) {
 	return typeof e == "object" && e ? e : void 0;
 }
@@ -29001,8 +28828,7 @@ function Tu(e, t, n) {
 		vt: _u(e, t, n)
 	};
 }
-//#endregion
-//#region src/data/config.ts
+// src/data/config.ts
 function Eu(e) {
 	return typeof e == "string";
 }
@@ -29090,8 +28916,7 @@ function Nu(e) {
 	let o = qs(t.mode_customizations);
 	return o ? t.mode_customizations = o : delete t.mode_customizations, { config: t };
 }
-//#endregion
-//#region src/equinox-card.ts
+// src/equinox-card.ts
 fs(gs);
 var Pu = {
 	bg: "Карта на Lovelace за Versatile Thermostat и стандартни климатични елементи.",
@@ -29222,5 +29047,4 @@ Ru.filter((e) => e.type === "equinox-card" || e.type === "custom:equinox-card" |
 	documentationURL: "https://github.com/KipK/equinox#readme",
 	getEntitySuggestion: Iu
 });
-//#endregion
 export { Lu as EquinoxCard };

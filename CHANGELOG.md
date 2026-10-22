@@ -4,6 +4,8 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.2-dev
 
+- Update Vite to 8.3.5 and deduplicate shared dependencies when building with the local history component link.
+- Prevent date-picker close and focus events from dismissing the History dialog; protect the dialog backdrop while a history picker is open.
 - Align the SmartPI dashboard with current schema v2 diagnostics, removing reference-governor widgets and obsolete history documentation while preserving trajectory details and the eight Recorder series.
 - Show the current trajectory phase in Overview, group Kp/Ki with the published effective integral time Ti, and clarify the next automatic calibration retry.
 - Keep FF3/twin diagnostics in Model and prediction and separate temperature/setpoint and calculated/applied command histories in Target approach.

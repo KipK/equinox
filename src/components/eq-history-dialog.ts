@@ -16,6 +16,7 @@ export class EquinoxHistoryDialog extends LitElement {
     _controlsVisible: { state: true },
     _toolsOpen: { state: true },
     _staticAttributeUnits: { state: true },
+    _historyPickerOverlayOpen: { state: true },
   };
 
   static styles = css`
@@ -242,6 +243,7 @@ export class EquinoxHistoryDialog extends LitElement {
     return html`
       <ha-dialog
         .open=${this.open}
+        .preventScrimClose=${this._historyPickerOverlayOpen}
         .headerTitle=${this.hass?.states[this.config?.entity ?? ""]?.attributes?.friendly_name ?? this.config?.entity ?? localize(this.language, "dialog.history.title")}
         width="large"
         flexcontent
