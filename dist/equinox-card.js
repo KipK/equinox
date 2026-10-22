@@ -762,7 +762,7 @@ async function gt(e, t) {
 	if (c !== void 0 || l.missing.length > 0) throw ht(l.missing, s, o), new Ue(l, c);
 	return l;
 }
-// ../ha-better-history/dist/all.js
+// node_modules/@kipk/ha-better-history/dist/all.js
 var _t = /* @__PURE__ */ new Set(["unknown", "unavailable"]);
 function vt(e) {
 	return e == null || typeof e == "string" && _t.has(e);
