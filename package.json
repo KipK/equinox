@@ -10,7 +10,7 @@
     "gzip:dist": "node scripts/gzip-dist.mjs"
   },
   "dependencies": {
-    "@kipk/ha-better-history": "^0.4.1",
+    "@kipk/ha-better-history": "^0.4.2",
     "@kipk/load-ha-components": "^2.1.0",
     "lit": "^3.3.3"
   },
