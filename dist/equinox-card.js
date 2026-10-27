@@ -9302,10 +9302,21 @@ var Ss = "Equinox", Cs = "custom:equinox-card", ws = "equinox-card", Ts = "equin
 			additional_dashboards: "Zusätzliche Dashboards",
 			state_icons_layout: "Statussymbole",
 			show_power_value: "Messwert anzeigen",
+			show_current_temperature: "Aktuelle Temperatur anzeigen",
+			show_humidity: "Luftfeuchtigkeit anzeigen",
+			show_setpoint: "Solltemperatur anzeigen",
+			show_hvac_mode: "HVAC-Modus anzeigen",
+			show_preset_mode: "Preset anzeigen",
+			show_auto_start_stop: "Auto-Start/Stop anzeigen",
+			show_power_info: "Leistungs-/Ventilanzeige anzeigen",
+			show_hvac_action: "HVAC-Aktionssymbol anzeigen",
+			show_events: "Ereignissymbole anzeigen",
+			show_menu: "Menü anzeigen",
 			border_glow_on_action: "Die Ränder leuchten nur bei aktiver HVAC-Aktion",
 			tabs: {
 				general: "Allgemein",
 				presentation: "Präsentation",
+				elements: "Elemente",
 				hvac: "HVAC-Modi",
 				preset: "Presets",
 				fan: "Lüfter",
@@ -9890,10 +9901,21 @@ var Ss = "Equinox", Cs = "custom:equinox-card", ws = "equinox-card", Ts = "equin
 			additional_dashboards: "Additional dashboards",
 			state_icons_layout: "State icons",
 			show_power_value: "Show gauge value",
+			show_current_temperature: "Show current temperature",
+			show_humidity: "Show humidity",
+			show_setpoint: "Show target temperature",
+			show_hvac_mode: "Show HVAC mode",
+			show_preset_mode: "Show preset",
+			show_auto_start_stop: "Show auto-start/stop",
+			show_power_info: "Show power/valve gauge",
+			show_hvac_action: "Show HVAC action icon",
+			show_events: "Show event icons",
+			show_menu: "Show menu",
 			border_glow_on_action: "Borders glow only while HVAC is active",
 			tabs: {
 				general: "General",
 				presentation: "Presentation",
+				elements: "Elements",
 				hvac: "HVAC modes",
 				preset: "Presets",
 				fan: "Fan",
@@ -13680,6 +13702,16 @@ var cc = ["flat", "liquid_glow"], lc = [
 	additional_dashboards: As,
 	state_icons_layout: "horizontal",
 	show_power_value: !0,
+	show_current_temperature: !0,
+	show_humidity: !0,
+	show_setpoint: !0,
+	show_hvac_mode: !0,
+	show_preset_mode: !0,
+	show_auto_start_stop: !0,
+	show_power_info: !0,
+	show_hvac_action: !0,
+	show_events: !0,
+	show_menu: !0,
 	border_glow_on_action: !0
 };
 // src/equinox-card-editor.ts
@@ -13828,6 +13860,11 @@ var vc = class extends D {
 		}}>
           ${z(e, "editor.tabs.presentation")}
         </button>
+        <button class="tab" ?active=${this._activeTab === "elements"} @click=${() => {
+			this._activeTab = "elements";
+		}}>
+          ${z(e, "editor.tabs.elements")}
+        </button>
         <button class="tab" ?active=${this._activeTab === "hvac"} @click=${() => {
 			this._activeTab = "hvac";
 		}}>
@@ -13849,11 +13886,11 @@ var vc = class extends D {
             ${z(e, `editor.tabs.${t}`)}
           </button>`)}
       </div>
-      ${this._activeTab === "presentation" ? this._renderPresentationTab(e, t) : this._activeTab === "general" ? w`
+      ${this._activeTab === "presentation" ? this._renderPresentationTab(e, t) : this._activeTab === "general" || this._activeTab === "elements" ? w`
               <ha-form
                 .hass=${this.hass}
                 .data=${t}
-                .schema=${this._generalSchema(e)}
+                .schema=${this._activeTab === "general" ? this._generalSchema(e) : this._elementsSchema()}
                 .computeLabel=${this._computeLabel(e)}
                 @value-changed=${this._valueChanged}
               ></ha-form>
@@ -14067,25 +14104,32 @@ var vc = class extends D {
 				mode: "slider",
 				unit_of_measurement: "%"
 			} }
-		}), i.push({
-			name: "disable_name",
-			selector: { boolean: {} }
-		}), i.push({
-			name: "show_fan_mode",
-			selector: { boolean: {} }
-		}, {
-			name: "show_swing_mode",
-			selector: { boolean: {} }
-		}, {
-			name: "hide_lock_button",
-			selector: { boolean: {} }
-		}, {
-			name: "show_power_value",
-			selector: { boolean: {} }
 		}), this._config.theme === "liquid_glow" && i.push({
 			name: "border_glow_on_action",
 			selector: { boolean: {} }
 		}), i;
+	}
+	_elementsSchema() {
+		return [
+			"disable_name",
+			"show_current_temperature",
+			"show_humidity",
+			"show_setpoint",
+			"show_hvac_mode",
+			"show_preset_mode",
+			"show_fan_mode",
+			"show_swing_mode",
+			...this._vtFeatureVisibility().autoStartStop ? ["show_auto_start_stop"] : [],
+			"show_power_info",
+			"show_power_value",
+			"show_hvac_action",
+			"show_events",
+			"hide_lock_button",
+			"show_menu"
+		].map((e) => ({
+			name: e,
+			selector: { boolean: {} }
+		}));
 	}
 	_renderColorField(e, t) {
 		return w`
@@ -26553,6 +26597,18 @@ var du = class extends D {
           "setpoint primary primary";
       }
 
+      .thin-layout:not([has-controls]) {
+        grid-template-areas: "readings readings status";
+        grid-template-rows: minmax(24px, auto);
+      }
+
+      .thin-layout[has-name]:not([has-controls]) {
+        grid-template-areas:
+          "name name name"
+          "readings readings status";
+        grid-template-rows: minmax(14px, auto) minmax(24px, auto);
+      }
+
       .thin-summary,
       .thin-controls,
       .thin-readings,
@@ -26872,6 +26928,48 @@ var du = class extends D {
             "status status"
             "readings readings"
             "setpoint primary";
+        }
+
+        .thin-layout:not([has-extra]):not([has-readings]) {
+          grid-template-areas:
+            "status status"
+            "setpoint primary";
+          grid-template-rows: minmax(24px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout[has-name]:not([has-extra]):not([has-readings]) {
+          grid-template-areas:
+            "name name"
+            "status status"
+            "setpoint primary";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout:not([has-controls]) {
+          grid-template-areas:
+            "status status"
+            "readings readings";
+          grid-template-rows: minmax(24px, auto) minmax(24px, auto);
+        }
+
+        .thin-layout[has-name]:not([has-controls]) {
+          grid-template-areas:
+            "name name"
+            "status status"
+            "readings readings";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(24px, auto);
+        }
+
+        .thin-layout:not([has-controls]):not([has-readings]) {
+          grid-template-areas: "status status";
+          grid-template-rows: minmax(24px, auto);
+        }
+
+        .thin-layout[has-name]:not([has-controls]):not([has-readings]) {
+          grid-template-areas:
+            "name name"
+            "status status";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto);
         }
 
         .thin-current {
@@ -27897,41 +27995,47 @@ var du = class extends D {
     `;
 	}
 	_renderThinLayout() {
-		let e = J(this.viewModel?.climate.currentHumidity), t = this._thinExtraSelectorCount(), n = this.viewModel?.climate.name, r = !this.config?.disable_name && !!n;
+		let e = this._shouldShowHumidity(), t = this._thinExtraSelectorCount(), n = this.viewModel?.climate.name, r = !this.config?.disable_name && !!n, i = this._renderThinControlRow();
 		return w`
       <div
         class="thin-layout"
         ?has-extra=${t > 0}
         ?has-humidity=${e}
         ?has-name=${r}
+        ?has-readings=${e || this._shouldShowCurrentTemperature()}
+        ?has-controls=${i !== E}
         extra-count=${t}
       >
         ${r ? w`<div class="thin-name">${n}</div>` : E}
         ${this._renderThinSummaryRow()}
-        ${this._renderThinControlRow()}
+        ${i}
       </div>
     `;
 	}
 	_renderThinSummaryRow() {
-		let e = this.viewModel?.climate.currentHumidity, t = J(e), n = J(this.viewModel?.climate.currentTemperature), r = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, i = this.viewModel?.vt?.lock.isLocked ? z(this._language(), "main.lock.locked") : z(this._language(), "main.lock.unlocked");
+		let e = this.viewModel?.climate.currentHumidity, t = this._shouldShowHumidity(), n = this._shouldShowCurrentTemperature(), r = J(this.viewModel?.climate.currentTemperature), i = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, a = this.viewModel?.vt?.lock.isLocked ? z(this._language(), "main.lock.locked") : z(this._language(), "main.lock.unlocked");
 		return w`
       <div class="thin-summary">
-        <div class="thin-readings" ?has-humidity=${t}>
-          <span
-            class="thin-current"
-            ?clickable=${n}
-            @click=${n ? (e) => this._openTemperatureInfo(e) : E}
-          >
-            <ha-icon icon="mdi:thermometer"></ha-icon>
-            ${this._formatCurrentTemp()}
-          </span>
-          ${t ? w`
-                <span class="thin-humidity thin-humidity-reading" @click=${(e) => this._openHumidityInfo(e)}>
-                  <ha-icon icon="mdi:water-percent"></ha-icon>
-                  <span>${this._formatPercent(e)}</span>
-                </span>
-              ` : E}
-        </div>
+        ${n || t ? w`
+              <div class="thin-readings" ?has-humidity=${t}>
+                ${n ? w`
+                      <span
+                        class="thin-current"
+                        ?clickable=${r}
+                        @click=${r ? (e) => this._openTemperatureInfo(e) : E}
+                      >
+                        <ha-icon icon="mdi:thermometer"></ha-icon>
+                        ${this._formatCurrentTemp()}
+                      </span>
+                    ` : E}
+                ${t ? w`
+                      <span class="thin-humidity thin-humidity-reading" @click=${(e) => this._openHumidityInfo(e)}>
+                        <ha-icon icon="mdi:water-percent"></ha-icon>
+                        <span>${this._formatPercent(e)}</span>
+                      </span>
+                    ` : E}
+              </div>
+            ` : E}
         <div class="thin-status">
           ${this._renderPowerInfoButton()}
           ${t ? w`
@@ -27945,22 +28049,24 @@ var du = class extends D {
                 </button>
               ` : E}
           <div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>
-          ${r ? this._renderLockButton(i) : E}
+          ${i ? this._renderLockButton(a) : E}
           ${this._renderMenuButton()}
         </div>
       </div>
     `;
 	}
 	_renderThinControlRow() {
-		let e = this._renderThinPrimarySelectors(), t = this._renderThinExtraSelectors();
-		return w`
+		let e = this._shouldShowSetpoint(), t = this._renderThinPrimarySelectors(), n = this._renderThinExtraSelectors();
+		return !e && t === E && n === E ? E : w`
       <div class="thin-controls">
-        <div class="thin-setpoint">
-          ${this._renderThinTemperatureButton()}
-        </div>
-        ${e}
+        ${e ? w`
+              <div class="thin-setpoint">
+                ${this._renderThinTemperatureButton()}
+              </div>
+            ` : E}
+        ${t}
       </div>
-      ${t}
+      ${n}
     `;
 	}
 	_renderThinTemperatureButton() {
@@ -28000,7 +28106,7 @@ var du = class extends D {
 	}
 	_renderThinHvacButton() {
 		let e = this.viewModel?.climate.hvacMode, t = this._visibleHvacModes(), n = e;
-		return t.length === 0 ? E : w`
+		return this.config?.show_hvac_mode === !1 || t.length === 0 ? E : w`
       <ha-control-button
         .label=${n ? this._hvacLabel(n) : z(this._language(), "dialog.hvac.title")}
         tone=${this._modeTone(n)}
@@ -28017,7 +28123,7 @@ var du = class extends D {
 	}
 	_renderThinPresetButton() {
 		let e = this.viewModel?.climate.presetMode, t = this._visiblePresetModes(), n = e && e !== "none" ? this._presetIcon(e) : "mdi:tune-variant", r = !!e && e !== "none";
-		return t.length === 0 ? E : w`
+		return this.config?.show_preset_mode === !1 || t.length === 0 ? E : w`
       <ha-control-button
         .label=${e && e !== "none" ? this._presetLabel(e) : z(this._language(), "main.preset.none")}
         tone=${r ? this._presetTone(e) : ""}
@@ -28090,7 +28196,7 @@ var du = class extends D {
 	_renderStateRail() {
 		let e = !this.config?.hide_lock_button && this.viewModel?.vt?.lock.isConfigured === !0, t = this.viewModel?.vt?.lock.isLocked ? z(this._language(), "main.lock.locked") : z(this._language(), "main.lock.unlocked");
 		return [
-			...this.config?.disable_name ? [this._renderMenuButton()] : [],
+			this.config?.disable_name ? this._renderMenuButton() : E,
 			...e ? [this._renderLockButton(t)] : [],
 			this._renderPowerInfoButton(),
 			w`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`
@@ -28120,7 +28226,7 @@ var du = class extends D {
 	}
 	_renderHvacStateIcon() {
 		let e = this.viewModel?.climate.hvacAction, t = this.viewModel?.climate.hvacMode;
-		if (t === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return E;
+		if (this.config?.show_hvac_action === !1 || t === "off" && this.viewModel?.vt?.messages.some((e) => e.key === "hvac_off_manual")) return E;
 		let n = this._hvacActionIcon(e, t), r = e ? z(this._language(), `main.hvac_action.${e}`) : this._hvacLabel(t);
 		return n ? w`
       <span
@@ -28159,7 +28265,7 @@ var du = class extends D {
 	}
 	_renderEvents() {
 		let e = this.viewModel?.vt?.events, t = this.viewModel?.vt?.messages ?? [];
-		if (!e) return [];
+		if (!e || this.config?.show_events === !1) return [];
 		let n = new Set(nu.filter((e) => e.key === "hasTimer").flatMap((e) => e.messageKeys ?? [])), r = t.map((e) => {
 			let t = n.has(e.key) ? (e) => this._openBoost(e) : void 0;
 			return this._renderMessageIcon(e, t);
@@ -28227,30 +28333,34 @@ var du = class extends D {
 		return z(this._language(), `main.messages.${e}`);
 	}
 	_renderSetpoint() {
-		return this.config?.primary_display === "sensors" ? this._renderSensorFocus() : w`<div class="setpoint">${this._renderTemperatureControl(!1)}</div>`;
+		return this.config?.primary_display === "sensors" ? this._renderSensorFocus() : this._shouldShowSetpoint() ? w`<div class="setpoint">${this._renderTemperatureControl(!1)}</div>` : E;
 	}
 	_renderSensorFocus() {
-		let e = this.viewModel?.climate.currentHumidity, t = J(e), n = J(this.viewModel?.climate.currentTemperature);
-		return w`
+		let e = this.viewModel?.climate.currentHumidity, t = this._shouldShowHumidity(), n = this._shouldShowCurrentTemperature(), r = this._shouldShowSetpoint(), i = J(this.viewModel?.climate.currentTemperature);
+		return !n && !t && !r ? E : w`
       <div class="setpoint" sensor-focus>
-        <div class="sensor-primary">
-          <span
-            class="sensor-temperature"
-            ?clickable=${n}
-            @click=${n ? (e) => this._openTemperatureInfo(e) : E}
-          >
-            <ha-icon icon="mdi:thermometer"></ha-icon>
-            <span>${this._formatCurrentTempValue()}</span>
-            <span class="sensor-unit">°</span>
-          </span>
-          ${t ? w`
-                <span class="sensor-humidity" @click=${(e) => this._openHumidityInfo(e)}>
-                  <ha-icon icon="mdi:water-percent"></ha-icon>
-                  <span>${this._formatPercent(e)}</span>
-                </span>
-              ` : E}
-        </div>
-        ${this._renderTemperatureControl(!0)}
+        ${n || t ? w`
+              <div class="sensor-primary">
+                ${n ? w`
+                      <span
+                        class="sensor-temperature"
+                        ?clickable=${i}
+                        @click=${i ? (e) => this._openTemperatureInfo(e) : E}
+                      >
+                        <ha-icon icon="mdi:thermometer"></ha-icon>
+                        <span>${this._formatCurrentTempValue()}</span>
+                        <span class="sensor-unit">°</span>
+                      </span>
+                    ` : E}
+                ${t ? w`
+                      <span class="sensor-humidity" @click=${(e) => this._openHumidityInfo(e)}>
+                        <ha-icon icon="mdi:water-percent"></ha-icon>
+                        <span>${this._formatPercent(e)}</span>
+                      </span>
+                    ` : E}
+              </div>
+            ` : E}
+        ${r ? this._renderTemperatureControl(!0) : E}
       </div>
     `;
 	}
@@ -28375,19 +28485,23 @@ var du = class extends D {
 	}
 	_renderConditions() {
 		if (this.config?.primary_display === "sensors") return E;
-		let e = this.viewModel?.climate.currentHumidity, t = J(e), n = J(this.viewModel?.climate.currentTemperature);
+		let e = this.viewModel?.climate.currentHumidity, t = this._shouldShowHumidity(), n = this._shouldShowCurrentTemperature();
+		if (!n && !t) return E;
+		let r = J(this.viewModel?.climate.currentTemperature);
 		return w`
       <div class="conditions">
-        <span
-          class="condition"
-          ?clickable=${n}
-          @click=${n ? (e) => this._openTemperatureInfo(e) : E}
-        >
-          <ha-icon icon="mdi:thermometer"></ha-icon>
-          <span class="condition-value" kind="temperature">${this._formatCurrentTemp()}</span>
-        </span>
+        ${n ? w`
+            <span
+              class="condition"
+              ?clickable=${r}
+              @click=${r ? (e) => this._openTemperatureInfo(e) : E}
+            >
+              <ha-icon icon="mdi:thermometer"></ha-icon>
+              <span class="condition-value" kind="temperature">${this._formatCurrentTemp()}</span>
+            </span>
+          ` : E}
         ${t ? w`
-            <span class="divider"></span>
+            ${n ? w`<span class="divider"></span>` : E}
             <span class="condition" clickable @click=${(e) => this._openHumidityInfo(e)}>
               <ha-icon icon="mdi:water-percent"></ha-icon>
               <span class="condition-value" kind="humidity">${this._formatPercent(e)}</span>
@@ -28398,7 +28512,7 @@ var du = class extends D {
 	}
 	_renderHvacModes() {
 		let e = this._visibleHvacModes();
-		return e.length === 0 ? E : w`<div class="segments" style=${e.length < 3 ? `width: calc(100% / 3 * ${e.length}); margin-inline: auto;` : ""}>${e.map((e) => this._renderHvacButton(e))}</div>`;
+		return this.config?.show_hvac_mode === !1 || e.length === 0 ? E : w`<div class="segments" style=${e.length < 3 ? `width: calc(100% / 3 * ${e.length}); margin-inline: auto;` : ""}>${e.map((e) => this._renderHvacButton(e))}</div>`;
 	}
 	_renderHvacButton(e) {
 		return w`
@@ -28418,7 +28532,7 @@ var du = class extends D {
 	}
 	_renderPresets() {
 		let e = this._visiblePresetModes();
-		return e.length === 0 ? E : w`<div class="segments">${e.map((e) => this._renderPresetButton(e))}</div>`;
+		return this.config?.show_preset_mode === !1 || e.length === 0 ? E : w`<div class="segments">${e.map((e) => this._renderPresetButton(e))}</div>`;
 	}
 	_renderPresetButton(e) {
 		return w`
@@ -28437,9 +28551,9 @@ var du = class extends D {
     `;
 	}
 	_renderCompactSelectors() {
-		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = this._visibleHvacModes(), r = e, i = n.length > 0, a = this._visiblePresetModes().length > 0, o = t && t !== "none" ? this._presetIcon(t) : "mdi:tune-variant", s = !!t && t !== "none", c = this._shouldShowFanControl(), l = this._shouldShowSwingControl(), u = +!!i + +!!a + +!!c + +!!l;
-		return u === 0 ? E : w`
-      <div class="compact-selectors" style=${u < 4 ? `width: calc(100% / 3 * ${u}); margin-inline: auto;` : ""}>
+		let e = this.viewModel?.climate.hvacMode, t = this.viewModel?.climate.presetMode, n = this._visibleHvacModes(), r = e, i = this.config?.show_hvac_mode !== !1 && n.length > 0, a = this._visiblePresetModes(), o = this.config?.show_preset_mode !== !1 && a.length > 0, s = t && t !== "none" ? this._presetIcon(t) : "mdi:tune-variant", c = !!t && t !== "none", l = this._shouldShowFanControl(), u = this._shouldShowSwingControl(), d = +!!i + +!!o + +!!l + +!!u;
+		return d === 0 ? E : w`
+      <div class="compact-selectors" style=${d < 4 ? `width: calc(100% / 3 * ${d}); margin-inline: auto;` : ""}>
         ${i ? w`
               <ha-control-button
                 .label=${r ? this._hvacLabel(r) : z(this._language(), "dialog.hvac.title")}
@@ -28454,19 +28568,19 @@ var du = class extends D {
                 </span>
               </ha-control-button>
             ` : E}
-        ${a ? w`
+        ${o ? w`
               <ha-control-button
                 .label=${t && t !== "none" ? this._presetLabel(t) : z(this._language(), "main.preset.none")}
-                tone=${s ? this._presetTone(t) : ""}
+                tone=${c ? this._presetTone(t) : ""}
                 ?disabled=${this._isControlDisabled()}
                 @click=${(e) => this._openDialog("preset", e)}
               >
-                <span class="btn-icon" tone=${s ? this._presetTone(t) : ""}>
-                  <ha-icon .icon=${o}></ha-icon>
+                <span class="btn-icon" tone=${c ? this._presetTone(t) : ""}>
+                  <ha-icon .icon=${s}></ha-icon>
                 </span>
               </ha-control-button>
             ` : E}
-        ${c ? w`
+        ${l ? w`
               <ha-control-button
                 class="fan-selector"
                 .label=${this._fanLabel()}
@@ -28478,7 +28592,7 @@ var du = class extends D {
                 </span>
               </ha-control-button>
             ` : E}
-        ${l ? w`
+        ${u ? w`
               <ha-control-button
                 class="swing-selector"
                 .label=${this._swingLabel()}
@@ -28498,7 +28612,7 @@ var du = class extends D {
 		return !!e || J(t);
 	}
 	_renderPowerInfoButton() {
-		if (!this._hasPowerInfo()) return E;
+		if (this.config?.show_power_info === !1 || !this._hasPowerInfo()) return E;
 		let e = this._powerValveValue(), t = z(this._language(), "main.actions.open_power_info"), n = e ? `${e.name}: ${e.label}` : void 0, r = n ?? t, i = n ? `${n}. ${t}` : t, a = e ? Math.min(100, Math.max(0, e.value)) : 0, o = e && this.config?.show_power_value !== !1;
 		return w`
       <button
@@ -28563,7 +28677,7 @@ var du = class extends D {
     `;
 	}
 	_shouldShowAutoStartStopControl() {
-		return this.viewModel?.vt?.autoStartStop.isConfigured === !0;
+		return this.config?.show_auto_start_stop !== !1 && this.viewModel?.vt?.autoStartStop.isConfigured === !0;
 	}
 	_autoStartStopTone() {
 		return this.viewModel?.vt?.autoStartStop.isEnabled ? "boost" : "off";
@@ -28594,8 +28708,17 @@ var du = class extends D {
 	_shouldShowSwingControl() {
 		return this.config?.show_swing_mode !== !1 && this._hasSwingControl() && (this._visibleSwingModes().length > 0 || this._visibleSwingHorizontalModes().length > 0);
 	}
+	_shouldShowCurrentTemperature() {
+		return this.config?.show_current_temperature !== !1;
+	}
+	_shouldShowHumidity() {
+		return this.config?.show_humidity !== !1 && J(this.viewModel?.climate.currentHumidity);
+	}
+	_shouldShowSetpoint() {
+		return this.config?.show_setpoint !== !1;
+	}
 	_renderMenuButton() {
-		return w`
+		return this.config?.show_menu === !1 ? E : w`
       <button class="menu" title=${z(this._language(), "main.actions.open_menu")} aria-label=${z(this._language(), "main.actions.open_menu")} @click=${(e) => this._openDialog("menu", e)}>
         <ha-icon icon="mdi:dots-vertical"></ha-icon>
       </button>
