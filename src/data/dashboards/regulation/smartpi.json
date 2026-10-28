@@ -60,7 +60,7 @@
       "metrics.b_stability": "Dispersion B",
       "metrics.accepted_a": "Mises à jour A acceptées",
       "metrics.accepted_b": "Mises à jour B acceptées",
-      "metrics.bootstrap_progress": "Bootstrap",
+      "metrics.bootstrap_progress": "Collecte initiale",
       "metrics.bootstrap_a": "Échantillons A",
       "metrics.bootstrap_b": "Échantillons B",
       "metrics.history_a": "Échantillons A",
@@ -301,7 +301,7 @@
       "status.fftrim.quality.valve_segmented_linear": "Timeline de vanne linéarisée",
       "status.fftrim.quality.mixed": "Sources mixtes",
       "fallback.unknown_code": "Code inconnu",
-      "notes.learning": "A mesure la réponse à la commande ; B mesure les pertes thermiques. Smart PI collecte les deux séries d'échantillons pour fiabiliser le modèle.",
+      "notes.learning": "A mesure le gain thermique à partir de la puissance délivrée estimée ; B mesure les pertes thermiques. Smart PI attend que les réponses transitoires se dissipent et que les fenêtres couvrent assez de variations du capteur. A peut être corrigé lorsque B est affiné, sans nouvelle mesure de A.",
       "notes.fftrim.stationary": "L'observateur stationnaire aligne les mesures thermiques sur la puissance déjà appliquée en tenant compte du temps mort.",
       "notes.fftrim.periodic": "L'observateur périodique recherche un cycle thermique complet, avec une phase de montée et une phase de descente. Sa cible dépend des cycles VT et du temps mort. Il utilise la même chronologie de puissance, garde sa propre fenêtre et ne transfère pas la propriété intégrale/trim.",
       "actions.reset_learning": "Réinitialiser l'apprentissage",
@@ -351,7 +351,47 @@
       "graphs.approach.command": "Commande calculée et commande appliquée",
       "notes.approach.history": "Le premier graphique compare la température de la pièce aux consignes. Le second montre comment la commande du thermostat évolue au fil du temps.",
       "metrics.ti": "Temps intégral effectif (Ti)",
-      "groups.command.gains": "Gains PI"
+      "groups.command.gains": "Gains PI",
+      "metrics.learning_stage": "Phase d'apprentissage",
+      "status.learning.stage.bootstrap": "Apprentissage initial",
+      "status.learning.stage.learning": "Enrichissement du modèle",
+      "status.learning.stage.monitoring": "Surveillance du modèle",
+      "status.learning.stage.degraded": "Modèle dégradé",
+      "notes.learning.bootstrap": "La jauge suit la collecte, pas la fin de l'apprentissage initial. A peut être publié dès quatre mesures cohérentes sur un objectif nominal de six ; une collecte à 100 % peut encore attendre le retard de réponse. Pendant cette phase, Smart PI régule entre ses seuils d'hystérésis.",
+      "groups.learning.response_lag": "Retard de réponse",
+      "metrics.response_lag": "Retard publié",
+      "metrics.response_estimates": "Estimations conservées",
+      "metrics.response_episode_median": "Durée médiane des épisodes actifs",
+      "metrics.response_last_reason": "Dernier épisode actif",
+      "status.response_lag.estimated": "Estimation retenue",
+      "status.response_lag.power_not_constant": "Puissance variable",
+      "status.response_lag.baseline_unsettled": "Repos préalable insuffisant",
+      "status.response_lag.no_outdoor_temperature": "Température extérieure absente",
+      "status.response_lag.insufficient_crossings": "Variations de température insuffisantes",
+      "status.response_lag.no_baseline_crossing": "Réponse encore insuffisante",
+      "status.response_lag.unknown_passive_slope": "Pente passive inconnue",
+      "status.response_lag.no_active_response": "Réponse active non mesurable",
+      "status.response_lag.unresolvable_intercept": "Retard non déterminable sur cet épisode",
+      "notes.learning.response_lag": "Le retard est estimé pendant les épisodes à puissance constante, surtout lors de l'apprentissage initial. Les émetteurs lents peuvent demander plusieurs heures supplémentaires. Une estimation retenue ne garantit pas encore un retard publié ; son absence ne signifie pas que l'apprentissage est bloqué.",
+      "groups.model.deadtime_detection": "Détection des temps morts",
+      "metrics.deadtime_state": "État du détecteur",
+      "status.deadtime.off": "Au repos",
+      "status.deadtime.waiting_heat": "Attente d'une montée de température",
+      "status.deadtime.waiting_cool": "Attente d'une baisse de température",
+      "status.deadtime.heating": "Suivi de la réponse montante",
+      "status.deadtime.cooling": "Suivi de la réponse descendante",
+      "metrics.deadtime_waiting_elapsed": "Attente en cours",
+      "notes.model.deadtime": "Les résultats concernent la dernière attente de chaque réponse. Après une coupure, un émetteur lent peut continuer à chauffer : l'attente passive peut durer jusqu'à 12 h. Une interruption indique un changement de puissance avant la détection, pas un défaut du modèle.",
+      "status.deadtime.outcome.detected": "Détecté",
+      "status.deadtime.outcome.timeout": "Délai dépassé",
+      "status.deadtime.outcome.aborted": "Interrompu",
+      "metrics.deadtime_outcome_heat": "Dernière attente de montée",
+      "metrics.deadtime_outcome_cool": "Dernière attente de baisse",
+      "status.integral.unwind_high": "Décharge intégrale à la limite haute",
+      "status.integral.unwind_low": "Décharge intégrale à la limite basse",
+      "status.learning.transient_a": "Stabilisation avant une mesure de A",
+      "status.learning.transient_b": "Stabilisation avant une mesure de B",
+      "notes.command.integral": "L'intégrale corrige les écarts persistants à l'échelle de quelques heures. Sa correction est conservée pendant les reprises tant que la température progresse ; près de la consigne, elle peut se décharger malgré une saturation due au terme proportionnel."
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -409,7 +449,7 @@
       "metrics.b_stability": "B dispersion",
       "metrics.accepted_a": "Accepted A updates",
       "metrics.accepted_b": "Accepted B updates",
-      "metrics.bootstrap_progress": "Bootstrap",
+      "metrics.bootstrap_progress": "Initial sample collection",
       "metrics.bootstrap_a": "A samples",
       "metrics.bootstrap_b": "B samples",
       "metrics.history_a": "A samples",
@@ -650,7 +690,7 @@
       "status.fftrim.quality.valve_segmented_linear": "Linearized valve timeline",
       "status.fftrim.quality.mixed": "Mixed sources",
       "fallback.unknown_code": "Unknown code",
-      "notes.learning": "A measures the command response; B measures thermal losses. Smart PI collects both sample series to make the model reliable.",
+      "notes.learning": "A measures heating gain using estimated delivered power; B measures thermal losses. Smart PI waits for transient responses to settle and for windows to cover enough sensor changes. A can be corrected when B is refined, without a new A measurement.",
       "notes.fftrim.stationary": "The stationary observer aligns thermal measurements with previously applied power while accounting for dead time.",
       "notes.fftrim.periodic": "The periodic observer looks for a complete thermal cycle with a rising and a falling phase. Its target depends on VT cycles and dead time. It uses the same power timeline, keeps its own window and does not transfer integral/trim ownership.",
       "actions.reset_learning": "Reset learning",
@@ -700,7 +740,47 @@
       "graphs.approach.command": "Calculated and applied command",
       "notes.approach.history": "The first graph compares room temperature with the setpoints. The second shows how the thermostat command changes over time.",
       "metrics.ti": "Effective integral time (Ti)",
-      "groups.command.gains": "PI gains"
+      "groups.command.gains": "PI gains",
+      "metrics.learning_stage": "Learning stage",
+      "status.learning.stage.bootstrap": "Initial learning",
+      "status.learning.stage.learning": "Model refinement",
+      "status.learning.stage.monitoring": "Model monitoring",
+      "status.learning.stage.degraded": "Degraded model",
+      "notes.learning.bootstrap": "The gauge tracks sample collection, not completion of initial learning. A can be published from four consistent measurements against a nominal target of six; 100% collection may still wait for the response lag. During this phase, Smart PI regulates between its hysteresis thresholds.",
+      "groups.learning.response_lag": "Response lag",
+      "metrics.response_lag": "Published lag",
+      "metrics.response_estimates": "Retained estimates",
+      "metrics.response_episode_median": "Median active episode duration",
+      "metrics.response_last_reason": "Last active episode",
+      "status.response_lag.estimated": "Estimate retained",
+      "status.response_lag.power_not_constant": "Varying power",
+      "status.response_lag.baseline_unsettled": "Insufficient preceding rest",
+      "status.response_lag.no_outdoor_temperature": "Outdoor temperature missing",
+      "status.response_lag.insufficient_crossings": "Insufficient temperature changes",
+      "status.response_lag.no_baseline_crossing": "Response still insufficient",
+      "status.response_lag.unknown_passive_slope": "Passive slope unknown",
+      "status.response_lag.no_active_response": "Active response not measurable",
+      "status.response_lag.unresolvable_intercept": "Lag cannot be resolved from this episode",
+      "notes.learning.response_lag": "Lag is estimated during constant-power episodes, mainly during initial learning. Slow emitters may need several extra hours. A retained estimate does not yet guarantee a published lag; its absence does not mean learning is blocked.",
+      "groups.model.deadtime_detection": "Dead time detection",
+      "metrics.deadtime_state": "Detector state",
+      "status.deadtime.off": "Idle",
+      "status.deadtime.waiting_heat": "Waiting for a temperature rise",
+      "status.deadtime.waiting_cool": "Waiting for a temperature drop",
+      "status.deadtime.heating": "Tracking the rising response",
+      "status.deadtime.cooling": "Tracking the falling response",
+      "metrics.deadtime_waiting_elapsed": "Current wait",
+      "notes.model.deadtime": "Outcomes describe the last wait for each response. After power stops, a slow emitter may keep warming the room: the passive wait can last up to 12 h. An interruption means power changed before detection, not a model failure.",
+      "status.deadtime.outcome.detected": "Detected",
+      "status.deadtime.outcome.timeout": "Timed out",
+      "status.deadtime.outcome.aborted": "Interrupted",
+      "metrics.deadtime_outcome_heat": "Last rise wait",
+      "metrics.deadtime_outcome_cool": "Last drop wait",
+      "status.integral.unwind_high": "Integral unwind at the upper limit",
+      "status.integral.unwind_low": "Integral unwind at the lower limit",
+      "status.learning.transient_a": "Settling before an A measurement",
+      "status.learning.transient_b": "Settling before a B measurement",
+      "notes.command.integral": "The integral corrects persistent errors over a few hours. Its correction is preserved during recoveries while temperature progresses; near the setpoint, it can unwind despite saturation caused by the proportional term."
     }
   },
   "sections": [
@@ -1034,7 +1114,18 @@
               "source": "diagnostic",
               "path": "live/temperature/integral_mode",
               "align": "center",
-              "map": {},
+              "map": {
+                "I:UNWIND(SAT_HI)": {
+                  "label_key": "status.integral.unwind_high",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "I:UNWIND(SAT_LO)": {
+                  "label_key": "status.integral.unwind_low",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
               "fallback": {
                 "label_key": "fallback.unknown_code",
                 "tone": "muted",
@@ -1535,6 +1626,12 @@
               "unit": "min"
             }
           ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.command.integral",
+          "tone": "info",
+          "icon": "mdi:information-outline"
         },
         {
           "type": "history",
@@ -2254,6 +2351,154 @@
         },
         {
           "type": "layout_grid",
+          "title_key": "groups.model.deadtime_detection",
+          "columns": 1,
+          "items": [
+            {
+              "type": "status",
+              "label_key": "metrics.deadtime_state",
+              "source": "diagnostic",
+              "path": "live/analysis/deadtime/state",
+              "align": "center",
+              "map": {
+                "OFF": {
+                  "label_key": "status.deadtime.off",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "WAITING_HEAT_RESPONSE": {
+                  "label_key": "status.deadtime.waiting_heat",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "WAITING_COOL_RESPONSE": {
+                  "label_key": "status.deadtime.waiting_cool",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "HEATING": {
+                  "label_key": "status.deadtime.heating",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "COOLING": {
+                  "label_key": "status.deadtime.cooling",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "value",
+              "label_key": "metrics.deadtime_waiting_elapsed",
+              "source": "diagnostic",
+              "path": "live/analysis/deadtime/waiting_elapsed_s",
+              "digits": 1,
+              "format": "duration_s",
+              "visible_if": {
+                "or": [
+                  {
+                    "==": [
+                      {
+                        "var": "diagnostic/live/analysis/deadtime/state"
+                      },
+                      "WAITING_HEAT_RESPONSE"
+                    ]
+                  },
+                  {
+                    "==": [
+                      {
+                        "var": "diagnostic/live/analysis/deadtime/state"
+                      },
+                      "WAITING_COOL_RESPONSE"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "layout_grid",
+              "min_width": 140,
+              "stretch_items": false,
+              "items": [
+                {
+                  "type": "status",
+                  "label_key": "metrics.deadtime_outcome_heat",
+                  "source": "diagnostic",
+                  "path": "live/analysis/deadtime/heat_last_outcome",
+                  "align": "center",
+                  "map": {
+                    "detected": {
+                      "label_key": "status.deadtime.outcome.detected",
+                      "tone": "ok",
+                      "icon": "mdi:check-circle-outline"
+                    },
+                    "timeout": {
+                      "label_key": "status.deadtime.outcome.timeout",
+                      "tone": "warning",
+                      "icon": "mdi:timer-alert-outline"
+                    },
+                    "aborted": {
+                      "label_key": "status.deadtime.outcome.aborted",
+                      "tone": "muted",
+                      "icon": "mdi:stop-circle-outline"
+                    }
+                  },
+                  "fallback": {
+                    "label_key": "fallback.unknown_code",
+                    "tone": "muted",
+                    "icon": "mdi:help-circle-outline"
+                  },
+                  "fallback_show_value": true
+                },
+                {
+                  "type": "status",
+                  "label_key": "metrics.deadtime_outcome_cool",
+                  "source": "diagnostic",
+                  "path": "live/analysis/deadtime/cool_last_outcome",
+                  "align": "center",
+                  "map": {
+                    "detected": {
+                      "label_key": "status.deadtime.outcome.detected",
+                      "tone": "ok",
+                      "icon": "mdi:check-circle-outline"
+                    },
+                    "timeout": {
+                      "label_key": "status.deadtime.outcome.timeout",
+                      "tone": "warning",
+                      "icon": "mdi:timer-alert-outline"
+                    },
+                    "aborted": {
+                      "label_key": "status.deadtime.outcome.aborted",
+                      "tone": "muted",
+                      "icon": "mdi:stop-circle-outline"
+                    }
+                  },
+                  "fallback": {
+                    "label_key": "fallback.unknown_code",
+                    "tone": "muted",
+                    "icon": "mdi:help-circle-outline"
+                  },
+                  "fallback_show_value": true
+                }
+              ]
+            },
+            {
+              "type": "section_note",
+              "text_key": "notes.model.deadtime",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
           "title_key": "groups.model.ff3_twin",
           "min_width": 140,
           "stretch_items": false,
@@ -2591,6 +2836,41 @@
           "tone": "info"
         },
         {
+          "type": "status",
+          "label_key": "metrics.learning_stage",
+          "source": "diagnostic",
+          "path": "live/learning/stage",
+          "align": "center",
+          "map": {
+            "bootstrap": {
+              "label_key": "status.learning.stage.bootstrap",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "learning": {
+              "label_key": "status.learning.stage.learning",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "monitoring": {
+              "label_key": "status.learning.stage.monitoring",
+              "tone": "ok",
+              "icon": "mdi:information-outline"
+            },
+            "degraded": {
+              "label_key": "status.learning.stage.degraded",
+              "tone": "warning",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true
+        },
+        {
           "type": "progress",
           "label_key": "metrics.bootstrap_progress",
           "value": {
@@ -2696,6 +2976,119 @@
                   "bootstrap"
                 ]
               }
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.learning.bootstrap",
+          "tone": "info",
+          "icon": "mdi:information-outline",
+          "visible_if": {
+            "==": [
+              {
+                "var": "diagnostic/live/learning/stage"
+              },
+              "bootstrap"
+            ]
+          }
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.learning.response_lag",
+          "columns": 1,
+          "items": [
+            {
+              "type": "metric_grid",
+              "columns": 3,
+              "metrics": [
+                {
+                  "label_key": "metrics.response_lag",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/response_lag/lag_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.response_estimates",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/response_lag/estimates",
+                  "digits": 0
+                },
+                {
+                  "label_key": "metrics.response_episode_median",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/response_lag/episode_median_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                }
+              ]
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.response_last_reason",
+              "source": "diagnostic",
+              "path": "live/analysis/learning/response_lag/last_reason",
+              "align": "center",
+              "map": {
+                "estimated": {
+                  "label_key": "status.response_lag.estimated",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "power not constant": {
+                  "label_key": "status.response_lag.power_not_constant",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "passive baseline not settled": {
+                  "label_key": "status.response_lag.baseline_unsettled",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "no outdoor temperature": {
+                  "label_key": "status.response_lag.no_outdoor_temperature",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "late crossings insufficient": {
+                  "label_key": "status.response_lag.insufficient_crossings",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "no baseline crossing": {
+                  "label_key": "status.response_lag.no_baseline_crossing",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "passive slope unknown": {
+                  "label_key": "status.response_lag.unknown_passive_slope",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "no active response": {
+                  "label_key": "status.response_lag.no_active_response",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "intercept not resolvable": {
+                  "label_key": "status.response_lag.unresolvable_intercept",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "section_note",
+              "text_key": "notes.learning.response_lag",
+              "tone": "info",
+              "icon": "mdi:information-outline"
             }
           ]
         },
@@ -2865,7 +3258,18 @@
               "source": "diagnostic",
               "path": "live/learning/last_reason",
               "align": "center",
-              "map": {},
+              "map": {
+                "skip: response transient (a)": {
+                  "label_key": "status.learning.transient_a",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "skip: response transient (b)": {
+                  "label_key": "status.learning.transient_b",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
               "fallback": {
                 "label_key": "fallback.unknown_code",
                 "tone": "muted",
@@ -4137,7 +4541,18 @@
               "label_key": "metrics.integral_mode",
               "source": "diagnostic",
               "path": "live/temperature/integral_mode",
-              "map": {},
+              "map": {
+                "I:UNWIND(SAT_HI)": {
+                  "label_key": "status.integral.unwind_high",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "I:UNWIND(SAT_LO)": {
+                  "label_key": "status.integral.unwind_low",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
               "fallback": {
                 "label_key": "fallback.unknown_code",
                 "tone": "muted",

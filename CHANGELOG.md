@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.4-dev
+
+- Adapt the SmartPI dashboard to 0.6.0-rc.1: show response lag estimates, dead time detection waits and outcomes, and translated integral unwind modes. Clarify initial sample collection, early model publication, and the published learning stage while preserving the eight historical series.
+
 ## 0.4.3
 
 - update ha-better-history to 0.5.0

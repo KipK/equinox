@@ -42,6 +42,7 @@ function* walk(value) {
 const nodes = [...walk(dashboard.sections)];
 const approach = [...walk(section("anticipation"))];
 const byPath = (path) => approach.find((entry) => entry.path === path);
+const sectionPath = (id, path) => [...walk(section(id))].find((entry) => entry.path === path);
 
 function assertPublished(path) {
   assert.ok(publishedPaths.has(path), `Unpublished SmartPI diagnostic path: ${path}`);
@@ -208,6 +209,143 @@ test("PI gains display the published Ti in minutes and keep unavailable values a
   const supplied = renderer({ control: { kp: 0.3, ki: 0.01, ti_min: 27.5 } });
   assert.equal(supplied._formatSourceValue(ti), "27.5 min");
   for (const live of [undefined, {}, { control: { kp: 0.3, ki: 0, ti_min: null } }, { control: { kp: 0.3, ki: -0.01, ti_min: null } }]) assert.equal(renderer(live)._formatSourceValue(ti), "--");
+});
+
+test("response lag displays published durations and retained estimates in HEAT and COOL", () => {
+  const base = "live/analysis/learning/response_lag/";
+  for (const mode of ["heat", "cool"]) {
+    const view = renderer({ analysis: { learning: { response_lag: {
+      lag_s: 5400, estimates: 3, episode_median_s: 7200, last_reason: "estimated"
+    } } } }, mode);
+    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}lag_s`)), "1.5h");
+    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}estimates`)), "3");
+    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}episode_median_s`)), "2h");
+    assert.match(templateText(view._renderStatus(sectionPath("learning", `${base}last_reason`))), /Estimate retained/);
+  }
+});
+
+test("an accepted lag estimate does not imply a published lag or completed learning", () => {
+  const view = renderer({ learning: { stage: "bootstrap", bootstrap_progress_percent: 100 }, analysis: { learning: {
+    response_lag: { lag_s: null, estimates: 7, episode_median_s: null, last_reason: "estimated" }
+  } } });
+  const stage = sectionPath("learning", "live/learning/stage");
+  assert.match(templateText(view._renderStatus(stage)), /Initial learning/);
+  assert.equal(view._formatSourceValue(sectionPath("learning", "live/analysis/learning/response_lag/lag_s")), "--");
+  const progress = section("learning").items.find((item) => item.type === "progress");
+  assert.match(templateText(view._renderItem(progress)), /100%/);
+  assert.equal(view._conditionMatches(progress.visible_if), true);
+  const note = section("learning").items.find((item) => item.text_key === "notes.learning.bootstrap");
+  assert.match(templateText(view._renderItem(note)), /100% collection may still wait/);
+});
+
+test("initial sample targets remain published values and early A publication follows the stage", () => {
+  const view = renderer({ learning: {
+    stage: "bootstrap", emea_samples_a: 4, emea_samples_b: 4, bootstrap_target_a: 6,
+    bootstrap_target_b: 4, accepted_updates_a: 0, bootstrap_progress_percent: 80
+  } });
+  const gauges = [...walk(section("learning"))].filter((item) => item.type === "progress");
+  const a = gauges.find((item) => item.target?.path === "live/learning/bootstrap_target_a");
+  const b = gauges.find((item) => item.target?.path === "live/learning/bootstrap_target_b");
+  assert.match(templateText(view._renderItem(a)), /67%/);
+  assert.match(templateText(view._renderItem(b)), /100%/);
+  view.hass.states["sensor.diag"].attributes.live.learning.stage = "learning";
+  view.hass.states["sensor.diag"].attributes.live.learning.accepted_updates_a = 1;
+  assert.equal(templateText(view._renderItem(a)), "");
+  assert.equal(templateText(view._renderItem(b)), "");
+  assert.match(templateText(view._renderStatus(sectionPath("learning", "live/learning/stage"))), /Model refinement/);
+  const note = section("learning").items.find((item) => item.text_key === "notes.learning.bootstrap");
+  assert.equal(templateText(view._renderItem(note)), "");
+});
+
+test("dead time waiting age follows detector state and retained outcomes stay separate", () => {
+  const age = sectionPath("model", "live/analysis/deadtime/waiting_elapsed_s");
+  const state = sectionPath("model", "live/analysis/deadtime/state");
+  for (const mode of ["heat", "cool"]) {
+    for (const [code, expected] of [["WAITING_HEAT_RESPONSE", "Waiting for a temperature rise"], ["WAITING_COOL_RESPONSE", "Waiting for a temperature drop"]]) {
+      const view = renderer({ analysis: { deadtime: {
+        state: code, waiting_elapsed_s: 43200, heat_last_outcome: "detected", cool_last_outcome: "aborted"
+      } } }, mode);
+      assert.match(templateText(view._renderStatus(state)), new RegExp(expected));
+      assert.equal(view._formatSourceValue(age), "12h");
+      assert.match(templateText(view._renderItem(age)), /12h/);
+      assert.match(templateText(view._renderStatus(sectionPath("model", "live/analysis/deadtime/heat_last_outcome"))), /Detected/);
+      assert.match(templateText(view._renderStatus(sectionPath("model", "live/analysis/deadtime/cool_last_outcome"))), /Interrupted/);
+    }
+    for (const code of ["OFF", "HEATING", "COOLING", "future_state"]) {
+      const view = renderer({ analysis: { deadtime: { state: code, waiting_elapsed_s: 43200 } } }, mode);
+      assert.equal(templateText(view._renderItem(age)), "");
+    }
+  }
+});
+
+test("dead time outcomes distinguish timeout and interruption from a model failure", () => {
+  for (const channel of ["heat", "cool"]) {
+    const item = sectionPath("model", `live/analysis/deadtime/${channel}_last_outcome`);
+    for (const [outcome, label, tone] of [["detected", "Detected", "ok"], ["timeout", "Timed out", "warning"], ["aborted", "Interrupted", "muted"]]) {
+      const view = renderer({ analysis: { deadtime: { [`${channel}_last_outcome`]: outcome } } });
+      const rendered = templateText(view._renderStatus(item));
+      assert.match(rendered, new RegExp(label));
+      assert.match(rendered, new RegExp(`tone="?${tone}"?`));
+      assert.doesNotMatch(rendered, /tone="?danger"?/);
+    }
+  }
+});
+
+test("SmartPI 0.5 diagnostics and null response values remain absent, while zero remains valid", () => {
+  const lag = sectionPath("learning", "live/analysis/learning/response_lag/lag_s");
+  const count = sectionPath("learning", "live/analysis/learning/response_lag/estimates");
+  const reason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
+  const outcome = sectionPath("model", "live/analysis/deadtime/cool_last_outcome");
+  for (const live of [undefined, {}, { analysis: { deadtime: { state: "OFF" } } }, {
+    analysis: { learning: { response_lag: { lag_s: null, estimates: null, last_reason: null } }, deadtime: { cool_last_outcome: null } }
+  }]) {
+    const view = renderer(live);
+    assert.equal(view._formatSourceValue(lag), "--");
+    assert.equal(view._formatSourceValue(count), "--");
+    for (const item of [reason, outcome]) {
+      const rendered = templateText(view._renderStatus(item));
+      assert.match(rendered, /--/);
+      assert.match(rendered, /tone="?muted"?/);
+      assert.doesNotMatch(rendered, /Estimate retained|Detected|Timed out/);
+    }
+  }
+  const view = renderer({ analysis: { learning: { response_lag: { lag_s: 0, estimates: 0 } },
+    deadtime: { state: "WAITING_HEAT_RESPONSE", waiting_elapsed_s: 0 } } });
+  assert.equal(view._formatSourceValue(lag), "0s");
+  assert.equal(view._formatSourceValue(count), "0");
+  assert.match(templateText(view._renderItem(sectionPath("model", "live/analysis/deadtime/waiting_elapsed_s"))), /0s/);
+});
+
+test("new response reasons, learning waits and integral unwind modes translate with neutral future fallbacks", () => {
+  const lagReason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
+  const lastReason = sectionPath("learning", "live/learning/last_reason");
+  for (const [code, label] of [["late crossings insufficient", "Insufficient temperature changes"], ["intercept not resolvable", "Lag cannot be resolved from this episode"]]) {
+    const view = renderer({ analysis: { learning: { response_lag: { last_reason: code } } } });
+    assert.match(templateText(view._renderStatus(lagReason)), new RegExp(label));
+  }
+  for (const param of ["a", "b"]) {
+    const view = renderer({ learning: { last_reason: `skip: response transient (${param})` } });
+    assert.match(templateText(view._renderStatus(lastReason)), new RegExp(`Settling before a${param === "a" ? "n" : ""} ${param.toUpperCase()} measurement`));
+  }
+  const integral = ["overview", "health"].map((id) => sectionPath(id, "live/temperature/integral_mode"));
+  for (const [code, label] of [["I:UNWIND(SAT_HI)", "Integral unwind at the upper limit"], ["I:UNWIND(SAT_LO)", "Integral unwind at the lower limit"]]) {
+    const view = renderer({ temperature: { integral_mode: code } });
+    for (const item of integral) {
+      assert.match(templateText(view._renderStatus(item)), new RegExp(label));
+      view.language = "fr";
+      assert.match(templateText(view._renderStatus(item)), /Décharge intégrale/);
+      view.language = "en";
+    }
+  }
+  const future = renderer({ temperature: { integral_mode: "future_integral" }, learning: { last_reason: "future_learning", stage: "future_stage" },
+    analysis: { learning: { response_lag: { last_reason: "future_lag" } }, deadtime: { state: "future_state", cool_last_outcome: "future_outcome" } } });
+  for (const item of [...integral, lastReason, lagReason, sectionPath("learning", "live/learning/stage"),
+    sectionPath("model", "live/analysis/deadtime/state"), sectionPath("model", "live/analysis/deadtime/cool_last_outcome")]) {
+    const rendered = templateText(future._renderStatus(item));
+    assert.match(rendered, /future_/);
+    assert.match(rendered, /tone="?muted"?/);
+    assert.doesNotMatch(rendered, /tone="?warning"?|tone="?danger"?/);
+  }
 });
 
 test("history retains exactly eight published diagnostic paths and separate compact approach graphs", () => {
