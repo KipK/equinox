@@ -225,36 +225,103 @@ test("response lag displays published durations and retained estimates in HEAT a
 });
 
 test("an accepted lag estimate does not imply a published lag or completed learning", () => {
-  const view = renderer({ learning: { stage: "bootstrap", bootstrap_progress_percent: 100 }, analysis: { learning: {
+  const view = renderer({ learning: { stage: "bootstrap", bootstrap_progress_percent: 100,
+    emea_samples_a: 5, emea_samples_b: 5, bootstrap_target_a: 5, bootstrap_target_b: 5 }, analysis: { learning: {
     response_lag: { lag_s: null, estimates: 7, episode_median_s: null, last_reason: "estimated" }
   } } });
   const stage = sectionPath("learning", "live/learning/stage");
   assert.match(templateText(view._renderStatus(stage)), /Initial learning/);
   assert.equal(view._formatSourceValue(sectionPath("learning", "live/analysis/learning/response_lag/lag_s")), "--");
-  const progress = section("learning").items.find((item) => item.type === "progress");
-  assert.match(templateText(view._renderItem(progress)), /100%/);
-  assert.equal(view._conditionMatches(progress.visible_if), true);
+  assert.ok(!nodes.some((item) => item.path === "live/learning/bootstrap_progress_percent"));
+  const gauges = [...walk(section("learning"))].filter((item) => item.target?.path?.startsWith("live/learning/bootstrap_target_"));
+  for (const gauge of gauges) assert.match(templateText(view._renderItem(gauge)), /100%/);
   const note = section("learning").items.find((item) => item.text_key === "notes.learning.bootstrap");
-  assert.match(templateText(view._renderItem(note)), /100% collection may still wait/);
+  assert.match(templateText(view._renderItem(note)), /Reaching a target does not guarantee validation/);
+  assert.match(templateText(view._renderItem(note)), /additional measurements/);
 });
 
 test("initial sample targets remain published values and early A publication follows the stage", () => {
-  const view = renderer({ learning: {
-    stage: "bootstrap", emea_samples_a: 4, emea_samples_b: 4, bootstrap_target_a: 6,
-    bootstrap_target_b: 4, accepted_updates_a: 0, bootstrap_progress_percent: 80
-  } });
-  const gauges = [...walk(section("learning"))].filter((item) => item.type === "progress");
-  const a = gauges.find((item) => item.target?.path === "live/learning/bootstrap_target_a");
-  const b = gauges.find((item) => item.target?.path === "live/learning/bootstrap_target_b");
-  assert.match(templateText(view._renderItem(a)), /67%/);
-  assert.match(templateText(view._renderItem(b)), /100%/);
-  view.hass.states["sensor.diag"].attributes.live.learning.stage = "learning";
-  view.hass.states["sensor.diag"].attributes.live.learning.accepted_updates_a = 1;
-  assert.equal(templateText(view._renderItem(a)), "");
-  assert.equal(templateText(view._renderItem(b)), "");
-  assert.match(templateText(view._renderStatus(sectionPath("learning", "live/learning/stage"))), /Model refinement/);
-  const note = section("learning").items.find((item) => item.text_key === "notes.learning.bootstrap");
-  assert.equal(templateText(view._renderItem(note)), "");
+  for (const [targetA, targetB, expectedA] of [[5, 5, "80%"], [6, 4, "67%"]]) {
+    const view = renderer({ learning: {
+      stage: "bootstrap", emea_samples_a: 4, emea_samples_b: targetB, bootstrap_target_a: targetA,
+      bootstrap_target_b: targetB, accepted_updates_a: 0, bootstrap_progress_percent: 80
+    } });
+    const gauges = [...walk(section("learning"))].filter((item) => item.type === "progress");
+    const a = gauges.find((item) => item.target?.path === "live/learning/bootstrap_target_a");
+    const b = gauges.find((item) => item.target?.path === "live/learning/bootstrap_target_b");
+    assert.ok(templateText(view._renderItem(a)).includes(expectedA));
+    assert.match(templateText(view._renderItem(b)), /100%/);
+    view.hass.states["sensor.diag"].attributes.live.learning.stage = "learning";
+    view.hass.states["sensor.diag"].attributes.live.learning.accepted_updates_a = 1;
+    assert.equal(templateText(view._renderItem(a)), "");
+    assert.equal(templateText(view._renderItem(b)), "");
+    assert.match(templateText(view._renderStatus(sectionPath("learning", "live/learning/stage"))), /Model refinement/);
+    const note = section("learning").items.find((item) => item.text_key === "notes.learning.bootstrap");
+    assert.equal(templateText(view._renderItem(note)), "");
+  }
+});
+
+test("initial collection keeps unknown targets absent and accepts a zero count", () => {
+  const gauges = [...walk(section("learning"))].filter((item) => item.target?.path?.startsWith("live/learning/bootstrap_target_"));
+  for (const target of [undefined, null]) {
+    const view = renderer({ learning: { stage: "bootstrap", emea_samples_a: 4, emea_samples_b: 5,
+      bootstrap_target_a: target, bootstrap_target_b: target } });
+    for (const gauge of gauges) assert.match(templateText(view._renderItem(gauge)), /class="value">--/);
+  }
+  const view = renderer({ learning: { stage: "bootstrap", emea_samples_a: 0, emea_samples_b: 0,
+    bootstrap_target_a: 5, bootstrap_target_b: 5 } });
+  for (const gauge of gauges) assert.match(templateText(view._renderItem(gauge)), /class="value">0%/);
+});
+
+test("missing response delay explains uncertainty without inventing an observation or fallback state", () => {
+  const note = [...walk(section("learning"))].find((item) => item.text_key === "notes.learning.response_lag_missing");
+  for (const language of ["en", "fr"]) {
+    for (const lag of [undefined, null, 0, 5400]) {
+      const view = renderer({ analysis: { learning: { response_lag: { lag_s: lag } } } });
+      view.language = language;
+      const text = templateText(view._renderItem(note));
+      if (lag === undefined || lag === null) {
+        assert.match(text, language === "fr" ? /ne permet pas de savoir/ : /does not tell us whether/);
+        assert.doesNotMatch(text, /7|fallback|repli/);
+      } else assert.equal(text, "");
+    }
+    const view = renderer({});
+    view.language = language;
+    assert.notEqual(templateText(view._renderItem(note)), "");
+  }
+});
+
+test("paused learning preserves collection and does not imply a pause when the flag is absent", () => {
+  const note = section("learning").items.find((item) => item.text_key === "notes.learning.paused");
+  const status = sectionPath("learning", "live/learning/enabled");
+  for (const flag of [false, true, undefined, null]) {
+    const view = renderer({ learning: { enabled: flag, stage: "bootstrap", emea_samples_a: 4, bootstrap_target_a: 5 } });
+    assert.equal(templateText(view._renderItem(note)) !== "", flag === false);
+    if (flag === false) {
+      assert.match(templateText(view._renderStatus(status)), /Paused/);
+      const gauge = [...walk(section("learning"))].find((item) => item.target?.path === "live/learning/bootstrap_target_a");
+      assert.match(templateText(view._renderItem(gauge)), /80%/);
+      view.language = "fr";
+      assert.match(templateText(view._renderItem(note)), /en pause/);
+    } else if (flag === undefined || flag === null) {
+      assert.match(templateText(view._renderStatus(status)), /--/);
+      assert.doesNotMatch(templateText(view._renderStatus(status)), /Enabled|Paused/);
+    }
+  }
+});
+
+test("thermal protection cut explains forced heating shutdown in both sections and languages", () => {
+  for (const language of ["en", "fr"]) {
+    const view = renderer({ temperature: { integral_mode: "I:OVERRIDE(guard_cut)" } });
+    view.language = language;
+    for (const id of ["overview", "health"]) {
+      const rendered = templateText(view._renderStatus(sectionPath(id, "live/temperature/integral_mode")));
+      assert.match(rendered, language === "fr" ? /Coupure de protection thermique/ : /Thermal protection cut/);
+      assert.match(rendered, language === "fr" ? /correction déjà apprise est conservée/ : /learned correction is preserved/);
+      assert.match(rendered, /tone="?warning"?/);
+      assert.doesNotMatch(rendered, /I:OVERRIDE/);
+    }
+  }
 });
 
 test("dead time waiting age follows detector state and retained outcomes stay separate", () => {
@@ -319,7 +386,7 @@ test("SmartPI 0.5 diagnostics and null response values remain absent, while zero
 test("new response reasons, learning waits and integral unwind modes translate with neutral future fallbacks", () => {
   const lagReason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
   const lastReason = sectionPath("learning", "live/learning/last_reason");
-  for (const [code, label] of [["late crossings insufficient", "Insufficient temperature changes"], ["intercept not resolvable", "Lag cannot be resolved from this episode"]]) {
+  for (const [code, label] of [["late crossings insufficient", "Insufficient temperature changes"], ["intercept not resolvable", "Delay cannot be determined from this phase"]]) {
     const view = renderer({ analysis: { learning: { response_lag: { last_reason: code } } } });
     assert.match(templateText(view._renderStatus(lagReason)), new RegExp(label));
   }

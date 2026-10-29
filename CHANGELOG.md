@@ -4,7 +4,9 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.4-dev
 
-- Adapt the SmartPI dashboard to 0.6.0-rc.1: show response lag estimates, dead time detection waits and outcomes, and translated integral unwind modes. Clarify initial sample collection, early model publication, and the published learning stage while preserving the eight historical series.
+- Keep A and B dispersion indicators side by side in Model and prediction, with wrapping on narrow screens.
+- Show SmartPI response delay estimates, dead time detection waits and outcomes, and translated integral unwind modes while preserving the eight historical series.
+- Clarify initial learning with explained response/loss measurements, collection bars using the thermostat's targets, and nearby response-delay information. Remove the overall completion percentage, explain unavailable delays and paused collection, and translate thermal protection cuts in Overview and Protections.
 
 ## 0.4.3
 

@@ -8,7 +8,7 @@
       "sections.overview.title": "Synthèse",
       "sections.overview.summary": "Température, consigne et commande Smart PI.",
       "sections.learning.title": "Apprentissage",
-      "sections.learning.summary": "Collecte des échantillons A/B du modèle thermique.",
+      "sections.learning.summary": "Mesures de la réponse de l'installation et des pertes thermiques.",
       "sections.model.title": "Modèle et prévision",
       "sections.model.summary": "Modèle A/B, fiabilité, temps de réponse et correction prédictive FF3.",
       "sections.command.title": "Commande",
@@ -22,13 +22,13 @@
       "sections.actions.title": "Actions",
       "sections.actions.summary": "Actions de maintenance de l'apprentissage et de la régulation.",
       "hero.overview.title": "Smart PI pilote la régulation",
-      "hero.overview.bootstrap": "Smart PI collecte les premiers échantillons et régule provisoirement en hystérésis.",
+      "hero.overview.bootstrap": "L'installation collecte ses premières mesures. Elle chauffe ou refroidit entre les seuils de température configurés pendant cet apprentissage.",
       "hero.overview.calibration": "Une calibration est en cours pour recaler le comportement thermique.",
       "hero.overview.degraded": "La régulation limite l'adaptation car le modèle manque de fiabilité.",
       "hero.overview.diagnostic_missing.title": "Diagnostics indisponibles",
       "hero.overview.diagnostic_missing": "L'entité de diagnostic Smart PI n'est pas disponible.",
-      "hero.learning.title": "Apprentissage A/B",
-      "hero.learning.subtitle": "État de la collecte des échantillons A/B du modèle thermique.",
+      "hero.learning.title": "Apprentissage de l'installation",
+      "hero.learning.subtitle": "Suivi des mesures collectées et du délai de réaction de l'installation.",
       "hero.model.title": "Modèle et prévision thermique",
       "hero.model.subtitle": "A/B et retards alimentent la prévision ; FF3 peut corriger la puissance selon le contexte.",
       "hero.health.title": "Surveillance active",
@@ -60,17 +60,15 @@
       "metrics.b_stability": "Dispersion B",
       "metrics.accepted_a": "Mises à jour A acceptées",
       "metrics.accepted_b": "Mises à jour B acceptées",
-      "metrics.bootstrap_progress": "Collecte initiale",
-      "metrics.bootstrap_a": "Échantillons A",
-      "metrics.bootstrap_b": "Échantillons B",
-      "metrics.history_a": "Échantillons A",
-      "metrics.history_b": "Échantillons B",
+      "metrics.bootstrap_a": "Mesures de réponse (A)",
+      "metrics.bootstrap_b": "Mesures de pertes (B)",
+      "metrics.history_a": "Mesures de réponse (A)",
+      "metrics.history_b": "Mesures de pertes (B)",
       "metrics.learning_enabled": "Apprentissage thermique",
       "metrics.a_drift": "Dérive A",
       "metrics.b_drift": "Dérive B",
       "metrics.learn_b_converged": "B convergé",
       "metrics.learning_last_reason": "Dernière raison",
-      "metrics.bootstrap_status": "État bootstrap",
       "metrics.confidence": "Confiance modèle",
       "metrics.reliability": "Fiabilité",
       "metrics.tau_reliable": "Tau",
@@ -176,12 +174,12 @@
       "status.drift.DRIFT_SUSPECTED": "Dérive suspectée",
       "status.drift.RECENTERING": "Recentrement en cours",
       "status.confidence.ab_ok": "Modèle fiable",
-      "status.confidence.ab_bootstrap": "Bootstrap du modèle",
+      "status.confidence.ab_bootstrap": "Apprentissage initial du modèle",
       "status.confidence.ab_degraded": "Modèle partiel",
       "status.confidence.ab_bad": "Modèle insuffisant",
       "status.confidence.unknown": "Confiance inconnue",
       "status.confidence.ab_ok.description": "Les échantillons A et B sont suffisamment cohérents pour utiliser le modèle normalement.",
-      "status.confidence.ab_bootstrap.description": "Smart PI collecte encore les échantillons de bootstrap ; le modèle n'est pas encore prêt.",
+      "status.confidence.ab_bootstrap.description": "Les mesures de l'installation sont encore en cours de collecte ou de validation.",
       "status.confidence.ab_degraded.description": "Une partie du modèle est exploitable, mais la régulation reste prudente.",
       "status.confidence.ab_bad.description": "Le modèle n'est pas assez fiable ; Smart PI limite ou évite son influence.",
       "status.confidence.unknown.description": "Le niveau de confiance n'est pas encore publié par le diagnostic.",
@@ -301,11 +299,11 @@
       "status.fftrim.quality.valve_segmented_linear": "Timeline de vanne linéarisée",
       "status.fftrim.quality.mixed": "Sources mixtes",
       "fallback.unknown_code": "Code inconnu",
-      "notes.learning": "A mesure le gain thermique à partir de la puissance délivrée estimée ; B mesure les pertes thermiques. Smart PI attend que les réponses transitoires se dissipent et que les fenêtres couvrent assez de variations du capteur. A peut être corrigé lorsque B est affiné, sans nouvelle mesure de A.",
+      "notes.learning": "A décrit l'effet du chauffage ou du refroidissement sur la température ; B décrit les échanges thermiques avec l'extérieur. Les mesures attendent une réponse stabilisée et des variations de température suffisantes. A peut être ajusté lorsque B est affiné, sans nouvelle mesure de réponse.",
       "notes.fftrim.stationary": "L'observateur stationnaire aligne les mesures thermiques sur la puissance déjà appliquée en tenant compte du temps mort.",
       "notes.fftrim.periodic": "L'observateur périodique recherche un cycle thermique complet, avec une phase de montée et une phase de descente. Sa cible dépend des cycles VT et du temps mort. Il utilise la même chronologie de puissance, garde sa propre fenêtre et ne transfère pas la propriété intégrale/trim.",
       "actions.reset_learning": "Réinitialiser l'apprentissage",
-      "actions.reset_learning.confirm": "Smart PI va effacer son apprentissage et revenir en bootstrap.",
+      "actions.reset_learning.confirm": "Smart PI va effacer les mesures apprises et recommencer l'apprentissage initial de l'installation.",
       "actions.pause_learning": "Mettre l'apprentissage en pause",
       "actions.pause_learning.confirm": "Smart PI continuera à réguler avec le modèle actuel, mais cessera de collecter des observations thermiques et des mesures de temps mort.",
       "actions.resume_learning": "Reprendre l'apprentissage",
@@ -357,12 +355,12 @@
       "status.learning.stage.learning": "Enrichissement du modèle",
       "status.learning.stage.monitoring": "Surveillance du modèle",
       "status.learning.stage.degraded": "Modèle dégradé",
-      "notes.learning.bootstrap": "La jauge suit la collecte, pas la fin de l'apprentissage initial. A peut être publié dès quatre mesures cohérentes sur un objectif nominal de six ; une collecte à 100 % peut encore attendre le retard de réponse. Pendant cette phase, Smart PI régule entre ses seuils d'hystérésis.",
-      "groups.learning.response_lag": "Retard de réponse",
-      "metrics.response_lag": "Retard publié",
+      "notes.learning.bootstrap": "Les barres comptent les mesures collectées, pas la progression totale de l'apprentissage. Atteindre un objectif ne garantit pas leur validation : les mesures de réponse peuvent encore attendre l'estimation du délai de réaction, puis être réévaluées. L'apprentissage peut donc continuer ou demander des mesures supplémentaires.",
+      "groups.learning.response_lag": "Délai de réaction de l'installation",
+      "metrics.response_lag": "Délai estimé",
       "metrics.response_estimates": "Estimations conservées",
-      "metrics.response_episode_median": "Durée médiane des épisodes actifs",
-      "metrics.response_last_reason": "Dernier épisode actif",
+      "metrics.response_episode_median": "Durée médiane des phases actives",
+      "metrics.response_last_reason": "Dernière phase active",
       "status.response_lag.estimated": "Estimation retenue",
       "status.response_lag.power_not_constant": "Puissance variable",
       "status.response_lag.baseline_unsettled": "Repos préalable insuffisant",
@@ -371,8 +369,8 @@
       "status.response_lag.no_baseline_crossing": "Réponse encore insuffisante",
       "status.response_lag.unknown_passive_slope": "Pente passive inconnue",
       "status.response_lag.no_active_response": "Réponse active non mesurable",
-      "status.response_lag.unresolvable_intercept": "Retard non déterminable sur cet épisode",
-      "notes.learning.response_lag": "Le retard est estimé pendant les épisodes à puissance constante, surtout lors de l'apprentissage initial. Les émetteurs lents peuvent demander plusieurs heures supplémentaires. Une estimation retenue ne garantit pas encore un retard publié ; son absence ne signifie pas que l'apprentissage est bloqué.",
+      "status.response_lag.unresolvable_intercept": "Délai non déterminable sur cette phase",
+      "notes.learning.response_lag": "Ce délai décrit le temps de réaction de l'ensemble de l'installation, y compris l'émetteur et la sonde. Il est estimé pendant les phases à puissance constante. Une estimation retenue ne suffit pas à valider le délai ; une installation lente peut demander plusieurs heures d'observation.",
       "groups.model.deadtime_detection": "Détection des temps morts",
       "metrics.deadtime_state": "État du détecteur",
       "status.deadtime.off": "Au repos",
@@ -391,13 +389,17 @@
       "status.integral.unwind_low": "Décharge intégrale à la limite basse",
       "status.learning.transient_a": "Stabilisation avant une mesure de A",
       "status.learning.transient_b": "Stabilisation avant une mesure de B",
-      "notes.command.integral": "L'intégrale corrige les écarts persistants à l'échelle de quelques heures. Sa correction est conservée pendant les reprises tant que la température progresse ; près de la consigne, elle peut se décharger malgré une saturation due au terme proportionnel."
+      "notes.command.integral": "L'intégrale corrige les écarts persistants à l'échelle de quelques heures. Sa correction est conservée pendant les reprises tant que la température progresse ; près de la consigne, elle peut se décharger malgré une saturation due au terme proportionnel.",
+      "notes.learning.response_lag_missing": "Délai de réaction non disponible. Cette information ne permet pas de savoir si son estimation est encore en cours ; son absence ne signifie pas que l'apprentissage est bloqué.",
+      "notes.learning.paused": "L'apprentissage est en pause. La régulation utilise le modèle actuel ; la collecte reprendra lorsque l'apprentissage sera réactivé.",
+      "status.integral.guard_cut": "Coupure de protection thermique",
+      "status.integral.guard_cut.description": "Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; la correction déjà apprise est conservée."
     },
     "en": {
       "sections.overview.title": "Overview",
       "sections.overview.summary": "Smart PI temperature, setpoint and command.",
       "sections.learning.title": "Learning",
-      "sections.learning.summary": "A/B thermal model sample collection.",
+      "sections.learning.summary": "Measurements of system response and thermal losses.",
       "sections.model.title": "Model and prediction",
       "sections.model.summary": "A/B model, reliability, response times and FF3 prediction correction.",
       "sections.command.title": "Command",
@@ -411,13 +413,13 @@
       "sections.actions.title": "Actions",
       "sections.actions.summary": "Learning and regulation maintenance actions.",
       "hero.overview.title": "Smart PI regulation",
-      "hero.overview.bootstrap": "Smart PI is collecting the first samples and temporarily regulating with hysteresis.",
+      "hero.overview.bootstrap": "The system is collecting its first measurements. It heats or cools between the configured temperature thresholds during this learning period.",
       "hero.overview.calibration": "Calibration is running to realign the thermal behavior.",
       "hero.overview.degraded": "Regulation limits adaptation because the model is unreliable.",
       "hero.overview.diagnostic_missing.title": "Diagnostics unavailable",
       "hero.overview.diagnostic_missing": "The Smart PI diagnostics entity is unavailable.",
-      "hero.learning.title": "A/B learning",
-      "hero.learning.subtitle": "Sample collection state for the A/B thermal model.",
+      "hero.learning.title": "Learning how the system responds",
+      "hero.learning.subtitle": "Collected measurements and system response delay.",
       "hero.model.title": "Thermal model and prediction",
       "hero.model.subtitle": "A/B and delays inform the forecast; FF3 may correct power according to context.",
       "hero.health.title": "Active supervision",
@@ -449,17 +451,15 @@
       "metrics.b_stability": "B dispersion",
       "metrics.accepted_a": "Accepted A updates",
       "metrics.accepted_b": "Accepted B updates",
-      "metrics.bootstrap_progress": "Initial sample collection",
-      "metrics.bootstrap_a": "A samples",
-      "metrics.bootstrap_b": "B samples",
-      "metrics.history_a": "A samples",
-      "metrics.history_b": "B samples",
+      "metrics.bootstrap_a": "Response measurements (A)",
+      "metrics.bootstrap_b": "Loss measurements (B)",
+      "metrics.history_a": "Response measurements (A)",
+      "metrics.history_b": "Loss measurements (B)",
       "metrics.learning_enabled": "Thermal learning",
       "metrics.a_drift": "A drift",
       "metrics.b_drift": "B drift",
       "metrics.learn_b_converged": "B converged",
       "metrics.learning_last_reason": "Latest reason",
-      "metrics.bootstrap_status": "Bootstrap state",
       "metrics.confidence": "Model confidence",
       "metrics.reliability": "Reliability",
       "metrics.tau_reliable": "Tau",
@@ -565,12 +565,12 @@
       "status.drift.DRIFT_SUSPECTED": "Drift suspected",
       "status.drift.RECENTERING": "Recentering in progress",
       "status.confidence.ab_ok": "Reliable model",
-      "status.confidence.ab_bootstrap": "Model bootstrap",
+      "status.confidence.ab_bootstrap": "Initial model learning",
       "status.confidence.ab_degraded": "Partial model",
       "status.confidence.ab_bad": "Insufficient model",
       "status.confidence.unknown": "Unknown confidence",
       "status.confidence.ab_ok.description": "A and B samples are coherent enough to use the model normally.",
-      "status.confidence.ab_bootstrap.description": "Smart PI is still collecting bootstrap samples; the model is not ready yet.",
+      "status.confidence.ab_bootstrap.description": "System measurements are still being collected or validated.",
       "status.confidence.ab_degraded.description": "Part of the model is usable, but regulation remains cautious.",
       "status.confidence.ab_bad.description": "The model is not reliable enough; Smart PI limits or avoids its influence.",
       "status.confidence.unknown.description": "The confidence state has not been published by diagnostics yet.",
@@ -690,11 +690,11 @@
       "status.fftrim.quality.valve_segmented_linear": "Linearized valve timeline",
       "status.fftrim.quality.mixed": "Mixed sources",
       "fallback.unknown_code": "Unknown code",
-      "notes.learning": "A measures heating gain using estimated delivered power; B measures thermal losses. Smart PI waits for transient responses to settle and for windows to cover enough sensor changes. A can be corrected when B is refined, without a new A measurement.",
+      "notes.learning": "A describes how heating or cooling changes the temperature; B describes heat exchange with the outdoors. Measurements wait for a settled response and enough temperature variation. A can be adjusted when B is refined, without a new response measurement.",
       "notes.fftrim.stationary": "The stationary observer aligns thermal measurements with previously applied power while accounting for dead time.",
       "notes.fftrim.periodic": "The periodic observer looks for a complete thermal cycle with a rising and a falling phase. Its target depends on VT cycles and dead time. It uses the same power timeline, keeps its own window and does not transfer integral/trim ownership.",
       "actions.reset_learning": "Reset learning",
-      "actions.reset_learning.confirm": "Smart PI will clear learning and return to bootstrap.",
+      "actions.reset_learning.confirm": "Smart PI will clear learned measurements and start initial system learning again.",
       "actions.pause_learning": "Pause learning",
       "actions.pause_learning.confirm": "Smart PI will continue regulating with the current model, but stop collecting thermal and dead-time observations.",
       "actions.resume_learning": "Resume learning",
@@ -746,12 +746,12 @@
       "status.learning.stage.learning": "Model refinement",
       "status.learning.stage.monitoring": "Model monitoring",
       "status.learning.stage.degraded": "Degraded model",
-      "notes.learning.bootstrap": "The gauge tracks sample collection, not completion of initial learning. A can be published from four consistent measurements against a nominal target of six; 100% collection may still wait for the response lag. During this phase, Smart PI regulates between its hysteresis thresholds.",
-      "groups.learning.response_lag": "Response lag",
-      "metrics.response_lag": "Published lag",
+      "notes.learning.bootstrap": "The bars count collected measurements, not overall learning progress. Reaching a target does not guarantee validation: response measurements may still wait for an estimated response delay, then be reassessed. Learning can therefore continue or require additional measurements.",
+      "groups.learning.response_lag": "System response delay",
+      "metrics.response_lag": "Estimated delay",
       "metrics.response_estimates": "Retained estimates",
-      "metrics.response_episode_median": "Median active episode duration",
-      "metrics.response_last_reason": "Last active episode",
+      "metrics.response_episode_median": "Median active phase duration",
+      "metrics.response_last_reason": "Last active phase",
       "status.response_lag.estimated": "Estimate retained",
       "status.response_lag.power_not_constant": "Varying power",
       "status.response_lag.baseline_unsettled": "Insufficient preceding rest",
@@ -760,8 +760,8 @@
       "status.response_lag.no_baseline_crossing": "Response still insufficient",
       "status.response_lag.unknown_passive_slope": "Passive slope unknown",
       "status.response_lag.no_active_response": "Active response not measurable",
-      "status.response_lag.unresolvable_intercept": "Lag cannot be resolved from this episode",
-      "notes.learning.response_lag": "Lag is estimated during constant-power episodes, mainly during initial learning. Slow emitters may need several extra hours. A retained estimate does not yet guarantee a published lag; its absence does not mean learning is blocked.",
+      "status.response_lag.unresolvable_intercept": "Delay cannot be determined from this phase",
+      "notes.learning.response_lag": "This delay describes how long the whole system takes to respond, including the emitter and sensor. It is estimated during constant-power phases. A retained estimate does not validate the delay by itself; a slow system may need several hours of observation.",
       "groups.model.deadtime_detection": "Dead time detection",
       "metrics.deadtime_state": "Detector state",
       "status.deadtime.off": "Idle",
@@ -780,7 +780,11 @@
       "status.integral.unwind_low": "Integral unwind at the lower limit",
       "status.learning.transient_a": "Settling before an A measurement",
       "status.learning.transient_b": "Settling before a B measurement",
-      "notes.command.integral": "The integral corrects persistent errors over a few hours. Its correction is preserved during recoveries while temperature progresses; near the setpoint, it can unwind despite saturation caused by the proportional term."
+      "notes.command.integral": "The integral corrects persistent errors over a few hours. Its correction is preserved during recoveries while temperature progresses; near the setpoint, it can unwind despite saturation caused by the proportional term.",
+      "notes.learning.response_lag_missing": "Response delay unavailable. This does not tell us whether estimation is still in progress; a missing delay does not mean learning is blocked.",
+      "notes.learning.paused": "Learning is paused. Regulation uses the current model; collection will resume when learning is enabled again.",
+      "status.integral.guard_cut": "Thermal protection cut",
+      "status.integral.guard_cut.description": "Heating is off to prevent overheating. It resumes after the temperature falls enough; the previously learned correction is preserved."
     }
   },
   "sections": [
@@ -1124,6 +1128,12 @@
                   "label_key": "status.integral.unwind_low",
                   "tone": "info",
                   "icon": "mdi:information-outline"
+                },
+                "I:OVERRIDE(guard_cut)": {
+                  "label_key": "status.integral.guard_cut",
+                  "tone": "warning",
+                  "icon": "mdi:shield-alert-outline",
+                  "description_key": "status.integral.guard_cut.description"
                 }
               },
               "fallback": {
@@ -2176,96 +2186,96 @@
                   "digits": 0
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 110,
+          "stretch_items": false,
+          "items": [
             {
-              "type": "layout_grid",
-              "min_width": 110,
-              "stretch_items": false,
-              "items": [
+              "type": "status",
+              "label_key": "metrics.a_stability",
+              "source": "diagnostic",
+              "path": "live/model/a_stability_ratio",
+              "map": {},
+              "align": "center",
+              "ranges": [
                 {
-                  "type": "status",
-                  "label_key": "metrics.a_stability",
-                  "source": "diagnostic",
-                  "path": "live/model/a_stability_ratio",
-                  "map": {},
-                  "align": "center",
-                  "ranges": [
-                    {
-                      "max": 0.15,
-                      "label_key": "status.coherence.coherent",
-                      "tone": "ok",
-                      "icon": "mdi:check-circle-outline"
-                    },
-                    {
-                      "min": 0.150000001,
-                      "max": 0.25,
-                      "label_key": "status.coherence.watch",
-                      "tone": "warning",
-                      "icon": "mdi:alert-outline"
-                    },
-                    {
-                      "min": 0.250000001,
-                      "label_key": "status.coherence.dispersed",
-                      "tone": "danger",
-                      "icon": "mdi:alert-octagon-outline"
-                    }
-                  ],
-                  "fallback": {
-                    "label_key": "status.coherence.collecting",
-                    "tone": "muted",
-                    "icon": "mdi:progress-clock"
-                  },
-                  "show_value": true,
-                  "value_multiplier": 100,
-                  "value_unit": "%",
-                  "value_digits": 0
+                  "max": 0.15,
+                  "label_key": "status.coherence.coherent",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
                 },
                 {
-                  "type": "status",
-                  "label_key": "metrics.b_stability",
-                  "source": "diagnostic",
-                  "path": "live/model/b_stability_ratio",
-                  "map": {},
-                  "align": "center",
-                  "ranges": [
-                    {
-                      "max": 0.2,
-                      "label_key": "status.coherence.coherent",
-                      "tone": "ok",
-                      "icon": "mdi:check-circle-outline"
-                    },
-                    {
-                      "min": 0.200000001,
-                      "max": 0.3,
-                      "label_key": "status.coherence.acceptable",
-                      "tone": "info",
-                      "icon": "mdi:check-circle-outline"
-                    },
-                    {
-                      "min": 0.300000001,
-                      "max": 0.6,
-                      "label_key": "status.coherence.unstable",
-                      "tone": "warning",
-                      "icon": "mdi:alert-outline"
-                    },
-                    {
-                      "min": 0.600000001,
-                      "label_key": "status.coherence.very_unstable",
-                      "tone": "danger",
-                      "icon": "mdi:alert-octagon-outline"
-                    }
-                  ],
-                  "fallback": {
-                    "label_key": "status.coherence.collecting",
-                    "tone": "muted",
-                    "icon": "mdi:progress-clock"
-                  },
-                  "show_value": true,
-                  "value_multiplier": 100,
-                  "value_unit": "%",
-                  "value_digits": 0
+                  "min": 0.150000001,
+                  "max": 0.25,
+                  "label_key": "status.coherence.watch",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                {
+                  "min": 0.250000001,
+                  "label_key": "status.coherence.dispersed",
+                  "tone": "danger",
+                  "icon": "mdi:alert-octagon-outline"
                 }
-              ]
+              ],
+              "fallback": {
+                "label_key": "status.coherence.collecting",
+                "tone": "muted",
+                "icon": "mdi:progress-clock"
+              },
+              "show_value": true,
+              "value_multiplier": 100,
+              "value_unit": "%",
+              "value_digits": 0
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.b_stability",
+              "source": "diagnostic",
+              "path": "live/model/b_stability_ratio",
+              "map": {},
+              "align": "center",
+              "ranges": [
+                {
+                  "max": 0.2,
+                  "label_key": "status.coherence.coherent",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                {
+                  "min": 0.200000001,
+                  "max": 0.3,
+                  "label_key": "status.coherence.acceptable",
+                  "tone": "info",
+                  "icon": "mdi:check-circle-outline"
+                },
+                {
+                  "min": 0.300000001,
+                  "max": 0.6,
+                  "label_key": "status.coherence.unstable",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                {
+                  "min": 0.600000001,
+                  "label_key": "status.coherence.very_unstable",
+                  "tone": "danger",
+                  "icon": "mdi:alert-octagon-outline"
+                }
+              ],
+              "fallback": {
+                "label_key": "status.coherence.collecting",
+                "tone": "muted",
+                "icon": "mdi:progress-clock"
+              },
+              "show_value": true,
+              "value_multiplier": 100,
+              "value_unit": "%",
+              "value_digits": 0
             }
           ]
         },
@@ -2871,21 +2881,40 @@
           "fallback_show_value": true
         },
         {
-          "type": "progress",
-          "label_key": "metrics.bootstrap_progress",
-          "value": {
-            "source": "diagnostic",
-            "path": "live/learning/bootstrap_progress_percent"
+          "type": "status",
+          "label_key": "metrics.learning_enabled",
+          "source": "diagnostic",
+          "path": "live/learning/enabled",
+          "align": "center",
+          "map": {
+            "true": {
+              "label_key": "status.learning.enabled",
+              "tone": "ok",
+              "icon": "mdi:school-outline"
+            },
+            "false": {
+              "label_key": "status.learning.paused",
+              "tone": "warning",
+              "icon": "mdi:pause-circle-outline"
+            }
           },
-          "target": 100,
-          "unit": "%",
-          "digits": 0,
+          "fallback": {
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.learning.paused",
+          "tone": "muted",
+          "icon": "mdi:pause-circle-outline",
           "visible_if": {
             "==": [
               {
-                "var": "diagnostic/live/learning/stage"
+                "var": "diagnostic/live/learning/enabled"
               },
-              "bootstrap"
+              false
             ]
           }
         },
@@ -3089,6 +3118,29 @@
               "text_key": "notes.learning.response_lag",
               "tone": "info",
               "icon": "mdi:information-outline"
+            },
+            {
+              "type": "section_note",
+              "text_key": "notes.learning.response_lag_missing",
+              "tone": "muted",
+              "icon": "mdi:information-outline",
+              "visible_if": {
+                "!": {
+                  "or": [
+                    {
+                      "var": "diagnostic/live/analysis/learning/response_lag/lag_s"
+                    },
+                    {
+                      "==": [
+                        {
+                          "var": "diagnostic/live/analysis/learning/response_lag/lag_s"
+                        },
+                        0
+                      ]
+                    }
+                  ]
+                }
+              }
             }
           ]
         },
@@ -3107,19 +3159,6 @@
               "source": "diagnostic",
               "path": "live/learning/accepted_updates_b",
               "digits": 0
-            },
-            {
-              "label_key": "metrics.bootstrap_status",
-              "source": "diagnostic",
-              "path": "live/learning/bootstrap_status",
-              "visible_if": {
-                "==": [
-                  {
-                    "var": "diagnostic/live/learning/stage"
-                  },
-                  "bootstrap"
-                ]
-              }
             }
           ]
         },
@@ -4551,6 +4590,12 @@
                   "label_key": "status.integral.unwind_low",
                   "tone": "info",
                   "icon": "mdi:information-outline"
+                },
+                "I:OVERRIDE(guard_cut)": {
+                  "label_key": "status.integral.guard_cut",
+                  "tone": "warning",
+                  "icon": "mdi:shield-alert-outline",
+                  "description_key": "status.integral.guard_cut.description"
                 }
               },
               "fallback": {

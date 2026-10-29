@@ -107,7 +107,7 @@ three-column **PI gains** group: `live/control/kp`, `live/control/ki` and
 published by SmartPI. When Ki is non-positive, SmartPI publishes `null` and Ti
 renders as `--`; Equinox does not calculate a replacement value.
 
-SmartPI 0.6 uses a SIMC integral time bounded by four times the closed-loop
+SmartPI uses a SIMC integral time bounded by four times the closed-loop
 horizon before gain limits and governance are applied. The integral corrects
 persistent errors over hours and preserves its learned bias during a recovery
 while temperature progresses. Near the setpoint, `I:UNWIND(SAT_HI)` and
@@ -115,18 +115,40 @@ while temperature progresses. Near the setpoint, `I:UNWIND(SAT_HI)` and
 caused by the proportional term. Overview and Protections translate these codes;
 unknown integral modes keep their raw code with neutral styling.
 
-Learning displays the published `live/learning/stage` as the current learning
-state. Its initial-sample gauges keep their published
-`live/learning/bootstrap_target_a` and `live/learning/bootstrap_target_b` targets.
-In SmartPI 0.6, B needs four measurements; A has a nominal target of six but can
-be published from four consistent measurements once its delivered-power model
-is resolved. A collection gauge can reach 100% while publication still waits for
-the response lag. The gauges therefore describe collection, and their bootstrap
-visibility follows the published learning stage. Equinox does not infer bootstrap
-completion from counts, a percentage, or the presence of a lag. During bootstrap,
-SmartPI regulates between its configured hysteresis thresholds.
+Learning explains two kinds of measurements: **response (A)** describes how
+heating or cooling changes the room temperature; **thermal losses (B)** describes
+heat exchange with the outdoors. During initial learning, the system heats or
+cools between its configured temperature thresholds while collecting observations.
 
-The Response lag group reads
+The two collection bars show measurements against the targets supplied by the
+thermostat. They measure collection only: a full bar does not mean that the
+measurements are validated or that initial learning is complete. Response
+measurements can still wait for the system's response delay to be estimated,
+then be reassessed. Some may no longer be usable, so further collection can be
+necessary. Equinox does not show an overall completion percentage. The learning
+state remains visible when collection reaches its target, and a pause notice
+explains when collection has been suspended while regulation uses the current
+model.
+
+The **System response delay** group describes how long the whole installation
+takes to respond, including the emitter and temperature sensor. It sits next to
+the collection indicators. A retained estimate is one useful observation, not
+confirmation that the delay has been validated. If the delay is unavailable,
+Equinox explains that it cannot tell whether estimation is still in progress;
+this alone does not mean learning is blocked. The available diagnostics do not
+identify the fallback decision or how many response measurements were discarded
+during reassessment, so Equinox does not invent those details.
+
+The collection bars use `live/learning/bootstrap_target_a` and
+`live/learning/bootstrap_target_b`; their visibility follows the published
+`live/learning/stage`. Initial learning can end with fewer response measurements
+than the nominal target if the controller accepts a coherent collection.
+Equinox never infers completion from counts, percentages, or the presence of a
+delay. A missing target stays unavailable instead of receiving a default.
+The learning enable/pause state uses `live/learning/enabled` independently of
+the stage; an absent flag does not imply a pause or enabled learning in this section.
+
+The response delay group reads
 `live/analysis/learning/response_lag/{lag_s,estimates,episode_median_s,last_reason}`.
 It shows the published lag and median active-episode duration as compact durations,
 the number of retained estimates, and a translated outcome of the last active
@@ -136,8 +158,9 @@ is not a completion percentage. Missing/null durations remain `--`, and zero is
 valid. A null lag alone does not establish a blocked learning state: SmartPI can
 also resolve its delivered-power model without publishing a lag, and that
 resolution flag and episode count are not published in this diagnostic block.
-Constant-power bootstrap episodes provide the main opportunity to estimate the
-lag; existing installations in PWM regulation may publish none.
+Constant-power initial-learning phases provide the main opportunity to estimate
+the delay; a system already regulating with PWM may publish none. For cycle
+configuration advice, see the [SmartPI installation guide](https://github.com/KipK/vtherm_smartpi/blob/master/documentation/en/vtherm_smartpi.md).
 
 The learning notes explain that A uses estimated delivered power, that transient
 responses and insufficient sensor variation can delay a window, and that A can
@@ -145,7 +168,9 @@ change when B is refined without a new A measurement. The learning reason
 `skip: response transient (a)` / `(b)` is translated; evolving reasons with
 variable details retain their raw value.
 
-Model and prediction adds a Dead time detection group using
+Model and prediction places A and B dispersion indicators side by side on their
+own compact row, wrapping only when the available width is too narrow.
+It also displays a Dead time detection group using
 `live/analysis/deadtime/{state,waiting_elapsed_s,heat_last_outcome,cool_last_outcome}`.
 The waiting duration is visible only for `WAITING_HEAT_RESPONSE` and
 `WAITING_COOL_RESPONSE`. Labels refer to a temperature rise or drop in both HEAT
@@ -154,11 +179,22 @@ and COOL: active and passive responses swap when the HVAC mode changes.
 prove a successful detection. Each retained outcome describes the last wait for
 that direction: `detected` is successful, `timeout` is a warning, and `aborted`
 is a neutral interruption after a power transition. Missing outcomes remain
-`--`; unknown codes remain visible with neutral styling. In SmartPI 0.6 the active
+`--`; unknown codes remain visible with neutral styling. The active
 wait is bounded by 4 h and the passive wait by 12 h, allowing a slow emitter to
 release stored heat after power stops. No countdown or timeout is inferred by
-Equinox. These new live diagnostics are not added to the eight Recorder series,
-and older schema-v2 publishers can leave them absent.
+Equinox. These live diagnostics are separate from the eight Recorder series,
+and an entity can leave them absent.
+
+Overview and Protections translate `I:OVERRIDE(guard_cut)` as **Thermal protection
+cut**. Heating is forced off to prevent overheating and resumes after the
+temperature falls sufficiently. The learned integral correction is preserved
+for that recovery. This protection applies to heating; Equinox does not infer
+an equivalent cooling protection. The controller's release margin is the larger
+of 0.05 °C and 1.5 observed sensor steps, which avoids rapid off/on switching
+around the threshold. Temperature and dead-time observations continue during
+the cut. Equinox shows the published state without calculating a release
+temperature or countdown; missing states remain `--` and unknown codes remain
+visible with neutral styling.
 
 FF3 and thermal-twin statuses are grouped in Model and prediction. FFTrim uses
 `live/feedforward/fftrim/{stationary,periodic,transfer,last_result,last_transaction}`.
@@ -175,10 +211,11 @@ The configuration and actual renderer methods are covered by
 `npm run test:smartpi` (Node 24), including published diagnostic bindings and
 documentation examples, trajectory transitions, missing/null/zero values,
 unknown enums, HEAT/COOL units, Ti, response lag, detector waits/outcomes, early
-bootstrap publication, the eight Recorder paths and desktop/mobile
+initial-learning collection and early publication, pause and unavailable-delay
+notices, thermal protection cuts, the eight Recorder paths and desktop/mobile
 selection templates. The reference fixture in
 `tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from
-vtherm_smartpi `0.6.0-rc.1` revision `b354f21` and records its source files. Update it from the
+vtherm_smartpi and records its source revision and files. Update it from the
 publisher when that contract changes. These tests do not paint a browser:
 final mobile/desktop and Flat/Liquid Glow appearance needs checking in Home
 Assistant.

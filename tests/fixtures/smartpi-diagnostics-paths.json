@@ -2,7 +2,7 @@
   "schema_version": 2,
   "source": {
     "repository": "vtherm_smartpi",
-    "revision": "b354f21c61e8f80cf4df967c16072e9e475b23be",
+    "revision": "976905c938be42114961f0242d4c9fea71b827bc",
     "live": "tests/fixtures/published_diagnostics_paths.json",
     "history": "custom_components/vtherm_smartpi/smartpi/diagnostic_history.py"
   },
