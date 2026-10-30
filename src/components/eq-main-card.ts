@@ -280,7 +280,7 @@ export class EquinoxMainCard extends LitElement {
         overflow: visible;
         border-radius: var(--equinox-card-radius, var(--ha-card-border-radius, var(--ha-border-radius-lg, 12px)));
         background: var(--equinox-card-surface-bg);
-        border: 1px solid var(--equinox-border-color);
+        border: var(--ha-card-border-width, 1px) solid var(--equinox-border-color);
         box-shadow: var(--equinox-shadow);
         color: var(--equinox-text-color);
       }

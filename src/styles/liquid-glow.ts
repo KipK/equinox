@@ -94,12 +94,12 @@ export const liquidGlowStyles = css`
     }
   }
 
-  /* The pseudo-element covers the card's border-box exactly via inset: -1px (the
-     containing block for absolutely-positioned children is the padding-box, so -1px
-     pushes back through the 1px border zone to the outer edge). The 1px-offset
-     keyword position then puts each line on the outermost 1px of the card box. */
+  /* The pseudo-element covers the card's border-box exactly via a negative inset of
+     the border width (the containing block for absolutely-positioned children is the
+     padding-box, so this pushes back through the border zone to the outer edge). The
+     1px-offset keyword position then puts each line on the outermost 1px of the card box. */
   :host([theme="liquid_glow"]) ha-card::before {
-    inset: -1px;
+    inset: calc(-1 * var(--ha-card-border-width, 1px));
     z-index: 0;
     background:
       linear-gradient(
@@ -130,7 +130,7 @@ export const liquidGlowStyles = css`
   /* Halo extends 4px beyond each side of the card; gradient origin sits exactly on
      the outer edge of the card so the halo bleeds equally outside and inside. */
   :host([theme="liquid_glow"]) ha-card::after {
-    inset: -1px -5px;
+    inset: calc(-1 * var(--ha-card-border-width, 1px)) calc(-4px - var(--ha-card-border-width, 1px));
     border-radius: 0;
     z-index: 0;
     background:
