@@ -166,6 +166,21 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | `additional_dashboards`   | no       | `auto`               | Regulation dashboard mode: `auto`, `custom`, or `disabled`.                                                                           |
 | `state_icons_layout`      | no       | `horizontal`         | State icon layout for `classic`/`compact`: `horizontal` or `vertical`; `thin` is always horizontal.                                   |
 | `show_power_value`        | no       | `true`               | Show the numeric percentage beside the valve/power gauge; set to `false` for the gauge alone.                                         |
+| `show_current_temperature`| no       | `true`               | Show the current temperature reading.                                                                                                 |
+| `show_humidity`           | no       | `true`               | Show the humidity reading when humidity is available.                                                                                 |
+| `show_setpoint`           | no       | `true`               | Show the target temperature control.                                                                                                  |
+| `show_hvac_mode`          | no       | `true`               | Show the HVAC mode selector.                                                                                                          |
+| `show_preset_mode`        | no       | `true`               | Show the preset selector.                                                                                                             |
+| `show_auto_start_stop`    | no       | `true`               | Show the VTherm auto-start/stop control when configured.                                                                              |
+| `show_power_info`         | no       | `true`               | Show the valve/power gauge.                                                                                                           |
+| `show_hvac_action`        | no       | `true`               | Show the HVAC action icon (heating, idle, ...).                                                                                       |
+| `show_events`             | no       | `true`               | Show VTherm event and status message icons (window, presence, boost, ...).                                                            |
+| `show_menu`               | no       | `true`               | Show the menu button (regulation dashboard, boost, history).                                                                          |
+
+All `show_*`, `hide_lock_button` and `disable_name` options are grouped in the
+**Elements** tab of the visual editor. Rows that end up empty collapse, so for
+example a `thin` card with the readings and controls hidden renders only its
+status icons.
 
 For Versatile Thermostat entities, the main-card power indicator is a live
 percentage gauge: valve-controlled thermostats show `valve_open_percent`, while
