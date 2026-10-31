@@ -4,6 +4,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.4-dev
 
+- Show SmartPI heating-phase counts and the response-delay resolution target, and explain phases interrupted by a restart.
 - Keep A and B dispersion indicators side by side in Model and prediction, with wrapping on narrow screens.
 - Show SmartPI response delay estimates, dead time detection waits and outcomes, and translated integral unwind modes while preserving the eight historical series.
 - Clarify initial learning with explained response/loss measurements, collection bars using the thermostat's targets, and nearby response-delay information. Remove the overall completion percentage, explain unavailable delays and paused collection, and translate thermal protection cuts in Overview and Protections.

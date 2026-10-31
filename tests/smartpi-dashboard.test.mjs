@@ -96,6 +96,7 @@ function templateText(value) {
 test("dashboard bindings and conditions use only published schema v2 paths", () => {
   assert.equal(published.schema_version, 2);
   assertBindings(dashboard.sections);
+  assert.doesNotMatch(JSON.stringify(dashboard.sections), /bootstrap_status/u);
 });
 
 test("documentation examples and named diagnostic paths match the published contract", () => {
@@ -221,6 +222,36 @@ test("response lag displays published durations and retained estimates in HEAT a
     assert.equal(view._formatSourceValue(sectionPath("learning", `${base}estimates`)), "3");
     assert.equal(view._formatSourceValue(sectionPath("learning", `${base}episode_median_s`)), "2h");
     assert.match(templateText(view._renderStatus(sectionPath("learning", `${base}last_reason`))), /Estimate retained/);
+  }
+});
+
+test("response heating phases preserve zero and counts beyond the published resolution target", () => {
+  const base = "live/analysis/learning/response_lag/";
+  const phases = sectionPath("learning", `${base}episodes`);
+  const target = sectionPath("learning", `${base}episodes_target`);
+  for (const [stage, lag, count] of [["bootstrap", null, 0], ["bootstrap", null, 4], ["bootstrap", null, 7], ["monitoring", 1515, 10]]) {
+    const view = renderer({ learning: { stage }, analysis: { learning: { response_lag: {
+      lag_s: lag, estimates: 0, episodes: count, episodes_target: 7
+    } } } });
+    assert.match(templateText(view._renderMetric(phases)), new RegExp(`class="value">${count}<`));
+    assert.match(templateText(view._renderMetric(target)), /class="value">7</);
+    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}estimates`)), "0");
+    assert.match(templateText(view._renderStatus(sectionPath("learning", "live/learning/stage"))),
+      stage === "bootstrap" ? /Initial learning/ : /Model monitoring/);
+  }
+});
+
+test("a phase interrupted by a restart displays a translated informational outcome", () => {
+  const reason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
+  const view = renderer({ analysis: { learning: { response_lag: {
+    lag_s: null, estimates: 0, episodes: 1, episodes_target: 7, last_reason: "episode interrupted by restart"
+  } } } });
+  for (const [language, label] of [["fr", "Phase interrompue par un redémarrage"], ["en", "Phase interrupted by a restart"]]) {
+    view.language = language;
+    const rendered = templateText(view._renderStatus(reason));
+    assert.ok(rendered.includes(label));
+    assert.match(rendered, /tone="?muted"?/);
+    assert.match(rendered, /mdi:information-outline/);
   }
 });
 
@@ -361,14 +392,18 @@ test("dead time outcomes distinguish timeout and interruption from a model failu
 test("SmartPI 0.5 diagnostics and null response values remain absent, while zero remains valid", () => {
   const lag = sectionPath("learning", "live/analysis/learning/response_lag/lag_s");
   const count = sectionPath("learning", "live/analysis/learning/response_lag/estimates");
+  const phases = sectionPath("learning", "live/analysis/learning/response_lag/episodes");
+  const target = sectionPath("learning", "live/analysis/learning/response_lag/episodes_target");
   const reason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
   const outcome = sectionPath("model", "live/analysis/deadtime/cool_last_outcome");
   for (const live of [undefined, {}, { analysis: { deadtime: { state: "OFF" } } }, {
-    analysis: { learning: { response_lag: { lag_s: null, estimates: null, last_reason: null } }, deadtime: { cool_last_outcome: null } }
+    analysis: { learning: { response_lag: { lag_s: null, estimates: null, episodes: null, episodes_target: null, last_reason: null } }, deadtime: { cool_last_outcome: null } }
   }]) {
     const view = renderer(live);
     assert.equal(view._formatSourceValue(lag), "--");
     assert.equal(view._formatSourceValue(count), "--");
+    assert.equal(view._formatSourceValue(phases), "--");
+    assert.equal(view._formatSourceValue(target), "--");
     for (const item of [reason, outcome]) {
       const rendered = templateText(view._renderStatus(item));
       assert.match(rendered, /--/);

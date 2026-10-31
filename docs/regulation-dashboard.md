@@ -149,15 +149,26 @@ The learning enable/pause state uses `live/learning/enabled` independently of
 the stage; an absent flag does not imply a pause or enabled learning in this section.
 
 The response delay group reads
-`live/analysis/learning/response_lag/{lag_s,estimates,episode_median_s,last_reason}`.
+`live/analysis/learning/response_lag/{lag_s,estimates,episode_median_s,episodes,episodes_target,last_reason}`.
 It shows the published lag and median active-episode duration as compact durations,
-the number of retained estimates, and a translated outcome of the last active
-episode. `estimated` means one estimate was retained, not that a lag has been
-published. Publication requires a coherent set of estimates; the estimate count
-is not a completion percentage. Missing/null durations remain `--`, and zero is
-valid. A null lag alone does not establish a blocked learning state: SmartPI can
-also resolve its delivered-power model without publishing a lag, and that
-resolution flag and episode count are not published in this diagnostic block.
+the number of retained estimates, completed heating phases, the fixed phase target,
+and a translated outcome of the last active episode. The metric grid uses three
+columns: durations and estimates on the first row, phase count and target on the
+second. These are separate metrics because metric values read a single path;
+the renderer has no dynamic denominator. The target is read from diagnostics,
+not hardcoded or interpreted as a remaining count.
+`estimated` means one estimate was retained, not that a lag has been published.
+Publication requires three coherent estimates from constant-power heating phases;
+the estimate count is not a completion percentage. Missing/null values remain
+`--`, and zero is valid. SmartPI also resolves its delivered-power model without
+publishing a lag once `episodes >= episodes_target` (currently seven phases),
+even without retained estimates; it then uses applied power. The phase count
+continues beyond the target and after lag publication, so Equinox displays it
+without capping it or inferring bootstrap completion. The model-resolution flag
+is not published. `episode interrupted by restart` is shown as a muted
+informational outcome: the phase interrupted by a Home Assistant restart counts
+towards resolution without producing an estimate. The two counters are additions
+from the upcoming SmartPI 0.6.0 contract; older diagnostics show `--` for them.
 Constant-power initial-learning phases provide the main opportunity to estimate
 the delay; a system already regulating with PWM may publish none. For cycle
 configuration advice, see the [SmartPI installation guide](https://github.com/KipK/vtherm_smartpi/blob/master/documentation/en/vtherm_smartpi.md).

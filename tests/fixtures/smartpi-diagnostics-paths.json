@@ -4,7 +4,8 @@
     "repository": "vtherm_smartpi",
     "revision": "976905c938be42114961f0242d4c9fea71b827bc",
     "live": "tests/fixtures/published_diagnostics_paths.json",
-    "history": "custom_components/vtherm_smartpi/smartpi/diagnostic_history.py"
+    "history": "custom_components/vtherm_smartpi/smartpi/diagnostic_history.py",
+    "response_lag_additions": "User-provided contract for upcoming SmartPI 0.6.0: episodes and episodes_target; publisher revision unavailable."
   },
   "live": [
     "analysis",
@@ -65,6 +66,8 @@
     "analysis.learning.learn_skip_count",
     "analysis.learning.response_lag",
     "analysis.learning.response_lag.episode_median_s",
+    "analysis.learning.response_lag.episodes",
+    "analysis.learning.response_lag.episodes_target",
     "analysis.learning.response_lag.estimates",
     "analysis.learning.response_lag.lag_s",
     "analysis.learning.response_lag.last_reason",

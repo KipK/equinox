@@ -359,6 +359,8 @@
       "groups.learning.response_lag": "Délai de réaction de l'installation",
       "metrics.response_lag": "Délai estimé",
       "metrics.response_estimates": "Estimations conservées",
+      "metrics.response_episodes": "Phases de chauffe",
+      "metrics.response_episodes_target": "Phases avant résolution",
       "metrics.response_episode_median": "Durée médiane des phases actives",
       "metrics.response_last_reason": "Dernière phase active",
       "status.response_lag.estimated": "Estimation retenue",
@@ -370,7 +372,8 @@
       "status.response_lag.unknown_passive_slope": "Pente passive inconnue",
       "status.response_lag.no_active_response": "Réponse active non mesurable",
       "status.response_lag.unresolvable_intercept": "Délai non déterminable sur cette phase",
-      "notes.learning.response_lag": "Ce délai décrit le temps de réaction de l'ensemble de l'installation, y compris l'émetteur et la sonde. Il est estimé pendant les phases à puissance constante. Une estimation retenue ne suffit pas à valider le délai ; une installation lente peut demander plusieurs heures d'observation.",
+      "status.response_lag.interrupted_by_restart": "Phase interrompue par un redémarrage",
+      "notes.learning.response_lag": "Ce délai décrit le temps de réaction de l'ensemble de l'installation, y compris l'émetteur et la sonde. Il est estimé pendant les phases à puissance constante. Une estimation retenue ne suffit pas à valider le délai ; une installation lente peut demander plusieurs heures d'observation. Même sans estimation retenue, le modèle se résout automatiquement après le nombre fixe de phases de chauffe affiché.",
       "groups.model.deadtime_detection": "Détection des temps morts",
       "metrics.deadtime_state": "État du détecteur",
       "status.deadtime.off": "Au repos",
@@ -750,6 +753,8 @@
       "groups.learning.response_lag": "System response delay",
       "metrics.response_lag": "Estimated delay",
       "metrics.response_estimates": "Retained estimates",
+      "metrics.response_episodes": "Heating phases",
+      "metrics.response_episodes_target": "Phases before resolution",
       "metrics.response_episode_median": "Median active phase duration",
       "metrics.response_last_reason": "Last active phase",
       "status.response_lag.estimated": "Estimate retained",
@@ -761,7 +766,8 @@
       "status.response_lag.unknown_passive_slope": "Passive slope unknown",
       "status.response_lag.no_active_response": "Active response not measurable",
       "status.response_lag.unresolvable_intercept": "Delay cannot be determined from this phase",
-      "notes.learning.response_lag": "This delay describes how long the whole system takes to respond, including the emitter and sensor. It is estimated during constant-power phases. A retained estimate does not validate the delay by itself; a slow system may need several hours of observation.",
+      "status.response_lag.interrupted_by_restart": "Phase interrupted by a restart",
+      "notes.learning.response_lag": "This delay describes how long the whole system takes to respond, including the emitter and sensor. It is estimated during constant-power phases. A retained estimate does not validate the delay by itself; a slow system may need several hours of observation. Even without a retained estimate, the model resolves automatically after the fixed number of heating phases shown.",
       "groups.model.deadtime_detection": "Dead time detection",
       "metrics.deadtime_state": "Detector state",
       "status.deadtime.off": "Idle",
@@ -3050,6 +3056,18 @@
                   "path": "live/analysis/learning/response_lag/episode_median_s",
                   "digits": 1,
                   "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.response_episodes",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/response_lag/episodes",
+                  "digits": 0
+                },
+                {
+                  "label_key": "metrics.response_episodes_target",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/response_lag/episodes_target",
+                  "digits": 0
                 }
               ]
             },
@@ -3102,6 +3120,11 @@
                 },
                 "intercept not resolvable": {
                   "label_key": "status.response_lag.unresolvable_intercept",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "episode interrupted by restart": {
+                  "label_key": "status.response_lag.interrupted_by_restart",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 }
