@@ -2,7 +2,7 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.4.4-dev
+## 0.4.4
 
 - Show SmartPI heating-phase counts and the response-delay resolution target, and explain phases interrupted by a restart.
 - Keep A and B dispersion indicators side by side in Model and prediction, with wrapping on narrow screens.
