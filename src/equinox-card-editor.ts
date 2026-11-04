@@ -150,7 +150,7 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
   hass?: HomeAssistant;
 
   private _config: EquinoxCardConfigInput = {};
-  private _activeTab: "general" | "presentation" | ModeFamily = "general";
+  private _activeTab: "general" | "presentation" | "elements" | ModeFamily = "general";
   private _pendingModeCustomizations = new Map<ModeFamily, Map<string, Partial<EquinoxModeCustomization>>>();
 
   connectedCallback(): void {
@@ -174,6 +174,9 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
         <button class="tab" ?active=${this._activeTab === "presentation"} @click=${() => { this._activeTab = "presentation"; }}>
           ${localize(language, "editor.tabs.presentation")}
         </button>
+        <button class="tab" ?active=${this._activeTab === "elements"} @click=${() => { this._activeTab = "elements"; }}>
+          ${localize(language, "editor.tabs.elements")}
+        </button>
         <button class="tab" ?active=${this._activeTab === "hvac"} @click=${() => { this._activeTab = "hvac"; }}>
           ${localize(language, "editor.tabs.hvac")}
         </button>
@@ -187,12 +190,12 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       </div>
       ${this._activeTab === "presentation"
         ? this._renderPresentationTab(language, data)
-        : this._activeTab === "general"
+        : this._activeTab === "general" || this._activeTab === "elements"
           ? html`
               <ha-form
                 .hass=${this.hass}
                 .data=${data}
-                .schema=${this._generalSchema(language)}
+                .schema=${this._activeTab === "general" ? this._generalSchema(language) : this._elementsSchema()}
                 .computeLabel=${this._computeLabel(language)}
                 @value-changed=${this._valueChanged}
               ></ha-form>
@@ -481,40 +484,6 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       }
     );
 
-    schema.push({
-      name: "disable_name",
-      selector: {
-        boolean: {}
-      }
-    });
-
-    schema.push(
-      {
-        name: "show_fan_mode",
-        selector: {
-          boolean: {}
-        }
-      },
-      {
-        name: "show_swing_mode",
-        selector: {
-          boolean: {}
-        }
-      },
-      {
-        name: "hide_lock_button",
-        selector: {
-          boolean: {}
-        }
-      },
-      {
-        name: "show_power_value",
-        selector: {
-          boolean: {}
-        }
-      }
-    );
-
     if (this._config.theme === "liquid_glow") {
       schema.push({
         name: "border_glow_on_action",
@@ -525,6 +494,28 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
     }
 
     return schema;
+  }
+
+  private _elementsSchema(): HaFormSchema[] {
+    const names = [
+      "disable_name",
+      "show_current_temperature",
+      "show_humidity",
+      "show_setpoint",
+      "show_hvac_mode",
+      "show_preset_mode",
+      "show_fan_mode",
+      "show_swing_mode",
+      ...(this._vtFeatureVisibility().autoStartStop ? ["show_auto_start_stop"] : []),
+      "show_power_info",
+      "show_power_value",
+      "show_hvac_action",
+      "show_events",
+      "hide_lock_button",
+      "show_menu"
+    ];
+
+    return names.map((name) => ({ name, selector: { boolean: {} } }));
   }
 
   private _renderColorField(language: string | undefined, schema: HaFormSchema) {

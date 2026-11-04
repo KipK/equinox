@@ -69,6 +69,16 @@ export interface EquinoxCardConfig {
   additional_dashboards?: EquinoxAdditionalDashboards;
   state_icons_layout?: EquinoxLayoutOrientation;
   show_power_value?: boolean;
+  show_current_temperature?: boolean;
+  show_humidity?: boolean;
+  show_setpoint?: boolean;
+  show_hvac_mode?: boolean;
+  show_preset_mode?: boolean;
+  show_auto_start_stop?: boolean;
+  show_power_info?: boolean;
+  show_hvac_action?: boolean;
+  show_events?: boolean;
+  show_menu?: boolean;
   border_glow_on_action?: boolean;
 }
 
@@ -88,6 +98,16 @@ export const DEFAULT_CONFIG = {
   additional_dashboards: DEFAULT_ADDITIONAL_DASHBOARDS,
   state_icons_layout: "horizontal",
   show_power_value: true,
+  show_current_temperature: true,
+  show_humidity: true,
+  show_setpoint: true,
+  show_hvac_mode: true,
+  show_preset_mode: true,
+  show_auto_start_stop: true,
+  show_power_info: true,
+  show_hvac_action: true,
+  show_events: true,
+  show_menu: true,
   border_glow_on_action: true
 } satisfies Pick<
   EquinoxCardConfig,
@@ -102,6 +122,16 @@ export const DEFAULT_CONFIG = {
   | "additional_dashboards"
   | "state_icons_layout"
   | "show_power_value"
+  | "show_current_temperature"
+  | "show_humidity"
+  | "show_setpoint"
+  | "show_hvac_mode"
+  | "show_preset_mode"
+  | "show_auto_start_stop"
+  | "show_power_info"
+  | "show_hvac_action"
+  | "show_events"
+  | "show_menu"
   | "border_glow_on_action"
 >;
 
