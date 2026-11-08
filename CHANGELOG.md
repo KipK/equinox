@@ -4,6 +4,9 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.5
 
+- Add per-element visibility options for temperature, humidity, setpoint, HVAC and preset selectors, auto-start/stop, power information, HVAC action, events and menu across classic, compact and thin layouts. Empty rows collapse automatically; all new options default to visible.
+- Group card visibility controls in a new Elements tab in the visual editor, with English and German labels and documented YAML options.
+- Honor the Home Assistant `--ha-card-border-width` theme variable on the card border and Liquid Glow edges, allowing parent layouts and themes to remove or resize borders.
 - Add a 12-hour integral history in the SmartPI Command section, displaying the recorded integral state in °C·min.
 - Add a 12-hour Kp/Ki history with separate Y axes and physical units for each gain.
 - Add unit metadata for the three new SmartPI Recorder attributes in the general history viewer.
