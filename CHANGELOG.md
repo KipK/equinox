@@ -4,9 +4,10 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.6-dev
 
+- Load 24 hours by default in the Room model charts, with a time-range selector for longer periods on demand, to reduce initial history volume, especially for SmartPI debug recordings.
 - Add SmartPI 0.7 Room model and Emitter delay tabs with French and English states, model comparison, forecasts, forecast accuracy against unchanged temperature, and applied/learned delay diagnostics.
 - Show the feedforward holding source and wall contribution in Command, with a source timeline and wall power overlaid on FF/PI history.
-- Cover all eighteen SmartPI Recorder series, adding seven-day room coefficient/forecast-error and applied-delay charts. Keep live-only forecasts, reference scores and evaluation details out of historical curves.
+- Cover all eighteen SmartPI Recorder series, adding room coefficient/forecast-error and seven-day applied-delay charts. Keep live-only forecasts, reference scores and evaluation details out of historical curves.
 - Add safe live coefficient ratios in % of full power per °C and physical unit metadata for the new recorded attributes. Document remaining historical series requests.
 
 ## 0.4.5

@@ -152,8 +152,8 @@ The parameter grid compares `live/room_model/a` with `live/model/a` (°C/min),
 `divide_by` value reference reads the corresponding heating response; missing,
 non-numeric or non-positive denominators remain `--`. `b_air` and `b_wall` are
 also displayed: `b_eq = b_air − b_wall` is the static loss, not the total loss
-of the air. A seven-day history compares the four published coefficients with
-one scale for each unit. Ratios are current metrics; their missing historical
+of the air. A history initially covering 24 hours compares the four published
+coefficients with one scale for each unit. Ratios are current metrics; their missing historical
 series are listed in `dev_tests/smartpi-0.7-history-request.md`.
 
 Forecasts at 1, 2, 6 and 12 hours assume the current heating power is kept.
@@ -164,8 +164,19 @@ with actual applied power and measured outdoor temperature. The model is more
 accurate than “nothing changes” when its error is lower than the reference;
 without checked forecasts there is no evidence to compare. Zero checks and
 zero errors remain valid values, while missing scores remain unavailable.
-A second seven-day graph plots only the recorded 1 h and 12 h errors; reference
-errors, check counts and forecast temperatures are live-only.
+A second graph, also initially covering 24 hours, plots only the recorded 1 h
+and 12 h errors; reference errors, check counts and forecast temperatures are
+live-only.
+
+Both room-model graphs expose a time-range selector for longer comparisons on
+demand. Opening the tab loads 24 hours rather than seven days for each graph.
+This is independent of the seven-day rolling window used by SmartPI to compute
+the RMSE values. Attribute histories fetch the diagnostic entity’s recorded
+attributes, not only the selected leaves: periods recorded in SmartPI debug mode
+also contain the full `live` block and can be much heavier. Normal-mode
+recordings exclude `live`; switching modes does not shrink existing debug
+records. The shorter initial range limits work in either mode without claiming
+a measured speedup.
 
 `live/room_model/wall_extra_power_percent` is positive when walls absorb heat
 beyond their steady share and negative when they give heat back. It stays

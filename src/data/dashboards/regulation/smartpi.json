@@ -4056,7 +4056,7 @@
         {
           "type": "history",
           "title_key": "graphs.room.parameters",
-          "range": "7d",
+          "range": "24h",
           "series": [
             {
               "entity": "$diagnostic_entity",
@@ -4094,13 +4094,13 @@
             "tools": false,
             "date_picker": false,
             "entity_picker": false,
-            "range_picker": false
+            "range_picker": true
           }
         },
         {
           "type": "history",
           "title_key": "graphs.room.errors",
-          "range": "7d",
+          "range": "24h",
           "series": [
             {
               "entity": "$diagnostic_entity",
@@ -4124,7 +4124,7 @@
             "tools": false,
             "date_picker": false,
             "entity_picker": false,
-            "range_picker": false
+            "range_picker": true
           }
         },
         {

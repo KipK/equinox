@@ -703,14 +703,16 @@ test("new histories keep coefficient units, recorded forecast errors and applied
   const view = renderer({});
   const parameters = section("room_model").items.find((item) => item.title_key === "graphs.room.parameters");
   const coefficients = view._betterHistoryConfig(parameters);
-  assert.equal(coefficients.hours, 168);
+  assert.equal(coefficients.hours, 24);
+  assert.equal(coefficients.showTimeRangeSelector, true);
   assert.deepEqual(coefficients.series.map((item) => [item.attribute.join("/"), item.unit]), [
     ["history/model/a", "°C/min"], ["history/room_model/a", "°C/min"],
     ["history/model/b", "min⁻¹"], ["history/room_model/b_eq", "min⁻¹"]
   ]);
   assert.ok(coefficients.series.every((item) => item.group === "room_coefficients"));
   const errors = view._betterHistoryConfig(section("room_model").items.find((item) => item.title_key === "graphs.room.errors"));
-  assert.equal(errors.hours, 168);
+  assert.equal(errors.hours, 24);
+  assert.equal(errors.showTimeRangeSelector, true);
   assert.deepEqual(errors.series.map((item) => item.attribute.join("/")), ["history/room_model/forecast_error_1h_c", "history/room_model/forecast_error_12h_c"]);
   assert.ok(errors.series.every((item) => item.unit === "°C" && item.group === "forecast_error"));
   const delay = view._betterHistoryConfig(section("tar_learning").items.find((item) => item.type === "history"));

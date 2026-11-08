@@ -17065,7 +17065,7 @@ var Vc = {
 					{
 						type: "history",
 						title_key: "graphs.room.parameters",
-						range: "7d",
+						range: "24h",
 						series: [
 							{
 								entity: "$diagnostic_entity",
@@ -17103,13 +17103,13 @@ var Vc = {
 							tools: !1,
 							date_picker: !1,
 							entity_picker: !1,
-							range_picker: !1
+							range_picker: !0
 						}
 					},
 					{
 						type: "history",
 						title_key: "graphs.room.errors",
-						range: "7d",
+						range: "24h",
 						series: [{
 							entity: "$diagnostic_entity",
 							attribute: "history/room_model/forecast_error_1h_c",
@@ -17130,7 +17130,7 @@ var Vc = {
 							tools: !1,
 							date_picker: !1,
 							entity_picker: !1,
-							range_picker: !1
+							range_picker: !0
 						}
 					},
 					{
