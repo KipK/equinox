@@ -1103,6 +1103,18 @@ export class EquinoxMainCard extends LitElement {
           "setpoint primary primary";
       }
 
+      .thin-layout:not([has-controls]) {
+        grid-template-areas: "readings readings status";
+        grid-template-rows: minmax(24px, auto);
+      }
+
+      .thin-layout[has-name]:not([has-controls]) {
+        grid-template-areas:
+          "name name name"
+          "readings readings status";
+        grid-template-rows: minmax(14px, auto) minmax(24px, auto);
+      }
+
       .thin-summary,
       .thin-controls,
       .thin-readings,
@@ -1422,6 +1434,48 @@ export class EquinoxMainCard extends LitElement {
             "status status"
             "readings readings"
             "setpoint primary";
+        }
+
+        .thin-layout:not([has-extra]):not([has-readings]) {
+          grid-template-areas:
+            "status status"
+            "setpoint primary";
+          grid-template-rows: minmax(24px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout[has-name]:not([has-extra]):not([has-readings]) {
+          grid-template-areas:
+            "name name"
+            "status status"
+            "setpoint primary";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(34px, auto);
+        }
+
+        .thin-layout:not([has-controls]) {
+          grid-template-areas:
+            "status status"
+            "readings readings";
+          grid-template-rows: minmax(24px, auto) minmax(24px, auto);
+        }
+
+        .thin-layout[has-name]:not([has-controls]) {
+          grid-template-areas:
+            "name name"
+            "status status"
+            "readings readings";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto) minmax(24px, auto);
+        }
+
+        .thin-layout:not([has-controls]):not([has-readings]) {
+          grid-template-areas: "status status";
+          grid-template-rows: minmax(24px, auto);
+        }
+
+        .thin-layout[has-name]:not([has-controls]):not([has-readings]) {
+          grid-template-areas:
+            "name name"
+            "status status";
+          grid-template-rows: minmax(14px, auto) minmax(24px, auto);
         }
 
         .thin-current {
@@ -2742,10 +2796,11 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderThinLayout(): TemplateResult {
-    const showHumidity = finite(this.viewModel?.climate.currentHumidity);
+    const showHumidity = this._shouldShowHumidity();
     const extraCount = this._thinExtraSelectorCount();
     const name = this.viewModel?.climate.name;
     const showName = !this.config?.disable_name && !!name;
+    const controlRow = this._renderThinControlRow();
 
     return html`
       <div
@@ -2753,18 +2808,21 @@ export class EquinoxMainCard extends LitElement {
         ?has-extra=${extraCount > 0}
         ?has-humidity=${showHumidity}
         ?has-name=${showName}
+        ?has-readings=${showHumidity || this._shouldShowCurrentTemperature()}
+        ?has-controls=${controlRow !== nothing}
         extra-count=${extraCount}
       >
         ${showName ? html`<div class="thin-name">${name}</div>` : nothing}
         ${this._renderThinSummaryRow()}
-        ${this._renderThinControlRow()}
+        ${controlRow}
       </div>
     `;
   }
 
   private _renderThinSummaryRow(): TemplateResult {
     const currentHumidity = this.viewModel?.climate.currentHumidity;
-    const showHumidity = finite(currentHumidity);
+    const showHumidity = this._shouldShowHumidity();
+    const showCurrentTemperature = this._shouldShowCurrentTemperature();
     const showTemperature = finite(this.viewModel?.climate.currentTemperature);
     const lockButtonVisible =
       !this.config?.hide_lock_button &&
@@ -2775,24 +2833,32 @@ export class EquinoxMainCard extends LitElement {
 
     return html`
       <div class="thin-summary">
-        <div class="thin-readings" ?has-humidity=${showHumidity}>
-          <span
-            class="thin-current"
-            ?clickable=${showTemperature}
-            @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
-          >
-            <ha-icon icon="mdi:thermometer"></ha-icon>
-            ${this._formatCurrentTemp()}
-          </span>
-          ${showHumidity
+        ${showCurrentTemperature || showHumidity
         ? html`
-                <span class="thin-humidity thin-humidity-reading" @click=${(event: Event) => this._openHumidityInfo(event)}>
-                  <ha-icon icon="mdi:water-percent"></ha-icon>
-                  <span>${this._formatPercent(currentHumidity)}</span>
-                </span>
-              `
+              <div class="thin-readings" ?has-humidity=${showHumidity}>
+                ${showCurrentTemperature
+            ? html`
+                      <span
+                        class="thin-current"
+                        ?clickable=${showTemperature}
+                        @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
+                      >
+                        <ha-icon icon="mdi:thermometer"></ha-icon>
+                        ${this._formatCurrentTemp()}
+                      </span>
+                    `
+            : nothing}
+                ${showHumidity
+            ? html`
+                      <span class="thin-humidity thin-humidity-reading" @click=${(event: Event) => this._openHumidityInfo(event)}>
+                        <ha-icon icon="mdi:water-percent"></ha-icon>
+                        <span>${this._formatPercent(currentHumidity)}</span>
+                      </span>
+                    `
+            : nothing}
+              </div>
+            `
         : nothing}
-        </div>
         <div class="thin-status">
           ${this._renderPowerInfoButton()}
           ${showHumidity
@@ -2815,15 +2881,24 @@ export class EquinoxMainCard extends LitElement {
     `;
   }
 
-  private _renderThinControlRow(): TemplateResult {
+  private _renderThinControlRow(): TemplateResult | typeof nothing {
+    const showSetpoint = this._shouldShowSetpoint();
     const primarySelectors = this._renderThinPrimarySelectors();
     const extraSelectors = this._renderThinExtraSelectors();
 
+    if (!showSetpoint && primarySelectors === nothing && extraSelectors === nothing) {
+      return nothing;
+    }
+
     return html`
       <div class="thin-controls">
-        <div class="thin-setpoint">
-          ${this._renderThinTemperatureButton()}
-        </div>
+        ${showSetpoint
+        ? html`
+              <div class="thin-setpoint">
+                ${this._renderThinTemperatureButton()}
+              </div>
+            `
+        : nothing}
         ${primarySelectors}
       </div>
       ${extraSelectors}
@@ -2891,7 +2966,7 @@ export class EquinoxMainCard extends LitElement {
     const availableHvacModes = this._visibleHvacModes();
     const currentHvacMode = hvacMode;
 
-    if (availableHvacModes.length === 0) {
+    if (this.config?.show_hvac_mode === false || availableHvacModes.length === 0) {
       return nothing;
     }
 
@@ -2917,7 +2992,7 @@ export class EquinoxMainCard extends LitElement {
     const presetIcon = preset && preset !== "none" ? this._presetIcon(preset) : "mdi:tune-variant";
     const presetActive = !!preset && preset !== "none";
 
-    if (availablePresets.length === 0) {
+    if (this.config?.show_preset_mode === false || availablePresets.length === 0) {
       return nothing;
     }
 
@@ -3014,7 +3089,7 @@ export class EquinoxMainCard extends LitElement {
       : localize(this._language(), "main.lock.unlocked");
 
     return [
-      ...(this.config?.disable_name ? [this._renderMenuButton()] : []),
+      this.config?.disable_name ? this._renderMenuButton() : nothing,
       ...(lockButtonVisible ? [this._renderLockButton(lockLabel)] : []),
       this._renderPowerInfoButton(),
       html`<div class="events">${this._renderEvents()}${this._renderHvacStateIcon()}</div>`
@@ -3048,6 +3123,10 @@ export class EquinoxMainCard extends LitElement {
   private _renderHvacStateIcon(): TemplateResult | typeof nothing {
     const action = this.viewModel?.climate.hvacAction;
     const hvacMode = this.viewModel?.climate.hvacMode;
+
+    if (this.config?.show_hvac_action === false) {
+      return nothing;
+    }
 
     if (hvacMode === "off" && this.viewModel?.vt?.messages.some((message) => message.key === "hvac_off_manual")) {
       return nothing;
@@ -3105,7 +3184,7 @@ export class EquinoxMainCard extends LitElement {
     const events = this.viewModel?.vt?.events;
     const messages = this.viewModel?.vt?.messages ?? [];
 
-    if (!events) {
+    if (!events || this.config?.show_events === false) {
       return [];
     }
 
@@ -3196,41 +3275,59 @@ export class EquinoxMainCard extends LitElement {
     return localize(this._language(), `main.messages.${key}`);
   }
 
-  private _renderSetpoint(): TemplateResult {
+  private _renderSetpoint(): TemplateResult | typeof nothing {
     if (this.config?.primary_display === "sensors") {
       return this._renderSensorFocus();
+    }
+
+    if (!this._shouldShowSetpoint()) {
+      return nothing;
     }
 
     return html`<div class="setpoint">${this._renderTemperatureControl(false)}</div>`;
   }
 
-  private _renderSensorFocus(): TemplateResult {
+  private _renderSensorFocus(): TemplateResult | typeof nothing {
     const currentHumidity = this.viewModel?.climate.currentHumidity;
-    const showHumidity = finite(currentHumidity);
+    const showHumidity = this._shouldShowHumidity();
+    const showCurrentTemperature = this._shouldShowCurrentTemperature();
+    const showSetpoint = this._shouldShowSetpoint();
     const showTemperature = finite(this.viewModel?.climate.currentTemperature);
+
+    if (!showCurrentTemperature && !showHumidity && !showSetpoint) {
+      return nothing;
+    }
 
     return html`
       <div class="setpoint" sensor-focus>
-        <div class="sensor-primary">
-          <span
-            class="sensor-temperature"
-            ?clickable=${showTemperature}
-            @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
-          >
-            <ha-icon icon="mdi:thermometer"></ha-icon>
-            <span>${this._formatCurrentTempValue()}</span>
-            <span class="sensor-unit">°</span>
-          </span>
-          ${showHumidity
+        ${showCurrentTemperature || showHumidity
         ? html`
-                <span class="sensor-humidity" @click=${(event: Event) => this._openHumidityInfo(event)}>
-                  <ha-icon icon="mdi:water-percent"></ha-icon>
-                  <span>${this._formatPercent(currentHumidity)}</span>
-                </span>
-              `
+              <div class="sensor-primary">
+                ${showCurrentTemperature
+            ? html`
+                      <span
+                        class="sensor-temperature"
+                        ?clickable=${showTemperature}
+                        @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
+                      >
+                        <ha-icon icon="mdi:thermometer"></ha-icon>
+                        <span>${this._formatCurrentTempValue()}</span>
+                        <span class="sensor-unit">°</span>
+                      </span>
+                    `
+            : nothing}
+                ${showHumidity
+            ? html`
+                      <span class="sensor-humidity" @click=${(event: Event) => this._openHumidityInfo(event)}>
+                        <ha-icon icon="mdi:water-percent"></ha-icon>
+                        <span>${this._formatPercent(currentHumidity)}</span>
+                      </span>
+                    `
+            : nothing}
+              </div>
+            `
         : nothing}
-        </div>
-        ${this._renderTemperatureControl(true)}
+        ${showSetpoint ? this._renderTemperatureControl(true) : nothing}
       </div>
     `;
   }
@@ -3393,23 +3490,32 @@ export class EquinoxMainCard extends LitElement {
     }
 
     const currentHumidity = this.viewModel?.climate.currentHumidity;
-    const showHumidity = finite(currentHumidity);
+    const showHumidity = this._shouldShowHumidity();
+    const showCurrentTemperature = this._shouldShowCurrentTemperature();
+
+    if (!showCurrentTemperature && !showHumidity) {
+      return nothing;
+    }
 
     const showTemperature = finite(this.viewModel?.climate.currentTemperature);
 
     return html`
       <div class="conditions">
-        <span
-          class="condition"
-          ?clickable=${showTemperature}
-          @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
-        >
-          <ha-icon icon="mdi:thermometer"></ha-icon>
-          <span class="condition-value" kind="temperature">${this._formatCurrentTemp()}</span>
-        </span>
+        ${showCurrentTemperature
+        ? html`
+            <span
+              class="condition"
+              ?clickable=${showTemperature}
+              @click=${showTemperature ? (event: Event) => this._openTemperatureInfo(event) : nothing}
+            >
+              <ha-icon icon="mdi:thermometer"></ha-icon>
+              <span class="condition-value" kind="temperature">${this._formatCurrentTemp()}</span>
+            </span>
+          `
+        : nothing}
         ${showHumidity
         ? html`
-            <span class="divider"></span>
+            ${showCurrentTemperature ? html`<span class="divider"></span>` : nothing}
             <span class="condition" clickable @click=${(event: Event) => this._openHumidityInfo(event)}>
               <ha-icon icon="mdi:water-percent"></ha-icon>
               <span class="condition-value" kind="humidity">${this._formatPercent(currentHumidity)}</span>
@@ -3423,7 +3529,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderHvacModes(): TemplateResult | typeof nothing {
     const modes = this._visibleHvacModes();
 
-    if (modes.length === 0) {
+    if (this.config?.show_hvac_mode === false || modes.length === 0) {
       return nothing;
     }
 
@@ -3455,7 +3561,7 @@ export class EquinoxMainCard extends LitElement {
   private _renderPresets(): TemplateResult | typeof nothing {
     const presets = this._visiblePresetModes();
 
-    if (presets.length === 0) {
+    if (this.config?.show_preset_mode === false || presets.length === 0) {
       return nothing;
     }
 
@@ -3485,10 +3591,10 @@ export class EquinoxMainCard extends LitElement {
     const preset = this.viewModel?.climate.presetMode;
     const availableHvacModes = this._visibleHvacModes();
     const currentHvacMode = hvacMode;
-    const showHvac = availableHvacModes.length > 0;
+    const showHvac = this.config?.show_hvac_mode !== false && availableHvacModes.length > 0;
 
     const availablePresets = this._visiblePresetModes();
-    const showPreset = availablePresets.length > 0;
+    const showPreset = this.config?.show_preset_mode !== false && availablePresets.length > 0;
     const presetIcon = preset && preset !== "none" ? this._presetIcon(preset) : "mdi:tune-variant";
     const presetActive = !!preset && preset !== "none";
 
@@ -3577,7 +3683,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _renderPowerInfoButton(): TemplateResult | typeof nothing {
-    if (!this._hasPowerInfo()) {
+    if (this.config?.show_power_info === false || !this._hasPowerInfo()) {
       return nothing;
     }
 
@@ -3664,7 +3770,7 @@ export class EquinoxMainCard extends LitElement {
   }
 
   private _shouldShowAutoStartStopControl(): boolean {
-    return this.viewModel?.vt?.autoStartStop.isConfigured === true;
+    return this.config?.show_auto_start_stop !== false && this.viewModel?.vt?.autoStartStop.isConfigured === true;
   }
 
   private _autoStartStopTone(): "boost" | "off" {
@@ -3708,7 +3814,23 @@ export class EquinoxMainCard extends LitElement {
     return this.config?.show_swing_mode !== false && this._hasSwingControl() && (this._visibleSwingModes().length > 0 || this._visibleSwingHorizontalModes().length > 0);
   }
 
-  private _renderMenuButton(): TemplateResult {
+  private _shouldShowCurrentTemperature(): boolean {
+    return this.config?.show_current_temperature !== false;
+  }
+
+  private _shouldShowHumidity(): boolean {
+    return this.config?.show_humidity !== false && finite(this.viewModel?.climate.currentHumidity);
+  }
+
+  private _shouldShowSetpoint(): boolean {
+    return this.config?.show_setpoint !== false;
+  }
+
+  private _renderMenuButton(): TemplateResult | typeof nothing {
+    if (this.config?.show_menu === false) {
+      return nothing;
+    }
+
     return html`
       <button class="menu" title=${localize(this._language(), "main.actions.open_menu")} aria-label=${localize(this._language(), "main.actions.open_menu")} @click=${(event: Event) => this._openDialog("menu", event)}>
         <ha-icon icon="mdi:dots-vertical"></ha-icon>
