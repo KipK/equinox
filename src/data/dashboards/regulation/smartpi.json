@@ -30,7 +30,7 @@
       "hero.learning.title": "Apprentissage de l'installation",
       "hero.learning.subtitle": "Suivi des mesures collectées et du délai de réaction de l'installation.",
       "hero.model.title": "Modèle et prévision thermique",
-      "hero.model.subtitle": "A/B et retards alimentent la prévision ; FF3 peut corriger la puissance selon le contexte.",
+      "hero.model.subtitle": "Le modèle appris A/B et les retards décrivent la réponse thermique ; le modèle de pièce dispose de son propre onglet. FF3 peut corriger la puissance selon le contexte.",
       "hero.health.title": "Surveillance active",
       "hero.health.subtitle": "Les protections peuvent figer l'apprentissage ou demander une calibration.",
       "hero.actions.title": "Actions Smart PI",
@@ -397,9 +397,214 @@
       "graphs.command.gains": "Évolution des gains PI",
       "notes.command.history": "L'intégrale est un cumul d'écart de température en °C·min, pas un pourcentage de puissance. Les gains Kp et Ki traduisent les écarts et ce cumul en commande ; leurs courbes utilisent des échelles distinctes.",
       "notes.learning.response_lag_missing": "Délai de réaction non disponible. Cette information ne permet pas de savoir si son estimation est encore en cours ; son absence ne signifie pas que l'apprentissage est bloqué.",
-      "notes.learning.paused": "L'apprentissage est en pause. La régulation utilise le modèle actuel ; la collecte reprendra lorsque l'apprentissage sera réactivé.",
+      "notes.learning.paused": "L’apprentissage A/B est en pause. La régulation utilise le modèle courant ; la collecte A/B reprendra à sa réactivation. L’apprentissage du retard de l’émetteur reste indépendant.",
       "status.integral.guard_cut": "Coupure de protection thermique",
-      "status.integral.guard_cut.description": "Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; l'excès d'intégrale diminue pendant la coupure tout en conservant la correction utile."
+      "status.integral.guard_cut.description": "Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; l'excès d'intégrale diminue pendant la coupure tout en conservant la correction utile.",
+      "metrics.holding.source.0": "Modèle appris A/B",
+      "metrics.holding.source.1": "Modèle de pièce : air et murs",
+      "metrics.holding.source.2": "Modèle de pièce : part statique",
+      "metrics.holding.source.3": "Modèle de pièce simple",
+      "metrics.holding.source": "Source de la puissance de maintien",
+      "metrics.holding.walls": "Part des murs dans le maintien",
+      "notes.holding": "Le modèle de pièce publié fournit le maintien en chauffage PWM. Avec des murs identifiés et un suivi fiable, il ajoute leur absorption de chaleur (+) ou déduit la chaleur rendue (−). Sinon, seule sa part statique est utilisée. Sans modèle publié, en froid ou avec une vanne, le modèle appris A/B fournit le maintien. La correction lente FF2 reste à zéro et figée tant que le modèle de pièce fournit le maintien.",
+      "graphs.holding.walls": "Murs dans le maintien",
+      "graphs.holding.source": "Source du maintien",
+      "notes.holding.timeline": "Le bandeau sous les courbes indique la source du maintien : « learned model » = modèle appris A/B ; « room model (air and walls) » = air et murs ; « room model (static part) » = part statique seule ; « room model (simple) » = modèle simple. La courbe des murs est en % de pleine puissance : positive à l’absorption, négative à la restitution.",
+      "notes.room.intro": "Ce modèle représente l’air, les murs et l’émetteur. Il est identifié chaque jour à partir des nuits enregistrées et fournit le maintien une fois publié. Les valeurs publiées restent en service si une nouvelle identification est refusée.",
+      "metrics.room.status.0": "Apprentissage en cours",
+      "metrics.room.status.1": "Modèle avec murs identifié",
+      "metrics.room.status.2": "Modèle simple sans murs",
+      "metrics.room.status.3": "Non identifié : Pas encore assez de nuits enregistrées",
+      "metrics.room.status.4": "Non identifié : Retard de chauffe encore inconnu",
+      "metrics.room.status.5": "Non identifié : Trop peu de mesures nocturnes valides",
+      "metrics.room.status.6": "Non identifié : Apports ou pertes de chaleur détectés pendant les nuits",
+      "metrics.room.status.7": "Non identifié : Trop peu de chauffage pendant les nuits",
+      "metrics.room.status.8": "Non identifié : Écart de température intérieur/extérieur trop faible",
+      "metrics.room.status.9": "Non identifié : Le modèle n’a pas pu être ajusté",
+      "metrics.room.status.10": "Non identifié : Valeurs hors de la plage plausible",
+      "metrics.room.status.11": "Non identifié : Le modèle ne suit pas assez bien la température mesurée",
+      "metrics.room.status.12": "Non identifié : En attente d’une seconde série de nuits pour confirmation",
+      "metrics.room.status.13": "Non identifié : Deux séries de nuits successives ne concordent pas",
+      "metrics.room.status.14": "Non identifié : Le modèle ne prévoit pas assez bien les nuits suivantes",
+      "metrics.room.status.15": "Non identifié : Échec du calcul",
+      "metrics.room.status.16": "Non identifié : Le retard de chauffe ne correspond pas à la température mesurée",
+      "metrics.room.status.17": "Non identifié : La réponse de chauffe diffère trop de celle mesurée par la régulation",
+      "metrics.room.status.18": "Non identifié : Les émetteurs à vanne ne sont pas encore pris en charge",
+      "metrics.room.status.19": "Non identifié : Bibliothèques de calcul indisponibles",
+      "metrics.room.status": "État du modèle",
+      "metrics.room.tracking.0": "Suivi fiable",
+      "metrics.room.tracking.1": "En attente d’un modèle identifié",
+      "metrics.room.tracking.2": "En attente de mesures",
+      "metrics.room.tracking.3": "En pause : SmartPI ne chauffe pas ou ne pilote pas la commande",
+      "metrics.room.tracking.4": "Stabilisation après un redémarrage",
+      "metrics.room.tracking.5": "Récupération après une ouverture de fenêtre",
+      "metrics.room.tracking.6": "Les mesures s’écartent progressivement du modèle",
+      "metrics.room.tracking.7": "Mesures incompatibles avec le modèle",
+      "metrics.room.tracking.8": "Estimation de température incertaine",
+      "metrics.room.tracking.9": "Apports ou pertes de chaleur importants et inexpliqués",
+      "metrics.room.tracking.10": "État des murs non plausible",
+      "metrics.room.tracking": "Suivi de la pièce",
+      "metrics.room.walls.0": "Murs identifiés",
+      "metrics.room.walls.1": "Non identifiés : sonde de température trop peu précise",
+      "metrics.room.walls.2": "Non identifiés : aucune inertie thermique détectée",
+      "metrics.room.walls.3": "Non identifiés : confirmation en attente",
+      "metrics.room.walls.4": "Non identifiés : pas de gain face au modèle simple",
+      "metrics.room.walls": "Identification des murs",
+      "metrics.room.refusal.0": "Pas encore assez de nuits enregistrées",
+      "metrics.room.refusal.1": "Retard de chauffe encore inconnu",
+      "metrics.room.refusal.2": "Trop peu de mesures nocturnes valides",
+      "metrics.room.refusal.3": "Apports ou pertes de chaleur détectés pendant les nuits",
+      "metrics.room.refusal.4": "Trop peu de chauffage pendant les nuits",
+      "metrics.room.refusal.5": "Écart de température intérieur/extérieur trop faible",
+      "metrics.room.refusal.6": "Le modèle n’a pas pu être ajusté",
+      "metrics.room.refusal.7": "Valeurs hors de la plage plausible",
+      "metrics.room.refusal.8": "Le modèle ne suit pas assez bien la température mesurée",
+      "metrics.room.refusal.9": "En attente d’une seconde série de nuits pour confirmation",
+      "metrics.room.refusal.10": "Deux séries de nuits successives ne concordent pas",
+      "metrics.room.refusal.11": "Le modèle ne prévoit pas assez bien les nuits suivantes",
+      "metrics.room.refusal.12": "Échec du calcul",
+      "metrics.room.refusal.13": "Le retard de chauffe ne correspond pas à la température mesurée",
+      "metrics.room.refusal.14": "La réponse de chauffe diffère trop de celle mesurée par la régulation",
+      "metrics.room.refusal.15": "Les émetteurs à vanne ne sont pas encore pris en charge",
+      "metrics.room.refusal.16": "Bibliothèques de calcul indisponibles",
+      "metrics.room.refusal": "Dernier refus de publication",
+      "notes.room.waiting": "Une première identification demande environ 6 jours de nuits enregistrées avec du chauffage. Une sonde par pas de 0,1 °C ne permet pas d’identifier les murs : il faut des pas de 0,015 °C ou moins ; un modèle simple peut toutefois être publié. Les émetteurs à vanne ne sont pas pris en charge.",
+      "notes.room.sensor": "Les murs demandent une sonde dont les pas sont de 0,015 °C ou moins. Avec une sonde à 0,1 °C, seul le modèle simple peut être identifié. Une vanne ne permet pas encore d’identifier la pièce ni ses murs.",
+      "metrics.room.day": "Valeurs en service depuis",
+      "metrics.room.attempt": "Dernière identification",
+      "metrics.room.resolution": "Pas de sonde observé",
+      "groups.room.dates": "Publication et mesures",
+      "metrics.room.a": "Pièce : réponse a",
+      "metrics.room.learned_a": "Appris : réponse a",
+      "metrics.room.b": "Pièce : pertes statiques b_eq",
+      "metrics.room.learned_b": "Appris : pertes b",
+      "metrics.room.ratio": "Pièce : b_eq / a",
+      "metrics.room.learned_ratio": "Appris : b / a",
+      "groups.room.parameters": "Comparaison des modèles",
+      "notes.room.ratio": "Le rapport b/a exprime la puissance statique de maintien par degré d’écart intérieur/extérieur, ici en % de pleine puissance par °C. Plus il est élevé, plus le maintien demande de puissance. b_eq = b_air − b_wall : b_air inclut les échanges vers l’extérieur et les murs, b_wall leur part stationnaire passant par les murs.",
+      "metrics.room.b_air": "Pertes totales de l’air b_air",
+      "metrics.room.b_wall": "Part stationnaire des murs b_wall",
+      "groups.room.wall_parameters": "Échanges air et murs",
+      "metrics.room.forecast.1h": "Dans 1 h",
+      "metrics.room.forecast.2h": "Dans 2 h",
+      "metrics.room.forecast.6h": "Dans 6 h",
+      "metrics.room.forecast.12h": "Dans 12 h",
+      "groups.room.forecasts": "Prévisions de température",
+      "notes.room.forecasts": "Ces températures sont prévues si la puissance de chauffage actuelle reste constante. Elles restent indisponibles tant que le suivi ne produit pas de prévision.",
+      "notes.room.accuracy": "Le modèle prévoit-il mieux que « rien ne bouge » ? Comparez les erreurs ci-dessous : une erreur du modèle plus faible que celle de la température inchangée indique une meilleure prévision. Ce sont les racines des erreurs quadratiques moyennes sur 7 jours, avec le nombre de prévisions vérifiées. Les prévisions passées sont rejouées avec la puissance réellement appliquée et la température extérieure mesurée. Sans vérification, on ne peut pas conclure.",
+      "metrics.room.error": "Erreur du modèle",
+      "metrics.room.unchanged": "Erreur si température inchangée",
+      "metrics.room.checks": "Prévisions vérifiées",
+      "groups.room.accuracy.1h": "Justesse à 1 h",
+      "groups.room.accuracy.2h": "Justesse à 2 h",
+      "groups.room.accuracy.6h": "Justesse à 6 h",
+      "groups.room.accuracy.12h": "Justesse à 12 h",
+      "metrics.room.wall_power": "Puissance supplémentaire des murs",
+      "notes.room.wall_power": "En % de pleine puissance, au-delà de leur part stationnaire : positif quand les murs absorbent de la chaleur, négatif quand ils en rendent. Indisponible sans murs identifiés, sans sonde précise ou quand le suivi n’est pas fiable. La part effectivement incluse dans le maintien apparaît dans Commande.",
+      "graphs.room.a": "Réponse a de la pièce",
+      "graphs.room.b": "Pertes statiques b_eq de la pièce",
+      "graphs.room.parameters": "Modèles appris et de pièce",
+      "graphs.room.error_1h": "Erreur à 1 h",
+      "graphs.room.error_12h": "Erreur à 12 h",
+      "graphs.room.errors": "Évolution de la justesse des prévisions",
+      "notes.room.history": "Les courbes de paramètres comparent a sur une échelle et b / b_eq sur l’autre, dans leurs unités physiques. Les courbes d’erreur montrent la justesse à 1 h et 12 h. Les températures prévues, la référence « température inchangée » et les nombres de vérifications sont des valeurs courantes seulement.",
+      "sections.room_model.title": "Modèle de pièce",
+      "notes.emitter.intro": "L’apprentissage du retard de l’émetteur est toujours actif, sans option à activer, en chauffage PWM. Il est indépendant de la pause de l’apprentissage A/B et n’est pas pris en charge avec une vanne. La valeur affinée est prioritaire, puis celle des matins, puis la mesure initiale.",
+      "metrics.emitter.status.0": "Apprentissage actif",
+      "metrics.emitter.status.1": "Vérification des bibliothèques de calcul",
+      "metrics.emitter.status.2": "Bibliothèques indisponibles : mesure initiale utilisée",
+      "metrics.emitter.status.3": "Apprentissage non pris en charge avec une vanne",
+      "metrics.emitter.status": "État de l’apprentissage",
+      "metrics.emitter.source.0": "Mesure initiale",
+      "metrics.emitter.source.1": "Apprentissage des matins",
+      "metrics.emitter.source.2": "Identification affinée",
+      "metrics.emitter.source": "Origine du retard appliqué",
+      "metrics.emitter.applied": "Retard appliqué",
+      "metrics.emitter.gains": "Retard utilisé par les gains",
+      "metrics.emitter.bootstrap": "Mesure initiale conservée",
+      "groups.emitter.applied": "Retard utilisé par la régulation",
+      "metrics.emitter.out_of_bound.0": "Hors limites : retour à la mesure initiale",
+      "metrics.emitter.out_of_bound.1": "Aucun dépassement signalé",
+      "metrics.emitter.out_of_bound": "Valeur apprise hors limites",
+      "notes.emitter.bounds": "Une valeur apprise ne s’applique qu’entre la moitié et le double du retard initial. Les gains utilisent la moitié du retard appris appliqué ; avec la mesure initiale, ils utilisent sa valeur entière. La mesure initiale n’est jamais modifiée.",
+      "metrics.emitter.fast": "Valeur publiée des matins",
+      "metrics.emitter.confirmed": "Matins confirmés",
+      "metrics.emitter.last_value": "Dernier matin accepté : retard",
+      "groups.emitter.fast": "Apprentissage des matins",
+      "metrics.emitter.confirmation.0": "Matin confirmé",
+      "metrics.emitter.confirmation.1": "Matin non confirmé : valeur inutilisée",
+      "metrics.emitter.confirmation.2": "Aucun matin accepté",
+      "metrics.emitter.confirmation": "Confirmation du dernier matin accepté",
+      "metrics.emitter.unconfirmed_reason.0": "Au moins 1 h sans chauffe entre 23 h et le passage en confort",
+      "metrics.emitter.unconfirmed_reason": "Raison de non-confirmation",
+      "metrics.emitter.last_day": "Dernier matin évalué",
+      "metrics.emitter.accepted.0": "Oui",
+      "metrics.emitter.accepted.1": "Non",
+      "metrics.emitter.accepted": "Évaluation acceptée",
+      "metrics.emitter.morning_reason.0": "Matin accepté",
+      "metrics.emitter.morning_reason.1": "Échec du calcul",
+      "metrics.emitter.morning_reason.2": "Données manquantes ou exclues autour du passage en confort",
+      "metrics.emitter.morning_reason.3": "Pertes b pas encore apprises",
+      "metrics.emitter.morning_reason.4": "Aucun démarrage de chauffe après le passage en confort",
+      "metrics.emitter.morning_reason.5": "Nuit inutilisable pour ce type de pièce",
+      "metrics.emitter.morning_reason.6": "Trop peu de températures avant le passage en confort",
+      "metrics.emitter.morning_reason.7": "Évolution nocturne de température inutilisable",
+      "metrics.emitter.morning_reason.8": "Évolution nocturne incompatible avec les cycles de chauffe",
+      "metrics.emitter.morning_reason.9": "Évolution nocturne de température trop irrégulière",
+      "metrics.emitter.morning_reason.10": "La montée en température n’a pas pu être ajustée",
+      "metrics.emitter.morning_reason.11": "Ajustement de la montée en température trop imprécis",
+      "metrics.emitter.morning_reason.12": "Montée en température trop courte pour être mesurée",
+      "metrics.emitter.morning_reason.13": "Trop peu de chaleur fournie pendant la montée",
+      "metrics.emitter.morning_reason.14": "Montée en température trop faible",
+      "metrics.emitter.morning_reason.15": "La sonde de température transmet trop rarement",
+      "metrics.emitter.morning_reason.16": "Nuit régulée : aucune mesure",
+      "metrics.emitter.morning_reason.17": "Pièce non régulée pendant les 2 h avant le passage en confort",
+      "metrics.emitter.morning_reason.18": "Pièce hors de sa consigne éco avant le passage en confort",
+      "metrics.emitter.morning_reason.19": "Puissance de chauffe instable avant le passage en confort",
+      "metrics.emitter.morning_reason.20": "Pas de hausse nette du chauffage au passage en confort",
+      "metrics.emitter.morning_reason.21": "Pièce avec inertie après une nuit régulée : mesure par identification sur plusieurs jours uniquement",
+      "metrics.emitter.morning_reason.22": "Type de pièce encore inconnu",
+      "metrics.emitter.morning_reason.23": "SmartPI hors de la régulation stable (apprentissage initial)",
+      "metrics.emitter.morning_reason.24": "SmartPI hors de la régulation stable (calibration)",
+      "metrics.emitter.morning_reason.25": "SmartPI hors de la régulation stable (stable)",
+      "metrics.emitter.morning_reason.26": "SmartPI hors de la régulation stable (dégradée)",
+      "metrics.emitter.morning_reason": "Résultat du dernier matin évalué",
+      "metrics.emitter.morning_class.0": "Pièce avec inertie thermique",
+      "metrics.emitter.morning_class.1": "Pièce sans inertie thermique détectée",
+      "metrics.emitter.morning_class.2": "Type de pièce indéterminé",
+      "metrics.emitter.morning_class": "Type de pièce de ce matin",
+      "notes.emitter.fast": "La valeur des matins demande au moins 3 matins confirmés et cohérents, après une hausse de consigne d’au moins 1 °C entre 3 h et 10 h. Un matin non confirmé reste visible mais sa valeur n’est pas utilisée.",
+      "metrics.emitter.refined": "Retard affiné publié τe",
+      "metrics.emitter.coupling": "Couplage air-murs",
+      "metrics.emitter.wall_time": "Constante de temps des murs",
+      "groups.emitter.refined": "Identification affinée",
+      "metrics.emitter.refined_class.0": "Pièce avec inertie thermique",
+      "metrics.emitter.refined_class.1": "Pièce sans inertie thermique détectée",
+      "metrics.emitter.refined_class.2": "Type de pièce indéterminé",
+      "metrics.emitter.refined_class": "Type de pièce en service",
+      "metrics.emitter.night_class.0": "Pièce avec inertie thermique",
+      "metrics.emitter.night_class.1": "Pièce sans inertie thermique détectée",
+      "metrics.emitter.night_class.2": "Type de pièce indéterminé",
+      "metrics.emitter.night_class": "Type de pièce des nuits sans chauffe",
+      "metrics.emitter.evaluation_day": "Dernière évaluation quotidienne",
+      "metrics.emitter.nights.0": "Oui",
+      "metrics.emitter.nights.1": "Non",
+      "metrics.emitter.nights": "Les six nuits sont régulées",
+      "notes.emitter.refined": "L’identification compare deux séries de 3 nuits. Le retard affiné ne remplace celui des matins que si les 6 nuits sont régulées ; une évaluation quotidienne n’est donc pas nécessairement une publication.",
+      "metrics.emitter.invalid.0": "Fenêtre ouverte",
+      "metrics.emitter.invalid.1": "Délestage",
+      "metrics.emitter.invalid.2": "Mode sécurité",
+      "metrics.emitter.invalid.3": "Mode chauffage inactif",
+      "metrics.emitter.invalid.4": "Commande inconnue",
+      "metrics.emitter.invalid.5": "Commande remplacée par le thermostat",
+      "metrics.emitter.invalid.6": "Saut de température",
+      "metrics.emitter.invalid.7": "Température intérieure indisponible",
+      "metrics.emitter.invalid.8": "Température extérieure indisponible",
+      "metrics.emitter.invalid": "Données actuellement exclues : raison",
+      "notes.emitter.data": "Une raison d’exclusion indique que les données courantes ne servent pas à cet apprentissage. « -- » signifie qu’aucune raison n’est fournie ; cela ne prouve pas que l’apprentissage est terminé.",
+      "graphs.emitter.applied": "Retard appliqué",
+      "graphs.emitter.delay": "Retard de chauffe appliqué",
+      "sections.tar_learning.title": "Retard de l’émetteur"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -427,7 +632,7 @@
       "hero.learning.title": "Learning how the system responds",
       "hero.learning.subtitle": "Collected measurements and system response delay.",
       "hero.model.title": "Thermal model and prediction",
-      "hero.model.subtitle": "A/B and delays inform the forecast; FF3 may correct power according to context.",
+      "hero.model.subtitle": "The learned A/B model and delays describe the thermal response; the room model has its own tab. FF3 may correct power according to context.",
       "hero.health.title": "Active supervision",
       "hero.health.subtitle": "Protections may freeze learning or request calibration.",
       "hero.actions.title": "Smart PI actions",
@@ -794,9 +999,214 @@
       "graphs.command.gains": "PI gains history",
       "notes.command.history": "The integral accumulates temperature error in °C·min, rather than a power percentage. Kp and Ki translate the errors and this accumulated value into the command; their curves use separate scales.",
       "notes.learning.response_lag_missing": "Response delay unavailable. This does not tell us whether estimation is still in progress; a missing delay does not mean learning is blocked.",
-      "notes.learning.paused": "Learning is paused. Regulation uses the current model; collection will resume when learning is enabled again.",
+      "notes.learning.paused": "A/B learning is paused. Regulation uses the current model; A/B collection will resume when learning is enabled again. Emitter delay learning remains independent.",
       "status.integral.guard_cut": "Thermal protection cut",
-      "status.integral.guard_cut.description": "Heating is off to prevent overheating. It resumes after the temperature falls enough; excess integral decreases during the cut while retaining the useful correction."
+      "status.integral.guard_cut.description": "Heating is off to prevent overheating. It resumes after the temperature falls enough; excess integral decreases during the cut while retaining the useful correction.",
+      "metrics.holding.source.0": "Learned A/B model",
+      "metrics.holding.source.1": "Room model: air and walls",
+      "metrics.holding.source.2": "Room model: static part",
+      "metrics.holding.source.3": "Simple room model",
+      "metrics.holding.source": "Holding power source",
+      "metrics.holding.walls": "Wall part of holding power",
+      "notes.holding": "A published room model supplies holding power in PWM heating. With identified walls and reliable tracking, it adds their heat absorption (+) or subtracts the heat they give back (−). Otherwise, only its static part is used. Without a published model, in cooling or with a valve, the learned A/B model supplies holding power. The slow FF2 correction stays at zero and frozen while the room model supplies holding power.",
+      "graphs.holding.walls": "Walls in holding power",
+      "graphs.holding.source": "Holding source",
+      "notes.holding.timeline": "The ribbon below the curves shows the holding source: learned model, room model (air and walls), room model (static part), or room model (simple). The wall curve is in % of full power: positive when absorbing heat, negative when giving heat back.",
+      "notes.room.intro": "This model represents the air, walls and emitter. It is identified daily from recorded nights and supplies holding power once published. Published values remain in use if a new identification is refused.",
+      "metrics.room.status.0": "Learning",
+      "metrics.room.status.1": "Model with walls identified",
+      "metrics.room.status.2": "Simple model without walls",
+      "metrics.room.status.3": "Not identified: not enough recorded nights yet",
+      "metrics.room.status.4": "Not identified: heating response delay not known yet",
+      "metrics.room.status.5": "Not identified: too few valid night measurements",
+      "metrics.room.status.6": "Not identified: heat gains or losses detected during the nights",
+      "metrics.room.status.7": "Not identified: too little heating during the nights",
+      "metrics.room.status.8": "Not identified: indoor-outdoor temperature difference too small",
+      "metrics.room.status.9": "Not identified: the model could not be fitted",
+      "metrics.room.status.10": "Not identified: values out of the plausible range",
+      "metrics.room.status.11": "Not identified: the model does not follow the measured temperature closely enough",
+      "metrics.room.status.12": "Not identified: waiting for a second series of nights to confirm",
+      "metrics.room.status.13": "Not identified: two successive series of nights disagree",
+      "metrics.room.status.14": "Not identified: the model does not predict the following nights well enough",
+      "metrics.room.status.15": "Not identified: computation failed",
+      "metrics.room.status.16": "Not identified: the heating response delay does not match the measured temperature",
+      "metrics.room.status.17": "Not identified: the heating response differs too much from the one measured by the regulation",
+      "metrics.room.status.18": "Not identified: valve heaters are not supported yet",
+      "metrics.room.status.19": "Not identified: numerical libraries unavailable",
+      "metrics.room.status": "Model status",
+      "metrics.room.tracking.0": "Reliable tracking",
+      "metrics.room.tracking.1": "Waiting for an identified model",
+      "metrics.room.tracking.2": "Waiting for measurements",
+      "metrics.room.tracking.3": "Paused: SmartPI not heating or not in control",
+      "metrics.room.tracking.4": "Settling after a restart",
+      "metrics.room.tracking.5": "Recovering after an open window",
+      "metrics.room.tracking.6": "Measurements drift away from the model",
+      "metrics.room.tracking.7": "Measurements inconsistent with the model",
+      "metrics.room.tracking.8": "Temperature estimate uncertain",
+      "metrics.room.tracking.9": "Large unexplained heat gains or losses",
+      "metrics.room.tracking.10": "Wall state implausible",
+      "metrics.room.tracking": "Room tracking",
+      "metrics.room.walls.0": "Walls identified",
+      "metrics.room.walls.1": "Not identified: temperature sensor too coarse",
+      "metrics.room.walls.2": "Not identified: no thermal mass detected",
+      "metrics.room.walls.3": "Not identified: not confirmed yet",
+      "metrics.room.walls.4": "Not identified: no better than the simple model",
+      "metrics.room.walls": "Wall identification",
+      "metrics.room.refusal.0": "Not enough recorded nights yet",
+      "metrics.room.refusal.1": "Heating response delay not known yet",
+      "metrics.room.refusal.2": "Too few valid night measurements",
+      "metrics.room.refusal.3": "Heat gains or losses detected during the nights",
+      "metrics.room.refusal.4": "Too little heating during the nights",
+      "metrics.room.refusal.5": "Indoor-outdoor temperature difference too small",
+      "metrics.room.refusal.6": "The model could not be fitted",
+      "metrics.room.refusal.7": "Values out of the plausible range",
+      "metrics.room.refusal.8": "The model does not follow the measured temperature closely enough",
+      "metrics.room.refusal.9": "Waiting for a second series of nights to confirm",
+      "metrics.room.refusal.10": "Two successive series of nights disagree",
+      "metrics.room.refusal.11": "The model does not predict the following nights well enough",
+      "metrics.room.refusal.12": "Computation failed",
+      "metrics.room.refusal.13": "The heating response delay does not match the measured temperature",
+      "metrics.room.refusal.14": "The heating response differs too much from the one measured by the regulation",
+      "metrics.room.refusal.15": "Valve heaters are not supported yet",
+      "metrics.room.refusal.16": "Numerical libraries unavailable",
+      "metrics.room.refusal": "Latest publication refusal",
+      "notes.room.waiting": "A first identification needs about 6 days of recorded nights with some heating. A sensor in 0.1 °C steps cannot identify the walls: steps of 0.015 °C or less are needed; a simple model can still be published. Valve heaters are not supported.",
+      "notes.room.sensor": "Walls require a sensor with steps of 0.015 °C or less. With a 0.1 °C sensor, only the simple model can be identified. A valve cannot yet identify the room or its walls.",
+      "metrics.room.day": "Values in use since",
+      "metrics.room.attempt": "Latest identification",
+      "metrics.room.resolution": "Observed sensor step",
+      "groups.room.dates": "Publication and measurements",
+      "metrics.room.a": "Room: response a",
+      "metrics.room.learned_a": "Learned: response a",
+      "metrics.room.b": "Room: static loss b_eq",
+      "metrics.room.learned_b": "Learned: loss b",
+      "metrics.room.ratio": "Room: b_eq / a",
+      "metrics.room.learned_ratio": "Learned: b / a",
+      "groups.room.parameters": "Model comparison",
+      "notes.room.ratio": "The b/a ratio expresses static holding power per degree of indoor-outdoor difference, shown here as % of full power per °C. A higher ratio means more holding power is needed. b_eq = b_air − b_wall: b_air includes losses to the outside and the walls; b_wall is the steady share passing through the walls.",
+      "metrics.room.b_air": "Total air loss b_air",
+      "metrics.room.b_wall": "Steady wall share b_wall",
+      "groups.room.wall_parameters": "Air and wall exchanges",
+      "metrics.room.forecast.1h": "In 1 h",
+      "metrics.room.forecast.2h": "In 2 h",
+      "metrics.room.forecast.6h": "In 6 h",
+      "metrics.room.forecast.12h": "In 12 h",
+      "groups.room.forecasts": "Temperature forecasts",
+      "notes.room.forecasts": "These temperatures are forecast assuming the current heating power stays constant. They remain unavailable while tracking produces no forecast.",
+      "notes.room.accuracy": "Does the model predict better than “nothing changes”? Compare the errors below: a model error below the unchanged-temperature error means a better forecast. These are root mean square errors over 7 days, with the number of forecasts checked. Past forecasts are replayed with the power actually applied and the measured outdoor temperature. Without checks, no conclusion can be drawn.",
+      "metrics.room.error": "Model error",
+      "metrics.room.unchanged": "Unchanged-temperature error",
+      "metrics.room.checks": "Forecasts checked",
+      "groups.room.accuracy.1h": "Accuracy at 1 h",
+      "groups.room.accuracy.2h": "Accuracy at 2 h",
+      "groups.room.accuracy.6h": "Accuracy at 6 h",
+      "groups.room.accuracy.12h": "Accuracy at 12 h",
+      "metrics.room.wall_power": "Wall extra power",
+      "notes.room.wall_power": "In % of full power, beyond their steady share: positive when walls absorb heat, negative when they give heat back. Unavailable without identified walls, a precise sensor or reliable tracking. The share actually included in holding power is shown in Command.",
+      "graphs.room.a": "Room response a",
+      "graphs.room.b": "Room static loss b_eq",
+      "graphs.room.parameters": "Learned and room models",
+      "graphs.room.error_1h": "1 h error",
+      "graphs.room.error_12h": "12 h error",
+      "graphs.room.errors": "Forecast accuracy over time",
+      "notes.room.history": "The parameter curves compare a on one scale and b / b_eq on the other, in their physical units. The error curves show accuracy at 1 h and 12 h. Forecast temperatures, the unchanged-temperature reference and check counts are current values only.",
+      "sections.room_model.title": "Room model",
+      "notes.emitter.intro": "Emitter delay learning is always enabled, with no option to turn on, in PWM heating. It is independent of the A/B learning pause and is not supported with a valve. The refined value takes priority, then the morning value, then the initial measurement.",
+      "metrics.emitter.status.0": "Learning active",
+      "metrics.emitter.status.1": "Checking numerical libraries",
+      "metrics.emitter.status.2": "Libraries unavailable: initial measurement in use",
+      "metrics.emitter.status.3": "Learning not supported with a valve",
+      "metrics.emitter.status": "Learning status",
+      "metrics.emitter.source.0": "Initial measurement",
+      "metrics.emitter.source.1": "Morning learning",
+      "metrics.emitter.source.2": "Refined identification",
+      "metrics.emitter.source": "Applied delay source",
+      "metrics.emitter.applied": "Applied delay",
+      "metrics.emitter.gains": "Delay used by gains",
+      "metrics.emitter.bootstrap": "Preserved initial measurement",
+      "groups.emitter.applied": "Delay used by regulation",
+      "metrics.emitter.out_of_bound.0": "Out of bounds: initial measurement in use",
+      "metrics.emitter.out_of_bound.1": "No out-of-bound value reported",
+      "metrics.emitter.out_of_bound": "Learned value out of bounds",
+      "notes.emitter.bounds": "A learned value is applied only between half and twice the initial delay. Gains use half of the applied learned delay; with the initial measurement, they use its full value. The initial measurement is never modified.",
+      "metrics.emitter.fast": "Published morning value",
+      "metrics.emitter.confirmed": "Confirmed mornings",
+      "metrics.emitter.last_value": "Last accepted morning: delay",
+      "groups.emitter.fast": "Morning learning",
+      "metrics.emitter.confirmation.0": "Morning confirmed",
+      "metrics.emitter.confirmation.1": "Morning unconfirmed: value unused",
+      "metrics.emitter.confirmation.2": "No accepted morning",
+      "metrics.emitter.confirmation": "Last accepted morning confirmation",
+      "metrics.emitter.unconfirmed_reason.0": "At least 1 h without heating between 23:00 and the comfort step",
+      "metrics.emitter.unconfirmed_reason": "Reason for non-confirmation",
+      "metrics.emitter.last_day": "Last evaluated morning",
+      "metrics.emitter.accepted.0": "Yes",
+      "metrics.emitter.accepted.1": "No",
+      "metrics.emitter.accepted": "Evaluation accepted",
+      "metrics.emitter.morning_reason.0": "Accepted",
+      "metrics.emitter.morning_reason.1": "Computation failed",
+      "metrics.emitter.morning_reason.2": "Missing or excluded data around the comfort step",
+      "metrics.emitter.morning_reason.3": "Heat loss b not learned yet",
+      "metrics.emitter.morning_reason.4": "No heating start after the comfort step",
+      "metrics.emitter.morning_reason.5": "Night not usable for this type of room",
+      "metrics.emitter.morning_reason.6": "Too few temperature readings before the comfort step",
+      "metrics.emitter.morning_reason.7": "Night temperature trend not usable",
+      "metrics.emitter.morning_reason.8": "Night temperature trend does not match the heating cycles",
+      "metrics.emitter.morning_reason.9": "Night temperature trend too irregular",
+      "metrics.emitter.morning_reason.10": "Temperature rise could not be fitted",
+      "metrics.emitter.morning_reason.11": "Temperature rise fitted too loosely",
+      "metrics.emitter.morning_reason.12": "Temperature rise too short to measure",
+      "metrics.emitter.morning_reason.13": "Too little heat delivered during the rise",
+      "metrics.emitter.morning_reason.14": "Temperature rise too small",
+      "metrics.emitter.morning_reason.15": "Temperature sensor reports too rarely",
+      "metrics.emitter.morning_reason.16": "Regulated night: no measurement",
+      "metrics.emitter.morning_reason.17": "Room not regulated during the 2 hours before the comfort step",
+      "metrics.emitter.morning_reason.18": "Room not at its eco setpoint before the comfort step",
+      "metrics.emitter.morning_reason.19": "Heating power not steady before the comfort step",
+      "metrics.emitter.morning_reason.20": "No clear heating increase at the comfort step",
+      "metrics.emitter.morning_reason.21": "Room with thermal mass after a regulated night: measured by the multi-day identification only",
+      "metrics.emitter.morning_reason.22": "Type of room not known yet",
+      "metrics.emitter.morning_reason.23": "SmartPI not in steady regulation (bootstrap)",
+      "metrics.emitter.morning_reason.24": "SmartPI not in steady regulation (calibration)",
+      "metrics.emitter.morning_reason.25": "SmartPI not in steady regulation (stable)",
+      "metrics.emitter.morning_reason.26": "SmartPI not in steady regulation (degraded)",
+      "metrics.emitter.morning_reason": "Last evaluated morning outcome",
+      "metrics.emitter.morning_class.0": "Room with thermal mass",
+      "metrics.emitter.morning_class.1": "Room without detected thermal mass",
+      "metrics.emitter.morning_class.2": "Room type undetermined",
+      "metrics.emitter.morning_class": "Room type for this morning",
+      "notes.emitter.fast": "The morning value needs at least 3 consistent confirmed mornings, after a setpoint rise of at least 1 °C between 03:00 and 10:00. An unconfirmed morning stays visible but its value is not used.",
+      "metrics.emitter.refined": "Published refined delay τe",
+      "metrics.emitter.coupling": "Air-wall coupling",
+      "metrics.emitter.wall_time": "Wall time constant",
+      "groups.emitter.refined": "Refined identification",
+      "metrics.emitter.refined_class.0": "Room with thermal mass",
+      "metrics.emitter.refined_class.1": "Room without detected thermal mass",
+      "metrics.emitter.refined_class.2": "Room type undetermined",
+      "metrics.emitter.refined_class": "Room type in use",
+      "metrics.emitter.night_class.0": "Room with thermal mass",
+      "metrics.emitter.night_class.1": "Room without detected thermal mass",
+      "metrics.emitter.night_class.2": "Room type undetermined",
+      "metrics.emitter.night_class": "Room type from unheated nights",
+      "metrics.emitter.evaluation_day": "Latest daily evaluation",
+      "metrics.emitter.nights.0": "Yes",
+      "metrics.emitter.nights.1": "No",
+      "metrics.emitter.nights": "All six nights are regulated",
+      "notes.emitter.refined": "Identification compares two series of 3 nights. The refined delay replaces the morning value only if all 6 nights are regulated; a daily evaluation therefore does not necessarily mean a publication.",
+      "metrics.emitter.invalid.0": "Window open",
+      "metrics.emitter.invalid.1": "Power shedding",
+      "metrics.emitter.invalid.2": "Safety mode",
+      "metrics.emitter.invalid.3": "Hvac not heating",
+      "metrics.emitter.invalid.4": "Command unknown",
+      "metrics.emitter.invalid.5": "Command overridden",
+      "metrics.emitter.invalid.6": "Temperature jump",
+      "metrics.emitter.invalid.7": "Indoor temperature unavailable",
+      "metrics.emitter.invalid.8": "Outdoor temperature unavailable",
+      "metrics.emitter.invalid": "Currently excluded data: reason",
+      "notes.emitter.data": "An exclusion reason means the current data are not used for this learning. “--” means no reason is supplied; it does not establish that learning is complete.",
+      "graphs.emitter.applied": "Applied delay",
+      "graphs.emitter.delay": "Applied heating delay",
+      "sections.tar_learning.title": "Emitter delay"
     }
   },
   "sections": [
@@ -1625,6 +2035,60 @@
           ]
         },
         {
+          "type": "layout_grid",
+          "min_width": 210,
+          "items": [
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/feedforward/source",
+              "label_key": "metrics.holding.source",
+              "map": {
+                "learned model": {
+                  "label_key": "metrics.holding.source.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "room model (air and walls)": {
+                  "label_key": "metrics.holding.source.1",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                },
+                "room model (static part)": {
+                  "label_key": "metrics.holding.source.2",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "room model (simple)": {
+                  "label_key": "metrics.holding.source.3",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "value",
+              "source": "diagnostic",
+              "path": "live/feedforward/wall_power_percent",
+              "label_key": "metrics.holding.walls",
+              "digits": 1,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.holding",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
           "type": "metric_grid",
           "title_key": "groups.command.gains",
           "columns": 3,
@@ -1688,6 +2152,19 @@
               "label_key": "graphs.command.ff",
               "unit": "%",
               "scale_group": "power"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/feedforward/wall_power_percent",
+              "label_key": "graphs.holding.walls",
+              "scale_group": "power",
+              "unit": "%"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/feedforward/source",
+              "label_key": "graphs.holding.source",
+              "scale_group": "power"
             }
           ],
           "options": {
@@ -1699,6 +2176,12 @@
             "entity_picker": false,
             "range_picker": false
           }
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.holding.timeline",
+          "tone": "info",
+          "icon": "mdi:information-outline"
         },
         {
           "type": "section_note",
@@ -2905,6 +3388,754 @@
       ]
     },
     {
+      "id": "room_model",
+      "title_key": "sections.room_model.title",
+      "icon": "mdi:home-thermometer-outline",
+      "items": [
+        {
+          "type": "section_note",
+          "text_key": "notes.room.intro",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 210,
+          "items": [
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/room_model/status",
+              "label_key": "metrics.room.status",
+              "map": {
+                "learning": {
+                  "label_key": "metrics.room.status.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "identified": {
+                  "label_key": "metrics.room.status.1",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                },
+                "simple model": {
+                  "label_key": "metrics.room.status.2",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: not enough recorded nights yet": {
+                  "label_key": "metrics.room.status.3",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: heating response delay not known yet": {
+                  "label_key": "metrics.room.status.4",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: too few valid night measurements": {
+                  "label_key": "metrics.room.status.5",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: heat gains or losses detected during the nights": {
+                  "label_key": "metrics.room.status.6",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: too little heating during the nights": {
+                  "label_key": "metrics.room.status.7",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: indoor-outdoor temperature difference too small": {
+                  "label_key": "metrics.room.status.8",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: the model could not be fitted": {
+                  "label_key": "metrics.room.status.9",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: values out of the plausible range": {
+                  "label_key": "metrics.room.status.10",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: the model does not follow the measured temperature closely enough": {
+                  "label_key": "metrics.room.status.11",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: waiting for a second series of nights to confirm": {
+                  "label_key": "metrics.room.status.12",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: two successive series of nights disagree": {
+                  "label_key": "metrics.room.status.13",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: the model does not predict the following nights well enough": {
+                  "label_key": "metrics.room.status.14",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: computation failed": {
+                  "label_key": "metrics.room.status.15",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: the heating response delay does not match the measured temperature": {
+                  "label_key": "metrics.room.status.16",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: the heating response differs too much from the one measured by the regulation": {
+                  "label_key": "metrics.room.status.17",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: valve heaters are not supported yet": {
+                  "label_key": "metrics.room.status.18",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: numerical libraries unavailable": {
+                  "label_key": "metrics.room.status.19",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/room_model/tracking",
+              "label_key": "metrics.room.tracking",
+              "map": {
+                "ok": {
+                  "label_key": "metrics.room.tracking.0",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                },
+                "waiting for an identified model": {
+                  "label_key": "metrics.room.tracking.1",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "waiting for measurements": {
+                  "label_key": "metrics.room.tracking.2",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "paused (SmartPI not heating or not in control)": {
+                  "label_key": "metrics.room.tracking.3",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "settling after a restart": {
+                  "label_key": "metrics.room.tracking.4",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "recovering after an open window": {
+                  "label_key": "metrics.room.tracking.5",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "measurements drift away from the model": {
+                  "label_key": "metrics.room.tracking.6",
+                  "tone": "warning",
+                  "icon": "mdi:information-outline"
+                },
+                "measurements inconsistent with the model": {
+                  "label_key": "metrics.room.tracking.7",
+                  "tone": "warning",
+                  "icon": "mdi:information-outline"
+                },
+                "temperature estimate uncertain": {
+                  "label_key": "metrics.room.tracking.8",
+                  "tone": "warning",
+                  "icon": "mdi:information-outline"
+                },
+                "large unexplained heat gains or losses": {
+                  "label_key": "metrics.room.tracking.9",
+                  "tone": "warning",
+                  "icon": "mdi:information-outline"
+                },
+                "wall state implausible": {
+                  "label_key": "metrics.room.tracking.10",
+                  "tone": "warning",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/room_model/walls",
+              "label_key": "metrics.room.walls",
+              "map": {
+                "identified": {
+                  "label_key": "metrics.room.walls.0",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: temperature sensor too coarse": {
+                  "label_key": "metrics.room.walls.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: no thermal mass detected": {
+                  "label_key": "metrics.room.walls.2",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: not confirmed yet": {
+                  "label_key": "metrics.room.walls.3",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "not identified: no better than the simple model": {
+                  "label_key": "metrics.room.walls.4",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/room_model/last_refusal_reason",
+              "label_key": "metrics.room.refusal",
+              "map": {
+                "not enough recorded nights yet": {
+                  "label_key": "metrics.room.refusal.0",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "heating response delay not known yet": {
+                  "label_key": "metrics.room.refusal.1",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "too few valid night measurements": {
+                  "label_key": "metrics.room.refusal.2",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "heat gains or losses detected during the nights": {
+                  "label_key": "metrics.room.refusal.3",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "too little heating during the nights": {
+                  "label_key": "metrics.room.refusal.4",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "indoor-outdoor temperature difference too small": {
+                  "label_key": "metrics.room.refusal.5",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "the model could not be fitted": {
+                  "label_key": "metrics.room.refusal.6",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "values out of the plausible range": {
+                  "label_key": "metrics.room.refusal.7",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "the model does not follow the measured temperature closely enough": {
+                  "label_key": "metrics.room.refusal.8",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "waiting for a second series of nights to confirm": {
+                  "label_key": "metrics.room.refusal.9",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "two successive series of nights disagree": {
+                  "label_key": "metrics.room.refusal.10",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "the model does not predict the following nights well enough": {
+                  "label_key": "metrics.room.refusal.11",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "computation failed": {
+                  "label_key": "metrics.room.refusal.12",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "the heating response delay does not match the measured temperature": {
+                  "label_key": "metrics.room.refusal.13",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "the heating response differs too much from the one measured by the regulation": {
+                  "label_key": "metrics.room.refusal.14",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "valve heaters are not supported yet": {
+                  "label_key": "metrics.room.refusal.15",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "numerical libraries unavailable": {
+                  "label_key": "metrics.room.refusal.16",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.waiting",
+          "tone": "info",
+          "icon": "mdi:information-outline",
+          "visible_if": {
+            "and": [
+              {
+                "!=": [
+                  {
+                    "var": "diagnostic/live/room_model/status"
+                  },
+                  "identified"
+                ]
+              },
+              {
+                "!=": [
+                  {
+                    "var": "diagnostic/live/room_model/status"
+                  },
+                  "simple model"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.sensor",
+          "tone": "info",
+          "icon": "mdi:information-outline",
+          "visible_if": {
+            "==": [
+              {
+                "var": "diagnostic/live/room_model/status"
+              },
+              "simple model"
+            ]
+          }
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.room.dates",
+          "columns": 3,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/identified_day",
+              "label_key": "metrics.room.day",
+              "digits": 0
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/last_identification_day",
+              "label_key": "metrics.room.attempt",
+              "digits": 0
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/sensor_resolution_c",
+              "label_key": "metrics.room.resolution",
+              "digits": 3,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.room.parameters",
+          "columns": 2,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/a",
+              "label_key": "metrics.room.a",
+              "digits": 5,
+              "unit": "°C/min"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/model/a",
+              "label_key": "metrics.room.learned_a",
+              "digits": 5,
+              "unit": "°C/min"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/b_eq",
+              "label_key": "metrics.room.b",
+              "digits": 5,
+              "unit": "min⁻¹"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/model/b",
+              "label_key": "metrics.room.learned_b",
+              "digits": 5,
+              "unit": "min⁻¹"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/b_eq",
+              "label_key": "metrics.room.ratio",
+              "digits": 3,
+              "divide_by": {
+                "source": "diagnostic",
+                "path": "live/room_model/a"
+              },
+              "value_multiplier": 100,
+              "unit": "%/°C"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/model/b",
+              "label_key": "metrics.room.learned_ratio",
+              "digits": 3,
+              "divide_by": {
+                "source": "diagnostic",
+                "path": "live/model/a"
+              },
+              "value_multiplier": 100,
+              "unit": "%/°C"
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.ratio",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.room.wall_parameters",
+          "columns": 2,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/b_air",
+              "label_key": "metrics.room.b_air",
+              "digits": 5,
+              "unit": "min⁻¹"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/b_wall",
+              "label_key": "metrics.room.b_wall",
+              "digits": 5,
+              "unit": "min⁻¹"
+            }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.room.forecasts",
+          "columns": 2,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/forecast_c/1h",
+              "label_key": "metrics.room.forecast.1h",
+              "digits": 2,
+              "unit": "°C"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/forecast_c/2h",
+              "label_key": "metrics.room.forecast.2h",
+              "digits": 2,
+              "unit": "°C"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/forecast_c/6h",
+              "label_key": "metrics.room.forecast.6h",
+              "digits": 2,
+              "unit": "°C"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/forecast_c/12h",
+              "label_key": "metrics.room.forecast.12h",
+              "digits": 2,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.forecasts",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.accuracy",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 210,
+          "items": [
+            {
+              "type": "metric_grid",
+              "title_key": "groups.room.accuracy.1h",
+              "columns": 3,
+              "metrics": [
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_error_c/1h",
+                  "label_key": "metrics.room.error",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/unchanged_temperature_error_c/1h",
+                  "label_key": "metrics.room.unchanged",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_checks/1h",
+                  "label_key": "metrics.room.checks",
+                  "digits": 0
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "title_key": "groups.room.accuracy.2h",
+              "columns": 3,
+              "metrics": [
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_error_c/2h",
+                  "label_key": "metrics.room.error",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/unchanged_temperature_error_c/2h",
+                  "label_key": "metrics.room.unchanged",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_checks/2h",
+                  "label_key": "metrics.room.checks",
+                  "digits": 0
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "title_key": "groups.room.accuracy.6h",
+              "columns": 3,
+              "metrics": [
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_error_c/6h",
+                  "label_key": "metrics.room.error",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/unchanged_temperature_error_c/6h",
+                  "label_key": "metrics.room.unchanged",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_checks/6h",
+                  "label_key": "metrics.room.checks",
+                  "digits": 0
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "title_key": "groups.room.accuracy.12h",
+              "columns": 3,
+              "metrics": [
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_error_c/12h",
+                  "label_key": "metrics.room.error",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/unchanged_temperature_error_c/12h",
+                  "label_key": "metrics.room.unchanged",
+                  "digits": 3,
+                  "unit": "°C"
+                },
+                {
+                  "source": "diagnostic",
+                  "path": "live/room_model/forecast_checks/12h",
+                  "label_key": "metrics.room.checks",
+                  "digits": 0
+                }
+              ]
+            }
+          ],
+          "columns": 1
+        },
+        {
+          "type": "value",
+          "source": "diagnostic",
+          "path": "live/room_model/wall_extra_power_percent",
+          "label_key": "metrics.room.wall_power",
+          "digits": 1,
+          "unit": "%"
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.wall_power",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "history",
+          "title_key": "graphs.room.parameters",
+          "range": "7d",
+          "series": [
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/model/a",
+              "label_key": "graphs.model.a",
+              "scale_group": "room_coefficients",
+              "unit": "°C/min"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/room_model/a",
+              "label_key": "graphs.room.a",
+              "scale_group": "room_coefficients",
+              "unit": "°C/min"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/model/b",
+              "label_key": "graphs.model.b",
+              "scale_group": "room_coefficients",
+              "unit": "min⁻¹"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/room_model/b_eq",
+              "label_key": "graphs.room.b",
+              "scale_group": "room_coefficients",
+              "unit": "min⁻¹"
+            }
+          ],
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
+        },
+        {
+          "type": "history",
+          "title_key": "graphs.room.errors",
+          "range": "7d",
+          "series": [
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/room_model/forecast_error_1h_c",
+              "label_key": "graphs.room.error_1h",
+              "scale_group": "forecast_error",
+              "unit": "°C"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/room_model/forecast_error_12h_c",
+              "label_key": "graphs.room.error_12h",
+              "scale_group": "forecast_error",
+              "unit": "°C"
+            }
+          ],
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.history",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        }
+      ]
+    },
+    {
       "id": "learning",
       "title_key": "sections.learning.title",
       "icon": "mdi:school-outline",
@@ -3412,6 +4643,659 @@
           "text_key": "notes.learning",
           "tone": "info",
           "icon": "mdi:information-outline"
+        }
+      ]
+    },
+    {
+      "id": "tar_learning",
+      "title_key": "sections.tar_learning.title",
+      "icon": "mdi:timer-sand",
+      "items": [
+        {
+          "type": "section_note",
+          "text_key": "notes.emitter.intro",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 210,
+          "items": [
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/status",
+              "label_key": "metrics.emitter.status",
+              "map": {
+                "active": {
+                  "label_key": "metrics.emitter.status.0",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                },
+                "checking_dependencies": {
+                  "label_key": "metrics.emitter.status.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "dependencies_unavailable": {
+                  "label_key": "metrics.emitter.status.2",
+                  "tone": "warning",
+                  "icon": "mdi:information-outline"
+                },
+                "valve_mode_not_supported": {
+                  "label_key": "metrics.emitter.status.3",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/source",
+              "label_key": "metrics.emitter.source",
+              "map": {
+                "bootstrap": {
+                  "label_key": "metrics.emitter.source.0",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "fast": {
+                  "label_key": "metrics.emitter.source.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "refined": {
+                  "label_key": "metrics.emitter.source.2",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            }
+          ]
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.emitter.applied",
+          "columns": 3,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/applied_s",
+              "label_key": "metrics.emitter.applied",
+              "digits": 1,
+              "format": "duration_s"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/gains_s",
+              "label_key": "metrics.emitter.gains",
+              "digits": 1,
+              "format": "duration_s"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/bootstrap_s",
+              "label_key": "metrics.emitter.bootstrap",
+              "digits": 1,
+              "format": "duration_s"
+            }
+          ]
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/tar_learning/out_of_bound",
+          "label_key": "metrics.emitter.out_of_bound",
+          "map": {
+            "true": {
+              "label_key": "metrics.emitter.out_of_bound.0",
+              "tone": "warning",
+              "icon": "mdi:information-outline"
+            },
+            "false": {
+              "label_key": "metrics.emitter.out_of_bound.1",
+              "tone": "muted",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.emitter.bounds",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.emitter.fast",
+          "columns": 3,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/value_s",
+              "label_key": "metrics.emitter.fast",
+              "digits": 1,
+              "format": "duration_s"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/confirmed_mornings",
+              "label_key": "metrics.emitter.confirmed",
+              "digits": 0
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/last_value_s",
+              "label_key": "metrics.emitter.last_value",
+              "digits": 1,
+              "format": "duration_s"
+            }
+          ]
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/tar_learning/fast/last_status",
+          "label_key": "metrics.emitter.confirmation",
+          "map": {
+            "confirmed": {
+              "label_key": "metrics.emitter.confirmation.0",
+              "tone": "ok",
+              "icon": "mdi:information-outline"
+            },
+            "unconfirmed": {
+              "label_key": "metrics.emitter.confirmation.1",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "none": {
+              "label_key": "metrics.emitter.confirmation.2",
+              "tone": "muted",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/tar_learning/fast/last_unconfirmed_reason",
+          "label_key": "metrics.emitter.unconfirmed_reason",
+          "map": {
+            "night with at least 1 hour without heating between 23:00 and the comfort step": {
+              "label_key": "metrics.emitter.unconfirmed_reason.0",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 210,
+          "items": [
+            {
+              "type": "value",
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/last_morning/day",
+              "label_key": "metrics.emitter.last_day",
+              "digits": 0
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/last_morning/accepted",
+              "label_key": "metrics.emitter.accepted",
+              "map": {
+                "true": {
+                  "label_key": "metrics.emitter.accepted.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "false": {
+                  "label_key": "metrics.emitter.accepted.1",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/last_morning/reason",
+              "label_key": "metrics.emitter.morning_reason",
+              "map": {
+                "accepted": {
+                  "label_key": "metrics.emitter.morning_reason.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "computation failed": {
+                  "label_key": "metrics.emitter.morning_reason.1",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "missing or excluded data around the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.2",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "heat loss b not learned yet": {
+                  "label_key": "metrics.emitter.morning_reason.3",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "no heating start after the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.4",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "night not usable for this type of room": {
+                  "label_key": "metrics.emitter.morning_reason.5",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "too few temperature readings before the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.6",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "night temperature trend not usable": {
+                  "label_key": "metrics.emitter.morning_reason.7",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "night temperature trend does not match the heating cycles": {
+                  "label_key": "metrics.emitter.morning_reason.8",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "night temperature trend too irregular": {
+                  "label_key": "metrics.emitter.morning_reason.9",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "temperature rise could not be fitted": {
+                  "label_key": "metrics.emitter.morning_reason.10",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "temperature rise fitted too loosely": {
+                  "label_key": "metrics.emitter.morning_reason.11",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "temperature rise too short to measure": {
+                  "label_key": "metrics.emitter.morning_reason.12",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "too little heat delivered during the rise": {
+                  "label_key": "metrics.emitter.morning_reason.13",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "temperature rise too small": {
+                  "label_key": "metrics.emitter.morning_reason.14",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "temperature sensor reports too rarely": {
+                  "label_key": "metrics.emitter.morning_reason.15",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "regulated night: no measurement": {
+                  "label_key": "metrics.emitter.morning_reason.16",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "room not regulated during the 2 hours before the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.17",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "room not at its eco setpoint before the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.18",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "heating power not steady before the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.19",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "no clear heating increase at the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.20",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "room with thermal mass after a regulated night: measured by the multi-day identification only": {
+                  "label_key": "metrics.emitter.morning_reason.21",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "type of room not known yet": {
+                  "label_key": "metrics.emitter.morning_reason.22",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "SmartPI not in steady regulation (bootstrap)": {
+                  "label_key": "metrics.emitter.morning_reason.23",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "SmartPI not in steady regulation (calibration)": {
+                  "label_key": "metrics.emitter.morning_reason.24",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "SmartPI not in steady regulation (stable)": {
+                  "label_key": "metrics.emitter.morning_reason.25",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "SmartPI not in steady regulation (degraded)": {
+                  "label_key": "metrics.emitter.morning_reason.26",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/last_morning/room_class",
+              "label_key": "metrics.emitter.morning_class",
+              "map": {
+                "thermal_mass": {
+                  "label_key": "metrics.emitter.morning_class.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "no_thermal_mass": {
+                  "label_key": "metrics.emitter.morning_class.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "undetermined": {
+                  "label_key": "metrics.emitter.morning_class.2",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.emitter.fast",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "metric_grid",
+          "title_key": "groups.emitter.refined",
+          "columns": 3,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/refined/tau_e_s",
+              "label_key": "metrics.emitter.refined",
+              "digits": 1,
+              "format": "duration_s"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/refined/k_per_s",
+              "label_key": "metrics.emitter.coupling",
+              "digits": 6,
+              "unit": "s⁻¹"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/refined/tau_w_h",
+              "label_key": "metrics.emitter.wall_time",
+              "digits": 2,
+              "unit": "h"
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 210,
+          "items": [
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/refined/class",
+              "label_key": "metrics.emitter.refined_class",
+              "map": {
+                "thermal_mass": {
+                  "label_key": "metrics.emitter.refined_class.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "no_thermal_mass": {
+                  "label_key": "metrics.emitter.refined_class.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "undetermined": {
+                  "label_key": "metrics.emitter.refined_class.2",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/night_room_class",
+              "label_key": "metrics.emitter.night_class",
+              "map": {
+                "thermal_mass": {
+                  "label_key": "metrics.emitter.night_class.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "no_thermal_mass": {
+                  "label_key": "metrics.emitter.night_class.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "undetermined": {
+                  "label_key": "metrics.emitter.night_class.2",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "value",
+              "source": "diagnostic",
+              "path": "live/tar_learning/refined/last_evaluation/day",
+              "label_key": "metrics.emitter.evaluation_day",
+              "digits": 0
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/refined/last_evaluation/regulated_nights",
+              "label_key": "metrics.emitter.nights",
+              "map": {
+                "true": {
+                  "label_key": "metrics.emitter.nights.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "false": {
+                  "label_key": "metrics.emitter.nights.1",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.emitter.refined",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/tar_learning/data_invalid_reason",
+          "label_key": "metrics.emitter.invalid",
+          "map": {
+            "window open": {
+              "label_key": "metrics.emitter.invalid.0",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "power shedding": {
+              "label_key": "metrics.emitter.invalid.1",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "safety mode": {
+              "label_key": "metrics.emitter.invalid.2",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "hvac not heating": {
+              "label_key": "metrics.emitter.invalid.3",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "command unknown": {
+              "label_key": "metrics.emitter.invalid.4",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "command overridden": {
+              "label_key": "metrics.emitter.invalid.5",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "temperature jump": {
+              "label_key": "metrics.emitter.invalid.6",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "indoor temperature unavailable": {
+              "label_key": "metrics.emitter.invalid.7",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "outdoor temperature unavailable": {
+              "label_key": "metrics.emitter.invalid.8",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.emitter.data",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "history",
+          "title_key": "graphs.emitter.delay",
+          "range": "7d",
+          "series": [
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/deadtime/applied_s",
+              "label_key": "graphs.emitter.applied",
+              "scale_group": "deadtime",
+              "unit": "s"
+            }
+          ],
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
         }
       ]
     },

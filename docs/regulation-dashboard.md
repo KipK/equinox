@@ -42,12 +42,12 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation dashboard with eight sections covering the current regulation state, command, target approach, model and prediction, learning, FFTrim, protections, and maintenance actions.
+- `smartpi.json` — Smart PI regulation dashboard with ten sections covering the current regulation state, command, target approach, learned model, room model, learning, emitter delay, FFTrim, protections, and maintenance actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
 
 ### Built-in SmartPI dashboard
 
-The SmartPI dashboard uses these eight sections in this order:
+The SmartPI dashboard uses these ten sections in this order:
 
 | English / French | Stable section ID | Purpose |
 | --- | --- | --- |
@@ -55,7 +55,9 @@ The SmartPI dashboard uses these eight sections in this order:
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
 | Target approach / Approche de consigne | `anticipation` | Followed setpoint, trajectory profile and command history |
 | Model and prediction / Modèle et prévision | `model` | A/B, confidence, delays and the relocated FF3/twin block |
+| Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
+| Emitter delay / Retard de l’émetteur | `tar_learning` | Applied, morning and refined delays, last evaluation and data exclusions |
 | Equilibrium / FFTrim / Équilibre / FFTrim | `fftrim` | Holding power and integral/trim transfers |
 | Protections / Protections | `health` | Guards, holds, governance and calibration |
 | Actions / Actions | `actions` | Existing confirmed maintenance commands |
@@ -64,9 +66,10 @@ The existing section IDs remain valid for selection, desktop navigation and
 the mobile section menu. Overview includes the current trajectory phase.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
-controller data directly from `live/...` and its eleven historical series from
-`history/...`; it does not branch on SmartPI debug mode or reproduce controller
-formulas. Published `live/power/*_percent` values are already percentages.
+controller data directly from `live/...` and its eighteen historical series from
+`history/...`; it does not branch on SmartPI debug mode or reconstruct controller
+state. The only derived live metrics divide published loss by heating response
+to compare the models’ static holding-power ratios. Published `live/power/*_percent` values are already percentages.
 Ratios inside `live/feedforward/fftrim` and trajectory `next_cycle_reference` /
 `bumpless_delta` use an explicit `value_multiplier: 100`. Temperatures and
 setpoints remain in physical °C coordinates in both HEAT and COOL.
@@ -90,7 +93,7 @@ separate % graph. Both use a 6-hour window. Applied power is an actuator command
 not a measurement of delivered heat. The on-screen note briefly explains the
 two graphs.
 
-The eleven diagnostic Recorder series (SmartPI 0.6.2 and later) are:
+The eighteen diagnostic Recorder series (SmartPI 0.7) are:
 
 - `history/temperature/indoor`
 - `history/temperature/integral_error`
@@ -103,6 +106,102 @@ The eleven diagnostic Recorder series (SmartPI 0.6.2 and later) are:
 - `history/power/ff_percent`
 - `history/model/a`
 - `history/model/b`
+- `history/feedforward/source` (text timeline)
+- `history/feedforward/wall_power_percent`
+- `history/room_model/a`
+- `history/room_model/b_eq`
+- `history/room_model/forecast_error_1h_c`
+- `history/room_model/forecast_error_12h_c`
+- `history/deadtime/applied_s`
+
+Command displays `live/feedforward/source` in French or English and
+`live/feedforward/wall_power_percent` in % of full power. A published room model
+supplies holding power in PWM heating: air and walls while tracking is reliable,
+static part only while tracking is not reliable, or the simple model without
+walls. Without a publication, in cooling or with a valve, the learned A/B model
+remains the source. FF2 stays zero and frozen while a room model is the source.
+A source change is absorbed by the integral rather than causing a command jump.
+The power history overlays the wall contribution with FF and PI on the same
+percentage axis. `history/feedforward/source` shares that graph’s group and is
+rendered by ha-better-history as a text ribbon, never a numeric curve. Recorder
+keeps the publisher’s plain English values; the French on-screen guide explains
+all four source values without changing the recorded data.
+
+The seven additional series are always published, with `null` for values not
+computed. Old recorded periods may lack them. No live values are substituted
+for missing history, and the applied power remains a command rather than a
+measurement of delivered heat.
+
+#### Room model / Modèle de pièce
+
+The `room_model` section displays `live/room_model/status`, tracking, wall
+identification, last refusal, publication day, last identification day and
+observed sensor resolution. Known states and refusals have FR/EN explanations;
+future values remain visible with neutral styling. A rejected daily fit does
+not invalidate the parameters already published.
+
+Identification needs about six days of recorded nights with heating. Valves
+are unsupported. Walls need sensor steps of at most 0.015 °C: a 0.1 °C sensor can
+still yield a simple room model, but cannot identify the walls. The waiting
+note explains this while no model is published; the simple-model note preserves
+the sensor explanation once a simple model is in use.
+
+The parameter grid compares `live/room_model/a` with `live/model/a` (°C/min),
+`live/room_model/b_eq` with `live/model/b` (min⁻¹), and their holding-power ratios
+`100 × b_eq / a` and `100 × b / a` (% of full power per °C). The optional
+`divide_by` value reference reads the corresponding heating response; missing,
+non-numeric or non-positive denominators remain `--`. `b_air` and `b_wall` are
+also displayed: `b_eq = b_air − b_wall` is the static loss, not the total loss
+of the air. A seven-day history compares the four published coefficients with
+one scale for each unit. Ratios are current metrics; their missing historical
+series are listed in `dev_tests/smartpi-0.7-history-request.md`.
+
+Forecasts at 1, 2, 6 and 12 hours assume the current heating power is kept.
+At every horizon, a comparison card places `forecast_error_c`,
+`unchanged_temperature_error_c` and `forecast_checks` together. The error is the
+root mean square error over the last seven days, in °C, replaying past forecasts
+with actual applied power and measured outdoor temperature. The model is more
+accurate than “nothing changes” when its error is lower than the reference;
+without checked forecasts there is no evidence to compare. Zero checks and
+zero errors remain valid values, while missing scores remain unavailable.
+A second seven-day graph plots only the recorded 1 h and 12 h errors; reference
+errors, check counts and forecast temperatures are live-only.
+
+`live/room_model/wall_extra_power_percent` is positive when walls absorb heat
+beyond their steady share and negative when they give heat back. It stays
+unavailable without identified walls, a precise sensor or reliable tracking.
+This estimate is distinct from the wall contribution actually included in the
+feedforward, shown in Command.
+
+#### Emitter delay / Retard de l’émetteur
+
+The `tar_learning` section follows `live/tar_learning`. Learning is always
+enabled in SmartPI 0.7, independently of the A/B learning toggle; there is no
+T_ar configuration option and no `gate` or `path` diagnostic. It applies only
+to PWM heating and is unsupported with valves. Status, applied source,
+`applied_s`, `gains_s`, `bootstrap_s` and the out-of-bound flag explain the delay
+actually used. Refined values take priority over morning values; a learned
+delay outside 0.5–2 times bootstrap is not applied. The initial bootstrap
+measurement never changes, and gains use half the applied learned delay or the
+full bootstrap delay.
+
+Morning diagnostics show `fast.value_s`, confirmed mornings, last accepted
+value and its confirmation or reason for non-confirmation. The last evaluated
+morning is shown separately with day, acceptance, reason and room class: it
+may differ from the last accepted morning. At least three consistent confirmed
+mornings are needed. Refined diagnostics show the published `tau_e_s`, room
+class, air-wall coupling, wall time constant, latest daily evaluation day,
+whether its six nights are regulated, and `night_room_class`. A daily evaluation
+is not necessarily a publication. `data_invalid_reason` explains exclusions
+such as a window, shedding, a temperature jump or a command override; an absent
+reason does not imply completed learning. All known values use plain FR/EN
+labels, with neutral/raw fallbacks for future values.
+
+The seven-day delay history reads only `history/deadtime/applied_s`, in seconds.
+Morning/refined values and their evaluation details are live-only. The existing
+response-lag metrics in Learning describe a separate signal; they are preserved.
+`vt-state.ts` needs no migration: calibration still uses schema v2
+`live/control/phase` and `live/calibration/state`.
 
 Command separates the PI/FF/holding contributions and integral value from a
 three-column **PI gains** group: `live/control/kp`, `live/control/ki` and
@@ -210,7 +309,7 @@ is a neutral interruption after a power transition. Missing outcomes remain
 `--`; unknown codes remain visible with neutral styling. The active
 wait is bounded by 4 h and the passive wait by 12 h, allowing a slow emitter to
 release stored heat after power stops. No countdown or timeout is inferred by
-Equinox. These live diagnostics are separate from the eleven Recorder series,
+Equinox. These live diagnostics are separate from the eighteen Recorder series,
 and an entity can leave them absent.
 
 Overview and Protections translate `I:OVERRIDE(guard_cut)` as **Thermal protection
@@ -241,16 +340,19 @@ The configuration and actual renderer methods are covered by
 documentation examples, trajectory transitions, missing/null/zero values,
 unknown enums, HEAT/COOL units, Ti, response lag, detector waits/outcomes, early
 initial-learning collection and early publication, pause and unavailable-delay
-notices, thermal protection cuts, the eight Recorder paths and desktop/mobile
+notices, thermal protection cuts, the eighteen Recorder paths, room-model ratios and
+forecast comparisons, emitter-delay states, source timelines and desktop/mobile
 selection templates. The reference fixture in
 `tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from
-vtherm_smartpi and records its source revision and files. Update it from the
-publisher when that contract changes. These tests do not paint a browser:
+vtherm_smartpi dev-0.7 and records its source revision and files. The publisher’s
+live-path fixture currently omits room_model and tar_learning, so those fields
+are snapshotted from their diagnostics methods and the documented horizon maps.
+Update the snapshot from the publisher when that contract changes. These tests do not paint a browser:
 final mobile/desktop and Flat/Liquid Glow appearance needs checking in Home
 Assistant.
 
 The `live/learning/enabled` diagnostic controls whether Summary and Actions
-show thermal learning as enabled or paused. Actions offers the matching confirmed
+show A/B learning as enabled or paused; emitter-delay learning stays independent. Actions offers the matching confirmed
 `vtherm_smartpi.set_smartpi_learning` service call with `learning_enabled: false`
 or `true`; it targets the configured climate entity. Its label and icon follow
 the current diagnostic state: enabled learning shows Pause, while paused learning
@@ -557,7 +659,8 @@ Fields:
 | `path` | no | string | Source path. |
 | `unit`, `unit_key` | no | string | Appended after non-missing values. |
 | `digits` | no | number | Decimal digits for numeric values. Defaults to `0`. |
-| `value_multiplier` | no | number | Multiplies a valid numeric value before rounding. Useful for explicit ratio-to-percent conversion. |
+| `value_multiplier` | no | number | Multiplies a valid numeric value after optional division, before rounding. Useful for explicit ratio-to-percent conversion. |
+| `divide_by` | no | value reference | Optional `{source, path}` denominator. Requires finite numbers and a strictly positive denominator; otherwise renders the fallback. |
 | `format` | no | `"number"`, `"duration_s"`, or `"datetime"` | Applies the bounded formatter described below. An absent format keeps the compatible default rendering. |
 | `fallback` | no | string | Fallback for missing values. Defaults to `--`. |
 | `tone_map` | no | object | Maps raw value strings to tones. |
@@ -592,6 +695,22 @@ so `0.0001` renders as `0.01 %`):
 }
 ```
 
+Holding-power ratio example (the numerator and denominator are both live
+published coefficients; this does not create a historical series):
+
+```json
+{
+  "type": "value",
+  "label": "Room static holding power per degree",
+  "source": "diagnostic",
+  "path": "live/room_model/b_eq",
+  "divide_by": { "source": "diagnostic", "path": "live/room_model/a" },
+  "value_multiplier": 100,
+  "unit": "%/°C",
+  "digits": 3
+}
+```
+
 ## Block: `metric_grid`
 
 A compact grid of values.
@@ -613,7 +732,8 @@ Metric fields:
 | `path` | no | string | Source path. |
 | `unit`, `unit_key` | no | string | Appended after non-missing values. |
 | `digits` | no | number | Decimal digits for numeric values. Defaults to `0`. |
-| `value_multiplier` | no | number | Multiplies a valid numeric value before rounding. |
+| `value_multiplier` | no | number | Multiplies a valid numeric value after optional division, before rounding. |
+| `divide_by` | no | value reference | Same optional `{source, path}` division and missing-value rules as `value`. |
 | `format` | no | `"number"`, `"duration_s"`, or `"datetime"` | Uses the same formatter as a `value` block. |
 | `fallback` | no | string | Fallback for missing values. |
 | `icon` | no | string | Home Assistant icon. |

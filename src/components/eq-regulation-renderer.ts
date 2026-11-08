@@ -967,7 +967,12 @@ export class EquinoxRegulationRenderer extends LitElement {
   }
 
   private _formatSourceValue(item: RegulationDashboardValueItem | RegulationDashboardMetric): string {
-    const value = readRegulationSourceValue(this._context(), item.source, item.path);
+    const rawValue = readRegulationSourceValue(this._context(), item.source, item.path);
+    const numerator = this._asNumber(rawValue);
+    const denominator = item.divide_by ? this._asNumber(this._readValueRef(item.divide_by)) : undefined;
+    const value = item.divide_by
+      ? numerator !== undefined && denominator !== undefined && denominator > 0 ? numerator / denominator : undefined
+      : rawValue;
     const fallback = item.fallback || VALUE_FALLBACK;
     const formatted = item.format === "duration_s"
       ? this._formatDuration(value, item.digits, item.value_multiplier, fallback)

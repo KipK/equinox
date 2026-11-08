@@ -2,6 +2,13 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.6-dev
+
+- Add SmartPI 0.7 Room model and Emitter delay tabs with French and English states, model comparison, forecasts, forecast accuracy against unchanged temperature, and applied/learned delay diagnostics.
+- Show the feedforward holding source and wall contribution in Command, with a source timeline and wall power overlaid on FF/PI history.
+- Cover all eighteen SmartPI Recorder series, adding seven-day room coefficient/forecast-error and applied-delay charts. Keep live-only forecasts, reference scores and evaluation details out of historical curves.
+- Add safe live coefficient ratios in % of full power per °C and physical unit metadata for the new recorded attributes. Document remaining historical series requests.
+
 ## 0.4.5
 
 - Add per-element visibility options for temperature, humidity, setpoint, HVAC and preset selectors, auto-start/stop, power information, HVAC action, events and menu across classic, compact and thin layouts. Empty rows collapse automatically; all new options default to visible.

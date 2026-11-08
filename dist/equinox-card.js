@@ -14462,7 +14462,7 @@ var Vc = {
 		kind: "regulation-dashboard",
 		algorithm: "smartpi",
 		title: "Smart PI",
-		translations: /* @__PURE__ */ JSON.parse("{\"fr\":{\"sections.overview.title\":\"Synthèse\",\"sections.overview.summary\":\"Température, consigne et commande Smart PI.\",\"sections.learning.title\":\"Apprentissage\",\"sections.learning.summary\":\"Mesures de la réponse de l'installation et des pertes thermiques.\",\"sections.model.title\":\"Modèle et prévision\",\"sections.model.summary\":\"Modèle A/B, fiabilité, temps de réponse et correction prédictive FF3.\",\"sections.command.title\":\"Commande\",\"sections.command.summary\":\"Demande de puissance, limites et détail de la commande.\",\"sections.fftrim.title\":\"Équilibre / FFTrim\",\"sections.fftrim.summary\":\"Observation de la puissance de maintien et répartition entre intégrale et trim.\",\"sections.anticipation.title\":\"Approche de consigne\",\"sections.anticipation.summary\":\"Consigne suivie, profil de trajectoire et évolution de la commande.\",\"sections.health.title\":\"Protections\",\"sections.health.summary\":\"Gouvernance, protections et calibration.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Actions de maintenance de l'apprentissage et de la régulation.\",\"hero.overview.title\":\"Smart PI pilote la régulation\",\"hero.overview.bootstrap\":\"L'installation collecte ses premières mesures. Elle chauffe ou refroidit entre les seuils de température configurés pendant cet apprentissage.\",\"hero.overview.calibration\":\"Une calibration est en cours pour recaler le comportement thermique.\",\"hero.overview.degraded\":\"La régulation limite l'adaptation car le modèle manque de fiabilité.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics indisponibles\",\"hero.overview.diagnostic_missing\":\"L'entité de diagnostic Smart PI n'est pas disponible.\",\"hero.learning.title\":\"Apprentissage de l'installation\",\"hero.learning.subtitle\":\"Suivi des mesures collectées et du délai de réaction de l'installation.\",\"hero.model.title\":\"Modèle et prévision thermique\",\"hero.model.subtitle\":\"A/B et retards alimentent la prévision ; FF3 peut corriger la puissance selon le contexte.\",\"hero.health.title\":\"Surveillance active\",\"hero.health.subtitle\":\"Les protections peuvent figer l'apprentissage ou demander une calibration.\",\"hero.actions.title\":\"Actions Smart PI\",\"hero.actions.subtitle\":\"Les actions sont appliquées au thermostat configuré après confirmation.\",\"metrics.temperature\":\"Température\",\"metrics.error\":\"Écart consigne\",\"metrics.integral_error\":\"Intégrale\",\"metrics.filtered_setpoint\":\"Référence filtrée suivie par P\",\"metrics.current_cycle\":\"Cycle courant\",\"metrics.next_cycle\":\"Prochain cycle\",\"metrics.linear_current_cycle\":\"Cycle courant linéaire\",\"metrics.linear_next_cycle\":\"Prochain cycle linéaire\",\"metrics.command\":\"Commande\",\"metrics.limited\":\"Limitée\",\"metrics.applied\":\"Commande appliquée\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Maintien\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"metrics.b\":\"B - Pertes thermiques\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Temps mort chauffe\",\"metrics.deadtime_cool\":\"Temps mort refroidissement\",\"metrics.a_stability\":\"Dispersion A\",\"metrics.b_stability\":\"Dispersion B\",\"metrics.accepted_a\":\"Mises à jour A acceptées\",\"metrics.accepted_b\":\"Mises à jour B acceptées\",\"metrics.bootstrap_a\":\"Mesures de réponse (A)\",\"metrics.bootstrap_b\":\"Mesures de pertes (B)\",\"metrics.history_a\":\"Mesures de réponse (A)\",\"metrics.history_b\":\"Mesures de pertes (B)\",\"metrics.learning_enabled\":\"Apprentissage thermique\",\"metrics.a_drift\":\"Dérive A\",\"metrics.b_drift\":\"Dérive B\",\"metrics.learn_b_converged\":\"B convergé\",\"metrics.learning_last_reason\":\"Dernière raison\",\"metrics.confidence\":\"Confiance modèle\",\"metrics.reliability\":\"Fiabilité\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Temps mort chauffe\",\"metrics.deadtime_cool_reliable\":\"Temps mort refroidissement\",\"metrics.governance\":\"Régime de gouvernance\",\"metrics.thermal_decision\":\"Décision thermique\",\"metrics.thermal_reason\":\"Raison\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Jumeau thermique\",\"metrics.deadband_source\":\"Source deadband\",\"metrics.deadband_mode\":\"Mode deadband\",\"metrics.in_deadband\":\"Dans la bande morte\",\"metrics.in_near_band\":\"Zone proche\",\"metrics.in_deadtime\":\"Fenêtre temps mort\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Mode intégrale\",\"metrics.integral_hold\":\"Maintien intégrale\",\"metrics.integral_hold_source\":\"Source du maintien intégral\",\"metrics.integral_guard_source\":\"Source de protection intégrale\",\"metrics.restart_reason\":\"Raison du redémarrage\",\"metrics.autocalib_state\":\"Autocalibration\",\"metrics.autocalib_degraded\":\"Modèle dégradé\",\"metrics.autocalib_snapshot_age\":\"Âge du snapshot\",\"metrics.autocalib_next_check\":\"Prochaine relance automatique\",\"metrics.autocalib_last_trigger\":\"Dernier déclenchement\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Essais calibration\",\"metrics.calibration_last_time\":\"Dernière calibration\",\"metrics.trajectory\":\"Trajectoire\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Observateur stationnaire\",\"metrics.fftrim.observation_mode\":\"Dernière méthode\",\"metrics.fftrim.windows_since_update\":\"Fenêtres depuis la mise à jour\",\"metrics.fftrim.last_update_reason\":\"Dernier résultat\",\"metrics.fftrim.last_reject_reason\":\"Dernier rejet FFTrim\",\"metrics.fftrim.stationary_progress\":\"Fenêtre stationnaire\",\"metrics.fftrim.measurement_count\":\"Mesures distinctes\",\"metrics.fftrim.power_coverage\":\"Couverture de puissance\",\"metrics.fftrim.alignment_delay\":\"Délai d'alignement\",\"metrics.fftrim.periodic_state\":\"Observateur périodique\",\"metrics.fftrim.periodic_progress\":\"Fenêtre périodique\",\"metrics.fftrim.periodic_measurement_count\":\"Mesures périodiques\",\"metrics.fftrim.periodic_amplitude\":\"Amplitude thermique\",\"metrics.fftrim.periodic_closure_error\":\"Erreur de fermeture\",\"metrics.fftrim.periodic_last_reject_reason\":\"Dernier rejet périodique\",\"metrics.fftrim.mean_causal_power\":\"Puissance causale moyenne\",\"metrics.fftrim.mean_ff1\":\"FF1 moyen\",\"metrics.fftrim.mean_p_power\":\"Contribution P moyenne\",\"metrics.fftrim.mean_i_power\":\"Contribution I moyenne\",\"metrics.fftrim.mean_visible_ff_power\":\"Feed-forward visible moyen\",\"metrics.fftrim.observed_hold_power\":\"Puissance de maintien observée\",\"metrics.fftrim.physical_power_deficit\":\"Déficit physique de puissance\",\"metrics.fftrim.decomposed_correction\":\"Correction décomposée\",\"metrics.fftrim.target_trim\":\"Trim cible\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Température moyenne\",\"metrics.fftrim.mean_error\":\"Erreur moyenne\",\"metrics.fftrim.mean_slope_h\":\"Pente moyenne\",\"metrics.fftrim.mean_delivery_residual\":\"Résiduel de livraison moyen\",\"metrics.fftrim.bumpless_transfer_state\":\"Transfert sans a-coup\",\"metrics.fftrim.bumpless_transfer_reason\":\"Raison du transfert\",\"metrics.fftrim.transfer_quality\":\"Qualité du transfert\",\"metrics.fftrim.transfer_pending_engagement\":\"Engagement actionneur\",\"metrics.fftrim.requested_trim_delta\":\"Variation de trim demandée\",\"metrics.fftrim.stored_trim_delta\":\"Variation de trim mémorisée\",\"metrics.fftrim.applied_trim_delta\":\"Variation de trim appliquée\",\"metrics.fftrim.transferable_i_power\":\"Puissance I transférable\",\"metrics.fftrim.requested_i_transfer\":\"Transfert I demandé\",\"metrics.fftrim.applied_i_transfer\":\"Transfert I appliqué\",\"metrics.fftrim.net_command_delta\":\"Variation nette de commande\",\"metrics.fftrim.window_duration\":\"Durée observée\",\"metrics.fftrim.transaction_timestamp\":\"Application (UTC)\",\"metrics.trajectory.source\":\"Source de trajectoire\",\"metrics.ff3.twin_usable\":\"Jumeau utilisable\",\"groups.overview.thermal\":\"Température et consigne\",\"groups.overview.command\":\"Commande en cours\",\"groups.overview.influence\":\"Influence actuelle\",\"groups.command.actuator_cycle\":\"Cycle actionneur\",\"groups.command.limitation_chain\":\"Chaîne de limitation\",\"groups.command.contributions\":\"Contributions de contrôle\",\"groups.fftrim.observer\":\"Observation stationnaire en cours\",\"groups.fftrim.stationary_quality\":\"Qualité de la fenêtre stationnaire\",\"groups.fftrim.periodic\":\"Observation d'équilibre périodique\",\"groups.fftrim.thermal_balance\":\"Dernier bilan thermique retenu\",\"groups.fftrim.transfer\":\"Transfert sans à-coup en cours\",\"groups.fftrim.deltas\":\"Variations de transfert en cours\",\"groups.fftrim.last_result\":\"Dernier résultat accepté\",\"groups.fftrim.last_transaction\":\"Dernière transaction appliquée\",\"groups.fftrim.last_transaction_deltas\":\"Deltas de la dernière transaction appliquée\",\"groups.learning.drift\":\"Dérive et convergence\",\"groups.health.governance\":\"Gouvernance et décision thermique\",\"groups.health.protections\":\"Protections thermiques\",\"groups.health.integral\":\"Intégrale\",\"groups.health.restart\":\"Redémarrage\",\"groups.health.autocalib\":\"Autocalibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Apprentissage thermique\",\"groups.actions.maintenance\":\"Maintenance\",\"status.learning.enabled\":\"Actif\",\"status.learning.paused\":\"En pause\",\"status.drift.NORMAL\":\"Normale\",\"status.drift.DRIFT_SUSPECTED\":\"Dérive suspectée\",\"status.drift.RECENTERING\":\"Recentrement en cours\",\"status.confidence.ab_ok\":\"Modèle fiable\",\"status.confidence.ab_bootstrap\":\"Apprentissage initial du modèle\",\"status.confidence.ab_degraded\":\"Modèle partiel\",\"status.confidence.ab_bad\":\"Modèle insuffisant\",\"status.confidence.unknown\":\"Confiance inconnue\",\"status.confidence.ab_ok.description\":\"Les échantillons A et B sont suffisamment cohérents pour utiliser le modèle normalement.\",\"status.confidence.ab_bootstrap.description\":\"Les mesures de l'installation sont encore en cours de collecte ou de validation.\",\"status.confidence.ab_degraded.description\":\"Une partie du modèle est exploitable, mais la régulation reste prudente.\",\"status.confidence.ab_bad.description\":\"Le modèle n'est pas assez fiable ; Smart PI limite ou évite son influence.\",\"status.confidence.unknown.description\":\"Le niveau de confiance n'est pas encore publié par le diagnostic.\",\"status.boolean.true\":\"Oui\",\"status.boolean.false\":\"Non\",\"status.reliability.true\":\"Fiable\",\"status.reliability.false\":\"Non fiable\",\"status.coherence.collecting\":\"En collecte\",\"status.coherence.coherent\":\"Cohérente\",\"status.coherence.watch\":\"À surveiller\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersée\",\"status.coherence.unstable\":\"Instable\",\"status.coherence.very_unstable\":\"Très instable\",\"status.regime.warmup\":\"Échauffement\",\"status.regime.excited_stable\":\"Stable excité\",\"status.regime.near_band\":\"Zone proche\",\"status.regime.dead_band\":\"Bande morte\",\"status.regime.hold\":\"Maintien\",\"status.regime.perturbed\":\"Perturbé\",\"status.regime.degraded\":\"Dégradé\",\"status.regime.saturated\":\"Saturé\",\"status.boolean.active\":\"Actif\",\"status.trajectory.setpoint\":\"Changement de consigne\",\"status.trajectory.disturbance\":\"Perturbation\",\"status.trajectory.none\":\"Aucune\",\"status.ff3.active\":\"FF3 actif\",\"status.ff3.inactive\":\"FF3 inactif\",\"status.ff3.disabled\":\"FF3 désactivé\",\"status.ff3.disabled.config_disabled\":\"FF3 désactivé par configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactif en zone morte\",\"status.ff3.disabled.not_near_band\":\"FF3 hors zone proche\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 en attente de fin de cycle\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 bloqué par la trajectoire de consigne\",\"status.ff3.disabled.disturbance_unclassified\":\"Perturbation FF3 non classée\",\"status.ff3.disabled.twin_warming_up\":\"Jumeau thermique en chauffe\",\"status.ff3.disabled.twin_steady_invalid\":\"État stable du jumeau invalide\",\"status.ff3.disabled.reset\":\"FF3 en réinitialisation\",\"status.ff3.disabled.hvac_off\":\"FF3 arrêté : chauffage coupé\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 attend le premier cycle après redémarrage\",\"status.ff3.disabled.cool_mode\":\"FF3 indisponible en refroidissement\",\"status.ff3.disabled.missing_ext_temp\":\"Température extérieure absente\",\"status.ff3.disabled.tau_not_reliable\":\"Temps caractéristique non fiable\",\"status.ff3.disabled.twin_not_initialized\":\"Jumeau thermique non initialisé\",\"status.ff3.disabled.calibration\":\"FF3 suspendu pendant la calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 suspendu par la limitation de puissance\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 attend après un changement de consigne\",\"status.ff3.disabled.no_disturbance_context\":\"Aucune perturbation confirmée\",\"status.ff3.disabled.saturated_high\":\"FF3 suspendu à saturation haute\",\"status.ff3.disabled.system_not_stable\":\"Système thermique pas encore stable\",\"status.ff3.disabled.authority_zero\":\"Autorité FF3 nulle\",\"status.ff3.disabled.scoring_failed\":\"Évaluation FF3 indisponible\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"Aucun effet candidat sur l'horizon\",\"status.ff3.disabled.score_not_better\":\"Aucune amélioration prévue\",\"status.ff3.disabled.authority_tapered_to_zero\":\"Autorité FF3 réduite à zéro\",\"status.twin.ok\":\"Jumeau disponible\",\"status.twin.unavailable\":\"Jumeau indisponible\",\"status.deadband.power_source.none\":\"Aucune source de maintien\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward et PI\",\"status.deadband.p_mode.init\":\"Initialisation\",\"status.deadband.p_mode.deadband_frozen\":\"P gelée en zone morte\",\"status.deadband.p_mode.deadband_quiet\":\"P nulle en zone morte\",\"status.deadband.p_mode.off\":\"P hors zone morte\",\"status.deadband.p_mode.deadband_edge\":\"P au bord de la zone morte\",\"status.deadband.p_mode.deadband_edge_pending\":\"P au bord en attente\",\"status.deadband.p_mode.deadzone_edge\":\"P au bord de la zone proche\",\"status.saturation.NO_SAT\":\"Sans saturation\",\"status.saturation.SAT_HI\":\"Limite haute\",\"status.saturation.SAT_LO\":\"Limite basse\",\"status.fftrim.state.warming_up\":\"Mise en route\",\"status.fftrim.state.waiting_deadtime\":\"Attente du temps mort\",\"status.fftrim.state.collecting\":\"Collecte en cours\",\"status.fftrim.state.waiting_phase\":\"Attente de fermeture du cycle\",\"status.fftrim.state.ready\":\"Fenêtre prête\",\"status.fftrim.state.rejected\":\"Fenêtre rejetée\",\"status.fftrim.mode.stationary\":\"Observation stationnaire\",\"status.fftrim.mode.periodic\":\"Équilibre périodique\",\"status.fftrim.reason.none\":\"Aucune\",\"status.fftrim.reason.skipped\":\"Mise à jour ignorée\",\"status.fftrim.reason.causal_window_ready\":\"Fenêtre causale prête\",\"status.fftrim.reason.periodic_window_ready\":\"Cycle périodique prêt\",\"status.fftrim.reason.persistent_ready\":\"Correction persistante confirmée\",\"status.fftrim.reason.updated_persistent\":\"Trim mis à jour\",\"status.fftrim.reason.updated_bumpless\":\"Transfert appliqué sans à-coup\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.reason.deadtime_unreliable\":\"Temps mort non fiable\",\"status.fftrim.reason.deadtime_changed\":\"Temps mort modifié\",\"status.fftrim.reason.causal_power_not_covered\":\"Chronologie de puissance incomplète\",\"status.fftrim.reason.not_enough_measurements\":\"Mesures insuffisantes\",\"status.fftrim.reason.window_too_short\":\"Fenêtre trop courte\",\"status.fftrim.reason.setpoint_changed\":\"Consigne modifiée\",\"status.fftrim.reason.trajectory_active\":\"Trajectoire active\",\"status.fftrim.reason.ff3_active\":\"FF3 actif\",\"status.fftrim.reason.model_confidence\":\"Modèle insuffisamment fiable\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Température extérieure absente\",\"status.fftrim.reason.saturated\":\"Commande saturée\",\"status.fftrim.reason.pi_unstable\":\"Branche PI instable\",\"status.fftrim.reason.cycle_not_reversed\":\"Montée et descente incomplètes\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Amplitude du cycle insuffisante\",\"status.fftrim.reason.cycle_not_closed\":\"Cycle thermique non fermé\",\"status.fftrim.reason.saturated_high\":\"Saturation haute\",\"status.fftrim.transfer.idle\":\"Inactif\",\"status.fftrim.transfer.observer_rejected\":\"Observation non retenue\",\"status.fftrim.transfer.pending\":\"Confirmation en cours\",\"status.fftrim.transfer.ineligible\":\"Transfert non applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction sans transfert I/trim\",\"status.fftrim.transfer.applied\":\"Transfert appliqué\",\"status.fftrim.transfer.rejected\":\"Transfert rejeté\",\"status.fftrim.transfer.pending_engagement\":\"En attente d'engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-équilibre confirmé\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Équilibre périodique sans transfert\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Attente de la frontière post anti-windup\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction sous le seuil utile\",\"status.fftrim.quality.unavailable\":\"Indisponible\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Cycle switch équivalent\",\"status.fftrim.quality.valve_segmented_linear\":\"Timeline de vanne linéarisée\",\"status.fftrim.quality.mixed\":\"Sources mixtes\",\"fallback.unknown_code\":\"Code inconnu\",\"notes.learning\":\"A décrit l'effet du chauffage ou du refroidissement sur la température ; B décrit les échanges thermiques avec l'extérieur. Les mesures attendent une réponse stabilisée et des variations de température suffisantes. A peut être ajusté lorsque B est affiné, sans nouvelle mesure de réponse.\",\"notes.fftrim.stationary\":\"L'observateur stationnaire aligne les mesures thermiques sur la puissance déjà appliquée en tenant compte du temps mort.\",\"notes.fftrim.periodic\":\"L'observateur périodique recherche un cycle thermique complet, avec une phase de montée et une phase de descente. Sa cible dépend des cycles VT et du temps mort. Il utilise la même chronologie de puissance, garde sa propre fenêtre et ne transfère pas la propriété intégrale/trim.\",\"actions.reset_learning\":\"Réinitialiser l'apprentissage\",\"actions.reset_learning.confirm\":\"Smart PI va effacer les mesures apprises et recommencer l'apprentissage initial de l'installation.\",\"actions.pause_learning\":\"Mettre l'apprentissage en pause\",\"actions.pause_learning.confirm\":\"Smart PI continuera à réguler avec le modèle actuel, mais cessera de collecter des observations thermiques et des mesures de temps mort.\",\"actions.resume_learning\":\"Reprendre l'apprentissage\",\"actions.resume_learning.confirm\":\"Smart PI reprendra la collecte d'observations thermiques et de temps mort.\",\"actions.force_calibration\":\"Forcer une calibration\",\"actions.force_calibration.confirm\":\"Smart PI lancera une calibration si l'état actuel le permet.\",\"actions.reset_integral\":\"Réinitialiser l'intégrale\",\"actions.reset_integral.confirm\":\"Smart PI remettra le terme intégral à zéro sans effacer le modèle appris.\",\"graphs.command.title\":\"Commande Smart PI\",\"graphs.command.applied\":\"Commande appliquée\",\"graphs.command.command\":\"Commande calculée\",\"graphs.command.pi\":\"Branche PI\",\"graphs.command.ff\":\"Feed-forward total\",\"graphs.overview.title\":\"Température, consigne et puissance (6 h)\",\"graphs.overview.temperature\":\"Température mesurée\",\"graphs.overview.filtered_setpoint\":\"Référence filtrée suivie par P\",\"graphs.overview.applied\":\"Commande appliquée\",\"graphs.model.title\":\"Paramètres A et B (1R1C) (24h)\",\"graphs.model.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"graphs.model.b\":\"B - Pertes thermiques\",\"metrics.user_setpoint\":\"Consigne utilisateur\",\"metrics.trajectory.phase\":\"Phase de trajectoire\",\"status.trajectory.phase.idle\":\"Inactive\",\"status.trajectory.phase.tracking\":\"Suivi du profil\",\"status.trajectory.phase.release\":\"Retour progressif à la consigne\",\"groups.approach.followed\":\"Consigne suivie\",\"status.boolean.inactive\":\"Inactif\",\"groups.approach.details\":\"Détails de trajectoire\",\"metrics.trajectory.start\":\"Consigne de départ\",\"metrics.trajectory.target\":\"Cible du profil\",\"metrics.trajectory.tau\":\"Constante de temps du profil\",\"metrics.trajectory.elapsed\":\"Temps écoulé\",\"metrics.trajectory.remaining\":\"Cycle restant\",\"metrics.trajectory.next_reference\":\"Référence de puissance au cycle suivant\",\"metrics.trajectory.bumpless_delta\":\"Écart de commande sans à-coup\",\"groups.approach.readiness\":\"Indicateurs de trajectoire\",\"metrics.trajectory.braking_needed\":\"Freinage requis\",\"metrics.trajectory.pending\":\"Freinage pour changement de cible en attente\",\"metrics.trajectory.model_ready\":\"Modèle prêt pour la trajectoire\",\"metrics.trajectory.bumpless_ready\":\"Passage sans à-coup prêt\",\"groups.model.ff3_twin\":\"FF3 et jumeau thermique\",\"graphs.approach.temperature\":\"Température et consignes\",\"graphs.approach.command\":\"Commande calculée et commande appliquée\",\"notes.approach.history\":\"Le premier graphique compare la température de la pièce aux consignes. Le second montre comment la commande du thermostat évolue au fil du temps.\",\"metrics.ti\":\"Temps intégral effectif (Ti)\",\"groups.command.gains\":\"Gains PI\",\"metrics.learning_stage\":\"Phase d'apprentissage\",\"status.learning.stage.bootstrap\":\"Apprentissage initial\",\"status.learning.stage.learning\":\"Enrichissement du modèle\",\"status.learning.stage.monitoring\":\"Surveillance du modèle\",\"status.learning.stage.degraded\":\"Modèle dégradé\",\"notes.learning.bootstrap\":\"Les barres comptent les mesures collectées, pas la progression totale de l'apprentissage. Atteindre un objectif ne garantit pas leur validation : les mesures de réponse peuvent encore attendre l'estimation du délai de réaction, puis être réévaluées. L'apprentissage peut donc continuer ou demander des mesures supplémentaires.\",\"groups.learning.response_lag\":\"Délai de réaction de l'installation\",\"metrics.response_lag\":\"Délai estimé\",\"metrics.response_estimates\":\"Estimations conservées\",\"metrics.response_episodes\":\"Phases de chauffe\",\"metrics.response_episodes_target\":\"Phases avant résolution\",\"metrics.response_episode_median\":\"Durée médiane des phases actives\",\"metrics.response_last_reason\":\"Dernière phase active\",\"status.response_lag.estimated\":\"Estimation retenue\",\"status.response_lag.power_not_constant\":\"Puissance variable\",\"status.response_lag.baseline_unsettled\":\"Repos préalable insuffisant\",\"status.response_lag.no_outdoor_temperature\":\"Température extérieure absente\",\"status.response_lag.insufficient_crossings\":\"Variations de température insuffisantes\",\"status.response_lag.no_baseline_crossing\":\"Réponse encore insuffisante\",\"status.response_lag.unknown_passive_slope\":\"Pente passive inconnue\",\"status.response_lag.no_active_response\":\"Réponse active non mesurable\",\"status.response_lag.unresolvable_intercept\":\"Délai non déterminable sur cette phase\",\"status.response_lag.interrupted_by_restart\":\"Phase interrompue par un redémarrage\",\"notes.learning.response_lag\":\"Ce délai décrit le temps de réaction de l'ensemble de l'installation, y compris l'émetteur et la sonde. Il est estimé pendant les phases à puissance constante. Une estimation retenue ne suffit pas à valider le délai ; une installation lente peut demander plusieurs heures d'observation. Même sans estimation retenue, le modèle se résout automatiquement après le nombre fixe de phases de chauffe affiché.\",\"groups.model.deadtime_detection\":\"Détection des temps morts\",\"metrics.deadtime_state\":\"État du détecteur\",\"status.deadtime.off\":\"Au repos\",\"status.deadtime.waiting_heat\":\"Attente d'une montée de température\",\"status.deadtime.waiting_cool\":\"Attente d'une baisse de température\",\"status.deadtime.heating\":\"Suivi de la réponse montante\",\"status.deadtime.cooling\":\"Suivi de la réponse descendante\",\"metrics.deadtime_waiting_elapsed\":\"Attente en cours\",\"notes.model.deadtime\":\"Les résultats concernent la dernière attente de chaque réponse. Après une coupure, un émetteur lent peut continuer à chauffer : l'attente passive peut durer jusqu'à 12 h. Une interruption indique un changement de puissance avant la détection, pas un défaut du modèle.\",\"status.deadtime.outcome.detected\":\"Détecté\",\"status.deadtime.outcome.timeout\":\"Délai dépassé\",\"status.deadtime.outcome.aborted\":\"Interrompu\",\"metrics.deadtime_outcome_heat\":\"Dernière attente de montée\",\"metrics.deadtime_outcome_cool\":\"Dernière attente de baisse\",\"status.integral.unwind_high\":\"Décharge intégrale à la limite haute\",\"status.integral.unwind_low\":\"Décharge intégrale à la limite basse\",\"status.learning.transient_a\":\"Stabilisation avant une mesure de A\",\"status.learning.transient_b\":\"Stabilisation avant une mesure de B\",\"notes.command.integral\":\"L'intégrale corrige les écarts persistants à l'échelle de quelques heures. Sa correction est conservée pendant les reprises tant que la température progresse. Si la reprise ne rapproche plus la température de la consigne, elle reprend progressivement son action ; près de la consigne, elle peut se décharger malgré une saturation due au terme proportionnel.\",\"graphs.command.integral\":\"Évolution de l'intégrale\",\"graphs.command.gains\":\"Évolution des gains PI\",\"notes.command.history\":\"L'intégrale est un cumul d'écart de température en °C·min, pas un pourcentage de puissance. Les gains Kp et Ki traduisent les écarts et ce cumul en commande ; leurs courbes utilisent des échelles distinctes.\",\"notes.learning.response_lag_missing\":\"Délai de réaction non disponible. Cette information ne permet pas de savoir si son estimation est encore en cours ; son absence ne signifie pas que l'apprentissage est bloqué.\",\"notes.learning.paused\":\"L'apprentissage est en pause. La régulation utilise le modèle actuel ; la collecte reprendra lorsque l'apprentissage sera réactivé.\",\"status.integral.guard_cut\":\"Coupure de protection thermique\",\"status.integral.guard_cut.description\":\"Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; l'excès d'intégrale diminue pendant la coupure tout en conservant la correction utile.\"},\"en\":{\"sections.overview.title\":\"Overview\",\"sections.overview.summary\":\"Smart PI temperature, setpoint and command.\",\"sections.learning.title\":\"Learning\",\"sections.learning.summary\":\"Measurements of system response and thermal losses.\",\"sections.model.title\":\"Model and prediction\",\"sections.model.summary\":\"A/B model, reliability, response times and FF3 prediction correction.\",\"sections.command.title\":\"Command\",\"sections.command.summary\":\"Power demand, limits and command breakdown.\",\"sections.fftrim.title\":\"Equilibrium / FFTrim\",\"sections.fftrim.summary\":\"Observation of holding power and ownership distribution between integral and trim.\",\"sections.anticipation.title\":\"Target approach\",\"sections.anticipation.summary\":\"Followed setpoint, trajectory profile and command history.\",\"sections.health.title\":\"Protections\",\"sections.health.summary\":\"Governance, safeguards and calibration.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Learning and regulation maintenance actions.\",\"hero.overview.title\":\"Smart PI regulation\",\"hero.overview.bootstrap\":\"The system is collecting its first measurements. It heats or cools between the configured temperature thresholds during this learning period.\",\"hero.overview.calibration\":\"Calibration is running to realign the thermal behavior.\",\"hero.overview.degraded\":\"Regulation limits adaptation because the model is unreliable.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics unavailable\",\"hero.overview.diagnostic_missing\":\"The Smart PI diagnostics entity is unavailable.\",\"hero.learning.title\":\"Learning how the system responds\",\"hero.learning.subtitle\":\"Collected measurements and system response delay.\",\"hero.model.title\":\"Thermal model and prediction\",\"hero.model.subtitle\":\"A/B and delays inform the forecast; FF3 may correct power according to context.\",\"hero.health.title\":\"Active supervision\",\"hero.health.subtitle\":\"Protections may freeze learning or request calibration.\",\"hero.actions.title\":\"Smart PI actions\",\"hero.actions.subtitle\":\"Actions are applied to the configured thermostat after confirmation.\",\"metrics.temperature\":\"Temperature\",\"metrics.error\":\"Setpoint error\",\"metrics.integral_error\":\"Integral\",\"metrics.filtered_setpoint\":\"Filtered reference followed by P\",\"metrics.current_cycle\":\"Current cycle\",\"metrics.next_cycle\":\"Next cycle\",\"metrics.linear_current_cycle\":\"Linear current cycle\",\"metrics.linear_next_cycle\":\"Linear next cycle\",\"metrics.command\":\"Command\",\"metrics.limited\":\"Limited\",\"metrics.applied\":\"Applied command\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Hold\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Signed response (heat + / cool -)\",\"metrics.b\":\"B - Thermal losses\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Heat dead time\",\"metrics.deadtime_cool\":\"Cool dead time\",\"metrics.a_stability\":\"A dispersion\",\"metrics.b_stability\":\"B dispersion\",\"metrics.accepted_a\":\"Accepted A updates\",\"metrics.accepted_b\":\"Accepted B updates\",\"metrics.bootstrap_a\":\"Response measurements (A)\",\"metrics.bootstrap_b\":\"Loss measurements (B)\",\"metrics.history_a\":\"Response measurements (A)\",\"metrics.history_b\":\"Loss measurements (B)\",\"metrics.learning_enabled\":\"Thermal learning\",\"metrics.a_drift\":\"A drift\",\"metrics.b_drift\":\"B drift\",\"metrics.learn_b_converged\":\"B converged\",\"metrics.learning_last_reason\":\"Latest reason\",\"metrics.confidence\":\"Model confidence\",\"metrics.reliability\":\"Reliability\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Heat dead time\",\"metrics.deadtime_cool_reliable\":\"Cool dead time\",\"metrics.governance\":\"Governance regime\",\"metrics.thermal_decision\":\"Thermal decision\",\"metrics.thermal_reason\":\"Reason\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Thermal twin\",\"metrics.deadband_source\":\"Deadband source\",\"metrics.deadband_mode\":\"Deadband mode\",\"metrics.in_deadband\":\"In dead band\",\"metrics.in_near_band\":\"Near band\",\"metrics.in_deadtime\":\"Dead-time window\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Integral mode\",\"metrics.integral_hold\":\"Integral hold\",\"metrics.integral_hold_source\":\"Integral hold source\",\"metrics.integral_guard_source\":\"Integral guard source\",\"metrics.restart_reason\":\"Restart reason\",\"metrics.autocalib_state\":\"Auto-calibration\",\"metrics.autocalib_degraded\":\"Model degraded\",\"metrics.autocalib_snapshot_age\":\"Snapshot age\",\"metrics.autocalib_next_check\":\"Next automatic retry\",\"metrics.autocalib_last_trigger\":\"Last trigger\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Calibration retries\",\"metrics.calibration_last_time\":\"Last calibration\",\"metrics.trajectory\":\"Trajectory\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Stationary observer\",\"metrics.fftrim.observation_mode\":\"Latest method\",\"metrics.fftrim.windows_since_update\":\"Windows since update\",\"metrics.fftrim.last_update_reason\":\"Latest result\",\"metrics.fftrim.last_reject_reason\":\"Latest FFTrim rejection\",\"metrics.fftrim.stationary_progress\":\"Stationary window\",\"metrics.fftrim.measurement_count\":\"Distinct measurements\",\"metrics.fftrim.power_coverage\":\"Power coverage\",\"metrics.fftrim.alignment_delay\":\"Alignment delay\",\"metrics.fftrim.periodic_state\":\"Periodic observer\",\"metrics.fftrim.periodic_progress\":\"Periodic window\",\"metrics.fftrim.periodic_measurement_count\":\"Periodic measurements\",\"metrics.fftrim.periodic_amplitude\":\"Thermal amplitude\",\"metrics.fftrim.periodic_closure_error\":\"Closure error\",\"metrics.fftrim.periodic_last_reject_reason\":\"Latest periodic rejection\",\"metrics.fftrim.mean_causal_power\":\"Mean causal power\",\"metrics.fftrim.mean_ff1\":\"Mean FF1\",\"metrics.fftrim.mean_p_power\":\"Mean P contribution\",\"metrics.fftrim.mean_i_power\":\"Mean I contribution\",\"metrics.fftrim.mean_visible_ff_power\":\"Mean visible feed-forward\",\"metrics.fftrim.observed_hold_power\":\"Observed holding power\",\"metrics.fftrim.physical_power_deficit\":\"Physical power deficit\",\"metrics.fftrim.decomposed_correction\":\"Decomposed correction\",\"metrics.fftrim.target_trim\":\"Target trim\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Mean temperature\",\"metrics.fftrim.mean_error\":\"Mean error\",\"metrics.fftrim.mean_slope_h\":\"Mean slope\",\"metrics.fftrim.mean_delivery_residual\":\"Mean delivery residual\",\"metrics.fftrim.bumpless_transfer_state\":\"Bumpless transfer\",\"metrics.fftrim.bumpless_transfer_reason\":\"Transfer reason\",\"metrics.fftrim.transfer_quality\":\"Transfer quality\",\"metrics.fftrim.transfer_pending_engagement\":\"Actuator engagement\",\"metrics.fftrim.requested_trim_delta\":\"Requested trim delta\",\"metrics.fftrim.stored_trim_delta\":\"Stored trim delta\",\"metrics.fftrim.applied_trim_delta\":\"Applied trim delta\",\"metrics.fftrim.transferable_i_power\":\"Transferable I power\",\"metrics.fftrim.requested_i_transfer\":\"Requested I transfer\",\"metrics.fftrim.applied_i_transfer\":\"Applied I transfer\",\"metrics.fftrim.net_command_delta\":\"Net command delta\",\"metrics.fftrim.window_duration\":\"Observed duration\",\"metrics.fftrim.transaction_timestamp\":\"Applied at UTC\",\"metrics.trajectory.source\":\"Trajectory source\",\"metrics.ff3.twin_usable\":\"Usable twin\",\"groups.overview.thermal\":\"Temperature and setpoint\",\"groups.overview.command\":\"Current command\",\"groups.overview.influence\":\"Current influence\",\"groups.command.actuator_cycle\":\"Actuator cycle\",\"groups.command.limitation_chain\":\"Limitation chain\",\"groups.command.contributions\":\"Control contributions\",\"groups.fftrim.observer\":\"Current stationary observation\",\"groups.fftrim.stationary_quality\":\"Stationary window quality\",\"groups.fftrim.periodic\":\"Periodic equilibrium observation\",\"groups.fftrim.thermal_balance\":\"Retained thermal balance\",\"groups.fftrim.transfer\":\"Current bumpless transfer\",\"groups.fftrim.deltas\":\"Current transfer deltas\",\"groups.fftrim.last_result\":\"Last accepted result\",\"groups.fftrim.last_transaction\":\"Last applied transaction\",\"groups.fftrim.last_transaction_deltas\":\"Last applied transaction deltas\",\"groups.learning.drift\":\"Drift and convergence\",\"groups.health.governance\":\"Governance and thermal decision\",\"groups.health.protections\":\"Thermal safeguards\",\"groups.health.integral\":\"Integral\",\"groups.health.restart\":\"Restart\",\"groups.health.autocalib\":\"Auto-calibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Thermal learning\",\"groups.actions.maintenance\":\"Maintenance\",\"status.learning.enabled\":\"Enabled\",\"status.learning.paused\":\"Paused\",\"status.drift.NORMAL\":\"Normal\",\"status.drift.DRIFT_SUSPECTED\":\"Drift suspected\",\"status.drift.RECENTERING\":\"Recentering in progress\",\"status.confidence.ab_ok\":\"Reliable model\",\"status.confidence.ab_bootstrap\":\"Initial model learning\",\"status.confidence.ab_degraded\":\"Partial model\",\"status.confidence.ab_bad\":\"Insufficient model\",\"status.confidence.unknown\":\"Unknown confidence\",\"status.confidence.ab_ok.description\":\"A and B samples are coherent enough to use the model normally.\",\"status.confidence.ab_bootstrap.description\":\"System measurements are still being collected or validated.\",\"status.confidence.ab_degraded.description\":\"Part of the model is usable, but regulation remains cautious.\",\"status.confidence.ab_bad.description\":\"The model is not reliable enough; Smart PI limits or avoids its influence.\",\"status.confidence.unknown.description\":\"The confidence state has not been published by diagnostics yet.\",\"status.boolean.true\":\"Yes\",\"status.boolean.false\":\"No\",\"status.reliability.true\":\"Reliable\",\"status.reliability.false\":\"Not reliable\",\"status.coherence.collecting\":\"Collecting\",\"status.coherence.coherent\":\"Coherent\",\"status.coherence.watch\":\"Watch\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersed\",\"status.coherence.unstable\":\"Unstable\",\"status.coherence.very_unstable\":\"Very unstable\",\"status.regime.warmup\":\"Warmup\",\"status.regime.excited_stable\":\"Excited stable\",\"status.regime.near_band\":\"Near band\",\"status.regime.dead_band\":\"Dead band\",\"status.regime.hold\":\"Hold\",\"status.regime.perturbed\":\"Perturbed\",\"status.regime.degraded\":\"Degraded\",\"status.regime.saturated\":\"Saturated\",\"status.boolean.active\":\"Active\",\"status.trajectory.setpoint\":\"Setpoint change\",\"status.trajectory.disturbance\":\"Disturbance\",\"status.trajectory.none\":\"None\",\"status.ff3.active\":\"FF3 active\",\"status.ff3.inactive\":\"FF3 inactive\",\"status.ff3.disabled\":\"FF3 disabled\",\"status.ff3.disabled.config_disabled\":\"FF3 disabled by configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactive in deadband\",\"status.ff3.disabled.not_near_band\":\"FF3 outside near band\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 awaiting cycle boundary\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 blocked by setpoint trajectory\",\"status.ff3.disabled.disturbance_unclassified\":\"FF3 disturbance unclassified\",\"status.ff3.disabled.twin_warming_up\":\"Thermal twin warming up\",\"status.ff3.disabled.twin_steady_invalid\":\"Thermal twin steady state invalid\",\"status.ff3.disabled.reset\":\"FF3 resetting\",\"status.ff3.disabled.hvac_off\":\"FF3 off because HVAC is off\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 awaiting first cycle after restart\",\"status.ff3.disabled.cool_mode\":\"FF3 unavailable in cooling mode\",\"status.ff3.disabled.missing_ext_temp\":\"Outdoor temperature unavailable\",\"status.ff3.disabled.tau_not_reliable\":\"Time constant not reliable\",\"status.ff3.disabled.twin_not_initialized\":\"Thermal twin not initialized\",\"status.ff3.disabled.calibration\":\"FF3 paused during calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 paused by power shedding\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 waiting after a setpoint change\",\"status.ff3.disabled.no_disturbance_context\":\"No confirmed disturbance\",\"status.ff3.disabled.saturated_high\":\"FF3 paused at high saturation\",\"status.ff3.disabled.system_not_stable\":\"Thermal system not yet stable\",\"status.ff3.disabled.authority_zero\":\"FF3 authority is zero\",\"status.ff3.disabled.scoring_failed\":\"FF3 evaluation unavailable\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"No candidate effect over the horizon\",\"status.ff3.disabled.score_not_better\":\"No predicted improvement\",\"status.ff3.disabled.authority_tapered_to_zero\":\"FF3 authority tapered to zero\",\"status.twin.ok\":\"Twin available\",\"status.twin.unavailable\":\"Twin unavailable\",\"status.deadband.power_source.none\":\"No holding source\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward and PI\",\"status.deadband.p_mode.init\":\"Initializing\",\"status.deadband.p_mode.deadband_frozen\":\"P frozen in deadband\",\"status.deadband.p_mode.deadband_quiet\":\"P zero in deadband\",\"status.deadband.p_mode.off\":\"P outside deadband\",\"status.deadband.p_mode.deadband_edge\":\"P at deadband edge\",\"status.deadband.p_mode.deadband_edge_pending\":\"P at edge pending\",\"status.deadband.p_mode.deadzone_edge\":\"P at near-band edge\",\"status.saturation.NO_SAT\":\"No saturation\",\"status.saturation.SAT_HI\":\"Upper limit\",\"status.saturation.SAT_LO\":\"Lower limit\",\"status.fftrim.state.warming_up\":\"Warming up\",\"status.fftrim.state.waiting_deadtime\":\"Waiting for dead time\",\"status.fftrim.state.collecting\":\"Collecting\",\"status.fftrim.state.waiting_phase\":\"Waiting for cycle closure\",\"status.fftrim.state.ready\":\"Window ready\",\"status.fftrim.state.rejected\":\"Window rejected\",\"status.fftrim.mode.stationary\":\"Stationary observation\",\"status.fftrim.mode.periodic\":\"Periodic equilibrium\",\"status.fftrim.reason.none\":\"None\",\"status.fftrim.reason.skipped\":\"Update skipped\",\"status.fftrim.reason.causal_window_ready\":\"Causal window ready\",\"status.fftrim.reason.periodic_window_ready\":\"Periodic cycle ready\",\"status.fftrim.reason.persistent_ready\":\"Persistent correction confirmed\",\"status.fftrim.reason.updated_persistent\":\"Trim updated\",\"status.fftrim.reason.updated_bumpless\":\"Bumpless transfer applied\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.reason.deadtime_unreliable\":\"Dead time is unreliable\",\"status.fftrim.reason.deadtime_changed\":\"Dead time changed\",\"status.fftrim.reason.causal_power_not_covered\":\"Power timeline is incomplete\",\"status.fftrim.reason.not_enough_measurements\":\"Not enough measurements\",\"status.fftrim.reason.window_too_short\":\"Window is too short\",\"status.fftrim.reason.setpoint_changed\":\"Setpoint changed\",\"status.fftrim.reason.trajectory_active\":\"Trajectory is active\",\"status.fftrim.reason.ff3_active\":\"FF3 is active\",\"status.fftrim.reason.model_confidence\":\"Model confidence is insufficient\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Outdoor temperature is missing\",\"status.fftrim.reason.saturated\":\"Command is saturated\",\"status.fftrim.reason.pi_unstable\":\"PI branch is unstable\",\"status.fftrim.reason.cycle_not_reversed\":\"Rise and fall are incomplete\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Cycle amplitude is too small\",\"status.fftrim.reason.cycle_not_closed\":\"Thermal cycle is not closed\",\"status.fftrim.reason.saturated_high\":\"Upper saturation\",\"status.fftrim.transfer.idle\":\"Idle\",\"status.fftrim.transfer.observer_rejected\":\"Observation not retained\",\"status.fftrim.transfer.pending\":\"Confirmation in progress\",\"status.fftrim.transfer.ineligible\":\"Transfer not applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction without I/trim transfer\",\"status.fftrim.transfer.applied\":\"Transfer applied\",\"status.fftrim.transfer.rejected\":\"Transfer rejected\",\"status.fftrim.transfer.pending_engagement\":\"Awaiting engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-equilibrium confirmed\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Periodic equilibrium without transfer\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Waiting for post anti-windup boundary\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction is below the useful threshold\",\"status.fftrim.quality.unavailable\":\"Unavailable\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Equivalent switch cycle\",\"status.fftrim.quality.valve_segmented_linear\":\"Linearized valve timeline\",\"status.fftrim.quality.mixed\":\"Mixed sources\",\"fallback.unknown_code\":\"Unknown code\",\"notes.learning\":\"A describes how heating or cooling changes the temperature; B describes heat exchange with the outdoors. Measurements wait for a settled response and enough temperature variation. A can be adjusted when B is refined, without a new response measurement.\",\"notes.fftrim.stationary\":\"The stationary observer aligns thermal measurements with previously applied power while accounting for dead time.\",\"notes.fftrim.periodic\":\"The periodic observer looks for a complete thermal cycle with a rising and a falling phase. Its target depends on VT cycles and dead time. It uses the same power timeline, keeps its own window and does not transfer integral/trim ownership.\",\"actions.reset_learning\":\"Reset learning\",\"actions.reset_learning.confirm\":\"Smart PI will clear learned measurements and start initial system learning again.\",\"actions.pause_learning\":\"Pause learning\",\"actions.pause_learning.confirm\":\"Smart PI will continue regulating with the current model, but stop collecting thermal and dead-time observations.\",\"actions.resume_learning\":\"Resume learning\",\"actions.resume_learning.confirm\":\"Smart PI will resume collecting thermal and dead-time observations.\",\"actions.force_calibration\":\"Force calibration\",\"actions.force_calibration.confirm\":\"Smart PI will start calibration if the current state allows it.\",\"actions.reset_integral\":\"Reset integral\",\"actions.reset_integral.confirm\":\"Smart PI will set the integral term to zero without clearing the learned model.\",\"graphs.command.title\":\"Smart PI command\",\"graphs.command.applied\":\"Applied command\",\"graphs.command.command\":\"Calculated command\",\"graphs.command.pi\":\"PI branch\",\"graphs.command.ff\":\"Total feed-forward\",\"graphs.overview.title\":\"Temperature, setpoint and power (6h)\",\"graphs.overview.temperature\":\"Measured temperature\",\"graphs.overview.filtered_setpoint\":\"Filtered reference followed by P\",\"graphs.overview.applied\":\"Applied command\",\"graphs.model.title\":\"1R1C Parameters A and B (24h)\",\"graphs.model.a\":\"A - Signed response (heat + / cool -)\",\"graphs.model.b\":\"B - Thermal losses\",\"metrics.user_setpoint\":\"User setpoint\",\"metrics.trajectory.phase\":\"Trajectory phase\",\"status.trajectory.phase.idle\":\"Inactive\",\"status.trajectory.phase.tracking\":\"Profile tracking\",\"status.trajectory.phase.release\":\"Progressive return to setpoint\",\"groups.approach.followed\":\"Followed setpoint\",\"status.boolean.inactive\":\"Inactive\",\"groups.approach.details\":\"Trajectory details\",\"metrics.trajectory.start\":\"Starting setpoint\",\"metrics.trajectory.target\":\"Profile target\",\"metrics.trajectory.tau\":\"Profile time constant\",\"metrics.trajectory.elapsed\":\"Elapsed time\",\"metrics.trajectory.remaining\":\"Remaining cycle\",\"metrics.trajectory.next_reference\":\"Next cycle power reference\",\"metrics.trajectory.bumpless_delta\":\"Bumpless command delta\",\"groups.approach.readiness\":\"Trajectory indicators\",\"metrics.trajectory.braking_needed\":\"Braking needed\",\"metrics.trajectory.pending\":\"Pending target-change braking\",\"metrics.trajectory.model_ready\":\"Trajectory model ready\",\"metrics.trajectory.bumpless_ready\":\"Bumpless transition ready\",\"groups.model.ff3_twin\":\"FF3 and thermal twin\",\"graphs.approach.temperature\":\"Temperature and setpoints\",\"graphs.approach.command\":\"Calculated and applied command\",\"notes.approach.history\":\"The first graph compares room temperature with the setpoints. The second shows how the thermostat command changes over time.\",\"metrics.ti\":\"Effective integral time (Ti)\",\"groups.command.gains\":\"PI gains\",\"metrics.learning_stage\":\"Learning stage\",\"status.learning.stage.bootstrap\":\"Initial learning\",\"status.learning.stage.learning\":\"Model refinement\",\"status.learning.stage.monitoring\":\"Model monitoring\",\"status.learning.stage.degraded\":\"Degraded model\",\"notes.learning.bootstrap\":\"The bars count collected measurements, not overall learning progress. Reaching a target does not guarantee validation: response measurements may still wait for an estimated response delay, then be reassessed. Learning can therefore continue or require additional measurements.\",\"groups.learning.response_lag\":\"System response delay\",\"metrics.response_lag\":\"Estimated delay\",\"metrics.response_estimates\":\"Retained estimates\",\"metrics.response_episodes\":\"Heating phases\",\"metrics.response_episodes_target\":\"Phases before resolution\",\"metrics.response_episode_median\":\"Median active phase duration\",\"metrics.response_last_reason\":\"Last active phase\",\"status.response_lag.estimated\":\"Estimate retained\",\"status.response_lag.power_not_constant\":\"Varying power\",\"status.response_lag.baseline_unsettled\":\"Insufficient preceding rest\",\"status.response_lag.no_outdoor_temperature\":\"Outdoor temperature missing\",\"status.response_lag.insufficient_crossings\":\"Insufficient temperature changes\",\"status.response_lag.no_baseline_crossing\":\"Response still insufficient\",\"status.response_lag.unknown_passive_slope\":\"Passive slope unknown\",\"status.response_lag.no_active_response\":\"Active response not measurable\",\"status.response_lag.unresolvable_intercept\":\"Delay cannot be determined from this phase\",\"status.response_lag.interrupted_by_restart\":\"Phase interrupted by a restart\",\"notes.learning.response_lag\":\"This delay describes how long the whole system takes to respond, including the emitter and sensor. It is estimated during constant-power phases. A retained estimate does not validate the delay by itself; a slow system may need several hours of observation. Even without a retained estimate, the model resolves automatically after the fixed number of heating phases shown.\",\"groups.model.deadtime_detection\":\"Dead time detection\",\"metrics.deadtime_state\":\"Detector state\",\"status.deadtime.off\":\"Idle\",\"status.deadtime.waiting_heat\":\"Waiting for a temperature rise\",\"status.deadtime.waiting_cool\":\"Waiting for a temperature drop\",\"status.deadtime.heating\":\"Tracking the rising response\",\"status.deadtime.cooling\":\"Tracking the falling response\",\"metrics.deadtime_waiting_elapsed\":\"Current wait\",\"notes.model.deadtime\":\"Outcomes describe the last wait for each response. After power stops, a slow emitter may keep warming the room: the passive wait can last up to 12 h. An interruption means power changed before detection, not a model failure.\",\"status.deadtime.outcome.detected\":\"Detected\",\"status.deadtime.outcome.timeout\":\"Timed out\",\"status.deadtime.outcome.aborted\":\"Interrupted\",\"metrics.deadtime_outcome_heat\":\"Last rise wait\",\"metrics.deadtime_outcome_cool\":\"Last drop wait\",\"status.integral.unwind_high\":\"Integral unwind at the upper limit\",\"status.integral.unwind_low\":\"Integral unwind at the lower limit\",\"status.learning.transient_a\":\"Settling before an A measurement\",\"status.learning.transient_b\":\"Settling before a B measurement\",\"notes.command.integral\":\"The integral corrects persistent errors over a few hours. Its correction is preserved during recoveries while temperature progresses. If recovery stops moving temperature toward the setpoint, it resumes its action gradually; near the setpoint, it can unwind despite saturation caused by the proportional term.\",\"graphs.command.integral\":\"Integral history\",\"graphs.command.gains\":\"PI gains history\",\"notes.command.history\":\"The integral accumulates temperature error in °C·min, rather than a power percentage. Kp and Ki translate the errors and this accumulated value into the command; their curves use separate scales.\",\"notes.learning.response_lag_missing\":\"Response delay unavailable. This does not tell us whether estimation is still in progress; a missing delay does not mean learning is blocked.\",\"notes.learning.paused\":\"Learning is paused. Regulation uses the current model; collection will resume when learning is enabled again.\",\"status.integral.guard_cut\":\"Thermal protection cut\",\"status.integral.guard_cut.description\":\"Heating is off to prevent overheating. It resumes after the temperature falls enough; excess integral decreases during the cut while retaining the useful correction.\"}}"),
+		translations: /* @__PURE__ */ JSON.parse("{\"fr\":{\"sections.overview.title\":\"Synthèse\",\"sections.overview.summary\":\"Température, consigne et commande Smart PI.\",\"sections.learning.title\":\"Apprentissage\",\"sections.learning.summary\":\"Mesures de la réponse de l'installation et des pertes thermiques.\",\"sections.model.title\":\"Modèle et prévision\",\"sections.model.summary\":\"Modèle A/B, fiabilité, temps de réponse et correction prédictive FF3.\",\"sections.command.title\":\"Commande\",\"sections.command.summary\":\"Demande de puissance, limites et détail de la commande.\",\"sections.fftrim.title\":\"Équilibre / FFTrim\",\"sections.fftrim.summary\":\"Observation de la puissance de maintien et répartition entre intégrale et trim.\",\"sections.anticipation.title\":\"Approche de consigne\",\"sections.anticipation.summary\":\"Consigne suivie, profil de trajectoire et évolution de la commande.\",\"sections.health.title\":\"Protections\",\"sections.health.summary\":\"Gouvernance, protections et calibration.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Actions de maintenance de l'apprentissage et de la régulation.\",\"hero.overview.title\":\"Smart PI pilote la régulation\",\"hero.overview.bootstrap\":\"L'installation collecte ses premières mesures. Elle chauffe ou refroidit entre les seuils de température configurés pendant cet apprentissage.\",\"hero.overview.calibration\":\"Une calibration est en cours pour recaler le comportement thermique.\",\"hero.overview.degraded\":\"La régulation limite l'adaptation car le modèle manque de fiabilité.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics indisponibles\",\"hero.overview.diagnostic_missing\":\"L'entité de diagnostic Smart PI n'est pas disponible.\",\"hero.learning.title\":\"Apprentissage de l'installation\",\"hero.learning.subtitle\":\"Suivi des mesures collectées et du délai de réaction de l'installation.\",\"hero.model.title\":\"Modèle et prévision thermique\",\"hero.model.subtitle\":\"Le modèle appris A/B et les retards décrivent la réponse thermique ; le modèle de pièce dispose de son propre onglet. FF3 peut corriger la puissance selon le contexte.\",\"hero.health.title\":\"Surveillance active\",\"hero.health.subtitle\":\"Les protections peuvent figer l'apprentissage ou demander une calibration.\",\"hero.actions.title\":\"Actions Smart PI\",\"hero.actions.subtitle\":\"Les actions sont appliquées au thermostat configuré après confirmation.\",\"metrics.temperature\":\"Température\",\"metrics.error\":\"Écart consigne\",\"metrics.integral_error\":\"Intégrale\",\"metrics.filtered_setpoint\":\"Référence filtrée suivie par P\",\"metrics.current_cycle\":\"Cycle courant\",\"metrics.next_cycle\":\"Prochain cycle\",\"metrics.linear_current_cycle\":\"Cycle courant linéaire\",\"metrics.linear_next_cycle\":\"Prochain cycle linéaire\",\"metrics.command\":\"Commande\",\"metrics.limited\":\"Limitée\",\"metrics.applied\":\"Commande appliquée\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Maintien\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"metrics.b\":\"B - Pertes thermiques\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Temps mort chauffe\",\"metrics.deadtime_cool\":\"Temps mort refroidissement\",\"metrics.a_stability\":\"Dispersion A\",\"metrics.b_stability\":\"Dispersion B\",\"metrics.accepted_a\":\"Mises à jour A acceptées\",\"metrics.accepted_b\":\"Mises à jour B acceptées\",\"metrics.bootstrap_a\":\"Mesures de réponse (A)\",\"metrics.bootstrap_b\":\"Mesures de pertes (B)\",\"metrics.history_a\":\"Mesures de réponse (A)\",\"metrics.history_b\":\"Mesures de pertes (B)\",\"metrics.learning_enabled\":\"Apprentissage thermique\",\"metrics.a_drift\":\"Dérive A\",\"metrics.b_drift\":\"Dérive B\",\"metrics.learn_b_converged\":\"B convergé\",\"metrics.learning_last_reason\":\"Dernière raison\",\"metrics.confidence\":\"Confiance modèle\",\"metrics.reliability\":\"Fiabilité\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Temps mort chauffe\",\"metrics.deadtime_cool_reliable\":\"Temps mort refroidissement\",\"metrics.governance\":\"Régime de gouvernance\",\"metrics.thermal_decision\":\"Décision thermique\",\"metrics.thermal_reason\":\"Raison\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Jumeau thermique\",\"metrics.deadband_source\":\"Source deadband\",\"metrics.deadband_mode\":\"Mode deadband\",\"metrics.in_deadband\":\"Dans la bande morte\",\"metrics.in_near_band\":\"Zone proche\",\"metrics.in_deadtime\":\"Fenêtre temps mort\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Mode intégrale\",\"metrics.integral_hold\":\"Maintien intégrale\",\"metrics.integral_hold_source\":\"Source du maintien intégral\",\"metrics.integral_guard_source\":\"Source de protection intégrale\",\"metrics.restart_reason\":\"Raison du redémarrage\",\"metrics.autocalib_state\":\"Autocalibration\",\"metrics.autocalib_degraded\":\"Modèle dégradé\",\"metrics.autocalib_snapshot_age\":\"Âge du snapshot\",\"metrics.autocalib_next_check\":\"Prochaine relance automatique\",\"metrics.autocalib_last_trigger\":\"Dernier déclenchement\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Essais calibration\",\"metrics.calibration_last_time\":\"Dernière calibration\",\"metrics.trajectory\":\"Trajectoire\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Observateur stationnaire\",\"metrics.fftrim.observation_mode\":\"Dernière méthode\",\"metrics.fftrim.windows_since_update\":\"Fenêtres depuis la mise à jour\",\"metrics.fftrim.last_update_reason\":\"Dernier résultat\",\"metrics.fftrim.last_reject_reason\":\"Dernier rejet FFTrim\",\"metrics.fftrim.stationary_progress\":\"Fenêtre stationnaire\",\"metrics.fftrim.measurement_count\":\"Mesures distinctes\",\"metrics.fftrim.power_coverage\":\"Couverture de puissance\",\"metrics.fftrim.alignment_delay\":\"Délai d'alignement\",\"metrics.fftrim.periodic_state\":\"Observateur périodique\",\"metrics.fftrim.periodic_progress\":\"Fenêtre périodique\",\"metrics.fftrim.periodic_measurement_count\":\"Mesures périodiques\",\"metrics.fftrim.periodic_amplitude\":\"Amplitude thermique\",\"metrics.fftrim.periodic_closure_error\":\"Erreur de fermeture\",\"metrics.fftrim.periodic_last_reject_reason\":\"Dernier rejet périodique\",\"metrics.fftrim.mean_causal_power\":\"Puissance causale moyenne\",\"metrics.fftrim.mean_ff1\":\"FF1 moyen\",\"metrics.fftrim.mean_p_power\":\"Contribution P moyenne\",\"metrics.fftrim.mean_i_power\":\"Contribution I moyenne\",\"metrics.fftrim.mean_visible_ff_power\":\"Feed-forward visible moyen\",\"metrics.fftrim.observed_hold_power\":\"Puissance de maintien observée\",\"metrics.fftrim.physical_power_deficit\":\"Déficit physique de puissance\",\"metrics.fftrim.decomposed_correction\":\"Correction décomposée\",\"metrics.fftrim.target_trim\":\"Trim cible\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Température moyenne\",\"metrics.fftrim.mean_error\":\"Erreur moyenne\",\"metrics.fftrim.mean_slope_h\":\"Pente moyenne\",\"metrics.fftrim.mean_delivery_residual\":\"Résiduel de livraison moyen\",\"metrics.fftrim.bumpless_transfer_state\":\"Transfert sans a-coup\",\"metrics.fftrim.bumpless_transfer_reason\":\"Raison du transfert\",\"metrics.fftrim.transfer_quality\":\"Qualité du transfert\",\"metrics.fftrim.transfer_pending_engagement\":\"Engagement actionneur\",\"metrics.fftrim.requested_trim_delta\":\"Variation de trim demandée\",\"metrics.fftrim.stored_trim_delta\":\"Variation de trim mémorisée\",\"metrics.fftrim.applied_trim_delta\":\"Variation de trim appliquée\",\"metrics.fftrim.transferable_i_power\":\"Puissance I transférable\",\"metrics.fftrim.requested_i_transfer\":\"Transfert I demandé\",\"metrics.fftrim.applied_i_transfer\":\"Transfert I appliqué\",\"metrics.fftrim.net_command_delta\":\"Variation nette de commande\",\"metrics.fftrim.window_duration\":\"Durée observée\",\"metrics.fftrim.transaction_timestamp\":\"Application (UTC)\",\"metrics.trajectory.source\":\"Source de trajectoire\",\"metrics.ff3.twin_usable\":\"Jumeau utilisable\",\"groups.overview.thermal\":\"Température et consigne\",\"groups.overview.command\":\"Commande en cours\",\"groups.overview.influence\":\"Influence actuelle\",\"groups.command.actuator_cycle\":\"Cycle actionneur\",\"groups.command.limitation_chain\":\"Chaîne de limitation\",\"groups.command.contributions\":\"Contributions de contrôle\",\"groups.fftrim.observer\":\"Observation stationnaire en cours\",\"groups.fftrim.stationary_quality\":\"Qualité de la fenêtre stationnaire\",\"groups.fftrim.periodic\":\"Observation d'équilibre périodique\",\"groups.fftrim.thermal_balance\":\"Dernier bilan thermique retenu\",\"groups.fftrim.transfer\":\"Transfert sans à-coup en cours\",\"groups.fftrim.deltas\":\"Variations de transfert en cours\",\"groups.fftrim.last_result\":\"Dernier résultat accepté\",\"groups.fftrim.last_transaction\":\"Dernière transaction appliquée\",\"groups.fftrim.last_transaction_deltas\":\"Deltas de la dernière transaction appliquée\",\"groups.learning.drift\":\"Dérive et convergence\",\"groups.health.governance\":\"Gouvernance et décision thermique\",\"groups.health.protections\":\"Protections thermiques\",\"groups.health.integral\":\"Intégrale\",\"groups.health.restart\":\"Redémarrage\",\"groups.health.autocalib\":\"Autocalibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Apprentissage thermique\",\"groups.actions.maintenance\":\"Maintenance\",\"status.learning.enabled\":\"Actif\",\"status.learning.paused\":\"En pause\",\"status.drift.NORMAL\":\"Normale\",\"status.drift.DRIFT_SUSPECTED\":\"Dérive suspectée\",\"status.drift.RECENTERING\":\"Recentrement en cours\",\"status.confidence.ab_ok\":\"Modèle fiable\",\"status.confidence.ab_bootstrap\":\"Apprentissage initial du modèle\",\"status.confidence.ab_degraded\":\"Modèle partiel\",\"status.confidence.ab_bad\":\"Modèle insuffisant\",\"status.confidence.unknown\":\"Confiance inconnue\",\"status.confidence.ab_ok.description\":\"Les échantillons A et B sont suffisamment cohérents pour utiliser le modèle normalement.\",\"status.confidence.ab_bootstrap.description\":\"Les mesures de l'installation sont encore en cours de collecte ou de validation.\",\"status.confidence.ab_degraded.description\":\"Une partie du modèle est exploitable, mais la régulation reste prudente.\",\"status.confidence.ab_bad.description\":\"Le modèle n'est pas assez fiable ; Smart PI limite ou évite son influence.\",\"status.confidence.unknown.description\":\"Le niveau de confiance n'est pas encore publié par le diagnostic.\",\"status.boolean.true\":\"Oui\",\"status.boolean.false\":\"Non\",\"status.reliability.true\":\"Fiable\",\"status.reliability.false\":\"Non fiable\",\"status.coherence.collecting\":\"En collecte\",\"status.coherence.coherent\":\"Cohérente\",\"status.coherence.watch\":\"À surveiller\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersée\",\"status.coherence.unstable\":\"Instable\",\"status.coherence.very_unstable\":\"Très instable\",\"status.regime.warmup\":\"Échauffement\",\"status.regime.excited_stable\":\"Stable excité\",\"status.regime.near_band\":\"Zone proche\",\"status.regime.dead_band\":\"Bande morte\",\"status.regime.hold\":\"Maintien\",\"status.regime.perturbed\":\"Perturbé\",\"status.regime.degraded\":\"Dégradé\",\"status.regime.saturated\":\"Saturé\",\"status.boolean.active\":\"Actif\",\"status.trajectory.setpoint\":\"Changement de consigne\",\"status.trajectory.disturbance\":\"Perturbation\",\"status.trajectory.none\":\"Aucune\",\"status.ff3.active\":\"FF3 actif\",\"status.ff3.inactive\":\"FF3 inactif\",\"status.ff3.disabled\":\"FF3 désactivé\",\"status.ff3.disabled.config_disabled\":\"FF3 désactivé par configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactif en zone morte\",\"status.ff3.disabled.not_near_band\":\"FF3 hors zone proche\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 en attente de fin de cycle\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 bloqué par la trajectoire de consigne\",\"status.ff3.disabled.disturbance_unclassified\":\"Perturbation FF3 non classée\",\"status.ff3.disabled.twin_warming_up\":\"Jumeau thermique en chauffe\",\"status.ff3.disabled.twin_steady_invalid\":\"État stable du jumeau invalide\",\"status.ff3.disabled.reset\":\"FF3 en réinitialisation\",\"status.ff3.disabled.hvac_off\":\"FF3 arrêté : chauffage coupé\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 attend le premier cycle après redémarrage\",\"status.ff3.disabled.cool_mode\":\"FF3 indisponible en refroidissement\",\"status.ff3.disabled.missing_ext_temp\":\"Température extérieure absente\",\"status.ff3.disabled.tau_not_reliable\":\"Temps caractéristique non fiable\",\"status.ff3.disabled.twin_not_initialized\":\"Jumeau thermique non initialisé\",\"status.ff3.disabled.calibration\":\"FF3 suspendu pendant la calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 suspendu par la limitation de puissance\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 attend après un changement de consigne\",\"status.ff3.disabled.no_disturbance_context\":\"Aucune perturbation confirmée\",\"status.ff3.disabled.saturated_high\":\"FF3 suspendu à saturation haute\",\"status.ff3.disabled.system_not_stable\":\"Système thermique pas encore stable\",\"status.ff3.disabled.authority_zero\":\"Autorité FF3 nulle\",\"status.ff3.disabled.scoring_failed\":\"Évaluation FF3 indisponible\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"Aucun effet candidat sur l'horizon\",\"status.ff3.disabled.score_not_better\":\"Aucune amélioration prévue\",\"status.ff3.disabled.authority_tapered_to_zero\":\"Autorité FF3 réduite à zéro\",\"status.twin.ok\":\"Jumeau disponible\",\"status.twin.unavailable\":\"Jumeau indisponible\",\"status.deadband.power_source.none\":\"Aucune source de maintien\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward et PI\",\"status.deadband.p_mode.init\":\"Initialisation\",\"status.deadband.p_mode.deadband_frozen\":\"P gelée en zone morte\",\"status.deadband.p_mode.deadband_quiet\":\"P nulle en zone morte\",\"status.deadband.p_mode.off\":\"P hors zone morte\",\"status.deadband.p_mode.deadband_edge\":\"P au bord de la zone morte\",\"status.deadband.p_mode.deadband_edge_pending\":\"P au bord en attente\",\"status.deadband.p_mode.deadzone_edge\":\"P au bord de la zone proche\",\"status.saturation.NO_SAT\":\"Sans saturation\",\"status.saturation.SAT_HI\":\"Limite haute\",\"status.saturation.SAT_LO\":\"Limite basse\",\"status.fftrim.state.warming_up\":\"Mise en route\",\"status.fftrim.state.waiting_deadtime\":\"Attente du temps mort\",\"status.fftrim.state.collecting\":\"Collecte en cours\",\"status.fftrim.state.waiting_phase\":\"Attente de fermeture du cycle\",\"status.fftrim.state.ready\":\"Fenêtre prête\",\"status.fftrim.state.rejected\":\"Fenêtre rejetée\",\"status.fftrim.mode.stationary\":\"Observation stationnaire\",\"status.fftrim.mode.periodic\":\"Équilibre périodique\",\"status.fftrim.reason.none\":\"Aucune\",\"status.fftrim.reason.skipped\":\"Mise à jour ignorée\",\"status.fftrim.reason.causal_window_ready\":\"Fenêtre causale prête\",\"status.fftrim.reason.periodic_window_ready\":\"Cycle périodique prêt\",\"status.fftrim.reason.persistent_ready\":\"Correction persistante confirmée\",\"status.fftrim.reason.updated_persistent\":\"Trim mis à jour\",\"status.fftrim.reason.updated_bumpless\":\"Transfert appliqué sans à-coup\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.reason.deadtime_unreliable\":\"Temps mort non fiable\",\"status.fftrim.reason.deadtime_changed\":\"Temps mort modifié\",\"status.fftrim.reason.causal_power_not_covered\":\"Chronologie de puissance incomplète\",\"status.fftrim.reason.not_enough_measurements\":\"Mesures insuffisantes\",\"status.fftrim.reason.window_too_short\":\"Fenêtre trop courte\",\"status.fftrim.reason.setpoint_changed\":\"Consigne modifiée\",\"status.fftrim.reason.trajectory_active\":\"Trajectoire active\",\"status.fftrim.reason.ff3_active\":\"FF3 actif\",\"status.fftrim.reason.model_confidence\":\"Modèle insuffisamment fiable\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Température extérieure absente\",\"status.fftrim.reason.saturated\":\"Commande saturée\",\"status.fftrim.reason.pi_unstable\":\"Branche PI instable\",\"status.fftrim.reason.cycle_not_reversed\":\"Montée et descente incomplètes\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Amplitude du cycle insuffisante\",\"status.fftrim.reason.cycle_not_closed\":\"Cycle thermique non fermé\",\"status.fftrim.reason.saturated_high\":\"Saturation haute\",\"status.fftrim.transfer.idle\":\"Inactif\",\"status.fftrim.transfer.observer_rejected\":\"Observation non retenue\",\"status.fftrim.transfer.pending\":\"Confirmation en cours\",\"status.fftrim.transfer.ineligible\":\"Transfert non applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Attente de fin de cycle\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction sans transfert I/trim\",\"status.fftrim.transfer.applied\":\"Transfert appliqué\",\"status.fftrim.transfer.rejected\":\"Transfert rejeté\",\"status.fftrim.transfer.pending_engagement\":\"En attente d'engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-équilibre confirmé\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Équilibre périodique sans transfert\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Attente de la frontière post anti-windup\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction sous le seuil utile\",\"status.fftrim.quality.unavailable\":\"Indisponible\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Cycle switch équivalent\",\"status.fftrim.quality.valve_segmented_linear\":\"Timeline de vanne linéarisée\",\"status.fftrim.quality.mixed\":\"Sources mixtes\",\"fallback.unknown_code\":\"Code inconnu\",\"notes.learning\":\"A décrit l'effet du chauffage ou du refroidissement sur la température ; B décrit les échanges thermiques avec l'extérieur. Les mesures attendent une réponse stabilisée et des variations de température suffisantes. A peut être ajusté lorsque B est affiné, sans nouvelle mesure de réponse.\",\"notes.fftrim.stationary\":\"L'observateur stationnaire aligne les mesures thermiques sur la puissance déjà appliquée en tenant compte du temps mort.\",\"notes.fftrim.periodic\":\"L'observateur périodique recherche un cycle thermique complet, avec une phase de montée et une phase de descente. Sa cible dépend des cycles VT et du temps mort. Il utilise la même chronologie de puissance, garde sa propre fenêtre et ne transfère pas la propriété intégrale/trim.\",\"actions.reset_learning\":\"Réinitialiser l'apprentissage\",\"actions.reset_learning.confirm\":\"Smart PI va effacer les mesures apprises et recommencer l'apprentissage initial de l'installation.\",\"actions.pause_learning\":\"Mettre l'apprentissage en pause\",\"actions.pause_learning.confirm\":\"Smart PI continuera à réguler avec le modèle actuel, mais cessera de collecter des observations thermiques et des mesures de temps mort.\",\"actions.resume_learning\":\"Reprendre l'apprentissage\",\"actions.resume_learning.confirm\":\"Smart PI reprendra la collecte d'observations thermiques et de temps mort.\",\"actions.force_calibration\":\"Forcer une calibration\",\"actions.force_calibration.confirm\":\"Smart PI lancera une calibration si l'état actuel le permet.\",\"actions.reset_integral\":\"Réinitialiser l'intégrale\",\"actions.reset_integral.confirm\":\"Smart PI remettra le terme intégral à zéro sans effacer le modèle appris.\",\"graphs.command.title\":\"Commande Smart PI\",\"graphs.command.applied\":\"Commande appliquée\",\"graphs.command.command\":\"Commande calculée\",\"graphs.command.pi\":\"Branche PI\",\"graphs.command.ff\":\"Feed-forward total\",\"graphs.overview.title\":\"Température, consigne et puissance (6 h)\",\"graphs.overview.temperature\":\"Température mesurée\",\"graphs.overview.filtered_setpoint\":\"Référence filtrée suivie par P\",\"graphs.overview.applied\":\"Commande appliquée\",\"graphs.model.title\":\"Paramètres A et B (1R1C) (24h)\",\"graphs.model.a\":\"A - Réponse signée (chauffage + / refroidissement -)\",\"graphs.model.b\":\"B - Pertes thermiques\",\"metrics.user_setpoint\":\"Consigne utilisateur\",\"metrics.trajectory.phase\":\"Phase de trajectoire\",\"status.trajectory.phase.idle\":\"Inactive\",\"status.trajectory.phase.tracking\":\"Suivi du profil\",\"status.trajectory.phase.release\":\"Retour progressif à la consigne\",\"groups.approach.followed\":\"Consigne suivie\",\"status.boolean.inactive\":\"Inactif\",\"groups.approach.details\":\"Détails de trajectoire\",\"metrics.trajectory.start\":\"Consigne de départ\",\"metrics.trajectory.target\":\"Cible du profil\",\"metrics.trajectory.tau\":\"Constante de temps du profil\",\"metrics.trajectory.elapsed\":\"Temps écoulé\",\"metrics.trajectory.remaining\":\"Cycle restant\",\"metrics.trajectory.next_reference\":\"Référence de puissance au cycle suivant\",\"metrics.trajectory.bumpless_delta\":\"Écart de commande sans à-coup\",\"groups.approach.readiness\":\"Indicateurs de trajectoire\",\"metrics.trajectory.braking_needed\":\"Freinage requis\",\"metrics.trajectory.pending\":\"Freinage pour changement de cible en attente\",\"metrics.trajectory.model_ready\":\"Modèle prêt pour la trajectoire\",\"metrics.trajectory.bumpless_ready\":\"Passage sans à-coup prêt\",\"groups.model.ff3_twin\":\"FF3 et jumeau thermique\",\"graphs.approach.temperature\":\"Température et consignes\",\"graphs.approach.command\":\"Commande calculée et commande appliquée\",\"notes.approach.history\":\"Le premier graphique compare la température de la pièce aux consignes. Le second montre comment la commande du thermostat évolue au fil du temps.\",\"metrics.ti\":\"Temps intégral effectif (Ti)\",\"groups.command.gains\":\"Gains PI\",\"metrics.learning_stage\":\"Phase d'apprentissage\",\"status.learning.stage.bootstrap\":\"Apprentissage initial\",\"status.learning.stage.learning\":\"Enrichissement du modèle\",\"status.learning.stage.monitoring\":\"Surveillance du modèle\",\"status.learning.stage.degraded\":\"Modèle dégradé\",\"notes.learning.bootstrap\":\"Les barres comptent les mesures collectées, pas la progression totale de l'apprentissage. Atteindre un objectif ne garantit pas leur validation : les mesures de réponse peuvent encore attendre l'estimation du délai de réaction, puis être réévaluées. L'apprentissage peut donc continuer ou demander des mesures supplémentaires.\",\"groups.learning.response_lag\":\"Délai de réaction de l'installation\",\"metrics.response_lag\":\"Délai estimé\",\"metrics.response_estimates\":\"Estimations conservées\",\"metrics.response_episodes\":\"Phases de chauffe\",\"metrics.response_episodes_target\":\"Phases avant résolution\",\"metrics.response_episode_median\":\"Durée médiane des phases actives\",\"metrics.response_last_reason\":\"Dernière phase active\",\"status.response_lag.estimated\":\"Estimation retenue\",\"status.response_lag.power_not_constant\":\"Puissance variable\",\"status.response_lag.baseline_unsettled\":\"Repos préalable insuffisant\",\"status.response_lag.no_outdoor_temperature\":\"Température extérieure absente\",\"status.response_lag.insufficient_crossings\":\"Variations de température insuffisantes\",\"status.response_lag.no_baseline_crossing\":\"Réponse encore insuffisante\",\"status.response_lag.unknown_passive_slope\":\"Pente passive inconnue\",\"status.response_lag.no_active_response\":\"Réponse active non mesurable\",\"status.response_lag.unresolvable_intercept\":\"Délai non déterminable sur cette phase\",\"status.response_lag.interrupted_by_restart\":\"Phase interrompue par un redémarrage\",\"notes.learning.response_lag\":\"Ce délai décrit le temps de réaction de l'ensemble de l'installation, y compris l'émetteur et la sonde. Il est estimé pendant les phases à puissance constante. Une estimation retenue ne suffit pas à valider le délai ; une installation lente peut demander plusieurs heures d'observation. Même sans estimation retenue, le modèle se résout automatiquement après le nombre fixe de phases de chauffe affiché.\",\"groups.model.deadtime_detection\":\"Détection des temps morts\",\"metrics.deadtime_state\":\"État du détecteur\",\"status.deadtime.off\":\"Au repos\",\"status.deadtime.waiting_heat\":\"Attente d'une montée de température\",\"status.deadtime.waiting_cool\":\"Attente d'une baisse de température\",\"status.deadtime.heating\":\"Suivi de la réponse montante\",\"status.deadtime.cooling\":\"Suivi de la réponse descendante\",\"metrics.deadtime_waiting_elapsed\":\"Attente en cours\",\"notes.model.deadtime\":\"Les résultats concernent la dernière attente de chaque réponse. Après une coupure, un émetteur lent peut continuer à chauffer : l'attente passive peut durer jusqu'à 12 h. Une interruption indique un changement de puissance avant la détection, pas un défaut du modèle.\",\"status.deadtime.outcome.detected\":\"Détecté\",\"status.deadtime.outcome.timeout\":\"Délai dépassé\",\"status.deadtime.outcome.aborted\":\"Interrompu\",\"metrics.deadtime_outcome_heat\":\"Dernière attente de montée\",\"metrics.deadtime_outcome_cool\":\"Dernière attente de baisse\",\"status.integral.unwind_high\":\"Décharge intégrale à la limite haute\",\"status.integral.unwind_low\":\"Décharge intégrale à la limite basse\",\"status.learning.transient_a\":\"Stabilisation avant une mesure de A\",\"status.learning.transient_b\":\"Stabilisation avant une mesure de B\",\"notes.command.integral\":\"L'intégrale corrige les écarts persistants à l'échelle de quelques heures. Sa correction est conservée pendant les reprises tant que la température progresse. Si la reprise ne rapproche plus la température de la consigne, elle reprend progressivement son action ; près de la consigne, elle peut se décharger malgré une saturation due au terme proportionnel.\",\"graphs.command.integral\":\"Évolution de l'intégrale\",\"graphs.command.gains\":\"Évolution des gains PI\",\"notes.command.history\":\"L'intégrale est un cumul d'écart de température en °C·min, pas un pourcentage de puissance. Les gains Kp et Ki traduisent les écarts et ce cumul en commande ; leurs courbes utilisent des échelles distinctes.\",\"notes.learning.response_lag_missing\":\"Délai de réaction non disponible. Cette information ne permet pas de savoir si son estimation est encore en cours ; son absence ne signifie pas que l'apprentissage est bloqué.\",\"notes.learning.paused\":\"L’apprentissage A/B est en pause. La régulation utilise le modèle courant ; la collecte A/B reprendra à sa réactivation. L’apprentissage du retard de l’émetteur reste indépendant.\",\"status.integral.guard_cut\":\"Coupure de protection thermique\",\"status.integral.guard_cut.description\":\"Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; l'excès d'intégrale diminue pendant la coupure tout en conservant la correction utile.\",\"metrics.holding.source.0\":\"Modèle appris A/B\",\"metrics.holding.source.1\":\"Modèle de pièce : air et murs\",\"metrics.holding.source.2\":\"Modèle de pièce : part statique\",\"metrics.holding.source.3\":\"Modèle de pièce simple\",\"metrics.holding.source\":\"Source de la puissance de maintien\",\"metrics.holding.walls\":\"Part des murs dans le maintien\",\"notes.holding\":\"Le modèle de pièce publié fournit le maintien en chauffage PWM. Avec des murs identifiés et un suivi fiable, il ajoute leur absorption de chaleur (+) ou déduit la chaleur rendue (−). Sinon, seule sa part statique est utilisée. Sans modèle publié, en froid ou avec une vanne, le modèle appris A/B fournit le maintien. La correction lente FF2 reste à zéro et figée tant que le modèle de pièce fournit le maintien.\",\"graphs.holding.walls\":\"Murs dans le maintien\",\"graphs.holding.source\":\"Source du maintien\",\"notes.holding.timeline\":\"Le bandeau sous les courbes indique la source du maintien : « learned model » = modèle appris A/B ; « room model (air and walls) » = air et murs ; « room model (static part) » = part statique seule ; « room model (simple) » = modèle simple. La courbe des murs est en % de pleine puissance : positive à l’absorption, négative à la restitution.\",\"notes.room.intro\":\"Ce modèle représente l’air, les murs et l’émetteur. Il est identifié chaque jour à partir des nuits enregistrées et fournit le maintien une fois publié. Les valeurs publiées restent en service si une nouvelle identification est refusée.\",\"metrics.room.status.0\":\"Apprentissage en cours\",\"metrics.room.status.1\":\"Modèle avec murs identifié\",\"metrics.room.status.2\":\"Modèle simple sans murs\",\"metrics.room.status.3\":\"Non identifié : Pas encore assez de nuits enregistrées\",\"metrics.room.status.4\":\"Non identifié : Retard de chauffe encore inconnu\",\"metrics.room.status.5\":\"Non identifié : Trop peu de mesures nocturnes valides\",\"metrics.room.status.6\":\"Non identifié : Apports ou pertes de chaleur détectés pendant les nuits\",\"metrics.room.status.7\":\"Non identifié : Trop peu de chauffage pendant les nuits\",\"metrics.room.status.8\":\"Non identifié : Écart de température intérieur/extérieur trop faible\",\"metrics.room.status.9\":\"Non identifié : Le modèle n’a pas pu être ajusté\",\"metrics.room.status.10\":\"Non identifié : Valeurs hors de la plage plausible\",\"metrics.room.status.11\":\"Non identifié : Le modèle ne suit pas assez bien la température mesurée\",\"metrics.room.status.12\":\"Non identifié : En attente d’une seconde série de nuits pour confirmation\",\"metrics.room.status.13\":\"Non identifié : Deux séries de nuits successives ne concordent pas\",\"metrics.room.status.14\":\"Non identifié : Le modèle ne prévoit pas assez bien les nuits suivantes\",\"metrics.room.status.15\":\"Non identifié : Échec du calcul\",\"metrics.room.status.16\":\"Non identifié : Le retard de chauffe ne correspond pas à la température mesurée\",\"metrics.room.status.17\":\"Non identifié : La réponse de chauffe diffère trop de celle mesurée par la régulation\",\"metrics.room.status.18\":\"Non identifié : Les émetteurs à vanne ne sont pas encore pris en charge\",\"metrics.room.status.19\":\"Non identifié : Bibliothèques de calcul indisponibles\",\"metrics.room.status\":\"État du modèle\",\"metrics.room.tracking.0\":\"Suivi fiable\",\"metrics.room.tracking.1\":\"En attente d’un modèle identifié\",\"metrics.room.tracking.2\":\"En attente de mesures\",\"metrics.room.tracking.3\":\"En pause : SmartPI ne chauffe pas ou ne pilote pas la commande\",\"metrics.room.tracking.4\":\"Stabilisation après un redémarrage\",\"metrics.room.tracking.5\":\"Récupération après une ouverture de fenêtre\",\"metrics.room.tracking.6\":\"Les mesures s’écartent progressivement du modèle\",\"metrics.room.tracking.7\":\"Mesures incompatibles avec le modèle\",\"metrics.room.tracking.8\":\"Estimation de température incertaine\",\"metrics.room.tracking.9\":\"Apports ou pertes de chaleur importants et inexpliqués\",\"metrics.room.tracking.10\":\"État des murs non plausible\",\"metrics.room.tracking\":\"Suivi de la pièce\",\"metrics.room.walls.0\":\"Murs identifiés\",\"metrics.room.walls.1\":\"Non identifiés : sonde de température trop peu précise\",\"metrics.room.walls.2\":\"Non identifiés : aucune inertie thermique détectée\",\"metrics.room.walls.3\":\"Non identifiés : confirmation en attente\",\"metrics.room.walls.4\":\"Non identifiés : pas de gain face au modèle simple\",\"metrics.room.walls\":\"Identification des murs\",\"metrics.room.refusal.0\":\"Pas encore assez de nuits enregistrées\",\"metrics.room.refusal.1\":\"Retard de chauffe encore inconnu\",\"metrics.room.refusal.2\":\"Trop peu de mesures nocturnes valides\",\"metrics.room.refusal.3\":\"Apports ou pertes de chaleur détectés pendant les nuits\",\"metrics.room.refusal.4\":\"Trop peu de chauffage pendant les nuits\",\"metrics.room.refusal.5\":\"Écart de température intérieur/extérieur trop faible\",\"metrics.room.refusal.6\":\"Le modèle n’a pas pu être ajusté\",\"metrics.room.refusal.7\":\"Valeurs hors de la plage plausible\",\"metrics.room.refusal.8\":\"Le modèle ne suit pas assez bien la température mesurée\",\"metrics.room.refusal.9\":\"En attente d’une seconde série de nuits pour confirmation\",\"metrics.room.refusal.10\":\"Deux séries de nuits successives ne concordent pas\",\"metrics.room.refusal.11\":\"Le modèle ne prévoit pas assez bien les nuits suivantes\",\"metrics.room.refusal.12\":\"Échec du calcul\",\"metrics.room.refusal.13\":\"Le retard de chauffe ne correspond pas à la température mesurée\",\"metrics.room.refusal.14\":\"La réponse de chauffe diffère trop de celle mesurée par la régulation\",\"metrics.room.refusal.15\":\"Les émetteurs à vanne ne sont pas encore pris en charge\",\"metrics.room.refusal.16\":\"Bibliothèques de calcul indisponibles\",\"metrics.room.refusal\":\"Dernier refus de publication\",\"notes.room.waiting\":\"Une première identification demande environ 6 jours de nuits enregistrées avec du chauffage. Une sonde par pas de 0,1 °C ne permet pas d’identifier les murs : il faut des pas de 0,015 °C ou moins ; un modèle simple peut toutefois être publié. Les émetteurs à vanne ne sont pas pris en charge.\",\"notes.room.sensor\":\"Les murs demandent une sonde dont les pas sont de 0,015 °C ou moins. Avec une sonde à 0,1 °C, seul le modèle simple peut être identifié. Une vanne ne permet pas encore d’identifier la pièce ni ses murs.\",\"metrics.room.day\":\"Valeurs en service depuis\",\"metrics.room.attempt\":\"Dernière identification\",\"metrics.room.resolution\":\"Pas de sonde observé\",\"groups.room.dates\":\"Publication et mesures\",\"metrics.room.a\":\"Pièce : réponse a\",\"metrics.room.learned_a\":\"Appris : réponse a\",\"metrics.room.b\":\"Pièce : pertes statiques b_eq\",\"metrics.room.learned_b\":\"Appris : pertes b\",\"metrics.room.ratio\":\"Pièce : b_eq / a\",\"metrics.room.learned_ratio\":\"Appris : b / a\",\"groups.room.parameters\":\"Comparaison des modèles\",\"notes.room.ratio\":\"Le rapport b/a exprime la puissance statique de maintien par degré d’écart intérieur/extérieur, ici en % de pleine puissance par °C. Plus il est élevé, plus le maintien demande de puissance. b_eq = b_air − b_wall : b_air inclut les échanges vers l’extérieur et les murs, b_wall leur part stationnaire passant par les murs.\",\"metrics.room.b_air\":\"Pertes totales de l’air b_air\",\"metrics.room.b_wall\":\"Part stationnaire des murs b_wall\",\"groups.room.wall_parameters\":\"Échanges air et murs\",\"metrics.room.forecast.1h\":\"Dans 1 h\",\"metrics.room.forecast.2h\":\"Dans 2 h\",\"metrics.room.forecast.6h\":\"Dans 6 h\",\"metrics.room.forecast.12h\":\"Dans 12 h\",\"groups.room.forecasts\":\"Prévisions de température\",\"notes.room.forecasts\":\"Ces températures sont prévues si la puissance de chauffage actuelle reste constante. Elles restent indisponibles tant que le suivi ne produit pas de prévision.\",\"notes.room.accuracy\":\"Le modèle prévoit-il mieux que « rien ne bouge » ? Comparez les erreurs ci-dessous : une erreur du modèle plus faible que celle de la température inchangée indique une meilleure prévision. Ce sont les racines des erreurs quadratiques moyennes sur 7 jours, avec le nombre de prévisions vérifiées. Les prévisions passées sont rejouées avec la puissance réellement appliquée et la température extérieure mesurée. Sans vérification, on ne peut pas conclure.\",\"metrics.room.error\":\"Erreur du modèle\",\"metrics.room.unchanged\":\"Erreur si température inchangée\",\"metrics.room.checks\":\"Prévisions vérifiées\",\"groups.room.accuracy.1h\":\"Justesse à 1 h\",\"groups.room.accuracy.2h\":\"Justesse à 2 h\",\"groups.room.accuracy.6h\":\"Justesse à 6 h\",\"groups.room.accuracy.12h\":\"Justesse à 12 h\",\"metrics.room.wall_power\":\"Puissance supplémentaire des murs\",\"notes.room.wall_power\":\"En % de pleine puissance, au-delà de leur part stationnaire : positif quand les murs absorbent de la chaleur, négatif quand ils en rendent. Indisponible sans murs identifiés, sans sonde précise ou quand le suivi n’est pas fiable. La part effectivement incluse dans le maintien apparaît dans Commande.\",\"graphs.room.a\":\"Réponse a de la pièce\",\"graphs.room.b\":\"Pertes statiques b_eq de la pièce\",\"graphs.room.parameters\":\"Modèles appris et de pièce\",\"graphs.room.error_1h\":\"Erreur à 1 h\",\"graphs.room.error_12h\":\"Erreur à 12 h\",\"graphs.room.errors\":\"Évolution de la justesse des prévisions\",\"notes.room.history\":\"Les courbes de paramètres comparent a sur une échelle et b / b_eq sur l’autre, dans leurs unités physiques. Les courbes d’erreur montrent la justesse à 1 h et 12 h. Les températures prévues, la référence « température inchangée » et les nombres de vérifications sont des valeurs courantes seulement.\",\"sections.room_model.title\":\"Modèle de pièce\",\"notes.emitter.intro\":\"L’apprentissage du retard de l’émetteur est toujours actif, sans option à activer, en chauffage PWM. Il est indépendant de la pause de l’apprentissage A/B et n’est pas pris en charge avec une vanne. La valeur affinée est prioritaire, puis celle des matins, puis la mesure initiale.\",\"metrics.emitter.status.0\":\"Apprentissage actif\",\"metrics.emitter.status.1\":\"Vérification des bibliothèques de calcul\",\"metrics.emitter.status.2\":\"Bibliothèques indisponibles : mesure initiale utilisée\",\"metrics.emitter.status.3\":\"Apprentissage non pris en charge avec une vanne\",\"metrics.emitter.status\":\"État de l’apprentissage\",\"metrics.emitter.source.0\":\"Mesure initiale\",\"metrics.emitter.source.1\":\"Apprentissage des matins\",\"metrics.emitter.source.2\":\"Identification affinée\",\"metrics.emitter.source\":\"Origine du retard appliqué\",\"metrics.emitter.applied\":\"Retard appliqué\",\"metrics.emitter.gains\":\"Retard utilisé par les gains\",\"metrics.emitter.bootstrap\":\"Mesure initiale conservée\",\"groups.emitter.applied\":\"Retard utilisé par la régulation\",\"metrics.emitter.out_of_bound.0\":\"Hors limites : retour à la mesure initiale\",\"metrics.emitter.out_of_bound.1\":\"Aucun dépassement signalé\",\"metrics.emitter.out_of_bound\":\"Valeur apprise hors limites\",\"notes.emitter.bounds\":\"Une valeur apprise ne s’applique qu’entre la moitié et le double du retard initial. Les gains utilisent la moitié du retard appris appliqué ; avec la mesure initiale, ils utilisent sa valeur entière. La mesure initiale n’est jamais modifiée.\",\"metrics.emitter.fast\":\"Valeur publiée des matins\",\"metrics.emitter.confirmed\":\"Matins confirmés\",\"metrics.emitter.last_value\":\"Dernier matin accepté : retard\",\"groups.emitter.fast\":\"Apprentissage des matins\",\"metrics.emitter.confirmation.0\":\"Matin confirmé\",\"metrics.emitter.confirmation.1\":\"Matin non confirmé : valeur inutilisée\",\"metrics.emitter.confirmation.2\":\"Aucun matin accepté\",\"metrics.emitter.confirmation\":\"Confirmation du dernier matin accepté\",\"metrics.emitter.unconfirmed_reason.0\":\"Au moins 1 h sans chauffe entre 23 h et le passage en confort\",\"metrics.emitter.unconfirmed_reason\":\"Raison de non-confirmation\",\"metrics.emitter.last_day\":\"Dernier matin évalué\",\"metrics.emitter.accepted.0\":\"Oui\",\"metrics.emitter.accepted.1\":\"Non\",\"metrics.emitter.accepted\":\"Évaluation acceptée\",\"metrics.emitter.morning_reason.0\":\"Matin accepté\",\"metrics.emitter.morning_reason.1\":\"Échec du calcul\",\"metrics.emitter.morning_reason.2\":\"Données manquantes ou exclues autour du passage en confort\",\"metrics.emitter.morning_reason.3\":\"Pertes b pas encore apprises\",\"metrics.emitter.morning_reason.4\":\"Aucun démarrage de chauffe après le passage en confort\",\"metrics.emitter.morning_reason.5\":\"Nuit inutilisable pour ce type de pièce\",\"metrics.emitter.morning_reason.6\":\"Trop peu de températures avant le passage en confort\",\"metrics.emitter.morning_reason.7\":\"Évolution nocturne de température inutilisable\",\"metrics.emitter.morning_reason.8\":\"Évolution nocturne incompatible avec les cycles de chauffe\",\"metrics.emitter.morning_reason.9\":\"Évolution nocturne de température trop irrégulière\",\"metrics.emitter.morning_reason.10\":\"La montée en température n’a pas pu être ajustée\",\"metrics.emitter.morning_reason.11\":\"Ajustement de la montée en température trop imprécis\",\"metrics.emitter.morning_reason.12\":\"Montée en température trop courte pour être mesurée\",\"metrics.emitter.morning_reason.13\":\"Trop peu de chaleur fournie pendant la montée\",\"metrics.emitter.morning_reason.14\":\"Montée en température trop faible\",\"metrics.emitter.morning_reason.15\":\"La sonde de température transmet trop rarement\",\"metrics.emitter.morning_reason.16\":\"Nuit régulée : aucune mesure\",\"metrics.emitter.morning_reason.17\":\"Pièce non régulée pendant les 2 h avant le passage en confort\",\"metrics.emitter.morning_reason.18\":\"Pièce hors de sa consigne éco avant le passage en confort\",\"metrics.emitter.morning_reason.19\":\"Puissance de chauffe instable avant le passage en confort\",\"metrics.emitter.morning_reason.20\":\"Pas de hausse nette du chauffage au passage en confort\",\"metrics.emitter.morning_reason.21\":\"Pièce avec inertie après une nuit régulée : mesure par identification sur plusieurs jours uniquement\",\"metrics.emitter.morning_reason.22\":\"Type de pièce encore inconnu\",\"metrics.emitter.morning_reason.23\":\"SmartPI hors de la régulation stable (apprentissage initial)\",\"metrics.emitter.morning_reason.24\":\"SmartPI hors de la régulation stable (calibration)\",\"metrics.emitter.morning_reason.25\":\"SmartPI hors de la régulation stable (stable)\",\"metrics.emitter.morning_reason.26\":\"SmartPI hors de la régulation stable (dégradée)\",\"metrics.emitter.morning_reason\":\"Résultat du dernier matin évalué\",\"metrics.emitter.morning_class.0\":\"Pièce avec inertie thermique\",\"metrics.emitter.morning_class.1\":\"Pièce sans inertie thermique détectée\",\"metrics.emitter.morning_class.2\":\"Type de pièce indéterminé\",\"metrics.emitter.morning_class\":\"Type de pièce de ce matin\",\"notes.emitter.fast\":\"La valeur des matins demande au moins 3 matins confirmés et cohérents, après une hausse de consigne d’au moins 1 °C entre 3 h et 10 h. Un matin non confirmé reste visible mais sa valeur n’est pas utilisée.\",\"metrics.emitter.refined\":\"Retard affiné publié τe\",\"metrics.emitter.coupling\":\"Couplage air-murs\",\"metrics.emitter.wall_time\":\"Constante de temps des murs\",\"groups.emitter.refined\":\"Identification affinée\",\"metrics.emitter.refined_class.0\":\"Pièce avec inertie thermique\",\"metrics.emitter.refined_class.1\":\"Pièce sans inertie thermique détectée\",\"metrics.emitter.refined_class.2\":\"Type de pièce indéterminé\",\"metrics.emitter.refined_class\":\"Type de pièce en service\",\"metrics.emitter.night_class.0\":\"Pièce avec inertie thermique\",\"metrics.emitter.night_class.1\":\"Pièce sans inertie thermique détectée\",\"metrics.emitter.night_class.2\":\"Type de pièce indéterminé\",\"metrics.emitter.night_class\":\"Type de pièce des nuits sans chauffe\",\"metrics.emitter.evaluation_day\":\"Dernière évaluation quotidienne\",\"metrics.emitter.nights.0\":\"Oui\",\"metrics.emitter.nights.1\":\"Non\",\"metrics.emitter.nights\":\"Les six nuits sont régulées\",\"notes.emitter.refined\":\"L’identification compare deux séries de 3 nuits. Le retard affiné ne remplace celui des matins que si les 6 nuits sont régulées ; une évaluation quotidienne n’est donc pas nécessairement une publication.\",\"metrics.emitter.invalid.0\":\"Fenêtre ouverte\",\"metrics.emitter.invalid.1\":\"Délestage\",\"metrics.emitter.invalid.2\":\"Mode sécurité\",\"metrics.emitter.invalid.3\":\"Mode chauffage inactif\",\"metrics.emitter.invalid.4\":\"Commande inconnue\",\"metrics.emitter.invalid.5\":\"Commande remplacée par le thermostat\",\"metrics.emitter.invalid.6\":\"Saut de température\",\"metrics.emitter.invalid.7\":\"Température intérieure indisponible\",\"metrics.emitter.invalid.8\":\"Température extérieure indisponible\",\"metrics.emitter.invalid\":\"Données actuellement exclues : raison\",\"notes.emitter.data\":\"Une raison d’exclusion indique que les données courantes ne servent pas à cet apprentissage. « -- » signifie qu’aucune raison n’est fournie ; cela ne prouve pas que l’apprentissage est terminé.\",\"graphs.emitter.applied\":\"Retard appliqué\",\"graphs.emitter.delay\":\"Retard de chauffe appliqué\",\"sections.tar_learning.title\":\"Retard de l’émetteur\"},\"en\":{\"sections.overview.title\":\"Overview\",\"sections.overview.summary\":\"Smart PI temperature, setpoint and command.\",\"sections.learning.title\":\"Learning\",\"sections.learning.summary\":\"Measurements of system response and thermal losses.\",\"sections.model.title\":\"Model and prediction\",\"sections.model.summary\":\"A/B model, reliability, response times and FF3 prediction correction.\",\"sections.command.title\":\"Command\",\"sections.command.summary\":\"Power demand, limits and command breakdown.\",\"sections.fftrim.title\":\"Equilibrium / FFTrim\",\"sections.fftrim.summary\":\"Observation of holding power and ownership distribution between integral and trim.\",\"sections.anticipation.title\":\"Target approach\",\"sections.anticipation.summary\":\"Followed setpoint, trajectory profile and command history.\",\"sections.health.title\":\"Protections\",\"sections.health.summary\":\"Governance, safeguards and calibration.\",\"sections.actions.title\":\"Actions\",\"sections.actions.summary\":\"Learning and regulation maintenance actions.\",\"hero.overview.title\":\"Smart PI regulation\",\"hero.overview.bootstrap\":\"The system is collecting its first measurements. It heats or cools between the configured temperature thresholds during this learning period.\",\"hero.overview.calibration\":\"Calibration is running to realign the thermal behavior.\",\"hero.overview.degraded\":\"Regulation limits adaptation because the model is unreliable.\",\"hero.overview.diagnostic_missing.title\":\"Diagnostics unavailable\",\"hero.overview.diagnostic_missing\":\"The Smart PI diagnostics entity is unavailable.\",\"hero.learning.title\":\"Learning how the system responds\",\"hero.learning.subtitle\":\"Collected measurements and system response delay.\",\"hero.model.title\":\"Thermal model and prediction\",\"hero.model.subtitle\":\"The learned A/B model and delays describe the thermal response; the room model has its own tab. FF3 may correct power according to context.\",\"hero.health.title\":\"Active supervision\",\"hero.health.subtitle\":\"Protections may freeze learning or request calibration.\",\"hero.actions.title\":\"Smart PI actions\",\"hero.actions.subtitle\":\"Actions are applied to the configured thermostat after confirmation.\",\"metrics.temperature\":\"Temperature\",\"metrics.error\":\"Setpoint error\",\"metrics.integral_error\":\"Integral\",\"metrics.filtered_setpoint\":\"Filtered reference followed by P\",\"metrics.current_cycle\":\"Current cycle\",\"metrics.next_cycle\":\"Next cycle\",\"metrics.linear_current_cycle\":\"Linear current cycle\",\"metrics.linear_next_cycle\":\"Linear next cycle\",\"metrics.command\":\"Command\",\"metrics.limited\":\"Limited\",\"metrics.applied\":\"Applied command\",\"metrics.pi\":\"PI\",\"metrics.ff\":\"Feed-forward\",\"metrics.hold\":\"Hold\",\"metrics.kp\":\"Kp\",\"metrics.ki\":\"Ki\",\"metrics.a\":\"A - Signed response (heat + / cool -)\",\"metrics.b\":\"B - Thermal losses\",\"metrics.tau\":\"Tau\",\"metrics.deadtime_heat\":\"Heat dead time\",\"metrics.deadtime_cool\":\"Cool dead time\",\"metrics.a_stability\":\"A dispersion\",\"metrics.b_stability\":\"B dispersion\",\"metrics.accepted_a\":\"Accepted A updates\",\"metrics.accepted_b\":\"Accepted B updates\",\"metrics.bootstrap_a\":\"Response measurements (A)\",\"metrics.bootstrap_b\":\"Loss measurements (B)\",\"metrics.history_a\":\"Response measurements (A)\",\"metrics.history_b\":\"Loss measurements (B)\",\"metrics.learning_enabled\":\"Thermal learning\",\"metrics.a_drift\":\"A drift\",\"metrics.b_drift\":\"B drift\",\"metrics.learn_b_converged\":\"B converged\",\"metrics.learning_last_reason\":\"Latest reason\",\"metrics.confidence\":\"Model confidence\",\"metrics.reliability\":\"Reliability\",\"metrics.tau_reliable\":\"Tau\",\"metrics.deadtime_heat_reliable\":\"Heat dead time\",\"metrics.deadtime_cool_reliable\":\"Cool dead time\",\"metrics.governance\":\"Governance regime\",\"metrics.thermal_decision\":\"Thermal decision\",\"metrics.thermal_reason\":\"Reason\",\"metrics.feedforward_status\":\"FF3\",\"metrics.twin_status\":\"Thermal twin\",\"metrics.deadband_source\":\"Deadband source\",\"metrics.deadband_mode\":\"Deadband mode\",\"metrics.in_deadband\":\"In dead band\",\"metrics.in_near_band\":\"Near band\",\"metrics.in_deadtime\":\"Dead-time window\",\"metrics.saturation\":\"Saturation\",\"metrics.integral_mode\":\"Integral mode\",\"metrics.integral_hold\":\"Integral hold\",\"metrics.integral_hold_source\":\"Integral hold source\",\"metrics.integral_guard_source\":\"Integral guard source\",\"metrics.restart_reason\":\"Restart reason\",\"metrics.autocalib_state\":\"Auto-calibration\",\"metrics.autocalib_degraded\":\"Model degraded\",\"metrics.autocalib_snapshot_age\":\"Snapshot age\",\"metrics.autocalib_next_check\":\"Next automatic retry\",\"metrics.autocalib_last_trigger\":\"Last trigger\",\"metrics.calibration_state\":\"Calibration\",\"metrics.calibration_retry\":\"Calibration retries\",\"metrics.calibration_last_time\":\"Last calibration\",\"metrics.trajectory\":\"Trajectory\",\"metrics.fftrim\":\"FFTrim\",\"metrics.fftrim.state\":\"Stationary observer\",\"metrics.fftrim.observation_mode\":\"Latest method\",\"metrics.fftrim.windows_since_update\":\"Windows since update\",\"metrics.fftrim.last_update_reason\":\"Latest result\",\"metrics.fftrim.last_reject_reason\":\"Latest FFTrim rejection\",\"metrics.fftrim.stationary_progress\":\"Stationary window\",\"metrics.fftrim.measurement_count\":\"Distinct measurements\",\"metrics.fftrim.power_coverage\":\"Power coverage\",\"metrics.fftrim.alignment_delay\":\"Alignment delay\",\"metrics.fftrim.periodic_state\":\"Periodic observer\",\"metrics.fftrim.periodic_progress\":\"Periodic window\",\"metrics.fftrim.periodic_measurement_count\":\"Periodic measurements\",\"metrics.fftrim.periodic_amplitude\":\"Thermal amplitude\",\"metrics.fftrim.periodic_closure_error\":\"Closure error\",\"metrics.fftrim.periodic_last_reject_reason\":\"Latest periodic rejection\",\"metrics.fftrim.mean_causal_power\":\"Mean causal power\",\"metrics.fftrim.mean_ff1\":\"Mean FF1\",\"metrics.fftrim.mean_p_power\":\"Mean P contribution\",\"metrics.fftrim.mean_i_power\":\"Mean I contribution\",\"metrics.fftrim.mean_visible_ff_power\":\"Mean visible feed-forward\",\"metrics.fftrim.observed_hold_power\":\"Observed holding power\",\"metrics.fftrim.physical_power_deficit\":\"Physical power deficit\",\"metrics.fftrim.decomposed_correction\":\"Decomposed correction\",\"metrics.fftrim.target_trim\":\"Target trim\",\"metrics.fftrim.correction\":\"Correction\",\"metrics.fftrim.mean_temperature\":\"Mean temperature\",\"metrics.fftrim.mean_error\":\"Mean error\",\"metrics.fftrim.mean_slope_h\":\"Mean slope\",\"metrics.fftrim.mean_delivery_residual\":\"Mean delivery residual\",\"metrics.fftrim.bumpless_transfer_state\":\"Bumpless transfer\",\"metrics.fftrim.bumpless_transfer_reason\":\"Transfer reason\",\"metrics.fftrim.transfer_quality\":\"Transfer quality\",\"metrics.fftrim.transfer_pending_engagement\":\"Actuator engagement\",\"metrics.fftrim.requested_trim_delta\":\"Requested trim delta\",\"metrics.fftrim.stored_trim_delta\":\"Stored trim delta\",\"metrics.fftrim.applied_trim_delta\":\"Applied trim delta\",\"metrics.fftrim.transferable_i_power\":\"Transferable I power\",\"metrics.fftrim.requested_i_transfer\":\"Requested I transfer\",\"metrics.fftrim.applied_i_transfer\":\"Applied I transfer\",\"metrics.fftrim.net_command_delta\":\"Net command delta\",\"metrics.fftrim.window_duration\":\"Observed duration\",\"metrics.fftrim.transaction_timestamp\":\"Applied at UTC\",\"metrics.trajectory.source\":\"Trajectory source\",\"metrics.ff3.twin_usable\":\"Usable twin\",\"groups.overview.thermal\":\"Temperature and setpoint\",\"groups.overview.command\":\"Current command\",\"groups.overview.influence\":\"Current influence\",\"groups.command.actuator_cycle\":\"Actuator cycle\",\"groups.command.limitation_chain\":\"Limitation chain\",\"groups.command.contributions\":\"Control contributions\",\"groups.fftrim.observer\":\"Current stationary observation\",\"groups.fftrim.stationary_quality\":\"Stationary window quality\",\"groups.fftrim.periodic\":\"Periodic equilibrium observation\",\"groups.fftrim.thermal_balance\":\"Retained thermal balance\",\"groups.fftrim.transfer\":\"Current bumpless transfer\",\"groups.fftrim.deltas\":\"Current transfer deltas\",\"groups.fftrim.last_result\":\"Last accepted result\",\"groups.fftrim.last_transaction\":\"Last applied transaction\",\"groups.fftrim.last_transaction_deltas\":\"Last applied transaction deltas\",\"groups.learning.drift\":\"Drift and convergence\",\"groups.health.governance\":\"Governance and thermal decision\",\"groups.health.protections\":\"Thermal safeguards\",\"groups.health.integral\":\"Integral\",\"groups.health.restart\":\"Restart\",\"groups.health.autocalib\":\"Auto-calibration\",\"groups.health.calibration\":\"Calibration\",\"groups.actions.learning\":\"Thermal learning\",\"groups.actions.maintenance\":\"Maintenance\",\"status.learning.enabled\":\"Enabled\",\"status.learning.paused\":\"Paused\",\"status.drift.NORMAL\":\"Normal\",\"status.drift.DRIFT_SUSPECTED\":\"Drift suspected\",\"status.drift.RECENTERING\":\"Recentering in progress\",\"status.confidence.ab_ok\":\"Reliable model\",\"status.confidence.ab_bootstrap\":\"Initial model learning\",\"status.confidence.ab_degraded\":\"Partial model\",\"status.confidence.ab_bad\":\"Insufficient model\",\"status.confidence.unknown\":\"Unknown confidence\",\"status.confidence.ab_ok.description\":\"A and B samples are coherent enough to use the model normally.\",\"status.confidence.ab_bootstrap.description\":\"System measurements are still being collected or validated.\",\"status.confidence.ab_degraded.description\":\"Part of the model is usable, but regulation remains cautious.\",\"status.confidence.ab_bad.description\":\"The model is not reliable enough; Smart PI limits or avoids its influence.\",\"status.confidence.unknown.description\":\"The confidence state has not been published by diagnostics yet.\",\"status.boolean.true\":\"Yes\",\"status.boolean.false\":\"No\",\"status.reliability.true\":\"Reliable\",\"status.reliability.false\":\"Not reliable\",\"status.coherence.collecting\":\"Collecting\",\"status.coherence.coherent\":\"Coherent\",\"status.coherence.watch\":\"Watch\",\"status.coherence.acceptable\":\"Acceptable\",\"status.coherence.dispersed\":\"Dispersed\",\"status.coherence.unstable\":\"Unstable\",\"status.coherence.very_unstable\":\"Very unstable\",\"status.regime.warmup\":\"Warmup\",\"status.regime.excited_stable\":\"Excited stable\",\"status.regime.near_band\":\"Near band\",\"status.regime.dead_band\":\"Dead band\",\"status.regime.hold\":\"Hold\",\"status.regime.perturbed\":\"Perturbed\",\"status.regime.degraded\":\"Degraded\",\"status.regime.saturated\":\"Saturated\",\"status.boolean.active\":\"Active\",\"status.trajectory.setpoint\":\"Setpoint change\",\"status.trajectory.disturbance\":\"Disturbance\",\"status.trajectory.none\":\"None\",\"status.ff3.active\":\"FF3 active\",\"status.ff3.inactive\":\"FF3 inactive\",\"status.ff3.disabled\":\"FF3 disabled\",\"status.ff3.disabled.config_disabled\":\"FF3 disabled by configuration\",\"status.ff3.disabled.deadband\":\"FF3 inactive in deadband\",\"status.ff3.disabled.not_near_band\":\"FF3 outside near band\",\"status.ff3.disabled.pending_cycle_boundary\":\"FF3 awaiting cycle boundary\",\"status.ff3.disabled.trajectory_setpoint_active\":\"FF3 blocked by setpoint trajectory\",\"status.ff3.disabled.disturbance_unclassified\":\"FF3 disturbance unclassified\",\"status.ff3.disabled.twin_warming_up\":\"Thermal twin warming up\",\"status.ff3.disabled.twin_steady_invalid\":\"Thermal twin steady state invalid\",\"status.ff3.disabled.reset\":\"FF3 resetting\",\"status.ff3.disabled.hvac_off\":\"FF3 off because HVAC is off\",\"status.ff3.disabled.first_cycle_after_restart\":\"FF3 awaiting first cycle after restart\",\"status.ff3.disabled.cool_mode\":\"FF3 unavailable in cooling mode\",\"status.ff3.disabled.missing_ext_temp\":\"Outdoor temperature unavailable\",\"status.ff3.disabled.tau_not_reliable\":\"Time constant not reliable\",\"status.ff3.disabled.twin_not_initialized\":\"Thermal twin not initialized\",\"status.ff3.disabled.calibration\":\"FF3 paused during calibration\",\"status.ff3.disabled.power_shedding\":\"FF3 paused by power shedding\",\"status.ff3.disabled.recent_setpoint_change\":\"FF3 waiting after a setpoint change\",\"status.ff3.disabled.no_disturbance_context\":\"No confirmed disturbance\",\"status.ff3.disabled.saturated_high\":\"FF3 paused at high saturation\",\"status.ff3.disabled.system_not_stable\":\"Thermal system not yet stable\",\"status.ff3.disabled.authority_zero\":\"FF3 authority is zero\",\"status.ff3.disabled.scoring_failed\":\"FF3 evaluation unavailable\",\"status.ff3.disabled.horizon_no_candidate_effect\":\"No candidate effect over the horizon\",\"status.ff3.disabled.score_not_better\":\"No predicted improvement\",\"status.ff3.disabled.authority_tapered_to_zero\":\"FF3 authority tapered to zero\",\"status.twin.ok\":\"Twin available\",\"status.twin.unavailable\":\"Twin unavailable\",\"status.deadband.power_source.none\":\"No holding source\",\"status.deadband.power_source.ff_plus_pi\":\"Feed-forward and PI\",\"status.deadband.p_mode.init\":\"Initializing\",\"status.deadband.p_mode.deadband_frozen\":\"P frozen in deadband\",\"status.deadband.p_mode.deadband_quiet\":\"P zero in deadband\",\"status.deadband.p_mode.off\":\"P outside deadband\",\"status.deadband.p_mode.deadband_edge\":\"P at deadband edge\",\"status.deadband.p_mode.deadband_edge_pending\":\"P at edge pending\",\"status.deadband.p_mode.deadzone_edge\":\"P at near-band edge\",\"status.saturation.NO_SAT\":\"No saturation\",\"status.saturation.SAT_HI\":\"Upper limit\",\"status.saturation.SAT_LO\":\"Lower limit\",\"status.fftrim.state.warming_up\":\"Warming up\",\"status.fftrim.state.waiting_deadtime\":\"Waiting for dead time\",\"status.fftrim.state.collecting\":\"Collecting\",\"status.fftrim.state.waiting_phase\":\"Waiting for cycle closure\",\"status.fftrim.state.ready\":\"Window ready\",\"status.fftrim.state.rejected\":\"Window rejected\",\"status.fftrim.mode.stationary\":\"Stationary observation\",\"status.fftrim.mode.periodic\":\"Periodic equilibrium\",\"status.fftrim.reason.none\":\"None\",\"status.fftrim.reason.skipped\":\"Update skipped\",\"status.fftrim.reason.causal_window_ready\":\"Causal window ready\",\"status.fftrim.reason.periodic_window_ready\":\"Periodic cycle ready\",\"status.fftrim.reason.persistent_ready\":\"Persistent correction confirmed\",\"status.fftrim.reason.updated_persistent\":\"Trim updated\",\"status.fftrim.reason.updated_bumpless\":\"Bumpless transfer applied\",\"status.fftrim.reason.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.reason.deadtime_unreliable\":\"Dead time is unreliable\",\"status.fftrim.reason.deadtime_changed\":\"Dead time changed\",\"status.fftrim.reason.causal_power_not_covered\":\"Power timeline is incomplete\",\"status.fftrim.reason.not_enough_measurements\":\"Not enough measurements\",\"status.fftrim.reason.window_too_short\":\"Window is too short\",\"status.fftrim.reason.setpoint_changed\":\"Setpoint changed\",\"status.fftrim.reason.trajectory_active\":\"Trajectory is active\",\"status.fftrim.reason.ff3_active\":\"FF3 is active\",\"status.fftrim.reason.model_confidence\":\"Model confidence is insufficient\",\"status.fftrim.reason.missing_outdoor_temperature\":\"Outdoor temperature is missing\",\"status.fftrim.reason.saturated\":\"Command is saturated\",\"status.fftrim.reason.pi_unstable\":\"PI branch is unstable\",\"status.fftrim.reason.cycle_not_reversed\":\"Rise and fall are incomplete\",\"status.fftrim.reason.cycle_amplitude_too_small\":\"Cycle amplitude is too small\",\"status.fftrim.reason.cycle_not_closed\":\"Thermal cycle is not closed\",\"status.fftrim.reason.saturated_high\":\"Upper saturation\",\"status.fftrim.transfer.idle\":\"Idle\",\"status.fftrim.transfer.observer_rejected\":\"Observation not retained\",\"status.fftrim.transfer.pending\":\"Confirmation in progress\",\"status.fftrim.transfer.ineligible\":\"Transfer not applicable\",\"status.fftrim.transfer.awaiting_cycle_boundary\":\"Waiting for cycle boundary\",\"status.fftrim.transfer.causal_update_without_transfer\":\"Correction without I/trim transfer\",\"status.fftrim.transfer.applied\":\"Transfer applied\",\"status.fftrim.transfer.rejected\":\"Transfer rejected\",\"status.fftrim.transfer.pending_engagement\":\"Awaiting engagement\",\"status.fftrim.transfer.reason.quasi_equilibrium\":\"Quasi-equilibrium confirmed\",\"status.fftrim.transfer.reason.periodic_equilibrium\":\"Periodic equilibrium without transfer\",\"status.fftrim.transfer.reason.awaiting_post_aw_boundary\":\"Waiting for post anti-windup boundary\",\"status.fftrim.transfer.reason.quiet_trim_delta\":\"Correction is below the useful threshold\",\"status.fftrim.quality.unavailable\":\"Unavailable\",\"status.fftrim.quality.switch_cycle_equivalent\":\"Equivalent switch cycle\",\"status.fftrim.quality.valve_segmented_linear\":\"Linearized valve timeline\",\"status.fftrim.quality.mixed\":\"Mixed sources\",\"fallback.unknown_code\":\"Unknown code\",\"notes.learning\":\"A describes how heating or cooling changes the temperature; B describes heat exchange with the outdoors. Measurements wait for a settled response and enough temperature variation. A can be adjusted when B is refined, without a new response measurement.\",\"notes.fftrim.stationary\":\"The stationary observer aligns thermal measurements with previously applied power while accounting for dead time.\",\"notes.fftrim.periodic\":\"The periodic observer looks for a complete thermal cycle with a rising and a falling phase. Its target depends on VT cycles and dead time. It uses the same power timeline, keeps its own window and does not transfer integral/trim ownership.\",\"actions.reset_learning\":\"Reset learning\",\"actions.reset_learning.confirm\":\"Smart PI will clear learned measurements and start initial system learning again.\",\"actions.pause_learning\":\"Pause learning\",\"actions.pause_learning.confirm\":\"Smart PI will continue regulating with the current model, but stop collecting thermal and dead-time observations.\",\"actions.resume_learning\":\"Resume learning\",\"actions.resume_learning.confirm\":\"Smart PI will resume collecting thermal and dead-time observations.\",\"actions.force_calibration\":\"Force calibration\",\"actions.force_calibration.confirm\":\"Smart PI will start calibration if the current state allows it.\",\"actions.reset_integral\":\"Reset integral\",\"actions.reset_integral.confirm\":\"Smart PI will set the integral term to zero without clearing the learned model.\",\"graphs.command.title\":\"Smart PI command\",\"graphs.command.applied\":\"Applied command\",\"graphs.command.command\":\"Calculated command\",\"graphs.command.pi\":\"PI branch\",\"graphs.command.ff\":\"Total feed-forward\",\"graphs.overview.title\":\"Temperature, setpoint and power (6h)\",\"graphs.overview.temperature\":\"Measured temperature\",\"graphs.overview.filtered_setpoint\":\"Filtered reference followed by P\",\"graphs.overview.applied\":\"Applied command\",\"graphs.model.title\":\"1R1C Parameters A and B (24h)\",\"graphs.model.a\":\"A - Signed response (heat + / cool -)\",\"graphs.model.b\":\"B - Thermal losses\",\"metrics.user_setpoint\":\"User setpoint\",\"metrics.trajectory.phase\":\"Trajectory phase\",\"status.trajectory.phase.idle\":\"Inactive\",\"status.trajectory.phase.tracking\":\"Profile tracking\",\"status.trajectory.phase.release\":\"Progressive return to setpoint\",\"groups.approach.followed\":\"Followed setpoint\",\"status.boolean.inactive\":\"Inactive\",\"groups.approach.details\":\"Trajectory details\",\"metrics.trajectory.start\":\"Starting setpoint\",\"metrics.trajectory.target\":\"Profile target\",\"metrics.trajectory.tau\":\"Profile time constant\",\"metrics.trajectory.elapsed\":\"Elapsed time\",\"metrics.trajectory.remaining\":\"Remaining cycle\",\"metrics.trajectory.next_reference\":\"Next cycle power reference\",\"metrics.trajectory.bumpless_delta\":\"Bumpless command delta\",\"groups.approach.readiness\":\"Trajectory indicators\",\"metrics.trajectory.braking_needed\":\"Braking needed\",\"metrics.trajectory.pending\":\"Pending target-change braking\",\"metrics.trajectory.model_ready\":\"Trajectory model ready\",\"metrics.trajectory.bumpless_ready\":\"Bumpless transition ready\",\"groups.model.ff3_twin\":\"FF3 and thermal twin\",\"graphs.approach.temperature\":\"Temperature and setpoints\",\"graphs.approach.command\":\"Calculated and applied command\",\"notes.approach.history\":\"The first graph compares room temperature with the setpoints. The second shows how the thermostat command changes over time.\",\"metrics.ti\":\"Effective integral time (Ti)\",\"groups.command.gains\":\"PI gains\",\"metrics.learning_stage\":\"Learning stage\",\"status.learning.stage.bootstrap\":\"Initial learning\",\"status.learning.stage.learning\":\"Model refinement\",\"status.learning.stage.monitoring\":\"Model monitoring\",\"status.learning.stage.degraded\":\"Degraded model\",\"notes.learning.bootstrap\":\"The bars count collected measurements, not overall learning progress. Reaching a target does not guarantee validation: response measurements may still wait for an estimated response delay, then be reassessed. Learning can therefore continue or require additional measurements.\",\"groups.learning.response_lag\":\"System response delay\",\"metrics.response_lag\":\"Estimated delay\",\"metrics.response_estimates\":\"Retained estimates\",\"metrics.response_episodes\":\"Heating phases\",\"metrics.response_episodes_target\":\"Phases before resolution\",\"metrics.response_episode_median\":\"Median active phase duration\",\"metrics.response_last_reason\":\"Last active phase\",\"status.response_lag.estimated\":\"Estimate retained\",\"status.response_lag.power_not_constant\":\"Varying power\",\"status.response_lag.baseline_unsettled\":\"Insufficient preceding rest\",\"status.response_lag.no_outdoor_temperature\":\"Outdoor temperature missing\",\"status.response_lag.insufficient_crossings\":\"Insufficient temperature changes\",\"status.response_lag.no_baseline_crossing\":\"Response still insufficient\",\"status.response_lag.unknown_passive_slope\":\"Passive slope unknown\",\"status.response_lag.no_active_response\":\"Active response not measurable\",\"status.response_lag.unresolvable_intercept\":\"Delay cannot be determined from this phase\",\"status.response_lag.interrupted_by_restart\":\"Phase interrupted by a restart\",\"notes.learning.response_lag\":\"This delay describes how long the whole system takes to respond, including the emitter and sensor. It is estimated during constant-power phases. A retained estimate does not validate the delay by itself; a slow system may need several hours of observation. Even without a retained estimate, the model resolves automatically after the fixed number of heating phases shown.\",\"groups.model.deadtime_detection\":\"Dead time detection\",\"metrics.deadtime_state\":\"Detector state\",\"status.deadtime.off\":\"Idle\",\"status.deadtime.waiting_heat\":\"Waiting for a temperature rise\",\"status.deadtime.waiting_cool\":\"Waiting for a temperature drop\",\"status.deadtime.heating\":\"Tracking the rising response\",\"status.deadtime.cooling\":\"Tracking the falling response\",\"metrics.deadtime_waiting_elapsed\":\"Current wait\",\"notes.model.deadtime\":\"Outcomes describe the last wait for each response. After power stops, a slow emitter may keep warming the room: the passive wait can last up to 12 h. An interruption means power changed before detection, not a model failure.\",\"status.deadtime.outcome.detected\":\"Detected\",\"status.deadtime.outcome.timeout\":\"Timed out\",\"status.deadtime.outcome.aborted\":\"Interrupted\",\"metrics.deadtime_outcome_heat\":\"Last rise wait\",\"metrics.deadtime_outcome_cool\":\"Last drop wait\",\"status.integral.unwind_high\":\"Integral unwind at the upper limit\",\"status.integral.unwind_low\":\"Integral unwind at the lower limit\",\"status.learning.transient_a\":\"Settling before an A measurement\",\"status.learning.transient_b\":\"Settling before a B measurement\",\"notes.command.integral\":\"The integral corrects persistent errors over a few hours. Its correction is preserved during recoveries while temperature progresses. If recovery stops moving temperature toward the setpoint, it resumes its action gradually; near the setpoint, it can unwind despite saturation caused by the proportional term.\",\"graphs.command.integral\":\"Integral history\",\"graphs.command.gains\":\"PI gains history\",\"notes.command.history\":\"The integral accumulates temperature error in °C·min, rather than a power percentage. Kp and Ki translate the errors and this accumulated value into the command; their curves use separate scales.\",\"notes.learning.response_lag_missing\":\"Response delay unavailable. This does not tell us whether estimation is still in progress; a missing delay does not mean learning is blocked.\",\"notes.learning.paused\":\"A/B learning is paused. Regulation uses the current model; A/B collection will resume when learning is enabled again. Emitter delay learning remains independent.\",\"status.integral.guard_cut\":\"Thermal protection cut\",\"status.integral.guard_cut.description\":\"Heating is off to prevent overheating. It resumes after the temperature falls enough; excess integral decreases during the cut while retaining the useful correction.\",\"metrics.holding.source.0\":\"Learned A/B model\",\"metrics.holding.source.1\":\"Room model: air and walls\",\"metrics.holding.source.2\":\"Room model: static part\",\"metrics.holding.source.3\":\"Simple room model\",\"metrics.holding.source\":\"Holding power source\",\"metrics.holding.walls\":\"Wall part of holding power\",\"notes.holding\":\"A published room model supplies holding power in PWM heating. With identified walls and reliable tracking, it adds their heat absorption (+) or subtracts the heat they give back (−). Otherwise, only its static part is used. Without a published model, in cooling or with a valve, the learned A/B model supplies holding power. The slow FF2 correction stays at zero and frozen while the room model supplies holding power.\",\"graphs.holding.walls\":\"Walls in holding power\",\"graphs.holding.source\":\"Holding source\",\"notes.holding.timeline\":\"The ribbon below the curves shows the holding source: learned model, room model (air and walls), room model (static part), or room model (simple). The wall curve is in % of full power: positive when absorbing heat, negative when giving heat back.\",\"notes.room.intro\":\"This model represents the air, walls and emitter. It is identified daily from recorded nights and supplies holding power once published. Published values remain in use if a new identification is refused.\",\"metrics.room.status.0\":\"Learning\",\"metrics.room.status.1\":\"Model with walls identified\",\"metrics.room.status.2\":\"Simple model without walls\",\"metrics.room.status.3\":\"Not identified: not enough recorded nights yet\",\"metrics.room.status.4\":\"Not identified: heating response delay not known yet\",\"metrics.room.status.5\":\"Not identified: too few valid night measurements\",\"metrics.room.status.6\":\"Not identified: heat gains or losses detected during the nights\",\"metrics.room.status.7\":\"Not identified: too little heating during the nights\",\"metrics.room.status.8\":\"Not identified: indoor-outdoor temperature difference too small\",\"metrics.room.status.9\":\"Not identified: the model could not be fitted\",\"metrics.room.status.10\":\"Not identified: values out of the plausible range\",\"metrics.room.status.11\":\"Not identified: the model does not follow the measured temperature closely enough\",\"metrics.room.status.12\":\"Not identified: waiting for a second series of nights to confirm\",\"metrics.room.status.13\":\"Not identified: two successive series of nights disagree\",\"metrics.room.status.14\":\"Not identified: the model does not predict the following nights well enough\",\"metrics.room.status.15\":\"Not identified: computation failed\",\"metrics.room.status.16\":\"Not identified: the heating response delay does not match the measured temperature\",\"metrics.room.status.17\":\"Not identified: the heating response differs too much from the one measured by the regulation\",\"metrics.room.status.18\":\"Not identified: valve heaters are not supported yet\",\"metrics.room.status.19\":\"Not identified: numerical libraries unavailable\",\"metrics.room.status\":\"Model status\",\"metrics.room.tracking.0\":\"Reliable tracking\",\"metrics.room.tracking.1\":\"Waiting for an identified model\",\"metrics.room.tracking.2\":\"Waiting for measurements\",\"metrics.room.tracking.3\":\"Paused: SmartPI not heating or not in control\",\"metrics.room.tracking.4\":\"Settling after a restart\",\"metrics.room.tracking.5\":\"Recovering after an open window\",\"metrics.room.tracking.6\":\"Measurements drift away from the model\",\"metrics.room.tracking.7\":\"Measurements inconsistent with the model\",\"metrics.room.tracking.8\":\"Temperature estimate uncertain\",\"metrics.room.tracking.9\":\"Large unexplained heat gains or losses\",\"metrics.room.tracking.10\":\"Wall state implausible\",\"metrics.room.tracking\":\"Room tracking\",\"metrics.room.walls.0\":\"Walls identified\",\"metrics.room.walls.1\":\"Not identified: temperature sensor too coarse\",\"metrics.room.walls.2\":\"Not identified: no thermal mass detected\",\"metrics.room.walls.3\":\"Not identified: not confirmed yet\",\"metrics.room.walls.4\":\"Not identified: no better than the simple model\",\"metrics.room.walls\":\"Wall identification\",\"metrics.room.refusal.0\":\"Not enough recorded nights yet\",\"metrics.room.refusal.1\":\"Heating response delay not known yet\",\"metrics.room.refusal.2\":\"Too few valid night measurements\",\"metrics.room.refusal.3\":\"Heat gains or losses detected during the nights\",\"metrics.room.refusal.4\":\"Too little heating during the nights\",\"metrics.room.refusal.5\":\"Indoor-outdoor temperature difference too small\",\"metrics.room.refusal.6\":\"The model could not be fitted\",\"metrics.room.refusal.7\":\"Values out of the plausible range\",\"metrics.room.refusal.8\":\"The model does not follow the measured temperature closely enough\",\"metrics.room.refusal.9\":\"Waiting for a second series of nights to confirm\",\"metrics.room.refusal.10\":\"Two successive series of nights disagree\",\"metrics.room.refusal.11\":\"The model does not predict the following nights well enough\",\"metrics.room.refusal.12\":\"Computation failed\",\"metrics.room.refusal.13\":\"The heating response delay does not match the measured temperature\",\"metrics.room.refusal.14\":\"The heating response differs too much from the one measured by the regulation\",\"metrics.room.refusal.15\":\"Valve heaters are not supported yet\",\"metrics.room.refusal.16\":\"Numerical libraries unavailable\",\"metrics.room.refusal\":\"Latest publication refusal\",\"notes.room.waiting\":\"A first identification needs about 6 days of recorded nights with some heating. A sensor in 0.1 °C steps cannot identify the walls: steps of 0.015 °C or less are needed; a simple model can still be published. Valve heaters are not supported.\",\"notes.room.sensor\":\"Walls require a sensor with steps of 0.015 °C or less. With a 0.1 °C sensor, only the simple model can be identified. A valve cannot yet identify the room or its walls.\",\"metrics.room.day\":\"Values in use since\",\"metrics.room.attempt\":\"Latest identification\",\"metrics.room.resolution\":\"Observed sensor step\",\"groups.room.dates\":\"Publication and measurements\",\"metrics.room.a\":\"Room: response a\",\"metrics.room.learned_a\":\"Learned: response a\",\"metrics.room.b\":\"Room: static loss b_eq\",\"metrics.room.learned_b\":\"Learned: loss b\",\"metrics.room.ratio\":\"Room: b_eq / a\",\"metrics.room.learned_ratio\":\"Learned: b / a\",\"groups.room.parameters\":\"Model comparison\",\"notes.room.ratio\":\"The b/a ratio expresses static holding power per degree of indoor-outdoor difference, shown here as % of full power per °C. A higher ratio means more holding power is needed. b_eq = b_air − b_wall: b_air includes losses to the outside and the walls; b_wall is the steady share passing through the walls.\",\"metrics.room.b_air\":\"Total air loss b_air\",\"metrics.room.b_wall\":\"Steady wall share b_wall\",\"groups.room.wall_parameters\":\"Air and wall exchanges\",\"metrics.room.forecast.1h\":\"In 1 h\",\"metrics.room.forecast.2h\":\"In 2 h\",\"metrics.room.forecast.6h\":\"In 6 h\",\"metrics.room.forecast.12h\":\"In 12 h\",\"groups.room.forecasts\":\"Temperature forecasts\",\"notes.room.forecasts\":\"These temperatures are forecast assuming the current heating power stays constant. They remain unavailable while tracking produces no forecast.\",\"notes.room.accuracy\":\"Does the model predict better than “nothing changes”? Compare the errors below: a model error below the unchanged-temperature error means a better forecast. These are root mean square errors over 7 days, with the number of forecasts checked. Past forecasts are replayed with the power actually applied and the measured outdoor temperature. Without checks, no conclusion can be drawn.\",\"metrics.room.error\":\"Model error\",\"metrics.room.unchanged\":\"Unchanged-temperature error\",\"metrics.room.checks\":\"Forecasts checked\",\"groups.room.accuracy.1h\":\"Accuracy at 1 h\",\"groups.room.accuracy.2h\":\"Accuracy at 2 h\",\"groups.room.accuracy.6h\":\"Accuracy at 6 h\",\"groups.room.accuracy.12h\":\"Accuracy at 12 h\",\"metrics.room.wall_power\":\"Wall extra power\",\"notes.room.wall_power\":\"In % of full power, beyond their steady share: positive when walls absorb heat, negative when they give heat back. Unavailable without identified walls, a precise sensor or reliable tracking. The share actually included in holding power is shown in Command.\",\"graphs.room.a\":\"Room response a\",\"graphs.room.b\":\"Room static loss b_eq\",\"graphs.room.parameters\":\"Learned and room models\",\"graphs.room.error_1h\":\"1 h error\",\"graphs.room.error_12h\":\"12 h error\",\"graphs.room.errors\":\"Forecast accuracy over time\",\"notes.room.history\":\"The parameter curves compare a on one scale and b / b_eq on the other, in their physical units. The error curves show accuracy at 1 h and 12 h. Forecast temperatures, the unchanged-temperature reference and check counts are current values only.\",\"sections.room_model.title\":\"Room model\",\"notes.emitter.intro\":\"Emitter delay learning is always enabled, with no option to turn on, in PWM heating. It is independent of the A/B learning pause and is not supported with a valve. The refined value takes priority, then the morning value, then the initial measurement.\",\"metrics.emitter.status.0\":\"Learning active\",\"metrics.emitter.status.1\":\"Checking numerical libraries\",\"metrics.emitter.status.2\":\"Libraries unavailable: initial measurement in use\",\"metrics.emitter.status.3\":\"Learning not supported with a valve\",\"metrics.emitter.status\":\"Learning status\",\"metrics.emitter.source.0\":\"Initial measurement\",\"metrics.emitter.source.1\":\"Morning learning\",\"metrics.emitter.source.2\":\"Refined identification\",\"metrics.emitter.source\":\"Applied delay source\",\"metrics.emitter.applied\":\"Applied delay\",\"metrics.emitter.gains\":\"Delay used by gains\",\"metrics.emitter.bootstrap\":\"Preserved initial measurement\",\"groups.emitter.applied\":\"Delay used by regulation\",\"metrics.emitter.out_of_bound.0\":\"Out of bounds: initial measurement in use\",\"metrics.emitter.out_of_bound.1\":\"No out-of-bound value reported\",\"metrics.emitter.out_of_bound\":\"Learned value out of bounds\",\"notes.emitter.bounds\":\"A learned value is applied only between half and twice the initial delay. Gains use half of the applied learned delay; with the initial measurement, they use its full value. The initial measurement is never modified.\",\"metrics.emitter.fast\":\"Published morning value\",\"metrics.emitter.confirmed\":\"Confirmed mornings\",\"metrics.emitter.last_value\":\"Last accepted morning: delay\",\"groups.emitter.fast\":\"Morning learning\",\"metrics.emitter.confirmation.0\":\"Morning confirmed\",\"metrics.emitter.confirmation.1\":\"Morning unconfirmed: value unused\",\"metrics.emitter.confirmation.2\":\"No accepted morning\",\"metrics.emitter.confirmation\":\"Last accepted morning confirmation\",\"metrics.emitter.unconfirmed_reason.0\":\"At least 1 h without heating between 23:00 and the comfort step\",\"metrics.emitter.unconfirmed_reason\":\"Reason for non-confirmation\",\"metrics.emitter.last_day\":\"Last evaluated morning\",\"metrics.emitter.accepted.0\":\"Yes\",\"metrics.emitter.accepted.1\":\"No\",\"metrics.emitter.accepted\":\"Evaluation accepted\",\"metrics.emitter.morning_reason.0\":\"Accepted\",\"metrics.emitter.morning_reason.1\":\"Computation failed\",\"metrics.emitter.morning_reason.2\":\"Missing or excluded data around the comfort step\",\"metrics.emitter.morning_reason.3\":\"Heat loss b not learned yet\",\"metrics.emitter.morning_reason.4\":\"No heating start after the comfort step\",\"metrics.emitter.morning_reason.5\":\"Night not usable for this type of room\",\"metrics.emitter.morning_reason.6\":\"Too few temperature readings before the comfort step\",\"metrics.emitter.morning_reason.7\":\"Night temperature trend not usable\",\"metrics.emitter.morning_reason.8\":\"Night temperature trend does not match the heating cycles\",\"metrics.emitter.morning_reason.9\":\"Night temperature trend too irregular\",\"metrics.emitter.morning_reason.10\":\"Temperature rise could not be fitted\",\"metrics.emitter.morning_reason.11\":\"Temperature rise fitted too loosely\",\"metrics.emitter.morning_reason.12\":\"Temperature rise too short to measure\",\"metrics.emitter.morning_reason.13\":\"Too little heat delivered during the rise\",\"metrics.emitter.morning_reason.14\":\"Temperature rise too small\",\"metrics.emitter.morning_reason.15\":\"Temperature sensor reports too rarely\",\"metrics.emitter.morning_reason.16\":\"Regulated night: no measurement\",\"metrics.emitter.morning_reason.17\":\"Room not regulated during the 2 hours before the comfort step\",\"metrics.emitter.morning_reason.18\":\"Room not at its eco setpoint before the comfort step\",\"metrics.emitter.morning_reason.19\":\"Heating power not steady before the comfort step\",\"metrics.emitter.morning_reason.20\":\"No clear heating increase at the comfort step\",\"metrics.emitter.morning_reason.21\":\"Room with thermal mass after a regulated night: measured by the multi-day identification only\",\"metrics.emitter.morning_reason.22\":\"Type of room not known yet\",\"metrics.emitter.morning_reason.23\":\"SmartPI not in steady regulation (bootstrap)\",\"metrics.emitter.morning_reason.24\":\"SmartPI not in steady regulation (calibration)\",\"metrics.emitter.morning_reason.25\":\"SmartPI not in steady regulation (stable)\",\"metrics.emitter.morning_reason.26\":\"SmartPI not in steady regulation (degraded)\",\"metrics.emitter.morning_reason\":\"Last evaluated morning outcome\",\"metrics.emitter.morning_class.0\":\"Room with thermal mass\",\"metrics.emitter.morning_class.1\":\"Room without detected thermal mass\",\"metrics.emitter.morning_class.2\":\"Room type undetermined\",\"metrics.emitter.morning_class\":\"Room type for this morning\",\"notes.emitter.fast\":\"The morning value needs at least 3 consistent confirmed mornings, after a setpoint rise of at least 1 °C between 03:00 and 10:00. An unconfirmed morning stays visible but its value is not used.\",\"metrics.emitter.refined\":\"Published refined delay τe\",\"metrics.emitter.coupling\":\"Air-wall coupling\",\"metrics.emitter.wall_time\":\"Wall time constant\",\"groups.emitter.refined\":\"Refined identification\",\"metrics.emitter.refined_class.0\":\"Room with thermal mass\",\"metrics.emitter.refined_class.1\":\"Room without detected thermal mass\",\"metrics.emitter.refined_class.2\":\"Room type undetermined\",\"metrics.emitter.refined_class\":\"Room type in use\",\"metrics.emitter.night_class.0\":\"Room with thermal mass\",\"metrics.emitter.night_class.1\":\"Room without detected thermal mass\",\"metrics.emitter.night_class.2\":\"Room type undetermined\",\"metrics.emitter.night_class\":\"Room type from unheated nights\",\"metrics.emitter.evaluation_day\":\"Latest daily evaluation\",\"metrics.emitter.nights.0\":\"Yes\",\"metrics.emitter.nights.1\":\"No\",\"metrics.emitter.nights\":\"All six nights are regulated\",\"notes.emitter.refined\":\"Identification compares two series of 3 nights. The refined delay replaces the morning value only if all 6 nights are regulated; a daily evaluation therefore does not necessarily mean a publication.\",\"metrics.emitter.invalid.0\":\"Window open\",\"metrics.emitter.invalid.1\":\"Power shedding\",\"metrics.emitter.invalid.2\":\"Safety mode\",\"metrics.emitter.invalid.3\":\"Hvac not heating\",\"metrics.emitter.invalid.4\":\"Command unknown\",\"metrics.emitter.invalid.5\":\"Command overridden\",\"metrics.emitter.invalid.6\":\"Temperature jump\",\"metrics.emitter.invalid.7\":\"Indoor temperature unavailable\",\"metrics.emitter.invalid.8\":\"Outdoor temperature unavailable\",\"metrics.emitter.invalid\":\"Currently excluded data: reason\",\"notes.emitter.data\":\"An exclusion reason means the current data are not used for this learning. “--” means no reason is supplied; it does not establish that learning is complete.\",\"graphs.emitter.applied\":\"Applied delay\",\"graphs.emitter.delay\":\"Applied heating delay\",\"sections.tar_learning.title\":\"Emitter delay\"}}"),
 		sections: [
 			{
 				id: "overview",
@@ -15137,6 +15137,57 @@ var Vc = {
 						]
 					},
 					{
+						type: "layout_grid",
+						min_width: 210,
+						items: [{
+							type: "status",
+							source: "diagnostic",
+							path: "live/feedforward/source",
+							label_key: "metrics.holding.source",
+							map: {
+								"learned model": {
+									label_key: "metrics.holding.source.0",
+									tone: "info",
+									icon: "mdi:information-outline"
+								},
+								"room model (air and walls)": {
+									label_key: "metrics.holding.source.1",
+									tone: "ok",
+									icon: "mdi:information-outline"
+								},
+								"room model (static part)": {
+									label_key: "metrics.holding.source.2",
+									tone: "info",
+									icon: "mdi:information-outline"
+								},
+								"room model (simple)": {
+									label_key: "metrics.holding.source.3",
+									tone: "info",
+									icon: "mdi:information-outline"
+								}
+							},
+							fallback: {
+								label_key: "fallback.unknown_code",
+								tone: "muted",
+								icon: "mdi:help-circle-outline"
+							},
+							fallback_show_value: !0
+						}, {
+							type: "value",
+							source: "diagnostic",
+							path: "live/feedforward/wall_power_percent",
+							label_key: "metrics.holding.walls",
+							digits: 1,
+							unit: "%"
+						}]
+					},
+					{
+						type: "section_note",
+						text_key: "notes.holding",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
 						type: "metric_grid",
 						title_key: "groups.command.gains",
 						columns: 3,
@@ -15200,6 +15251,19 @@ var Vc = {
 								label_key: "graphs.command.ff",
 								unit: "%",
 								scale_group: "power"
+							},
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/feedforward/wall_power_percent",
+								label_key: "graphs.holding.walls",
+								scale_group: "power",
+								unit: "%"
+							},
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/feedforward/source",
+								label_key: "graphs.holding.source",
+								scale_group: "power"
 							}
 						],
 						options: {
@@ -15211,6 +15275,12 @@ var Vc = {
 							entity_picker: !1,
 							range_picker: !1
 						}
+					},
+					{
+						type: "section_note",
+						text_key: "notes.holding.timeline",
+						tone: "info",
+						icon: "mdi:information-outline"
 					},
 					{
 						type: "section_note",
@@ -16356,6 +16426,722 @@ var Vc = {
 				]
 			},
 			{
+				id: "room_model",
+				title_key: "sections.room_model.title",
+				icon: "mdi:home-thermometer-outline",
+				items: [
+					{
+						type: "section_note",
+						text_key: "notes.room.intro",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "layout_grid",
+						min_width: 210,
+						items: [
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/room_model/status",
+								label_key: "metrics.room.status",
+								map: {
+									learning: {
+										label_key: "metrics.room.status.0",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									identified: {
+										label_key: "metrics.room.status.1",
+										tone: "ok",
+										icon: "mdi:information-outline"
+									},
+									"simple model": {
+										label_key: "metrics.room.status.2",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									"not identified: not enough recorded nights yet": {
+										label_key: "metrics.room.status.3",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: heating response delay not known yet": {
+										label_key: "metrics.room.status.4",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: too few valid night measurements": {
+										label_key: "metrics.room.status.5",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: heat gains or losses detected during the nights": {
+										label_key: "metrics.room.status.6",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: too little heating during the nights": {
+										label_key: "metrics.room.status.7",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: indoor-outdoor temperature difference too small": {
+										label_key: "metrics.room.status.8",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: the model could not be fitted": {
+										label_key: "metrics.room.status.9",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: values out of the plausible range": {
+										label_key: "metrics.room.status.10",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: the model does not follow the measured temperature closely enough": {
+										label_key: "metrics.room.status.11",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: waiting for a second series of nights to confirm": {
+										label_key: "metrics.room.status.12",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: two successive series of nights disagree": {
+										label_key: "metrics.room.status.13",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: the model does not predict the following nights well enough": {
+										label_key: "metrics.room.status.14",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: computation failed": {
+										label_key: "metrics.room.status.15",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: the heating response delay does not match the measured temperature": {
+										label_key: "metrics.room.status.16",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: the heating response differs too much from the one measured by the regulation": {
+										label_key: "metrics.room.status.17",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: valve heaters are not supported yet": {
+										label_key: "metrics.room.status.18",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: numerical libraries unavailable": {
+										label_key: "metrics.room.status.19",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/room_model/tracking",
+								label_key: "metrics.room.tracking",
+								map: {
+									ok: {
+										label_key: "metrics.room.tracking.0",
+										tone: "ok",
+										icon: "mdi:information-outline"
+									},
+									"waiting for an identified model": {
+										label_key: "metrics.room.tracking.1",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"waiting for measurements": {
+										label_key: "metrics.room.tracking.2",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"paused (SmartPI not heating or not in control)": {
+										label_key: "metrics.room.tracking.3",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"settling after a restart": {
+										label_key: "metrics.room.tracking.4",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									"recovering after an open window": {
+										label_key: "metrics.room.tracking.5",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									"measurements drift away from the model": {
+										label_key: "metrics.room.tracking.6",
+										tone: "warning",
+										icon: "mdi:information-outline"
+									},
+									"measurements inconsistent with the model": {
+										label_key: "metrics.room.tracking.7",
+										tone: "warning",
+										icon: "mdi:information-outline"
+									},
+									"temperature estimate uncertain": {
+										label_key: "metrics.room.tracking.8",
+										tone: "warning",
+										icon: "mdi:information-outline"
+									},
+									"large unexplained heat gains or losses": {
+										label_key: "metrics.room.tracking.9",
+										tone: "warning",
+										icon: "mdi:information-outline"
+									},
+									"wall state implausible": {
+										label_key: "metrics.room.tracking.10",
+										tone: "warning",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/room_model/walls",
+								label_key: "metrics.room.walls",
+								map: {
+									identified: {
+										label_key: "metrics.room.walls.0",
+										tone: "ok",
+										icon: "mdi:information-outline"
+									},
+									"not identified: temperature sensor too coarse": {
+										label_key: "metrics.room.walls.1",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									"not identified: no thermal mass detected": {
+										label_key: "metrics.room.walls.2",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: not confirmed yet": {
+										label_key: "metrics.room.walls.3",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"not identified: no better than the simple model": {
+										label_key: "metrics.room.walls.4",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/room_model/last_refusal_reason",
+								label_key: "metrics.room.refusal",
+								map: {
+									"not enough recorded nights yet": {
+										label_key: "metrics.room.refusal.0",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"heating response delay not known yet": {
+										label_key: "metrics.room.refusal.1",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"too few valid night measurements": {
+										label_key: "metrics.room.refusal.2",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"heat gains or losses detected during the nights": {
+										label_key: "metrics.room.refusal.3",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"too little heating during the nights": {
+										label_key: "metrics.room.refusal.4",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"indoor-outdoor temperature difference too small": {
+										label_key: "metrics.room.refusal.5",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"the model could not be fitted": {
+										label_key: "metrics.room.refusal.6",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"values out of the plausible range": {
+										label_key: "metrics.room.refusal.7",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"the model does not follow the measured temperature closely enough": {
+										label_key: "metrics.room.refusal.8",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"waiting for a second series of nights to confirm": {
+										label_key: "metrics.room.refusal.9",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"two successive series of nights disagree": {
+										label_key: "metrics.room.refusal.10",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"the model does not predict the following nights well enough": {
+										label_key: "metrics.room.refusal.11",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"computation failed": {
+										label_key: "metrics.room.refusal.12",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"the heating response delay does not match the measured temperature": {
+										label_key: "metrics.room.refusal.13",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"the heating response differs too much from the one measured by the regulation": {
+										label_key: "metrics.room.refusal.14",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"valve heaters are not supported yet": {
+										label_key: "metrics.room.refusal.15",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"numerical libraries unavailable": {
+										label_key: "metrics.room.refusal.16",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							}
+						]
+					},
+					{
+						type: "section_note",
+						text_key: "notes.room.waiting",
+						tone: "info",
+						icon: "mdi:information-outline",
+						visible_if: { and: [{ "!=": [{ var: "diagnostic/live/room_model/status" }, "identified"] }, { "!=": [{ var: "diagnostic/live/room_model/status" }, "simple model"] }] }
+					},
+					{
+						type: "section_note",
+						text_key: "notes.room.sensor",
+						tone: "info",
+						icon: "mdi:information-outline",
+						visible_if: { "==": [{ var: "diagnostic/live/room_model/status" }, "simple model"] }
+					},
+					{
+						type: "metric_grid",
+						title_key: "groups.room.dates",
+						columns: 3,
+						metrics: [
+							{
+								source: "diagnostic",
+								path: "live/room_model/identified_day",
+								label_key: "metrics.room.day",
+								digits: 0
+							},
+							{
+								source: "diagnostic",
+								path: "live/room_model/last_identification_day",
+								label_key: "metrics.room.attempt",
+								digits: 0
+							},
+							{
+								source: "diagnostic",
+								path: "live/room_model/sensor_resolution_c",
+								label_key: "metrics.room.resolution",
+								digits: 3,
+								unit: "°C"
+							}
+						]
+					},
+					{
+						type: "metric_grid",
+						title_key: "groups.room.parameters",
+						columns: 2,
+						metrics: [
+							{
+								source: "diagnostic",
+								path: "live/room_model/a",
+								label_key: "metrics.room.a",
+								digits: 5,
+								unit: "°C/min"
+							},
+							{
+								source: "diagnostic",
+								path: "live/model/a",
+								label_key: "metrics.room.learned_a",
+								digits: 5,
+								unit: "°C/min"
+							},
+							{
+								source: "diagnostic",
+								path: "live/room_model/b_eq",
+								label_key: "metrics.room.b",
+								digits: 5,
+								unit: "min⁻¹"
+							},
+							{
+								source: "diagnostic",
+								path: "live/model/b",
+								label_key: "metrics.room.learned_b",
+								digits: 5,
+								unit: "min⁻¹"
+							},
+							{
+								source: "diagnostic",
+								path: "live/room_model/b_eq",
+								label_key: "metrics.room.ratio",
+								digits: 3,
+								divide_by: {
+									source: "diagnostic",
+									path: "live/room_model/a"
+								},
+								value_multiplier: 100,
+								unit: "%/°C"
+							},
+							{
+								source: "diagnostic",
+								path: "live/model/b",
+								label_key: "metrics.room.learned_ratio",
+								digits: 3,
+								divide_by: {
+									source: "diagnostic",
+									path: "live/model/a"
+								},
+								value_multiplier: 100,
+								unit: "%/°C"
+							}
+						]
+					},
+					{
+						type: "section_note",
+						text_key: "notes.room.ratio",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "metric_grid",
+						title_key: "groups.room.wall_parameters",
+						columns: 2,
+						metrics: [{
+							source: "diagnostic",
+							path: "live/room_model/b_air",
+							label_key: "metrics.room.b_air",
+							digits: 5,
+							unit: "min⁻¹"
+						}, {
+							source: "diagnostic",
+							path: "live/room_model/b_wall",
+							label_key: "metrics.room.b_wall",
+							digits: 5,
+							unit: "min⁻¹"
+						}]
+					},
+					{
+						type: "metric_grid",
+						title_key: "groups.room.forecasts",
+						columns: 2,
+						metrics: [
+							{
+								source: "diagnostic",
+								path: "live/room_model/forecast_c/1h",
+								label_key: "metrics.room.forecast.1h",
+								digits: 2,
+								unit: "°C"
+							},
+							{
+								source: "diagnostic",
+								path: "live/room_model/forecast_c/2h",
+								label_key: "metrics.room.forecast.2h",
+								digits: 2,
+								unit: "°C"
+							},
+							{
+								source: "diagnostic",
+								path: "live/room_model/forecast_c/6h",
+								label_key: "metrics.room.forecast.6h",
+								digits: 2,
+								unit: "°C"
+							},
+							{
+								source: "diagnostic",
+								path: "live/room_model/forecast_c/12h",
+								label_key: "metrics.room.forecast.12h",
+								digits: 2,
+								unit: "°C"
+							}
+						]
+					},
+					{
+						type: "section_note",
+						text_key: "notes.room.forecasts",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "section_note",
+						text_key: "notes.room.accuracy",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "layout_grid",
+						min_width: 210,
+						items: [
+							{
+								type: "metric_grid",
+								title_key: "groups.room.accuracy.1h",
+								columns: 3,
+								metrics: [
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_error_c/1h",
+										label_key: "metrics.room.error",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/unchanged_temperature_error_c/1h",
+										label_key: "metrics.room.unchanged",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_checks/1h",
+										label_key: "metrics.room.checks",
+										digits: 0
+									}
+								]
+							},
+							{
+								type: "metric_grid",
+								title_key: "groups.room.accuracy.2h",
+								columns: 3,
+								metrics: [
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_error_c/2h",
+										label_key: "metrics.room.error",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/unchanged_temperature_error_c/2h",
+										label_key: "metrics.room.unchanged",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_checks/2h",
+										label_key: "metrics.room.checks",
+										digits: 0
+									}
+								]
+							},
+							{
+								type: "metric_grid",
+								title_key: "groups.room.accuracy.6h",
+								columns: 3,
+								metrics: [
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_error_c/6h",
+										label_key: "metrics.room.error",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/unchanged_temperature_error_c/6h",
+										label_key: "metrics.room.unchanged",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_checks/6h",
+										label_key: "metrics.room.checks",
+										digits: 0
+									}
+								]
+							},
+							{
+								type: "metric_grid",
+								title_key: "groups.room.accuracy.12h",
+								columns: 3,
+								metrics: [
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_error_c/12h",
+										label_key: "metrics.room.error",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/unchanged_temperature_error_c/12h",
+										label_key: "metrics.room.unchanged",
+										digits: 3,
+										unit: "°C"
+									},
+									{
+										source: "diagnostic",
+										path: "live/room_model/forecast_checks/12h",
+										label_key: "metrics.room.checks",
+										digits: 0
+									}
+								]
+							}
+						],
+						columns: 1
+					},
+					{
+						type: "value",
+						source: "diagnostic",
+						path: "live/room_model/wall_extra_power_percent",
+						label_key: "metrics.room.wall_power",
+						digits: 1,
+						unit: "%"
+					},
+					{
+						type: "section_note",
+						text_key: "notes.room.wall_power",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "history",
+						title_key: "graphs.room.parameters",
+						range: "7d",
+						series: [
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/model/a",
+								label_key: "graphs.model.a",
+								scale_group: "room_coefficients",
+								unit: "°C/min"
+							},
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/room_model/a",
+								label_key: "graphs.room.a",
+								scale_group: "room_coefficients",
+								unit: "°C/min"
+							},
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/model/b",
+								label_key: "graphs.model.b",
+								scale_group: "room_coefficients",
+								unit: "min⁻¹"
+							},
+							{
+								entity: "$diagnostic_entity",
+								attribute: "history/room_model/b_eq",
+								label_key: "graphs.room.b",
+								scale_group: "room_coefficients",
+								unit: "min⁻¹"
+							}
+						],
+						options: {
+							tooltip: !0,
+							legend: !0,
+							scales: !0,
+							tools: !1,
+							date_picker: !1,
+							entity_picker: !1,
+							range_picker: !1
+						}
+					},
+					{
+						type: "history",
+						title_key: "graphs.room.errors",
+						range: "7d",
+						series: [{
+							entity: "$diagnostic_entity",
+							attribute: "history/room_model/forecast_error_1h_c",
+							label_key: "graphs.room.error_1h",
+							scale_group: "forecast_error",
+							unit: "°C"
+						}, {
+							entity: "$diagnostic_entity",
+							attribute: "history/room_model/forecast_error_12h_c",
+							label_key: "graphs.room.error_12h",
+							scale_group: "forecast_error",
+							unit: "°C"
+						}],
+						options: {
+							tooltip: !0,
+							legend: !0,
+							scales: !0,
+							tools: !1,
+							date_picker: !1,
+							entity_picker: !1,
+							range_picker: !1
+						}
+					},
+					{
+						type: "section_note",
+						text_key: "notes.room.history",
+						tone: "info",
+						icon: "mdi:information-outline"
+					}
+				]
+			},
+			{
 				id: "learning",
 				title_key: "sections.learning.title",
 				icon: "mdi:school-outline",
@@ -16802,6 +17588,652 @@ var Vc = {
 						text_key: "notes.learning",
 						tone: "info",
 						icon: "mdi:information-outline"
+					}
+				]
+			},
+			{
+				id: "tar_learning",
+				title_key: "sections.tar_learning.title",
+				icon: "mdi:timer-sand",
+				items: [
+					{
+						type: "section_note",
+						text_key: "notes.emitter.intro",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "layout_grid",
+						min_width: 210,
+						items: [{
+							type: "status",
+							source: "diagnostic",
+							path: "live/tar_learning/status",
+							label_key: "metrics.emitter.status",
+							map: {
+								active: {
+									label_key: "metrics.emitter.status.0",
+									tone: "ok",
+									icon: "mdi:information-outline"
+								},
+								checking_dependencies: {
+									label_key: "metrics.emitter.status.1",
+									tone: "info",
+									icon: "mdi:information-outline"
+								},
+								dependencies_unavailable: {
+									label_key: "metrics.emitter.status.2",
+									tone: "warning",
+									icon: "mdi:information-outline"
+								},
+								valve_mode_not_supported: {
+									label_key: "metrics.emitter.status.3",
+									tone: "muted",
+									icon: "mdi:information-outline"
+								}
+							},
+							fallback: {
+								label_key: "fallback.unknown_code",
+								tone: "muted",
+								icon: "mdi:help-circle-outline"
+							},
+							fallback_show_value: !0
+						}, {
+							type: "status",
+							source: "diagnostic",
+							path: "live/tar_learning/source",
+							label_key: "metrics.emitter.source",
+							map: {
+								bootstrap: {
+									label_key: "metrics.emitter.source.0",
+									tone: "muted",
+									icon: "mdi:information-outline"
+								},
+								fast: {
+									label_key: "metrics.emitter.source.1",
+									tone: "info",
+									icon: "mdi:information-outline"
+								},
+								refined: {
+									label_key: "metrics.emitter.source.2",
+									tone: "ok",
+									icon: "mdi:information-outline"
+								}
+							},
+							fallback: {
+								label_key: "fallback.unknown_code",
+								tone: "muted",
+								icon: "mdi:help-circle-outline"
+							},
+							fallback_show_value: !0
+						}]
+					},
+					{
+						type: "metric_grid",
+						title_key: "groups.emitter.applied",
+						columns: 3,
+						metrics: [
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/applied_s",
+								label_key: "metrics.emitter.applied",
+								digits: 1,
+								format: "duration_s"
+							},
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/gains_s",
+								label_key: "metrics.emitter.gains",
+								digits: 1,
+								format: "duration_s"
+							},
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/bootstrap_s",
+								label_key: "metrics.emitter.bootstrap",
+								digits: 1,
+								format: "duration_s"
+							}
+						]
+					},
+					{
+						type: "status",
+						source: "diagnostic",
+						path: "live/tar_learning/out_of_bound",
+						label_key: "metrics.emitter.out_of_bound",
+						map: {
+							true: {
+								label_key: "metrics.emitter.out_of_bound.0",
+								tone: "warning",
+								icon: "mdi:information-outline"
+							},
+							false: {
+								label_key: "metrics.emitter.out_of_bound.1",
+								tone: "muted",
+								icon: "mdi:information-outline"
+							}
+						},
+						fallback: {
+							label_key: "fallback.unknown_code",
+							tone: "muted",
+							icon: "mdi:help-circle-outline"
+						},
+						fallback_show_value: !0
+					},
+					{
+						type: "section_note",
+						text_key: "notes.emitter.bounds",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "metric_grid",
+						title_key: "groups.emitter.fast",
+						columns: 3,
+						metrics: [
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/fast/value_s",
+								label_key: "metrics.emitter.fast",
+								digits: 1,
+								format: "duration_s"
+							},
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/fast/confirmed_mornings",
+								label_key: "metrics.emitter.confirmed",
+								digits: 0
+							},
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/fast/last_value_s",
+								label_key: "metrics.emitter.last_value",
+								digits: 1,
+								format: "duration_s"
+							}
+						]
+					},
+					{
+						type: "status",
+						source: "diagnostic",
+						path: "live/tar_learning/fast/last_status",
+						label_key: "metrics.emitter.confirmation",
+						map: {
+							confirmed: {
+								label_key: "metrics.emitter.confirmation.0",
+								tone: "ok",
+								icon: "mdi:information-outline"
+							},
+							unconfirmed: {
+								label_key: "metrics.emitter.confirmation.1",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							none: {
+								label_key: "metrics.emitter.confirmation.2",
+								tone: "muted",
+								icon: "mdi:information-outline"
+							}
+						},
+						fallback: {
+							label_key: "fallback.unknown_code",
+							tone: "muted",
+							icon: "mdi:help-circle-outline"
+						},
+						fallback_show_value: !0
+					},
+					{
+						type: "status",
+						source: "diagnostic",
+						path: "live/tar_learning/fast/last_unconfirmed_reason",
+						label_key: "metrics.emitter.unconfirmed_reason",
+						map: { "night with at least 1 hour without heating between 23:00 and the comfort step": {
+							label_key: "metrics.emitter.unconfirmed_reason.0",
+							tone: "info",
+							icon: "mdi:information-outline"
+						} },
+						fallback: {
+							label_key: "fallback.unknown_code",
+							tone: "muted",
+							icon: "mdi:help-circle-outline"
+						},
+						fallback_show_value: !0
+					},
+					{
+						type: "layout_grid",
+						min_width: 210,
+						items: [
+							{
+								type: "value",
+								source: "diagnostic",
+								path: "live/tar_learning/fast/last_morning/day",
+								label_key: "metrics.emitter.last_day",
+								digits: 0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/tar_learning/fast/last_morning/accepted",
+								label_key: "metrics.emitter.accepted",
+								map: {
+									true: {
+										label_key: "metrics.emitter.accepted.0",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									false: {
+										label_key: "metrics.emitter.accepted.1",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/tar_learning/fast/last_morning/reason",
+								label_key: "metrics.emitter.morning_reason",
+								map: {
+									accepted: {
+										label_key: "metrics.emitter.morning_reason.0",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									"computation failed": {
+										label_key: "metrics.emitter.morning_reason.1",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"missing or excluded data around the comfort step": {
+										label_key: "metrics.emitter.morning_reason.2",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"heat loss b not learned yet": {
+										label_key: "metrics.emitter.morning_reason.3",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"no heating start after the comfort step": {
+										label_key: "metrics.emitter.morning_reason.4",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"night not usable for this type of room": {
+										label_key: "metrics.emitter.morning_reason.5",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"too few temperature readings before the comfort step": {
+										label_key: "metrics.emitter.morning_reason.6",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"night temperature trend not usable": {
+										label_key: "metrics.emitter.morning_reason.7",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"night temperature trend does not match the heating cycles": {
+										label_key: "metrics.emitter.morning_reason.8",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"night temperature trend too irregular": {
+										label_key: "metrics.emitter.morning_reason.9",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"temperature rise could not be fitted": {
+										label_key: "metrics.emitter.morning_reason.10",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"temperature rise fitted too loosely": {
+										label_key: "metrics.emitter.morning_reason.11",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"temperature rise too short to measure": {
+										label_key: "metrics.emitter.morning_reason.12",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"too little heat delivered during the rise": {
+										label_key: "metrics.emitter.morning_reason.13",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"temperature rise too small": {
+										label_key: "metrics.emitter.morning_reason.14",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"temperature sensor reports too rarely": {
+										label_key: "metrics.emitter.morning_reason.15",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"regulated night: no measurement": {
+										label_key: "metrics.emitter.morning_reason.16",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"room not regulated during the 2 hours before the comfort step": {
+										label_key: "metrics.emitter.morning_reason.17",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"room not at its eco setpoint before the comfort step": {
+										label_key: "metrics.emitter.morning_reason.18",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"heating power not steady before the comfort step": {
+										label_key: "metrics.emitter.morning_reason.19",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"no clear heating increase at the comfort step": {
+										label_key: "metrics.emitter.morning_reason.20",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"room with thermal mass after a regulated night: measured by the multi-day identification only": {
+										label_key: "metrics.emitter.morning_reason.21",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"type of room not known yet": {
+										label_key: "metrics.emitter.morning_reason.22",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"SmartPI not in steady regulation (bootstrap)": {
+										label_key: "metrics.emitter.morning_reason.23",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"SmartPI not in steady regulation (calibration)": {
+										label_key: "metrics.emitter.morning_reason.24",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"SmartPI not in steady regulation (stable)": {
+										label_key: "metrics.emitter.morning_reason.25",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									},
+									"SmartPI not in steady regulation (degraded)": {
+										label_key: "metrics.emitter.morning_reason.26",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/tar_learning/fast/last_morning/room_class",
+								label_key: "metrics.emitter.morning_class",
+								map: {
+									thermal_mass: {
+										label_key: "metrics.emitter.morning_class.0",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									no_thermal_mass: {
+										label_key: "metrics.emitter.morning_class.1",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									undetermined: {
+										label_key: "metrics.emitter.morning_class.2",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							}
+						]
+					},
+					{
+						type: "section_note",
+						text_key: "notes.emitter.fast",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "metric_grid",
+						title_key: "groups.emitter.refined",
+						columns: 3,
+						metrics: [
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/refined/tau_e_s",
+								label_key: "metrics.emitter.refined",
+								digits: 1,
+								format: "duration_s"
+							},
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/refined/k_per_s",
+								label_key: "metrics.emitter.coupling",
+								digits: 6,
+								unit: "s⁻¹"
+							},
+							{
+								source: "diagnostic",
+								path: "live/tar_learning/refined/tau_w_h",
+								label_key: "metrics.emitter.wall_time",
+								digits: 2,
+								unit: "h"
+							}
+						]
+					},
+					{
+						type: "layout_grid",
+						min_width: 210,
+						items: [
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/tar_learning/refined/class",
+								label_key: "metrics.emitter.refined_class",
+								map: {
+									thermal_mass: {
+										label_key: "metrics.emitter.refined_class.0",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									no_thermal_mass: {
+										label_key: "metrics.emitter.refined_class.1",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									undetermined: {
+										label_key: "metrics.emitter.refined_class.2",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/tar_learning/night_room_class",
+								label_key: "metrics.emitter.night_class",
+								map: {
+									thermal_mass: {
+										label_key: "metrics.emitter.night_class.0",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									no_thermal_mass: {
+										label_key: "metrics.emitter.night_class.1",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									undetermined: {
+										label_key: "metrics.emitter.night_class.2",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							},
+							{
+								type: "value",
+								source: "diagnostic",
+								path: "live/tar_learning/refined/last_evaluation/day",
+								label_key: "metrics.emitter.evaluation_day",
+								digits: 0
+							},
+							{
+								type: "status",
+								source: "diagnostic",
+								path: "live/tar_learning/refined/last_evaluation/regulated_nights",
+								label_key: "metrics.emitter.nights",
+								map: {
+									true: {
+										label_key: "metrics.emitter.nights.0",
+										tone: "info",
+										icon: "mdi:information-outline"
+									},
+									false: {
+										label_key: "metrics.emitter.nights.1",
+										tone: "muted",
+										icon: "mdi:information-outline"
+									}
+								},
+								fallback: {
+									label_key: "fallback.unknown_code",
+									tone: "muted",
+									icon: "mdi:help-circle-outline"
+								},
+								fallback_show_value: !0
+							}
+						]
+					},
+					{
+						type: "section_note",
+						text_key: "notes.emitter.refined",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "status",
+						source: "diagnostic",
+						path: "live/tar_learning/data_invalid_reason",
+						label_key: "metrics.emitter.invalid",
+						map: {
+							"window open": {
+								label_key: "metrics.emitter.invalid.0",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"power shedding": {
+								label_key: "metrics.emitter.invalid.1",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"safety mode": {
+								label_key: "metrics.emitter.invalid.2",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"hvac not heating": {
+								label_key: "metrics.emitter.invalid.3",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"command unknown": {
+								label_key: "metrics.emitter.invalid.4",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"command overridden": {
+								label_key: "metrics.emitter.invalid.5",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"temperature jump": {
+								label_key: "metrics.emitter.invalid.6",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"indoor temperature unavailable": {
+								label_key: "metrics.emitter.invalid.7",
+								tone: "info",
+								icon: "mdi:information-outline"
+							},
+							"outdoor temperature unavailable": {
+								label_key: "metrics.emitter.invalid.8",
+								tone: "info",
+								icon: "mdi:information-outline"
+							}
+						},
+						fallback: {
+							label_key: "fallback.unknown_code",
+							tone: "muted",
+							icon: "mdi:help-circle-outline"
+						},
+						fallback_show_value: !0
+					},
+					{
+						type: "section_note",
+						text_key: "notes.emitter.data",
+						tone: "info",
+						icon: "mdi:information-outline"
+					},
+					{
+						type: "history",
+						title_key: "graphs.emitter.delay",
+						range: "7d",
+						series: [{
+							entity: "$diagnostic_entity",
+							attribute: "history/deadtime/applied_s",
+							label_key: "graphs.emitter.applied",
+							scale_group: "deadtime",
+							unit: "s"
+						}],
+						options: {
+							tooltip: !0,
+							legend: !0,
+							scales: !0,
+							tools: !1,
+							date_picker: !1,
+							entity_picker: !1,
+							range_picker: !1
+						}
 					}
 				]
 			},
@@ -23104,12 +24536,18 @@ var Ol = {
 	"heating_failure_detection_manager.temperature_change_tolerance": "temperature",
 	"history.control.ki": "1/(°C·min)",
 	"history.control.kp": "1/°C",
-	"history.model.a": "coeff",
-	"history.model.b": "coeff",
+	"history.deadtime.applied_s": "s",
+	"history.feedforward.wall_power_percent": "%",
+	"history.model.a": "°C/min",
+	"history.model.b": "min⁻¹",
 	"history.power.applied_percent": "%",
 	"history.power.command_percent": "%",
 	"history.power.ff_percent": "%",
 	"history.power.pi_percent": "%",
+	"history.room_model.a": "°C/min",
+	"history.room_model.b_eq": "min⁻¹",
+	"history.room_model.forecast_error_1h_c": "°C",
+	"history.room_model.forecast_error_12h_c": "°C",
 	"history.setpoint.filtered_setpoint": "temperature",
 	"history.temperature.indoor": "temperature",
 	"history.temperature.integral_error": "°C·min",
@@ -24652,8 +26090,8 @@ var ql = "--", Jl = /* @__PURE__ */ new Set([
 		});
 	}
 	_formatSourceValue(e) {
-		let t = ol(this._context(), e.source, e.path), n = e.fallback || ql, r = e.format === "duration_s" ? this._formatDuration(t, e.digits, e.value_multiplier, n) : e.format === "datetime" ? this._formatDateTime(t, n) : this._formatPrimitive(t, e.digits, n, e.value_multiplier, e.format === "number"), i = this._translate(e.unit_key, e.unit), a = e.format === "duration_s" || e.format === "datetime";
-		return r === n || !i || a ? r : `${r} ${i}`;
+		let t = ol(this._context(), e.source, e.path), n = this._asNumber(t), r = e.divide_by ? this._asNumber(this._readValueRef(e.divide_by)) : void 0, i = e.divide_by ? n !== void 0 && r !== void 0 && r > 0 ? n / r : void 0 : t, a = e.fallback || ql, o = e.format === "duration_s" ? this._formatDuration(i, e.digits, e.value_multiplier, a) : e.format === "datetime" ? this._formatDateTime(i, a) : this._formatPrimitive(i, e.digits, a, e.value_multiplier, e.format === "number"), s = this._translate(e.unit_key, e.unit), c = e.format === "duration_s" || e.format === "datetime";
+		return o === a || !s || c ? o : `${o} ${s}`;
 	}
 	_formatPrimitive(e, t, n = ql, r, i = !1) {
 		if (nl(e)) return n || ql;

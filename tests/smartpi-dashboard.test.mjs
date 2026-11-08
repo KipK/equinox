@@ -110,8 +110,8 @@ test("documentation examples and named diagnostic paths match the published cont
   }
 });
 
-test("eight sections retain navigation IDs, with no legacy bindings or unused translations", () => {
-  assert.deepEqual(dashboard.sections.map((entry) => entry.id), ["overview", "command", "anticipation", "model", "learning", "fftrim", "health", "actions"]);
+test("ten sections retain navigation IDs, with no legacy bindings or unused translations", () => {
+  assert.deepEqual(dashboard.sections.map((entry) => entry.id), ["overview", "command", "anticipation", "model", "room_model", "learning", "tar_learning", "fftrim", "health", "actions"]);
   assert.doesNotMatch(JSON.stringify(dashboard), /landing|governor|user_setpoint"\s*,\s*"source"\s*:\s*"diagnostic/iu);
   const usedKeys = new Set(nodes.flatMap((entry) => Object.entries(entry).filter(([key]) => key.endsWith("_key")).map(([, value]) => value)));
   for (const language of ["fr", "en"]) assert.deepEqual(new Set(Object.keys(dashboard.translations[language])), usedKeys);
@@ -451,11 +451,11 @@ test("new response reasons, learning waits and integral unwind modes translate w
   }
 });
 
-test("history covers all eleven published Recorder paths and keeps compact approach graphs separate", () => {
+test("history covers all eighteen published Recorder paths and keeps compact approach graphs separate", () => {
   const histories = nodes.filter((entry) => entry.type === "history");
   const diagnosticPaths = new Set(histories.flatMap((entry) => entry.series).filter((entry) => entry.entity === "$diagnostic_entity").map((entry) => entry.attribute));
-  assert.equal(published.source.version, "0.6.2");
-  assert.equal(diagnosticPaths.size, 11);
+  assert.equal(published.source.version, "0.7-dev");
+  assert.equal(diagnosticPaths.size, 18);
   assert.deepEqual(diagnosticPaths, new Set(published.history.map((path) => `history/${path}`)));
   const [thermal, command] = section("anticipation").items.filter((entry) => entry.type === "history");
   assert.equal(thermal.range, "6h");
@@ -525,4 +525,201 @@ test("desktop and mobile selection retain all existing IDs and translated sectio
   assert.match(templateText(dialog._renderMobileSectionMenu("anticipation")), /Model and prediction/);
   dialog.activeSectionId = "removed-id";
   assert.equal(dialog._activeSectionId(), "overview");
+});
+
+test("room holding ratios divide the corresponding models safely before percent conversion", () => {
+  const ratios = [...walk(section("room_model"))].filter((item) => item.divide_by);
+  assert.equal(ratios.length, 2);
+  for (const mode of ["heat", "cool"]) {
+    for (const [a, b, expected] of [
+      [0.2, 0.001, "0.500 %/°C"], [0.25, 0, "0.000 %/°C"],
+      [0, 0.001, "--"], [-0.2, 0.001, "--"], [null, 0.001, "--"],
+      [undefined, 0.001, "--"], [0.2, null, "--"], [0.2, undefined, "--"],
+      [Infinity, 0.001, "--"], [0.2, NaN, "--"], ["bad", 0.001, "--"],
+      ["0.2", "0.001", "0.500 %/°C"]
+    ]) {
+      const view = renderer({ room_model: { a, b_eq: b }, model: { a, b } }, mode);
+      for (const ratio of ratios) {
+        assert.equal(view._formatSourceValue(ratio), expected);
+        assert.match(templateText(view._renderMetric(ratio)), new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")));
+      }
+    }
+  }
+  const view = renderer({ room_model: { a: 0.2, b_eq: 0.001 }, model: { a: 0.1, b: 0.003 } });
+  assert.deepEqual(ratios.map((item) => view._formatSourceValue(item)), ["0.500 %/°C", "3.000 %/°C"]);
+  assert.equal(view._formatSourceValue({ ...ratios[0], type: "value" }), "0.500 %/°C");
+});
+
+test("all forecast horizons compare model RMSE, unchanged-temperature RMSE and checked forecasts", () => {
+  const horizons = ["1h", "2h", "6h", "12h"];
+  const forecast_c = { "1h": 20, "2h": 19.5, "6h": 18, "12h": 17 };
+  const view = renderer({ room_model: {
+    forecast_c, forecast_error_c: { "1h": 0, "2h": 0.2, "6h": 0.4, "12h": null },
+    unchanged_temperature_error_c: { "1h": 0.1, "2h": 0.1, "6h": 0.8, "12h": null },
+    forecast_checks: { "1h": 10, "2h": 10, "6h": 4, "12h": 0 }
+  } });
+  for (const language of ["en", "fr"]) {
+    view.language = language;
+    for (const horizon of horizons) {
+      const card = nodes.find((item) => item.title_key === `groups.room.accuracy.${horizon}`);
+      assert.deepEqual(card.metrics.map((item) => item.path), [
+        `live/room_model/forecast_error_c/${horizon}`,
+        `live/room_model/unchanged_temperature_error_c/${horizon}`,
+        `live/room_model/forecast_checks/${horizon}`
+      ]);
+      const rendered = templateText(view._renderMetricGrid(card));
+      assert.match(rendered, language === "fr" ? /Erreur du modèle/ : /Model error/);
+      assert.match(rendered, language === "fr" ? /Erreur si température inchangée/ : /Unchanged-temperature error/);
+      assert.match(rendered, language === "fr" ? /Prévisions vérifiées/ : /Forecasts checked/);
+      assert.equal(view._formatSourceValue(sectionPath("room_model", `live/room_model/forecast_c/${horizon}`)), `${forecast_c[horizon].toFixed(2)} °C`);
+    }
+  }
+  assert.equal(view._formatSourceValue(sectionPath("room_model", "live/room_model/forecast_error_c/1h")), "0.000 °C");
+  assert.equal(view._formatSourceValue(sectionPath("room_model", "live/room_model/forecast_error_c/12h")), "--");
+  assert.equal(view._formatSourceValue(sectionPath("room_model", "live/room_model/forecast_checks/12h")), "0");
+});
+
+test("room identification guidance handles learning, coarse sensors, unsupported valves and retained models", () => {
+  const waiting = nodes.find((item) => item.text_key === "notes.room.waiting");
+  const sensor = nodes.find((item) => item.text_key === "notes.room.sensor");
+  const status = sectionPath("room_model", "live/room_model/status");
+  const refusal = sectionPath("room_model", "live/room_model/last_refusal_reason");
+  for (const [code, label] of [
+    ["learning", "Learning"], ["identified", "Model with walls identified"],
+    ["simple model", "Simple model without walls"],
+    ["not identified: valve heaters are not supported yet", "Not identified: valve heaters are not supported yet"]
+  ]) {
+    const view = renderer({ room_model: { status: code, a: 0.2, b_eq: 0.001,
+      last_refusal_reason: "waiting for a second series of nights to confirm" } });
+    assert.ok(templateText(view._renderStatus(status)).includes(label));
+    assert.equal(templateText(view._renderItem(waiting)) !== "", !["identified", "simple model"].includes(code));
+    assert.equal(templateText(view._renderItem(sensor)) !== "", code === "simple model");
+    assert.match(templateText(view._renderStatus(refusal)), /Waiting for a second series/);
+    assert.equal(view._formatSourceValue(sectionPath("room_model", "live/room_model/a")), "0.20000 °C/min");
+    view.language = "fr";
+    if (code === "learning") {
+      assert.match(templateText(view._renderItem(waiting)), /6 jours/);
+      assert.match(templateText(view._renderItem(waiting)), /0,1 °C/);
+      assert.match(templateText(view._renderItem(waiting)), /vanne/);
+    }
+    if (code === "simple model") assert.match(templateText(view._renderItem(sensor)), /0,015 °C/);
+  }
+  for (const code of ["recovering after an open window", "paused (SmartPI not heating or not in control)", "settling after a restart"]) {
+    const view = renderer({ room_model: { tracking: code, wall_extra_power_percent: null } });
+    view.language = "fr";
+    assert.doesNotMatch(templateText(view._renderStatus(sectionPath("room_model", "live/room_model/tracking"))), new RegExp(code.replace(/[()]/gu, "\\$&")));
+    assert.equal(view._formatSourceValue(sectionPath("room_model", "live/room_model/wall_extra_power_percent")), "--");
+  }
+});
+
+test("feedforward uses all four published sources and preserves signed wall power with its history ribbon", () => {
+  const current = sectionPath("command", "live/feedforward/source");
+  const chart = section("command").items.find((item) => item.title_key === "graphs.command.title");
+  for (const source of ["learned model", "room model (air and walls)", "room model (static part)", "room model (simple)"]) {
+    const view = renderer({ feedforward: { source, wall_power_percent: -12.5 } });
+    for (const language of ["en", "fr"]) {
+      view.language = language;
+      const text = templateText(view._renderStatus(current));
+      assert.doesNotMatch(text, /--/);
+      if (language === "fr") assert.match(text, /Modèle/);
+      assert.equal(view._formatSourceValue(sectionPath("command", "live/feedforward/wall_power_percent")), "-12.5 %");
+      const config = view._betterHistoryConfig(chart);
+      const ribbon = config.series.find((item) => item.attribute?.join("/") === "history/feedforward/source");
+      assert.equal(ribbon.group, "power");
+      assert.equal(ribbon.unit, undefined);
+      assert.equal(ribbon.entity, "sensor.diag");
+      const powers = config.series.filter((item) => ["history/feedforward/wall_power_percent", "history/power/ff_percent", "history/power/pi_percent"].includes(item.attribute?.join("/")));
+      assert.equal(powers.length, 3);
+      assert.ok(powers.every((item) => item.group === ribbon.group && item.unit === "%"));
+    }
+  }
+  for (const value of [0, 12.5, -12.5, null, undefined]) {
+    const view = renderer({ room_model: { wall_extra_power_percent: value }, feedforward: { wall_power_percent: value } });
+    for (const item of [sectionPath("room_model", "live/room_model/wall_extra_power_percent"), sectionPath("command", "live/feedforward/wall_power_percent")]) {
+      assert.equal(view._formatSourceValue(item), value == null ? "--" : `${value.toFixed(1)} %`);
+    }
+  }
+});
+
+test("emitter diagnostics distinguish applied delays, accepted mornings and the latest evaluated morning", () => {
+  const live = { learning: { enabled: false }, tar_learning: {
+    status: "active", applied_s: 1800, gains_s: 900, bootstrap_s: 1200, source: "refined", out_of_bound: false,
+    fast: { value_s: 1500, confirmed_mornings: 3, last_value_s: 1560, last_status: "unconfirmed",
+      last_unconfirmed_reason: "night with at least 1 hour without heating between 23:00 and the comfort step",
+      last_morning: { day: "2026-11-08", accepted: false, reason: "temperature rise too small", room_class: "undetermined" } },
+    refined: { tau_e_s: 1800, class: "thermal_mass", k_per_s: 0.0002, tau_w_h: 24,
+      last_evaluation: { day: "2026-11-08", regulated_nights: false } },
+    night_room_class: "no_thermal_mass", data_invalid_reason: "window open"
+  } };
+  const view = renderer(live);
+  for (const [path, expected] of [["applied_s", "30m"], ["gains_s", "15m"], ["bootstrap_s", "20m"],
+    ["fast/value_s", "25m"], ["fast/confirmed_mornings", "3"], ["fast/last_value_s", "26m"],
+    ["fast/last_morning/day", "2026-11-08"], ["refined/tau_e_s", "30m"]]) {
+    assert.equal(view._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), expected);
+  }
+  for (const language of ["en", "fr"]) {
+    view.language = language;
+    const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
+    assert.match(render("status"), language === "fr" ? /Apprentissage actif/ : /Learning active/);
+    assert.match(render("source"), language === "fr" ? /Identification affinée/ : /Refined identification/);
+    assert.match(render("fast/last_morning/accepted"), language === "fr" ? /Non/ : /No/);
+    assert.match(render("fast/last_morning/reason"), language === "fr" ? /Montée en température trop faible/ : /Temperature rise too small/);
+    assert.match(render("refined/class"), language === "fr" ? /inertie thermique/ : /thermal mass/);
+    assert.match(render("night_room_class"), language === "fr" ? /sans inertie/ : /without detected thermal mass/);
+    assert.match(render("data_invalid_reason"), language === "fr" ? /Fenêtre ouverte/ : /Window open/);
+    live.tar_learning.out_of_bound = true;
+    assert.match(render("out_of_bound"), /tone="?warning"?/);
+  }
+  assert.doesNotMatch(JSON.stringify(section("tar_learning")), /tar_learning\/(?:gate|path|enabled)/u);
+  assert.match(translate(dashboard, "fr", "notes.emitter.intro"), /sans option/);
+});
+
+test("absent 0.7 blocks, null scores and future enums stay unavailable or neutral", () => {
+  for (const live of [undefined, {}, { room_model: null, tar_learning: null, feedforward: { source: null, wall_power_percent: null } }]) {
+    const view = renderer(live);
+    for (const id of ["room_model", "tar_learning"]) {
+      for (const item of walk(section(id))) {
+        if (item.type === "value" || item.source === "diagnostic" && item.digits !== undefined) {
+          assert.equal(view._formatSourceValue(item), "--", item.path);
+        }
+      }
+    }
+  }
+  const view = renderer({ room_model: { status: "future_room", tracking: "future_tracking", walls: "future_walls", last_refusal_reason: "future_refusal" },
+    tar_learning: { status: "future_delay", source: "future_source", data_invalid_reason: "future_exclusion", refined: { class: "future_class" } },
+    feedforward: { source: "future_feedforward" } });
+  for (const [id, paths] of [["room_model", ["status", "tracking", "walls", "last_refusal_reason"]],
+    ["tar_learning", ["status", "source", "data_invalid_reason", "refined/class"]], ["command", ["source"]]]) {
+    for (const path of paths) {
+      const item = sectionPath(id, `live/${id === "command" ? "feedforward" : id}/${path}`);
+      const text = templateText(view._renderStatus(item));
+      assert.match(text, /future_/);
+      assert.match(text, /tone="?muted"?/);
+    }
+  }
+});
+
+test("new histories keep coefficient units, recorded forecast errors and applied seconds without live substitutions", () => {
+  const view = renderer({});
+  const parameters = section("room_model").items.find((item) => item.title_key === "graphs.room.parameters");
+  const coefficients = view._betterHistoryConfig(parameters);
+  assert.equal(coefficients.hours, 168);
+  assert.deepEqual(coefficients.series.map((item) => [item.attribute.join("/"), item.unit]), [
+    ["history/model/a", "°C/min"], ["history/room_model/a", "°C/min"],
+    ["history/model/b", "min⁻¹"], ["history/room_model/b_eq", "min⁻¹"]
+  ]);
+  assert.ok(coefficients.series.every((item) => item.group === "room_coefficients"));
+  const errors = view._betterHistoryConfig(section("room_model").items.find((item) => item.title_key === "graphs.room.errors"));
+  assert.equal(errors.hours, 168);
+  assert.deepEqual(errors.series.map((item) => item.attribute.join("/")), ["history/room_model/forecast_error_1h_c", "history/room_model/forecast_error_12h_c"]);
+  assert.ok(errors.series.every((item) => item.unit === "°C" && item.group === "forecast_error"));
+  const delay = view._betterHistoryConfig(section("tar_learning").items.find((item) => item.type === "history"));
+  assert.equal(delay.hours, 168);
+  assert.equal(delay.series[0].attribute.join("/"), "history/deadtime/applied_s");
+  assert.equal(delay.series[0].unit, "s");
+  const units = JSON.parse(readFileSync(new URL("../src/data/attributes.json", import.meta.url)));
+  for (const config of [coefficients, errors, delay]) {
+    assert.equal(config.debugPerformance, false);
+    for (const item of config.series) assert.equal(item.unit, units[item.attribute.join(".")]);
+  }
 });

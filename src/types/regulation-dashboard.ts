@@ -89,6 +89,7 @@ export interface RegulationDashboardValueItem extends RegulationDashboardBaseIte
   unit_key?: string;
   digits?: number;
   value_multiplier?: number;
+  divide_by?: RegulationDashboardValueRef;
   format?: RegulationDashboardValueFormat;
   fallback?: string;
   tone_map?: RegulationDashboardToneMap;
@@ -110,6 +111,7 @@ export interface RegulationDashboardMetric extends RegulationDashboardLabelField
   unit_key?: string;
   digits?: number;
   value_multiplier?: number;
+  divide_by?: RegulationDashboardValueRef;
   format?: RegulationDashboardValueFormat;
   fallback?: string;
   icon?: string;
