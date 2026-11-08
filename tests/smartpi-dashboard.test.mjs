@@ -348,7 +348,8 @@ test("thermal protection cut explains forced heating shutdown in both sections a
     for (const id of ["overview", "health"]) {
       const rendered = templateText(view._renderStatus(sectionPath(id, "live/temperature/integral_mode")));
       assert.match(rendered, language === "fr" ? /Coupure de protection thermique/ : /Thermal protection cut/);
-      assert.match(rendered, language === "fr" ? /correction déjà apprise est conservée/ : /learned correction is preserved/);
+      assert.match(rendered, language === "fr" ? /excès d'intégrale diminue/ : /excess integral decreases/);
+      assert.match(rendered, language === "fr" ? /conservant la correction utile/ : /retaining the useful correction/);
       assert.match(rendered, /tone="?warning"?/);
       assert.doesNotMatch(rendered, /I:OVERRIDE/);
     }
@@ -450,10 +451,12 @@ test("new response reasons, learning waits and integral unwind modes translate w
   }
 });
 
-test("history retains exactly eight published diagnostic paths and separate compact approach graphs", () => {
+test("history covers all eleven published Recorder paths and keeps compact approach graphs separate", () => {
   const histories = nodes.filter((entry) => entry.type === "history");
   const diagnosticPaths = new Set(histories.flatMap((entry) => entry.series).filter((entry) => entry.entity === "$diagnostic_entity").map((entry) => entry.attribute));
-  assert.deepEqual(diagnosticPaths, new Set(["history/temperature/indoor", "history/setpoint/filtered_setpoint", "history/power/applied_percent", "history/power/command_percent", "history/power/pi_percent", "history/power/ff_percent", "history/model/a", "history/model/b"]));
+  assert.equal(published.source.version, "0.6.2");
+  assert.equal(diagnosticPaths.size, 11);
+  assert.deepEqual(diagnosticPaths, new Set(published.history.map((path) => `history/${path}`)));
   const [thermal, command] = section("anticipation").items.filter((entry) => entry.type === "history");
   assert.equal(thermal.range, "6h");
   assert.equal(command.range, thermal.range);
@@ -464,6 +467,43 @@ test("history retains exactly eight published diagnostic paths and separate comp
   assert.equal(config.debugPerformance, false);
   assert.ok(config.series.some((entry) => entry.entity === "climate.test" && entry.attribute.join("/") === "temperature"));
   assert.ok(config.series.some((entry) => entry.entity === "sensor.diag" && entry.attribute.join("/") === "history/setpoint/filtered_setpoint"));
+});
+
+test("command histories resolve integral and PI gains with distinct physical scales and translated labels", () => {
+  const histories = section("command").items.filter((entry) => entry.type === "history");
+  assert.deepEqual(histories.map((entry) => entry.title_key), ["graphs.command.title", "graphs.command.integral", "graphs.command.gains"]);
+  const [, integral, gains] = histories;
+  const units = JSON.parse(readFileSync(new URL("../src/data/attributes.json", import.meta.url)));
+  for (const language of ["en", "fr"]) {
+    const view = renderer({});
+    view.language = language;
+    const integralConfig = view._betterHistoryConfig(integral);
+    assert.equal(integralConfig.hours, 12);
+    assert.deepEqual(integralConfig.series, [{ entity: "sensor.diag", attribute: ["history", "temperature", "integral_error"], label: language === "fr" ? "Intégrale" : "Integral", unit: "°C·min", group: "integral", color: undefined, forced: true }]);
+    const gainsConfig = view._betterHistoryConfig(gains);
+    assert.equal(gainsConfig.hours, integralConfig.hours);
+    assert.deepEqual(gainsConfig.series.map((entry) => [entry.attribute.join("/"), entry.label, entry.unit, entry.group]), [
+      ["history/control/kp", "Kp", "1/°C", "pi_gains"],
+      ["history/control/ki", "Ki", "1/(°C·min)", "pi_gains"]
+    ]);
+    for (const config of [integralConfig, gainsConfig]) {
+      assert.equal(config.debugPerformance, false);
+      assert.equal(config.showScale, true);
+      for (const series of config.series) {
+        assert.equal(series.entity, "sensor.diag");
+        assert.equal(series.unit, units[series.attribute.join(".")]);
+      }
+    }
+  }
+});
+
+test("integral live metric preserves zero, negative values and unavailable values in HEAT and COOL", () => {
+  const metric = sectionPath("command", "live/temperature/integral_error");
+  for (const mode of ["heat", "cool"]) {
+    for (const [value, expected] of [[0, "0.000 °C·min"], [-12.5, "-12.500 °C·min"], [null, "--"], [undefined, "--"]]) {
+      assert.equal(renderer({ temperature: { integral_error: value } }, mode)._formatSourceValue(metric), expected);
+    }
+  }
 });
 
 test("desktop and mobile selection retain all existing IDs and translated section labels", () => {

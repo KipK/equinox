@@ -21,6 +21,8 @@
   "heating_failure_detection_manager.heating_tracking.remaining_time_min": "min",
   "heating_failure_detection_manager.temperature_change_tolerance": "temperature",
 
+  "history.control.ki": "1/(°C·min)",
+  "history.control.kp": "1/°C",
   "history.model.a": "coeff",
   "history.model.b": "coeff",
   "history.power.applied_percent": "%",
@@ -29,6 +31,7 @@
   "history.power.pi_percent": "%",
   "history.setpoint.filtered_setpoint": "temperature",
   "history.temperature.indoor": "temperature",
+  "history.temperature.integral_error": "°C·min",
 
   "lock_manager.auto_relock_sec": "s",
 

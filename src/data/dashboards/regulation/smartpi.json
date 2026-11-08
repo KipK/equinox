@@ -392,11 +392,14 @@
       "status.integral.unwind_low": "Décharge intégrale à la limite basse",
       "status.learning.transient_a": "Stabilisation avant une mesure de A",
       "status.learning.transient_b": "Stabilisation avant une mesure de B",
-      "notes.command.integral": "L'intégrale corrige les écarts persistants à l'échelle de quelques heures. Sa correction est conservée pendant les reprises tant que la température progresse ; près de la consigne, elle peut se décharger malgré une saturation due au terme proportionnel.",
+      "notes.command.integral": "L'intégrale corrige les écarts persistants à l'échelle de quelques heures. Sa correction est conservée pendant les reprises tant que la température progresse. Si la reprise ne rapproche plus la température de la consigne, elle reprend progressivement son action ; près de la consigne, elle peut se décharger malgré une saturation due au terme proportionnel.",
+      "graphs.command.integral": "Évolution de l'intégrale",
+      "graphs.command.gains": "Évolution des gains PI",
+      "notes.command.history": "L'intégrale est un cumul d'écart de température en °C·min, pas un pourcentage de puissance. Les gains Kp et Ki traduisent les écarts et ce cumul en commande ; leurs courbes utilisent des échelles distinctes.",
       "notes.learning.response_lag_missing": "Délai de réaction non disponible. Cette information ne permet pas de savoir si son estimation est encore en cours ; son absence ne signifie pas que l'apprentissage est bloqué.",
       "notes.learning.paused": "L'apprentissage est en pause. La régulation utilise le modèle actuel ; la collecte reprendra lorsque l'apprentissage sera réactivé.",
       "status.integral.guard_cut": "Coupure de protection thermique",
-      "status.integral.guard_cut.description": "Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; la correction déjà apprise est conservée."
+      "status.integral.guard_cut.description": "Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; l'excès d'intégrale diminue pendant la coupure tout en conservant la correction utile."
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -786,11 +789,14 @@
       "status.integral.unwind_low": "Integral unwind at the lower limit",
       "status.learning.transient_a": "Settling before an A measurement",
       "status.learning.transient_b": "Settling before a B measurement",
-      "notes.command.integral": "The integral corrects persistent errors over a few hours. Its correction is preserved during recoveries while temperature progresses; near the setpoint, it can unwind despite saturation caused by the proportional term.",
+      "notes.command.integral": "The integral corrects persistent errors over a few hours. Its correction is preserved during recoveries while temperature progresses. If recovery stops moving temperature toward the setpoint, it resumes its action gradually; near the setpoint, it can unwind despite saturation caused by the proportional term.",
+      "graphs.command.integral": "Integral history",
+      "graphs.command.gains": "PI gains history",
+      "notes.command.history": "The integral accumulates temperature error in °C·min, rather than a power percentage. Kp and Ki translate the errors and this accumulated value into the command; their curves use separate scales.",
       "notes.learning.response_lag_missing": "Response delay unavailable. This does not tell us whether estimation is still in progress; a missing delay does not mean learning is blocked.",
       "notes.learning.paused": "Learning is paused. Regulation uses the current model; collection will resume when learning is enabled again.",
       "status.integral.guard_cut": "Thermal protection cut",
-      "status.integral.guard_cut.description": "Heating is off to prevent overheating. It resumes after the temperature falls enough; the previously learned correction is preserved."
+      "status.integral.guard_cut.description": "Heating is off to prevent overheating. It resumes after the temperature falls enough; excess integral decreases during the cut while retaining the useful correction."
     }
   },
   "sections": [
@@ -1613,6 +1619,7 @@
               "label_key": "metrics.integral_error",
               "source": "diagnostic",
               "path": "live/temperature/integral_error",
+              "unit": "°C·min",
               "digits": 3
             }
           ]
@@ -1681,6 +1688,65 @@
               "label_key": "graphs.command.ff",
               "unit": "%",
               "scale_group": "power"
+            }
+          ],
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.command.history",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "history",
+          "title_key": "graphs.command.integral",
+          "range": "12h",
+          "series": [
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/temperature/integral_error",
+              "label_key": "metrics.integral_error",
+              "unit": "°C·min",
+              "scale_group": "integral"
+            }
+          ],
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
+        },
+        {
+          "type": "history",
+          "title_key": "graphs.command.gains",
+          "range": "12h",
+          "series": [
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/control/kp",
+              "label_key": "metrics.kp",
+              "unit": "1/°C",
+              "scale_group": "pi_gains"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "history/control/ki",
+              "label_key": "metrics.ki",
+              "unit": "1/(°C·min)",
+              "scale_group": "pi_gains"
             }
           ],
           "options": {

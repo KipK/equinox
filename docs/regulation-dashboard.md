@@ -64,7 +64,7 @@ The existing section IDs remain valid for selection, desktop navigation and
 the mobile section menu. Overview includes the current trajectory phase.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
-controller data directly from `live/...` and its eight historical series from
+controller data directly from `live/...` and its eleven historical series from
 `history/...`; it does not branch on SmartPI debug mode or reproduce controller
 formulas. Published `live/power/*_percent` values are already percentages.
 Ratios inside `live/feedforward/fftrim` and trajectory `next_cycle_reference` /
@@ -90,9 +90,12 @@ separate % graph. Both use a 6-hour window. Applied power is an actuator command
 not a measurement of delivered heat. The on-screen note briefly explains the
 two graphs.
 
-The eight diagnostic Recorder series are:
+The eleven diagnostic Recorder series (SmartPI 0.6.2 and later) are:
 
 - `history/temperature/indoor`
+- `history/temperature/integral_error`
+- `history/control/kp`
+- `history/control/ki`
 - `history/setpoint/filtered_setpoint`
 - `history/power/applied_percent`
 - `history/power/command_percent`
@@ -107,10 +110,24 @@ three-column **PI gains** group: `live/control/kp`, `live/control/ki` and
 published by SmartPI. When Ki is non-positive, SmartPI publishes `null` and Ti
 renders as `--`; Equinox does not calculate a replacement value.
 
+Below the existing power history, Command shows two additional 12-hour graphs:
+the integral state in **°C·min**, then **Kp and Ki** together. The gains share a
+time axis with separate Y axes because their units differ: Kp is `1/°C`, Ki is
+`1/(°C·min)`. They use a dedicated group separate from power and temperature.
+The integral is the accumulated temperature error, not an output percentage;
+Equinox plots the published state without multiplying it by Ki or by 100.
+The same units are available in the general history attribute picker.
+On older SmartPI versions or for periods before the upgrade, the three new
+Recorder attributes may be absent; Equinox does not substitute live values or
+reconstruct past values. Ti remains a live metric because it is not recorded.
+
 SmartPI uses a SIMC integral time bounded by four times the closed-loop
 horizon before gain limits and governance are applied. The integral corrects
 persistent errors over hours and preserves its learned bias during a recovery
-while temperature progresses. Near the setpoint, `I:UNWIND(SAT_HI)` and
+while temperature progresses. If recovery stops moving temperature toward the setpoint,
+SmartPI 0.6.2 releases the integral at a reduced rate to close the remaining gap;
+Equinox does not infer a release timer from the available diagnostics.
+Near the setpoint, `I:UNWIND(SAT_HI)` and
 `I:UNWIND(SAT_LO)` mean opposing integral memory is unwinding despite saturation
 caused by the proportional term. Overview and Protections translate these codes;
 unknown integral modes keep their raw code with neutral styling.
@@ -193,13 +210,14 @@ is a neutral interruption after a power transition. Missing outcomes remain
 `--`; unknown codes remain visible with neutral styling. The active
 wait is bounded by 4 h and the passive wait by 12 h, allowing a slow emitter to
 release stored heat after power stops. No countdown or timeout is inferred by
-Equinox. These live diagnostics are separate from the eight Recorder series,
+Equinox. These live diagnostics are separate from the eleven Recorder series,
 and an entity can leave them absent.
 
 Overview and Protections translate `I:OVERRIDE(guard_cut)` as **Thermal protection
 cut**. Heating is forced off to prevent overheating and resumes after the
-temperature falls sufficiently. The learned integral correction is preserved
-for that recovery. This protection applies to heating; Equinox does not infer
+temperature falls sufficiently. During the cut, SmartPI 0.6.2 reduces excess
+integral by tracking the forced zero command, while retaining the useful
+correction for recovery. This protection applies to heating; Equinox does not infer
 an equivalent cooling protection. The controller's release margin is the larger
 of 0.05 °C and 1.5 observed sensor steps, which avoids rapid off/on switching
 around the threshold. Temperature and dead-time observations continue during

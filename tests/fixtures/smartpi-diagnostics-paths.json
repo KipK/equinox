@@ -2,10 +2,10 @@
   "schema_version": 2,
   "source": {
     "repository": "vtherm_smartpi",
-    "revision": "976905c938be42114961f0242d4c9fea71b827bc",
+    "revision": "110675da4141a7f7fb2913dd7b1b8cef4237f1da",
     "live": "tests/fixtures/published_diagnostics_paths.json",
     "history": "custom_components/vtherm_smartpi/smartpi/diagnostic_history.py",
-    "response_lag_additions": "User-provided contract for upcoming SmartPI 0.6.0: episodes and episodes_target; publisher revision unavailable."
+    "version": "0.6.2"
   },
   "live": [
     "analysis",
@@ -300,7 +300,10 @@
     "valve.vt_period_min"
   ],
   "history": [
+    "control/kp",
+    "control/ki",
     "temperature/indoor",
+    "temperature/integral_error",
     "setpoint/filtered_setpoint",
     "power/applied_percent",
     "power/command_percent",

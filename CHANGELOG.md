@@ -2,6 +2,14 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.5
+
+- Add a 12-hour integral history in the SmartPI Command section, displaying the recorded integral state in °C·min.
+- Add a 12-hour Kp/Ki history with separate Y axes and physical units for each gain.
+- Add unit metadata for the three new SmartPI Recorder attributes in the general history viewer.
+- Clarify gradual integral release during stalled recoveries and excess integral reduction during thermal protection cuts, matching SmartPI 0.6.2 behavior.
+- The new history charts require SmartPI 0.6.2 or later and recorded diagnostics. Older periods without these attributes remain unavailable.
+
 ## 0.4.4
 
 - Show SmartPI heating-phase counts and the response-delay resolution target, and explain phases interrupted by a restart.
