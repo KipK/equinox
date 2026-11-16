@@ -526,3 +526,82 @@ test("desktop and mobile selection retain all existing IDs and translated sectio
   dialog.activeSectionId = "removed-id";
   assert.equal(dialog._activeSectionId(), "overview");
 });
+
+const fftrimReasonPaths = ["live/feedforward/fftrim/last_reject_reason", "live/feedforward/fftrim/periodic/last_reject_reason", "live/feedforward/fftrim/transfer/reason"];
+const fftrimReason = (path, code, language = "en") => {
+  const live = {};
+  const keys = path.split("/").slice(1);
+  const leaf = keys.pop();
+  keys.reduce((node, key) => (node[key] ??= {}), live)[leaf] = code;
+  const view = renderer(live);
+  view.language = language;
+  return templateText(view._renderStatus(sectionPath("fftrim", path)));
+};
+
+test("FFTrim reason codes published by SmartPI have English and French labels", () => {
+  const observer = ["trajectory_active", "hvac_off", "pi_unstable", "guard_cut", "saturated", "washout", "invalid_measurement",
+    "hvac_mode_changed", "pi_missing", "invalid_model", "invalid_model_sign", "invalid_hvac_mode", "non_finite_result", "incomplete_observer_result",
+    "saturation_unknown", "power_shedding", "missing_sensor", "calibration", "hysteresis", "missing_e_eff", "partial_cycle", "pi_missing_mode",
+    "pi_pending_stability", "pi_deadband_freeze", "pi_deadband_shell_hold", "pi_near_band_stable", "periodic_ownership_not_covered",
+    "periodic_regime_changed", "periodic_gains_changed", "periodic_ff_changed", "periodic_power_range", "periodic_outdoor_temperature_missing",
+    "periodic_outdoor_temperature_unstable", "saturated_high", "cycle_not_closed"];
+  const transfer = ["quasi_equilibrium", "ownership_not_covered", "transfer_not_deadband", "transfer_i_not_frozen", "transfer_ff3_active",
+    "transfer_temperature_noise", "transfer_mean_error", "transfer_sample_error", "transfer_slope", "transfer_outdoor_temperature_missing",
+    "transfer_outdoor_temperature_unstable", "transfer_ff_unstable", "transfer_p_active", "transfer_i_unstable", "transfer_invalid_ki",
+    "transfer_delivery_residual", "invalid_proposal", "invalid_transfer_proposal", "quiet_delta", "non_finite_transfer", "invalid_ki",
+    "ff_branch_clamped", "command_clamped", "integral_sign_changed", "integral_bias_changed", "no_atomic_headroom", "transfer_invariant",
+    "incomplete_transfer_result", "ff1_changed", "trim_state_changed", "application_not_deadband", "application_i_not_frozen",
+    "application_saturated", "application_trajectory", "application_calibration", "application_guard", "application_setpoint_changed",
+    "application_recovery", "application_ff3", "application_timing", "application_output_limited", "application_timing_output",
+    "i_transfer_capacity", "i_transfer_crosses_zero", "i_transfer_clamped", "i_transfer_sign", "invalid_i_transfer", "no_i_transfer",
+    "i_transfer_applied", "quiet_trim_delta"];
+  for (const [path, codes] of [[fftrimReasonPaths[0], observer], [fftrimReasonPaths[1], observer], [fftrimReasonPaths[2], [...observer, ...transfer]]]) {
+    for (const code of codes) {
+      for (const language of ["en", "fr"]) {
+        const rendered = fftrimReason(path, code, language);
+        assert.doesNotMatch(rendered, /status-pill raw/u, `${path} ${code} ${language} shows its raw code`);
+        assert.ok(rendered.includes("status-pill"), `${path} ${code} ${language}`);
+      }
+    }
+  }
+  assert.match(fftrimReason(fftrimReasonPaths[2], "quasi_equilibrium"), /Quasi-equilibrium confirmed|Confirmed quasi-equilibrium|quasi-equilibrium/i);
+  assert.match(fftrimReason(fftrimReasonPaths[0], "hvac_off", "fr"), /Chauffage à l’arrêt/);
+  assert.match(fftrimReason(fftrimReasonPaths[0], "guard_cut"), /Protection cut/);
+});
+
+test("generated FFTrim codes keep their prefix, translate the suffix and fall back to the raw code", () => {
+  const [stationary, periodic, transfer] = fftrimReasonPaths;
+  for (const [path, code, english, french] of [
+    [stationary, "frozen_reboot", /Trim frozen: recent restart/, /Trim gelé : redémarrage récent/],
+    [stationary, "frozen_saturated_high", /Trim frozen: high saturation/, /Trim gelé : saturation haute/],
+    [stationary, "frozen_ab_ab_bad", /A\/B model bad/, /modèle A\/B mauvais/],
+    [stationary, "regime_hold", /Unsuitable regime: integral held/, /Régime non propice : intégrale maintenue/],
+    [periodic, "regime_warmup", /hysteresis start-up/, /démarrage par hystérésis/],
+    [stationary, "pi_mode_I:HOLD", /Integral not neutral: integral held/, /Intégrateur non neutre : intégrale maintenue/],
+    [stationary, "pi_mode_I:HOLD(window_resume)", /integral held \(resume after open window\)/, /intégrale maintenue \(reprise après fenêtre ouverte\)/],
+    [transfer, "pi_mode_I:OVERRIDE(guard_cut)", /command overridden \(protection cut\)/, /commande forcée \(coupure de protection\)/],
+    [transfer, "pi_mode_I:UNWIND(SAT_HI)", /integral unwind \(high saturation\)/, /décharge de l’intégrale \(saturation haute\)/],
+    [stationary, "error_-0.456", /Mean error too large: -0.456 °C/, /Écart moyen trop grand : -0.456 °C/],
+    [stationary, "slope_0.321", /Mean slope too steep: 0.321 °C\/h/, /Pente moyenne trop forte : 0.321 °C\/h/],
+    [periodic, "periodic_constraint_output_limited", /Periodic cycle constrained: command limited/, /Cycle périodique contraint : commande limitée/],
+    [transfer, "transfer_constraint_phase_Calibration", /Transfer constrained: forced calibration/, /Transfert contraint : calibration forcée/],
+    [transfer, "pending_2/3", /Confirming: 2\/3/, /Confirmation en cours : 2\/3/]]) {
+    assert.match(fftrimReason(path, code, "en"), english, `${path} ${code}`);
+    assert.match(fftrimReason(path, code, "fr"), french, `${path} ${code}`);
+    assert.match(fftrimReason(path, code, "en"), /tone="?muted"?|tone="?info"?/);
+  }
+  // A known prefix with an unknown suffix keeps the suffix as is; an unknown prefix shows the raw code with fallback styling.
+  assert.match(fftrimReason(stationary, "frozen_future_reason"), /Trim frozen: future_reason/);
+  assert.match(fftrimReason(stationary, "pi_mode_I:FUTURE(argument)"), /Integral not neutral: I:FUTURE\(argument\)/);
+  assert.match(fftrimReason(stationary, "pi_mode_I:HOLD(future_source)"), /integral held \(future_source\)/);
+  for (const path of fftrimReasonPaths) {
+    const rendered = fftrimReason(path, "future_code");
+    assert.match(rendered, /future_code/);
+    assert.match(rendered, /tone="?muted"?/);
+    assert.match(rendered, /status-pill raw/);
+  }
+  // The longest exact entry wins over a prefix, and a bare prefix is not a generated code.
+  assert.match(fftrimReason(transfer, "transfer_slope"), /Temperature still sloping/);
+  assert.match(fftrimReason(stationary, "frozen_"), /frozen_/);
+  assert.match(fftrimReason(stationary, "frozen_"), /status-pill raw/);
+});

@@ -122,6 +122,7 @@ export interface RegulationDashboardStatusItem extends RegulationDashboardBaseIt
   source: RegulationDashboardSource;
   path?: RegulationDashboardPath;
   map: Record<string, RegulationDashboardStatusMapEntry>;
+  prefix_map?: Record<string, RegulationDashboardStatusPrefixEntry>;
   ranges?: RegulationDashboardStatusRangeEntry[];
   fallback?: RegulationDashboardStatusMapEntry;
   fallback_show_value?: boolean;
@@ -138,6 +139,11 @@ export interface RegulationDashboardStatusMapEntry extends RegulationDashboardLa
   icon?: string;
   description?: string;
   description_key?: string;
+}
+
+export interface RegulationDashboardStatusPrefixEntry extends RegulationDashboardStatusMapEntry {
+  suffix_map?: Record<string, RegulationDashboardLabelFields>;
+  argument_map?: Record<string, RegulationDashboardLabelFields>;
 }
 
 export interface RegulationDashboardStatusRangeEntry extends RegulationDashboardStatusMapEntry {

@@ -225,7 +225,11 @@ the cut. Equinox shows the published state without calculating a release
 temperature or countdown; missing states remain `--` and unknown codes remain
 visible with neutral styling.
 
-FF3 and thermal-twin statuses are grouped in Model and prediction. FFTrim uses
+FF3 and thermal-twin statuses are grouped in Model and prediction. The FFTrim
+rejection and transfer reasons (`last_reject_reason` of the observers and
+`transfer/reason`) have FR/EN labels for every code SmartPI publishes, including
+generated codes (`frozen_…`, `regime_…`, `pi_mode_…`, `error_…`, `slope_…`,
+`*_constraint_…`, `pending_…`) through `prefix_map`. FFTrim uses
 `live/feedforward/fftrim/{stationary,periodic,transfer,last_result,last_transaction}`.
 Its published `live/feedforward/fftrim/command_ownership` namespace includes
 `receipts_supported`, `kind`, `alterations` and `rejection_counts`; the built-in
@@ -695,6 +699,8 @@ Fields:
 | `value_unit`, `value_unit_key` | no | string | Unit appended to the displayed value. |
 | `value_digits` | no | number | Decimal digits for the displayed value. |
 
+| `prefix_map` | no | object | Labels for generated codes made of a known prefix and a variable suffix, used when no exact `map` key matches. See below. |
+
 Map entry fields:
 
 | Field | Type | Notes |
@@ -757,6 +763,33 @@ An exact `map` or `ranges` match shows only its mapped label. An unknown value
 uses the neutral fallback styling but displays only its raw string or boolean
 code. This avoids adding a redundant generic “unknown” label and does not change
 the existing `show_value` behavior for numeric statuses.
+
+Generated codes such as `frozen_reboot` or `pi_mode_I:HOLD(window_resume)` use
+`prefix_map`. Its keys are prefixes (the longest match wins). An entry carries the
+usual `label`/`label_key`, `tone` and `icon`, where the label places the translated
+suffix at `{value}` (or appends it in parentheses without a placeholder), plus two
+optional maps of label fields: `suffix_map` for the exact suffix, and, for a suffix
+shaped like `KIND(argument)`, `suffix_map` for `KIND` and `argument_map` for
+`argument`. A suffix without a label is shown as is; a value without a matching
+prefix uses `fallback`.
+
+```json
+{
+  "type": "status",
+  "source": "diagnostic",
+  "path": "live/feedforward/fftrim/last_reject_reason",
+  "map": {},
+  "prefix_map": {
+    "frozen_": {
+      "label": "Trim frozen: {value}",
+      "tone": "muted",
+      "suffix_map": { "reboot": { "label": "recent restart" } }
+    }
+  },
+  "fallback": { "tone": "muted", "icon": "mdi:help-circle-outline" },
+  "fallback_show_value": true
+}
+```
 
 Numeric range example:
 
