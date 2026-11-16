@@ -4,6 +4,10 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.6-dev
 
+- SmartPI: the integral guard is gone, so its source and the guard integral modes are no longer shown. The emitter delay text for a morning not confirmed now reads "less than 1.5 hours" at the low setpoint.
+- Label every SmartPI FFTrim rejection and transfer reason in French and English, including generated codes (frozen trim, regime, integral mode, constraint, pending confirmation), through a new `prefix_map` on `status` blocks. Unknown codes still show their raw value.
+- Room model: translate the current refusal reasons (quiet periods, heat balance checks) in French and English.
+- Emitter delay: show the gain reference delay, the limit applied to the learned value and its reason, the lower bound from comfort steps cut by sunrise, the confirmation of the last evaluation and local dates (`YYYY-MM-DD`).
 - Load 24 hours by default in the Room model charts, with a time-range selector for longer periods on demand, to reduce initial history volume, especially for SmartPI debug recordings.
 - Add SmartPI 0.7 Room model and Emitter delay tabs with French and English states, model comparison, forecasts, forecast accuracy against unchanged temperature, and applied/learned delay diagnostics.
 - Show the feedforward holding source and wall contribution in Command, with a source timeline and wall power overlaid on FF/PI history.

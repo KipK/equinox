@@ -590,7 +590,7 @@ test("room identification guidance handles learning, coarse sensors, unsupported
     ["not identified: valve heaters are not supported yet", "Not identified: valve heaters are not supported yet"]
   ]) {
     const view = renderer({ room_model: { status: code, a: 0.2, b_eq: 0.001,
-      last_refusal_reason: "waiting for a second series of nights to confirm" } });
+      last_refusal_reason: "waiting for a second series of quiet periods to confirm" } });
     assert.ok(templateText(view._renderStatus(status)).includes(label));
     assert.equal(templateText(view._renderItem(waiting)) !== "", !["identified", "simple model"].includes(code));
     assert.equal(templateText(view._renderItem(sensor)) !== "", code === "simple model");
@@ -724,4 +724,176 @@ test("new histories keep coefficient units, recorded forecast errors and applied
     assert.equal(config.debugPerformance, false);
     for (const item of config.series) assert.equal(item.unit, units[item.attribute.join(".")]);
   }
+});
+
+test("emitter delay shows the gain reference, the limit on the learned value and the lower bound", () => {
+  const live = { tar_learning: { status: "active", source: "lower_bound", applied_s: 1200, gains_s: 600, bootstrap_s: 600, reference_s: 600,
+    out_of_bound: true, limit_reason: "learned delay shorter than the reference: the gains keep the reference dead time",
+    fast: { value_s: null, confirmed_mornings: 0, lower_bound_s: 540, lower_bound_mornings: 2 } } };
+  const view = renderer(live);
+  for (const [path, expected] of [["reference_s", "10m"], ["fast/lower_bound_s", "9m"], ["fast/lower_bound_mornings", "2"]]) {
+    assert.equal(view._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), expected);
+  }
+  const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
+  for (const [language, source, limit, bounded] of [
+    ["en", /Lower bound \(rise cut by sunrise\)/, /Learned delay shorter than the reference/, /Learned value limited/],
+    ["fr", /Borne basse \(montée coupée par le lever du soleil\)/, /Retard appris plus court que la référence/, /Valeur apprise limitée/]]) {
+    view.language = language;
+    assert.match(render("source"), source);
+    assert.match(render("limit_reason"), limit);
+    assert.match(render("out_of_bound"), bounded);
+  }
+  const limit = sectionPath("tar_learning", "live/tar_learning/limit_reason");
+  assert.deepEqual(limit.visible_if, { var: "diagnostic/live/tar_learning/limit_reason" });
+  view.language = "en";
+  live.tar_learning.limit_reason = "future limit";
+  assert.match(render("limit_reason"), /future limit/);
+  assert.match(render("limit_reason"), /tone="?muted"?/);
+  for (const absent of [null, undefined]) {
+    const none = renderer({ tar_learning: { limit_reason: absent, reference_s: absent, fast: { lower_bound_s: absent, lower_bound_mornings: absent } } });
+    for (const path of ["reference_s", "fast/lower_bound_s", "fast/lower_bound_mornings"]) {
+      assert.equal(none._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), "--");
+    }
+  }
+  assert.match(translate(dashboard, "fr", "notes.emitter.bounds"), /référence/);
+  assert.doesNotMatch(translate(dashboard, "en", "notes.emitter.bounds"), /half and twice/);
+});
+
+test("emitter evaluation dates are local dates, with confirmation and the 0.7 comfort step reasons", () => {
+  const live = { tar_learning: { fast: { last_morning: { day: "2026-11-12", accepted: false, confirmed: false,
+    reason: "comfort step cut by sunrise: gives only a lower bound of the delay, not a value",
+    unconfirmed_reason: "the room did not reach its low setpoint before the comfort step" } },
+  refined: { last_evaluation: { day: "2026-11-13", regulated_nights: true } } } };
+  const view = renderer(live);
+  assert.equal(view._formatSourceValue(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/day")), "2026-11-12");
+  assert.equal(view._formatSourceValue(sectionPath("tar_learning", "live/tar_learning/refined/last_evaluation/day")), "2026-11-13");
+  assert.equal(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/day").digits, undefined);
+  const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
+  for (const language of ["en", "fr"]) {
+    view.language = language;
+    assert.match(render("fast/last_morning/confirmed"), language === "fr" ? /Non confirmé/ : /Unconfirmed/);
+    assert.match(render("fast/last_morning/unconfirmed_reason"), language === "fr" ? /n’a pas atteint sa consigne basse/ : /did not reach its low setpoint/);
+    assert.match(render("fast/last_morning/reason"), language === "fr" ? /ne donne qu’une borne basse/ : /gives only a lower bound/);
+  }
+  assert.doesNotMatch(JSON.stringify(section("tar_learning")), /kept as a lower bound/u);
+  for (const [code, english] of [
+    ["home position unknown: the absence of sun cannot be checked", /Home position unknown/],
+    ["comfort step in daylight", /Comfort step in daylight/],
+    ["no quiet period before the comfort step (dark, constant setpoint and valid data for at least 1 hour)", /No quiet period/],
+    ["low setpoint not held in the dark with valid data for the 2 hours before the comfort step", /Low setpoint not held in the dark/],
+    ["sunrise too soon after the comfort step", /Sunrise too soon/],
+    ["comfort step cut by sunrise before its response could be measured", /cut by sunrise before its response/],
+    ["setpoint restored after a restart, not a comfort step", /Setpoint restored after a restart/]]) {
+    live.tar_learning.fast.last_morning.reason = code;
+    view.language = "en";
+    assert.match(render("fast/last_morning/reason"), english);
+    assert.match(render("fast/last_morning/reason"), /tone="?(muted|info)"?/);
+  }
+  const unconfirmed = renderer({ tar_learning: { fast: { last_morning: { confirmed: true, unconfirmed_reason: null, reason: "future reason" } } } });
+  assert.deepEqual(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/unconfirmed_reason").visible_if,
+    { var: "diagnostic/live/tar_learning/fast/last_morning/unconfirmed_reason" });
+  assert.match(templateText(unconfirmed._renderStatus(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/reason"))), /future reason/);
+});
+
+const fftrimReasonPaths = ["live/feedforward/fftrim/last_reject_reason", "live/feedforward/fftrim/periodic/last_reject_reason", "live/feedforward/fftrim/transfer/reason"];
+const fftrimReason = (path, code, language = "en") => {
+  const live = {};
+  const keys = path.split("/").slice(1);
+  const leaf = keys.pop();
+  keys.reduce((node, key) => (node[key] ??= {}), live)[leaf] = code;
+  const view = renderer(live);
+  view.language = language;
+  return templateText(view._renderStatus(sectionPath("fftrim", path)));
+};
+
+test("FFTrim reason codes published by SmartPI have English and French labels", () => {
+  const observer = ["trajectory_active", "hvac_off", "pi_unstable", "guard_cut", "saturated", "washout", "invalid_measurement",
+    "hvac_mode_changed", "pi_missing", "invalid_model", "invalid_model_sign", "invalid_hvac_mode", "non_finite_result", "incomplete_observer_result",
+    "saturation_unknown", "power_shedding", "missing_sensor", "calibration", "hysteresis", "missing_e_eff", "partial_cycle", "pi_missing_mode",
+    "pi_pending_stability", "pi_deadband_freeze", "pi_deadband_shell_hold", "pi_near_band_stable", "periodic_ownership_not_covered",
+    "periodic_regime_changed", "periodic_gains_changed", "periodic_ff_changed", "periodic_power_range", "periodic_outdoor_temperature_missing",
+    "periodic_outdoor_temperature_unstable", "saturated_high", "cycle_not_closed"];
+  const transfer = ["quasi_equilibrium", "ownership_not_covered", "transfer_not_deadband", "transfer_i_not_frozen", "transfer_ff3_active",
+    "transfer_temperature_noise", "transfer_mean_error", "transfer_sample_error", "transfer_slope", "transfer_outdoor_temperature_missing",
+    "transfer_outdoor_temperature_unstable", "transfer_ff_unstable", "transfer_p_active", "transfer_i_unstable", "transfer_invalid_ki",
+    "transfer_delivery_residual", "invalid_proposal", "invalid_transfer_proposal", "quiet_delta", "non_finite_transfer", "invalid_ki",
+    "ff_branch_clamped", "command_clamped", "integral_sign_changed", "integral_bias_changed", "no_atomic_headroom", "transfer_invariant",
+    "incomplete_transfer_result", "ff1_changed", "trim_state_changed", "application_not_deadband", "application_i_not_frozen",
+    "application_saturated", "application_trajectory", "application_calibration", "application_guard", "application_setpoint_changed",
+    "application_recovery", "application_ff3", "application_timing", "application_output_limited", "application_timing_output",
+    "i_transfer_capacity", "i_transfer_crosses_zero", "i_transfer_clamped", "i_transfer_sign", "invalid_i_transfer", "no_i_transfer",
+    "i_transfer_applied", "quiet_trim_delta"];
+  for (const [path, codes] of [[fftrimReasonPaths[0], observer], [fftrimReasonPaths[1], observer], [fftrimReasonPaths[2], [...observer, ...transfer]]]) {
+    for (const code of codes) {
+      for (const language of ["en", "fr"]) {
+        const rendered = fftrimReason(path, code, language);
+        assert.doesNotMatch(rendered, /status-pill raw/u, `${path} ${code} ${language} shows its raw code`);
+        assert.ok(rendered.includes("status-pill"), `${path} ${code} ${language}`);
+      }
+    }
+  }
+  assert.match(fftrimReason(fftrimReasonPaths[2], "quasi_equilibrium"), /Quasi-equilibrium confirmed|Confirmed quasi-equilibrium|quasi-equilibrium/i);
+  assert.match(fftrimReason(fftrimReasonPaths[0], "hvac_off", "fr"), /Chauffage à l’arrêt/);
+  assert.match(fftrimReason(fftrimReasonPaths[0], "guard_cut"), /Protection cut/);
+});
+
+test("generated FFTrim codes keep their prefix, translate the suffix and fall back to the raw code", () => {
+  const [stationary, periodic, transfer] = fftrimReasonPaths;
+  for (const [path, code, english, french] of [
+    [stationary, "frozen_reboot", /Trim frozen: recent restart/, /Trim gelé : redémarrage récent/],
+    [stationary, "frozen_saturated_high", /Trim frozen: high saturation/, /Trim gelé : saturation haute/],
+    [stationary, "frozen_room_model", /holding power given by the room model/, /donnée par le modèle de pièce/],
+    [stationary, "frozen_ab_ab_bad", /A\/B model bad/, /modèle A\/B mauvais/],
+    [stationary, "regime_hold", /Unsuitable regime: integral held/, /Régime non propice : intégrale maintenue/],
+    [periodic, "regime_warmup", /hysteresis start-up/, /démarrage par hystérésis/],
+    [stationary, "pi_mode_I:HOLD", /Integral not neutral: integral held/, /Intégrateur non neutre : intégrale maintenue/],
+    [stationary, "pi_mode_I:HOLD(window_resume)", /integral held \(resume after open window\)/, /intégrale maintenue \(reprise après fenêtre ouverte\)/],
+    [transfer, "pi_mode_I:OVERRIDE(guard_cut)", /command overridden \(protection cut\)/, /commande forcée \(coupure de protection\)/],
+    [transfer, "pi_mode_I:UNWIND(SAT_HI)", /integral unwind \(high saturation\)/, /décharge de l’intégrale \(saturation haute\)/],
+    [stationary, "error_-0.456", /Mean error too large: -0.456 °C/, /Écart moyen trop grand : -0.456 °C/],
+    [stationary, "slope_0.321", /Mean slope too steep: 0.321 °C\/h/, /Pente moyenne trop forte : 0.321 °C\/h/],
+    [periodic, "periodic_constraint_output_limited", /Periodic cycle constrained: command limited/, /Cycle périodique contraint : commande limitée/],
+    [transfer, "transfer_constraint_phase_Calibration", /Transfer constrained: forced calibration/, /Transfert contraint : calibration forcée/],
+    [transfer, "pending_2/3", /Confirming: 2\/3/, /Confirmation en cours : 2\/3/]]) {
+    assert.match(fftrimReason(path, code, "en"), english, `${path} ${code}`);
+    assert.match(fftrimReason(path, code, "fr"), french, `${path} ${code}`);
+    assert.match(fftrimReason(path, code, "en"), /tone="?muted"?|tone="?info"?/);
+  }
+  // A known prefix with an unknown suffix keeps the suffix as is; an unknown prefix shows the raw code with fallback styling.
+  assert.match(fftrimReason(stationary, "frozen_future_reason"), /Trim frozen: future_reason/);
+  assert.match(fftrimReason(stationary, "pi_mode_I:FUTURE(argument)"), /Integral not neutral: I:FUTURE\(argument\)/);
+  assert.match(fftrimReason(stationary, "pi_mode_I:HOLD(future_source)"), /integral held \(future_source\)/);
+  for (const path of fftrimReasonPaths) {
+    const rendered = fftrimReason(path, "future_code");
+    assert.match(rendered, /future_code/);
+    assert.match(rendered, /tone="?muted"?/);
+    assert.match(rendered, /status-pill raw/);
+  }
+  // The longest exact entry wins over a prefix, and a bare prefix is not a generated code.
+  assert.match(fftrimReason(transfer, "transfer_slope"), /Temperature still sloping/);
+  assert.match(fftrimReason(stationary, "frozen_"), /frozen_/);
+  assert.match(fftrimReason(stationary, "frozen_"), /status-pill raw/);
+});
+
+test("room model refusals use the current quiet-period wording and cover the heat balance checks", () => {
+  const status = sectionPath("room_model", "live/room_model/status");
+  const refusal = sectionPath("room_model", "live/room_model/last_refusal_reason");
+  for (const [code, english, french] of [
+    ["the recorded data do not cover the quiet periods", /recorded data do not cover/, /ne couvrent pas encore les périodes calmes/],
+    ["too few valid measurements in the quiet periods", /Too few valid measurements/, /Trop peu de mesures valides/],
+    ["the quiet periods do not determine the model precisely enough yet", /do not determine the model/, /ne déterminent pas encore le modèle/],
+    ["the model's heat loss disagrees with the measured heat balance", /heat loss disagrees/, /ne concordent pas avec le bilan thermique/],
+    ["waiting for a qualified heat balance to check the model's heat loss", /qualified heat balance/, /bilan thermique qualifié/]]) {
+    const view = renderer({ room_model: { last_refusal_reason: code } });
+    assert.match(templateText(view._renderStatus(refusal)), english);
+    assert.doesNotMatch(templateText(view._renderStatus(refusal)), /status-pill raw/);
+    view.language = "fr";
+    assert.match(templateText(view._renderStatus(refusal)), french);
+  }
+  for (const [code, english] of [["not identified: the model's heat loss disagrees with the measured heat balance", /Not identified: the model's heat loss disagrees/],
+    ["not identified: the quiet periods do not determine the model precisely enough yet", /Not identified: the quiet periods/]]) {
+    assert.match(templateText(renderer({ room_model: { status: code } })._renderStatus(status)), english);
+  }
+  // Waiting reasons keep the status at `learning`, so no `not identified` status exists for them.
+  assert.ok(!Object.keys(status.map).some((key) => /recorded data|heat balance to check|second series/u.test(key)));
 });

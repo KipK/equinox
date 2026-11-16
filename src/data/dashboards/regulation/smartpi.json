@@ -88,7 +88,6 @@
       "metrics.integral_mode": "Mode intégrale",
       "metrics.integral_hold": "Maintien intégrale",
       "metrics.integral_hold_source": "Source du maintien intégral",
-      "metrics.integral_guard_source": "Source de protection intégrale",
       "metrics.restart_reason": "Raison du redémarrage",
       "metrics.autocalib_state": "Autocalibration",
       "metrics.autocalib_degraded": "Modèle dégradé",
@@ -414,21 +413,21 @@
       "metrics.room.status.0": "Apprentissage en cours",
       "metrics.room.status.1": "Modèle avec murs identifié",
       "metrics.room.status.2": "Modèle simple sans murs",
-      "metrics.room.status.3": "Non identifié : Pas encore assez de nuits enregistrées",
-      "metrics.room.status.4": "Non identifié : Retard de chauffe encore inconnu",
-      "metrics.room.status.5": "Non identifié : Trop peu de mesures nocturnes valides",
-      "metrics.room.status.6": "Non identifié : Apports ou pertes de chaleur détectés pendant les nuits",
-      "metrics.room.status.7": "Non identifié : Trop peu de chauffage pendant les nuits",
-      "metrics.room.status.8": "Non identifié : Écart de température intérieur/extérieur trop faible",
-      "metrics.room.status.9": "Non identifié : Le modèle n’a pas pu être ajusté",
-      "metrics.room.status.10": "Non identifié : Valeurs hors de la plage plausible",
-      "metrics.room.status.11": "Non identifié : Le modèle ne suit pas assez bien la température mesurée",
-      "metrics.room.status.12": "Non identifié : En attente d’une seconde série de nuits pour confirmation",
-      "metrics.room.status.13": "Non identifié : Deux séries de nuits successives ne concordent pas",
-      "metrics.room.status.14": "Non identifié : Le modèle ne prévoit pas assez bien les nuits suivantes",
-      "metrics.room.status.15": "Non identifié : Échec du calcul",
-      "metrics.room.status.16": "Non identifié : Le retard de chauffe ne correspond pas à la température mesurée",
-      "metrics.room.status.17": "Non identifié : La réponse de chauffe diffère trop de celle mesurée par la régulation",
+      "metrics.room.status.3": "Non identifié : Retard de chauffe encore inconnu",
+      "metrics.room.status.4": "Non identifié : Trop peu de mesures valides pendant les périodes calmes",
+      "metrics.room.status.5": "Non identifié : Apports ou pertes de chaleur détectés pendant les périodes calmes",
+      "metrics.room.status.6": "Non identifié : Trop peu de chauffage pendant les périodes calmes",
+      "metrics.room.status.7": "Non identifié : Écart de température intérieur/extérieur trop faible",
+      "metrics.room.status.8": "Non identifié : Le modèle n’a pas pu être ajusté",
+      "metrics.room.status.9": "Non identifié : Valeurs hors de la plage plausible",
+      "metrics.room.status.10": "Non identifié : Le modèle ne suit pas assez bien la température mesurée",
+      "metrics.room.status.11": "Non identifié : Deux séries de périodes calmes successives ne concordent pas",
+      "metrics.room.status.12": "Non identifié : Le modèle ne prévoit pas assez bien les périodes calmes suivantes",
+      "metrics.room.status.13": "Non identifié : Les périodes calmes ne déterminent pas encore le modèle assez précisément",
+      "metrics.room.status.14": "Non identifié : Échec du calcul",
+      "metrics.room.status.15": "Non identifié : Le retard de chauffe ne correspond pas à la température mesurée",
+      "metrics.room.status.16": "Non identifié : La réponse de chauffe diffère trop de celle mesurée par la régulation",
+      "metrics.room.status.17": "Non identifié : Les pertes du modèle ne concordent pas avec le bilan thermique mesuré",
       "metrics.room.status.18": "Non identifié : Les émetteurs à vanne ne sont pas encore pris en charge",
       "metrics.room.status.19": "Non identifié : Bibliothèques de calcul indisponibles",
       "metrics.room.status": "État du modèle",
@@ -450,24 +449,27 @@
       "metrics.room.walls.3": "Non identifiés : confirmation en attente",
       "metrics.room.walls.4": "Non identifiés : pas de gain face au modèle simple",
       "metrics.room.walls": "Identification des murs",
-      "metrics.room.refusal.0": "Pas encore assez de nuits enregistrées",
+      "metrics.room.refusal": "Dernier refus de publication",
+      "metrics.room.refusal.0": "Les données enregistrées ne couvrent pas encore les périodes calmes",
       "metrics.room.refusal.1": "Retard de chauffe encore inconnu",
-      "metrics.room.refusal.2": "Trop peu de mesures nocturnes valides",
-      "metrics.room.refusal.3": "Apports ou pertes de chaleur détectés pendant les nuits",
-      "metrics.room.refusal.4": "Trop peu de chauffage pendant les nuits",
+      "metrics.room.refusal.2": "Trop peu de mesures valides pendant les périodes calmes",
+      "metrics.room.refusal.3": "Apports ou pertes de chaleur détectés pendant les périodes calmes",
+      "metrics.room.refusal.4": "Trop peu de chauffage pendant les périodes calmes",
       "metrics.room.refusal.5": "Écart de température intérieur/extérieur trop faible",
       "metrics.room.refusal.6": "Le modèle n’a pas pu être ajusté",
       "metrics.room.refusal.7": "Valeurs hors de la plage plausible",
       "metrics.room.refusal.8": "Le modèle ne suit pas assez bien la température mesurée",
-      "metrics.room.refusal.9": "En attente d’une seconde série de nuits pour confirmation",
-      "metrics.room.refusal.10": "Deux séries de nuits successives ne concordent pas",
-      "metrics.room.refusal.11": "Le modèle ne prévoit pas assez bien les nuits suivantes",
-      "metrics.room.refusal.12": "Échec du calcul",
-      "metrics.room.refusal.13": "Le retard de chauffe ne correspond pas à la température mesurée",
-      "metrics.room.refusal.14": "La réponse de chauffe diffère trop de celle mesurée par la régulation",
-      "metrics.room.refusal.15": "Les émetteurs à vanne ne sont pas encore pris en charge",
-      "metrics.room.refusal.16": "Bibliothèques de calcul indisponibles",
-      "metrics.room.refusal": "Dernier refus de publication",
+      "metrics.room.refusal.9": "En attente d’une seconde série de périodes calmes pour confirmation",
+      "metrics.room.refusal.10": "Deux séries de périodes calmes successives ne concordent pas",
+      "metrics.room.refusal.11": "Le modèle ne prévoit pas assez bien les périodes calmes suivantes",
+      "metrics.room.refusal.12": "Les périodes calmes ne déterminent pas encore le modèle assez précisément",
+      "metrics.room.refusal.13": "Échec du calcul",
+      "metrics.room.refusal.14": "Le retard de chauffe ne correspond pas à la température mesurée",
+      "metrics.room.refusal.15": "La réponse de chauffe diffère trop de celle mesurée par la régulation",
+      "metrics.room.refusal.16": "Les pertes du modèle ne concordent pas avec le bilan thermique mesuré",
+      "metrics.room.refusal.17": "En attente d’un bilan thermique qualifié pour vérifier les pertes du modèle",
+      "metrics.room.refusal.18": "Les émetteurs à vanne ne sont pas encore pris en charge",
+      "metrics.room.refusal.19": "Bibliothèques de calcul indisponibles",
       "notes.room.waiting": "Une première identification demande environ 6 jours de nuits enregistrées avec du chauffage. Une sonde par pas de 0,1 °C ne permet pas d’identifier les murs : il faut des pas de 0,015 °C ou moins ; un modèle simple peut toutefois être publié. Les émetteurs à vanne ne sont pas pris en charge.",
       "notes.room.sensor": "Les murs demandent une sonde dont les pas sont de 0,015 °C ou moins. Avec une sonde à 0,1 °C, seul le modèle simple peut être identifié. Une vanne ne permet pas encore d’identifier la pièce ni ses murs.",
       "metrics.room.day": "Valeurs en service depuis",
@@ -509,7 +511,7 @@
       "graphs.room.errors": "Évolution de la justesse des prévisions",
       "notes.room.history": "Les courbes de paramètres comparent a sur une échelle et b / b_eq sur l’autre, dans leurs unités physiques. Les courbes d’erreur montrent la justesse à 1 h et 12 h. Les températures prévues, la référence « température inchangée » et les nombres de vérifications sont des valeurs courantes seulement.",
       "sections.room_model.title": "Modèle de pièce",
-      "notes.emitter.intro": "L’apprentissage du retard de l’émetteur est toujours actif, sans option à activer, en chauffage PWM. Il est indépendant de la pause de l’apprentissage A/B et n’est pas pris en charge avec une vanne. La valeur affinée est prioritaire, puis celle des matins, puis la mesure initiale.",
+      "notes.emitter.intro": "L’apprentissage du retard de l’émetteur est toujours actif, sans option à activer, en chauffage PWM. Il est indépendant de la pause de l’apprentissage A/B et n’est pas pris en charge avec une vanne. La valeur affinée est prioritaire, puis celle des matins ; une borne basse peut la relever. Sans valeur apprise, la mesure initiale est utilisée.",
       "metrics.emitter.status.0": "Apprentissage actif",
       "metrics.emitter.status.1": "Vérification des bibliothèques de calcul",
       "metrics.emitter.status.2": "Bibliothèques indisponibles : mesure initiale utilisée",
@@ -518,29 +520,42 @@
       "metrics.emitter.source.0": "Mesure initiale",
       "metrics.emitter.source.1": "Apprentissage des matins",
       "metrics.emitter.source.2": "Identification affinée",
+      "metrics.emitter.source.3": "Borne basse (montée coupée par le lever du soleil)",
       "metrics.emitter.source": "Origine du retard appliqué",
       "metrics.emitter.applied": "Retard appliqué",
       "metrics.emitter.gains": "Retard utilisé par les gains",
       "metrics.emitter.bootstrap": "Mesure initiale conservée",
+      "metrics.emitter.reference": "Retard de référence des gains",
       "groups.emitter.applied": "Retard utilisé par la régulation",
-      "metrics.emitter.out_of_bound.0": "Hors limites : retour à la mesure initiale",
-      "metrics.emitter.out_of_bound.1": "Aucun dépassement signalé",
-      "metrics.emitter.out_of_bound": "Valeur apprise hors limites",
-      "notes.emitter.bounds": "Une valeur apprise ne s’applique qu’entre la moitié et le double du retard initial. Les gains utilisent la moitié du retard appris appliqué ; avec la mesure initiale, ils utilisent sa valeur entière. La mesure initiale n’est jamais modifiée.",
+      "metrics.emitter.out_of_bound.0": "Valeur apprise limitée",
+      "metrics.emitter.out_of_bound.1": "Aucune limite appliquée",
+      "metrics.emitter.out_of_bound": "Limite sur la valeur apprise",
+      "metrics.emitter.limit": "Raison de la limite",
+      "metrics.emitter.limit.0": "Retard appris plus court que la référence : les gains gardent le temps mort de référence",
+      "metrics.emitter.limit.1": "Retard appris supérieur au double de la référence et non confirmé par une seconde méthode : les gains utilisent le double du temps mort de référence",
+      "notes.emitter.bounds": "Les gains attendent un retard apparent : ils comparent la moitié du retard appris à une référence, la plus grande de la première mesure initiale conservée depuis le début de l’apprentissage et de la mesure initiale actuelle. Si cette moitié est plus courte que la référence, les gains gardent la référence. Jusqu’à deux fois la référence, ils utilisent cette moitié. Au-delà, ils l’utilisent seulement si la valeur des matins et celle de l’identification concordent à un facteur 1,25 près ; sinon ils utilisent le double de la référence. Une borne basse n’est jamais confirmée ainsi. La mesure initiale n’est jamais modifiée.",
       "metrics.emitter.fast": "Valeur publiée des matins",
       "metrics.emitter.confirmed": "Matins confirmés",
       "metrics.emitter.last_value": "Dernier matin accepté : retard",
+      "metrics.emitter.lower_bound": "Borne basse du retard",
+      "metrics.emitter.lower_bound_count": "Bornes basses confirmées",
       "groups.emitter.fast": "Apprentissage des matins",
       "metrics.emitter.confirmation.0": "Matin confirmé",
       "metrics.emitter.confirmation.1": "Matin non confirmé : valeur inutilisée",
       "metrics.emitter.confirmation.2": "Aucun matin accepté",
       "metrics.emitter.confirmation": "Confirmation du dernier matin accepté",
-      "metrics.emitter.unconfirmed_reason.0": "Au moins 1 h sans chauffe entre 23 h et le passage en confort",
+      "metrics.emitter.unconfirmed_reason.0": "Au moins 1 h sans chauffe alors que la pièce était régulée à sa consigne basse avant le passage en confort",
+      "metrics.emitter.unconfirmed_reason.1": "La pièce n’a pas atteint sa consigne basse avant le passage en confort",
+      "metrics.emitter.unconfirmed_reason.2": "La pièce est restée régulée à sa consigne basse moins de 1 h 30 avant le passage en confort",
       "metrics.emitter.unconfirmed_reason": "Raison de non-confirmation",
       "metrics.emitter.last_day": "Dernier matin évalué",
       "metrics.emitter.accepted.0": "Oui",
       "metrics.emitter.accepted.1": "Non",
       "metrics.emitter.accepted": "Évaluation acceptée",
+      "metrics.emitter.morning_confirmed.0": "Confirmé",
+      "metrics.emitter.morning_confirmed.1": "Non confirmé : valeur ou borne inutilisée",
+      "metrics.emitter.morning_confirmed": "Confirmation de cette évaluation",
+      "metrics.emitter.morning_unconfirmed_reason": "Raison de non-confirmation de cette évaluation",
       "metrics.emitter.morning_reason.0": "Matin accepté",
       "metrics.emitter.morning_reason.1": "Échec du calcul",
       "metrics.emitter.morning_reason.2": "Données manquantes ou exclues autour du passage en confort",
@@ -568,12 +583,20 @@
       "metrics.emitter.morning_reason.24": "SmartPI hors de la régulation stable (calibration)",
       "metrics.emitter.morning_reason.25": "SmartPI hors de la régulation stable (stable)",
       "metrics.emitter.morning_reason.26": "SmartPI hors de la régulation stable (dégradée)",
+      "metrics.emitter.morning_reason.27": "Position du domicile inconnue : l’absence de soleil ne peut pas être vérifiée",
+      "metrics.emitter.morning_reason.28": "Passage en confort en plein jour",
+      "metrics.emitter.morning_reason.29": "Aucune période calme avant le passage en confort (nuit, consigne constante et données valides pendant au moins 1 h)",
+      "metrics.emitter.morning_reason.30": "Consigne basse non tenue dans l’obscurité, avec des données valides, pendant les 2 h avant le passage en confort",
+      "metrics.emitter.morning_reason.31": "Lever du soleil trop proche après le passage en confort",
+      "metrics.emitter.morning_reason.32": "Passage en confort coupé par le lever du soleil avant que sa réponse puisse être mesurée",
+      "metrics.emitter.morning_reason.33": "Passage en confort coupé par le lever du soleil : ne donne qu’une borne basse du retard, pas une valeur",
+      "metrics.emitter.morning_reason.34": "Consigne rétablie après un redémarrage, pas un passage en confort",
       "metrics.emitter.morning_reason": "Résultat du dernier matin évalué",
       "metrics.emitter.morning_class.0": "Pièce avec inertie thermique",
       "metrics.emitter.morning_class.1": "Pièce sans inertie thermique détectée",
       "metrics.emitter.morning_class.2": "Type de pièce indéterminé",
       "metrics.emitter.morning_class": "Type de pièce de ce matin",
-      "notes.emitter.fast": "La valeur des matins demande au moins 3 matins confirmés et cohérents, après une hausse de consigne d’au moins 1 °C entre 3 h et 10 h. Un matin non confirmé reste visible mais sa valeur n’est pas utilisée.",
+      "notes.emitter.fast": "La valeur des matins demande au moins 3 passages en confort confirmés et cohérents : une hausse de consigne d’au moins 1 °C, à toute heure, après une consigne basse tenue dans l’obscurité. Quand le lever du soleil coupe la montée trop tôt, le passage ne donne qu’une borne basse du retard, jamais une valeur. Un passage non confirmé reste visible mais n’est pas utilisé.",
       "metrics.emitter.refined": "Retard affiné publié τe",
       "metrics.emitter.coupling": "Couplage air-murs",
       "metrics.emitter.wall_time": "Constante de temps des murs",
@@ -604,7 +627,152 @@
       "notes.emitter.data": "Une raison d’exclusion indique que les données courantes ne servent pas à cet apprentissage. « -- » signifie qu’aucune raison n’est fournie ; cela ne prouve pas que l’apprentissage est terminé.",
       "graphs.emitter.applied": "Retard appliqué",
       "graphs.emitter.delay": "Retard de chauffe appliqué",
-      "sections.tar_learning.title": "Retard de l’émetteur"
+      "sections.tar_learning.title": "Retard de l’émetteur",
+      "status.fftrim.reason.washout": "Purge après une perturbation",
+      "status.fftrim.reason.invalid_measurement": "Mesure invalide",
+      "status.fftrim.reason.hvac_mode_changed": "Mode HVAC modifié",
+      "status.fftrim.reason.pi_missing": "Commande PI absente",
+      "status.fftrim.reason.invalid_model": "Modèle thermique invalide",
+      "status.fftrim.reason.invalid_model_sign": "Signe du modèle thermique invalide",
+      "status.fftrim.reason.invalid_hvac_mode": "Mode HVAC non pris en charge",
+      "status.fftrim.reason.non_finite_result": "Résultat non numérique",
+      "status.fftrim.reason.incomplete_observer_result": "Résultat d’observation incomplet",
+      "status.fftrim.reason.saturation_unknown": "État de saturation inconnu",
+      "status.fftrim.reason.hvac_off": "Chauffage à l’arrêt",
+      "status.fftrim.reason.power_shedding": "Délestage",
+      "status.fftrim.reason.missing_sensor": "Capteur indisponible",
+      "status.fftrim.reason.guard_cut": "Coupure de protection",
+      "status.fftrim.reason.calibration": "Calibration en cours",
+      "status.fftrim.reason.hysteresis": "Phase d’hystérésis",
+      "status.fftrim.reason.missing_e_eff": "Puissance appliquée inconnue",
+      "status.fftrim.reason.partial_cycle": "Cycle incomplet",
+      "status.fftrim.reason.periodic_ownership_not_covered": "Répartition de la commande non couverte pendant le cycle",
+      "status.fftrim.reason.periodic_regime_changed": "Régime modifié pendant le cycle",
+      "status.fftrim.reason.periodic_gains_changed": "Gains modifiés pendant le cycle",
+      "status.fftrim.reason.periodic_ff_changed": "Feed-forward modifié pendant le cycle",
+      "status.fftrim.reason.periodic_power_range": "Variation de puissance trop faible sur le cycle",
+      "status.fftrim.reason.periodic_outdoor_temperature_missing": "Température extérieure manquante pendant le cycle",
+      "status.fftrim.reason.periodic_outdoor_temperature_unstable": "Température extérieure instable pendant le cycle",
+      "status.fftrim.reason.pi_missing_mode": "Mode de l’intégrateur absent",
+      "status.fftrim.reason.pi_pending_stability": "Stabilité de la branche PI en attente",
+      "status.fftrim.reason.pi_deadband_freeze": "Intégrale gelée en bande morte",
+      "status.fftrim.reason.pi_deadband_shell_hold": "Intégrale maintenue dans l’hystérésis de la bande morte",
+      "status.fftrim.reason.pi_near_band_stable": "Branche PI stable près de la consigne",
+      "status.fftrim.suffix.frozen.reboot": "redémarrage récent",
+      "status.fftrim.suffix.frozen.ab_ab_degraded": "modèle A/B dégradé",
+      "status.fftrim.suffix.frozen.ab_ab_bad": "modèle A/B mauvais",
+      "status.fftrim.suffix.frozen.ff_warmup": "feed-forward en montée en charge",
+      "status.fftrim.suffix.frozen.saturated_high": "saturation haute",
+      "status.fftrim.suffix.frozen.saturated": "commande saturée",
+      "status.fftrim.suffix.frozen.perturbed": "perturbation externe",
+      "status.fftrim.suffix.frozen.degraded": "mode dégradé",
+      "status.fftrim.suffix.frozen.room_model": "puissance de maintien donnée par le modèle de pièce",
+      "status.fftrim.prefix.frozen": "Trim gelé : {value}",
+      "status.fftrim.suffix.regime.warmup": "démarrage par hystérésis",
+      "status.fftrim.suffix.regime.excited_stable": "régulation active",
+      "status.fftrim.suffix.regime.hold": "intégrale maintenue",
+      "status.fftrim.suffix.regime.perturbed": "perturbation externe",
+      "status.fftrim.suffix.regime.degraded": "mode dégradé",
+      "status.fftrim.suffix.regime.saturated": "commande saturée",
+      "status.fftrim.suffix.regime.near_band": "proche de la consigne",
+      "status.fftrim.suffix.regime.dead_band": "bande morte",
+      "status.fftrim.prefix.regime": "Régime non propice : {value}",
+      "status.fftrim.suffix.i_kind.I:RUN": "intégration normale",
+      "status.fftrim.suffix.i_kind.I:SKIP": "intégration suspendue",
+      "status.fftrim.suffix.i_kind.I:HOLD": "intégrale maintenue",
+      "status.fftrim.suffix.i_kind.I:CLAMP": "intégrale bornée",
+      "status.fftrim.suffix.i_kind.I:UNWIND": "décharge de l’intégrale",
+      "status.fftrim.suffix.i_kind.I:FREEZE": "intégrale gelée",
+      "status.fftrim.suffix.i_kind.I:RESET": "remise à zéro",
+      "status.fftrim.suffix.i_kind.I:OVERRIDE": "commande forcée",
+      "status.fftrim.suffix.i_kind.None": "absent",
+      "status.fftrim.suffix.i_argument.setpoint_change": "changement de consigne",
+      "status.fftrim.suffix.i_argument.off_resume": "reprise après arrêt",
+      "status.fftrim.suffix.i_argument.window_resume": "reprise après fenêtre ouverte",
+      "status.fftrim.suffix.i_argument.power_shedding_resume": "reprise après délestage",
+      "status.fftrim.suffix.i_argument.disturbance_recovery": "récupération après perturbation",
+      "status.fftrim.suffix.i_argument.recovery_guard": "garde de récupération",
+      "status.fftrim.suffix.i_argument.SAT_HI": "saturation haute",
+      "status.fftrim.suffix.i_argument.SAT_LO": "saturation basse",
+      "status.fftrim.suffix.i_argument.near_ovr": "dépassement près de la consigne",
+      "status.fftrim.suffix.i_argument.hvac_off": "chauffage à l’arrêt",
+      "status.fftrim.suffix.i_argument.guard_cut": "coupure de protection",
+      "status.fftrim.suffix.i_argument.deadband": "bande morte",
+      "status.fftrim.suffix.i_argument.regime_transition": "changement de régime",
+      "status.fftrim.suffix.i_argument.sensor_invalid": "capteur invalide",
+      "status.fftrim.suffix.i_argument.dead_band": "bande morte",
+      "status.fftrim.suffix.i_argument.near_band": "proche de la consigne",
+      "status.fftrim.suffix.i_argument.warmup": "démarrage",
+      "status.fftrim.suffix.i_argument.hold": "maintien",
+      "status.fftrim.suffix.i_argument.perturbed": "perturbation externe",
+      "status.fftrim.suffix.i_argument.saturation": "saturation",
+      "status.fftrim.suffix.i_argument.system_inefficient": "système inefficace",
+      "status.fftrim.prefix.pi_mode": "Intégrateur non neutre : {value}",
+      "status.fftrim.prefix.error": "Écart moyen trop grand : {value} °C",
+      "status.fftrim.prefix.slope": "Pente moyenne trop forte : {value} °C/h",
+      "status.fftrim.suffix.constraint.saturated_high": "saturation haute",
+      "status.fftrim.suffix.constraint.saturated_low": "saturation basse",
+      "status.fftrim.suffix.constraint.trajectory": "trajectoire active",
+      "status.fftrim.suffix.constraint.phase_Hysteresis": "phase d’hystérésis",
+      "status.fftrim.suffix.constraint.phase_Calibration": "calibration forcée",
+      "status.fftrim.suffix.constraint.guard": "protection active",
+      "status.fftrim.suffix.constraint.setpoint_changed": "consigne modifiée",
+      "status.fftrim.suffix.constraint.recovery": "reprise en cours",
+      "status.fftrim.suffix.constraint.timing": "durée minimale marche/arrêt",
+      "status.fftrim.suffix.constraint.output_limited": "commande limitée",
+      "status.fftrim.suffix.constraint.timing_output": "sortie ajustée par le découpage",
+      "status.fftrim.suffix.constraint.ff3": "FF3 actif",
+      "status.fftrim.prefix.periodic_constraint": "Cycle périodique contraint : {value}",
+      "status.fftrim.transfer.reason.ownership_not_covered": "Répartition de la commande non couverte",
+      "status.fftrim.transfer.reason.transfer_not_deadband": "Hors bande morte : pas de transfert",
+      "status.fftrim.transfer.reason.transfer_i_not_frozen": "Intégrale non gelée",
+      "status.fftrim.transfer.reason.transfer_ff3_active": "FF3 actif",
+      "status.fftrim.transfer.reason.transfer_temperature_noise": "Température trop bruitée",
+      "status.fftrim.transfer.reason.transfer_mean_error": "Écart moyen à la consigne trop grand",
+      "status.fftrim.transfer.reason.transfer_sample_error": "Écart ponctuel à la consigne trop grand",
+      "status.fftrim.transfer.reason.transfer_slope": "Température encore en pente",
+      "status.fftrim.transfer.reason.transfer_outdoor_temperature_missing": "Température extérieure manquante",
+      "status.fftrim.transfer.reason.transfer_outdoor_temperature_unstable": "Température extérieure instable",
+      "status.fftrim.transfer.reason.transfer_ff_unstable": "Feed-forward instable",
+      "status.fftrim.transfer.reason.transfer_p_active": "Action proportionnelle trop active",
+      "status.fftrim.transfer.reason.transfer_i_unstable": "Intégrale instable",
+      "status.fftrim.transfer.reason.transfer_invalid_ki": "Gain Ki invalide",
+      "status.fftrim.transfer.reason.transfer_delivery_residual": "Puissance livrée trop éloignée du modèle",
+      "status.fftrim.transfer.reason.invalid_proposal": "Proposition de correction invalide",
+      "status.fftrim.transfer.reason.invalid_transfer_proposal": "Proposition de transfert invalide",
+      "status.fftrim.transfer.reason.quiet_delta": "Correction négligeable",
+      "status.fftrim.transfer.reason.non_finite_transfer": "Transfert non numérique",
+      "status.fftrim.transfer.reason.invalid_ki": "Gain Ki invalide",
+      "status.fftrim.transfer.reason.ff_branch_clamped": "Branche feed-forward bornée",
+      "status.fftrim.transfer.reason.command_clamped": "Commande bornée",
+      "status.fftrim.transfer.reason.integral_sign_changed": "Signe de l’intégrale modifié",
+      "status.fftrim.transfer.reason.integral_bias_changed": "Biais de l’intégrale modifié",
+      "status.fftrim.transfer.reason.no_atomic_headroom": "Aucune marge pour un transfert atomique",
+      "status.fftrim.transfer.reason.transfer_invariant": "Invariant du transfert non respecté",
+      "status.fftrim.transfer.reason.incomplete_transfer_result": "Résultat de transfert incomplet",
+      "status.fftrim.transfer.reason.ff1_changed": "Feed-forward de base modifié",
+      "status.fftrim.transfer.reason.trim_state_changed": "État du trim modifié",
+      "status.fftrim.transfer.reason.application_not_deadband": "Application : plus en bande morte",
+      "status.fftrim.transfer.reason.application_i_not_frozen": "Application : intégrale non gelée",
+      "status.fftrim.transfer.reason.application_saturated": "Application : commande saturée",
+      "status.fftrim.transfer.reason.application_trajectory": "Application : trajectoire active",
+      "status.fftrim.transfer.reason.application_calibration": "Application : calibration en cours",
+      "status.fftrim.transfer.reason.application_guard": "Application : protection active",
+      "status.fftrim.transfer.reason.application_setpoint_changed": "Application : consigne modifiée",
+      "status.fftrim.transfer.reason.application_recovery": "Application : reprise en cours",
+      "status.fftrim.transfer.reason.application_ff3": "Application : FF3 actif",
+      "status.fftrim.transfer.reason.application_timing": "Application : durée minimale marche/arrêt imposée",
+      "status.fftrim.transfer.reason.application_output_limited": "Application : commande limitée",
+      "status.fftrim.transfer.reason.application_timing_output": "Application : sortie ajustée par le découpage",
+      "status.fftrim.transfer.reason.i_transfer_capacity": "Intégrale insuffisante pour le transfert",
+      "status.fftrim.transfer.reason.i_transfer_crosses_zero": "Le transfert franchirait zéro",
+      "status.fftrim.transfer.reason.i_transfer_clamped": "Transfert d’intégrale borné",
+      "status.fftrim.transfer.reason.i_transfer_sign": "Transfert de signe opposé à l’intégrale",
+      "status.fftrim.transfer.reason.invalid_i_transfer": "Transfert d’intégrale invalide",
+      "status.fftrim.transfer.reason.no_i_transfer": "Aucun transfert d’intégrale nécessaire",
+      "status.fftrim.transfer.reason.i_transfer_applied": "Transfert d’intégrale appliqué",
+      "status.fftrim.prefix.transfer_constraint": "Transfert contraint : {value}",
+      "status.fftrim.prefix.pending": "Confirmation en cours : {value}"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -690,7 +858,6 @@
       "metrics.integral_mode": "Integral mode",
       "metrics.integral_hold": "Integral hold",
       "metrics.integral_hold_source": "Integral hold source",
-      "metrics.integral_guard_source": "Integral guard source",
       "metrics.restart_reason": "Restart reason",
       "metrics.autocalib_state": "Auto-calibration",
       "metrics.autocalib_degraded": "Model degraded",
@@ -1016,21 +1183,21 @@
       "metrics.room.status.0": "Learning",
       "metrics.room.status.1": "Model with walls identified",
       "metrics.room.status.2": "Simple model without walls",
-      "metrics.room.status.3": "Not identified: not enough recorded nights yet",
-      "metrics.room.status.4": "Not identified: heating response delay not known yet",
-      "metrics.room.status.5": "Not identified: too few valid night measurements",
-      "metrics.room.status.6": "Not identified: heat gains or losses detected during the nights",
-      "metrics.room.status.7": "Not identified: too little heating during the nights",
-      "metrics.room.status.8": "Not identified: indoor-outdoor temperature difference too small",
-      "metrics.room.status.9": "Not identified: the model could not be fitted",
-      "metrics.room.status.10": "Not identified: values out of the plausible range",
-      "metrics.room.status.11": "Not identified: the model does not follow the measured temperature closely enough",
-      "metrics.room.status.12": "Not identified: waiting for a second series of nights to confirm",
-      "metrics.room.status.13": "Not identified: two successive series of nights disagree",
-      "metrics.room.status.14": "Not identified: the model does not predict the following nights well enough",
-      "metrics.room.status.15": "Not identified: computation failed",
-      "metrics.room.status.16": "Not identified: the heating response delay does not match the measured temperature",
-      "metrics.room.status.17": "Not identified: the heating response differs too much from the one measured by the regulation",
+      "metrics.room.status.3": "Not identified: heating response delay not known yet",
+      "metrics.room.status.4": "Not identified: too few valid measurements in the quiet periods",
+      "metrics.room.status.5": "Not identified: heat gains or losses detected during the quiet periods",
+      "metrics.room.status.6": "Not identified: too little heating during the quiet periods",
+      "metrics.room.status.7": "Not identified: indoor-outdoor temperature difference too small",
+      "metrics.room.status.8": "Not identified: the model could not be fitted",
+      "metrics.room.status.9": "Not identified: values out of the plausible range",
+      "metrics.room.status.10": "Not identified: the model does not follow the measured temperature closely enough",
+      "metrics.room.status.11": "Not identified: two successive series of quiet periods disagree",
+      "metrics.room.status.12": "Not identified: the model does not predict the following quiet periods well enough",
+      "metrics.room.status.13": "Not identified: the quiet periods do not determine the model precisely enough yet",
+      "metrics.room.status.14": "Not identified: computation failed",
+      "metrics.room.status.15": "Not identified: the heating response delay does not match the measured temperature",
+      "metrics.room.status.16": "Not identified: the heating response differs too much from the one measured by the regulation",
+      "metrics.room.status.17": "Not identified: the model's heat loss disagrees with the measured heat balance",
       "metrics.room.status.18": "Not identified: valve heaters are not supported yet",
       "metrics.room.status.19": "Not identified: numerical libraries unavailable",
       "metrics.room.status": "Model status",
@@ -1052,24 +1219,27 @@
       "metrics.room.walls.3": "Not identified: not confirmed yet",
       "metrics.room.walls.4": "Not identified: no better than the simple model",
       "metrics.room.walls": "Wall identification",
-      "metrics.room.refusal.0": "Not enough recorded nights yet",
+      "metrics.room.refusal": "Latest publication refusal",
+      "metrics.room.refusal.0": "The recorded data do not cover the quiet periods yet",
       "metrics.room.refusal.1": "Heating response delay not known yet",
-      "metrics.room.refusal.2": "Too few valid night measurements",
-      "metrics.room.refusal.3": "Heat gains or losses detected during the nights",
-      "metrics.room.refusal.4": "Too little heating during the nights",
+      "metrics.room.refusal.2": "Too few valid measurements in the quiet periods",
+      "metrics.room.refusal.3": "Heat gains or losses detected during the quiet periods",
+      "metrics.room.refusal.4": "Too little heating during the quiet periods",
       "metrics.room.refusal.5": "Indoor-outdoor temperature difference too small",
       "metrics.room.refusal.6": "The model could not be fitted",
       "metrics.room.refusal.7": "Values out of the plausible range",
       "metrics.room.refusal.8": "The model does not follow the measured temperature closely enough",
-      "metrics.room.refusal.9": "Waiting for a second series of nights to confirm",
-      "metrics.room.refusal.10": "Two successive series of nights disagree",
-      "metrics.room.refusal.11": "The model does not predict the following nights well enough",
-      "metrics.room.refusal.12": "Computation failed",
-      "metrics.room.refusal.13": "The heating response delay does not match the measured temperature",
-      "metrics.room.refusal.14": "The heating response differs too much from the one measured by the regulation",
-      "metrics.room.refusal.15": "Valve heaters are not supported yet",
-      "metrics.room.refusal.16": "Numerical libraries unavailable",
-      "metrics.room.refusal": "Latest publication refusal",
+      "metrics.room.refusal.9": "Waiting for a second series of quiet periods to confirm",
+      "metrics.room.refusal.10": "Two successive series of quiet periods disagree",
+      "metrics.room.refusal.11": "The model does not predict the following quiet periods well enough",
+      "metrics.room.refusal.12": "The quiet periods do not determine the model precisely enough yet",
+      "metrics.room.refusal.13": "Computation failed",
+      "metrics.room.refusal.14": "The heating response delay does not match the measured temperature",
+      "metrics.room.refusal.15": "The heating response differs too much from the one measured by the regulation",
+      "metrics.room.refusal.16": "The model's heat loss disagrees with the measured heat balance",
+      "metrics.room.refusal.17": "Waiting for a qualified heat balance to check the model's heat loss",
+      "metrics.room.refusal.18": "Valve heaters are not supported yet",
+      "metrics.room.refusal.19": "Numerical libraries unavailable",
       "notes.room.waiting": "A first identification needs about 6 days of recorded nights with some heating. A sensor in 0.1 °C steps cannot identify the walls: steps of 0.015 °C or less are needed; a simple model can still be published. Valve heaters are not supported.",
       "notes.room.sensor": "Walls require a sensor with steps of 0.015 °C or less. With a 0.1 °C sensor, only the simple model can be identified. A valve cannot yet identify the room or its walls.",
       "metrics.room.day": "Values in use since",
@@ -1111,7 +1281,7 @@
       "graphs.room.errors": "Forecast accuracy over time",
       "notes.room.history": "The parameter curves compare a on one scale and b / b_eq on the other, in their physical units. The error curves show accuracy at 1 h and 12 h. Forecast temperatures, the unchanged-temperature reference and check counts are current values only.",
       "sections.room_model.title": "Room model",
-      "notes.emitter.intro": "Emitter delay learning is always enabled, with no option to turn on, in PWM heating. It is independent of the A/B learning pause and is not supported with a valve. The refined value takes priority, then the morning value, then the initial measurement.",
+      "notes.emitter.intro": "Emitter delay learning is always enabled, with no option to turn on, in PWM heating. It is independent of the A/B learning pause and is not supported with a valve. The refined value takes priority, then the morning value; a lower bound can raise it. Without a learned value, the initial measurement is used.",
       "metrics.emitter.status.0": "Learning active",
       "metrics.emitter.status.1": "Checking numerical libraries",
       "metrics.emitter.status.2": "Libraries unavailable: initial measurement in use",
@@ -1120,29 +1290,42 @@
       "metrics.emitter.source.0": "Initial measurement",
       "metrics.emitter.source.1": "Morning learning",
       "metrics.emitter.source.2": "Refined identification",
+      "metrics.emitter.source.3": "Lower bound (rise cut by sunrise)",
       "metrics.emitter.source": "Applied delay source",
       "metrics.emitter.applied": "Applied delay",
       "metrics.emitter.gains": "Delay used by gains",
       "metrics.emitter.bootstrap": "Preserved initial measurement",
+      "metrics.emitter.reference": "Gain reference delay",
       "groups.emitter.applied": "Delay used by regulation",
-      "metrics.emitter.out_of_bound.0": "Out of bounds: initial measurement in use",
-      "metrics.emitter.out_of_bound.1": "No out-of-bound value reported",
-      "metrics.emitter.out_of_bound": "Learned value out of bounds",
-      "notes.emitter.bounds": "A learned value is applied only between half and twice the initial delay. Gains use half of the applied learned delay; with the initial measurement, they use its full value. The initial measurement is never modified.",
+      "metrics.emitter.out_of_bound.0": "Learned value limited",
+      "metrics.emitter.out_of_bound.1": "No limit applied",
+      "metrics.emitter.out_of_bound": "Limit on the learned value",
+      "metrics.emitter.limit": "Reason for the limit",
+      "metrics.emitter.limit.0": "Learned delay shorter than the reference: the gains keep the reference dead time",
+      "metrics.emitter.limit.1": "Learned delay above twice the reference and not confirmed by a second method: the gains use twice the reference dead time",
+      "notes.emitter.bounds": "The gains expect an apparent delay: they compare half the learned delay with a reference, the larger of the first initial measurement kept since learning started and the current initial measurement. If that half is shorter than the reference, the gains keep the reference. Up to twice the reference, they use that half. Above, they use it only when the morning value and the identification value agree within a factor of 1.25; otherwise they use twice the reference. A lower bound is never confirmed this way. The initial measurement is never modified.",
       "metrics.emitter.fast": "Published morning value",
       "metrics.emitter.confirmed": "Confirmed mornings",
       "metrics.emitter.last_value": "Last accepted morning: delay",
+      "metrics.emitter.lower_bound": "Lower bound of the delay",
+      "metrics.emitter.lower_bound_count": "Confirmed lower bounds",
       "groups.emitter.fast": "Morning learning",
       "metrics.emitter.confirmation.0": "Morning confirmed",
       "metrics.emitter.confirmation.1": "Morning unconfirmed: value unused",
       "metrics.emitter.confirmation.2": "No accepted morning",
       "metrics.emitter.confirmation": "Last accepted morning confirmation",
-      "metrics.emitter.unconfirmed_reason.0": "At least 1 h without heating between 23:00 and the comfort step",
+      "metrics.emitter.unconfirmed_reason.0": "At least 1 hour without heating while the room was regulated at its low setpoint before the comfort step",
+      "metrics.emitter.unconfirmed_reason.1": "The room did not reach its low setpoint before the comfort step",
+      "metrics.emitter.unconfirmed_reason.2": "The room was regulated at its low setpoint for less than 1.5 hours before the comfort step",
       "metrics.emitter.unconfirmed_reason": "Reason for non-confirmation",
       "metrics.emitter.last_day": "Last evaluated morning",
       "metrics.emitter.accepted.0": "Yes",
       "metrics.emitter.accepted.1": "No",
       "metrics.emitter.accepted": "Evaluation accepted",
+      "metrics.emitter.morning_confirmed.0": "Confirmed",
+      "metrics.emitter.morning_confirmed.1": "Unconfirmed: value or bound unused",
+      "metrics.emitter.morning_confirmed": "Confirmation of this evaluation",
+      "metrics.emitter.morning_unconfirmed_reason": "Reason this evaluation is not confirmed",
       "metrics.emitter.morning_reason.0": "Accepted",
       "metrics.emitter.morning_reason.1": "Computation failed",
       "metrics.emitter.morning_reason.2": "Missing or excluded data around the comfort step",
@@ -1170,12 +1353,20 @@
       "metrics.emitter.morning_reason.24": "SmartPI not in steady regulation (calibration)",
       "metrics.emitter.morning_reason.25": "SmartPI not in steady regulation (stable)",
       "metrics.emitter.morning_reason.26": "SmartPI not in steady regulation (degraded)",
+      "metrics.emitter.morning_reason.27": "Home position unknown: the absence of sun cannot be checked",
+      "metrics.emitter.morning_reason.28": "Comfort step in daylight",
+      "metrics.emitter.morning_reason.29": "No quiet period before the comfort step (dark, constant setpoint and valid data for at least 1 hour)",
+      "metrics.emitter.morning_reason.30": "Low setpoint not held in the dark with valid data for the 2 hours before the comfort step",
+      "metrics.emitter.morning_reason.31": "Sunrise too soon after the comfort step",
+      "metrics.emitter.morning_reason.32": "Comfort step cut by sunrise before its response could be measured",
+      "metrics.emitter.morning_reason.33": "Comfort step cut by sunrise: gives only a lower bound of the delay, not a value",
+      "metrics.emitter.morning_reason.34": "Setpoint restored after a restart, not a comfort step",
       "metrics.emitter.morning_reason": "Last evaluated morning outcome",
       "metrics.emitter.morning_class.0": "Room with thermal mass",
       "metrics.emitter.morning_class.1": "Room without detected thermal mass",
       "metrics.emitter.morning_class.2": "Room type undetermined",
       "metrics.emitter.morning_class": "Room type for this morning",
-      "notes.emitter.fast": "The morning value needs at least 3 consistent confirmed mornings, after a setpoint rise of at least 1 °C between 03:00 and 10:00. An unconfirmed morning stays visible but its value is not used.",
+      "notes.emitter.fast": "The morning value needs at least 3 confirmed, consistent comfort steps: a setpoint rise of at least 1 °C, at any hour, after a low setpoint held in the dark. When sunrise cuts the rise too early, the step gives only a lower bound of the delay, never a value. An unconfirmed step stays visible but is not used.",
       "metrics.emitter.refined": "Published refined delay τe",
       "metrics.emitter.coupling": "Air-wall coupling",
       "metrics.emitter.wall_time": "Wall time constant",
@@ -1206,7 +1397,152 @@
       "notes.emitter.data": "An exclusion reason means the current data are not used for this learning. “--” means no reason is supplied; it does not establish that learning is complete.",
       "graphs.emitter.applied": "Applied delay",
       "graphs.emitter.delay": "Applied heating delay",
-      "sections.tar_learning.title": "Emitter delay"
+      "sections.tar_learning.title": "Emitter delay",
+      "status.fftrim.reason.washout": "Washing out after a disturbance",
+      "status.fftrim.reason.invalid_measurement": "Invalid measurement",
+      "status.fftrim.reason.hvac_mode_changed": "HVAC mode changed",
+      "status.fftrim.reason.pi_missing": "PI command missing",
+      "status.fftrim.reason.invalid_model": "Invalid thermal model",
+      "status.fftrim.reason.invalid_model_sign": "Invalid thermal model sign",
+      "status.fftrim.reason.invalid_hvac_mode": "Unsupported HVAC mode",
+      "status.fftrim.reason.non_finite_result": "Non-numeric result",
+      "status.fftrim.reason.incomplete_observer_result": "Incomplete observation result",
+      "status.fftrim.reason.saturation_unknown": "Saturation state unknown",
+      "status.fftrim.reason.hvac_off": "Heating off",
+      "status.fftrim.reason.power_shedding": "Power shedding",
+      "status.fftrim.reason.missing_sensor": "Sensor unavailable",
+      "status.fftrim.reason.guard_cut": "Protection cut",
+      "status.fftrim.reason.calibration": "Calibration in progress",
+      "status.fftrim.reason.hysteresis": "Hysteresis phase",
+      "status.fftrim.reason.missing_e_eff": "Applied power unknown",
+      "status.fftrim.reason.partial_cycle": "Incomplete cycle",
+      "status.fftrim.reason.periodic_ownership_not_covered": "Command split not covered during the cycle",
+      "status.fftrim.reason.periodic_regime_changed": "Regime changed during the cycle",
+      "status.fftrim.reason.periodic_gains_changed": "Gains changed during the cycle",
+      "status.fftrim.reason.periodic_ff_changed": "Feed-forward changed during the cycle",
+      "status.fftrim.reason.periodic_power_range": "Power swing too small over the cycle",
+      "status.fftrim.reason.periodic_outdoor_temperature_missing": "Outdoor temperature missing during the cycle",
+      "status.fftrim.reason.periodic_outdoor_temperature_unstable": "Outdoor temperature unstable during the cycle",
+      "status.fftrim.reason.pi_missing_mode": "Integral mode missing",
+      "status.fftrim.reason.pi_pending_stability": "Waiting for the PI branch to settle",
+      "status.fftrim.reason.pi_deadband_freeze": "Integral frozen in the deadband",
+      "status.fftrim.reason.pi_deadband_shell_hold": "Integral held within the deadband hysteresis",
+      "status.fftrim.reason.pi_near_band_stable": "PI branch steady near the setpoint",
+      "status.fftrim.suffix.frozen.reboot": "recent restart",
+      "status.fftrim.suffix.frozen.ab_ab_degraded": "A/B model degraded",
+      "status.fftrim.suffix.frozen.ab_ab_bad": "A/B model bad",
+      "status.fftrim.suffix.frozen.ff_warmup": "feed-forward warming up",
+      "status.fftrim.suffix.frozen.saturated_high": "high saturation",
+      "status.fftrim.suffix.frozen.saturated": "saturated command",
+      "status.fftrim.suffix.frozen.perturbed": "external disturbance",
+      "status.fftrim.suffix.frozen.degraded": "degraded mode",
+      "status.fftrim.suffix.frozen.room_model": "holding power given by the room model",
+      "status.fftrim.prefix.frozen": "Trim frozen: {value}",
+      "status.fftrim.suffix.regime.warmup": "hysteresis start-up",
+      "status.fftrim.suffix.regime.excited_stable": "active regulation",
+      "status.fftrim.suffix.regime.hold": "integral held",
+      "status.fftrim.suffix.regime.perturbed": "external disturbance",
+      "status.fftrim.suffix.regime.degraded": "degraded mode",
+      "status.fftrim.suffix.regime.saturated": "saturated command",
+      "status.fftrim.suffix.regime.near_band": "near the setpoint",
+      "status.fftrim.suffix.regime.dead_band": "deadband",
+      "status.fftrim.prefix.regime": "Unsuitable regime: {value}",
+      "status.fftrim.suffix.i_kind.I:RUN": "normal integration",
+      "status.fftrim.suffix.i_kind.I:SKIP": "integration skipped",
+      "status.fftrim.suffix.i_kind.I:HOLD": "integral held",
+      "status.fftrim.suffix.i_kind.I:CLAMP": "integral clamped",
+      "status.fftrim.suffix.i_kind.I:UNWIND": "integral unwind",
+      "status.fftrim.suffix.i_kind.I:FREEZE": "integral frozen",
+      "status.fftrim.suffix.i_kind.I:RESET": "reset",
+      "status.fftrim.suffix.i_kind.I:OVERRIDE": "command overridden",
+      "status.fftrim.suffix.i_kind.None": "missing",
+      "status.fftrim.suffix.i_argument.setpoint_change": "setpoint change",
+      "status.fftrim.suffix.i_argument.off_resume": "resume after off",
+      "status.fftrim.suffix.i_argument.window_resume": "resume after open window",
+      "status.fftrim.suffix.i_argument.power_shedding_resume": "resume after power shedding",
+      "status.fftrim.suffix.i_argument.disturbance_recovery": "disturbance recovery",
+      "status.fftrim.suffix.i_argument.recovery_guard": "recovery guard",
+      "status.fftrim.suffix.i_argument.SAT_HI": "high saturation",
+      "status.fftrim.suffix.i_argument.SAT_LO": "low saturation",
+      "status.fftrim.suffix.i_argument.near_ovr": "overshoot near the setpoint",
+      "status.fftrim.suffix.i_argument.hvac_off": "heating off",
+      "status.fftrim.suffix.i_argument.guard_cut": "protection cut",
+      "status.fftrim.suffix.i_argument.deadband": "deadband",
+      "status.fftrim.suffix.i_argument.regime_transition": "regime change",
+      "status.fftrim.suffix.i_argument.sensor_invalid": "invalid sensor",
+      "status.fftrim.suffix.i_argument.dead_band": "deadband",
+      "status.fftrim.suffix.i_argument.near_band": "near the setpoint",
+      "status.fftrim.suffix.i_argument.warmup": "warm-up",
+      "status.fftrim.suffix.i_argument.hold": "hold",
+      "status.fftrim.suffix.i_argument.perturbed": "external disturbance",
+      "status.fftrim.suffix.i_argument.saturation": "saturation",
+      "status.fftrim.suffix.i_argument.system_inefficient": "inefficient system",
+      "status.fftrim.prefix.pi_mode": "Integral not neutral: {value}",
+      "status.fftrim.prefix.error": "Mean error too large: {value} °C",
+      "status.fftrim.prefix.slope": "Mean slope too steep: {value} °C/h",
+      "status.fftrim.suffix.constraint.saturated_high": "high saturation",
+      "status.fftrim.suffix.constraint.saturated_low": "low saturation",
+      "status.fftrim.suffix.constraint.trajectory": "trajectory active",
+      "status.fftrim.suffix.constraint.phase_Hysteresis": "hysteresis phase",
+      "status.fftrim.suffix.constraint.phase_Calibration": "forced calibration",
+      "status.fftrim.suffix.constraint.guard": "protection active",
+      "status.fftrim.suffix.constraint.setpoint_changed": "setpoint changed",
+      "status.fftrim.suffix.constraint.recovery": "recovery in progress",
+      "status.fftrim.suffix.constraint.timing": "minimum on/off time",
+      "status.fftrim.suffix.constraint.output_limited": "command limited",
+      "status.fftrim.suffix.constraint.timing_output": "output adjusted by the cycle split",
+      "status.fftrim.suffix.constraint.ff3": "FF3 active",
+      "status.fftrim.prefix.periodic_constraint": "Periodic cycle constrained: {value}",
+      "status.fftrim.transfer.reason.ownership_not_covered": "Command split not covered",
+      "status.fftrim.transfer.reason.transfer_not_deadband": "Outside the deadband: no transfer",
+      "status.fftrim.transfer.reason.transfer_i_not_frozen": "Integral not frozen",
+      "status.fftrim.transfer.reason.transfer_ff3_active": "FF3 is active",
+      "status.fftrim.transfer.reason.transfer_temperature_noise": "Temperature too noisy",
+      "status.fftrim.transfer.reason.transfer_mean_error": "Mean error to the setpoint too large",
+      "status.fftrim.transfer.reason.transfer_sample_error": "Single error to the setpoint too large",
+      "status.fftrim.transfer.reason.transfer_slope": "Temperature still sloping",
+      "status.fftrim.transfer.reason.transfer_outdoor_temperature_missing": "Outdoor temperature missing",
+      "status.fftrim.transfer.reason.transfer_outdoor_temperature_unstable": "Outdoor temperature unstable",
+      "status.fftrim.transfer.reason.transfer_ff_unstable": "Feed-forward unstable",
+      "status.fftrim.transfer.reason.transfer_p_active": "Proportional action too active",
+      "status.fftrim.transfer.reason.transfer_i_unstable": "Integral unstable",
+      "status.fftrim.transfer.reason.transfer_invalid_ki": "Invalid Ki gain",
+      "status.fftrim.transfer.reason.transfer_delivery_residual": "Delivered power too far from the model",
+      "status.fftrim.transfer.reason.invalid_proposal": "Invalid correction proposal",
+      "status.fftrim.transfer.reason.invalid_transfer_proposal": "Invalid transfer proposal",
+      "status.fftrim.transfer.reason.quiet_delta": "Negligible correction",
+      "status.fftrim.transfer.reason.non_finite_transfer": "Non-numeric transfer",
+      "status.fftrim.transfer.reason.invalid_ki": "Invalid Ki gain",
+      "status.fftrim.transfer.reason.ff_branch_clamped": "Feed-forward branch clamped",
+      "status.fftrim.transfer.reason.command_clamped": "Command clamped",
+      "status.fftrim.transfer.reason.integral_sign_changed": "Integral sign changed",
+      "status.fftrim.transfer.reason.integral_bias_changed": "Integral bias changed",
+      "status.fftrim.transfer.reason.no_atomic_headroom": "No headroom for an atomic transfer",
+      "status.fftrim.transfer.reason.transfer_invariant": "Transfer invariant not met",
+      "status.fftrim.transfer.reason.incomplete_transfer_result": "Incomplete transfer result",
+      "status.fftrim.transfer.reason.ff1_changed": "Base feed-forward changed",
+      "status.fftrim.transfer.reason.trim_state_changed": "Trim state changed",
+      "status.fftrim.transfer.reason.application_not_deadband": "Application: no longer in the deadband",
+      "status.fftrim.transfer.reason.application_i_not_frozen": "Application: integral not frozen",
+      "status.fftrim.transfer.reason.application_saturated": "Application: command saturated",
+      "status.fftrim.transfer.reason.application_trajectory": "Application: trajectory active",
+      "status.fftrim.transfer.reason.application_calibration": "Application: calibration in progress",
+      "status.fftrim.transfer.reason.application_guard": "Application: protection active",
+      "status.fftrim.transfer.reason.application_setpoint_changed": "Application: setpoint changed",
+      "status.fftrim.transfer.reason.application_recovery": "Application: recovery in progress",
+      "status.fftrim.transfer.reason.application_ff3": "Application: FF3 active",
+      "status.fftrim.transfer.reason.application_timing": "Application: minimum on/off time enforced",
+      "status.fftrim.transfer.reason.application_output_limited": "Application: command limited",
+      "status.fftrim.transfer.reason.application_timing_output": "Application: output adjusted by the cycle split",
+      "status.fftrim.transfer.reason.i_transfer_capacity": "Integral too small for the transfer",
+      "status.fftrim.transfer.reason.i_transfer_crosses_zero": "The transfer would cross zero",
+      "status.fftrim.transfer.reason.i_transfer_clamped": "Integral transfer clamped",
+      "status.fftrim.transfer.reason.i_transfer_sign": "Transfer sign opposite to the integral",
+      "status.fftrim.transfer.reason.invalid_i_transfer": "Invalid integral transfer",
+      "status.fftrim.transfer.reason.no_i_transfer": "No integral transfer needed",
+      "status.fftrim.transfer.reason.i_transfer_applied": "Integral transfer applied",
+      "status.fftrim.prefix.transfer_constraint": "Transfer constrained: {value}",
+      "status.fftrim.prefix.pending": "Confirming: {value}"
     }
   },
   "sections": [
@@ -3423,77 +3759,77 @@
                   "tone": "info",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: not enough recorded nights yet": {
+                "not identified: heating response delay not known yet": {
                   "label_key": "metrics.room.status.3",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: heating response delay not known yet": {
+                "not identified: too few valid measurements in the quiet periods": {
                   "label_key": "metrics.room.status.4",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: too few valid night measurements": {
+                "not identified: heat gains or losses detected during the quiet periods": {
                   "label_key": "metrics.room.status.5",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: heat gains or losses detected during the nights": {
+                "not identified: too little heating during the quiet periods": {
                   "label_key": "metrics.room.status.6",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: too little heating during the nights": {
+                "not identified: indoor-outdoor temperature difference too small": {
                   "label_key": "metrics.room.status.7",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: indoor-outdoor temperature difference too small": {
+                "not identified: the model could not be fitted": {
                   "label_key": "metrics.room.status.8",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: the model could not be fitted": {
+                "not identified: values out of the plausible range": {
                   "label_key": "metrics.room.status.9",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: values out of the plausible range": {
+                "not identified: the model does not follow the measured temperature closely enough": {
                   "label_key": "metrics.room.status.10",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: the model does not follow the measured temperature closely enough": {
+                "not identified: two successive series of quiet periods disagree": {
                   "label_key": "metrics.room.status.11",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: waiting for a second series of nights to confirm": {
+                "not identified: the model does not predict the following quiet periods well enough": {
                   "label_key": "metrics.room.status.12",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: two successive series of nights disagree": {
+                "not identified: the quiet periods do not determine the model precisely enough yet": {
                   "label_key": "metrics.room.status.13",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: the model does not predict the following nights well enough": {
+                "not identified: computation failed": {
                   "label_key": "metrics.room.status.14",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: computation failed": {
+                "not identified: the heating response delay does not match the measured temperature": {
                   "label_key": "metrics.room.status.15",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: the heating response delay does not match the measured temperature": {
+                "not identified: the heating response differs too much from the one measured by the regulation": {
                   "label_key": "metrics.room.status.16",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "not identified: the heating response differs too much from the one measured by the regulation": {
+                "not identified: the model's heat loss disagrees with the measured heat balance": {
                   "label_key": "metrics.room.status.17",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
@@ -3630,7 +3966,7 @@
               "path": "live/room_model/last_refusal_reason",
               "label_key": "metrics.room.refusal",
               "map": {
-                "not enough recorded nights yet": {
+                "the recorded data do not cover the quiet periods": {
                   "label_key": "metrics.room.refusal.0",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
@@ -3640,17 +3976,17 @@
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "too few valid night measurements": {
+                "too few valid measurements in the quiet periods": {
                   "label_key": "metrics.room.refusal.2",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "heat gains or losses detected during the nights": {
+                "heat gains or losses detected during the quiet periods": {
                   "label_key": "metrics.room.refusal.3",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "too little heating during the nights": {
+                "too little heating during the quiet periods": {
                   "label_key": "metrics.room.refusal.4",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
@@ -3675,43 +4011,58 @@
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "waiting for a second series of nights to confirm": {
+                "waiting for a second series of quiet periods to confirm": {
                   "label_key": "metrics.room.refusal.9",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "two successive series of nights disagree": {
+                "two successive series of quiet periods disagree": {
                   "label_key": "metrics.room.refusal.10",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "the model does not predict the following nights well enough": {
+                "the model does not predict the following quiet periods well enough": {
                   "label_key": "metrics.room.refusal.11",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "computation failed": {
+                "the quiet periods do not determine the model precisely enough yet": {
                   "label_key": "metrics.room.refusal.12",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "the heating response delay does not match the measured temperature": {
+                "computation failed": {
                   "label_key": "metrics.room.refusal.13",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "the heating response differs too much from the one measured by the regulation": {
+                "the heating response delay does not match the measured temperature": {
                   "label_key": "metrics.room.refusal.14",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "valve heaters are not supported yet": {
+                "the heating response differs too much from the one measured by the regulation": {
                   "label_key": "metrics.room.refusal.15",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 },
-                "numerical libraries unavailable": {
+                "the model's heat loss disagrees with the measured heat balance": {
                   "label_key": "metrics.room.refusal.16",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "waiting for a qualified heat balance to check the model's heat loss": {
+                  "label_key": "metrics.room.refusal.17",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "valve heaters are not supported yet": {
+                  "label_key": "metrics.room.refusal.18",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "numerical libraries unavailable": {
+                  "label_key": "metrics.room.refusal.19",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 }
@@ -4715,6 +5066,11 @@
                   "label_key": "metrics.emitter.source.2",
                   "tone": "ok",
                   "icon": "mdi:information-outline"
+                },
+                "lower_bound": {
+                  "label_key": "metrics.emitter.source.3",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
                 }
               },
               "fallback": {
@@ -4751,6 +5107,13 @@
               "label_key": "metrics.emitter.bootstrap",
               "digits": 1,
               "format": "duration_s"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/reference_s",
+              "label_key": "metrics.emitter.reference",
+              "digits": 1,
+              "format": "duration_s"
             }
           ]
         },
@@ -4777,6 +5140,33 @@
             "icon": "mdi:help-circle-outline"
           },
           "fallback_show_value": true
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/tar_learning/limit_reason",
+          "label_key": "metrics.emitter.limit",
+          "map": {
+            "learned delay shorter than the reference: the gains keep the reference dead time": {
+              "label_key": "metrics.emitter.limit.0",
+              "tone": "warning",
+              "icon": "mdi:information-outline"
+            },
+            "learned delay above twice the reference and not confirmed by a second method: the gains use twice the reference dead time": {
+              "label_key": "metrics.emitter.limit.1",
+              "tone": "warning",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true,
+          "visible_if": {
+            "var": "diagnostic/live/tar_learning/limit_reason"
+          }
         },
         {
           "type": "section_note",
@@ -4808,6 +5198,19 @@
               "label_key": "metrics.emitter.last_value",
               "digits": 1,
               "format": "duration_s"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/lower_bound_s",
+              "label_key": "metrics.emitter.lower_bound",
+              "digits": 1,
+              "format": "duration_s"
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/lower_bound_mornings",
+              "label_key": "metrics.emitter.lower_bound_count",
+              "digits": 0
             }
           ]
         },
@@ -4846,8 +5249,18 @@
           "path": "live/tar_learning/fast/last_unconfirmed_reason",
           "label_key": "metrics.emitter.unconfirmed_reason",
           "map": {
-            "night with at least 1 hour without heating between 23:00 and the comfort step": {
+            "at least 1 hour without heating while the room was regulated at its low setpoint before the comfort step": {
               "label_key": "metrics.emitter.unconfirmed_reason.0",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "the room did not reach its low setpoint before the comfort step": {
+              "label_key": "metrics.emitter.unconfirmed_reason.1",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "the room was regulated at its low setpoint for less than 1.5 hours before the comfort step": {
+              "label_key": "metrics.emitter.unconfirmed_reason.2",
               "tone": "info",
               "icon": "mdi:information-outline"
             }
@@ -4867,8 +5280,7 @@
               "type": "value",
               "source": "diagnostic",
               "path": "live/tar_learning/fast/last_morning/day",
-              "label_key": "metrics.emitter.last_day",
-              "digits": 0
+              "label_key": "metrics.emitter.last_day"
             },
             {
               "type": "status",
@@ -4893,6 +5305,62 @@
                 "icon": "mdi:help-circle-outline"
               },
               "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/last_morning/confirmed",
+              "label_key": "metrics.emitter.morning_confirmed",
+              "map": {
+                "true": {
+                  "label_key": "metrics.emitter.morning_confirmed.0",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                },
+                "false": {
+                  "label_key": "metrics.emitter.morning_confirmed.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/tar_learning/fast/last_morning/unconfirmed_reason",
+              "label_key": "metrics.emitter.morning_unconfirmed_reason",
+              "map": {
+                "at least 1 hour without heating while the room was regulated at its low setpoint before the comfort step": {
+                  "label_key": "metrics.emitter.unconfirmed_reason.0",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "the room did not reach its low setpoint before the comfort step": {
+                  "label_key": "metrics.emitter.unconfirmed_reason.1",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "the room was regulated at its low setpoint for less than 1.5 hours before the comfort step": {
+                  "label_key": "metrics.emitter.unconfirmed_reason.2",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true,
+              "visible_if": {
+                "var": "diagnostic/live/tar_learning/fast/last_morning/unconfirmed_reason"
+              }
             },
             {
               "type": "status",
@@ -5032,6 +5500,46 @@
                 },
                 "SmartPI not in steady regulation (degraded)": {
                   "label_key": "metrics.emitter.morning_reason.26",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "home position unknown: the absence of sun cannot be checked": {
+                  "label_key": "metrics.emitter.morning_reason.27",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "comfort step in daylight": {
+                  "label_key": "metrics.emitter.morning_reason.28",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "no quiet period before the comfort step (dark, constant setpoint and valid data for at least 1 hour)": {
+                  "label_key": "metrics.emitter.morning_reason.29",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "low setpoint not held in the dark with valid data for the 2 hours before the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.30",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "sunrise too soon after the comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.31",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "comfort step cut by sunrise before its response could be measured": {
+                  "label_key": "metrics.emitter.morning_reason.32",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "comfort step cut by sunrise: gives only a lower bound of the delay, not a value": {
+                  "label_key": "metrics.emitter.morning_reason.33",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "setpoint restored after a restart, not a comfort step": {
+                  "label_key": "metrics.emitter.morning_reason.34",
                   "tone": "muted",
                   "icon": "mdi:information-outline"
                 }
@@ -5174,8 +5682,7 @@
               "type": "value",
               "source": "diagnostic",
               "path": "live/tar_learning/refined/last_evaluation/day",
-              "label_key": "metrics.emitter.evaluation_day",
-              "digits": 0
+              "label_key": "metrics.emitter.evaluation_day"
             },
             {
               "type": "status",
@@ -5509,6 +6016,176 @@
                   "label_key": "status.fftrim.reason.pi_unstable",
                   "tone": "muted",
                   "icon": "mdi:chart-line-variant"
+                },
+                "cycle_not_reversed": {
+                  "label_key": "status.fftrim.reason.cycle_not_reversed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical"
+                },
+                "cycle_amplitude_too_small": {
+                  "label_key": "status.fftrim.reason.cycle_amplitude_too_small",
+                  "tone": "muted",
+                  "icon": "mdi:sine-wave"
+                },
+                "cycle_not_closed": {
+                  "label_key": "status.fftrim.reason.cycle_not_closed",
+                  "tone": "muted",
+                  "icon": "mdi:vector-circle-variant"
+                },
+                "saturated_high": {
+                  "label_key": "status.fftrim.reason.saturated_high",
+                  "tone": "muted",
+                  "icon": "mdi:gauge-full"
+                },
+                "washout": {
+                  "label_key": "status.fftrim.reason.washout",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "invalid_measurement": {
+                  "label_key": "status.fftrim.reason.invalid_measurement",
+                  "tone": "muted",
+                  "icon": "mdi:alert-circle-outline"
+                },
+                "hvac_mode_changed": {
+                  "label_key": "status.fftrim.reason.hvac_mode_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal"
+                },
+                "pi_missing": {
+                  "label_key": "status.fftrim.reason.pi_missing",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "invalid_model": {
+                  "label_key": "status.fftrim.reason.invalid_model",
+                  "tone": "muted",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "invalid_model_sign": {
+                  "label_key": "status.fftrim.reason.invalid_model_sign",
+                  "tone": "muted",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "invalid_hvac_mode": {
+                  "label_key": "status.fftrim.reason.invalid_hvac_mode",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal"
+                },
+                "non_finite_result": {
+                  "label_key": "status.fftrim.reason.non_finite_result",
+                  "tone": "muted",
+                  "icon": "mdi:alert-circle-outline"
+                },
+                "incomplete_observer_result": {
+                  "label_key": "status.fftrim.reason.incomplete_observer_result",
+                  "tone": "muted",
+                  "icon": "mdi:alert-circle-outline"
+                },
+                "saturation_unknown": {
+                  "label_key": "status.fftrim.reason.saturation_unknown",
+                  "tone": "muted",
+                  "icon": "mdi:gauge-full"
+                },
+                "hvac_off": {
+                  "label_key": "status.fftrim.reason.hvac_off",
+                  "tone": "muted",
+                  "icon": "mdi:power"
+                },
+                "power_shedding": {
+                  "label_key": "status.fftrim.reason.power_shedding",
+                  "tone": "muted",
+                  "icon": "mdi:flash-off"
+                },
+                "missing_sensor": {
+                  "label_key": "status.fftrim.reason.missing_sensor",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "guard_cut": {
+                  "label_key": "status.fftrim.reason.guard_cut",
+                  "tone": "muted",
+                  "icon": "mdi:shield-off-outline"
+                },
+                "calibration": {
+                  "label_key": "status.fftrim.reason.calibration",
+                  "tone": "muted",
+                  "icon": "mdi:tune"
+                },
+                "hysteresis": {
+                  "label_key": "status.fftrim.reason.hysteresis",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "missing_e_eff": {
+                  "label_key": "status.fftrim.reason.missing_e_eff",
+                  "tone": "muted",
+                  "icon": "mdi:help-circle-outline"
+                },
+                "partial_cycle": {
+                  "label_key": "status.fftrim.reason.partial_cycle",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "periodic_ownership_not_covered": {
+                  "label_key": "status.fftrim.reason.periodic_ownership_not_covered",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant-shimmer"
+                },
+                "periodic_regime_changed": {
+                  "label_key": "status.fftrim.reason.periodic_regime_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal"
+                },
+                "periodic_gains_changed": {
+                  "label_key": "status.fftrim.reason.periodic_gains_changed",
+                  "tone": "muted",
+                  "icon": "mdi:tune"
+                },
+                "periodic_ff_changed": {
+                  "label_key": "status.fftrim.reason.periodic_ff_changed",
+                  "tone": "muted",
+                  "icon": "mdi:crystal-ball"
+                },
+                "periodic_power_range": {
+                  "label_key": "status.fftrim.reason.periodic_power_range",
+                  "tone": "muted",
+                  "icon": "mdi:sine-wave"
+                },
+                "periodic_outdoor_temperature_missing": {
+                  "label_key": "status.fftrim.reason.periodic_outdoor_temperature_missing",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "periodic_outdoor_temperature_unstable": {
+                  "label_key": "status.fftrim.reason.periodic_outdoor_temperature_unstable",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "pi_missing_mode": {
+                  "label_key": "status.fftrim.reason.pi_missing_mode",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "pi_pending_stability": {
+                  "label_key": "status.fftrim.reason.pi_pending_stability",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "pi_deadband_freeze": {
+                  "label_key": "status.fftrim.reason.pi_deadband_freeze",
+                  "tone": "muted",
+                  "icon": "mdi:snowflake"
+                },
+                "pi_deadband_shell_hold": {
+                  "label_key": "status.fftrim.reason.pi_deadband_shell_hold",
+                  "tone": "muted",
+                  "icon": "mdi:pause-circle-outline"
+                },
+                "pi_near_band_stable": {
+                  "label_key": "status.fftrim.reason.pi_near_band_stable",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
                 }
               },
               "fallback": {
@@ -5531,6 +6208,225 @@
                     ]
                   }
                 ]
+              },
+              "prefix_map": {
+                "frozen_": {
+                  "label_key": "status.fftrim.prefix.frozen",
+                  "tone": "muted",
+                  "icon": "mdi:snowflake",
+                  "suffix_map": {
+                    "reboot": {
+                      "label_key": "status.fftrim.suffix.frozen.reboot"
+                    },
+                    "ab_ab_degraded": {
+                      "label_key": "status.fftrim.suffix.frozen.ab_ab_degraded"
+                    },
+                    "ab_ab_bad": {
+                      "label_key": "status.fftrim.suffix.frozen.ab_ab_bad"
+                    },
+                    "ff_warmup": {
+                      "label_key": "status.fftrim.suffix.frozen.ff_warmup"
+                    },
+                    "saturated_high": {
+                      "label_key": "status.fftrim.suffix.frozen.saturated_high"
+                    },
+                    "saturated": {
+                      "label_key": "status.fftrim.suffix.frozen.saturated"
+                    },
+                    "perturbed": {
+                      "label_key": "status.fftrim.suffix.frozen.perturbed"
+                    },
+                    "degraded": {
+                      "label_key": "status.fftrim.suffix.frozen.degraded"
+                    },
+                    "room_model": {
+                      "label_key": "status.fftrim.suffix.frozen.room_model"
+                    }
+                  }
+                },
+                "regime_": {
+                  "label_key": "status.fftrim.prefix.regime",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal",
+                  "suffix_map": {
+                    "warmup": {
+                      "label_key": "status.fftrim.suffix.regime.warmup"
+                    },
+                    "excited_stable": {
+                      "label_key": "status.fftrim.suffix.regime.excited_stable"
+                    },
+                    "hold": {
+                      "label_key": "status.fftrim.suffix.regime.hold"
+                    },
+                    "perturbed": {
+                      "label_key": "status.fftrim.suffix.regime.perturbed"
+                    },
+                    "degraded": {
+                      "label_key": "status.fftrim.suffix.regime.degraded"
+                    },
+                    "saturated": {
+                      "label_key": "status.fftrim.suffix.regime.saturated"
+                    },
+                    "near_band": {
+                      "label_key": "status.fftrim.suffix.regime.near_band"
+                    },
+                    "dead_band": {
+                      "label_key": "status.fftrim.suffix.regime.dead_band"
+                    }
+                  }
+                },
+                "pi_mode_": {
+                  "label_key": "status.fftrim.prefix.pi_mode",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant",
+                  "suffix_map": {
+                    "I:RUN": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:RUN"
+                    },
+                    "I:SKIP": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:SKIP"
+                    },
+                    "I:HOLD": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:HOLD"
+                    },
+                    "I:CLAMP": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:CLAMP"
+                    },
+                    "I:UNWIND": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:UNWIND"
+                    },
+                    "I:FREEZE": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:FREEZE"
+                    },
+                    "I:RESET": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:RESET"
+                    },
+                    "I:OVERRIDE": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:OVERRIDE"
+                    },
+                    "None": {
+                      "label_key": "status.fftrim.suffix.i_kind.None"
+                    }
+                  },
+                  "argument_map": {
+                    "setpoint_change": {
+                      "label_key": "status.fftrim.suffix.i_argument.setpoint_change"
+                    },
+                    "off_resume": {
+                      "label_key": "status.fftrim.suffix.i_argument.off_resume"
+                    },
+                    "window_resume": {
+                      "label_key": "status.fftrim.suffix.i_argument.window_resume"
+                    },
+                    "power_shedding_resume": {
+                      "label_key": "status.fftrim.suffix.i_argument.power_shedding_resume"
+                    },
+                    "disturbance_recovery": {
+                      "label_key": "status.fftrim.suffix.i_argument.disturbance_recovery"
+                    },
+                    "recovery_guard": {
+                      "label_key": "status.fftrim.suffix.i_argument.recovery_guard"
+                    },
+                    "SAT_HI": {
+                      "label_key": "status.fftrim.suffix.i_argument.SAT_HI"
+                    },
+                    "SAT_LO": {
+                      "label_key": "status.fftrim.suffix.i_argument.SAT_LO"
+                    },
+                    "near_ovr": {
+                      "label_key": "status.fftrim.suffix.i_argument.near_ovr"
+                    },
+                    "hvac_off": {
+                      "label_key": "status.fftrim.suffix.i_argument.hvac_off"
+                    },
+                    "guard_cut": {
+                      "label_key": "status.fftrim.suffix.i_argument.guard_cut"
+                    },
+                    "deadband": {
+                      "label_key": "status.fftrim.suffix.i_argument.deadband"
+                    },
+                    "regime_transition": {
+                      "label_key": "status.fftrim.suffix.i_argument.regime_transition"
+                    },
+                    "sensor_invalid": {
+                      "label_key": "status.fftrim.suffix.i_argument.sensor_invalid"
+                    },
+                    "dead_band": {
+                      "label_key": "status.fftrim.suffix.i_argument.dead_band"
+                    },
+                    "near_band": {
+                      "label_key": "status.fftrim.suffix.i_argument.near_band"
+                    },
+                    "warmup": {
+                      "label_key": "status.fftrim.suffix.i_argument.warmup"
+                    },
+                    "hold": {
+                      "label_key": "status.fftrim.suffix.i_argument.hold"
+                    },
+                    "perturbed": {
+                      "label_key": "status.fftrim.suffix.i_argument.perturbed"
+                    },
+                    "saturation": {
+                      "label_key": "status.fftrim.suffix.i_argument.saturation"
+                    },
+                    "system_inefficient": {
+                      "label_key": "status.fftrim.suffix.i_argument.system_inefficient"
+                    }
+                  }
+                },
+                "error_": {
+                  "label_key": "status.fftrim.prefix.error",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "slope_": {
+                  "label_key": "status.fftrim.prefix.slope",
+                  "tone": "muted",
+                  "icon": "mdi:trending-up"
+                },
+                "periodic_constraint_": {
+                  "label_key": "status.fftrim.prefix.periodic_constraint",
+                  "tone": "muted",
+                  "icon": "mdi:sine-wave",
+                  "suffix_map": {
+                    "saturated_high": {
+                      "label_key": "status.fftrim.suffix.constraint.saturated_high"
+                    },
+                    "saturated_low": {
+                      "label_key": "status.fftrim.suffix.constraint.saturated_low"
+                    },
+                    "trajectory": {
+                      "label_key": "status.fftrim.suffix.constraint.trajectory"
+                    },
+                    "phase_Hysteresis": {
+                      "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"
+                    },
+                    "phase_Calibration": {
+                      "label_key": "status.fftrim.suffix.constraint.phase_Calibration"
+                    },
+                    "guard": {
+                      "label_key": "status.fftrim.suffix.constraint.guard"
+                    },
+                    "setpoint_changed": {
+                      "label_key": "status.fftrim.suffix.constraint.setpoint_changed"
+                    },
+                    "recovery": {
+                      "label_key": "status.fftrim.suffix.constraint.recovery"
+                    },
+                    "timing": {
+                      "label_key": "status.fftrim.suffix.constraint.timing"
+                    },
+                    "output_limited": {
+                      "label_key": "status.fftrim.suffix.constraint.output_limited"
+                    },
+                    "timing_output": {
+                      "label_key": "status.fftrim.suffix.constraint.timing_output"
+                    },
+                    "ff3": {
+                      "label_key": "status.fftrim.suffix.constraint.ff3"
+                    }
+                  }
+                }
               }
             }
           ]
@@ -5704,26 +6600,6 @@
               "tone": "muted",
               "icon": "mdi:timer-sand"
             },
-            "cycle_not_reversed": {
-              "label_key": "status.fftrim.reason.cycle_not_reversed",
-              "tone": "muted",
-              "icon": "mdi:swap-vertical"
-            },
-            "cycle_amplitude_too_small": {
-              "label_key": "status.fftrim.reason.cycle_amplitude_too_small",
-              "tone": "muted",
-              "icon": "mdi:sine-wave"
-            },
-            "cycle_not_closed": {
-              "label_key": "status.fftrim.reason.cycle_not_closed",
-              "tone": "muted",
-              "icon": "mdi:vector-circle-variant"
-            },
-            "saturated_high": {
-              "label_key": "status.fftrim.reason.saturated_high",
-              "tone": "muted",
-              "icon": "mdi:gauge-full"
-            },
             "setpoint_changed": {
               "label_key": "status.fftrim.reason.setpoint_changed",
               "tone": "muted",
@@ -5748,6 +6624,186 @@
               "label_key": "status.fftrim.reason.missing_outdoor_temperature",
               "tone": "muted",
               "icon": "mdi:thermometer-alert"
+            },
+            "saturated": {
+              "label_key": "status.fftrim.reason.saturated",
+              "tone": "muted",
+              "icon": "mdi:gauge-full"
+            },
+            "pi_unstable": {
+              "label_key": "status.fftrim.reason.pi_unstable",
+              "tone": "muted",
+              "icon": "mdi:chart-line-variant"
+            },
+            "cycle_not_reversed": {
+              "label_key": "status.fftrim.reason.cycle_not_reversed",
+              "tone": "muted",
+              "icon": "mdi:swap-vertical"
+            },
+            "cycle_amplitude_too_small": {
+              "label_key": "status.fftrim.reason.cycle_amplitude_too_small",
+              "tone": "muted",
+              "icon": "mdi:sine-wave"
+            },
+            "cycle_not_closed": {
+              "label_key": "status.fftrim.reason.cycle_not_closed",
+              "tone": "muted",
+              "icon": "mdi:vector-circle-variant"
+            },
+            "saturated_high": {
+              "label_key": "status.fftrim.reason.saturated_high",
+              "tone": "muted",
+              "icon": "mdi:gauge-full"
+            },
+            "washout": {
+              "label_key": "status.fftrim.reason.washout",
+              "tone": "muted",
+              "icon": "mdi:timer-sand"
+            },
+            "invalid_measurement": {
+              "label_key": "status.fftrim.reason.invalid_measurement",
+              "tone": "muted",
+              "icon": "mdi:alert-circle-outline"
+            },
+            "hvac_mode_changed": {
+              "label_key": "status.fftrim.reason.hvac_mode_changed",
+              "tone": "muted",
+              "icon": "mdi:swap-horizontal"
+            },
+            "pi_missing": {
+              "label_key": "status.fftrim.reason.pi_missing",
+              "tone": "muted",
+              "icon": "mdi:chart-line-variant"
+            },
+            "invalid_model": {
+              "label_key": "status.fftrim.reason.invalid_model",
+              "tone": "muted",
+              "icon": "mdi:chart-bell-curve"
+            },
+            "invalid_model_sign": {
+              "label_key": "status.fftrim.reason.invalid_model_sign",
+              "tone": "muted",
+              "icon": "mdi:chart-bell-curve"
+            },
+            "invalid_hvac_mode": {
+              "label_key": "status.fftrim.reason.invalid_hvac_mode",
+              "tone": "muted",
+              "icon": "mdi:swap-horizontal"
+            },
+            "non_finite_result": {
+              "label_key": "status.fftrim.reason.non_finite_result",
+              "tone": "muted",
+              "icon": "mdi:alert-circle-outline"
+            },
+            "incomplete_observer_result": {
+              "label_key": "status.fftrim.reason.incomplete_observer_result",
+              "tone": "muted",
+              "icon": "mdi:alert-circle-outline"
+            },
+            "saturation_unknown": {
+              "label_key": "status.fftrim.reason.saturation_unknown",
+              "tone": "muted",
+              "icon": "mdi:gauge-full"
+            },
+            "hvac_off": {
+              "label_key": "status.fftrim.reason.hvac_off",
+              "tone": "muted",
+              "icon": "mdi:power"
+            },
+            "power_shedding": {
+              "label_key": "status.fftrim.reason.power_shedding",
+              "tone": "muted",
+              "icon": "mdi:flash-off"
+            },
+            "missing_sensor": {
+              "label_key": "status.fftrim.reason.missing_sensor",
+              "tone": "muted",
+              "icon": "mdi:thermometer-alert"
+            },
+            "guard_cut": {
+              "label_key": "status.fftrim.reason.guard_cut",
+              "tone": "muted",
+              "icon": "mdi:shield-off-outline"
+            },
+            "calibration": {
+              "label_key": "status.fftrim.reason.calibration",
+              "tone": "muted",
+              "icon": "mdi:tune"
+            },
+            "hysteresis": {
+              "label_key": "status.fftrim.reason.hysteresis",
+              "tone": "muted",
+              "icon": "mdi:chart-line-variant"
+            },
+            "missing_e_eff": {
+              "label_key": "status.fftrim.reason.missing_e_eff",
+              "tone": "muted",
+              "icon": "mdi:help-circle-outline"
+            },
+            "partial_cycle": {
+              "label_key": "status.fftrim.reason.partial_cycle",
+              "tone": "muted",
+              "icon": "mdi:timer-sand"
+            },
+            "periodic_ownership_not_covered": {
+              "label_key": "status.fftrim.reason.periodic_ownership_not_covered",
+              "tone": "muted",
+              "icon": "mdi:chart-timeline-variant-shimmer"
+            },
+            "periodic_regime_changed": {
+              "label_key": "status.fftrim.reason.periodic_regime_changed",
+              "tone": "muted",
+              "icon": "mdi:swap-horizontal"
+            },
+            "periodic_gains_changed": {
+              "label_key": "status.fftrim.reason.periodic_gains_changed",
+              "tone": "muted",
+              "icon": "mdi:tune"
+            },
+            "periodic_ff_changed": {
+              "label_key": "status.fftrim.reason.periodic_ff_changed",
+              "tone": "muted",
+              "icon": "mdi:crystal-ball"
+            },
+            "periodic_power_range": {
+              "label_key": "status.fftrim.reason.periodic_power_range",
+              "tone": "muted",
+              "icon": "mdi:sine-wave"
+            },
+            "periodic_outdoor_temperature_missing": {
+              "label_key": "status.fftrim.reason.periodic_outdoor_temperature_missing",
+              "tone": "muted",
+              "icon": "mdi:thermometer-alert"
+            },
+            "periodic_outdoor_temperature_unstable": {
+              "label_key": "status.fftrim.reason.periodic_outdoor_temperature_unstable",
+              "tone": "muted",
+              "icon": "mdi:thermometer-alert"
+            },
+            "pi_missing_mode": {
+              "label_key": "status.fftrim.reason.pi_missing_mode",
+              "tone": "muted",
+              "icon": "mdi:chart-line-variant"
+            },
+            "pi_pending_stability": {
+              "label_key": "status.fftrim.reason.pi_pending_stability",
+              "tone": "muted",
+              "icon": "mdi:timer-sand"
+            },
+            "pi_deadband_freeze": {
+              "label_key": "status.fftrim.reason.pi_deadband_freeze",
+              "tone": "muted",
+              "icon": "mdi:snowflake"
+            },
+            "pi_deadband_shell_hold": {
+              "label_key": "status.fftrim.reason.pi_deadband_shell_hold",
+              "tone": "muted",
+              "icon": "mdi:pause-circle-outline"
+            },
+            "pi_near_band_stable": {
+              "label_key": "status.fftrim.reason.pi_near_band_stable",
+              "tone": "muted",
+              "icon": "mdi:chart-line-variant"
             }
           },
           "fallback": {
@@ -5770,6 +6826,225 @@
                 ]
               }
             ]
+          },
+          "prefix_map": {
+            "frozen_": {
+              "label_key": "status.fftrim.prefix.frozen",
+              "tone": "muted",
+              "icon": "mdi:snowflake",
+              "suffix_map": {
+                "reboot": {
+                  "label_key": "status.fftrim.suffix.frozen.reboot"
+                },
+                "ab_ab_degraded": {
+                  "label_key": "status.fftrim.suffix.frozen.ab_ab_degraded"
+                },
+                "ab_ab_bad": {
+                  "label_key": "status.fftrim.suffix.frozen.ab_ab_bad"
+                },
+                "ff_warmup": {
+                  "label_key": "status.fftrim.suffix.frozen.ff_warmup"
+                },
+                "saturated_high": {
+                  "label_key": "status.fftrim.suffix.frozen.saturated_high"
+                },
+                "saturated": {
+                  "label_key": "status.fftrim.suffix.frozen.saturated"
+                },
+                "perturbed": {
+                  "label_key": "status.fftrim.suffix.frozen.perturbed"
+                },
+                "degraded": {
+                  "label_key": "status.fftrim.suffix.frozen.degraded"
+                },
+                "room_model": {
+                  "label_key": "status.fftrim.suffix.frozen.room_model"
+                }
+              }
+            },
+            "regime_": {
+              "label_key": "status.fftrim.prefix.regime",
+              "tone": "muted",
+              "icon": "mdi:swap-horizontal",
+              "suffix_map": {
+                "warmup": {
+                  "label_key": "status.fftrim.suffix.regime.warmup"
+                },
+                "excited_stable": {
+                  "label_key": "status.fftrim.suffix.regime.excited_stable"
+                },
+                "hold": {
+                  "label_key": "status.fftrim.suffix.regime.hold"
+                },
+                "perturbed": {
+                  "label_key": "status.fftrim.suffix.regime.perturbed"
+                },
+                "degraded": {
+                  "label_key": "status.fftrim.suffix.regime.degraded"
+                },
+                "saturated": {
+                  "label_key": "status.fftrim.suffix.regime.saturated"
+                },
+                "near_band": {
+                  "label_key": "status.fftrim.suffix.regime.near_band"
+                },
+                "dead_band": {
+                  "label_key": "status.fftrim.suffix.regime.dead_band"
+                }
+              }
+            },
+            "pi_mode_": {
+              "label_key": "status.fftrim.prefix.pi_mode",
+              "tone": "muted",
+              "icon": "mdi:chart-line-variant",
+              "suffix_map": {
+                "I:RUN": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:RUN"
+                },
+                "I:SKIP": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:SKIP"
+                },
+                "I:HOLD": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:HOLD"
+                },
+                "I:CLAMP": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:CLAMP"
+                },
+                "I:UNWIND": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:UNWIND"
+                },
+                "I:FREEZE": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:FREEZE"
+                },
+                "I:RESET": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:RESET"
+                },
+                "I:OVERRIDE": {
+                  "label_key": "status.fftrim.suffix.i_kind.I:OVERRIDE"
+                },
+                "None": {
+                  "label_key": "status.fftrim.suffix.i_kind.None"
+                }
+              },
+              "argument_map": {
+                "setpoint_change": {
+                  "label_key": "status.fftrim.suffix.i_argument.setpoint_change"
+                },
+                "off_resume": {
+                  "label_key": "status.fftrim.suffix.i_argument.off_resume"
+                },
+                "window_resume": {
+                  "label_key": "status.fftrim.suffix.i_argument.window_resume"
+                },
+                "power_shedding_resume": {
+                  "label_key": "status.fftrim.suffix.i_argument.power_shedding_resume"
+                },
+                "disturbance_recovery": {
+                  "label_key": "status.fftrim.suffix.i_argument.disturbance_recovery"
+                },
+                "recovery_guard": {
+                  "label_key": "status.fftrim.suffix.i_argument.recovery_guard"
+                },
+                "SAT_HI": {
+                  "label_key": "status.fftrim.suffix.i_argument.SAT_HI"
+                },
+                "SAT_LO": {
+                  "label_key": "status.fftrim.suffix.i_argument.SAT_LO"
+                },
+                "near_ovr": {
+                  "label_key": "status.fftrim.suffix.i_argument.near_ovr"
+                },
+                "hvac_off": {
+                  "label_key": "status.fftrim.suffix.i_argument.hvac_off"
+                },
+                "guard_cut": {
+                  "label_key": "status.fftrim.suffix.i_argument.guard_cut"
+                },
+                "deadband": {
+                  "label_key": "status.fftrim.suffix.i_argument.deadband"
+                },
+                "regime_transition": {
+                  "label_key": "status.fftrim.suffix.i_argument.regime_transition"
+                },
+                "sensor_invalid": {
+                  "label_key": "status.fftrim.suffix.i_argument.sensor_invalid"
+                },
+                "dead_band": {
+                  "label_key": "status.fftrim.suffix.i_argument.dead_band"
+                },
+                "near_band": {
+                  "label_key": "status.fftrim.suffix.i_argument.near_band"
+                },
+                "warmup": {
+                  "label_key": "status.fftrim.suffix.i_argument.warmup"
+                },
+                "hold": {
+                  "label_key": "status.fftrim.suffix.i_argument.hold"
+                },
+                "perturbed": {
+                  "label_key": "status.fftrim.suffix.i_argument.perturbed"
+                },
+                "saturation": {
+                  "label_key": "status.fftrim.suffix.i_argument.saturation"
+                },
+                "system_inefficient": {
+                  "label_key": "status.fftrim.suffix.i_argument.system_inefficient"
+                }
+              }
+            },
+            "error_": {
+              "label_key": "status.fftrim.prefix.error",
+              "tone": "muted",
+              "icon": "mdi:thermometer-alert"
+            },
+            "slope_": {
+              "label_key": "status.fftrim.prefix.slope",
+              "tone": "muted",
+              "icon": "mdi:trending-up"
+            },
+            "periodic_constraint_": {
+              "label_key": "status.fftrim.prefix.periodic_constraint",
+              "tone": "muted",
+              "icon": "mdi:sine-wave",
+              "suffix_map": {
+                "saturated_high": {
+                  "label_key": "status.fftrim.suffix.constraint.saturated_high"
+                },
+                "saturated_low": {
+                  "label_key": "status.fftrim.suffix.constraint.saturated_low"
+                },
+                "trajectory": {
+                  "label_key": "status.fftrim.suffix.constraint.trajectory"
+                },
+                "phase_Hysteresis": {
+                  "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"
+                },
+                "phase_Calibration": {
+                  "label_key": "status.fftrim.suffix.constraint.phase_Calibration"
+                },
+                "guard": {
+                  "label_key": "status.fftrim.suffix.constraint.guard"
+                },
+                "setpoint_changed": {
+                  "label_key": "status.fftrim.suffix.constraint.setpoint_changed"
+                },
+                "recovery": {
+                  "label_key": "status.fftrim.suffix.constraint.recovery"
+                },
+                "timing": {
+                  "label_key": "status.fftrim.suffix.constraint.timing"
+                },
+                "output_limited": {
+                  "label_key": "status.fftrim.suffix.constraint.output_limited"
+                },
+                "timing_output": {
+                  "label_key": "status.fftrim.suffix.constraint.timing_output"
+                },
+                "ff3": {
+                  "label_key": "status.fftrim.suffix.constraint.ff3"
+                }
+              }
+            }
           }
         },
         {
@@ -6054,6 +7329,476 @@
                   "label_key": "status.fftrim.transfer.reason.quiet_trim_delta",
                   "tone": "muted",
                   "icon": "mdi:signal-cellular-1"
+                },
+                "deadtime_unreliable": {
+                  "label_key": "status.fftrim.reason.deadtime_unreliable",
+                  "tone": "muted",
+                  "icon": "mdi:timer-alert-outline"
+                },
+                "deadtime_changed": {
+                  "label_key": "status.fftrim.reason.deadtime_changed",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sync-outline"
+                },
+                "causal_power_not_covered": {
+                  "label_key": "status.fftrim.reason.causal_power_not_covered",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant-shimmer"
+                },
+                "not_enough_measurements": {
+                  "label_key": "status.fftrim.reason.not_enough_measurements",
+                  "tone": "muted",
+                  "icon": "mdi:counter"
+                },
+                "window_too_short": {
+                  "label_key": "status.fftrim.reason.window_too_short",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "setpoint_changed": {
+                  "label_key": "status.fftrim.reason.setpoint_changed",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-chevron-up"
+                },
+                "trajectory_active": {
+                  "label_key": "status.fftrim.reason.trajectory_active",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant"
+                },
+                "ff3_active": {
+                  "label_key": "status.fftrim.reason.ff3_active",
+                  "tone": "muted",
+                  "icon": "mdi:crystal-ball"
+                },
+                "model_confidence": {
+                  "label_key": "status.fftrim.reason.model_confidence",
+                  "tone": "muted",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "missing_outdoor_temperature": {
+                  "label_key": "status.fftrim.reason.missing_outdoor_temperature",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "saturated": {
+                  "label_key": "status.fftrim.reason.saturated",
+                  "tone": "muted",
+                  "icon": "mdi:gauge-full"
+                },
+                "pi_unstable": {
+                  "label_key": "status.fftrim.reason.pi_unstable",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "cycle_not_reversed": {
+                  "label_key": "status.fftrim.reason.cycle_not_reversed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical"
+                },
+                "cycle_amplitude_too_small": {
+                  "label_key": "status.fftrim.reason.cycle_amplitude_too_small",
+                  "tone": "muted",
+                  "icon": "mdi:sine-wave"
+                },
+                "cycle_not_closed": {
+                  "label_key": "status.fftrim.reason.cycle_not_closed",
+                  "tone": "muted",
+                  "icon": "mdi:vector-circle-variant"
+                },
+                "saturated_high": {
+                  "label_key": "status.fftrim.reason.saturated_high",
+                  "tone": "muted",
+                  "icon": "mdi:gauge-full"
+                },
+                "washout": {
+                  "label_key": "status.fftrim.reason.washout",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "invalid_measurement": {
+                  "label_key": "status.fftrim.reason.invalid_measurement",
+                  "tone": "muted",
+                  "icon": "mdi:alert-circle-outline"
+                },
+                "hvac_mode_changed": {
+                  "label_key": "status.fftrim.reason.hvac_mode_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal"
+                },
+                "pi_missing": {
+                  "label_key": "status.fftrim.reason.pi_missing",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "invalid_model": {
+                  "label_key": "status.fftrim.reason.invalid_model",
+                  "tone": "muted",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "invalid_model_sign": {
+                  "label_key": "status.fftrim.reason.invalid_model_sign",
+                  "tone": "muted",
+                  "icon": "mdi:chart-bell-curve"
+                },
+                "invalid_hvac_mode": {
+                  "label_key": "status.fftrim.reason.invalid_hvac_mode",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal"
+                },
+                "non_finite_result": {
+                  "label_key": "status.fftrim.reason.non_finite_result",
+                  "tone": "muted",
+                  "icon": "mdi:alert-circle-outline"
+                },
+                "incomplete_observer_result": {
+                  "label_key": "status.fftrim.reason.incomplete_observer_result",
+                  "tone": "muted",
+                  "icon": "mdi:alert-circle-outline"
+                },
+                "saturation_unknown": {
+                  "label_key": "status.fftrim.reason.saturation_unknown",
+                  "tone": "muted",
+                  "icon": "mdi:gauge-full"
+                },
+                "hvac_off": {
+                  "label_key": "status.fftrim.reason.hvac_off",
+                  "tone": "muted",
+                  "icon": "mdi:power"
+                },
+                "power_shedding": {
+                  "label_key": "status.fftrim.reason.power_shedding",
+                  "tone": "muted",
+                  "icon": "mdi:flash-off"
+                },
+                "missing_sensor": {
+                  "label_key": "status.fftrim.reason.missing_sensor",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "guard_cut": {
+                  "label_key": "status.fftrim.reason.guard_cut",
+                  "tone": "muted",
+                  "icon": "mdi:shield-off-outline"
+                },
+                "calibration": {
+                  "label_key": "status.fftrim.reason.calibration",
+                  "tone": "muted",
+                  "icon": "mdi:tune"
+                },
+                "hysteresis": {
+                  "label_key": "status.fftrim.reason.hysteresis",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "missing_e_eff": {
+                  "label_key": "status.fftrim.reason.missing_e_eff",
+                  "tone": "muted",
+                  "icon": "mdi:help-circle-outline"
+                },
+                "partial_cycle": {
+                  "label_key": "status.fftrim.reason.partial_cycle",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "periodic_ownership_not_covered": {
+                  "label_key": "status.fftrim.reason.periodic_ownership_not_covered",
+                  "tone": "muted",
+                  "icon": "mdi:chart-timeline-variant-shimmer"
+                },
+                "periodic_regime_changed": {
+                  "label_key": "status.fftrim.reason.periodic_regime_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal"
+                },
+                "periodic_gains_changed": {
+                  "label_key": "status.fftrim.reason.periodic_gains_changed",
+                  "tone": "muted",
+                  "icon": "mdi:tune"
+                },
+                "periodic_ff_changed": {
+                  "label_key": "status.fftrim.reason.periodic_ff_changed",
+                  "tone": "muted",
+                  "icon": "mdi:crystal-ball"
+                },
+                "periodic_power_range": {
+                  "label_key": "status.fftrim.reason.periodic_power_range",
+                  "tone": "muted",
+                  "icon": "mdi:sine-wave"
+                },
+                "periodic_outdoor_temperature_missing": {
+                  "label_key": "status.fftrim.reason.periodic_outdoor_temperature_missing",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "periodic_outdoor_temperature_unstable": {
+                  "label_key": "status.fftrim.reason.periodic_outdoor_temperature_unstable",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "pi_missing_mode": {
+                  "label_key": "status.fftrim.reason.pi_missing_mode",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "pi_pending_stability": {
+                  "label_key": "status.fftrim.reason.pi_pending_stability",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "pi_deadband_freeze": {
+                  "label_key": "status.fftrim.reason.pi_deadband_freeze",
+                  "tone": "muted",
+                  "icon": "mdi:snowflake"
+                },
+                "pi_deadband_shell_hold": {
+                  "label_key": "status.fftrim.reason.pi_deadband_shell_hold",
+                  "tone": "muted",
+                  "icon": "mdi:pause-circle-outline"
+                },
+                "pi_near_band_stable": {
+                  "label_key": "status.fftrim.reason.pi_near_band_stable",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant"
+                },
+                "ownership_not_covered": {
+                  "label_key": "status.fftrim.transfer.reason.ownership_not_covered",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_not_deadband": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_not_deadband",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_i_not_frozen": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_i_not_frozen",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_ff3_active": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_ff3_active",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_temperature_noise": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_temperature_noise",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_mean_error": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_mean_error",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_sample_error": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_sample_error",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_slope": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_slope",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_outdoor_temperature_missing": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_outdoor_temperature_missing",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_outdoor_temperature_unstable": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_outdoor_temperature_unstable",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_ff_unstable": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_ff_unstable",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_p_active": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_p_active",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_i_unstable": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_i_unstable",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_invalid_ki": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_invalid_ki",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_delivery_residual": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_delivery_residual",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "invalid_proposal": {
+                  "label_key": "status.fftrim.transfer.reason.invalid_proposal",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "invalid_transfer_proposal": {
+                  "label_key": "status.fftrim.transfer.reason.invalid_transfer_proposal",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "quiet_delta": {
+                  "label_key": "status.fftrim.transfer.reason.quiet_delta",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "non_finite_transfer": {
+                  "label_key": "status.fftrim.transfer.reason.non_finite_transfer",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "invalid_ki": {
+                  "label_key": "status.fftrim.transfer.reason.invalid_ki",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "ff_branch_clamped": {
+                  "label_key": "status.fftrim.transfer.reason.ff_branch_clamped",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "command_clamped": {
+                  "label_key": "status.fftrim.transfer.reason.command_clamped",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "integral_sign_changed": {
+                  "label_key": "status.fftrim.transfer.reason.integral_sign_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "integral_bias_changed": {
+                  "label_key": "status.fftrim.transfer.reason.integral_bias_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "no_atomic_headroom": {
+                  "label_key": "status.fftrim.transfer.reason.no_atomic_headroom",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "transfer_invariant": {
+                  "label_key": "status.fftrim.transfer.reason.transfer_invariant",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "incomplete_transfer_result": {
+                  "label_key": "status.fftrim.transfer.reason.incomplete_transfer_result",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "ff1_changed": {
+                  "label_key": "status.fftrim.transfer.reason.ff1_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "trim_state_changed": {
+                  "label_key": "status.fftrim.transfer.reason.trim_state_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_not_deadband": {
+                  "label_key": "status.fftrim.transfer.reason.application_not_deadband",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_i_not_frozen": {
+                  "label_key": "status.fftrim.transfer.reason.application_i_not_frozen",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_saturated": {
+                  "label_key": "status.fftrim.transfer.reason.application_saturated",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_trajectory": {
+                  "label_key": "status.fftrim.transfer.reason.application_trajectory",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_calibration": {
+                  "label_key": "status.fftrim.transfer.reason.application_calibration",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_guard": {
+                  "label_key": "status.fftrim.transfer.reason.application_guard",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_setpoint_changed": {
+                  "label_key": "status.fftrim.transfer.reason.application_setpoint_changed",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_recovery": {
+                  "label_key": "status.fftrim.transfer.reason.application_recovery",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_ff3": {
+                  "label_key": "status.fftrim.transfer.reason.application_ff3",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_timing": {
+                  "label_key": "status.fftrim.transfer.reason.application_timing",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_output_limited": {
+                  "label_key": "status.fftrim.transfer.reason.application_output_limited",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "application_timing_output": {
+                  "label_key": "status.fftrim.transfer.reason.application_timing_output",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "i_transfer_capacity": {
+                  "label_key": "status.fftrim.transfer.reason.i_transfer_capacity",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "i_transfer_crosses_zero": {
+                  "label_key": "status.fftrim.transfer.reason.i_transfer_crosses_zero",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "i_transfer_clamped": {
+                  "label_key": "status.fftrim.transfer.reason.i_transfer_clamped",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "i_transfer_sign": {
+                  "label_key": "status.fftrim.transfer.reason.i_transfer_sign",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "invalid_i_transfer": {
+                  "label_key": "status.fftrim.transfer.reason.invalid_i_transfer",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "no_i_transfer": {
+                  "label_key": "status.fftrim.transfer.reason.no_i_transfer",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
+                },
+                "i_transfer_applied": {
+                  "label_key": "status.fftrim.transfer.reason.i_transfer_applied",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline"
                 }
               },
               "fallback": {
@@ -6061,7 +7806,274 @@
                 "tone": "muted",
                 "icon": "mdi:help-circle-outline"
               },
-              "fallback_show_value": true
+              "fallback_show_value": true,
+              "prefix_map": {
+                "frozen_": {
+                  "label_key": "status.fftrim.prefix.frozen",
+                  "tone": "muted",
+                  "icon": "mdi:snowflake",
+                  "suffix_map": {
+                    "reboot": {
+                      "label_key": "status.fftrim.suffix.frozen.reboot"
+                    },
+                    "ab_ab_degraded": {
+                      "label_key": "status.fftrim.suffix.frozen.ab_ab_degraded"
+                    },
+                    "ab_ab_bad": {
+                      "label_key": "status.fftrim.suffix.frozen.ab_ab_bad"
+                    },
+                    "ff_warmup": {
+                      "label_key": "status.fftrim.suffix.frozen.ff_warmup"
+                    },
+                    "saturated_high": {
+                      "label_key": "status.fftrim.suffix.frozen.saturated_high"
+                    },
+                    "saturated": {
+                      "label_key": "status.fftrim.suffix.frozen.saturated"
+                    },
+                    "perturbed": {
+                      "label_key": "status.fftrim.suffix.frozen.perturbed"
+                    },
+                    "degraded": {
+                      "label_key": "status.fftrim.suffix.frozen.degraded"
+                    },
+                    "room_model": {
+                      "label_key": "status.fftrim.suffix.frozen.room_model"
+                    }
+                  }
+                },
+                "regime_": {
+                  "label_key": "status.fftrim.prefix.regime",
+                  "tone": "muted",
+                  "icon": "mdi:swap-horizontal",
+                  "suffix_map": {
+                    "warmup": {
+                      "label_key": "status.fftrim.suffix.regime.warmup"
+                    },
+                    "excited_stable": {
+                      "label_key": "status.fftrim.suffix.regime.excited_stable"
+                    },
+                    "hold": {
+                      "label_key": "status.fftrim.suffix.regime.hold"
+                    },
+                    "perturbed": {
+                      "label_key": "status.fftrim.suffix.regime.perturbed"
+                    },
+                    "degraded": {
+                      "label_key": "status.fftrim.suffix.regime.degraded"
+                    },
+                    "saturated": {
+                      "label_key": "status.fftrim.suffix.regime.saturated"
+                    },
+                    "near_band": {
+                      "label_key": "status.fftrim.suffix.regime.near_band"
+                    },
+                    "dead_band": {
+                      "label_key": "status.fftrim.suffix.regime.dead_band"
+                    }
+                  }
+                },
+                "pi_mode_": {
+                  "label_key": "status.fftrim.prefix.pi_mode",
+                  "tone": "muted",
+                  "icon": "mdi:chart-line-variant",
+                  "suffix_map": {
+                    "I:RUN": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:RUN"
+                    },
+                    "I:SKIP": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:SKIP"
+                    },
+                    "I:HOLD": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:HOLD"
+                    },
+                    "I:CLAMP": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:CLAMP"
+                    },
+                    "I:UNWIND": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:UNWIND"
+                    },
+                    "I:FREEZE": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:FREEZE"
+                    },
+                    "I:RESET": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:RESET"
+                    },
+                    "I:OVERRIDE": {
+                      "label_key": "status.fftrim.suffix.i_kind.I:OVERRIDE"
+                    },
+                    "None": {
+                      "label_key": "status.fftrim.suffix.i_kind.None"
+                    }
+                  },
+                  "argument_map": {
+                    "setpoint_change": {
+                      "label_key": "status.fftrim.suffix.i_argument.setpoint_change"
+                    },
+                    "off_resume": {
+                      "label_key": "status.fftrim.suffix.i_argument.off_resume"
+                    },
+                    "window_resume": {
+                      "label_key": "status.fftrim.suffix.i_argument.window_resume"
+                    },
+                    "power_shedding_resume": {
+                      "label_key": "status.fftrim.suffix.i_argument.power_shedding_resume"
+                    },
+                    "disturbance_recovery": {
+                      "label_key": "status.fftrim.suffix.i_argument.disturbance_recovery"
+                    },
+                    "recovery_guard": {
+                      "label_key": "status.fftrim.suffix.i_argument.recovery_guard"
+                    },
+                    "SAT_HI": {
+                      "label_key": "status.fftrim.suffix.i_argument.SAT_HI"
+                    },
+                    "SAT_LO": {
+                      "label_key": "status.fftrim.suffix.i_argument.SAT_LO"
+                    },
+                    "near_ovr": {
+                      "label_key": "status.fftrim.suffix.i_argument.near_ovr"
+                    },
+                    "hvac_off": {
+                      "label_key": "status.fftrim.suffix.i_argument.hvac_off"
+                    },
+                    "guard_cut": {
+                      "label_key": "status.fftrim.suffix.i_argument.guard_cut"
+                    },
+                    "deadband": {
+                      "label_key": "status.fftrim.suffix.i_argument.deadband"
+                    },
+                    "regime_transition": {
+                      "label_key": "status.fftrim.suffix.i_argument.regime_transition"
+                    },
+                    "sensor_invalid": {
+                      "label_key": "status.fftrim.suffix.i_argument.sensor_invalid"
+                    },
+                    "dead_band": {
+                      "label_key": "status.fftrim.suffix.i_argument.dead_band"
+                    },
+                    "near_band": {
+                      "label_key": "status.fftrim.suffix.i_argument.near_band"
+                    },
+                    "warmup": {
+                      "label_key": "status.fftrim.suffix.i_argument.warmup"
+                    },
+                    "hold": {
+                      "label_key": "status.fftrim.suffix.i_argument.hold"
+                    },
+                    "perturbed": {
+                      "label_key": "status.fftrim.suffix.i_argument.perturbed"
+                    },
+                    "saturation": {
+                      "label_key": "status.fftrim.suffix.i_argument.saturation"
+                    },
+                    "system_inefficient": {
+                      "label_key": "status.fftrim.suffix.i_argument.system_inefficient"
+                    }
+                  }
+                },
+                "error_": {
+                  "label_key": "status.fftrim.prefix.error",
+                  "tone": "muted",
+                  "icon": "mdi:thermometer-alert"
+                },
+                "slope_": {
+                  "label_key": "status.fftrim.prefix.slope",
+                  "tone": "muted",
+                  "icon": "mdi:trending-up"
+                },
+                "periodic_constraint_": {
+                  "label_key": "status.fftrim.prefix.periodic_constraint",
+                  "tone": "muted",
+                  "icon": "mdi:sine-wave",
+                  "suffix_map": {
+                    "saturated_high": {
+                      "label_key": "status.fftrim.suffix.constraint.saturated_high"
+                    },
+                    "saturated_low": {
+                      "label_key": "status.fftrim.suffix.constraint.saturated_low"
+                    },
+                    "trajectory": {
+                      "label_key": "status.fftrim.suffix.constraint.trajectory"
+                    },
+                    "phase_Hysteresis": {
+                      "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"
+                    },
+                    "phase_Calibration": {
+                      "label_key": "status.fftrim.suffix.constraint.phase_Calibration"
+                    },
+                    "guard": {
+                      "label_key": "status.fftrim.suffix.constraint.guard"
+                    },
+                    "setpoint_changed": {
+                      "label_key": "status.fftrim.suffix.constraint.setpoint_changed"
+                    },
+                    "recovery": {
+                      "label_key": "status.fftrim.suffix.constraint.recovery"
+                    },
+                    "timing": {
+                      "label_key": "status.fftrim.suffix.constraint.timing"
+                    },
+                    "output_limited": {
+                      "label_key": "status.fftrim.suffix.constraint.output_limited"
+                    },
+                    "timing_output": {
+                      "label_key": "status.fftrim.suffix.constraint.timing_output"
+                    },
+                    "ff3": {
+                      "label_key": "status.fftrim.suffix.constraint.ff3"
+                    }
+                  }
+                },
+                "transfer_constraint_": {
+                  "label_key": "status.fftrim.prefix.transfer_constraint",
+                  "tone": "muted",
+                  "icon": "mdi:swap-vertical-circle-outline",
+                  "suffix_map": {
+                    "saturated_high": {
+                      "label_key": "status.fftrim.suffix.constraint.saturated_high"
+                    },
+                    "saturated_low": {
+                      "label_key": "status.fftrim.suffix.constraint.saturated_low"
+                    },
+                    "trajectory": {
+                      "label_key": "status.fftrim.suffix.constraint.trajectory"
+                    },
+                    "phase_Hysteresis": {
+                      "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"
+                    },
+                    "phase_Calibration": {
+                      "label_key": "status.fftrim.suffix.constraint.phase_Calibration"
+                    },
+                    "guard": {
+                      "label_key": "status.fftrim.suffix.constraint.guard"
+                    },
+                    "setpoint_changed": {
+                      "label_key": "status.fftrim.suffix.constraint.setpoint_changed"
+                    },
+                    "recovery": {
+                      "label_key": "status.fftrim.suffix.constraint.recovery"
+                    },
+                    "timing": {
+                      "label_key": "status.fftrim.suffix.constraint.timing"
+                    },
+                    "output_limited": {
+                      "label_key": "status.fftrim.suffix.constraint.output_limited"
+                    },
+                    "timing_output": {
+                      "label_key": "status.fftrim.suffix.constraint.timing_output"
+                    },
+                    "ff3": {
+                      "label_key": "status.fftrim.suffix.constraint.ff3"
+                    }
+                  }
+                },
+                "pending_": {
+                  "label_key": "status.fftrim.prefix.pending",
+                  "tone": "info",
+                  "icon": "mdi:progress-clock"
+                }
+              }
             },
             {
               "type": "status",
@@ -6596,19 +8608,6 @@
               "label_key": "metrics.integral_hold_source",
               "source": "diagnostic",
               "path": "live/temperature/integral_hold_source",
-              "map": {},
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:information-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "label_key": "metrics.integral_guard_source",
-              "source": "diagnostic",
-              "path": "live/temperature/integral_guard_source",
               "map": {},
               "fallback": {
                 "label_key": "fallback.unknown_code",

@@ -21,6 +21,7 @@ import type {
   RegulationDashboardHistoryOptions,
   RegulationDashboardHistorySeries,
   RegulationDashboardItem,
+  RegulationDashboardLabelFields,
   RegulationDashboardMetric,
   RegulationDashboardMetricGridItem,
   RegulationDashboardProgressItem,
@@ -28,6 +29,7 @@ import type {
   RegulationDashboardSource,
   RegulationDashboardStatusMapEntry,
   RegulationDashboardStatusItem,
+  RegulationDashboardStatusPrefixEntry,
   RegulationDashboardTone,
   RegulationDashboardValueItem,
   RegulationDashboardValueRef
@@ -629,11 +631,14 @@ export class EquinoxRegulationRenderer extends LitElement {
     const valueMissing = isMissingRegulationValue(value);
     const key = valueMissing ? "" : String(value);
     const exactEntry = item.map[key];
-    const rangeEntry = exactEntry ? undefined : this._rangeStatusEntry(item, value);
-    const fallbackUsed = !valueMissing && !exactEntry && !rangeEntry && item.fallback !== undefined;
-    const entry = valueMissing && item.fallback_show_value ? undefined : exactEntry ?? rangeEntry ?? item.fallback;
+    const prefixMatch = exactEntry ? undefined : this._prefixStatusMatch(item, value);
+    const rangeEntry = exactEntry || prefixMatch ? undefined : this._rangeStatusEntry(item, value);
+    const fallbackUsed = !valueMissing && !exactEntry && !prefixMatch && !rangeEntry && item.fallback !== undefined;
+    const entry = valueMissing && item.fallback_show_value ? undefined : exactEntry ?? prefixMatch?.entry ?? rangeEntry ?? item.fallback;
     const tone = (valueMissing || fallbackUsed) && item.fallback_show_value ? "muted" : entry?.tone ?? "muted";
-    const label = entry ? this._translate(entry.label_key, entry.label ?? key) : VALUE_FALLBACK;
+    const label = prefixMatch && entry === prefixMatch.entry
+      ? prefixMatch.label
+      : entry ? this._translate(entry.label_key, entry.label ?? key) : VALUE_FALLBACK;
     const displayedValue = item.show_value ? this._formatStatusValue(item, value) : "";
     const rawFallback = fallbackUsed && item.fallback_show_value === true;
     const fallbackValue = rawFallback ? this._formatRawStatusValue(value) : "";
@@ -1129,6 +1134,46 @@ export class EquinoxRegulationRenderer extends LitElement {
 
   private _formatLocale(): string | undefined {
     return this.language || this.hass?.locale?.language || this.hass?.language;
+  }
+
+  /**
+   * Resolve a generated code made of a known prefix and a variable suffix, for example
+   * `frozen_reboot` or `pi_mode_I:HOLD(window_resume)`. The longest matching prefix wins; the suffix
+   * is translated through `suffix_map` (exact, then `KIND(argument)` with `argument_map`) and shown
+   * raw when it has no label. The prefix label places it at `{value}`.
+   */
+  private _prefixStatusMatch(
+    item: RegulationDashboardStatusItem,
+    value: unknown
+  ): { entry: RegulationDashboardStatusPrefixEntry; label: string } | undefined {
+    if (typeof value !== "string" || !item.prefix_map) {
+      return undefined;
+    }
+    const prefix = Object.keys(item.prefix_map)
+      .filter((candidate) => candidate !== "" && value.startsWith(candidate) && value.length > candidate.length)
+      .sort((left, right) => right.length - left.length)[0];
+    if (prefix === undefined) {
+      return undefined;
+    }
+    const entry = item.prefix_map[prefix];
+    const suffix = this._translatePrefixSuffix(entry, value.slice(prefix.length));
+    const template = this._translate(entry.label_key, entry.label ?? prefix);
+    return { entry, label: template.includes("{value}") ? template.replace("{value}", suffix) : `${template} (${suffix})` };
+  }
+
+  private _translatePrefixSuffix(entry: RegulationDashboardStatusPrefixEntry, suffix: string): string {
+    const labelOf = (fields: RegulationDashboardLabelFields | undefined, raw: string): string =>
+      fields ? this._translate(fields.label_key, fields.label ?? raw) : raw;
+    const exact = entry.suffix_map?.[suffix];
+    if (exact) {
+      return labelOf(exact, suffix);
+    }
+    const call = /^(.+?)\((.*)\)$/u.exec(suffix);
+    const head = call ? entry.suffix_map?.[call[1]] : undefined;
+    if (call && head) {
+      return `${labelOf(head, call[1])} (${labelOf(entry.argument_map?.[call[2]], call[2])})`;
+    }
+    return suffix;
   }
 
   private _rangeStatusEntry(item: RegulationDashboardStatusItem, value: unknown): RegulationDashboardStatusMapEntry | undefined {

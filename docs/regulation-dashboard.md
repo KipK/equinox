@@ -189,19 +189,26 @@ feedforward, shown in Command.
 The `tar_learning` section follows `live/tar_learning`. Learning is always
 enabled in SmartPI 0.7, independently of the A/B learning toggle; there is no
 T_ar configuration option and no `gate` or `path` diagnostic. It applies only
-to PWM heating and is unsupported with valves. Status, applied source,
-`applied_s`, `gains_s`, `bootstrap_s` and the out-of-bound flag explain the delay
-actually used. Refined values take priority over morning values; a learned
-delay outside 0.5–2 times bootstrap is not applied. The initial bootstrap
-measurement never changes, and gains use half the applied learned delay or the
-full bootstrap delay.
+to PWM heating and is unsupported with valves. Status, applied source (the
+initial measurement, morning learning, refined identification or a lower bound),
+`applied_s`, `gains_s`, `bootstrap_s`, `reference_s`, the limit flag and
+`limit_reason` explain the delay actually used. The refined value takes priority
+over the morning value, and a lower bound raises a shorter learned value. The
+gains compare half the learned delay with a reference (`reference_s`, the larger
+of the first initial measurement kept since learning started and the current
+one): a shorter delay keeps the reference, up to twice the reference the half
+value is used, and above that it is used only when the morning and identification
+values agree, otherwise twice the reference applies. The initial measurement
+never changes.
 
-Morning diagnostics show `fast.value_s`, confirmed mornings, last accepted
-value and its confirmation or reason for non-confirmation. The last evaluated
-morning is shown separately with day, acceptance, reason and room class: it
+Morning diagnostics show `fast.value_s`, confirmed mornings, the lower bound
+(`fast.lower_bound_s`, from comfort steps cut by sunrise) with its count, the
+last accepted value and its confirmation or reason for non-confirmation. The
+last evaluated morning is shown separately with its local date (`YYYY-MM-DD`),
+acceptance, reason, confirmation, reason for non-confirmation and room class: it
 may differ from the last accepted morning. At least three consistent confirmed
 mornings are needed. Refined diagnostics show the published `tau_e_s`, room
-class, air-wall coupling, wall time constant, latest daily evaluation day,
+class, air-wall coupling, wall time constant, latest daily evaluation date,
 whether its six nights are regulated, and `night_room_class`. A daily evaluation
 is not necessarily a publication. `data_invalid_reason` explains exclusions
 such as a window, shedding, a temperature jump or a command override; an absent
@@ -335,7 +342,11 @@ the cut. Equinox shows the published state without calculating a release
 temperature or countdown; missing states remain `--` and unknown codes remain
 visible with neutral styling.
 
-FF3 and thermal-twin statuses are grouped in Model and prediction. FFTrim uses
+FF3 and thermal-twin statuses are grouped in Model and prediction. The FFTrim
+rejection and transfer reasons (`last_reject_reason` of the observers and
+`transfer/reason`) have FR/EN labels for every code SmartPI publishes, including
+generated codes (`frozen_…`, `regime_…`, `pi_mode_…`, `error_…`, `slope_…`,
+`*_constraint_…`, `pending_…`) through `prefix_map`. FFTrim uses
 `live/feedforward/fftrim/{stationary,periodic,transfer,last_result,last_transaction}`.
 Its published `live/feedforward/fftrim/command_ownership` namespace includes
 `receipts_supported`, `kind`, `alterations` and `rejection_counts`; the built-in
@@ -826,6 +837,8 @@ Fields:
 | `value_unit`, `value_unit_key` | no | string | Unit appended to the displayed value. |
 | `value_digits` | no | number | Decimal digits for the displayed value. |
 
+| `prefix_map` | no | object | Labels for generated codes made of a known prefix and a variable suffix, used when no exact `map` key matches. See below. |
+
 Map entry fields:
 
 | Field | Type | Notes |
@@ -888,6 +901,33 @@ An exact `map` or `ranges` match shows only its mapped label. An unknown value
 uses the neutral fallback styling but displays only its raw string or boolean
 code. This avoids adding a redundant generic “unknown” label and does not change
 the existing `show_value` behavior for numeric statuses.
+
+Generated codes such as `frozen_reboot` or `pi_mode_I:HOLD(window_resume)` use
+`prefix_map`. Its keys are prefixes (the longest match wins). An entry carries the
+usual `label`/`label_key`, `tone` and `icon`, where the label places the translated
+suffix at `{value}` (or appends it in parentheses without a placeholder), plus two
+optional maps of label fields: `suffix_map` for the exact suffix, and, for a suffix
+shaped like `KIND(argument)`, `suffix_map` for `KIND` and `argument_map` for
+`argument`. A suffix without a label is shown as is; a value without a matching
+prefix uses `fallback`.
+
+```json
+{
+  "type": "status",
+  "source": "diagnostic",
+  "path": "live/feedforward/fftrim/last_reject_reason",
+  "map": {},
+  "prefix_map": {
+    "frozen_": {
+      "label": "Trim frozen: {value}",
+      "tone": "muted",
+      "suffix_map": { "reboot": { "label": "recent restart" } }
+    }
+  },
+  "fallback": { "tone": "muted", "icon": "mdi:help-circle-outline" },
+  "fallback_show_value": true
+}
+```
 
 Numeric range example:
 
