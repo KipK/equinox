@@ -178,8 +178,9 @@ not hardcoded or interpreted as a remaining count.
 Publication requires three coherent estimates from constant-power heating phases;
 the estimate count is not a completion percentage. Missing/null values remain
 `--`, and zero is valid. SmartPI also resolves its delivered-power model without
-publishing a lag once `episodes >= episodes_target` (currently seven phases),
-even without retained estimates; it then uses applied power. The phase count
+publishing a lag once `episodes >= episodes_target` (currently four heating
+phases; a heating phase groups active episodes separated by less than 10 minutes
+without heating), even without retained estimates; it then uses applied power. The phase count
 continues beyond the target and after lag publication, so Equinox displays it
 without capping it or inferring bootstrap completion. The model-resolution flag
 is not published. `episode interrupted by restart` is shown as a muted
