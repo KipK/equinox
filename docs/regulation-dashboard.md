@@ -295,8 +295,9 @@ not hardcoded or interpreted as a remaining count.
 Publication requires three coherent estimates from constant-power heating phases;
 the estimate count is not a completion percentage. Missing/null values remain
 `--`, and zero is valid. SmartPI also resolves its delivered-power model without
-publishing a lag once `episodes >= episodes_target` (currently seven phases),
-even without retained estimates; it then uses applied power. The phase count
+publishing a lag once `episodes >= episodes_target` (currently four heating
+phases; a heating phase groups active episodes separated by less than 10 minutes
+without heating), even without retained estimates; it then uses applied power. The phase count
 continues beyond the target and after lag publication, so Equinox displays it
 without capping it or inferring bootstrap completion. The model-resolution flag
 is not published. `episode interrupted by restart` is shown as a muted
@@ -306,6 +307,21 @@ from the upcoming SmartPI 0.6.0 contract; older diagnostics show `--` for them.
 Constant-power initial-learning phases provide the main opportunity to estimate
 the delay; a system already regulating with PWM may publish none. For cycle
 configuration advice, see the [SmartPI installation guide](https://github.com/KipK/vtherm_smartpi/blob/master/documentation/en/vtherm_smartpi.md).
+
+The heating balance group reads
+`live/analysis/learning/heating_balance/{state,measurements,a,lag_s,last_reason,last}`
+with the `last/{heating_min,rise_c,peak_delay_min,a,lag_s,constant_power,context}`
+sub-fields. It shows the measurement state (resting, heating, waiting for the
+peak), the median heating rate `a` (`°C/min`, four digits like the model `a`),
+the median emitter delay as a compact duration and the number of retained
+measurements, then the last measurement: full-power heating time and peak delay
+in minutes, temperature rise in `°C`, its own `a` and lag, whether the power
+stayed constant, and its context (bootstrap, calibration, regulation). A
+translated outcome states why the last heating phase did or did not produce a
+measurement. The balance is observation only: SmartPI does not use it, and
+values measured in regulation at varying power are not reliable. Null values
+stay `--`; a muted note appears when the block is absent from the diagnostics
+of an older SmartPI version.
 
 The learning notes explain that A uses estimated delivered power, that transient
 responses and insufficient sensor variation can delay a window, and that A can

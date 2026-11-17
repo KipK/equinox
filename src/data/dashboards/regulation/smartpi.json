@@ -373,6 +373,37 @@
       "status.response_lag.unresolvable_intercept": "Délai non déterminable sur cette phase",
       "status.response_lag.interrupted_by_restart": "Phase interrompue par un redémarrage",
       "notes.learning.response_lag": "Ce délai décrit le temps de réaction de l'ensemble de l'installation, y compris l'émetteur et la sonde. Il est estimé pendant les phases à puissance constante. Une estimation retenue ne suffit pas à valider le délai ; une installation lente peut demander plusieurs heures d'observation. Même sans estimation retenue, le modèle se résout automatiquement après le nombre fixe de phases de chauffe affiché.",
+      "groups.learning.heating_balance": "Bilan de chauffe (observation)",
+      "metrics.heating_balance.state": "État de la mesure",
+      "status.heating_balance.state.resting": "Au repos",
+      "status.heating_balance.state.heating": "Chauffe en cours",
+      "status.heating_balance.state.waiting_peak": "Attente du pic de température",
+      "metrics.heating_balance.a_median": "Vitesse de chauffe médiane",
+      "metrics.heating_balance.lag_median": "Délai médian de l'émetteur",
+      "metrics.heating_balance.measurements": "Mesures retenues",
+      "metrics.heating_balance.last_heating": "Dernière mesure : chauffe à pleine puissance (min)",
+      "metrics.heating_balance.last_rise": "Dernière mesure : hausse de température (°C)",
+      "metrics.heating_balance.last_peak_delay": "Dernière mesure : délai du pic après l'arrêt (min)",
+      "metrics.heating_balance.last_a": "Dernière mesure : vitesse de chauffe",
+      "metrics.heating_balance.last_lag": "Dernière mesure : délai de l'émetteur",
+      "metrics.heating_balance.last_reason": "Dernière phase de chauffe",
+      "status.heating_balance.reason.measured": "Mesure retenue",
+      "status.heating_balance.reason.rest_too_short": "Repos avant la chauffe trop court",
+      "status.heating_balance.reason.baseline_insufficient": "Relevés de référence insuffisants",
+      "status.heating_balance.reason.heating_too_short": "Chauffe trop courte",
+      "status.heating_balance.reason.rise_too_small": "Hausse de température trop faible",
+      "status.heating_balance.reason.still_rising": "Température encore en hausse à la chauffe suivante",
+      "status.heating_balance.reason.no_peak": "Pas de pic pendant l'attente",
+      "status.heating_balance.reason.observation_gap": "Interruption des relevés",
+      "status.heating_balance.reason.mode_left": "Mode chauffage quitté",
+      "status.heating_balance.reason.interrupted_by_restart": "Phase interrompue par un redémarrage",
+      "metrics.heating_balance.last_context": "Contexte de la dernière mesure",
+      "status.heating_balance.context.bootstrap": "Apprentissage initial",
+      "status.heating_balance.context.calibration": "Calibration",
+      "status.heating_balance.context.regulation": "Régulation",
+      "metrics.heating_balance.last_constant_power": "Puissance constante pendant la chauffe",
+      "notes.learning.heating_balance": "Le bilan est mesuré sur une phase de chauffe suivie d'un arrêt, après au moins 30 minutes sans chauffage. Il donne la vitesse de chauffe et le délai de l'émetteur à partir de la chaleur reçue par la pièce. Il est affiché pour observation et SmartPI ne l'utilise pas. Les valeurs mesurées en régulation, à puissance variable, ne sont pas fiables.",
+      "notes.learning.heating_balance_missing": "Bilan de chauffe non disponible. Cette version de SmartPI ne le publie pas.",
       "groups.model.deadtime_detection": "Détection des temps morts",
       "metrics.deadtime_state": "État du détecteur",
       "status.deadtime.off": "Au repos",
@@ -1143,6 +1174,37 @@
       "status.response_lag.unresolvable_intercept": "Delay cannot be determined from this phase",
       "status.response_lag.interrupted_by_restart": "Phase interrupted by a restart",
       "notes.learning.response_lag": "This delay describes how long the whole system takes to respond, including the emitter and sensor. It is estimated during constant-power phases. A retained estimate does not validate the delay by itself; a slow system may need several hours of observation. Even without a retained estimate, the model resolves automatically after the fixed number of heating phases shown.",
+      "groups.learning.heating_balance": "Heating balance (observation)",
+      "metrics.heating_balance.state": "Measurement state",
+      "status.heating_balance.state.resting": "Resting",
+      "status.heating_balance.state.heating": "Heating",
+      "status.heating_balance.state.waiting_peak": "Waiting for the temperature peak",
+      "metrics.heating_balance.a_median": "Median heating rate",
+      "metrics.heating_balance.lag_median": "Median emitter delay",
+      "metrics.heating_balance.measurements": "Retained measurements",
+      "metrics.heating_balance.last_heating": "Last measurement: full-power heating (min)",
+      "metrics.heating_balance.last_rise": "Last measurement: temperature rise (°C)",
+      "metrics.heating_balance.last_peak_delay": "Last measurement: peak delay after stop (min)",
+      "metrics.heating_balance.last_a": "Last measurement: heating rate",
+      "metrics.heating_balance.last_lag": "Last measurement: emitter delay",
+      "metrics.heating_balance.last_reason": "Last heating phase",
+      "status.heating_balance.reason.measured": "Measurement retained",
+      "status.heating_balance.reason.rest_too_short": "Rest before heating too short",
+      "status.heating_balance.reason.baseline_insufficient": "Insufficient baseline samples",
+      "status.heating_balance.reason.heating_too_short": "Heating too short",
+      "status.heating_balance.reason.rise_too_small": "Temperature rise too small",
+      "status.heating_balance.reason.still_rising": "Still rising at the next heating",
+      "status.heating_balance.reason.no_peak": "No peak within the wait",
+      "status.heating_balance.reason.observation_gap": "Gap in the readings",
+      "status.heating_balance.reason.mode_left": "Heating mode left",
+      "status.heating_balance.reason.interrupted_by_restart": "Phase interrupted by a restart",
+      "metrics.heating_balance.last_context": "Context of the last measurement",
+      "status.heating_balance.context.bootstrap": "Initial learning",
+      "status.heating_balance.context.calibration": "Calibration",
+      "status.heating_balance.context.regulation": "Regulation",
+      "metrics.heating_balance.last_constant_power": "Constant power during heating",
+      "notes.learning.heating_balance": "The balance is measured on a heating phase followed by a stop, after at least 30 minutes without heating. It gives the heating rate and the emitter delay from the heat received by the room. It is shown for observation and SmartPI does not use it. Values measured in regulation at varying power are not reliable.",
+      "notes.learning.heating_balance_missing": "Heating balance unavailable. This SmartPI version does not publish it.",
       "groups.model.deadtime_detection": "Dead time detection",
       "metrics.deadtime_state": "Detector state",
       "status.deadtime.off": "Idle",
@@ -4810,6 +4872,241 @@
                       ]
                     }
                   ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.learning.heating_balance",
+          "columns": 1,
+          "items": [
+            {
+              "type": "status",
+              "label_key": "metrics.heating_balance.state",
+              "source": "diagnostic",
+              "path": "live/analysis/learning/heating_balance/state",
+              "align": "center",
+              "map": {
+                "resting": {
+                  "label_key": "status.heating_balance.state.resting",
+                  "tone": "muted",
+                  "icon": "mdi:sleep"
+                },
+                "heating": {
+                  "label_key": "status.heating_balance.state.heating",
+                  "tone": "info",
+                  "icon": "mdi:radiator"
+                },
+                "waiting for the peak": {
+                  "label_key": "status.heating_balance.state.waiting_peak",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "metric_grid",
+              "columns": 3,
+              "metrics": [
+                {
+                  "label_key": "metrics.heating_balance.a_median",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/a",
+                  "digits": 4,
+                  "unit": "°C/min"
+                },
+                {
+                  "label_key": "metrics.heating_balance.lag_median",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/lag_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.heating_balance.measurements",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/measurements",
+                  "digits": 0
+                },
+                {
+                  "label_key": "metrics.heating_balance.last_heating",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/last/heating_min",
+                  "digits": 1,
+                  "unit": "min"
+                },
+                {
+                  "label_key": "metrics.heating_balance.last_rise",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/last/rise_c",
+                  "digits": 2,
+                  "unit": "°C"
+                },
+                {
+                  "label_key": "metrics.heating_balance.last_peak_delay",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/last/peak_delay_min",
+                  "digits": 1,
+                  "unit": "min"
+                },
+                {
+                  "label_key": "metrics.heating_balance.last_a",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/last/a",
+                  "digits": 4,
+                  "unit": "°C/min"
+                },
+                {
+                  "label_key": "metrics.heating_balance.last_lag",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/last/lag_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                }
+              ]
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.heating_balance.last_reason",
+              "source": "diagnostic",
+              "path": "live/analysis/learning/heating_balance/last_reason",
+              "align": "center",
+              "map": {
+                "measured": {
+                  "label_key": "status.heating_balance.reason.measured",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "rest before heating too short": {
+                  "label_key": "status.heating_balance.reason.rest_too_short",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "baseline samples insufficient": {
+                  "label_key": "status.heating_balance.reason.baseline_insufficient",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "heating too short": {
+                  "label_key": "status.heating_balance.reason.heating_too_short",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "temperature rise too small": {
+                  "label_key": "status.heating_balance.reason.rise_too_small",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "still rising at the next heating": {
+                  "label_key": "status.heating_balance.reason.still_rising",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "no peak within the wait": {
+                  "label_key": "status.heating_balance.reason.no_peak",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "observation gap": {
+                  "label_key": "status.heating_balance.reason.observation_gap",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "heating mode left": {
+                  "label_key": "status.heating_balance.reason.mode_left",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "interrupted by restart": {
+                  "label_key": "status.heating_balance.reason.interrupted_by_restart",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.heating_balance.last_context",
+              "source": "diagnostic",
+              "path": "live/analysis/learning/heating_balance/last/context",
+              "align": "center",
+              "map": {
+                "bootstrap": {
+                  "label_key": "status.heating_balance.context.bootstrap",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "calibration": {
+                  "label_key": "status.heating_balance.context.calibration",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "regulation": {
+                  "label_key": "status.heating_balance.context.regulation",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.heating_balance.last_constant_power",
+              "source": "diagnostic",
+              "path": "live/analysis/learning/heating_balance/last/constant_power",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.boolean.true",
+                  "tone": "info",
+                  "icon": "mdi:circle-outline"
+                },
+                "false": {
+                  "label_key": "status.boolean.false",
+                  "tone": "muted",
+                  "icon": "mdi:circle-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "section_note",
+              "text_key": "notes.learning.heating_balance",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            {
+              "type": "section_note",
+              "text_key": "notes.learning.heating_balance_missing",
+              "tone": "muted",
+              "icon": "mdi:information-outline",
+              "visible_if": {
+                "!": {
+                  "var": "diagnostic/live/analysis/learning/heating_balance/state"
                 }
               }
             }

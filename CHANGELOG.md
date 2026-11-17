@@ -4,6 +4,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.4.6-dev
 
+- SmartPI: add a Heating balance (observation) group in the response delay area, showing the heating rate and emitter delay measured on heating phases followed by a stop, with the last measurement and the outcome of the last heating phase. The balance is for observation only.
 - SmartPI: the integral guard is gone, so its source and the guard integral modes are no longer shown. The emitter delay text for a morning not confirmed now reads "less than 1.5 hours" at the low setpoint.
 - Label every SmartPI FFTrim rejection and transfer reason in French and English, including generated codes (frozen trim, regime, integral mode, constraint, pending confirmation), through a new `prefix_map` on `status` blocks. Unknown codes still show their raw value.
 - Room model: translate the current refusal reasons (quiet periods, heat balance checks) in French and English.
