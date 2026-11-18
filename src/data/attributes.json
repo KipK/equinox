@@ -35,8 +35,8 @@
   "history.room_model.b_eq": "min⁻¹",
   "history.room_model.forecast_error_1h_c": "°C",
   "history.room_model.forecast_error_12h_c": "°C",
-  "history.setpoint.filtered_setpoint": "temperature",
   "history.temperature.indoor": "temperature",
+  "history.temperature.anticipated": "temperature",
   "history.temperature.integral_error": "°C·min",
 
   "lock_manager.auto_relock_sec": "s",

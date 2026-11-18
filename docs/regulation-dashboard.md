@@ -51,9 +51,9 @@ The SmartPI dashboard uses these ten sections in this order:
 
 | English / French | Stable section ID | Purpose |
 | --- | --- | --- |
-| Overview / Synthèse | `overview` | Temperature, user and followed setpoints, applied command and useful current influences |
+| Overview / Synthèse | `overview` | Temperature, user setpoint, applied command and useful current influences |
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
-| Target approach / Approche de consigne | `anticipation` | Followed setpoint, trajectory profile and command history |
+| Target approach / Approche de consigne | `anticipation` | User setpoint, temperature anticipation and command history |
 | Model and prediction / Modèle et prévision | `model` | A/B, confidence, delays and the relocated FF3/twin block |
 | Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
@@ -63,43 +63,50 @@ The SmartPI dashboard uses these ten sections in this order:
 | Actions / Actions | `actions` | Existing confirmed maintenance commands |
 
 The existing section IDs remain valid for selection, desktop navigation and
-the mobile section menu. Overview includes the current trajectory phase.
+the mobile section menu.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
 controller data directly from `live/...` and its eighteen historical series from
 `history/...`; it does not branch on SmartPI debug mode or reconstruct controller
 state. The only derived live metrics divide published loss by heating response
 to compare the models’ static holding-power ratios. Published `live/power/*_percent` values are already percentages.
-Ratios inside `live/feedforward/fftrim` and trajectory `next_cycle_reference` /
-`bumpless_delta` use an explicit `value_multiplier: 100`. Temperatures and
+Ratios inside `live/feedforward/fftrim` use an explicit `value_multiplier: 100`. Temperatures and
 setpoints remain in physical °C coordinates in both HEAT and COOL.
 Absent fields remain `--`; `null` never becomes zero, and zero and `false`
 remain valid data. Evolving enum values use a neutral fallback that keeps the
 raw code visible. Offset-aware ISO dates may use the Home Assistant timezone;
 naive ISO dates are displayed without inventing a source timezone.
 
-Target approach shows the user setpoint from climate `temperature`, the measured
-indoor temperature from `live/temperature/indoor`, and the filtered reference
-followed by P from `live/setpoint/filtered_setpoint`. Trajectory activity and
-source use `live/setpoint/trajectory_active` and `live/setpoint/trajectory_source`.
-Phase, timing, profile targets and bumpless indicators use
-`live/analysis/trajectory`. Details and readiness indicators appear while the
-trajectory is active. Its `idle/tracking/release` phase is displayed as published;
-`braking_needed=false` alone does not establish that the trajectory has ended.
+Target approach shows the user setpoint from climate `temperature` and the measured
+indoor temperature from `live/temperature/indoor`. An Anticipation group reads
+`live/analysis/control/{anticipation_c,anticipation_horizon_s,anticipation_horizon_source}`
+and `live/temperature/anticipated` (the measured temperature plus the correction).
+In the stable phase, SmartPI adds a correction to the measured temperature for the
+proportional and integral errors: the distance the room is about to travel during
+the delay between a command and its effect, at most 1 °C in absolute value, in
+heating and in cooling. `anticipation_c` is shown in `°C` and is 0 when the
+anticipation is off (outside the stable phase, without horizon or without a rising
+or falling slope). `anticipation_horizon_s` is the delay in use, shown as a compact
+duration like the other delays. `anticipation_horizon_source` is shown as a status:
+**Heating balance** (the median of the last emitter delays measured, in heating
+only), **Dead times**, or **None**; an unknown code stays visible with neutral
+styling. A short on-screen note explains the mechanism.
 
-The section also compares recorded indoor temperature, filtered reference and
-climate user setpoint in a °C graph, then calculated and applied commands in a
-separate % graph. Both use a 6-hour window. Applied power is an actuator command,
-not a measurement of delivered heat. The on-screen note briefly explains the
-two graphs.
+The section also compares the recorded indoor temperature, the recorded anticipated
+temperature (`history/temperature/anticipated`) and the climate user setpoint in a
+°C graph, then calculated and applied commands in a separate % graph. When the
+anticipated curve reaches the setpoint before the measured one, the command drops
+ahead of time. Both use
+a 6-hour window. Applied power is an actuator command, not a measurement of
+delivered heat.
 
 The eighteen diagnostic Recorder series (SmartPI 0.7) are:
 
 - `history/temperature/indoor`
+- `history/temperature/anticipated`
 - `history/temperature/integral_error`
 - `history/control/kp`
 - `history/control/ki`
-- `history/setpoint/filtered_setpoint`
 - `history/power/applied_percent`
 - `history/power/command_percent`
 - `history/power/pi_percent`
@@ -309,16 +316,17 @@ the delay; a system already regulating with PWM may publish none. For cycle
 configuration advice, see the [SmartPI installation guide](https://github.com/KipK/vtherm_smartpi/blob/master/documentation/en/vtherm_smartpi.md).
 
 The heating balance group reads
-`live/analysis/learning/heating_balance/{state,measurements,a,lag_s,last_reason,last}`
+`live/analysis/learning/heating_balance/{state,measurements,a,lag_s,kept_lag_s,kept_lags,last_reason,last}`
 with the `last/{heating_min,rise_c,peak_delay_min,a,lag_s,constant_power,context}`
 sub-fields. It shows the measurement state (resting, heating, waiting for the
 peak), the median heating rate `a` (`°C/min`, four digits like the model `a`),
-the median emitter delay as a compact duration and the number of retained
-measurements, then the last measurement: full-power heating time and peak delay
+the median emitter delay as a compact duration, the median of the kept delays
+(`kept_lag_s`, labeled as the delay used by the anticipation in heating) with how
+many are kept (`kept_lags`, up to 7), and the number of retained measurements, then the last measurement: full-power heating time and peak delay
 in minutes, temperature rise in `°C`, its own `a` and lag, whether the power
 stayed constant, and its context (bootstrap, calibration, regulation). A
 translated outcome states why the last heating phase did or did not produce a
-measurement. The balance is observation only: SmartPI does not use it, and
+measurement. SmartPI uses only the kept delay, as the anticipation horizon in heating; the other values are for observation, and
 values measured in regulation at varying power are not reliable. Null values
 stay `--`; a muted note appears when the block is absent from the diagnostics
 of an older SmartPI version.
@@ -375,7 +383,7 @@ time, and `live/autocalib/snapshot_age_h` reports the actual snapshot age.
 
 The configuration and actual renderer methods are covered by
 `npm run test:smartpi` (Node 24), including published diagnostic bindings and
-documentation examples, trajectory transitions, missing/null/zero values,
+documentation examples, anticipation values and horizon sources, missing/null/zero values,
 unknown enums, HEAT/COOL units, Ti, response lag, detector waits/outcomes, early
 initial-learning collection and early publication, pause and unavailable-delay
 notices, thermal protection cuts, the eighteen Recorder paths, room-model ratios and

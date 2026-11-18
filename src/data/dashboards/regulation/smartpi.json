@@ -16,7 +16,7 @@
       "sections.fftrim.title": "Équilibre / FFTrim",
       "sections.fftrim.summary": "Observation de la puissance de maintien et répartition entre intégrale et trim.",
       "sections.anticipation.title": "Approche de consigne",
-      "sections.anticipation.summary": "Consigne suivie, profil de trajectoire et évolution de la commande.",
+      "sections.anticipation.summary": "Consigne, anticipation de la température et évolution de la commande.",
       "sections.health.title": "Protections",
       "sections.health.summary": "Gouvernance, protections et calibration.",
       "sections.actions.title": "Actions",
@@ -38,7 +38,6 @@
       "metrics.temperature": "Température",
       "metrics.error": "Écart consigne",
       "metrics.integral_error": "Intégrale",
-      "metrics.filtered_setpoint": "Référence filtrée suivie par P",
       "metrics.current_cycle": "Cycle courant",
       "metrics.next_cycle": "Prochain cycle",
       "metrics.linear_current_cycle": "Cycle courant linéaire",
@@ -97,7 +96,6 @@
       "metrics.calibration_state": "Calibration",
       "metrics.calibration_retry": "Essais calibration",
       "metrics.calibration_last_time": "Dernière calibration",
-      "metrics.trajectory": "Trajectoire",
       "metrics.fftrim": "FFTrim",
       "metrics.fftrim.state": "Observateur stationnaire",
       "metrics.fftrim.observation_mode": "Dernière méthode",
@@ -141,7 +139,6 @@
       "metrics.fftrim.net_command_delta": "Variation nette de commande",
       "metrics.fftrim.window_duration": "Durée observée",
       "metrics.fftrim.transaction_timestamp": "Application (UTC)",
-      "metrics.trajectory.source": "Source de trajectoire",
       "metrics.ff3.twin_usable": "Jumeau utilisable",
       "groups.overview.thermal": "Température et consigne",
       "groups.overview.command": "Commande en cours",
@@ -202,9 +199,6 @@
       "status.regime.degraded": "Dégradé",
       "status.regime.saturated": "Saturé",
       "status.boolean.active": "Actif",
-      "status.trajectory.setpoint": "Changement de consigne",
-      "status.trajectory.disturbance": "Perturbation",
-      "status.trajectory.none": "Aucune",
       "status.ff3.active": "FF3 actif",
       "status.ff3.inactive": "FF3 inactif",
       "status.ff3.disabled": "FF3 désactivé",
@@ -212,7 +206,6 @@
       "status.ff3.disabled.deadband": "FF3 inactif en zone morte",
       "status.ff3.disabled.not_near_band": "FF3 hors zone proche",
       "status.ff3.disabled.pending_cycle_boundary": "FF3 en attente de fin de cycle",
-      "status.ff3.disabled.trajectory_setpoint_active": "FF3 bloqué par la trajectoire de consigne",
       "status.ff3.disabled.disturbance_unclassified": "Perturbation FF3 non classée",
       "status.ff3.disabled.twin_warming_up": "Jumeau thermique en chauffe",
       "status.ff3.disabled.twin_steady_invalid": "État stable du jumeau invalide",
@@ -270,7 +263,6 @@
       "status.fftrim.reason.not_enough_measurements": "Mesures insuffisantes",
       "status.fftrim.reason.window_too_short": "Fenêtre trop courte",
       "status.fftrim.reason.setpoint_changed": "Consigne modifiée",
-      "status.fftrim.reason.trajectory_active": "Trajectoire active",
       "status.fftrim.reason.ff3_active": "FF3 actif",
       "status.fftrim.reason.model_confidence": "Modèle insuffisamment fiable",
       "status.fftrim.reason.missing_outdoor_temperature": "Température extérieure absente",
@@ -318,35 +310,25 @@
       "graphs.command.ff": "Feed-forward total",
       "graphs.overview.title": "Température, consigne et puissance (6 h)",
       "graphs.overview.temperature": "Température mesurée",
-      "graphs.overview.filtered_setpoint": "Référence filtrée suivie par P",
       "graphs.overview.applied": "Commande appliquée",
       "graphs.model.title": "Paramètres A et B (1R1C) (24h)",
       "graphs.model.a": "A - Réponse signée (chauffage + / refroidissement -)",
       "graphs.model.b": "B - Pertes thermiques",
       "metrics.user_setpoint": "Consigne utilisateur",
-      "metrics.trajectory.phase": "Phase de trajectoire",
-      "status.trajectory.phase.idle": "Inactive",
-      "status.trajectory.phase.tracking": "Suivi du profil",
-      "status.trajectory.phase.release": "Retour progressif à la consigne",
-      "groups.approach.followed": "Consigne suivie",
-      "status.boolean.inactive": "Inactif",
-      "groups.approach.details": "Détails de trajectoire",
-      "metrics.trajectory.start": "Consigne de départ",
-      "metrics.trajectory.target": "Cible du profil",
-      "metrics.trajectory.tau": "Constante de temps du profil",
-      "metrics.trajectory.elapsed": "Temps écoulé",
-      "metrics.trajectory.remaining": "Cycle restant",
-      "metrics.trajectory.next_reference": "Référence de puissance au cycle suivant",
-      "metrics.trajectory.bumpless_delta": "Écart de commande sans à-coup",
-      "groups.approach.readiness": "Indicateurs de trajectoire",
-      "metrics.trajectory.braking_needed": "Freinage requis",
-      "metrics.trajectory.pending": "Freinage pour changement de cible en attente",
-      "metrics.trajectory.model_ready": "Modèle prêt pour la trajectoire",
-      "metrics.trajectory.bumpless_ready": "Passage sans à-coup prêt",
+      "groups.approach.setpoint": "Consigne et température",
+      "groups.approach.anticipation": "Anticipation",
+      "metrics.anticipation.correction": "Correction d'anticipation",
+      "metrics.anticipation.temperature": "Température anticipée",
+      "metrics.anticipation.horizon": "Horizon d'anticipation",
+      "metrics.anticipation.source": "Origine de l'horizon",
+      "status.anticipation.source.heating_balance": "Bilan de chauffe",
+      "status.anticipation.source.dead_times": "Temps morts",
+      "status.anticipation.source.none": "Aucun",
+      "notes.approach.anticipation": "En phase stable, la température mesurée est corrigée de la distance que la pièce va parcourir pendant le délai entre une commande et son effet (au plus 1 °C). La correction est nulle hors phase stable, sans horizon ou sans pente de la température. En chauffage, l'horizon vient du bilan de chauffe quand il est connu, sinon des temps morts ; en refroidissement, il vient des temps morts.",
       "groups.model.ff3_twin": "FF3 et jumeau thermique",
-      "graphs.approach.temperature": "Température et consignes",
+      "graphs.approach.temperature": "Température mesurée, température anticipée et consigne",
       "graphs.approach.command": "Commande calculée et commande appliquée",
-      "notes.approach.history": "Le premier graphique compare la température de la pièce aux consignes. Le second montre comment la commande du thermostat évolue au fil du temps.",
+      "notes.approach.history": "Le premier graphique compare la température mesurée, la température anticipée (mesure plus correction, celle que lit le régulateur) et la consigne. Quand la courbe anticipée atteint la consigne avant la courbe mesurée, la commande baisse en avance. Le second graphique montre la commande calculée et la commande appliquée sur la même période.",
       "metrics.ti": "Temps intégral effectif (Ti)",
       "groups.command.gains": "Gains PI",
       "metrics.learning_stage": "Phase d'apprentissage",
@@ -373,13 +355,15 @@
       "status.response_lag.unresolvable_intercept": "Délai non déterminable sur cette phase",
       "status.response_lag.interrupted_by_restart": "Phase interrompue par un redémarrage",
       "notes.learning.response_lag": "Ce délai décrit le temps de réaction de l'ensemble de l'installation, y compris l'émetteur et la sonde. Il est estimé pendant les phases à puissance constante. Une estimation retenue ne suffit pas à valider le délai ; une installation lente peut demander plusieurs heures d'observation. Même sans estimation retenue, le modèle se résout automatiquement après le nombre fixe de phases de chauffe affiché.",
-      "groups.learning.heating_balance": "Bilan de chauffe (observation)",
+      "groups.learning.heating_balance": "Bilan de chauffe",
       "metrics.heating_balance.state": "État de la mesure",
       "status.heating_balance.state.resting": "Au repos",
       "status.heating_balance.state.heating": "Chauffe en cours",
       "status.heating_balance.state.waiting_peak": "Attente du pic de température",
       "metrics.heating_balance.a_median": "Vitesse de chauffe médiane",
       "metrics.heating_balance.lag_median": "Délai médian de l'émetteur",
+      "metrics.heating_balance.kept_lag": "Délai retenu pour l'anticipation en chauffage",
+      "metrics.heating_balance.kept_lags": "Délais retenus (7 au plus)",
       "metrics.heating_balance.measurements": "Mesures retenues",
       "metrics.heating_balance.last_heating": "Dernière mesure : chauffe à pleine puissance (min)",
       "metrics.heating_balance.last_rise": "Dernière mesure : hausse de température (°C)",
@@ -402,7 +386,7 @@
       "status.heating_balance.context.calibration": "Calibration",
       "status.heating_balance.context.regulation": "Régulation",
       "metrics.heating_balance.last_constant_power": "Puissance constante pendant la chauffe",
-      "notes.learning.heating_balance": "Le bilan est mesuré sur une phase de chauffe suivie d'un arrêt, après au moins 30 minutes sans chauffage. Il donne la vitesse de chauffe et le délai de l'émetteur à partir de la chaleur reçue par la pièce. Il est affiché pour observation et SmartPI ne l'utilise pas. Les valeurs mesurées en régulation, à puissance variable, ne sont pas fiables.",
+      "notes.learning.heating_balance": "Le bilan est mesuré sur une phase de chauffe suivie d'un arrêt, après au moins 30 minutes sans chauffage. Il donne la vitesse de chauffe et le délai de l'émetteur à partir de la chaleur reçue par la pièce. La médiane des délais retenus fixe l'horizon de l'anticipation en chauffage ; les autres valeurs sont affichées pour observation. Les valeurs mesurées en régulation, à puissance variable, ne sont pas fiables.",
       "notes.learning.heating_balance_missing": "Bilan de chauffe non disponible. Cette version de SmartPI ne le publie pas.",
       "groups.model.deadtime_detection": "Détection des temps morts",
       "metrics.deadtime_state": "État du détecteur",
@@ -743,7 +727,6 @@
       "status.fftrim.prefix.slope": "Pente moyenne trop forte : {value} °C/h",
       "status.fftrim.suffix.constraint.saturated_high": "saturation haute",
       "status.fftrim.suffix.constraint.saturated_low": "saturation basse",
-      "status.fftrim.suffix.constraint.trajectory": "trajectoire active",
       "status.fftrim.suffix.constraint.phase_Hysteresis": "phase d’hystérésis",
       "status.fftrim.suffix.constraint.phase_Calibration": "calibration forcée",
       "status.fftrim.suffix.constraint.guard": "protection active",
@@ -786,7 +769,6 @@
       "status.fftrim.transfer.reason.application_not_deadband": "Application : plus en bande morte",
       "status.fftrim.transfer.reason.application_i_not_frozen": "Application : intégrale non gelée",
       "status.fftrim.transfer.reason.application_saturated": "Application : commande saturée",
-      "status.fftrim.transfer.reason.application_trajectory": "Application : trajectoire active",
       "status.fftrim.transfer.reason.application_calibration": "Application : calibration en cours",
       "status.fftrim.transfer.reason.application_guard": "Application : protection active",
       "status.fftrim.transfer.reason.application_setpoint_changed": "Application : consigne modifiée",
@@ -817,7 +799,7 @@
       "sections.fftrim.title": "Equilibrium / FFTrim",
       "sections.fftrim.summary": "Observation of holding power and ownership distribution between integral and trim.",
       "sections.anticipation.title": "Target approach",
-      "sections.anticipation.summary": "Followed setpoint, trajectory profile and command history.",
+      "sections.anticipation.summary": "Setpoint, temperature anticipation and command history.",
       "sections.health.title": "Protections",
       "sections.health.summary": "Governance, safeguards and calibration.",
       "sections.actions.title": "Actions",
@@ -839,7 +821,6 @@
       "metrics.temperature": "Temperature",
       "metrics.error": "Setpoint error",
       "metrics.integral_error": "Integral",
-      "metrics.filtered_setpoint": "Filtered reference followed by P",
       "metrics.current_cycle": "Current cycle",
       "metrics.next_cycle": "Next cycle",
       "metrics.linear_current_cycle": "Linear current cycle",
@@ -898,7 +879,6 @@
       "metrics.calibration_state": "Calibration",
       "metrics.calibration_retry": "Calibration retries",
       "metrics.calibration_last_time": "Last calibration",
-      "metrics.trajectory": "Trajectory",
       "metrics.fftrim": "FFTrim",
       "metrics.fftrim.state": "Stationary observer",
       "metrics.fftrim.observation_mode": "Latest method",
@@ -942,7 +922,6 @@
       "metrics.fftrim.net_command_delta": "Net command delta",
       "metrics.fftrim.window_duration": "Observed duration",
       "metrics.fftrim.transaction_timestamp": "Applied at UTC",
-      "metrics.trajectory.source": "Trajectory source",
       "metrics.ff3.twin_usable": "Usable twin",
       "groups.overview.thermal": "Temperature and setpoint",
       "groups.overview.command": "Current command",
@@ -1003,9 +982,6 @@
       "status.regime.degraded": "Degraded",
       "status.regime.saturated": "Saturated",
       "status.boolean.active": "Active",
-      "status.trajectory.setpoint": "Setpoint change",
-      "status.trajectory.disturbance": "Disturbance",
-      "status.trajectory.none": "None",
       "status.ff3.active": "FF3 active",
       "status.ff3.inactive": "FF3 inactive",
       "status.ff3.disabled": "FF3 disabled",
@@ -1013,7 +989,6 @@
       "status.ff3.disabled.deadband": "FF3 inactive in deadband",
       "status.ff3.disabled.not_near_band": "FF3 outside near band",
       "status.ff3.disabled.pending_cycle_boundary": "FF3 awaiting cycle boundary",
-      "status.ff3.disabled.trajectory_setpoint_active": "FF3 blocked by setpoint trajectory",
       "status.ff3.disabled.disturbance_unclassified": "FF3 disturbance unclassified",
       "status.ff3.disabled.twin_warming_up": "Thermal twin warming up",
       "status.ff3.disabled.twin_steady_invalid": "Thermal twin steady state invalid",
@@ -1071,7 +1046,6 @@
       "status.fftrim.reason.not_enough_measurements": "Not enough measurements",
       "status.fftrim.reason.window_too_short": "Window is too short",
       "status.fftrim.reason.setpoint_changed": "Setpoint changed",
-      "status.fftrim.reason.trajectory_active": "Trajectory is active",
       "status.fftrim.reason.ff3_active": "FF3 is active",
       "status.fftrim.reason.model_confidence": "Model confidence is insufficient",
       "status.fftrim.reason.missing_outdoor_temperature": "Outdoor temperature is missing",
@@ -1119,35 +1093,25 @@
       "graphs.command.ff": "Total feed-forward",
       "graphs.overview.title": "Temperature, setpoint and power (6h)",
       "graphs.overview.temperature": "Measured temperature",
-      "graphs.overview.filtered_setpoint": "Filtered reference followed by P",
       "graphs.overview.applied": "Applied command",
       "graphs.model.title": "1R1C Parameters A and B (24h)",
       "graphs.model.a": "A - Signed response (heat + / cool -)",
       "graphs.model.b": "B - Thermal losses",
       "metrics.user_setpoint": "User setpoint",
-      "metrics.trajectory.phase": "Trajectory phase",
-      "status.trajectory.phase.idle": "Inactive",
-      "status.trajectory.phase.tracking": "Profile tracking",
-      "status.trajectory.phase.release": "Progressive return to setpoint",
-      "groups.approach.followed": "Followed setpoint",
-      "status.boolean.inactive": "Inactive",
-      "groups.approach.details": "Trajectory details",
-      "metrics.trajectory.start": "Starting setpoint",
-      "metrics.trajectory.target": "Profile target",
-      "metrics.trajectory.tau": "Profile time constant",
-      "metrics.trajectory.elapsed": "Elapsed time",
-      "metrics.trajectory.remaining": "Remaining cycle",
-      "metrics.trajectory.next_reference": "Next cycle power reference",
-      "metrics.trajectory.bumpless_delta": "Bumpless command delta",
-      "groups.approach.readiness": "Trajectory indicators",
-      "metrics.trajectory.braking_needed": "Braking needed",
-      "metrics.trajectory.pending": "Pending target-change braking",
-      "metrics.trajectory.model_ready": "Trajectory model ready",
-      "metrics.trajectory.bumpless_ready": "Bumpless transition ready",
+      "groups.approach.setpoint": "Setpoint and temperature",
+      "groups.approach.anticipation": "Anticipation",
+      "metrics.anticipation.correction": "Anticipation correction",
+      "metrics.anticipation.temperature": "Anticipated temperature",
+      "metrics.anticipation.horizon": "Anticipation horizon",
+      "metrics.anticipation.source": "Horizon source",
+      "status.anticipation.source.heating_balance": "Heating balance",
+      "status.anticipation.source.dead_times": "Dead times",
+      "status.anticipation.source.none": "None",
+      "notes.approach.anticipation": "In the stable phase, the measured temperature is corrected by the distance the room is about to travel during the delay between a command and its effect (at most 1 °C). The correction is zero outside the stable phase, without a horizon or without a temperature slope. In heating, the horizon comes from the heating balance when it is known, otherwise from the dead times; in cooling it comes from the dead times.",
       "groups.model.ff3_twin": "FF3 and thermal twin",
-      "graphs.approach.temperature": "Temperature and setpoints",
+      "graphs.approach.temperature": "Measured temperature, anticipated temperature and setpoint",
       "graphs.approach.command": "Calculated and applied command",
-      "notes.approach.history": "The first graph compares room temperature with the setpoints. The second shows how the thermostat command changes over time.",
+      "notes.approach.history": "The first graph compares the measured temperature, the anticipated temperature (measurement plus correction, the one the regulator reads) and the setpoint. When the anticipated curve reaches the setpoint before the measured one, the command drops ahead of time. The second graph shows the calculated and applied commands over the same period.",
       "metrics.ti": "Effective integral time (Ti)",
       "groups.command.gains": "PI gains",
       "metrics.learning_stage": "Learning stage",
@@ -1174,13 +1138,15 @@
       "status.response_lag.unresolvable_intercept": "Delay cannot be determined from this phase",
       "status.response_lag.interrupted_by_restart": "Phase interrupted by a restart",
       "notes.learning.response_lag": "This delay describes how long the whole system takes to respond, including the emitter and sensor. It is estimated during constant-power phases. A retained estimate does not validate the delay by itself; a slow system may need several hours of observation. Even without a retained estimate, the model resolves automatically after the fixed number of heating phases shown.",
-      "groups.learning.heating_balance": "Heating balance (observation)",
+      "groups.learning.heating_balance": "Heating balance",
       "metrics.heating_balance.state": "Measurement state",
       "status.heating_balance.state.resting": "Resting",
       "status.heating_balance.state.heating": "Heating",
       "status.heating_balance.state.waiting_peak": "Waiting for the temperature peak",
       "metrics.heating_balance.a_median": "Median heating rate",
       "metrics.heating_balance.lag_median": "Median emitter delay",
+      "metrics.heating_balance.kept_lag": "Delay used by the anticipation in heating",
+      "metrics.heating_balance.kept_lags": "Retained delays (up to 7)",
       "metrics.heating_balance.measurements": "Retained measurements",
       "metrics.heating_balance.last_heating": "Last measurement: full-power heating (min)",
       "metrics.heating_balance.last_rise": "Last measurement: temperature rise (°C)",
@@ -1203,7 +1169,7 @@
       "status.heating_balance.context.calibration": "Calibration",
       "status.heating_balance.context.regulation": "Regulation",
       "metrics.heating_balance.last_constant_power": "Constant power during heating",
-      "notes.learning.heating_balance": "The balance is measured on a heating phase followed by a stop, after at least 30 minutes without heating. It gives the heating rate and the emitter delay from the heat received by the room. It is shown for observation and SmartPI does not use it. Values measured in regulation at varying power are not reliable.",
+      "notes.learning.heating_balance": "The balance is measured on a heating phase followed by a stop, after at least 30 minutes without heating. It gives the heating rate and the emitter delay from the heat received by the room. The median of the retained delays sets the anticipation horizon in heating; the other values are shown for observation. Values measured in regulation at varying power are not reliable.",
       "notes.learning.heating_balance_missing": "Heating balance unavailable. This SmartPI version does not publish it.",
       "groups.model.deadtime_detection": "Dead time detection",
       "metrics.deadtime_state": "Detector state",
@@ -1544,7 +1510,6 @@
       "status.fftrim.prefix.slope": "Mean slope too steep: {value} °C/h",
       "status.fftrim.suffix.constraint.saturated_high": "high saturation",
       "status.fftrim.suffix.constraint.saturated_low": "low saturation",
-      "status.fftrim.suffix.constraint.trajectory": "trajectory active",
       "status.fftrim.suffix.constraint.phase_Hysteresis": "hysteresis phase",
       "status.fftrim.suffix.constraint.phase_Calibration": "forced calibration",
       "status.fftrim.suffix.constraint.guard": "protection active",
@@ -1587,7 +1552,6 @@
       "status.fftrim.transfer.reason.application_not_deadband": "Application: no longer in the deadband",
       "status.fftrim.transfer.reason.application_i_not_frozen": "Application: integral not frozen",
       "status.fftrim.transfer.reason.application_saturated": "Application: command saturated",
-      "status.fftrim.transfer.reason.application_trajectory": "Application: trajectory active",
       "status.fftrim.transfer.reason.application_calibration": "Application: calibration in progress",
       "status.fftrim.transfer.reason.application_guard": "Application: protection active",
       "status.fftrim.transfer.reason.application_setpoint_changed": "Application: setpoint changed",
@@ -1802,13 +1766,6 @@
               "path": "temperature",
               "digits": 2,
               "unit": "°C"
-            },
-            {
-              "label_key": "metrics.filtered_setpoint",
-              "source": "diagnostic",
-              "path": "live/setpoint/filtered_setpoint",
-              "unit": "°",
-              "digits": 2
             },
             {
               "label_key": "metrics.error",
@@ -2035,11 +1992,6 @@
                   "tone": "info",
                   "icon": "mdi:timer-sand"
                 },
-                "disabled:trajectory_setpoint_active": {
-                  "label_key": "status.ff3.disabled.trajectory_setpoint_active",
-                  "tone": "muted",
-                  "icon": "mdi:chart-timeline-variant"
-                },
                 "disabled:disturbance_unclassified": {
                   "label_key": "status.ff3.disabled.disturbance_unclassified",
                   "tone": "muted",
@@ -2166,36 +2118,6 @@
                 "icon": "mdi:help-circle-outline"
               },
               "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "label_key": "metrics.trajectory.phase",
-              "source": "diagnostic",
-              "path": "live/analysis/trajectory/phase",
-              "align": "center",
-              "map": {
-                "idle": {
-                  "label_key": "status.trajectory.phase.idle",
-                  "tone": "muted",
-                  "icon": "mdi:circle-outline"
-                },
-                "tracking": {
-                  "label_key": "status.trajectory.phase.tracking",
-                  "tone": "info",
-                  "icon": "mdi:circle-outline"
-                },
-                "release": {
-                  "label_key": "status.trajectory.phase.release",
-                  "tone": "info",
-                  "icon": "mdi:circle-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
             }
           ]
         },
@@ -2212,9 +2134,9 @@
               "scale_group": "temperature"
             },
             {
-              "entity": "$diagnostic_entity",
-              "attribute": "history/setpoint/filtered_setpoint",
-              "label_key": "graphs.overview.filtered_setpoint",
+              "entity": "$climate_entity",
+              "attribute": "temperature",
+              "label_key": "metrics.user_setpoint",
               "unit": "°",
               "scale_group": "temperature"
             },
@@ -2650,12 +2572,12 @@
       "items": [
         {
           "type": "layout_grid",
-          "title_key": "groups.approach.followed",
+          "title_key": "groups.approach.setpoint",
           "columns": 1,
           "items": [
             {
               "type": "metric_grid",
-              "columns": 3,
+              "columns": 2,
               "metrics": [
                 {
                   "label_key": "metrics.user_setpoint",
@@ -2670,289 +2592,78 @@
                   "path": "live/temperature/indoor",
                   "digits": 2,
                   "unit": "°C"
-                },
-                {
-                  "label_key": "metrics.filtered_setpoint",
-                  "source": "diagnostic",
-                  "path": "live/setpoint/filtered_setpoint",
-                  "digits": 2,
-                  "unit": "°C"
                 }
               ]
-            },
-            {
-              "type": "layout_grid",
-              "min_width": 140,
-              "stretch_items": false,
-              "items": [
-                {
-                  "type": "status",
-                  "label_key": "metrics.trajectory",
-                  "source": "diagnostic",
-                  "path": "live/setpoint/trajectory_active",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.active",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.inactive",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.trajectory.phase",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/phase",
-                  "align": "center",
-                  "map": {
-                    "idle": {
-                      "label_key": "status.trajectory.phase.idle",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "tracking": {
-                      "label_key": "status.trajectory.phase.tracking",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "release": {
-                      "label_key": "status.trajectory.phase.release",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.trajectory.source",
-                  "source": "diagnostic",
-                  "path": "live/setpoint/trajectory_source",
-                  "align": "center",
-                  "map": {
-                    "setpoint": {
-                      "label_key": "status.trajectory.setpoint",
-                      "tone": "info",
-                      "icon": "mdi:thermometer-chevron-up"
-                    },
-                    "disturbance": {
-                      "label_key": "status.trajectory.disturbance",
-                      "tone": "info",
-                      "icon": "mdi:weather-windy"
-                    },
-                    "none": {
-                      "label_key": "status.trajectory.none",
-                      "tone": "muted",
-                      "icon": "mdi:minus-circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                }
-              ]
-            },
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.approach.anticipation",
+          "columns": 1,
+          "items": [
             {
               "type": "metric_grid",
-              "title_key": "groups.approach.details",
-              "columns": 3,
-              "visible_if": {
-                "==": [
-                  {
-                    "var": "diagnostic/live/setpoint/trajectory_active"
-                  },
-                  true
-                ]
-              },
+              "columns": 2,
               "metrics": [
                 {
-                  "label_key": "metrics.trajectory.start",
+                  "label_key": "metrics.anticipation.correction",
                   "source": "diagnostic",
-                  "path": "live/analysis/trajectory/start_setpoint",
+                  "path": "live/analysis/control/anticipation_c",
                   "digits": 2,
                   "unit": "°C"
                 },
                 {
-                  "label_key": "metrics.trajectory.target",
+                  "label_key": "metrics.anticipation.horizon",
                   "source": "diagnostic",
-                  "path": "live/analysis/trajectory/target_setpoint",
+                  "path": "live/analysis/control/anticipation_horizon_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.anticipation.temperature",
+                  "source": "diagnostic",
+                  "path": "live/temperature/anticipated",
                   "digits": 2,
                   "unit": "°C"
-                },
-                {
-                  "label_key": "metrics.trajectory.tau",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/tau_ref_min",
-                  "digits": 1,
-                  "unit": "min"
-                },
-                {
-                  "label_key": "metrics.trajectory.elapsed",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/elapsed_s",
-                  "digits": 0,
-                  "unit": "s"
-                },
-                {
-                  "label_key": "metrics.trajectory.remaining",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/remaining_cycle_min",
-                  "digits": 1,
-                  "unit": "min"
-                },
-                {
-                  "label_key": "metrics.trajectory.next_reference",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/next_cycle_reference",
-                  "digits": 1,
-                  "unit": "%",
-                  "value_multiplier": 100
-                },
-                {
-                  "label_key": "metrics.trajectory.bumpless_delta",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/bumpless_delta",
-                  "digits": 1,
-                  "unit": "%",
-                  "value_multiplier": 100
                 }
               ]
             },
             {
-              "type": "layout_grid",
-              "title_key": "groups.approach.readiness",
-              "min_width": 140,
-              "stretch_items": false,
-              "visible_if": {
-                "==": [
-                  {
-                    "var": "diagnostic/live/setpoint/trajectory_active"
-                  },
-                  true
-                ]
-              },
-              "items": [
-                {
-                  "type": "status",
-                  "label_key": "metrics.trajectory.braking_needed",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/braking_needed",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.true",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.false",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
+              "type": "status",
+              "label_key": "metrics.anticipation.source",
+              "source": "diagnostic",
+              "path": "live/analysis/control/anticipation_horizon_source",
+              "align": "center",
+              "map": {
+                "heating balance": {
+                  "label_key": "status.anticipation.source.heating_balance",
+                  "tone": "info",
+                  "icon": "mdi:radiator"
                 },
-                {
-                  "type": "status",
-                  "label_key": "metrics.trajectory.pending",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/pending_target_change_braking",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.true",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.false",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
+                "dead times": {
+                  "label_key": "status.anticipation.source.dead_times",
+                  "tone": "info",
+                  "icon": "mdi:timer-outline"
                 },
-                {
-                  "type": "status",
-                  "label_key": "metrics.trajectory.model_ready",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/model_ready",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.true",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.false",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
-                },
-                {
-                  "type": "status",
-                  "label_key": "metrics.trajectory.bumpless_ready",
-                  "source": "diagnostic",
-                  "path": "live/analysis/trajectory/bumpless_ready",
-                  "align": "center",
-                  "map": {
-                    "true": {
-                      "label_key": "status.boolean.true",
-                      "tone": "info",
-                      "icon": "mdi:circle-outline"
-                    },
-                    "false": {
-                      "label_key": "status.boolean.false",
-                      "tone": "muted",
-                      "icon": "mdi:circle-outline"
-                    }
-                  },
-                  "fallback": {
-                    "label_key": "fallback.unknown_code",
-                    "tone": "muted",
-                    "icon": "mdi:help-circle-outline"
-                  },
-                  "fallback_show_value": true
+                "none": {
+                  "label_key": "status.anticipation.source.none",
+                  "tone": "muted",
+                  "icon": "mdi:minus-circle-outline"
                 }
-              ]
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "section_note",
+              "text_key": "notes.approach.anticipation",
+              "tone": "info",
+              "icon": "mdi:information-outline"
             }
           ]
         },
@@ -2969,16 +2680,16 @@
               "scale_group": "temperature"
             },
             {
-              "entity": "$climate_entity",
-              "attribute": "temperature",
-              "label_key": "metrics.user_setpoint",
+              "entity": "$diagnostic_entity",
+              "attribute": "history/temperature/anticipated",
+              "label_key": "metrics.anticipation.temperature",
               "unit": "°C",
               "scale_group": "temperature"
             },
             {
-              "entity": "$diagnostic_entity",
-              "attribute": "history/setpoint/filtered_setpoint",
-              "label_key": "metrics.filtered_setpoint",
+              "entity": "$climate_entity",
+              "attribute": "temperature",
+              "label_key": "metrics.user_setpoint",
               "unit": "°C",
               "scale_group": "temperature"
             }
@@ -3507,11 +3218,6 @@
                   "label_key": "status.ff3.disabled.pending_cycle_boundary",
                   "tone": "info",
                   "icon": "mdi:timer-sand"
-                },
-                "disabled:trajectory_setpoint_active": {
-                  "label_key": "status.ff3.disabled.trajectory_setpoint_active",
-                  "tone": "muted",
-                  "icon": "mdi:chart-timeline-variant"
                 },
                 "disabled:disturbance_unclassified": {
                   "label_key": "status.ff3.disabled.disturbance_unclassified",
@@ -4931,6 +4637,19 @@
                   "format": "duration_s"
                 },
                 {
+                  "label_key": "metrics.heating_balance.kept_lag",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/kept_lag_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.heating_balance.kept_lags",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/heating_balance/kept_lags",
+                  "digits": 0
+                },
+                {
                   "label_key": "metrics.heating_balance.measurements",
                   "source": "diagnostic",
                   "path": "live/analysis/learning/heating_balance/measurements",
@@ -6284,11 +6003,6 @@
                   "tone": "muted",
                   "icon": "mdi:thermometer-chevron-up"
                 },
-                "trajectory_active": {
-                  "label_key": "status.fftrim.reason.trajectory_active",
-                  "tone": "muted",
-                  "icon": "mdi:chart-timeline-variant"
-                },
                 "ff3_active": {
                   "label_key": "status.fftrim.reason.ff3_active",
                   "tone": "muted",
@@ -6692,9 +6406,6 @@
                     "saturated_low": {
                       "label_key": "status.fftrim.suffix.constraint.saturated_low"
                     },
-                    "trajectory": {
-                      "label_key": "status.fftrim.suffix.constraint.trajectory"
-                    },
                     "phase_Hysteresis": {
                       "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"
                     },
@@ -6901,11 +6612,6 @@
               "label_key": "status.fftrim.reason.setpoint_changed",
               "tone": "muted",
               "icon": "mdi:thermometer-chevron-up"
-            },
-            "trajectory_active": {
-              "label_key": "status.fftrim.reason.trajectory_active",
-              "tone": "muted",
-              "icon": "mdi:chart-timeline-variant"
             },
             "ff3_active": {
               "label_key": "status.fftrim.reason.ff3_active",
@@ -7310,9 +7016,6 @@
                 "saturated_low": {
                   "label_key": "status.fftrim.suffix.constraint.saturated_low"
                 },
-                "trajectory": {
-                  "label_key": "status.fftrim.suffix.constraint.trajectory"
-                },
                 "phase_Hysteresis": {
                   "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"
                 },
@@ -7656,11 +7359,6 @@
                   "label_key": "status.fftrim.reason.setpoint_changed",
                   "tone": "muted",
                   "icon": "mdi:thermometer-chevron-up"
-                },
-                "trajectory_active": {
-                  "label_key": "status.fftrim.reason.trajectory_active",
-                  "tone": "muted",
-                  "icon": "mdi:chart-timeline-variant"
                 },
                 "ff3_active": {
                   "label_key": "status.fftrim.reason.ff3_active",
@@ -8017,11 +7715,6 @@
                   "tone": "muted",
                   "icon": "mdi:swap-vertical-circle-outline"
                 },
-                "application_trajectory": {
-                  "label_key": "status.fftrim.transfer.reason.application_trajectory",
-                  "tone": "muted",
-                  "icon": "mdi:swap-vertical-circle-outline"
-                },
                 "application_calibration": {
                   "label_key": "status.fftrim.transfer.reason.application_calibration",
                   "tone": "muted",
@@ -8290,9 +7983,6 @@
                     "saturated_low": {
                       "label_key": "status.fftrim.suffix.constraint.saturated_low"
                     },
-                    "trajectory": {
-                      "label_key": "status.fftrim.suffix.constraint.trajectory"
-                    },
                     "phase_Hysteresis": {
                       "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"
                     },
@@ -8332,9 +8022,6 @@
                     },
                     "saturated_low": {
                       "label_key": "status.fftrim.suffix.constraint.saturated_low"
-                    },
-                    "trajectory": {
-                      "label_key": "status.fftrim.suffix.constraint.trajectory"
                     },
                     "phase_Hysteresis": {
                       "label_key": "status.fftrim.suffix.constraint.phase_Hysteresis"

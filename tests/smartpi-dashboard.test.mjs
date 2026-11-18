@@ -133,66 +133,107 @@ test("FF3/twin move together; command constraints, FFTrim nesting and confirmed 
   assert.ok(actions.every((entry) => entry.confirmation.enabled && entry.target.entity_id === "$climate_entity"));
 });
 
-test("trajectory tracking and release keep details visible, including braking_needed=false", () => {
-  for (const phase of ["tracking", "release"]) {
-    const view = renderer({ setpoint: { trajectory_active: true, trajectory_source: "setpoint" }, analysis: { trajectory: { phase, braking_needed: false } } });
-    assert.match(templateText(view._renderStatus(byPath("live/analysis/trajectory/phase"))), phase === "tracking" ? /Profile tracking/ : /Progressive return to setpoint/);
-    assert.match(templateText(view._renderStatus(byPath("live/setpoint/trajectory_active"))), /Active/);
-    assert.match(templateText(view._renderStatus(byPath("live/analysis/trajectory/braking_needed"))), /tone="?muted"?/);
-    for (const title of ["groups.approach.details", "groups.approach.readiness"]) assert.ok(view._conditionMatches(approach.find((entry) => entry.title_key === title).visible_if));
-    const overviewPhase = [...walk(section("overview"))].find((entry) => entry.path === "live/analysis/trajectory/phase");
-    assert.equal(templateText(view._renderStatus(overviewPhase)), templateText(view._renderStatus(byPath("live/analysis/trajectory/phase"))));
+const anticipationPaths = ["live/analysis/control/anticipation_c", "live/analysis/control/anticipation_horizon_s", "live/analysis/control/anticipation_horizon_source"];
+const anticipationLive = (c, horizon, source) => ({ analysis: { control: { anticipation_c: c, anticipation_horizon_s: horizon, anticipation_horizon_source: source } } });
+
+test("anticipation group binds the published correction, horizon and horizon source", () => {
+  for (const path of anticipationPaths) {
+    assertPublished(path);
+    assert.ok(byPath(path), `${path} is bound in the approach section`);
   }
+  const group = approach.find((entry) => entry.title_key === "groups.approach.anticipation");
+  assert.ok(group);
+  assert.deepEqual([...walk(group)].map((entry) => entry.path).filter(Boolean), [...anticipationPaths.slice(0, 2), "live/temperature/anticipated", anticipationPaths[2]]);
+  assertPublished("live/temperature/anticipated");
+  assert.equal(translate(dashboard, "fr", byPath("live/temperature/anticipated").label_key), "Température anticipée");
+  assert.equal(translate(dashboard, "en", byPath("live/temperature/anticipated").label_key), "Anticipated temperature");
+  assert.equal(byPath(anticipationPaths[1]).format, "duration_s");
+  assert.deepEqual(Object.keys(byPath(anticipationPaths[2]).map), ["heating balance", "dead times", "none"]);
+  assert.equal(byPath(anticipationPaths[2]).fallback_show_value, true);
+  for (const language of ["en", "fr"]) {
+    for (const entry of [...walk(group)].filter((node) => node.label_key || node.title_key || node.text_key)) {
+      const key = entry.label_key ?? entry.title_key ?? entry.text_key;
+      assert.ok(dashboard.translations[language][key], `${language} translation of ${key}`);
+    }
+  }
+  assert.equal(translate(dashboard, "fr", "metrics.anticipation.horizon"), "Horizon d'anticipation");
+  assert.equal(translate(dashboard, "en", "metrics.anticipation.horizon"), "Anticipation horizon");
 });
 
-test("inactive trajectory displays neutral current state and hides stale profile details", () => {
-  const view = renderer({ setpoint: { trajectory_active: true }, analysis: { trajectory: { phase: "tracking", start_setpoint: 19 } } });
-  assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/start_setpoint")), "19.00 °C");
-  const live = { setpoint: { filtered_setpoint: 21, trajectory_active: false, trajectory_source: "none" }, analysis: { trajectory: { phase: "idle", start_setpoint: null } } };
-  assertLivePayload(live);
-  view.hass.states["sensor.diag"].attributes.live = live;
-  assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/start_setpoint")), "--");
-  for (const path of ["live/setpoint/trajectory_active", "live/analysis/trajectory/phase"]) {
-    const text = templateText(view._renderStatus(byPath(path)));
-    assert.match(text, /Inactive/);
-    assert.match(text, /tone="?muted"?/);
-    assert.doesNotMatch(text, /tone="?warning"?|tone="?danger"?|successful|plateau/i);
+test("the approach section no longer binds a trajectory, a filtered setpoint or a removed setpoint field", () => {
+  const text = JSON.stringify(dashboard);
+  assert.doesNotMatch(text, /trajectory|filtered_setpoint/iu);
+  for (const path of ["live/setpoint/filtered_setpoint", "live/setpoint/trajectory_active", "live/setpoint/trajectory_source", "live/analysis/trajectory", "history/setpoint/filtered_setpoint"]) {
+    assert.ok(!publishedPaths.has(path), `${path} must not be published`);
   }
-  assert.equal(view._formatSourceValue(byPath("live/setpoint/filtered_setpoint")), "21.00 °C");
-  for (const title of ["groups.approach.details", "groups.approach.readiness"]) assert.equal(view._conditionMatches(approach.find((entry) => entry.title_key === title).visible_if), false);
+  assert.ok(![...nodes].some((entry) => typeof entry.path === "string" && entry.path.startsWith("live/setpoint/") && entry.path !== "live/setpoint/boost_active"));
+  const thermal = section("anticipation").items.find((entry) => entry.type === "history");
+  assert.deepEqual(thermal.series.map((entry) => entry.attribute), ["history/temperature/indoor", "history/temperature/anticipated", "temperature"]);
 });
 
-test("missing/null diagnostics are absent while zero and false remain valid", () => {
-  for (const live of [undefined, {}, { analysis: { trajectory: { next_cycle_reference: null } }, setpoint: { trajectory_active: null } }]) {
-    const view = renderer(live);
-    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/next_cycle_reference")), "--");
-    const text = templateText(view._renderStatus(byPath("live/setpoint/trajectory_active")));
-    assert.match(text, /tone="?muted"?/);
-    assert.doesNotMatch(text, />Active</);
-    assert.equal(view._conditionMatches(approach.find((entry) => entry.title_key === "groups.approach.details").visible_if), false);
-  }
-  const view = renderer({ analysis: { trajectory: { next_cycle_reference: 0, braking_needed: false } } });
-  assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/next_cycle_reference")), "0.0 %");
-  assert.match(templateText(view._renderStatus(byPath("live/analysis/trajectory/braking_needed"))), /No/);
-});
-
-test("unknown trajectory enums expose the raw code with neutral styling", () => {
-  const view = renderer({ setpoint: { trajectory_source: "future_source" }, analysis: { trajectory: { phase: "future_phase" } } });
-  for (const path of ["live/analysis/trajectory/phase", "live/setpoint/trajectory_source"]) {
-    const text = templateText(view._renderStatus(byPath(path)));
-    assert.match(text, /future_/);
-    assert.match(text, /tone="?muted"?/);
-    assert.doesNotMatch(text, /tone="?warning"?|tone="?danger"?/);
-  }
-});
-
-test("HEAT/COOL preserve physical temperatures and convert ratios only once", () => {
+test("anticipation values keep their sign, zero and unit, and read as a readable duration", () => {
   for (const mode of ["heat", "cool"]) {
-    const view = renderer({ power: { applied_percent: 45 }, analysis: { trajectory: { start_setpoint: 20.8, target_setpoint: 21, next_cycle_reference: 0.42, bumpless_delta: -0.02 } } }, mode);
-    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/start_setpoint")), "20.80 °C");
-    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/target_setpoint")), "21.00 °C");
-    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/next_cycle_reference")), "42.0 %");
-    assert.equal(view._formatSourceValue(byPath("live/analysis/trajectory/bumpless_delta")), "-2.0 %");
+    const view = renderer(anticipationLive(mode === "heat" ? 0.35 : -0.4, 540, "dead times"), mode);
+    assert.equal(view._formatSourceValue(byPath(anticipationPaths[0])), mode === "heat" ? "0.35 °C" : "-0.40 °C");
+    assert.match(view._formatSourceValue(byPath(anticipationPaths[1])), /^9\s?m/u);
+  }
+  const inactive = renderer(anticipationLive(0, 0, "none"));
+  assert.equal(inactive._formatSourceValue(byPath(anticipationPaths[0])), "0.00 °C");
+  assert.match(inactive._formatSourceValue(byPath(anticipationPaths[1])), /^0\s?s/u);
+  for (const live of [undefined, {}, anticipationLive(null, null, null)]) {
+    const view = renderer(live);
+    for (const path of anticipationPaths.slice(0, 2)) assert.equal(view._formatSourceValue(byPath(path)), "--");
+    assert.match(templateText(view._renderStatus(byPath(anticipationPaths[2]))), /tone="?muted"?/);
+  }
+});
+
+test("the three horizon sources are translated in both languages and unknown codes stay raw and neutral", () => {
+  const labels = { "heating balance": ["Heating balance", "Bilan de chauffe", "info"], "dead times": ["Dead times", "Temps morts", "info"], none: ["None", "Aucun", "muted"] };
+  for (const [code, [english, french, tone]] of Object.entries(labels)) {
+    const view = renderer(anticipationLive(0.2, 300, code));
+    for (const [language, label] of [["en", english], ["fr", french]]) {
+      view.language = language;
+      const text = templateText(view._renderStatus(byPath(anticipationPaths[2])));
+      assert.ok(text.includes(label), `${language} ${code}`);
+      assert.doesNotMatch(text, /status-pill raw/u);
+      assert.match(text, new RegExp(`tone="?${tone}"?`, "u"));
+    }
+  }
+  const view = renderer(anticipationLive(0, 0, "future_source"));
+  const text = templateText(view._renderStatus(byPath(anticipationPaths[2])));
+  assert.match(text, /future_source/);
+  assert.match(text, /tone="?muted"?/);
+  assert.doesNotMatch(text, /tone="?warning"?|tone="?danger"?/);
+});
+
+test("heating balance shows the kept emitter delay used by the anticipation in heating", () => {
+  const keptLag = sectionPath("learning", "live/analysis/learning/heating_balance/kept_lag_s");
+  const keptCount = sectionPath("learning", "live/analysis/learning/heating_balance/kept_lags");
+  for (const path of [keptLag.path, keptCount.path]) assertPublished(path);
+  assert.equal(keptLag.format, "duration_s");
+  assert.equal(translate(dashboard, "en", keptLag.label_key), "Delay used by the anticipation in heating");
+  assert.match(translate(dashboard, "fr", keptLag.label_key), /anticipation en chauffage/);
+  assert.ok(translate(dashboard, "fr", keptCount.label_key) && translate(dashboard, "en", keptCount.label_key));
+  const view = renderer({ analysis: { learning: { heating_balance: { kept_lag_s: 600, kept_lags: 5 } } } });
+  assert.match(view._formatSourceValue(keptLag), /^10\s?m/u);
+  assert.equal(view._formatSourceValue(keptCount), "5");
+  const empty = renderer({ analysis: { learning: { heating_balance: { kept_lag_s: null, kept_lags: 0 } } } });
+  assert.equal(empty._formatSourceValue(keptLag), "--");
+  assert.equal(empty._formatSourceValue(keptCount), "0");
+});
+
+test("FF3 and FFTrim no longer label setpoint-trajectory states that SmartPI does not publish", () => {
+  const labelKeys = [...walk(dashboard.sections)].map((entry) => entry.label_key).filter(Boolean);
+  assert.ok(labelKeys.every((key) => !/trajectory/u.test(key)));
+  for (const language of ["en", "fr"]) assert.ok(Object.keys(dashboard.translations[language]).every((key) => !/trajectory/u.test(key)));
+  const ff3 = sectionPath("model", "live/feedforward/ff3_status");
+  assert.ok(ff3 && !Object.keys(ff3.map).some((code) => code.includes("trajectory")));
+});
+
+test("HEAT/COOL preserve physical temperatures and show powers without a ratio conversion", () => {
+  for (const mode of ["heat", "cool"]) {
+    const view = renderer({ power: { applied_percent: 45 }, ...anticipationLive(0.5, 300, "heating balance") }, mode);
+    assert.equal(view._formatSourceValue(byPath(anticipationPaths[0])), "0.50 °C");
     assert.equal(view._formatSourceValue(nodes.find((entry) => entry.path === "live/power/applied_percent")), "45.0 %");
     assert.equal(view._formatSourceValue(byPath("temperature")), "21.00 °C");
   }
@@ -466,7 +507,9 @@ test("history covers all eighteen published Recorder paths and keeps compact app
   const config = view._betterHistoryConfig(thermal);
   assert.equal(config.debugPerformance, false);
   assert.ok(config.series.some((entry) => entry.entity === "climate.test" && entry.attribute.join("/") === "temperature"));
-  assert.ok(config.series.some((entry) => entry.entity === "sensor.diag" && entry.attribute.join("/") === "history/setpoint/filtered_setpoint"));
+  assert.equal(config.series.length, 3);
+  assert.ok(config.series.some((entry) => entry.attribute.join("/") === "history/temperature/anticipated"));
+  assert.ok(config.series.every((entry) => !entry.attribute.join("/").includes("setpoint/")));
 });
 
 test("command histories resolve integral and PI gains with distinct physical scales and translated labels", () => {
@@ -807,7 +850,7 @@ const fftrimReason = (path, code, language = "en") => {
 };
 
 test("FFTrim reason codes published by SmartPI have English and French labels", () => {
-  const observer = ["trajectory_active", "hvac_off", "pi_unstable", "guard_cut", "saturated", "washout", "invalid_measurement",
+  const observer = ["hvac_off", "pi_unstable", "guard_cut", "saturated", "washout", "invalid_measurement",
     "hvac_mode_changed", "pi_missing", "invalid_model", "invalid_model_sign", "invalid_hvac_mode", "non_finite_result", "incomplete_observer_result",
     "saturation_unknown", "power_shedding", "missing_sensor", "calibration", "hysteresis", "missing_e_eff", "partial_cycle", "pi_missing_mode",
     "pi_pending_stability", "pi_deadband_freeze", "pi_deadband_shell_hold", "pi_near_band_stable", "periodic_ownership_not_covered",
@@ -819,7 +862,7 @@ test("FFTrim reason codes published by SmartPI have English and French labels", 
     "transfer_delivery_residual", "invalid_proposal", "invalid_transfer_proposal", "quiet_delta", "non_finite_transfer", "invalid_ki",
     "ff_branch_clamped", "command_clamped", "integral_sign_changed", "integral_bias_changed", "no_atomic_headroom", "transfer_invariant",
     "incomplete_transfer_result", "ff1_changed", "trim_state_changed", "application_not_deadband", "application_i_not_frozen",
-    "application_saturated", "application_trajectory", "application_calibration", "application_guard", "application_setpoint_changed",
+    "application_saturated", "application_calibration", "application_guard", "application_setpoint_changed",
     "application_recovery", "application_ff3", "application_timing", "application_output_limited", "application_timing_output",
     "i_transfer_capacity", "i_transfer_crosses_zero", "i_transfer_clamped", "i_transfer_sign", "invalid_i_transfer", "no_i_transfer",
     "i_transfer_applied", "quiet_trim_delta"];
