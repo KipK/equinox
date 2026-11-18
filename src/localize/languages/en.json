@@ -179,6 +179,7 @@
       "title": "Menu",
       "regulation": "Regulation",
       "boost": "Temporary boost",
+      "schedule": "Schedule",
       "history": "History"
     },
     "history": {
@@ -199,6 +200,10 @@
         "temperature": "Target temperature",
         "hvac_action": "HVAC action"
       }
+    },
+    "schedule": {
+      "title": "Schedule",
+      "unavailable": "The Chauffage integration is not available. Install and set up ha-chauffage, then reload the page."
     },
     "regulation": {
       "title": "Regulation",
@@ -277,6 +282,7 @@
     "show_hvac_action": "Show HVAC action icon",
     "show_events": "Show event icons",
     "show_menu": "Show menu",
+    "show_schedule": "Show schedule in menu (Chauffage)",
     "border_glow_on_action": "Borders glow only while HVAC is active",
     "tabs": {
       "general": "General",

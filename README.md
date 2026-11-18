@@ -175,7 +175,8 @@ The supported families are `hvac`, `preset`, `fan`, `swing`, and `swing_horizont
 | `show_power_info`         | no       | `true`               | Show the valve/power gauge.                                                                                                           |
 | `show_hvac_action`        | no       | `true`               | Show the HVAC action icon (heating, idle, ...).                                                                                       |
 | `show_events`             | no       | `true`               | Show VTherm event and status message icons (window, presence, boost, ...).                                                            |
-| `show_menu`               | no       | `true`               | Show the menu button (regulation dashboard, boost, history).                                                                          |
+| `show_menu`               | no       | `true`               | Show the menu button (regulation dashboard, boost, schedule, history).                                                                |
+| `show_schedule`           | no       | `true`               | Show the **Schedule** menu entry when the [ha-chauffage](https://github.com/armellarcier/ha-chauffage) integration is set up. See [Chauffage schedule](#chauffage-schedule). |
 
 All `show_*`, `hide_lock_button` and `disable_name` options are grouped in the
 **Elements** tab of the visual editor. Rows that end up empty collapse, so for
@@ -230,6 +231,26 @@ installations.
 Regulation diagnostics are discovered automatically from the climate entity
 attribute `specific_states.regulation_diagnostics` when the thermostat
 algorithm publishes it.
+
+## Chauffage schedule
+
+When the [ha-chauffage](https://github.com/armellarcier/ha-chauffage) integration is set up, the
+menu shows a **Schedule** entry. It opens a dialog with the ha-chauffage schedule card, limited to
+the card's thermostat: its weeks, its slots and its temporary setpoints, with the editing tools
+and access levels of ha-chauffage. Equinox needs no extra resource: ha-chauffage loads its card
+on every page.
+
+- The entry appears only when Home Assistant has loaded the `chauffage` integration and its card
+  is defined in the browser. Set `show_schedule: false` to hide it. The option appears in the
+  **Elements** tab of the visual editor only when the integration is set up.
+- If ha-chauffage does not schedule the thermostat yet, the card says so. A user allowed to set
+  up ha-chauffage schedules the thermostat by saving its first week.
+- Close the dialog with its close button, Escape, a tap outside it or the browser's Back. A
+  slot dragged and released outside the dialog does not close it.
+- Weeks not saved yet are lost when the dialog closes: save them with the card's *Save* button
+  first.
+- With ha-chauffage, a setpoint or preset changed from Equinox is a temporary override: the
+  thermostat returns to its schedule at the end set in ha-chauffage (2 hours by default).
 
 ## Regulation Dashboard
 
