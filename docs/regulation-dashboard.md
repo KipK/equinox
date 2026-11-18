@@ -42,7 +42,7 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation dashboard with ten sections covering the current regulation state, command, target approach, learned model, room model, learning, emitter delay, FFTrim, protections, and maintenance actions.
+- `smartpi.json` — Smart PI regulation dashboard with ten sections covering the current regulation state, command, target approach, learned model, room model, learning, emitter lag, FFTrim, protections, and maintenance actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
 
 ### Built-in SmartPI dashboard
@@ -54,10 +54,10 @@ The SmartPI dashboard uses these ten sections in this order:
 | Overview / Synthèse | `overview` | Temperature, user setpoint, applied command and useful current influences |
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
 | Target approach / Approche de consigne | `anticipation` | User setpoint, temperature anticipation and command history |
-| Model and prediction / Modèle et prévision | `model` | A/B, confidence, delays and the relocated FF3/twin block |
+| Model and prediction / Modèle et prévision | `model` | A/B, confidence, dead times and the relocated FF3/twin block |
 | Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
-| Emitter delay / Retard de l’émetteur | `tar_learning` | Applied, morning and refined delays, last evaluation and data exclusions |
+| Emitter lag / Retard de l’émetteur | `tar_learning` | Dead time in force, morning and refined emitter lags, last evaluation and data exclusions |
 | Equilibrium / FFTrim / Équilibre / FFTrim | `fftrim` | Holding power and integral/trim transfers |
 | Protections / Protections | `health` | Guards, holds, governance and calibration |
 | Actions / Actions | `actions` | Existing confirmed maintenance commands |
@@ -83,12 +83,12 @@ indoor temperature from `live/temperature/indoor`. An Anticipation group reads
 and `live/temperature/anticipated` (the measured temperature plus the correction).
 In the stable phase, SmartPI adds a correction to the measured temperature for the
 proportional and integral errors: the distance the room is about to travel during
-the delay between a command and its effect, at most 1 °C in absolute value, in
+the time between a command and its effect, at most 1 °C in absolute value, in
 heating and in cooling. `anticipation_c` is shown in `°C` and is 0 when the
 anticipation is off (outside the stable phase, without horizon or without a rising
-or falling slope). `anticipation_horizon_s` is the delay in use, shown as a compact
-duration like the other delays. `anticipation_horizon_source` is shown as a status:
-**Heating balance** (the median of the last emitter delays measured, in heating
+or falling slope). `anticipation_horizon_s` is the horizon in use, shown as a compact
+duration like the other durations. `anticipation_horizon_source` is shown as a status:
+**Heating balance** (the median of the last emitter lags measured, in heating
 only), **Dead times**, or **None**; an unknown code stays visible with neutral
 styling. A short on-screen note explains the mechanism.
 
@@ -191,7 +191,7 @@ unavailable without identified walls, a precise sensor or reliable tracking.
 This estimate is distinct from the wall contribution actually included in the
 feedforward, shown in Command.
 
-#### Emitter delay / Retard de l’émetteur
+#### Emitter lag / Retard de l’émetteur
 
 The `tar_learning` section follows `live/tar_learning`. Learning is always
 enabled in SmartPI 0.7, independently of the A/B learning toggle; there is no
@@ -199,13 +199,15 @@ T_ar configuration option and no `gate` or `path` diagnostic. It applies only
 to PWM heating and is unsupported with valves. Status, applied source (the
 initial measurement, morning learning, refined identification or a lower bound),
 `applied_s`, `gains_s`, `bootstrap_s`, `reference_s`, the limit flag and
-`limit_reason` explain the delay actually used. The refined value takes priority
-over the morning value, and a lower bound raises a shorter learned value. The
-gains compare half the learned delay with a reference (`reference_s`, the larger
+`limit_reason` explain the dead time actually used: `applied_s`, `gains_s`,
+`bootstrap_s` and `reference_s` are dead times, and `applied_s` takes the learned
+emitter lag value when it is used. The refined value takes priority
+over the morning value, and a lower bound raises a shorter learned emitter lag. The
+gains compare half the learned emitter lag with a reference dead time (`reference_s`, the larger
 of the first initial measurement kept since learning started and the current
-one): a shorter delay keeps the reference, up to twice the reference the half
+one): a shorter half keeps the reference, up to twice the reference the half
 value is used, and above that it is used only when the morning and identification
-values agree, otherwise twice the reference applies. The initial measurement
+values agree, otherwise twice the reference applies. The initial dead time measurement
 never changes.
 
 Morning diagnostics show `fast.value_s`, confirmed mornings, the lower bound
@@ -222,9 +224,9 @@ such as a window, shedding, a temperature jump or a command override; an absent
 reason does not imply completed learning. All known values use plain FR/EN
 labels, with neutral/raw fallbacks for future values.
 
-The seven-day delay history reads only `history/deadtime/applied_s`, in seconds.
+The seven-day history of the dead time in force reads only `history/deadtime/applied_s`, in seconds.
 Morning/refined values and their evaluation details are live-only. The existing
-response-lag metrics in Learning describe a separate signal; they are preserved.
+emitter lag metrics in Learning describe a separate signal; they are preserved.
 `vt-state.ts` needs no migration: calibration still uses schema v2
 `live/control/phase` and `live/calibration/state`.
 
@@ -264,17 +266,18 @@ cools between its configured temperature thresholds while collecting observation
 The two collection bars show measurements against the targets supplied by the
 thermostat. They measure collection only: a full bar does not mean that the
 measurements are validated or that initial learning is complete. Response
-measurements can still wait for the system's response delay to be estimated,
+measurements can still wait for the emitter lag to be estimated,
 then be reassessed. Some may no longer be usable, so further collection can be
 necessary. Equinox does not show an overall completion percentage. The learning
 state remains visible when collection reaches its target, and a pause notice
 explains when collection has been suspended while regulation uses the current
 model.
 
-The **System response delay** group describes how long the whole installation
-takes to respond, including the emitter and temperature sensor. It sits next to
+The **Emitter lag on constant-power phases** group shows the emitter lag, the mean time the
+commanded heat takes to arrive in the room (the dead time plus the inertia of the
+emitter), estimated during constant-power heating phases. It sits next to
 the collection indicators. A retained estimate is one useful observation, not
-confirmation that the delay has been validated. If the delay is unavailable,
+confirmation that the emitter lag has been validated. If the emitter lag is unavailable,
 Equinox explains that it cannot tell whether estimation is still in progress;
 this alone does not mean learning is blocked. The available diagnostics do not
 identify the fallback decision or how many response measurements were discarded
@@ -284,35 +287,35 @@ The collection bars use `live/learning/bootstrap_target_a` and
 `live/learning/bootstrap_target_b`; their visibility follows the published
 `live/learning/stage`. Initial learning can end with fewer response measurements
 than the nominal target if the controller accepts a coherent collection.
-Equinox never infers completion from counts, percentages, or the presence of a
-delay. A missing target stays unavailable instead of receiving a default.
+Equinox never infers completion from counts, percentages, or the presence of an
+emitter lag. A missing target stays unavailable instead of receiving a default.
 The learning enable/pause state uses `live/learning/enabled` independently of
 the stage; an absent flag does not imply a pause or enabled learning in this section.
 
-The response delay group reads
+The emitter lag group reads
 `live/analysis/learning/response_lag/{lag_s,estimates,episode_median_s,episodes,episodes_target,last_reason}`.
-It shows the published lag and median active-episode duration as compact durations,
+It shows the published emitter lag and median active-episode duration as compact durations,
 the number of retained estimates, completed heating phases, the fixed phase target,
 and a translated outcome of the last active episode. The metric grid uses three
 columns: durations and estimates on the first row, phase count and target on the
 second. These are separate metrics because metric values read a single path;
 the renderer has no dynamic denominator. The target is read from diagnostics,
 not hardcoded or interpreted as a remaining count.
-`estimated` means one estimate was retained, not that a lag has been published.
+`estimated` means one estimate was retained, not that an emitter lag has been published.
 Publication requires three coherent estimates from constant-power heating phases;
 the estimate count is not a completion percentage. Missing/null values remain
 `--`, and zero is valid. SmartPI also resolves its delivered-power model without
-publishing a lag once `episodes >= episodes_target` (currently four heating
+publishing an emitter lag once `episodes >= episodes_target` (currently four heating
 phases; a heating phase groups active episodes separated by less than 10 minutes
 without heating), even without retained estimates; it then uses applied power. The phase count
-continues beyond the target and after lag publication, so Equinox displays it
+continues beyond the target and after emitter lag publication, so Equinox displays it
 without capping it or inferring bootstrap completion. The model-resolution flag
 is not published. `episode interrupted by restart` is shown as a muted
 informational outcome: the phase interrupted by a Home Assistant restart counts
 towards resolution without producing an estimate. The two counters are additions
 from the upcoming SmartPI 0.6.0 contract; older diagnostics show `--` for them.
 Constant-power initial-learning phases provide the main opportunity to estimate
-the delay; a system already regulating with PWM may publish none. For cycle
+the emitter lag; a system already regulating with PWM may publish none. For cycle
 configuration advice, see the [SmartPI installation guide](https://github.com/KipK/vtherm_smartpi/blob/master/documentation/en/vtherm_smartpi.md).
 
 The heating balance group reads
@@ -320,13 +323,13 @@ The heating balance group reads
 with the `last/{heating_min,rise_c,peak_delay_min,a,lag_s,constant_power,context}`
 sub-fields. It shows the measurement state (resting, heating, waiting for the
 peak), the median heating rate `a` (`°C/min`, four digits like the model `a`),
-the median emitter delay as a compact duration, the median of the kept delays
-(`kept_lag_s`, labeled as the delay used by the anticipation in heating) with how
-many are kept (`kept_lags`, up to 7), and the number of retained measurements, then the last measurement: full-power heating time and peak delay
-in minutes, temperature rise in `°C`, its own `a` and lag, whether the power
+the median emitter lag as a compact duration, the median of the kept emitter lags
+(`kept_lag_s`, labeled as the emitter lag used by the anticipation in heating) with how
+many are kept (`kept_lags`, up to 7), and the number of retained measurements, then the last measurement: full-power heating time and time to the peak
+in minutes, temperature rise in `°C`, its own `a` and emitter lag, whether the power
 stayed constant, and its context (bootstrap, calibration, regulation). A
 translated outcome states why the last heating phase did or did not produce a
-measurement. SmartPI uses only the kept delay, as the anticipation horizon in heating; the other values are for observation, and
+measurement. SmartPI uses only the kept emitter lag, as the anticipation horizon in heating; the other values are for observation, and
 values measured in regulation at varying power are not reliable. Null values
 stay `--`; a muted note appears when the block is absent from the diagnostics
 of an older SmartPI version.
@@ -384,10 +387,10 @@ time, and `live/autocalib/snapshot_age_h` reports the actual snapshot age.
 The configuration and actual renderer methods are covered by
 `npm run test:smartpi` (Node 24), including published diagnostic bindings and
 documentation examples, anticipation values and horizon sources, missing/null/zero values,
-unknown enums, HEAT/COOL units, Ti, response lag, detector waits/outcomes, early
-initial-learning collection and early publication, pause and unavailable-delay
+unknown enums, HEAT/COOL units, Ti, emitter lag, detector waits/outcomes, early
+initial-learning collection and early publication, pause and unavailable emitter lag
 notices, thermal protection cuts, the eighteen Recorder paths, room-model ratios and
-forecast comparisons, emitter-delay states, source timelines and desktop/mobile
+forecast comparisons, emitter lag states, source timelines and desktop/mobile
 selection templates. The reference fixture in
 `tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from
 vtherm_smartpi dev-0.7 and records its source revision and files. The publisher’s
@@ -398,7 +401,7 @@ final mobile/desktop and Flat/Liquid Glow appearance needs checking in Home
 Assistant.
 
 The `live/learning/enabled` diagnostic controls whether Summary and Actions
-show A/B learning as enabled or paused; emitter-delay learning stays independent. Actions offers the matching confirmed
+show A/B learning as enabled or paused; emitter lag learning stays independent. Actions offers the matching confirmed
 `vtherm_smartpi.set_smartpi_learning` service call with `learning_enabled: false`
 or `true`; it targets the configured climate entity. Its label and icon follow
 the current diagnostic state: enabled learning shows Pause, while paused learning

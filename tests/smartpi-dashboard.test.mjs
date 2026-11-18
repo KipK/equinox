@@ -206,12 +206,12 @@ test("the three horizon sources are translated in both languages and unknown cod
   assert.doesNotMatch(text, /tone="?warning"?|tone="?danger"?/);
 });
 
-test("heating balance shows the kept emitter delay used by the anticipation in heating", () => {
+test("heating balance shows the kept emitter lag used by the anticipation in heating", () => {
   const keptLag = sectionPath("learning", "live/analysis/learning/heating_balance/kept_lag_s");
   const keptCount = sectionPath("learning", "live/analysis/learning/heating_balance/kept_lags");
   for (const path of [keptLag.path, keptCount.path]) assertPublished(path);
   assert.equal(keptLag.format, "duration_s");
-  assert.equal(translate(dashboard, "en", keptLag.label_key), "Delay used by the anticipation in heating");
+  assert.equal(translate(dashboard, "en", keptLag.label_key), "Emitter lag used by the anticipation in heating");
   assert.match(translate(dashboard, "fr", keptLag.label_key), /anticipation en chauffage/);
   assert.ok(translate(dashboard, "fr", keptCount.label_key) && translate(dashboard, "en", keptCount.label_key));
   const view = renderer({ analysis: { learning: { heating_balance: { kept_lag_s: 600, kept_lags: 5 } } } });
@@ -345,7 +345,7 @@ test("initial collection keeps unknown targets absent and accepts a zero count",
   for (const gauge of gauges) assert.match(templateText(view._renderItem(gauge)), /class="value">0%/);
 });
 
-test("missing response delay explains uncertainty without inventing an observation or fallback state", () => {
+test("missing emitter lag explains uncertainty without inventing an observation or fallback state", () => {
   const note = [...walk(section("learning"))].find((item) => item.text_key === "notes.learning.response_lag_missing");
   for (const language of ["en", "fr"]) {
     for (const lag of [undefined, null, 0, 5400]) {
@@ -463,7 +463,7 @@ test("SmartPI 0.5 diagnostics and null response values remain absent, while zero
 test("new response reasons, learning waits and integral unwind modes translate with neutral future fallbacks", () => {
   const lagReason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
   const lastReason = sectionPath("learning", "live/learning/last_reason");
-  for (const [code, label] of [["late crossings insufficient", "Insufficient temperature changes"], ["intercept not resolvable", "Delay cannot be determined from this phase"]]) {
+  for (const [code, label] of [["late crossings insufficient", "Insufficient temperature changes"], ["intercept not resolvable", "Emitter lag cannot be determined from this phase"]]) {
     const view = renderer({ analysis: { learning: { response_lag: { last_reason: code } } } });
     assert.match(templateText(view._renderStatus(lagReason)), new RegExp(label));
   }
@@ -684,7 +684,7 @@ test("feedforward uses all four published sources and preserves signed wall powe
   }
 });
 
-test("emitter diagnostics distinguish applied delays, accepted mornings and the latest evaluated morning", () => {
+test("emitter diagnostics distinguish the dead time in force, accepted mornings and the latest evaluated morning", () => {
   const live = { learning: { enabled: false }, tar_learning: {
     status: "active", applied_s: 1800, gains_s: 900, bootstrap_s: 1200, source: "refined", out_of_bound: false,
     fast: { value_s: 1500, confirmed_mornings: 3, last_value_s: 1560, last_status: "unconfirmed",
@@ -769,7 +769,7 @@ test("new histories keep coefficient units, recorded forecast errors and applied
   }
 });
 
-test("emitter delay shows the gain reference, the limit on the learned value and the lower bound", () => {
+test("emitter lag learning shows the gain reference, the limit on the learned emitter lag and the lower bound", () => {
   const live = { tar_learning: { status: "active", source: "lower_bound", applied_s: 1200, gains_s: 600, bootstrap_s: 600, reference_s: 600,
     out_of_bound: true, limit_reason: "learned delay shorter than the reference: the gains keep the reference dead time",
     fast: { value_s: null, confirmed_mornings: 0, lower_bound_s: 540, lower_bound_mornings: 2 } } };
@@ -779,8 +779,8 @@ test("emitter delay shows the gain reference, the limit on the learned value and
   }
   const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
   for (const [language, source, limit, bounded] of [
-    ["en", /Lower bound \(rise cut by sunrise\)/, /Learned delay shorter than the reference/, /Learned value limited/],
-    ["fr", /Borne basse \(montée coupée par le lever du soleil\)/, /Retard appris plus court que la référence/, /Valeur apprise limitée/]]) {
+    ["en", /Lower bound \(rise cut by sunrise\)/, /Learned emitter lag shorter than the reference/, /Learned emitter lag limited/],
+    ["fr", /Borne basse \(montée coupée par le lever du soleil\)/, /Retard de l’émetteur appris plus court que la référence/, /Retard de l’émetteur appris limité/]]) {
     view.language = language;
     assert.match(render("source"), source);
     assert.match(render("limit_reason"), limit);
