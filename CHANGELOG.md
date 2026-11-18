@@ -2,7 +2,7 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.4.6-dev
+## 0.4.6
 
 - SmartPI: the integral guard is gone, so its source and the guard integral modes are no longer shown.
 - Label every SmartPI FFTrim rejection and transfer reason in French and English, including generated codes (frozen trim, regime, integral mode, constraint, pending confirmation), through a new `prefix_map` on `status` blocks. Unknown codes still show their raw value.
