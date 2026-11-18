@@ -3,7 +3,7 @@
   "source": {
     "repository": "vtherm_smartpi",
     "branch": "dev-0.7",
-    "revision": "c787c6c1eb1af7024fdfc75517d031edda66f4b4",
+    "revision": "bd69dc71309799557dc28496f852c12aeeacc384",
     "version": "0.7-dev",
     "live": "tests/fixtures/published_diagnostics_paths.json",
     "additional_live": [
