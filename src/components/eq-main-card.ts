@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unlock as unlockThermostat } from "../data/actions";
 import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, PRESET_ICONS, PRESET_ORDER, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
 import { actionTone, fanTone, lockTone, presetTone, swingTone } from "../data/colors";
+import { normalizeCssLength } from "../data/css-length";
 import { FAN_MODE_ICONS } from "../data/fan";
 import { AUTO_FAN_MODES } from "../data/fan";
 import { modeIcon, modeLabel, modeTone, orderedVisibleModes, type ModeFamily } from "../data/mode-customizations";
@@ -2137,6 +2138,8 @@ export class EquinoxMainCard extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     window.addEventListener("popstate", this._handleBrowserPopState);
+    // The theme may differ in the view the card is attached to.
+    this._borderWidthSynced = false;
   }
 
   disconnectedCallback(): void {
@@ -2471,8 +2474,31 @@ export class EquinoxMainCard extends LitElement {
   }
 
   protected updated(): void {
+    this._syncCardBorderWidth();
     if (this._activeDialog === "menu" || this._activeDialog === "regulation") {
       void this._ensureRegulationDashboard();
+    }
+  }
+
+  private _borderWidthSynced = false;
+  private _borderWidthThemes?: unknown;
+
+  // Publishes the theme's card border width as a calc()-safe length for the Liquid Glow
+  // insets; re-read only when the card is attached or the HA themes change.
+  private _syncCardBorderWidth(): void {
+    const themes = this.hass?.themes;
+    if (this._borderWidthSynced && themes === this._borderWidthThemes) return;
+
+    const card = this.renderRoot.querySelector("ha-card");
+    if (!card) return;
+
+    this._borderWidthSynced = true;
+    this._borderWidthThemes = themes;
+    const width = normalizeCssLength(getComputedStyle(card).getPropertyValue("--ha-card-border-width"));
+    if (width) {
+      this.style.setProperty("--equinox-card-border-width", width);
+    } else {
+      this.style.removeProperty("--equinox-card-border-width");
     }
   }
 
