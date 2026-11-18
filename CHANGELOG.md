@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.8-dev
+
+- Fix the Liquid Glow border glow disappearing with themes that set `ha-card-border-width` to a bare `0` (no unit) since 0.4.5. The card now normalizes the theme border width before using it in the glow position.
+
 ## 0.4.7
 
 - Add a Schedule menu entry when the ha-chauffage integration is set up. It opens the ha-chauffage schedule card for the card's thermostat in a dialog, with its weeks, slots, overrides and access levels. A new `show_schedule` option hides it.

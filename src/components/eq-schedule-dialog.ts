@@ -34,7 +34,7 @@ export class EquinoxScheduleDialog extends LitElement {
       display: block;
       --ha-card-background: transparent;
       --ha-card-box-shadow: none;
-      --ha-card-border-width: 0;
+      --ha-card-border-width: 0px;
     }
 
     .message {
