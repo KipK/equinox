@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## 0.4.7-dev
+
+- Add a Schedule menu entry when the ha-chauffage integration is set up. It opens the ha-chauffage schedule card for the card's thermostat in a dialog, with its weeks, slots, overrides and access levels. A new `show_schedule` option hides it.
+
 ## 0.4.6
 
 - SmartPI: the integral guard is gone, so its source and the guard integral modes are no longer shown.

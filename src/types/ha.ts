@@ -8,6 +8,7 @@ export interface HomeAssistant {
   states: Record<string, HassEntity | undefined>;
   config?: {
     time_zone?: string;
+    components?: string[];
   };
   language?: string;
   locale?: {

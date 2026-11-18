@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing } from "lit";
 import { EDITOR_TAG } from "./const";
 import { HVAC_ORDER, PRESET_ORDER, SWING_ORDER } from "./data/climate-modes";
 import { AUTO_FAN_MODES, FAN_ORDER } from "./data/fan";
+import { chauffageIntegrationLoaded } from "./data/chauffage-schedule";
 import { MODE_TONES_BY_FAMILY, isModeHidden, modeCustomization, modeLabel, normalizeModeCustomizations, orderedVisibleModes, type ModeFamily } from "./data/mode-customizations";
 import { ensureHaComponents } from "./ha/load-components";
 import { localize } from "./localize/localize";
@@ -512,7 +513,8 @@ export class EquinoxCardEditor extends LitElement implements LovelaceCardEditor 
       "show_hvac_action",
       "show_events",
       "hide_lock_button",
-      "show_menu"
+      "show_menu",
+      ...(chauffageIntegrationLoaded(this.hass) ? ["show_schedule"] : [])
     ];
 
     return names.map((name) => ({ name, selector: { boolean: {} } }));
