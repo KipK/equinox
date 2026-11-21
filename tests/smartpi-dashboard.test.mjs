@@ -110,8 +110,8 @@ test("documentation examples and named diagnostic paths match the published cont
   }
 });
 
-test("ten sections retain navigation IDs, with no legacy bindings or unused translations", () => {
-  assert.deepEqual(dashboard.sections.map((entry) => entry.id), ["overview", "command", "anticipation", "model", "room_model", "learning", "tar_learning", "fftrim", "health", "actions"]);
+test("nine sections retain navigation IDs, with no legacy bindings or unused translations", () => {
+  assert.deepEqual(dashboard.sections.map((entry) => entry.id), ["overview", "command", "anticipation", "model", "room_model", "learning", "tar_learning", "health", "actions"]);
   assert.doesNotMatch(JSON.stringify(dashboard), /landing|governor|user_setpoint"\s*,\s*"source"\s*:\s*"diagnostic/iu);
   const usedKeys = new Set(nodes.flatMap((entry) => Object.entries(entry).filter(([key]) => key.endsWith("_key")).map(([, value]) => value)));
   for (const language of ["fr", "en"]) assert.deepEqual(new Set(Object.keys(dashboard.translations[language])), usedKeys);
@@ -120,14 +120,14 @@ test("ten sections retain navigation IDs, with no legacy bindings or unused tran
   assert.equal(translate(dashboard, "en", section("model").title_key), "Model and prediction");
 });
 
-test("FF3/twin move together; command constraints, FFTrim nesting and confirmed actions remain", () => {
+test("Model keeps its deadband bindings; command constraints and confirmed actions remain, with nothing from the removed feed-forward trim, FF3 or twin", () => {
   const paths = (id) => [...walk(section(id))].map((entry) => entry.path).filter(Boolean);
-  for (const path of ["ff3_status", "ff3_twin_usable", "twin_status", "deadband_power_source", "deadband_p_mode"]) {
+  for (const path of ["deadband_power_source", "deadband_p_mode"]) {
     assert.ok(paths("model").includes(`live/feedforward/${path}`));
     assert.ok(!paths("anticipation").includes(`live/feedforward/${path}`));
   }
   for (const path of ["command_percent", "limited_percent", "applied_percent", "pi_percent", "ff_percent"]) assert.ok(paths("command").includes(`live/power/${path}`));
-  for (const path of ["stationary", "periodic", "transfer", "last_result", "last_transaction"]) assert.ok(paths("fftrim").some((entry) => entry.startsWith(`live/feedforward/fftrim/${path}/`)));
+  assert.doesNotMatch(JSON.stringify(dashboard), /ff2|ff3|fftrim|twin|ownership|eta_s|eta_u/iu);
   const actions = [...walk(section("actions"))].filter((entry) => entry.type === "action");
   assert.deepEqual(actions.map((entry) => entry.service), ["vtherm_smartpi.set_smartpi_learning", "vtherm_smartpi.set_smartpi_learning", "vtherm_smartpi.reset_smartpi_learning", "vtherm_smartpi.force_smartpi_calibration", "vtherm_smartpi.reset_smartpi_integral"]);
   assert.ok(actions.every((entry) => entry.confirmation.enabled && entry.target.entity_id === "$climate_entity"));
@@ -222,12 +222,10 @@ test("heating balance shows the kept emitter lag used by the anticipation in hea
   assert.equal(empty._formatSourceValue(keptCount), "0");
 });
 
-test("FF3 and FFTrim no longer label setpoint-trajectory states that SmartPI does not publish", () => {
+test("No label names a setpoint-trajectory state that SmartPI does not publish", () => {
   const labelKeys = [...walk(dashboard.sections)].map((entry) => entry.label_key).filter(Boolean);
   assert.ok(labelKeys.every((key) => !/trajectory/u.test(key)));
   for (const language of ["en", "fr"]) assert.ok(Object.keys(dashboard.translations[language]).every((key) => !/trajectory/u.test(key)));
-  const ff3 = sectionPath("model", "live/feedforward/ff3_status");
-  assert.ok(ff3 && !Object.keys(ff3.map).some((code) => code.includes("trajectory")));
 });
 
 test("HEAT/COOL preserve physical temperatures and show powers without a ratio conversion", () => {
@@ -495,7 +493,7 @@ test("new response reasons, learning waits and integral unwind modes translate w
 test("history covers all eighteen published Recorder paths and keeps compact approach graphs separate", () => {
   const histories = nodes.filter((entry) => entry.type === "history");
   const diagnosticPaths = new Set(histories.flatMap((entry) => entry.series).filter((entry) => entry.entity === "$diagnostic_entity").map((entry) => entry.attribute));
-  assert.equal(published.source.version, "0.7-dev");
+  assert.equal(published.source.version, "1.0-dev");
   assert.equal(diagnosticPaths.size, 18);
   assert.deepEqual(diagnosticPaths, new Set(published.history.map((path) => `history/${path}`)));
   const [thermal, command] = section("anticipation").items.filter((entry) => entry.type === "history");
@@ -838,84 +836,31 @@ test("emitter evaluation dates are local dates, with confirmation and the 0.7 co
   assert.match(templateText(unconfirmed._renderStatus(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/reason"))), /future reason/);
 });
 
-const fftrimReasonPaths = ["live/feedforward/fftrim/last_reject_reason", "live/feedforward/fftrim/periodic/last_reject_reason", "live/feedforward/fftrim/transfer/reason"];
-const fftrimReason = (path, code, language = "en") => {
-  const live = {};
-  const keys = path.split("/").slice(1);
-  const leaf = keys.pop();
-  keys.reduce((node, key) => (node[key] ??= {}), live)[leaf] = code;
-  const view = renderer(live);
-  view.language = language;
-  return templateText(view._renderStatus(sectionPath("fftrim", path)));
+// Generic prefix_map behavior of status items, exercised on a published integral-mode path.
+const prefixStatus = {
+  type: "status", source: "diagnostic", path: "live/temperature/integral_mode", map: {},
+  prefix_map: {
+    frozen_: { label: "Frozen: {value}", tone: "muted", suffix_map: { reboot: { label: "recent restart" } } },
+    pi_mode_: { label: "Integral: {value}", tone: "info", suffix_map: { "I:HOLD": { label: "held" } }, argument_map: { window_resume: { label: "resume after open window" } } },
+    pending_: { label: "Confirming: {value}", tone: "info" }
+  },
+  fallback: { tone: "muted", icon: "mdi:help-circle-outline" },
+  fallback_show_value: true
 };
+const prefixed = (code) => templateText(renderer({ temperature: { integral_mode: code } })._renderStatus(prefixStatus));
 
-test("FFTrim reason codes published by SmartPI have English and French labels", () => {
-  const observer = ["hvac_off", "pi_unstable", "guard_cut", "saturated", "washout", "invalid_measurement",
-    "hvac_mode_changed", "pi_missing", "invalid_model", "invalid_model_sign", "invalid_hvac_mode", "non_finite_result", "incomplete_observer_result",
-    "saturation_unknown", "power_shedding", "missing_sensor", "calibration", "hysteresis", "missing_e_eff", "partial_cycle", "pi_missing_mode",
-    "pi_pending_stability", "pi_deadband_freeze", "pi_deadband_shell_hold", "pi_near_band_stable", "periodic_ownership_not_covered",
-    "periodic_regime_changed", "periodic_gains_changed", "periodic_ff_changed", "periodic_power_range", "periodic_outdoor_temperature_missing",
-    "periodic_outdoor_temperature_unstable", "saturated_high", "cycle_not_closed"];
-  const transfer = ["quasi_equilibrium", "ownership_not_covered", "transfer_not_deadband", "transfer_i_not_frozen", "transfer_ff3_active",
-    "transfer_temperature_noise", "transfer_mean_error", "transfer_sample_error", "transfer_slope", "transfer_outdoor_temperature_missing",
-    "transfer_outdoor_temperature_unstable", "transfer_ff_unstable", "transfer_p_active", "transfer_i_unstable", "transfer_invalid_ki",
-    "transfer_delivery_residual", "invalid_proposal", "invalid_transfer_proposal", "quiet_delta", "non_finite_transfer", "invalid_ki",
-    "ff_branch_clamped", "command_clamped", "integral_sign_changed", "integral_bias_changed", "no_atomic_headroom", "transfer_invariant",
-    "incomplete_transfer_result", "ff1_changed", "trim_state_changed", "application_not_deadband", "application_i_not_frozen",
-    "application_saturated", "application_calibration", "application_guard", "application_setpoint_changed",
-    "application_recovery", "application_ff3", "application_timing", "application_output_limited", "application_timing_output",
-    "i_transfer_capacity", "i_transfer_crosses_zero", "i_transfer_clamped", "i_transfer_sign", "invalid_i_transfer", "no_i_transfer",
-    "i_transfer_applied", "quiet_trim_delta"];
-  for (const [path, codes] of [[fftrimReasonPaths[0], observer], [fftrimReasonPaths[1], observer], [fftrimReasonPaths[2], [...observer, ...transfer]]]) {
-    for (const code of codes) {
-      for (const language of ["en", "fr"]) {
-        const rendered = fftrimReason(path, code, language);
-        assert.doesNotMatch(rendered, /status-pill raw/u, `${path} ${code} ${language} shows its raw code`);
-        assert.ok(rendered.includes("status-pill"), `${path} ${code} ${language}`);
-      }
-    }
-  }
-  assert.match(fftrimReason(fftrimReasonPaths[2], "quasi_equilibrium"), /Quasi-equilibrium confirmed|Confirmed quasi-equilibrium|quasi-equilibrium/i);
-  assert.match(fftrimReason(fftrimReasonPaths[0], "hvac_off", "fr"), /Chauffage à l’arrêt/);
-  assert.match(fftrimReason(fftrimReasonPaths[0], "guard_cut"), /Protection cut/);
-});
-
-test("generated FFTrim codes keep their prefix, translate the suffix and fall back to the raw code", () => {
-  const [stationary, periodic, transfer] = fftrimReasonPaths;
-  for (const [path, code, english, french] of [
-    [stationary, "frozen_reboot", /Trim frozen: recent restart/, /Trim gelé : redémarrage récent/],
-    [stationary, "frozen_saturated_high", /Trim frozen: high saturation/, /Trim gelé : saturation haute/],
-    [stationary, "frozen_room_model", /holding power given by the room model/, /donnée par le modèle de pièce/],
-    [stationary, "frozen_ab_ab_bad", /A\/B model bad/, /modèle A\/B mauvais/],
-    [stationary, "regime_hold", /Unsuitable regime: integral held/, /Régime non propice : intégrale maintenue/],
-    [periodic, "regime_warmup", /hysteresis start-up/, /démarrage par hystérésis/],
-    [stationary, "pi_mode_I:HOLD", /Integral not neutral: integral held/, /Intégrateur non neutre : intégrale maintenue/],
-    [stationary, "pi_mode_I:HOLD(window_resume)", /integral held \(resume after open window\)/, /intégrale maintenue \(reprise après fenêtre ouverte\)/],
-    [transfer, "pi_mode_I:OVERRIDE(guard_cut)", /command overridden \(protection cut\)/, /commande forcée \(coupure de protection\)/],
-    [transfer, "pi_mode_I:UNWIND(SAT_HI)", /integral unwind \(high saturation\)/, /décharge de l’intégrale \(saturation haute\)/],
-    [stationary, "error_-0.456", /Mean error too large: -0.456 °C/, /Écart moyen trop grand : -0.456 °C/],
-    [stationary, "slope_0.321", /Mean slope too steep: 0.321 °C\/h/, /Pente moyenne trop forte : 0.321 °C\/h/],
-    [periodic, "periodic_constraint_output_limited", /Periodic cycle constrained: command limited/, /Cycle périodique contraint : commande limitée/],
-    [transfer, "transfer_constraint_phase_Calibration", /Transfer constrained: forced calibration/, /Transfert contraint : calibration forcée/],
-    [transfer, "pending_2/3", /Confirming: 2\/3/, /Confirmation en cours : 2\/3/]]) {
-    assert.match(fftrimReason(path, code, "en"), english, `${path} ${code}`);
-    assert.match(fftrimReason(path, code, "fr"), french, `${path} ${code}`);
-    assert.match(fftrimReason(path, code, "en"), /tone="?muted"?|tone="?info"?/);
-  }
-  // A known prefix with an unknown suffix keeps the suffix as is; an unknown prefix shows the raw code with fallback styling.
-  assert.match(fftrimReason(stationary, "frozen_future_reason"), /Trim frozen: future_reason/);
-  assert.match(fftrimReason(stationary, "pi_mode_I:FUTURE(argument)"), /Integral not neutral: I:FUTURE\(argument\)/);
-  assert.match(fftrimReason(stationary, "pi_mode_I:HOLD(future_source)"), /integral held \(future_source\)/);
-  for (const path of fftrimReasonPaths) {
-    const rendered = fftrimReason(path, "future_code");
-    assert.match(rendered, /future_code/);
-    assert.match(rendered, /tone="?muted"?/);
-    assert.match(rendered, /status-pill raw/);
-  }
-  // The longest exact entry wins over a prefix, and a bare prefix is not a generated code.
-  assert.match(fftrimReason(transfer, "transfer_slope"), /Temperature still sloping/);
-  assert.match(fftrimReason(stationary, "frozen_"), /frozen_/);
-  assert.match(fftrimReason(stationary, "frozen_"), /status-pill raw/);
+test("status prefix_map keeps the prefix, translates the suffix and falls back to the raw code", () => {
+  assert.match(prefixed("frozen_reboot"), /Frozen: recent restart/);
+  assert.match(prefixed("frozen_future_reason"), /Frozen: future_reason/);
+  assert.match(prefixed("pending_2/3"), /Confirming: 2\/3/);
+  assert.match(prefixed("pi_mode_I:HOLD"), /Integral: held/);
+  assert.match(prefixed("pi_mode_I:HOLD(window_resume)"), /held \(resume after open window\)/);
+  assert.match(prefixed("pi_mode_I:HOLD(future_source)"), /held \(future_source\)/);
+  const unknown = prefixed("future_code");
+  assert.match(unknown, /future_code/);
+  assert.match(unknown, /tone="?muted"?/);
+  assert.match(unknown, /status-pill raw/);
+  assert.match(prefixed("frozen_"), /status-pill raw/);
 });
 
 test("room model refusals use the current quiet-period wording and cover the heat balance checks", () => {

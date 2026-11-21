@@ -42,23 +42,22 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation dashboard with ten sections covering the current regulation state, command, target approach, learned model, room model, learning, emitter lag, FFTrim, protections, and maintenance actions.
+- `smartpi.json` — Smart PI regulation dashboard with nine sections covering the current regulation state, command, target approach, learned model, room model, learning, emitter lag, protections, and maintenance actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
 
 ### Built-in SmartPI dashboard
 
-The SmartPI dashboard uses these ten sections in this order:
+The SmartPI dashboard uses these nine sections in this order:
 
 | English / French | Stable section ID | Purpose |
 | --- | --- | --- |
 | Overview / Synthèse | `overview` | Temperature, user setpoint, applied command and useful current influences |
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
 | Target approach / Approche de consigne | `anticipation` | User setpoint, temperature anticipation and command history |
-| Model and prediction / Modèle et prévision | `model` | A/B, confidence, dead times and the relocated FF3/twin block |
+| Model and prediction / Modèle et prévision | `model` | A/B, confidence and dead times |
 | Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
 | Emitter lag / Retard de l’émetteur | `tar_learning` | Dead time in force, morning and refined emitter lags, last evaluation and data exclusions |
-| Equilibrium / FFTrim / Équilibre / FFTrim | `fftrim` | Holding power and integral/trim transfers |
 | Protections / Protections | `health` | Guards, holds, governance and calibration |
 | Actions / Actions | `actions` | Existing confirmed maintenance commands |
 
@@ -70,7 +69,7 @@ controller data directly from `live/...` and its eighteen historical series from
 `history/...`; it does not branch on SmartPI debug mode or reconstruct controller
 state. The only derived live metrics divide published loss by heating response
 to compare the models’ static holding-power ratios. Published `live/power/*_percent` values are already percentages.
-Ratios inside `live/feedforward/fftrim` use an explicit `value_multiplier: 100`. Temperatures and
+Ratios shown in % use an explicit `value_multiplier: 100`. Temperatures and
 setpoints remain in physical °C coordinates in both HEAT and COOL.
 Absent fields remain `--`; `null` never becomes zero, and zero and `false`
 remain valid data. Evolving enum values use a neutral fallback that keeps the
@@ -126,7 +125,7 @@ Command displays `live/feedforward/source` in French or English and
 supplies holding power in PWM heating: air and walls while tracking is reliable,
 static part only while tracking is not reliable, or the simple model without
 walls. Without a publication, in cooling or with a valve, the learned A/B model
-remains the source. FF2 stays zero and frozen while a room model is the source.
+remains the source.
 A source change is absorbed by the integral rather than causing a command jump.
 The power history overlays the wall contribution with FF and PI on the same
 percentage axis. `history/feedforward/source` shares that graph’s group and is
@@ -368,16 +367,6 @@ around the threshold. Temperature and dead-time observations continue during
 the cut. Equinox shows the published state without calculating a release
 temperature or countdown; missing states remain `--` and unknown codes remain
 visible with neutral styling.
-
-FF3 and thermal-twin statuses are grouped in Model and prediction. The FFTrim
-rejection and transfer reasons (`last_reject_reason` of the observers and
-`transfer/reason`) have FR/EN labels for every code SmartPI publishes, including
-generated codes (`frozen_…`, `regime_…`, `pi_mode_…`, `error_…`, `slope_…`,
-`*_constraint_…`, `pending_…`) through `prefix_map`. FFTrim uses
-`live/feedforward/fftrim/{stationary,periodic,transfer,last_result,last_transaction}`.
-Its published `live/feedforward/fftrim/command_ownership` namespace includes
-`receipts_supported`, `kind`, `alterations` and `rejection_counts`; the built-in
-dashboard does not display this block.
 
 In Protections, `live/autocalib/next_check_ts` is labeled **Next automatic retry**:
 it is the scheduled re-trigger time, cleared when an attempt starts or a
@@ -734,9 +723,9 @@ so `0.0001` renders as `0.01 %`):
 ```json
 {
   "type": "value",
-  "label": "Trim correction",
+  "label": "Dispersion of A",
   "source": "diagnostic",
-  "path": "live/feedforward/fftrim/last_result/correction",
+  "path": "live/model/a_stability_ratio",
   "format": "number",
   "value_multiplier": 100,
   "unit": "%",
@@ -942,11 +931,11 @@ prefix uses `fallback`.
 {
   "type": "status",
   "source": "diagnostic",
-  "path": "live/feedforward/fftrim/last_reject_reason",
+  "path": "live/temperature/integral_mode",
   "map": {},
   "prefix_map": {
     "frozen_": {
-      "label": "Trim frozen: {value}",
+      "label": "Frozen: {value}",
       "tone": "muted",
       "suffix_map": { "reboot": { "label": "recent restart" } }
     }
