@@ -10,12 +10,12 @@
     "gzip:dist": "node scripts/gzip-dist.mjs"
   },
   "dependencies": {
-    "@kipk/ha-better-history": "^0.5.0",
+    "@kipk/ha-better-history": "^0.5.1",
     "@kipk/load-ha-components": "^2.1.0",
     "lit": "^3.3.3"
   },
   "devDependencies": {
     "typescript": "^7.0.2",
-    "vite": "^8.3.5"
+    "vite": "^8.3.8"
   }
 }
