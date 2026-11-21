@@ -2,8 +2,9 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.4.8-dev
+## 0.4.8
 
+- Update ha-better-history to 0.5.1 and Vite to 8.3.8: selected history targets show as compact chips again with Home Assistant 2026.9 and later, and closing a history picker inside a Home Assistant dialog no longer closes that dialog.
 - Fix the Liquid Glow border glow disappearing with themes that set `ha-card-border-width` to a bare `0` (no unit) since 0.4.5. The card now normalizes the theme border width before using it in the glow position.
 
 ## 0.4.7
