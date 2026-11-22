@@ -79,6 +79,7 @@ export interface EquinoxCardConfig {
   show_hvac_action?: boolean;
   show_events?: boolean;
   show_menu?: boolean;
+  show_schedule?: boolean;
   border_glow_on_action?: boolean;
 }
 
@@ -108,6 +109,7 @@ export const DEFAULT_CONFIG = {
   show_hvac_action: true,
   show_events: true,
   show_menu: true,
+  show_schedule: true,
   border_glow_on_action: true
 } satisfies Pick<
   EquinoxCardConfig,
@@ -132,6 +134,7 @@ export const DEFAULT_CONFIG = {
   | "show_hvac_action"
   | "show_events"
   | "show_menu"
+  | "show_schedule"
   | "border_glow_on_action"
 >;
 

@@ -179,6 +179,7 @@
       "title": "Menu",
       "regulation": "Régulation",
       "boost": "Boost temporaire",
+      "schedule": "Programmation",
       "history": "Historique"
     },
     "history": {
@@ -199,6 +200,10 @@
         "temperature": "Consigne",
         "hvac_action": "Action HVAC"
       }
+    },
+    "schedule": {
+      "title": "Programmation",
+      "unavailable": "L'intégration Chauffage n'est pas disponible. Installez et configurez ha-chauffage, puis rechargez la page."
     },
     "regulation": {
       "title": "Régulation",
@@ -321,6 +326,7 @@
       "no_fan_modes": "Aucun mode de ventilation disponible",
       "no_swing_modes": "Aucun mode oscillation disponible",
       "no_swing_horizontal_modes": "Aucun mode oscillation horizontale disponible"
-    }
+    },
+    "show_schedule": "Afficher la programmation dans le menu (Chauffage)"
   }
 }

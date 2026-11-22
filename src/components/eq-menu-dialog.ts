@@ -14,6 +14,7 @@ export class EquinoxMenuDialog extends LitElement {
     config: { attribute: false },
     regulationDashboard: { attribute: false },
     regulationAvailable: { type: Boolean, attribute: "regulation-available" },
+    scheduleAvailable: { type: Boolean, attribute: "schedule-available" },
     language: {},
     floating: { type: Boolean },
     closeOnLeave: { type: Boolean },
@@ -94,6 +95,7 @@ export class EquinoxMenuDialog extends LitElement {
   config?: EquinoxCardConfig;
   regulationDashboard?: RegulationDashboard;
   regulationAvailable = false;
+  scheduleAvailable = false;
   language?: string;
   floating = false;
   closeOnLeave = false;
@@ -185,6 +187,20 @@ export class EquinoxMenuDialog extends LitElement {
                     ${timedPresetActive && typeof remainingTimeMin === "number"
                       ? html`<span class="boost-time">${remainingTimeMin} min</span>`
                       : html`<ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>`}
+                  </span>
+                </button>
+              `
+            : nothing}
+
+          ${this.scheduleAvailable
+            ? html`
+                <button class="menu-item" type="button" @click=${() => this._dispatchOpen("equinox-open-schedule")}>
+                  <span class="option-icon">
+                    <ha-icon icon="mdi:calendar-clock" style="--mdc-icon-size: 24px;"></ha-icon>
+                  </span>
+                  <span>${localize(this.language, "dialog.menu.schedule")}</span>
+                  <span class="option-trailing">
+                    <ha-icon icon="mdi:chevron-right" style="--mdc-icon-size: 20px;"></ha-icon>
                   </span>
                 </button>
               `

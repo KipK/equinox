@@ -4,6 +4,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.5.0-dev
 
+- Add a Schedule menu entry when the ha-chauffage integration is set up. It opens the ha-chauffage schedule card for the card's thermostat in a dialog, with its weeks, slots, overrides and access levels. A new `show_schedule` option hides it.
 - SmartPI 1.0: the dashboard no longer shows what SmartPI 1.0 removed: the feed-forward correction FF3 and its thermal twin, the slow feed-forward trim (FFTrim) and its Equilibrium / FFTrim section, and the time-to-setpoint estimate. Overview and Model and prediction lose the matching statuses; the Room model and Emitter lag tabs are unchanged.
 - Fix the Liquid Glow border glow disappearing with themes that set `ha-card-border-width` to a bare `0` (no unit) since 0.4.5. The card now normalizes the theme border width before using it in the glow position.
 - SmartPI: the dashboard uses two names only, dead time (the time before the room temperature first moves after a command) and emitter lag (the mean time the commanded heat takes to arrive in the room), in French and English. The dead time in force, its history and the gain reference say dead time; the response, heating balance and morning/refined learning values say emitter lag.

@@ -3,6 +3,7 @@ import { lock as lockThermostat, setHvacMode, setPresetMode, setTemperature, unl
 import { HVAC_ICONS, HVAC_ORDER, HVAC_TONES, PRESET_ICONS, PRESET_ORDER, SWING_HORIZONTAL_MODE_ICONS, SWING_MODE_ICONS } from "../data/climate-modes";
 import { actionTone, fanTone, lockTone, presetTone, swingTone } from "../data/colors";
 import { normalizeCssLength } from "../data/css-length";
+import { chauffageScheduleAvailable } from "../data/chauffage-schedule";
 import { FAN_MODE_ICONS } from "../data/fan";
 import { AUTO_FAN_MODES } from "../data/fan";
 import { modeIcon, modeLabel, modeTone, orderedVisibleModes, type ModeFamily } from "../data/mode-customizations";
@@ -28,6 +29,7 @@ import "./eq-temperature-dialog";
 import "./eq-menu-dialog";
 import "./eq-boost-dialog";
 import "./eq-history-dialog";
+import "./eq-schedule-dialog";
 import "./eq-sensor-more-info-dialog";
 import "./eq-regulation-dialog";
 import "./eq-lock-dialog";
@@ -37,7 +39,7 @@ const BROWSER_HISTORY_STATE_KEY = "equinox";
 
 interface BrowserHistoryEntry {
   instanceId: string;
-  layer: "history-dialog" | "regulation-dialog" | "sensor-more-info-dialog";
+  layer: "history-dialog" | "schedule-dialog" | "regulation-dialog" | "sensor-more-info-dialog";
   sectionId?: string;
   regulationDepth?: number;
   sensorTarget?: SensorMoreInfoTarget;
@@ -2120,7 +2122,7 @@ export class EquinoxMainCard extends LitElement {
   config?: EquinoxCardConfig;
   viewModel?: EquinoxViewModel;
 
-  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu" | "boost" | "history" | "regulation" | "sensor-more-info" | null = null;
+  private _activeDialog: "fan" | "swing" | "hvac" | "preset" | "temperature" | "menu" | "boost" | "history" | "schedule" | "regulation" | "sensor-more-info" | null = null;
   private _dialogAnchor?: { element: HTMLElement; clientX?: number; clientY?: number };
   private _activeMessageKey?: string;
   private _activeSensorInfoTarget?: SensorMoreInfoTarget;
@@ -2196,7 +2198,7 @@ export class EquinoxMainCard extends LitElement {
     const record = entry as Partial<BrowserHistoryEntry>;
     if (
       record.instanceId !== this._browserHistoryInstanceId ||
-      (record.layer !== "history-dialog" && record.layer !== "regulation-dialog" && record.layer !== "sensor-more-info-dialog")
+      (record.layer !== "history-dialog" && record.layer !== "schedule-dialog" && record.layer !== "regulation-dialog" && record.layer !== "sensor-more-info-dialog")
     ) {
       return undefined;
     }
@@ -2253,6 +2255,10 @@ export class EquinoxMainCard extends LitElement {
     this._pushBrowserHistoryState({ layer: "history-dialog" });
   }
 
+  private _pushScheduleDialogState(): void {
+    this._pushBrowserHistoryState({ layer: "schedule-dialog" });
+  }
+
   private _pushRegulationDialogState(sectionId = this._regulationActiveSectionId): void {
     if (this._sameBrowserHistoryEntry({ layer: "regulation-dialog", sectionId })) return;
 
@@ -2284,6 +2290,12 @@ export class EquinoxMainCard extends LitElement {
         return;
       }
 
+      if (entry?.layer === "schedule-dialog" && this._scheduleMenuAvailable()) {
+        this._activeDialog = "schedule";
+        this._activeMessageKey = undefined;
+        return;
+      }
+
       if (entry?.layer === "regulation-dialog") {
         this._activeDialog = "regulation";
         this._activeMessageKey = undefined;
@@ -2301,7 +2313,7 @@ export class EquinoxMainCard extends LitElement {
         return;
       }
 
-      if (this._activeDialog === "history") {
+      if (this._activeDialog === "history" || this._activeDialog === "schedule") {
         this._activeDialog = null;
       }
 
@@ -2328,6 +2340,26 @@ export class EquinoxMainCard extends LitElement {
 
   private _closeHistoryDialog(): void {
     if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "history-dialog") {
+      this._activeDialog = null;
+      this._clearBrowserHistoryState();
+      return;
+    }
+
+    this._activeDialog = null;
+  }
+
+  private _scheduleMenuAvailable(): boolean {
+    return chauffageScheduleAvailable(this.hass, this.config);
+  }
+
+  private _openScheduleDialog(): void {
+    this._activeDialog = "schedule";
+    this._activeMessageKey = undefined;
+    this._pushScheduleDialogState();
+  }
+
+  private _closeScheduleDialog(): void {
+    if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "schedule-dialog") {
       this._activeDialog = null;
       this._clearBrowserHistoryState();
       return;
@@ -2549,6 +2581,7 @@ export class EquinoxMainCard extends LitElement {
       this._renderLightweightDialog(),
       this._renderSensorMoreInfoDialog(),
       this._renderHistoryDialog(),
+      this._renderScheduleDialog(),
       this._renderRegulationDialog(),
       this._renderLockDialog(),
       this._renderMessageDialog()
@@ -2650,6 +2683,7 @@ export class EquinoxMainCard extends LitElement {
             .config=${this.config}
             .regulationDashboard=${this._regulationDashboard()}
             .regulationAvailable=${this._regulationMenuAvailable()}
+            .scheduleAvailable=${this._scheduleMenuAvailable()}
             .language=${this._language()}
             .floating=${true}
             .closeOnLeave=${true}
@@ -2663,6 +2697,7 @@ export class EquinoxMainCard extends LitElement {
             @equinox-open-swing=${() => { this._activeDialog = "swing"; }}
             @equinox-open-boost=${() => { this._activeDialog = "boost"; }}
             @equinox-open-history=${() => this._openHistoryDialog()}
+            @equinox-open-schedule=${() => this._openScheduleDialog()}
           ></eq-menu-dialog>
         `;
       case "boost":
@@ -2698,6 +2733,22 @@ export class EquinoxMainCard extends LitElement {
         .language=${this._language()}
         @eq-dialog-close=${() => this._closeHistoryDialog()}
       ></eq-history-dialog>
+    `;
+  }
+
+  private _renderScheduleDialog(): TemplateResult | typeof nothing {
+    if (this._activeDialog !== "schedule") {
+      return nothing;
+    }
+
+    return html`
+      <eq-schedule-dialog
+        .open=${true}
+        .hass=${this.hass}
+        .config=${this.config}
+        .language=${this._language()}
+        @eq-dialog-close=${() => this._closeScheduleDialog()}
+      ></eq-schedule-dialog>
     `;
   }
 
