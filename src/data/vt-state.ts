@@ -144,10 +144,11 @@ function isSmartPiCalibrationActive(attributes: Record<string, unknown>, hass: H
     return false;
   }
 
-  const phase = asString(readPath(diagnosticAttributes, ["live", "control", "phase"]));
-  const calibrationState = asString(readPath(diagnosticAttributes, ["live", "calibration", "state"]));
+  // SmartPI publishes plain lowercase calibration states (`idle`, `waiting`, `rest`, ...): compare without case.
+  const phase = asString(readPath(diagnosticAttributes, ["live", "control", "phase"]))?.trim().toLowerCase();
+  const calibrationState = asString(readPath(diagnosticAttributes, ["live", "calibration", "state"]))?.trim().toLowerCase();
 
-  return phase === "Calibration" || (calibrationState !== undefined && calibrationState !== "Idle");
+  return phase === "calibration" || (calibrationState !== undefined && calibrationState !== "idle");
 }
 
 function isControlEntityAvailable(entity: HassEntity | undefined, domain: "select" | "switch"): boolean {

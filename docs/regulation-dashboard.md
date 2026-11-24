@@ -54,7 +54,7 @@ The SmartPI dashboard uses these nine sections in this order:
 | Overview / Synthèse | `overview` | Temperature, user setpoint, applied command and useful current influences |
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
 | Target approach / Approche de consigne | `anticipation` | User setpoint, temperature anticipation and command history |
-| Model and prediction / Modèle et prévision | `model` | A/B, confidence and dead times |
+| Model and prediction / Modèle et prévision | `model` | A/B, confidence, dead times and response model |
 | Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
 | Emitter lag / Retard de l’émetteur | `tar_learning` | Dead time in force, morning and refined emitter lags, last evaluation and data exclusions |
@@ -65,7 +65,7 @@ The existing section IDs remain valid for selection, desktop navigation and
 the mobile section menu.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
-controller data directly from `live/...` and its eighteen historical series from
+controller data directly from `live/...` and its nineteen historical series from
 `history/...`; it does not branch on SmartPI debug mode or reconstruct controller
 state. The only derived live metrics divide published loss by heating response
 to compare the models’ static holding-power ratios. Published `live/power/*_percent` values are already percentages.
@@ -87,7 +87,8 @@ heating and in cooling. `anticipation_c` is shown in `°C` and is 0 when the
 anticipation is off (outside the stable phase, without horizon or without a rising
 or falling slope). `anticipation_horizon_s` is the horizon in use, shown as a compact
 duration like the other durations. `anticipation_horizon_source` is shown as a status:
-**Heating balance** (the median of the last emitter lags measured, in heating
+**Measurement pulses** (emitter lag kept from the measurement pulses of the direct
+start), **Heating balance** (the median of the last emitter lags measured, in heating
 only), **Dead times**, or **None**; an unknown code stays visible with neutral
 styling. A short on-screen note explains the mechanism.
 
@@ -99,7 +100,7 @@ ahead of time. Both use
 a 6-hour window. Applied power is an actuator command, not a measurement of
 delivered heat.
 
-The eighteen diagnostic Recorder series (SmartPI 0.7) are:
+The nineteen diagnostic Recorder series (SmartPI 1.0) are:
 
 - `history/temperature/indoor`
 - `history/temperature/anticipated`
@@ -112,6 +113,7 @@ The eighteen diagnostic Recorder series (SmartPI 0.7) are:
 - `history/power/ff_percent`
 - `history/model/a`
 - `history/model/b`
+- `history/model/effective_dead_time_s`
 - `history/feedforward/source` (text timeline)
 - `history/feedforward/wall_power_percent`
 - `history/room_model/a`
@@ -226,8 +228,8 @@ labels, with neutral/raw fallbacks for future values.
 The seven-day history of the dead time in force reads only `history/deadtime/applied_s`, in seconds.
 Morning/refined values and their evaluation details are live-only. The existing
 emitter lag metrics in Learning describe a separate signal; they are preserved.
-`vt-state.ts` needs no migration: calibration still uses schema v2
-`live/control/phase` and `live/calibration/state`.
+`vt-state.ts` reads calibration from schema v2 `live/control/phase` and
+`live/calibration/state`, compared without case.
 
 Command separates the PI/FF/holding contributions and integral value from a
 three-column **PI gains** group: `live/control/kp`, `live/control/ki` and
@@ -265,22 +267,12 @@ cools between its configured temperature thresholds while collecting observation
 The two collection bars show measurements against the targets supplied by the
 thermostat. They measure collection only: a full bar does not mean that the
 measurements are validated or that initial learning is complete. Response
-measurements can still wait for the emitter lag to be estimated,
+measurements can still wait for the response model,
 then be reassessed. Some may no longer be usable, so further collection can be
 necessary. Equinox does not show an overall completion percentage. The learning
 state remains visible when collection reaches its target, and a pause notice
 explains when collection has been suspended while regulation uses the current
 model.
-
-The **Emitter lag on constant-power phases** group shows the emitter lag, the mean time the
-commanded heat takes to arrive in the room (the dead time plus the inertia of the
-emitter), estimated during constant-power heating phases. It sits next to
-the collection indicators. A retained estimate is one useful observation, not
-confirmation that the emitter lag has been validated. If the emitter lag is unavailable,
-Equinox explains that it cannot tell whether estimation is still in progress;
-this alone does not mean learning is blocked. The available diagnostics do not
-identify the fallback decision or how many response measurements were discarded
-during reassessment, so Equinox does not invent those details.
 
 The collection bars use `live/learning/bootstrap_target_a` and
 `live/learning/bootstrap_target_b`; their visibility follows the published
@@ -291,31 +283,11 @@ emitter lag. A missing target stays unavailable instead of receiving a default.
 The learning enable/pause state uses `live/learning/enabled` independently of
 the stage; an absent flag does not imply a pause or enabled learning in this section.
 
-The emitter lag group reads
-`live/analysis/learning/response_lag/{lag_s,estimates,episode_median_s,episodes,episodes_target,last_reason}`.
-It shows the published emitter lag and median active-episode duration as compact durations,
-the number of retained estimates, completed heating phases, the fixed phase target,
-and a translated outcome of the last active episode. The metric grid uses three
-columns: durations and estimates on the first row, phase count and target on the
-second. These are separate metrics because metric values read a single path;
-the renderer has no dynamic denominator. The target is read from diagnostics,
-not hardcoded or interpreted as a remaining count.
-`estimated` means one estimate was retained, not that an emitter lag has been published.
-Publication requires three coherent estimates from constant-power heating phases;
-the estimate count is not a completion percentage. Missing/null values remain
-`--`, and zero is valid. SmartPI also resolves its delivered-power model without
-publishing an emitter lag once `episodes >= episodes_target` (currently four heating
-phases; a heating phase groups active episodes separated by less than 10 minutes
-without heating), even without retained estimates; it then uses applied power. The phase count
-continues beyond the target and after emitter lag publication, so Equinox displays it
-without capping it or inferring bootstrap completion. The model-resolution flag
-is not published. `episode interrupted by restart` is shown as a muted
-informational outcome: the phase interrupted by a Home Assistant restart counts
-towards resolution without producing an estimate. The two counters are additions
-from the upcoming SmartPI 0.6.0 contract; older diagnostics show `--` for them.
-Constant-power initial-learning phases provide the main opportunity to estimate
-the emitter lag; a system already regulating with PWM may publish none. For cycle
-configuration advice, see the [SmartPI installation guide](https://github.com/KipK/vtherm_smartpi/blob/master/documentation/en/vtherm_smartpi.md).
+`live/learning/block_reason` is shown next to the enable/pause state, only when
+SmartPI publishes one: **Heating unavailable**, **Disturbance** or **Pause (service)**.
+With the direct start, `live/learning/stage` reads **Measurement pulses**,
+`live/model/confidence` `ab_learning` reads like the bootstrap confidence, and
+Overview shows a measurement-pulses notice while `live/control/phase` is `Learning`.
 
 The heating balance group reads
 `live/analysis/learning/heating_balance/{state,measurements,a,lag_s,kept_lag_s,kept_lags,last_reason,last}`
@@ -341,6 +313,13 @@ variable details retain their raw value.
 
 Model and prediction places A and B dispersion indicators side by side on their
 own compact row, wrapping only when the available width is too narrow.
+Next to the dead times, a **Response model** group reads `live/model/{dead_time_s,response_time_constant_s,response_source,response_confidence}`,
+`live/analysis/control/effective_dead_time_s` and
+`live/analysis/learning/response_model/prediction_rms_c`: dead time, response time
+constant and effective dead time as compact durations, the median prediction error
+in °C, the source of the latest accepted event and the response confidence. A
+seven-day graph reads `history/model/effective_dead_time_s` in seconds. Null values
+stay `--`; unknown sources stay raw with neutral styling.
 It also displays a Dead time detection group using
 `live/analysis/deadtime/{state,waiting_elapsed_s,heat_last_outcome,cool_last_outcome}`.
 The waiting duration is visible only for `WAITING_HEAT_RESPONSE` and
@@ -353,7 +332,7 @@ is a neutral interruption after a power transition. Missing outcomes remain
 `--`; unknown codes remain visible with neutral styling. The active
 wait is bounded by 4 h and the passive wait by 12 h, allowing a slow emitter to
 release stored heat after power stops. No countdown or timeout is inferred by
-Equinox. These live diagnostics are separate from the eighteen Recorder series,
+Equinox. These live diagnostics are separate from the nineteen Recorder series,
 and an entity can leave them absent.
 
 Overview and Protections translate `I:OVERRIDE(guard_cut)` as **Thermal protection
@@ -368,21 +347,26 @@ the cut. Equinox shows the published state without calculating a release
 temperature or countdown; missing states remain `--` and unknown codes remain
 visible with neutral styling.
 
-In Protections, `live/autocalib/next_check_ts` is labeled **Next automatic retry**:
-it is the scheduled re-trigger time, cleared when an attempt starts or a
-snapshot is taken. `live/autocalib/last_trigger_ts` reports the actual trigger
-time, and `live/autocalib/snapshot_age_h` reports the actual snapshot age.
+Protections shows `live/control/mode` (PI regulation, hysteresis, or **Heating cut
+above the setpoint** as a warning) and translates the integral hold sources
+`calibration_recovery`, `heating_unavailable` and `heating_unavailable_resume`.
+The Calibration group reads
+`live/calibration/{state,pulses_done,result,last_request,last_time}`, the reading
+against the values in use (`reading_a`/`in_force_a`, `reading_b`/`in_force_b`,
+`reading_lag_s`/`in_force_lag_s`) and `corrected`. States, results and request
+answers use plain FR/EN labels; `corrected` is a list shown as one status, and it
+is hidden before any calibration result. A calibration runs only on request.
 
 The configuration and actual renderer methods are covered by
 `npm run test:smartpi` (Node 24), including published diagnostic bindings and
 documentation examples, anticipation values and horizon sources, missing/null/zero values,
-unknown enums, HEAT/COOL units, Ti, emitter lag, detector waits/outcomes, early
-initial-learning collection and early publication, pause and unavailable emitter lag
-notices, thermal protection cuts, the eighteen Recorder paths, room-model ratios and
+unknown enums, HEAT/COOL units, Ti, response model, calibration, detector waits/outcomes, early
+initial-learning collection and early publication, pause notices, the calibration
+notice in any letter case, thermal protection cuts, the nineteen Recorder paths, room-model ratios and
 forecast comparisons, emitter lag states, source timelines and desktop/mobile
 selection templates. The reference fixture in
 `tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from
-vtherm_smartpi dev-0.7 and records its source revision and files. The publisher’s
+vtherm_smartpi dev-1.0 and records its source revision and files. The publisher’s
 live-path fixture currently omits room_model and tar_learning, so those fields
 are snapshotted from their diagnostics methods and the documented horizon maps.
 Update the snapshot from the publisher when that contract changes. These tests do not paint a browser:
@@ -411,7 +395,8 @@ fallback when the thermostat has not published the new attribute.
 
 For SmartPI, the resolved entity must expose `schema_version: 2`. The main card
 reads calibration state only from `live/control/phase` and
-`live/calibration/state`; the built-in graphs read only the Recorder-safe
+`live/calibration/state`, compared without case: a calibration is active in the
+`Calibration` phase or while the state is not `idle`; the built-in graphs read only the Recorder-safe
 `history` block.
 
 ## Custom Dashboard File
@@ -644,6 +629,7 @@ Supported operators:
 | -------- | ------- |
 | `var` | `{ "var": "diagnostic/live/model/confidence" }` |
 | `!` | `{ "!": { "var": "diagnostic/live/model/tau_reliable" } }` |
+| `lower` | `{ "!=": [{ "lower": { "var": "diagnostic/live/calibration/state" } }, "idle"] }` (lowercases a text value) |
 | `and` | `{ "and": [{ "var": "diagnostic/live/model/tau_reliable" }, { ">": [{ "var": "diagnostic/live/learning/emea_samples_a" }, 10] }] }` |
 | `or` | `{ "or": [{ "==": [{ "var": "climate/state" }, "heat"] }, { "==": [{ "var": "climate/state" }, "heat_cool"] }] }` |
 | `==` | `{ "==": [{ "var": "diagnostic/live/model/confidence" }, "ab_ok"] }` |
@@ -824,9 +810,9 @@ ISO date example:
 ```json
 {
   "type": "value",
-  "label": "Next automatic retry",
+  "label": "Last calibration",
   "source": "diagnostic",
-  "path": "live/autocalib/next_check_ts",
+  "path": "live/calibration/last_time",
   "format": "datetime"
 }
 ```

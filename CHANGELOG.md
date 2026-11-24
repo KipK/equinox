@@ -4,6 +4,8 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.5.0-dev
 
+- Fix "Smart PI calibration active" shown on every SmartPI 1.0 thermostat: the calibration state is compared without case, and only the `Calibration` phase or a state other than `idle` counts as a running calibration.
+- SmartPI 1.0: Protections shows the calibration by pulses (state, pulses, result, last request, reading against the values in use, corrections) and the regulation mode with the heating cut above the setpoint; the automatic calibration rows are gone. Model and prediction shows the response model (dead time, response time constant, effective dead time and its 7-day history, prediction error, source, confidence) next to the dead times; the emitter lag on constant-power phases is gone from Learning. Learning shows why the learning is blocked. The direct-start labels (measurement pulses) and the new integral hold sources are translated in French and English.
 - Add a Schedule menu entry when the ha-chauffage integration is set up. It opens the ha-chauffage schedule card for the card's thermostat in a dialog, with its weeks, slots, overrides and access levels. A new `show_schedule` option hides it.
 - SmartPI 1.0: the dashboard no longer shows what SmartPI 1.0 removed: the feed-forward correction FF3 and its thermal twin, the slow feed-forward trim (FFTrim) and its Equilibrium / FFTrim section, and the time-to-setpoint estimate. Overview and Model and prediction lose the matching statuses; the Room model and Emitter lag tabs are unchanged.
 - Fix the Liquid Glow border glow disappearing with themes that set `ha-card-border-width` to a bare `0` (no unit) since 0.4.5. The card now normalizes the theme border width before using it in the glow position.

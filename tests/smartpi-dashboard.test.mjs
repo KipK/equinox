@@ -27,6 +27,7 @@ registerHooks({
 const { EquinoxRegulationRenderer } = await import("../src/components/eq-regulation-renderer.ts");
 const { EquinoxRegulationDialog } = await import("../src/components/eq-regulation-dialog.ts");
 const { translateRegulationDashboardText: translate } = await import("../src/data/regulation-dashboard-i18n.ts");
+const { buildVtViewModel } = await import("../src/data/vt-state.ts");
 const dashboard = JSON.parse(readFileSync(new URL("../src/data/dashboards/regulation/smartpi.json", import.meta.url)));
 const published = JSON.parse(readFileSync(new URL("./fixtures/smartpi-diagnostics-paths.json", import.meta.url)));
 const publishedPaths = new Set([
@@ -148,7 +149,7 @@ test("anticipation group binds the published correction, horizon and horizon sou
   assert.equal(translate(dashboard, "fr", byPath("live/temperature/anticipated").label_key), "Température anticipée");
   assert.equal(translate(dashboard, "en", byPath("live/temperature/anticipated").label_key), "Anticipated temperature");
   assert.equal(byPath(anticipationPaths[1]).format, "duration_s");
-  assert.deepEqual(Object.keys(byPath(anticipationPaths[2]).map), ["heating balance", "dead times", "none"]);
+  assert.deepEqual(Object.keys(byPath(anticipationPaths[2]).map), ["heating balance", "dead times", "none", "measurement pulses"]);
   assert.equal(byPath(anticipationPaths[2]).fallback_show_value, true);
   for (const language of ["en", "fr"]) {
     for (const entry of [...walk(group)].filter((node) => node.label_key || node.title_key || node.text_key)) {
@@ -187,8 +188,9 @@ test("anticipation values keep their sign, zero and unit, and read as a readable
   }
 });
 
-test("the three horizon sources are translated in both languages and unknown codes stay raw and neutral", () => {
-  const labels = { "heating balance": ["Heating balance", "Bilan de chauffe", "info"], "dead times": ["Dead times", "Temps morts", "info"], none: ["None", "Aucun", "muted"] };
+test("the four horizon sources are translated in both languages and unknown codes stay raw and neutral", () => {
+  const labels = { "heating balance": ["Heating balance", "Bilan de chauffe", "info"], "dead times": ["Dead times", "Temps morts", "info"], none: ["None", "Aucun", "muted"],
+    "measurement pulses": ["Measurement pulses", "Impulsions de mesure", "info"] };
   for (const [code, [english, french, tone]] of Object.entries(labels)) {
     const view = renderer(anticipationLive(0.2, 300, code));
     for (const [language, label] of [["en", english], ["fr", french]]) {
@@ -251,57 +253,11 @@ test("PI gains display the published Ti in minutes and keep unavailable values a
   for (const live of [undefined, {}, { control: { kp: 0.3, ki: 0, ti_min: null } }, { control: { kp: 0.3, ki: -0.01, ti_min: null } }]) assert.equal(renderer(live)._formatSourceValue(ti), "--");
 });
 
-test("response lag displays published durations and retained estimates in HEAT and COOL", () => {
-  const base = "live/analysis/learning/response_lag/";
-  for (const mode of ["heat", "cool"]) {
-    const view = renderer({ analysis: { learning: { response_lag: {
-      lag_s: 5400, estimates: 3, episode_median_s: 7200, last_reason: "estimated"
-    } } } }, mode);
-    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}lag_s`)), "1.5h");
-    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}estimates`)), "3");
-    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}episode_median_s`)), "2h");
-    assert.match(templateText(view._renderStatus(sectionPath("learning", `${base}last_reason`))), /Estimate retained/);
-  }
-});
-
-test("response heating phases preserve zero and counts beyond the published resolution target", () => {
-  const base = "live/analysis/learning/response_lag/";
-  const phases = sectionPath("learning", `${base}episodes`);
-  const target = sectionPath("learning", `${base}episodes_target`);
-  for (const [stage, lag, count] of [["bootstrap", null, 0], ["bootstrap", null, 4], ["bootstrap", null, 7], ["monitoring", 1515, 10]]) {
-    const view = renderer({ learning: { stage }, analysis: { learning: { response_lag: {
-      lag_s: lag, estimates: 0, episodes: count, episodes_target: 7
-    } } } });
-    assert.match(templateText(view._renderMetric(phases)), new RegExp(`class="value">${count}<`));
-    assert.match(templateText(view._renderMetric(target)), /class="value">7</);
-    assert.equal(view._formatSourceValue(sectionPath("learning", `${base}estimates`)), "0");
-    assert.match(templateText(view._renderStatus(sectionPath("learning", "live/learning/stage"))),
-      stage === "bootstrap" ? /Initial learning/ : /Model monitoring/);
-  }
-});
-
-test("a phase interrupted by a restart displays a translated informational outcome", () => {
-  const reason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
-  const view = renderer({ analysis: { learning: { response_lag: {
-    lag_s: null, estimates: 0, episodes: 1, episodes_target: 7, last_reason: "episode interrupted by restart"
-  } } } });
-  for (const [language, label] of [["fr", "Phase interrompue par un redémarrage"], ["en", "Phase interrupted by a restart"]]) {
-    view.language = language;
-    const rendered = templateText(view._renderStatus(reason));
-    assert.ok(rendered.includes(label));
-    assert.match(rendered, /tone="?muted"?/);
-    assert.match(rendered, /mdi:information-outline/);
-  }
-});
-
-test("an accepted lag estimate does not imply a published lag or completed learning", () => {
+test("full collection bars do not imply completed learning", () => {
   const view = renderer({ learning: { stage: "bootstrap", bootstrap_progress_percent: 100,
-    emea_samples_a: 5, emea_samples_b: 5, bootstrap_target_a: 5, bootstrap_target_b: 5 }, analysis: { learning: {
-    response_lag: { lag_s: null, estimates: 7, episode_median_s: null, last_reason: "estimated" }
-  } } });
+    emea_samples_a: 5, emea_samples_b: 5, bootstrap_target_a: 5, bootstrap_target_b: 5 } });
   const stage = sectionPath("learning", "live/learning/stage");
   assert.match(templateText(view._renderStatus(stage)), /Initial learning/);
-  assert.equal(view._formatSourceValue(sectionPath("learning", "live/analysis/learning/response_lag/lag_s")), "--");
   assert.ok(!nodes.some((item) => item.path === "live/learning/bootstrap_progress_percent"));
   const gauges = [...walk(section("learning"))].filter((item) => item.target?.path?.startsWith("live/learning/bootstrap_target_"));
   for (const gauge of gauges) assert.match(templateText(view._renderItem(gauge)), /100%/);
@@ -341,24 +297,6 @@ test("initial collection keeps unknown targets absent and accepts a zero count",
   const view = renderer({ learning: { stage: "bootstrap", emea_samples_a: 0, emea_samples_b: 0,
     bootstrap_target_a: 5, bootstrap_target_b: 5 } });
   for (const gauge of gauges) assert.match(templateText(view._renderItem(gauge)), /class="value">0%/);
-});
-
-test("missing emitter lag explains uncertainty without inventing an observation or fallback state", () => {
-  const note = [...walk(section("learning"))].find((item) => item.text_key === "notes.learning.response_lag_missing");
-  for (const language of ["en", "fr"]) {
-    for (const lag of [undefined, null, 0, 5400]) {
-      const view = renderer({ analysis: { learning: { response_lag: { lag_s: lag } } } });
-      view.language = language;
-      const text = templateText(view._renderItem(note));
-      if (lag === undefined || lag === null) {
-        assert.match(text, language === "fr" ? /ne permet pas de savoir/ : /does not tell us whether/);
-        assert.doesNotMatch(text, /7|fallback|repli/);
-      } else assert.equal(text, "");
-    }
-    const view = renderer({});
-    view.language = language;
-    assert.notEqual(templateText(view._renderItem(note)), "");
-  }
 });
 
 test("paused learning preserves collection and does not imply a pause when the flag is absent", () => {
@@ -429,42 +367,34 @@ test("dead time outcomes distinguish timeout and interruption from a model failu
   }
 });
 
-test("SmartPI 0.5 diagnostics and null response values remain absent, while zero remains valid", () => {
-  const lag = sectionPath("learning", "live/analysis/learning/response_lag/lag_s");
-  const count = sectionPath("learning", "live/analysis/learning/response_lag/estimates");
-  const phases = sectionPath("learning", "live/analysis/learning/response_lag/episodes");
-  const target = sectionPath("learning", "live/analysis/learning/response_lag/episodes_target");
-  const reason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
+test("null response model values remain absent, while zero remains valid", () => {
+  const dead = sectionPath("model", "live/model/dead_time_s");
+  const constant = sectionPath("model", "live/model/response_time_constant_s");
+  const effective = sectionPath("model", "live/analysis/control/effective_dead_time_s");
+  const source = sectionPath("model", "live/model/response_source");
   const outcome = sectionPath("model", "live/analysis/deadtime/cool_last_outcome");
   for (const live of [undefined, {}, { analysis: { deadtime: { state: "OFF" } } }, {
-    analysis: { learning: { response_lag: { lag_s: null, estimates: null, episodes: null, episodes_target: null, last_reason: null } }, deadtime: { cool_last_outcome: null } }
+    model: { dead_time_s: null, response_time_constant_s: null, response_source: null },
+    analysis: { control: { effective_dead_time_s: null }, deadtime: { cool_last_outcome: null } }
   }]) {
     const view = renderer(live);
-    assert.equal(view._formatSourceValue(lag), "--");
-    assert.equal(view._formatSourceValue(count), "--");
-    assert.equal(view._formatSourceValue(phases), "--");
-    assert.equal(view._formatSourceValue(target), "--");
-    for (const item of [reason, outcome]) {
+    for (const item of [dead, constant, effective]) assert.equal(view._formatSourceValue(item), "--");
+    for (const item of [source, outcome]) {
       const rendered = templateText(view._renderStatus(item));
       assert.match(rendered, /--/);
       assert.match(rendered, /tone="?muted"?/);
-      assert.doesNotMatch(rendered, /Estimate retained|Detected|Timed out/);
+      assert.doesNotMatch(rendered, /Detected|Timed out|Measurement pulses/);
     }
   }
-  const view = renderer({ analysis: { learning: { response_lag: { lag_s: 0, estimates: 0 } },
-    deadtime: { state: "WAITING_HEAT_RESPONSE", waiting_elapsed_s: 0 } } });
-  assert.equal(view._formatSourceValue(lag), "0s");
-  assert.equal(view._formatSourceValue(count), "0");
+  const view = renderer({ model: { dead_time_s: 0, response_time_constant_s: 0 },
+    analysis: { deadtime: { state: "WAITING_HEAT_RESPONSE", waiting_elapsed_s: 0 } } });
+  assert.equal(view._formatSourceValue(dead), "0s");
+  assert.equal(view._formatSourceValue(constant), "0s");
   assert.match(templateText(view._renderItem(sectionPath("model", "live/analysis/deadtime/waiting_elapsed_s"))), /0s/);
 });
 
-test("new response reasons, learning waits and integral unwind modes translate with neutral future fallbacks", () => {
-  const lagReason = sectionPath("learning", "live/analysis/learning/response_lag/last_reason");
+test("learning reasons and integral unwind modes translate with neutral future fallbacks", () => {
   const lastReason = sectionPath("learning", "live/learning/last_reason");
-  for (const [code, label] of [["late crossings insufficient", "Insufficient temperature changes"], ["intercept not resolvable", "Emitter lag cannot be determined from this phase"]]) {
-    const view = renderer({ analysis: { learning: { response_lag: { last_reason: code } } } });
-    assert.match(templateText(view._renderStatus(lagReason)), new RegExp(label));
-  }
   for (const param of ["a", "b"]) {
     const view = renderer({ learning: { last_reason: `skip: response transient (${param})` } });
     assert.match(templateText(view._renderStatus(lastReason)), new RegExp(`Settling before a${param === "a" ? "n" : ""} ${param.toUpperCase()} measurement`));
@@ -480,8 +410,8 @@ test("new response reasons, learning waits and integral unwind modes translate w
     }
   }
   const future = renderer({ temperature: { integral_mode: "future_integral" }, learning: { last_reason: "future_learning", stage: "future_stage" },
-    analysis: { learning: { response_lag: { last_reason: "future_lag" } }, deadtime: { state: "future_state", cool_last_outcome: "future_outcome" } } });
-  for (const item of [...integral, lastReason, lagReason, sectionPath("learning", "live/learning/stage"),
+    model: { response_source: "future_source" }, analysis: { deadtime: { state: "future_state", cool_last_outcome: "future_outcome" } } });
+  for (const item of [...integral, lastReason, sectionPath("learning", "live/learning/stage"), sectionPath("model", "live/model/response_source"),
     sectionPath("model", "live/analysis/deadtime/state"), sectionPath("model", "live/analysis/deadtime/cool_last_outcome")]) {
     const rendered = templateText(future._renderStatus(item));
     assert.match(rendered, /future_/);
@@ -490,11 +420,120 @@ test("new response reasons, learning waits and integral unwind modes translate w
   }
 });
 
-test("history covers all eighteen published Recorder paths and keeps compact approach graphs separate", () => {
+const calibrationHero = section("overview").items.find((item) => item.subtitle_key === "hero.overview.calibration");
+const heroShown = (item, live) => templateText(renderer(live)._renderItem(item)) !== "";
+
+test("the calibration message follows the plain lowercase calibration states, whatever their case", () => {
+  for (const state of ["idle", "Idle", "IDLE", null, undefined]) {
+    assert.equal(heroShown(calibrationHero, { control: { phase: "Stable" }, calibration: { state } }), false, String(state));
+  }
+  for (const state of ["waiting", "rest", "full power", "stop", "Rest"]) {
+    assert.equal(heroShown(calibrationHero, { control: { phase: "Stable" }, calibration: { state } }), true, state);
+  }
+  assert.equal(heroShown(calibrationHero, { control: { phase: "Calibration" }, calibration: { state: "idle" } }), true);
+  const others = section("overview").items.filter((item) => ["hero.overview.bootstrap", "hero.overview.pulses", "hero.overview.degraded"].includes(item.subtitle_key));
+  assert.equal(heroShown(others[0], { control: { phase: "Hysteresis" }, calibration: { state: "idle" } }), true);
+  assert.equal(heroShown(others[1], { control: { phase: "Learning" }, calibration: { state: "idle" } }), true);
+  assert.equal(heroShown(others[1], { control: { phase: "Learning" }, calibration: { state: "rest" } }), false);
+  assert.equal(heroShown(others[2], { control: { phase: "Learning" }, learning: { stage: "degraded" }, calibration: { state: "idle" } }), false);
+  assert.equal(heroShown(others[2], { control: { phase: "Stable" }, learning: { stage: "degraded" }, calibration: { state: "idle" } }), true);
+  assert.doesNotMatch(JSON.stringify(dashboard.sections), /"Idle"/u);
+});
+
+test("the main card reports a SmartPI calibration only while one runs", () => {
+  const attributes = (phase, state) => ({ entity_id: "sensor.diag", state: "stable", attributes: { schema_version: 2, live: { control: { phase }, calibration: { state } } } });
+  const climate = { entity_id: "climate.test", state: "heat", attributes: { configuration: { proportional_function: "smartpi" }, specific_states: { regulation_diagnostics: "sensor.diag" } } };
+  const messages = (phase, state) => buildVtViewModel({ entity: "climate.test" }, { states: { "climate.test": climate, "sensor.diag": attributes(phase, state) } }, climate)
+    .messages.map((message) => message.key);
+  for (const state of ["idle", "Idle", "IDLE"]) assert.ok(!messages("Stable", state).includes("smartpi_calibration"), state);
+  assert.ok(!messages("Learning", "idle").includes("smartpi_calibration"));
+  for (const state of ["waiting", "rest", "full power", "stop"]) assert.ok(messages("Stable", state).includes("smartpi_calibration"), state);
+  assert.ok(messages("Calibration", "idle").includes("smartpi_calibration"));
+});
+
+test("the calibration block shows the pulses, the result, the reading against the values in use and the corrections", () => {
+  const paths = [...walk(section("health"))].map((entry) => entry.path).filter(Boolean);
+  for (const leaf of ["state", "pulses_done", "result", "last_request", "last_time", "reading_a", "in_force_a", "reading_b", "in_force_b", "reading_lag_s", "in_force_lag_s", "corrected"]) {
+    assert.ok(paths.includes(`live/calibration/${leaf}`), leaf);
+  }
+  assert.doesNotMatch(JSON.stringify(dashboard), /autocalib|retry_count|response_lag/u);
+  const live = { calibration: { state: "full power", pulses_done: 2, result: "readings agree", last_request: "refused: too soon",
+    reading_a: 0.0123, in_force_a: 0.02, reading_lag_s: 900, in_force_lag_s: 1500 } };
+  const view = renderer(live);
+  const render = (leaf) => templateText(view._renderStatus(sectionPath("health", `live/calibration/${leaf}`)));
+  for (const [language, state, result, request] of [["en", /Pulse: full power/, /Two readings agree/, /less than 24 h/], ["fr", /Impulsion : pleine puissance/, /Deux lectures concordent/, /moins de 24 h/]]) {
+    view.language = language;
+    assert.match(render("state"), state);
+    assert.match(render("result"), result);
+    assert.match(render("last_request"), request);
+  }
+  view.language = "en";
+  assert.equal(view._formatSourceValue(sectionPath("health", "live/calibration/pulses_done")), "2");
+  assert.equal(view._formatSourceValue(sectionPath("health", "live/calibration/reading_a")), "0.01230 °C/min");
+  assert.match(view._formatSourceValue(sectionPath("health", "live/calibration/in_force_lag_s")), /^25\s?m/u);
+  const corrected = sectionPath("health", "live/calibration/corrected");
+  // `corrected` is a list of plain names, read by the status as its comma-joined text.
+  for (const [list, label] of [[[], /Nothing corrected/], [["heating rate"], /Heating rate/], [["heating rate", "emitter lag"], /Heating rate and emitter lag/]]) {
+    view.hass.states["sensor.diag"].attributes.live.calibration.corrected = list;
+    assert.match(templateText(view._renderItem(corrected)), label);
+  }
+  view.hass.states["sensor.diag"].attributes.live.calibration.result = null;
+  assert.equal(templateText(view._renderItem(corrected)), "");
+  assert.match(render("state"), /Pulse/);
+  view.hass.states["sensor.diag"].attributes.live.calibration.state = "idle";
+  assert.match(render("state"), /No calibration in progress/);
+});
+
+test("the response model sits next to the dead times with its source, confidence and prediction error", () => {
+  const view = renderer({ model: { dead_time_s: 300, response_time_constant_s: 1200, response_source: "measurement pulses", response_confidence: "dead time assumed" },
+    analysis: { control: { effective_dead_time_s: 900 }, learning: { response_model: { prediction_rms_c: 0.042 } } } });
+  assert.match(view._formatSourceValue(sectionPath("model", "live/model/dead_time_s")), /^5\s?m/u);
+  assert.match(view._formatSourceValue(sectionPath("model", "live/model/response_time_constant_s")), /^20\s?m/u);
+  assert.match(view._formatSourceValue(sectionPath("model", "live/analysis/control/effective_dead_time_s")), /^15\s?m/u);
+  assert.equal(view._formatSourceValue(sectionPath("model", "live/analysis/learning/response_model/prediction_rms_c")), "0.042 °C");
+  for (const [language, source, confidence] of [["en", /Measurement pulses/, /Dead time assumed/], ["fr", /Impulsions de mesure/, /Temps mort supposé/]]) {
+    view.language = language;
+    assert.match(templateText(view._renderStatus(sectionPath("model", "live/model/response_source"))), source);
+    assert.match(templateText(view._renderStatus(sectionPath("model", "live/model/response_confidence"))), confidence);
+  }
+  const items = section("model").items;
+  const deadTimes = items.findIndex((item) => [...walk(item)].some((entry) => entry.path === "live/model/deadtime_heat_s"));
+  assert.equal(items[deadTimes + 1].title_key, "groups.model.response");
+});
+
+test("the learning block reason, the direct-start labels, the cut mode and the new integral holds are translated", () => {
+  const block = sectionPath("learning", "live/learning/block_reason");
+  assert.deepEqual(block.visible_if, { var: "diagnostic/live/learning/block_reason" });
+  const learning = section("learning").items;
+  assert.equal(learning.indexOf(block), learning.findIndex((item) => item.path === "live/learning/enabled") + 1);
+  const checks = [
+    ["learning", "live/learning/block_reason", { learning: { block_reason: "heating unavailable" } }, /Heating unavailable/, /Chauffage indisponible/],
+    ["learning", "live/learning/block_reason", { learning: { block_reason: "disturbance" } }, /Disturbance/, /Perturbation/],
+    ["learning", "live/learning/stage", { learning: { stage: "measurement pulses" } }, /Measurement pulses/, /Impulsions de mesure/],
+    ["model", "live/model/confidence", { model: { confidence: "ab_learning" } }, /Initial model learning/, /Apprentissage initial du modèle/],
+    ["health", "live/control/mode", { control: { mode: "heating cut above the setpoint" } }, /Heating cut above the setpoint/, /Chauffage coupé au-dessus de la consigne/],
+    ["health", "live/temperature/integral_hold_source", { temperature: { integral_hold_source: "calibration_recovery" } }, /calibration pulse/, /impulsion de calibration/],
+    ["health", "live/temperature/integral_hold_source", { temperature: { integral_hold_source: "heating_unavailable" } }, /Heating unavailable/, /Chauffage indisponible/],
+    ["health", "live/temperature/integral_hold_source", { temperature: { integral_hold_source: "heating_unavailable_resume" } }, /Resume after heating unavailable/, /Reprise après chauffage indisponible/],
+    ["health", "live/temperature/integral_hold_mode", { temperature: { integral_hold_mode: "heating_unavailable_resume" } }, /Resume after heating unavailable/, /Reprise après chauffage indisponible/],
+    ["overview", "live/temperature/integral_mode", { temperature: { integral_mode: "I:HOLD(heating_unavailable_resume)" } }, /Integral held/, /Intégrale maintenue/]
+  ];
+  for (const [id, path, live, english, french] of checks) {
+    const view = renderer(live);
+    const item = sectionPath(id, path);
+    assert.match(templateText(view._renderStatus(item)), english, path);
+    view.language = "fr";
+    assert.match(templateText(view._renderStatus(item)), french, path);
+    assert.doesNotMatch(templateText(view._renderStatus(item)), /status-pill raw/u);
+  }
+  assert.equal(templateText(renderer({ learning: { block_reason: null } })._renderItem(block)), "");
+});
+
+test("history covers all nineteen published Recorder paths and keeps compact approach graphs separate", () => {
   const histories = nodes.filter((entry) => entry.type === "history");
   const diagnosticPaths = new Set(histories.flatMap((entry) => entry.series).filter((entry) => entry.entity === "$diagnostic_entity").map((entry) => entry.attribute));
   assert.equal(published.source.version, "1.0-dev");
-  assert.equal(diagnosticPaths.size, 18);
+  assert.equal(diagnosticPaths.size, 19);
   assert.deepEqual(diagnosticPaths, new Set(published.history.map((path) => `history/${path}`)));
   const [thermal, command] = section("anticipation").items.filter((entry) => entry.type === "history");
   assert.equal(thermal.range, "6h");

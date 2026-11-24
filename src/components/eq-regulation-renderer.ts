@@ -1246,6 +1246,11 @@ export class EquinoxRegulationRenderer extends LitElement {
       return !this._truthy(this._evaluateCondition(record["!"]));
     }
 
+    if ("lower" in record) {
+      const value = this._evaluateCondition(record.lower);
+      return typeof value === "string" ? value.toLowerCase() : value;
+    }
+
     if ("and" in record) {
       const values = Array.isArray(record.and) ? record.and : [record.and];
       return values.every((value) => this._truthy(this._evaluateCondition(value)));

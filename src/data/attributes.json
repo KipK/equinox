@@ -27,6 +27,7 @@
   "history.feedforward.wall_power_percent": "%",
   "history.model.a": "°C/min",
   "history.model.b": "min⁻¹",
+  "history.model.effective_dead_time_s": "s",
   "history.power.applied_percent": "%",
   "history.power.command_percent": "%",
   "history.power.ff_percent": "%",

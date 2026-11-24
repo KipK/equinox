@@ -30,7 +30,7 @@
       "hero.model.title": "Modèle et prévision thermique",
       "hero.model.subtitle": "Le modèle appris A/B et les temps morts décrivent la réponse thermique ; le modèle de pièce dispose de son propre onglet.",
       "hero.health.title": "Surveillance active",
-      "hero.health.subtitle": "Les protections peuvent figer l'apprentissage ou demander une calibration.",
+      "hero.health.subtitle": "Les protections peuvent figer l'apprentissage ; une calibration ne se lance que sur demande.",
       "hero.actions.title": "Actions Smart PI",
       "hero.actions.subtitle": "Les actions sont appliquées au thermostat configuré après confirmation.",
       "metrics.temperature": "Température",
@@ -84,13 +84,7 @@
       "metrics.integral_hold": "Maintien intégrale",
       "metrics.integral_hold_source": "Source du maintien intégral",
       "metrics.restart_reason": "Raison du redémarrage",
-      "metrics.autocalib_state": "Autocalibration",
-      "metrics.autocalib_degraded": "Modèle dégradé",
-      "metrics.autocalib_snapshot_age": "Âge du snapshot",
-      "metrics.autocalib_next_check": "Prochaine relance automatique",
-      "metrics.autocalib_last_trigger": "Dernier déclenchement",
       "metrics.calibration_state": "Calibration",
-      "metrics.calibration_retry": "Essais calibration",
       "metrics.calibration_last_time": "Dernière calibration",
       "groups.overview.thermal": "Température et consigne",
       "groups.overview.command": "Commande en cours",
@@ -103,7 +97,6 @@
       "groups.health.protections": "Protections thermiques",
       "groups.health.integral": "Intégrale",
       "groups.health.restart": "Redémarrage",
-      "groups.health.autocalib": "Autocalibration",
       "groups.health.calibration": "Calibration",
       "groups.actions.learning": "Apprentissage thermique",
       "groups.actions.maintenance": "Maintenance",
@@ -187,7 +180,7 @@
       "status.anticipation.source.heating_balance": "Bilan de chauffe",
       "status.anticipation.source.dead_times": "Temps morts",
       "status.anticipation.source.none": "Aucun",
-      "notes.approach.anticipation": "En phase stable, la température mesurée est corrigée de la distance que la pièce va parcourir pendant le temps entre une commande et son effet (au plus 1 °C). La correction est nulle hors phase stable, sans horizon ou sans pente de la température. En chauffage, l'horizon vient du bilan de chauffe (retard de l'émetteur) quand il est connu, sinon des temps morts ; en refroidissement, il vient des temps morts.",
+      "notes.approach.anticipation": "En phase stable, la température mesurée est corrigée de la distance que la pièce va parcourir pendant le temps entre une commande et son effet (au plus 1 °C). La correction est nulle hors phase stable, sans horizon ou sans pente de la température. L'horizon vient des impulsions de mesure du démarrage direct quand elles ont donné un retard de l'émetteur ; sinon, en chauffage, du bilan de chauffe (retard de l'émetteur) quand il est connu, à défaut des temps morts ; en refroidissement, des temps morts.",
       "graphs.approach.temperature": "Température mesurée, température anticipée et consigne",
       "graphs.approach.command": "Commande calculée et commande appliquée",
       "notes.approach.history": "Le premier graphique compare la température mesurée, la température anticipée (mesure plus correction, celle que lit le régulateur) et la consigne. Quand la courbe anticipée atteint la consigne avant la courbe mesurée, la commande baisse en avance. Le second graphique montre la commande calculée et la commande appliquée sur la même période.",
@@ -198,25 +191,7 @@
       "status.learning.stage.learning": "Enrichissement du modèle",
       "status.learning.stage.monitoring": "Surveillance du modèle",
       "status.learning.stage.degraded": "Modèle dégradé",
-      "notes.learning.bootstrap": "Les barres comptent les mesures collectées, pas la progression totale de l'apprentissage. Atteindre un objectif ne garantit pas leur validation : les mesures de réponse peuvent encore attendre l'estimation du retard de l'émetteur, puis être réévaluées. L'apprentissage peut donc continuer ou demander des mesures supplémentaires.",
-      "groups.learning.response_lag": "Retard de l'émetteur sur phases à puissance constante",
-      "metrics.response_lag": "Retard de l'émetteur estimé",
-      "metrics.response_estimates": "Estimations conservées",
-      "metrics.response_episodes": "Phases de chauffe",
-      "metrics.response_episodes_target": "Phases avant résolution",
-      "metrics.response_episode_median": "Durée médiane des phases actives",
-      "metrics.response_last_reason": "Dernière phase active",
-      "status.response_lag.estimated": "Estimation retenue",
-      "status.response_lag.power_not_constant": "Puissance variable",
-      "status.response_lag.baseline_unsettled": "Repos préalable insuffisant",
-      "status.response_lag.no_outdoor_temperature": "Température extérieure absente",
-      "status.response_lag.insufficient_crossings": "Variations de température insuffisantes",
-      "status.response_lag.no_baseline_crossing": "Réponse encore insuffisante",
-      "status.response_lag.unknown_passive_slope": "Pente passive inconnue",
-      "status.response_lag.no_active_response": "Réponse active non mesurable",
-      "status.response_lag.unresolvable_intercept": "Retard de l'émetteur non déterminable sur cette phase",
-      "status.response_lag.interrupted_by_restart": "Phase interrompue par un redémarrage",
-      "notes.learning.response_lag": "Le retard de l'émetteur est le temps moyen que met la chaleur commandée pour arriver dans la pièce : le temps mort plus l'inertie de l'émetteur. Ce groupe l'estime pendant les phases de chauffe à puissance constante. Une estimation retenue ne suffit pas à valider le retard de l'émetteur ; une installation lente peut demander plusieurs heures d'observation. Même sans estimation retenue, le modèle se résout automatiquement après le nombre fixe de phases de chauffe affiché.",
+      "notes.learning.bootstrap": "Les barres comptent les mesures collectées, pas la progression totale de l'apprentissage. Atteindre un objectif ne garantit pas leur validation : les mesures de réponse peuvent encore attendre le modèle de réponse, puis être réévaluées. L'apprentissage peut donc continuer ou demander des mesures supplémentaires.",
       "groups.learning.heating_balance": "Bilan de chauffe : vitesse de chauffe et retard de l'émetteur",
       "metrics.heating_balance.state": "État de la mesure",
       "status.heating_balance.state.resting": "Au repos",
@@ -272,7 +247,6 @@
       "graphs.command.integral": "Évolution de l'intégrale",
       "graphs.command.gains": "Évolution des gains PI",
       "notes.command.history": "L'intégrale est un cumul d'écart de température en °C·min, pas un pourcentage de puissance. Les gains Kp et Ki traduisent les écarts et ce cumul en commande ; leurs courbes utilisent des échelles distinctes.",
-      "notes.learning.response_lag_missing": "Retard de l'émetteur non disponible. Cette information ne permet pas de savoir si son estimation est encore en cours ; son absence ne signifie pas que l'apprentissage est bloqué.",
       "notes.learning.paused": "L’apprentissage A/B est en pause. La régulation utilise le modèle courant ; la collecte A/B reprendra à sa réactivation. L’apprentissage du retard de l’émetteur reste indépendant.",
       "status.integral.guard_cut": "Coupure de protection thermique",
       "status.integral.guard_cut.description": "Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; l'excès d'intégrale diminue pendant la coupure tout en conservant la correction utile.",
@@ -505,7 +479,68 @@
       "graphs.emitter.applied": "Temps mort en vigueur",
       "graphs.emitter.delay": "Temps mort de chauffe en vigueur",
       "sections.tar_learning.title": "Retard de l’émetteur",
-      "groups.model.deadband": "Bande morte"
+      "groups.model.deadband": "Bande morte",
+      "hero.overview.pulses": "L'installation collecte ses premières mesures par impulsions de mesure : repos, pleine puissance, puis arrêt pendant la lecture du pic de température.",
+      "status.learning.stage.measurement_pulses": "Impulsions de mesure",
+      "status.anticipation.source.measurement_pulses": "Impulsions de mesure",
+      "status.integral_hold.heating_unavailable_resume": "Reprise après chauffage indisponible",
+      "status.integral_hold.calibration_recovery": "Reprise après une impulsion de calibration",
+      "status.integral_hold.heating_unavailable": "Chauffage indisponible",
+      "status.integral.hold_heating_unavailable_resume": "Intégrale maintenue : reprise après chauffage indisponible",
+      "metrics.control_mode": "Mode de régulation",
+      "status.control_mode.smartpi": "Régulation PI",
+      "status.control_mode.hysteresis": "Hystérésis (apprentissage initial)",
+      "status.control_mode.heating_cut": "Chauffage coupé au-dessus de la consigne",
+      "status.calibration.state.idle": "Aucune calibration en cours",
+      "status.calibration.state.waiting": "Attente entre deux impulsions",
+      "status.calibration.state.rest": "Impulsion : repos",
+      "status.calibration.state.full_power": "Impulsion : pleine puissance",
+      "status.calibration.state.stop": "Impulsion : arrêt, attente du pic",
+      "metrics.calibration_result": "Résultat",
+      "status.calibration.result.in_progress": "En cours",
+      "status.calibration.result.agree": "Deux lectures concordent",
+      "status.calibration.result.pulses_done": "Trois impulsions sans accord",
+      "status.calibration.result.time_limit": "Durée limite atteinte (48 h)",
+      "status.calibration.result.cancelled": "Annulée",
+      "metrics.calibration_last_request": "Dernière demande",
+      "status.calibration.request.started": "Lancée",
+      "status.calibration.request.learning_stage": "Refusée : apprentissage initial en cours",
+      "status.calibration.request.paused": "Refusée : apprentissage en pause",
+      "status.calibration.request.off": "Refusée : thermostat éteint",
+      "status.calibration.request.too_soon": "Refusée : moins de 24 h après la dernière calibration",
+      "status.calibration.request.in_progress": "Ignorée : une calibration est en cours",
+      "metrics.calibration_pulses": "Impulsions effectuées",
+      "metrics.calibration_reading_a": "Vitesse de chauffe lue",
+      "metrics.calibration_in_force_a": "Vitesse de chauffe en usage",
+      "metrics.calibration_reading_b": "Coefficient de pertes lu",
+      "metrics.calibration_in_force_b": "Coefficient de pertes en usage",
+      "metrics.calibration_reading_lag": "Retard de l'émetteur lu",
+      "metrics.calibration_in_force_lag": "Horizon d'anticipation en usage",
+      "metrics.calibration_corrected": "Corrigé par la calibration",
+      "status.calibration.corrected.none": "Rien n'a été corrigé",
+      "status.calibration.corrected.heating_rate": "Vitesse de chauffe",
+      "status.calibration.corrected.emitter_lag": "Retard de l'émetteur",
+      "status.calibration.corrected.both": "Vitesse de chauffe et retard de l'émetteur",
+      "notes.health.calibration": "Une calibration ne se lance que sur demande. Ses impulsions lisent la vitesse de chauffe, le coefficient de pertes et le retard de l'émetteur ; dès que deux lectures concordent, une valeur n'est corrigée que si la valeur en usage s'en écarte de plus de 30 %. Le coefficient de pertes est lu, jamais corrigé.",
+      "metrics.learning_block_reason": "Apprentissage bloqué par",
+      "status.learning.block.heating_unavailable": "Chauffage indisponible",
+      "status.learning.block.disturbance": "Perturbation",
+      "status.learning.block.paused": "Pause (service)",
+      "groups.model.response": "Modèle de réponse",
+      "metrics.response.dead_time": "Temps mort",
+      "metrics.response.time_constant": "Constante de temps de réponse",
+      "metrics.response.effective_dead_time": "Temps mort effectif",
+      "metrics.response.prediction_error": "Erreur de prédiction (médiane)",
+      "metrics.response.source": "Source du dernier événement",
+      "status.response.source.calibration": "Calibration",
+      "status.response.source.regulation": "Régulation",
+      "status.response.source.previous_version": "Valeurs de la version précédente",
+      "metrics.response.confidence": "Confiance de la réponse",
+      "status.response.confidence.measured": "Mesurée",
+      "status.response.confidence.provisional": "Provisoire",
+      "status.response.confidence.dead_time_assumed": "Temps mort supposé",
+      "notes.model.response": "Le modèle de réponse décrit comment la pièce répond à la puissance : un temps mort, puis une constante de temps de réponse (émetteur, air et masse proche). Le temps mort effectif est le temps mort plus la moitié de la constante de temps. L'erreur de prédiction indique si le modèle prévoit bien les nouveaux événements. L'apprentissage de A et B lit ce modèle ; le régulateur ne le lit pas.",
+      "graphs.model.effective_dead_time": "Temps mort effectif"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -533,7 +568,7 @@
       "hero.model.title": "Thermal model and prediction",
       "hero.model.subtitle": "The learned A/B model and dead times describe the thermal response; the room model has its own tab.",
       "hero.health.title": "Active supervision",
-      "hero.health.subtitle": "Protections may freeze learning or request calibration.",
+      "hero.health.subtitle": "Protections may freeze learning; a calibration runs only on request.",
       "hero.actions.title": "Smart PI actions",
       "hero.actions.subtitle": "Actions are applied to the configured thermostat after confirmation.",
       "metrics.temperature": "Temperature",
@@ -587,13 +622,7 @@
       "metrics.integral_hold": "Integral hold",
       "metrics.integral_hold_source": "Integral hold source",
       "metrics.restart_reason": "Restart reason",
-      "metrics.autocalib_state": "Auto-calibration",
-      "metrics.autocalib_degraded": "Model degraded",
-      "metrics.autocalib_snapshot_age": "Snapshot age",
-      "metrics.autocalib_next_check": "Next automatic retry",
-      "metrics.autocalib_last_trigger": "Last trigger",
       "metrics.calibration_state": "Calibration",
-      "metrics.calibration_retry": "Calibration retries",
       "metrics.calibration_last_time": "Last calibration",
       "groups.overview.thermal": "Temperature and setpoint",
       "groups.overview.command": "Current command",
@@ -606,7 +635,6 @@
       "groups.health.protections": "Thermal safeguards",
       "groups.health.integral": "Integral",
       "groups.health.restart": "Restart",
-      "groups.health.autocalib": "Auto-calibration",
       "groups.health.calibration": "Calibration",
       "groups.actions.learning": "Thermal learning",
       "groups.actions.maintenance": "Maintenance",
@@ -690,7 +718,7 @@
       "status.anticipation.source.heating_balance": "Heating balance",
       "status.anticipation.source.dead_times": "Dead times",
       "status.anticipation.source.none": "None",
-      "notes.approach.anticipation": "In the stable phase, the measured temperature is corrected by the distance the room is about to travel during the time between a command and its effect (at most 1 °C). The correction is zero outside the stable phase, without a horizon or without a temperature slope. In heating, the horizon comes from the heating balance (emitter lag) when it is known, otherwise from the dead times; in cooling it comes from the dead times.",
+      "notes.approach.anticipation": "In the stable phase, the measured temperature is corrected by the distance the room is about to travel during the time between a command and its effect (at most 1 °C). The correction is zero outside the stable phase, without a horizon or without a temperature slope. The horizon comes from the measurement pulses of the direct start when they gave an emitter lag; otherwise, in heating, from the heating balance (emitter lag) when it is known, else from the dead times; in cooling, from the dead times.",
       "graphs.approach.temperature": "Measured temperature, anticipated temperature and setpoint",
       "graphs.approach.command": "Calculated and applied command",
       "notes.approach.history": "The first graph compares the measured temperature, the anticipated temperature (measurement plus correction, the one the regulator reads) and the setpoint. When the anticipated curve reaches the setpoint before the measured one, the command drops ahead of time. The second graph shows the calculated and applied commands over the same period.",
@@ -701,25 +729,7 @@
       "status.learning.stage.learning": "Model refinement",
       "status.learning.stage.monitoring": "Model monitoring",
       "status.learning.stage.degraded": "Degraded model",
-      "notes.learning.bootstrap": "The bars count collected measurements, not overall learning progress. Reaching a target does not guarantee validation: response measurements may still wait for an estimated emitter lag, then be reassessed. Learning can therefore continue or require additional measurements.",
-      "groups.learning.response_lag": "Emitter lag on constant-power phases",
-      "metrics.response_lag": "Estimated emitter lag",
-      "metrics.response_estimates": "Retained estimates",
-      "metrics.response_episodes": "Heating phases",
-      "metrics.response_episodes_target": "Phases before resolution",
-      "metrics.response_episode_median": "Median active phase duration",
-      "metrics.response_last_reason": "Last active phase",
-      "status.response_lag.estimated": "Estimate retained",
-      "status.response_lag.power_not_constant": "Varying power",
-      "status.response_lag.baseline_unsettled": "Insufficient preceding rest",
-      "status.response_lag.no_outdoor_temperature": "Outdoor temperature missing",
-      "status.response_lag.insufficient_crossings": "Insufficient temperature changes",
-      "status.response_lag.no_baseline_crossing": "Response still insufficient",
-      "status.response_lag.unknown_passive_slope": "Passive slope unknown",
-      "status.response_lag.no_active_response": "Active response not measurable",
-      "status.response_lag.unresolvable_intercept": "Emitter lag cannot be determined from this phase",
-      "status.response_lag.interrupted_by_restart": "Phase interrupted by a restart",
-      "notes.learning.response_lag": "The emitter lag is the mean time the commanded heat takes to arrive in the room: the dead time plus the inertia of the emitter. This group estimates it during constant-power heating phases. A retained estimate does not validate the emitter lag by itself; a slow system may need several hours of observation. Even without a retained estimate, the model resolves automatically after the fixed number of heating phases shown.",
+      "notes.learning.bootstrap": "The bars count collected measurements, not overall learning progress. Reaching a target does not guarantee validation: response measurements may still wait for the response model, then be reassessed. Learning can therefore continue or require additional measurements.",
       "groups.learning.heating_balance": "Heating balance: heating rate and emitter lag",
       "metrics.heating_balance.state": "Measurement state",
       "status.heating_balance.state.resting": "Resting",
@@ -775,7 +785,6 @@
       "graphs.command.integral": "Integral history",
       "graphs.command.gains": "PI gains history",
       "notes.command.history": "The integral accumulates temperature error in °C·min, rather than a power percentage. Kp and Ki translate the errors and this accumulated value into the command; their curves use separate scales.",
-      "notes.learning.response_lag_missing": "Emitter lag unavailable. This does not tell us whether estimation is still in progress; a missing emitter lag does not mean learning is blocked.",
       "notes.learning.paused": "A/B learning is paused. Regulation uses the current model; A/B collection will resume when learning is enabled again. Emitter lag learning remains independent.",
       "status.integral.guard_cut": "Thermal protection cut",
       "status.integral.guard_cut.description": "Heating is off to prevent overheating. It resumes after the temperature falls enough; excess integral decreases during the cut while retaining the useful correction.",
@@ -1008,7 +1017,68 @@
       "graphs.emitter.applied": "Dead time in force",
       "graphs.emitter.delay": "Heating dead time in force",
       "sections.tar_learning.title": "Emitter lag",
-      "groups.model.deadband": "Dead band"
+      "groups.model.deadband": "Dead band",
+      "hero.overview.pulses": "The system is collecting its first measurements with measurement pulses: rest, full power, then a stop while the temperature peak is read.",
+      "status.learning.stage.measurement_pulses": "Measurement pulses",
+      "status.anticipation.source.measurement_pulses": "Measurement pulses",
+      "status.integral_hold.heating_unavailable_resume": "Resume after heating unavailable",
+      "status.integral_hold.calibration_recovery": "Recovery after a calibration pulse",
+      "status.integral_hold.heating_unavailable": "Heating unavailable",
+      "status.integral.hold_heating_unavailable_resume": "Integral held: resume after heating unavailable",
+      "metrics.control_mode": "Regulation mode",
+      "status.control_mode.smartpi": "PI regulation",
+      "status.control_mode.hysteresis": "Hysteresis (initial learning)",
+      "status.control_mode.heating_cut": "Heating cut above the setpoint",
+      "status.calibration.state.idle": "No calibration in progress",
+      "status.calibration.state.waiting": "Waiting between pulses",
+      "status.calibration.state.rest": "Pulse: rest",
+      "status.calibration.state.full_power": "Pulse: full power",
+      "status.calibration.state.stop": "Pulse: stop, waiting for the peak",
+      "metrics.calibration_result": "Result",
+      "status.calibration.result.in_progress": "In progress",
+      "status.calibration.result.agree": "Two readings agree",
+      "status.calibration.result.pulses_done": "Three pulses without agreement",
+      "status.calibration.result.time_limit": "Time limit reached (48 h)",
+      "status.calibration.result.cancelled": "Cancelled",
+      "metrics.calibration_last_request": "Last request",
+      "status.calibration.request.started": "Started",
+      "status.calibration.request.learning_stage": "Refused: initial learning in progress",
+      "status.calibration.request.paused": "Refused: learning paused",
+      "status.calibration.request.off": "Refused: thermostat off",
+      "status.calibration.request.too_soon": "Refused: less than 24 h after the last calibration",
+      "status.calibration.request.in_progress": "Ignored: a calibration is in progress",
+      "metrics.calibration_pulses": "Pulses done",
+      "metrics.calibration_reading_a": "Heating rate read",
+      "metrics.calibration_in_force_a": "Heating rate in use",
+      "metrics.calibration_reading_b": "Loss coefficient read",
+      "metrics.calibration_in_force_b": "Loss coefficient in use",
+      "metrics.calibration_reading_lag": "Emitter lag read",
+      "metrics.calibration_in_force_lag": "Anticipation horizon in use",
+      "metrics.calibration_corrected": "Corrected by the calibration",
+      "status.calibration.corrected.none": "Nothing corrected",
+      "status.calibration.corrected.heating_rate": "Heating rate",
+      "status.calibration.corrected.emitter_lag": "Emitter lag",
+      "status.calibration.corrected.both": "Heating rate and emitter lag",
+      "notes.health.calibration": "A calibration is started on request only. Its pulses read the heating rate, the loss coefficient and the emitter lag; once two readings agree, a value is corrected only when the value in use differs by more than 30 %. The loss coefficient is read, never corrected.",
+      "metrics.learning_block_reason": "Learning blocked by",
+      "status.learning.block.heating_unavailable": "Heating unavailable",
+      "status.learning.block.disturbance": "Disturbance",
+      "status.learning.block.paused": "Pause (service)",
+      "groups.model.response": "Response model",
+      "metrics.response.dead_time": "Dead time",
+      "metrics.response.time_constant": "Response time constant",
+      "metrics.response.effective_dead_time": "Effective dead time",
+      "metrics.response.prediction_error": "Prediction error (median)",
+      "metrics.response.source": "Source of the latest event",
+      "status.response.source.calibration": "Calibration",
+      "status.response.source.regulation": "Regulation",
+      "status.response.source.previous_version": "Values of the previous version",
+      "metrics.response.confidence": "Response confidence",
+      "status.response.confidence.measured": "Measured",
+      "status.response.confidence.provisional": "Provisional",
+      "status.response.confidence.dead_time_assumed": "Dead time assumed",
+      "notes.model.response": "The response model describes how the room answers the power: a dead time, then a response time constant (emitter, air and nearby mass). The effective dead time is the dead time plus half the time constant. The prediction error tells how well the model predicts new events. The learning of A and B reads this model; the regulator does not.",
+      "graphs.model.effective_dead_time": "Effective dead time"
     }
   },
   "sections": [
@@ -1059,9 +1129,11 @@
                       {
                         "!=": [
                           {
-                            "var": "diagnostic/live/calibration/state"
+                            "lower": {
+                              "var": "diagnostic/live/calibration/state"
+                            }
                           },
-                          "Idle"
+                          "idle"
                         ]
                       }
                     ]
@@ -1109,9 +1181,64 @@
                         {
                           "!=": [
                             {
-                              "var": "diagnostic/live/calibration/state"
+                              "lower": {
+                                "var": "diagnostic/live/calibration/state"
+                              }
                             },
-                            "Idle"
+                            "idle"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "hero_status",
+          "title_key": "hero.overview.title",
+          "subtitle_key": "hero.overview.pulses",
+          "icon": "mdi:chart-bell-curve",
+          "tone": "warning",
+          "visible_if": {
+            "and": [
+              {
+                "var": "diagnostic"
+              },
+              {
+                "==": [
+                  {
+                    "var": "diagnostic/live/control/phase"
+                  },
+                  "Learning"
+                ]
+              },
+              {
+                "!": {
+                  "or": [
+                    {
+                      "==": [
+                        {
+                          "var": "diagnostic/live/control/phase"
+                        },
+                        "Calibration"
+                      ]
+                    },
+                    {
+                      "and": [
+                        {
+                          "var": "diagnostic/live/calibration/state"
+                        },
+                        {
+                          "!=": [
+                            {
+                              "lower": {
+                                "var": "diagnostic/live/calibration/state"
+                              }
+                            },
+                            "idle"
                           ]
                         }
                       ]
@@ -1158,6 +1285,14 @@
                 ]
               },
               {
+                "!=": [
+                  {
+                    "var": "diagnostic/live/control/phase"
+                  },
+                  "Learning"
+                ]
+              },
+              {
                 "!": {
                   "or": [
                     {
@@ -1176,9 +1311,11 @@
                         {
                           "!=": [
                             {
-                              "var": "diagnostic/live/calibration/state"
+                              "lower": {
+                                "var": "diagnostic/live/calibration/state"
+                              }
                             },
-                            "Idle"
+                            "idle"
                           ]
                         }
                       ]
@@ -1351,6 +1488,11 @@
                   "tone": "warning",
                   "icon": "mdi:shield-alert-outline",
                   "description_key": "status.integral.guard_cut.description"
+                },
+                "I:HOLD(heating_unavailable_resume)": {
+                  "label_key": "status.integral.hold_heating_unavailable_resume",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
                 }
               },
               "fallback": {
@@ -1921,6 +2063,11 @@
                   "label_key": "status.anticipation.source.none",
                   "tone": "muted",
                   "icon": "mdi:minus-circle-outline"
+                },
+                "measurement pulses": {
+                  "label_key": "status.anticipation.source.measurement_pulses",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
                 }
               },
               "fallback": {
@@ -2055,6 +2202,12 @@
               "description_key": "status.confidence.ab_bad.description",
               "tone": "danger",
               "icon": "mdi:alert-octagon-outline"
+            },
+            "ab_learning": {
+              "label_key": "status.confidence.ab_bootstrap",
+              "description_key": "status.confidence.ab_bootstrap.description",
+              "tone": "info",
+              "icon": "mdi:progress-clock"
             }
           },
           "fallback": {
@@ -2121,6 +2274,152 @@
                   "digits": 0
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "layout_grid",
+          "title_key": "groups.model.response",
+          "columns": 1,
+          "items": [
+            {
+              "type": "metric_grid",
+              "columns": 2,
+              "metrics": [
+                {
+                  "label_key": "metrics.response.dead_time",
+                  "source": "diagnostic",
+                  "path": "live/model/dead_time_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.response.time_constant",
+                  "source": "diagnostic",
+                  "path": "live/model/response_time_constant_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.response.effective_dead_time",
+                  "source": "diagnostic",
+                  "path": "live/analysis/control/effective_dead_time_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.response.prediction_error",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/response_model/prediction_rms_c",
+                  "unit": "°C",
+                  "digits": 3
+                }
+              ]
+            },
+            {
+              "type": "layout_grid",
+              "min_width": 180,
+              "items": [
+                {
+                  "type": "status",
+                  "label_key": "metrics.response.source",
+                  "source": "diagnostic",
+                  "path": "live/model/response_source",
+                  "align": "center",
+                  "map": {
+                    "measurement pulses": {
+                      "label_key": "status.learning.stage.measurement_pulses",
+                      "tone": "info",
+                      "icon": "mdi:information-outline"
+                    },
+                    "bootstrap": {
+                      "label_key": "status.learning.stage.bootstrap",
+                      "tone": "info",
+                      "icon": "mdi:information-outline"
+                    },
+                    "calibration": {
+                      "label_key": "status.response.source.calibration",
+                      "tone": "info",
+                      "icon": "mdi:information-outline"
+                    },
+                    "regulation": {
+                      "label_key": "status.response.source.regulation",
+                      "tone": "info",
+                      "icon": "mdi:information-outline"
+                    },
+                    "previous version": {
+                      "label_key": "status.response.source.previous_version",
+                      "tone": "muted",
+                      "icon": "mdi:information-outline"
+                    }
+                  },
+                  "fallback": {
+                    "label_key": "fallback.unknown_code",
+                    "tone": "muted",
+                    "icon": "mdi:help-circle-outline"
+                  },
+                  "fallback_show_value": true
+                },
+                {
+                  "type": "status",
+                  "label_key": "metrics.response.confidence",
+                  "source": "diagnostic",
+                  "path": "live/model/response_confidence",
+                  "align": "center",
+                  "map": {
+                    "measured": {
+                      "label_key": "status.response.confidence.measured",
+                      "tone": "ok",
+                      "icon": "mdi:check-circle-outline"
+                    },
+                    "provisional": {
+                      "label_key": "status.response.confidence.provisional",
+                      "tone": "info",
+                      "icon": "mdi:information-outline"
+                    },
+                    "dead time assumed": {
+                      "label_key": "status.response.confidence.dead_time_assumed",
+                      "tone": "info",
+                      "icon": "mdi:information-outline"
+                    }
+                  },
+                  "fallback": {
+                    "label_key": "fallback.unknown_code",
+                    "tone": "muted",
+                    "icon": "mdi:help-circle-outline"
+                  },
+                  "fallback_show_value": true
+                }
+              ]
+            },
+            {
+              "type": "section_note",
+              "tone": "info",
+              "icon": "mdi:information-outline",
+              "text_key": "notes.model.response"
+            },
+            {
+              "type": "history",
+              "title_key": "graphs.model.effective_dead_time",
+              "range": "7d",
+              "series": [
+                {
+                  "entity": "$diagnostic_entity",
+                  "attribute": "history/model/effective_dead_time_s",
+                  "label_key": "metrics.response.effective_dead_time",
+                  "scale_group": "deadtime",
+                  "unit": "s"
+                }
+              ],
+              "options": {
+                "tooltip": true,
+                "legend": true,
+                "scales": true,
+                "tools": false,
+                "date_picker": false,
+                "entity_picker": false,
+                "range_picker": false
+              }
             }
           ]
         },
@@ -3359,6 +3658,11 @@
               "label_key": "status.learning.stage.degraded",
               "tone": "warning",
               "icon": "mdi:information-outline"
+            },
+            "measurement pulses": {
+              "label_key": "status.learning.stage.measurement_pulses",
+              "tone": "info",
+              "icon": "mdi:information-outline"
             }
           },
           "fallback": {
@@ -3391,6 +3695,39 @@
             "icon": "mdi:help-circle-outline"
           },
           "fallback_show_value": true
+        },
+        {
+          "type": "status",
+          "label_key": "metrics.learning_block_reason",
+          "source": "diagnostic",
+          "path": "live/learning/block_reason",
+          "align": "center",
+          "map": {
+            "heating unavailable": {
+              "label_key": "status.learning.block.heating_unavailable",
+              "tone": "warning",
+              "icon": "mdi:radiator-off"
+            },
+            "disturbance": {
+              "label_key": "status.learning.block.disturbance",
+              "tone": "warning",
+              "icon": "mdi:alert-outline"
+            },
+            "paused": {
+              "label_key": "status.learning.block.paused",
+              "tone": "warning",
+              "icon": "mdi:pause-circle-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true,
+          "visible_if": {
+            "var": "diagnostic/live/learning/block_reason"
+          }
         },
         {
           "type": "section_note",
@@ -3509,145 +3846,6 @@
               "bootstrap"
             ]
           }
-        },
-        {
-          "type": "layout_grid",
-          "title_key": "groups.learning.response_lag",
-          "columns": 1,
-          "items": [
-            {
-              "type": "metric_grid",
-              "columns": 3,
-              "metrics": [
-                {
-                  "label_key": "metrics.response_lag",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/response_lag/lag_s",
-                  "digits": 1,
-                  "format": "duration_s"
-                },
-                {
-                  "label_key": "metrics.response_estimates",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/response_lag/estimates",
-                  "digits": 0
-                },
-                {
-                  "label_key": "metrics.response_episode_median",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/response_lag/episode_median_s",
-                  "digits": 1,
-                  "format": "duration_s"
-                },
-                {
-                  "label_key": "metrics.response_episodes",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/response_lag/episodes",
-                  "digits": 0
-                },
-                {
-                  "label_key": "metrics.response_episodes_target",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/response_lag/episodes_target",
-                  "digits": 0
-                }
-              ]
-            },
-            {
-              "type": "status",
-              "label_key": "metrics.response_last_reason",
-              "source": "diagnostic",
-              "path": "live/analysis/learning/response_lag/last_reason",
-              "align": "center",
-              "map": {
-                "estimated": {
-                  "label_key": "status.response_lag.estimated",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "power not constant": {
-                  "label_key": "status.response_lag.power_not_constant",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "passive baseline not settled": {
-                  "label_key": "status.response_lag.baseline_unsettled",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "no outdoor temperature": {
-                  "label_key": "status.response_lag.no_outdoor_temperature",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "late crossings insufficient": {
-                  "label_key": "status.response_lag.insufficient_crossings",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "no baseline crossing": {
-                  "label_key": "status.response_lag.no_baseline_crossing",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "passive slope unknown": {
-                  "label_key": "status.response_lag.unknown_passive_slope",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "no active response": {
-                  "label_key": "status.response_lag.no_active_response",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "intercept not resolvable": {
-                  "label_key": "status.response_lag.unresolvable_intercept",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "episode interrupted by restart": {
-                  "label_key": "status.response_lag.interrupted_by_restart",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "section_note",
-              "text_key": "notes.learning.response_lag",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            {
-              "type": "section_note",
-              "text_key": "notes.learning.response_lag_missing",
-              "tone": "muted",
-              "icon": "mdi:information-outline",
-              "visible_if": {
-                "!": {
-                  "or": [
-                    {
-                      "var": "diagnostic/live/analysis/learning/response_lag/lag_s"
-                    },
-                    {
-                      "==": [
-                        {
-                          "var": "diagnostic/live/analysis/learning/response_lag/lag_s"
-                        },
-                        0
-                      ]
-                    }
-                  ]
-                }
-              }
-            }
-          ]
         },
         {
           "type": "layout_grid",
@@ -3944,6 +4142,12 @@
               "description_key": "status.confidence.ab_bad.description",
               "tone": "danger",
               "icon": "mdi:alert-octagon-outline"
+            },
+            "ab_learning": {
+              "label_key": "status.confidence.ab_bootstrap",
+              "description_key": "status.confidence.ab_bootstrap.description",
+              "tone": "info",
+              "icon": "mdi:progress-clock"
             }
           },
           "fallback": {
@@ -4996,6 +5200,36 @@
           "items": [
             {
               "type": "status",
+              "label_key": "metrics.control_mode",
+              "source": "diagnostic",
+              "path": "live/control/mode",
+              "align": "center",
+              "map": {
+                "smartpi": {
+                  "label_key": "status.control_mode.smartpi",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "hysteresis": {
+                  "label_key": "status.control_mode.hysteresis",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "heating cut above the setpoint": {
+                  "label_key": "status.control_mode.heating_cut",
+                  "tone": "warning",
+                  "icon": "mdi:shield-alert-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
               "label_key": "metrics.saturation",
               "source": "diagnostic",
               "path": "live/control/saturation_state",
@@ -5127,6 +5361,11 @@
                   "tone": "warning",
                   "icon": "mdi:shield-alert-outline",
                   "description_key": "status.integral.guard_cut.description"
+                },
+                "I:HOLD(heating_unavailable_resume)": {
+                  "label_key": "status.integral.hold_heating_unavailable_resume",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
                 }
               },
               "fallback": {
@@ -5141,7 +5380,13 @@
               "label_key": "metrics.integral_hold",
               "source": "diagnostic",
               "path": "live/temperature/integral_hold_mode",
-              "map": {},
+              "map": {
+                "heating_unavailable_resume": {
+                  "label_key": "status.integral_hold.heating_unavailable_resume",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
               "fallback": {
                 "label_key": "fallback.unknown_code",
                 "tone": "muted",
@@ -5154,7 +5399,23 @@
               "label_key": "metrics.integral_hold_source",
               "source": "diagnostic",
               "path": "live/temperature/integral_hold_source",
-              "map": {},
+              "map": {
+                "calibration_recovery": {
+                  "label_key": "status.integral_hold.calibration_recovery",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "heating_unavailable": {
+                  "label_key": "status.integral_hold.heating_unavailable",
+                  "tone": "warning",
+                  "icon": "mdi:radiator-off"
+                },
+                "heating_unavailable_resume": {
+                  "label_key": "status.integral_hold.heating_unavailable_resume",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
               "fallback": {
                 "label_key": "fallback.unknown_code",
                 "tone": "muted",
@@ -5184,60 +5445,244 @@
           ]
         },
         {
-          "type": "metric_grid",
-          "title_key": "groups.health.autocalib",
-          "metrics": [
-            {
-              "label_key": "metrics.autocalib_state",
-              "source": "diagnostic",
-              "path": "live/autocalib/state"
-            },
-            {
-              "label_key": "metrics.autocalib_degraded",
-              "source": "diagnostic",
-              "path": "live/autocalib/model_degraded"
-            },
-            {
-              "label_key": "metrics.autocalib_snapshot_age",
-              "source": "diagnostic",
-              "path": "live/autocalib/snapshot_age_h",
-              "unit": "h",
-              "digits": 0
-            },
-            {
-              "label_key": "metrics.autocalib_last_trigger",
-              "source": "diagnostic",
-              "path": "live/autocalib/last_trigger_ts",
-              "format": "datetime"
-            },
-            {
-              "label_key": "metrics.autocalib_next_check",
-              "source": "diagnostic",
-              "path": "live/autocalib/next_check_ts",
-              "format": "datetime"
-            }
-          ]
-        },
-        {
-          "type": "metric_grid",
+          "type": "layout_grid",
           "title_key": "groups.health.calibration",
-          "metrics": [
+          "min_width": 180,
+          "items": [
             {
+              "type": "status",
               "label_key": "metrics.calibration_state",
               "source": "diagnostic",
-              "path": "live/calibration/state"
+              "path": "live/calibration/state",
+              "align": "center",
+              "map": {
+                "idle": {
+                  "label_key": "status.calibration.state.idle",
+                  "tone": "muted",
+                  "icon": "mdi:sleep"
+                },
+                "waiting": {
+                  "label_key": "status.calibration.state.waiting",
+                  "tone": "info",
+                  "icon": "mdi:timer-sand"
+                },
+                "rest": {
+                  "label_key": "status.calibration.state.rest",
+                  "tone": "info",
+                  "icon": "mdi:tune-variant"
+                },
+                "full power": {
+                  "label_key": "status.calibration.state.full_power",
+                  "tone": "info",
+                  "icon": "mdi:tune-variant"
+                },
+                "stop": {
+                  "label_key": "status.calibration.state.stop",
+                  "tone": "info",
+                  "icon": "mdi:tune-variant"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
             },
             {
-              "label_key": "metrics.calibration_retry",
+              "type": "status",
+              "label_key": "metrics.calibration_result",
               "source": "diagnostic",
-              "path": "live/calibration/retry_count",
-              "digits": 0
+              "path": "live/calibration/result",
+              "align": "center",
+              "map": {
+                "in progress": {
+                  "label_key": "status.calibration.result.in_progress",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "readings agree": {
+                  "label_key": "status.calibration.result.agree",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "pulses done": {
+                  "label_key": "status.calibration.result.pulses_done",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "time limit": {
+                  "label_key": "status.calibration.result.time_limit",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "cancelled": {
+                  "label_key": "status.calibration.result.cancelled",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
             },
             {
-              "label_key": "metrics.calibration_last_time",
+              "type": "status",
+              "label_key": "metrics.calibration_last_request",
               "source": "diagnostic",
-              "path": "live/calibration/last_time",
-              "format": "datetime"
+              "path": "live/calibration/last_request",
+              "align": "center",
+              "map": {
+                "started": {
+                  "label_key": "status.calibration.request.started",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "refused: learning stage": {
+                  "label_key": "status.calibration.request.learning_stage",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "refused: learning paused": {
+                  "label_key": "status.calibration.request.paused",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "refused: thermostat off": {
+                  "label_key": "status.calibration.request.off",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "refused: too soon": {
+                  "label_key": "status.calibration.request.too_soon",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "ignored: in progress": {
+                  "label_key": "status.calibration.request.in_progress",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "metric_grid",
+              "columns": 2,
+              "metrics": [
+                {
+                  "label_key": "metrics.calibration_pulses",
+                  "source": "diagnostic",
+                  "path": "live/calibration/pulses_done",
+                  "digits": 0
+                },
+                {
+                  "label_key": "metrics.calibration_last_time",
+                  "source": "diagnostic",
+                  "path": "live/calibration/last_time",
+                  "format": "datetime"
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "columns": 2,
+              "metrics": [
+                {
+                  "label_key": "metrics.calibration_reading_a",
+                  "source": "diagnostic",
+                  "path": "live/calibration/reading_a",
+                  "unit": "°C/min",
+                  "digits": 5
+                },
+                {
+                  "label_key": "metrics.calibration_in_force_a",
+                  "source": "diagnostic",
+                  "path": "live/calibration/in_force_a",
+                  "unit": "°C/min",
+                  "digits": 5
+                },
+                {
+                  "label_key": "metrics.calibration_reading_b",
+                  "source": "diagnostic",
+                  "path": "live/calibration/reading_b",
+                  "unit": "min⁻¹",
+                  "digits": 6
+                },
+                {
+                  "label_key": "metrics.calibration_in_force_b",
+                  "source": "diagnostic",
+                  "path": "live/calibration/in_force_b",
+                  "unit": "min⁻¹",
+                  "digits": 6
+                },
+                {
+                  "label_key": "metrics.calibration_reading_lag",
+                  "source": "diagnostic",
+                  "path": "live/calibration/reading_lag_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                },
+                {
+                  "label_key": "metrics.calibration_in_force_lag",
+                  "source": "diagnostic",
+                  "path": "live/calibration/in_force_lag_s",
+                  "digits": 1,
+                  "format": "duration_s"
+                }
+              ]
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.calibration_corrected",
+              "source": "diagnostic",
+              "path": "live/calibration/corrected",
+              "align": "center",
+              "map": {
+                "": {
+                  "label_key": "status.calibration.corrected.none",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "heating rate": {
+                  "label_key": "status.calibration.corrected.heating_rate",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "emitter lag": {
+                  "label_key": "status.calibration.corrected.emitter_lag",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "heating rate,emitter lag": {
+                  "label_key": "status.calibration.corrected.both",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true,
+              "visible_if": {
+                "var": "diagnostic/live/calibration/result"
+              }
+            },
+            {
+              "type": "section_note",
+              "tone": "info",
+              "icon": "mdi:information-outline",
+              "text_key": "notes.health.calibration"
             }
           ]
         }
