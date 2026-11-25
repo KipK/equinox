@@ -87,9 +87,9 @@ heating and in cooling. `anticipation_c` is shown in `°C` and is 0 when the
 anticipation is off (outside the stable phase, without horizon or without a rising
 or falling slope). `anticipation_horizon_s` is the horizon in use, shown as a compact
 duration like the other durations. `anticipation_horizon_source` is shown as a status:
-**Measurement pulses** (emitter lag kept from the measurement pulses of the direct
-start), **Heating balance** (the median of the last emitter lags measured, in heating
-only), **Dead times**, or **None**; an unknown code stays visible with neutral
+**Response model** (the emitter lag of the response model: dead time plus response
+time constant), and without a model **Measurement pulses** (emitter lag kept from the
+measurement pulses of the direct start), **Dead times**, or **None**; an unknown code stays visible with neutral
 styling. A short on-screen note explains the mechanism.
 
 The section also compares the recorded indoor temperature, the recorded anticipated
@@ -289,22 +289,6 @@ With the direct start, `live/learning/stage` reads **Measurement pulses**,
 `live/model/confidence` `ab_learning` reads like the bootstrap confidence, and
 Overview shows a measurement-pulses notice while `live/control/phase` is `Learning`.
 
-The heating balance group reads
-`live/analysis/learning/heating_balance/{state,measurements,a,lag_s,kept_lag_s,kept_lags,last_reason,last}`
-with the `last/{heating_min,rise_c,peak_delay_min,a,lag_s,constant_power,context}`
-sub-fields. It shows the measurement state (resting, heating, waiting for the
-peak), the median heating rate `a` (`°C/min`, four digits like the model `a`),
-the median emitter lag as a compact duration, the median of the kept emitter lags
-(`kept_lag_s`, labeled as the emitter lag used by the anticipation in heating) with how
-many are kept (`kept_lags`, up to 7), and the number of retained measurements, then the last measurement: full-power heating time and time to the peak
-in minutes, temperature rise in `°C`, its own `a` and emitter lag, whether the power
-stayed constant, and its context (bootstrap, calibration, regulation). A
-translated outcome states why the last heating phase did or did not produce a
-measurement. SmartPI uses only the kept emitter lag, as the anticipation horizon in heating; the other values are for observation, and
-values measured in regulation at varying power are not reliable. Null values
-stay `--`; a muted note appears when the block is absent from the diagnostics
-of an older SmartPI version.
-
 The learning notes explain that A uses estimated delivered power, that transient
 responses and insufficient sensor variation can delay a window, and that A can
 change when B is refined without a new A measurement. The learning reason
@@ -350,10 +334,14 @@ visible with neutral styling.
 Protections shows `live/control/mode` (PI regulation, hysteresis, or **Heating cut
 above the setpoint** as a warning) and translates the integral hold sources
 `calibration_recovery`, `heating_unavailable` and `heating_unavailable_resume`.
+It also shows `live/analysis/control/near_band_source`, where the near band comes from
+(computed from the model, no response model, no outdoor temperature, heating model not
+reliable yet, heating slope too low, reset); an unknown code stays visible with neutral styling.
 The Calibration group reads
 `live/calibration/{state,pulses_done,result,last_request,last_time}`, the reading
 against the values in use (`reading_a`/`in_force_a`, `reading_b`/`in_force_b`,
-`reading_lag_s`/`in_force_lag_s`) and `corrected`. States, results and request
+`reading_lag_s`/`in_force_lag_s`, the latter being the anticipation horizon in use) and `corrected`
+(only the heating rate can be corrected). States, results and request
 answers use plain FR/EN labels; `corrected` is a list shown as one status, and it
 is hidden before any calibration result. A calibration runs only on request.
 

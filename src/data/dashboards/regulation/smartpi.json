@@ -177,10 +177,9 @@
       "metrics.anticipation.temperature": "Température anticipée",
       "metrics.anticipation.horizon": "Horizon d'anticipation",
       "metrics.anticipation.source": "Origine de l'horizon",
-      "status.anticipation.source.heating_balance": "Bilan de chauffe",
       "status.anticipation.source.dead_times": "Temps morts",
       "status.anticipation.source.none": "Aucun",
-      "notes.approach.anticipation": "En phase stable, la température mesurée est corrigée de la distance que la pièce va parcourir pendant le temps entre une commande et son effet (au plus 1 °C). La correction est nulle hors phase stable, sans horizon ou sans pente de la température. L'horizon vient des impulsions de mesure du démarrage direct quand elles ont donné un retard de l'émetteur ; sinon, en chauffage, du bilan de chauffe (retard de l'émetteur) quand il est connu, à défaut des temps morts ; en refroidissement, des temps morts.",
+      "notes.approach.anticipation": "En phase stable, la température mesurée est corrigée de la distance que la pièce va parcourir pendant le temps entre une commande et son effet (au plus 1 °C). La correction est nulle hors phase stable, sans horizon ou sans pente de la température. L'horizon est le retard de l'émetteur du modèle de réponse (temps mort plus constante de temps) quand il est publié ; sans modèle, il vient des impulsions de mesure du démarrage direct quand elles ont donné un retard de l'émetteur, à défaut des temps morts.",
       "graphs.approach.temperature": "Température mesurée, température anticipée et consigne",
       "graphs.approach.command": "Commande calculée et commande appliquée",
       "notes.approach.history": "Le premier graphique compare la température mesurée, la température anticipée (mesure plus correction, celle que lit le régulateur) et la consigne. Quand la courbe anticipée atteint la consigne avant la courbe mesurée, la commande baisse en avance. Le second graphique montre la commande calculée et la commande appliquée sur la même période.",
@@ -192,39 +191,6 @@
       "status.learning.stage.monitoring": "Surveillance du modèle",
       "status.learning.stage.degraded": "Modèle dégradé",
       "notes.learning.bootstrap": "Les barres comptent les mesures collectées, pas la progression totale de l'apprentissage. Atteindre un objectif ne garantit pas leur validation : les mesures de réponse peuvent encore attendre le modèle de réponse, puis être réévaluées. L'apprentissage peut donc continuer ou demander des mesures supplémentaires.",
-      "groups.learning.heating_balance": "Bilan de chauffe : vitesse de chauffe et retard de l'émetteur",
-      "metrics.heating_balance.state": "État de la mesure",
-      "status.heating_balance.state.resting": "Au repos",
-      "status.heating_balance.state.heating": "Chauffe en cours",
-      "status.heating_balance.state.waiting_peak": "Attente du pic de température",
-      "metrics.heating_balance.a_median": "Vitesse de chauffe médiane",
-      "metrics.heating_balance.lag_median": "Retard médian de l'émetteur",
-      "metrics.heating_balance.kept_lag": "Retard de l'émetteur retenu pour l'anticipation en chauffage",
-      "metrics.heating_balance.kept_lags": "Retards de l'émetteur retenus (7 au plus)",
-      "metrics.heating_balance.measurements": "Mesures retenues",
-      "metrics.heating_balance.last_heating": "Dernière mesure : chauffe à pleine puissance (min)",
-      "metrics.heating_balance.last_rise": "Dernière mesure : hausse de température (°C)",
-      "metrics.heating_balance.last_peak_delay": "Dernière mesure : temps jusqu'au pic après l'arrêt (min)",
-      "metrics.heating_balance.last_a": "Dernière mesure : vitesse de chauffe",
-      "metrics.heating_balance.last_lag": "Dernière mesure : retard de l'émetteur",
-      "metrics.heating_balance.last_reason": "Dernière phase de chauffe",
-      "status.heating_balance.reason.measured": "Mesure retenue",
-      "status.heating_balance.reason.rest_too_short": "Repos avant la chauffe trop court",
-      "status.heating_balance.reason.baseline_insufficient": "Relevés de référence insuffisants",
-      "status.heating_balance.reason.heating_too_short": "Chauffe trop courte",
-      "status.heating_balance.reason.rise_too_small": "Hausse de température trop faible",
-      "status.heating_balance.reason.still_rising": "Température encore en hausse à la chauffe suivante",
-      "status.heating_balance.reason.no_peak": "Pas de pic pendant l'attente",
-      "status.heating_balance.reason.observation_gap": "Interruption des relevés",
-      "status.heating_balance.reason.mode_left": "Mode chauffage quitté",
-      "status.heating_balance.reason.interrupted_by_restart": "Phase interrompue par un redémarrage",
-      "metrics.heating_balance.last_context": "Contexte de la dernière mesure",
-      "status.heating_balance.context.bootstrap": "Apprentissage initial",
-      "status.heating_balance.context.calibration": "Calibration",
-      "status.heating_balance.context.regulation": "Régulation",
-      "metrics.heating_balance.last_constant_power": "Puissance constante pendant la chauffe",
-      "notes.learning.heating_balance": "Le bilan est mesuré sur une phase de chauffe suivie d'un arrêt, après au moins 30 minutes sans chauffage. Il donne la vitesse de chauffe et le retard de l'émetteur à partir de la chaleur reçue par la pièce. La médiane des retards de l'émetteur retenus fixe l'horizon de l'anticipation en chauffage ; les autres valeurs sont affichées pour observation. Les valeurs mesurées en régulation, à puissance variable, ne sont pas fiables.",
-      "notes.learning.heating_balance_missing": "Bilan de chauffe non disponible. Cette version de SmartPI ne le publie pas.",
       "groups.model.deadtime_detection": "Détection des temps morts",
       "metrics.deadtime_state": "État du détecteur",
       "status.deadtime.off": "Au repos",
@@ -519,9 +485,7 @@
       "metrics.calibration_corrected": "Corrigé par la calibration",
       "status.calibration.corrected.none": "Rien n'a été corrigé",
       "status.calibration.corrected.heating_rate": "Vitesse de chauffe",
-      "status.calibration.corrected.emitter_lag": "Retard de l'émetteur",
-      "status.calibration.corrected.both": "Vitesse de chauffe et retard de l'émetteur",
-      "notes.health.calibration": "Une calibration ne se lance que sur demande. Ses impulsions lisent la vitesse de chauffe, le coefficient de pertes et le retard de l'émetteur ; dès que deux lectures concordent, une valeur n'est corrigée que si la valeur en usage s'en écarte de plus de 30 %. Le coefficient de pertes est lu, jamais corrigé.",
+      "notes.health.calibration": "Une calibration ne se lance que sur demande. Ses impulsions lisent la vitesse de chauffe, le coefficient de pertes et le retard de l'émetteur ; dès que deux lectures concordent, la vitesse de chauffe n'est corrigée que si la valeur en usage s'en écarte de plus de 30 %. Le coefficient de pertes et le retard de l'émetteur sont lus, jamais corrigés ; l'horizon d'anticipation en usage est celui du modèle de réponse.",
       "metrics.learning_block_reason": "Apprentissage bloqué par",
       "status.learning.block.heating_unavailable": "Chauffage indisponible",
       "status.learning.block.disturbance": "Perturbation",
@@ -540,7 +504,15 @@
       "status.response.confidence.provisional": "Provisoire",
       "status.response.confidence.dead_time_assumed": "Temps mort supposé",
       "notes.model.response": "Le modèle de réponse décrit comment la pièce répond à la puissance : un temps mort, puis une constante de temps de réponse (émetteur, air et masse proche). Le temps mort effectif est le temps mort plus la moitié de la constante de temps. L'erreur de prédiction indique si le modèle prévoit bien les nouveaux événements. L'apprentissage de A et B lit ce modèle ; le régulateur ne le lit pas.",
-      "graphs.model.effective_dead_time": "Temps mort effectif"
+      "graphs.model.effective_dead_time": "Temps mort effectif",
+      "status.anticipation.source.response_model": "Modèle de réponse",
+      "metrics.near_band_source": "Origine de la zone proche",
+      "status.near_band_source.model": "Calculée par le modèle",
+      "status.near_band_source.no_response_model": "Sans modèle de réponse",
+      "status.near_band_source.no_outdoor": "Sans température extérieure",
+      "status.near_band_source.model_unusable": "Modèle de chauffe pas encore fiable",
+      "status.near_band_source.slope_low": "Pente de chauffe trop faible",
+      "status.near_band_source.reset": "Réinitialisée"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -715,10 +687,9 @@
       "metrics.anticipation.temperature": "Anticipated temperature",
       "metrics.anticipation.horizon": "Anticipation horizon",
       "metrics.anticipation.source": "Horizon source",
-      "status.anticipation.source.heating_balance": "Heating balance",
       "status.anticipation.source.dead_times": "Dead times",
       "status.anticipation.source.none": "None",
-      "notes.approach.anticipation": "In the stable phase, the measured temperature is corrected by the distance the room is about to travel during the time between a command and its effect (at most 1 °C). The correction is zero outside the stable phase, without a horizon or without a temperature slope. The horizon comes from the measurement pulses of the direct start when they gave an emitter lag; otherwise, in heating, from the heating balance (emitter lag) when it is known, else from the dead times; in cooling, from the dead times.",
+      "notes.approach.anticipation": "In the stable phase, the measured temperature is corrected by the distance the room is about to travel during the time between a command and its effect (at most 1 °C). The correction is zero outside the stable phase, without a horizon or without a temperature slope. The horizon is the emitter lag of the response model (dead time plus response time constant) when it is published; without a model, it comes from the measurement pulses of the direct start when they gave an emitter lag, else from the dead times.",
       "graphs.approach.temperature": "Measured temperature, anticipated temperature and setpoint",
       "graphs.approach.command": "Calculated and applied command",
       "notes.approach.history": "The first graph compares the measured temperature, the anticipated temperature (measurement plus correction, the one the regulator reads) and the setpoint. When the anticipated curve reaches the setpoint before the measured one, the command drops ahead of time. The second graph shows the calculated and applied commands over the same period.",
@@ -730,39 +701,6 @@
       "status.learning.stage.monitoring": "Model monitoring",
       "status.learning.stage.degraded": "Degraded model",
       "notes.learning.bootstrap": "The bars count collected measurements, not overall learning progress. Reaching a target does not guarantee validation: response measurements may still wait for the response model, then be reassessed. Learning can therefore continue or require additional measurements.",
-      "groups.learning.heating_balance": "Heating balance: heating rate and emitter lag",
-      "metrics.heating_balance.state": "Measurement state",
-      "status.heating_balance.state.resting": "Resting",
-      "status.heating_balance.state.heating": "Heating",
-      "status.heating_balance.state.waiting_peak": "Waiting for the temperature peak",
-      "metrics.heating_balance.a_median": "Median heating rate",
-      "metrics.heating_balance.lag_median": "Median emitter lag",
-      "metrics.heating_balance.kept_lag": "Emitter lag used by the anticipation in heating",
-      "metrics.heating_balance.kept_lags": "Retained emitter lags (up to 7)",
-      "metrics.heating_balance.measurements": "Retained measurements",
-      "metrics.heating_balance.last_heating": "Last measurement: full-power heating (min)",
-      "metrics.heating_balance.last_rise": "Last measurement: temperature rise (°C)",
-      "metrics.heating_balance.last_peak_delay": "Last measurement: time to the peak after stop (min)",
-      "metrics.heating_balance.last_a": "Last measurement: heating rate",
-      "metrics.heating_balance.last_lag": "Last measurement: emitter lag",
-      "metrics.heating_balance.last_reason": "Last heating phase",
-      "status.heating_balance.reason.measured": "Measurement retained",
-      "status.heating_balance.reason.rest_too_short": "Rest before heating too short",
-      "status.heating_balance.reason.baseline_insufficient": "Insufficient baseline samples",
-      "status.heating_balance.reason.heating_too_short": "Heating too short",
-      "status.heating_balance.reason.rise_too_small": "Temperature rise too small",
-      "status.heating_balance.reason.still_rising": "Still rising at the next heating",
-      "status.heating_balance.reason.no_peak": "No peak within the wait",
-      "status.heating_balance.reason.observation_gap": "Gap in the readings",
-      "status.heating_balance.reason.mode_left": "Heating mode left",
-      "status.heating_balance.reason.interrupted_by_restart": "Phase interrupted by a restart",
-      "metrics.heating_balance.last_context": "Context of the last measurement",
-      "status.heating_balance.context.bootstrap": "Initial learning",
-      "status.heating_balance.context.calibration": "Calibration",
-      "status.heating_balance.context.regulation": "Regulation",
-      "metrics.heating_balance.last_constant_power": "Constant power during heating",
-      "notes.learning.heating_balance": "The balance is measured on a heating phase followed by a stop, after at least 30 minutes without heating. It gives the heating rate and the emitter lag from the heat received by the room. The median of the retained emitter lags sets the anticipation horizon in heating; the other values are shown for observation. Values measured in regulation at varying power are not reliable.",
-      "notes.learning.heating_balance_missing": "Heating balance unavailable. This SmartPI version does not publish it.",
       "groups.model.deadtime_detection": "Dead time detection",
       "metrics.deadtime_state": "Detector state",
       "status.deadtime.off": "Idle",
@@ -1057,9 +995,7 @@
       "metrics.calibration_corrected": "Corrected by the calibration",
       "status.calibration.corrected.none": "Nothing corrected",
       "status.calibration.corrected.heating_rate": "Heating rate",
-      "status.calibration.corrected.emitter_lag": "Emitter lag",
-      "status.calibration.corrected.both": "Heating rate and emitter lag",
-      "notes.health.calibration": "A calibration is started on request only. Its pulses read the heating rate, the loss coefficient and the emitter lag; once two readings agree, a value is corrected only when the value in use differs by more than 30 %. The loss coefficient is read, never corrected.",
+      "notes.health.calibration": "A calibration is started on request only. Its pulses read the heating rate, the loss coefficient and the emitter lag; once two readings agree, the heating rate is corrected only when the value in use differs by more than 30 %. The loss coefficient and the emitter lag are read, never corrected; the anticipation horizon in use is the one of the response model.",
       "metrics.learning_block_reason": "Learning blocked by",
       "status.learning.block.heating_unavailable": "Heating unavailable",
       "status.learning.block.disturbance": "Disturbance",
@@ -1078,7 +1014,15 @@
       "status.response.confidence.provisional": "Provisional",
       "status.response.confidence.dead_time_assumed": "Dead time assumed",
       "notes.model.response": "The response model describes how the room answers the power: a dead time, then a response time constant (emitter, air and nearby mass). The effective dead time is the dead time plus half the time constant. The prediction error tells how well the model predicts new events. The learning of A and B reads this model; the regulator does not.",
-      "graphs.model.effective_dead_time": "Effective dead time"
+      "graphs.model.effective_dead_time": "Effective dead time",
+      "status.anticipation.source.response_model": "Response model",
+      "metrics.near_band_source": "Near band source",
+      "status.near_band_source.model": "Computed from the model",
+      "status.near_band_source.no_response_model": "No response model",
+      "status.near_band_source.no_outdoor": "No outdoor temperature",
+      "status.near_band_source.model_unusable": "Heating model not reliable yet",
+      "status.near_band_source.slope_low": "Heating slope too low",
+      "status.near_band_source.reset": "Reset"
     }
   },
   "sections": [
@@ -2049,8 +1993,8 @@
               "path": "live/analysis/control/anticipation_horizon_source",
               "align": "center",
               "map": {
-                "heating balance": {
-                  "label_key": "status.anticipation.source.heating_balance",
+                "response model": {
+                  "label_key": "status.anticipation.source.response_model",
                   "tone": "info",
                   "icon": "mdi:radiator"
                 },
@@ -3848,254 +3792,6 @@
           }
         },
         {
-          "type": "layout_grid",
-          "title_key": "groups.learning.heating_balance",
-          "columns": 1,
-          "items": [
-            {
-              "type": "status",
-              "label_key": "metrics.heating_balance.state",
-              "source": "diagnostic",
-              "path": "live/analysis/learning/heating_balance/state",
-              "align": "center",
-              "map": {
-                "resting": {
-                  "label_key": "status.heating_balance.state.resting",
-                  "tone": "muted",
-                  "icon": "mdi:sleep"
-                },
-                "heating": {
-                  "label_key": "status.heating_balance.state.heating",
-                  "tone": "info",
-                  "icon": "mdi:radiator"
-                },
-                "waiting for the peak": {
-                  "label_key": "status.heating_balance.state.waiting_peak",
-                  "tone": "info",
-                  "icon": "mdi:timer-sand"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "metric_grid",
-              "columns": 3,
-              "metrics": [
-                {
-                  "label_key": "metrics.heating_balance.a_median",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/a",
-                  "digits": 4,
-                  "unit": "°C/min"
-                },
-                {
-                  "label_key": "metrics.heating_balance.lag_median",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/lag_s",
-                  "digits": 1,
-                  "format": "duration_s"
-                },
-                {
-                  "label_key": "metrics.heating_balance.kept_lag",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/kept_lag_s",
-                  "digits": 1,
-                  "format": "duration_s"
-                },
-                {
-                  "label_key": "metrics.heating_balance.kept_lags",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/kept_lags",
-                  "digits": 0
-                },
-                {
-                  "label_key": "metrics.heating_balance.measurements",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/measurements",
-                  "digits": 0
-                },
-                {
-                  "label_key": "metrics.heating_balance.last_heating",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/last/heating_min",
-                  "digits": 1,
-                  "unit": "min"
-                },
-                {
-                  "label_key": "metrics.heating_balance.last_rise",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/last/rise_c",
-                  "digits": 2,
-                  "unit": "°C"
-                },
-                {
-                  "label_key": "metrics.heating_balance.last_peak_delay",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/last/peak_delay_min",
-                  "digits": 1,
-                  "unit": "min"
-                },
-                {
-                  "label_key": "metrics.heating_balance.last_a",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/last/a",
-                  "digits": 4,
-                  "unit": "°C/min"
-                },
-                {
-                  "label_key": "metrics.heating_balance.last_lag",
-                  "source": "diagnostic",
-                  "path": "live/analysis/learning/heating_balance/last/lag_s",
-                  "digits": 1,
-                  "format": "duration_s"
-                }
-              ]
-            },
-            {
-              "type": "status",
-              "label_key": "metrics.heating_balance.last_reason",
-              "source": "diagnostic",
-              "path": "live/analysis/learning/heating_balance/last_reason",
-              "align": "center",
-              "map": {
-                "measured": {
-                  "label_key": "status.heating_balance.reason.measured",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "rest before heating too short": {
-                  "label_key": "status.heating_balance.reason.rest_too_short",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "baseline samples insufficient": {
-                  "label_key": "status.heating_balance.reason.baseline_insufficient",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "heating too short": {
-                  "label_key": "status.heating_balance.reason.heating_too_short",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "temperature rise too small": {
-                  "label_key": "status.heating_balance.reason.rise_too_small",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "still rising at the next heating": {
-                  "label_key": "status.heating_balance.reason.still_rising",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "no peak within the wait": {
-                  "label_key": "status.heating_balance.reason.no_peak",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "observation gap": {
-                  "label_key": "status.heating_balance.reason.observation_gap",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "heating mode left": {
-                  "label_key": "status.heating_balance.reason.mode_left",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "interrupted by restart": {
-                  "label_key": "status.heating_balance.reason.interrupted_by_restart",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "label_key": "metrics.heating_balance.last_context",
-              "source": "diagnostic",
-              "path": "live/analysis/learning/heating_balance/last/context",
-              "align": "center",
-              "map": {
-                "bootstrap": {
-                  "label_key": "status.heating_balance.context.bootstrap",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "calibration": {
-                  "label_key": "status.heating_balance.context.calibration",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "regulation": {
-                  "label_key": "status.heating_balance.context.regulation",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "label_key": "metrics.heating_balance.last_constant_power",
-              "source": "diagnostic",
-              "path": "live/analysis/learning/heating_balance/last/constant_power",
-              "align": "center",
-              "map": {
-                "true": {
-                  "label_key": "status.boolean.true",
-                  "tone": "info",
-                  "icon": "mdi:circle-outline"
-                },
-                "false": {
-                  "label_key": "status.boolean.false",
-                  "tone": "muted",
-                  "icon": "mdi:circle-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "section_note",
-              "text_key": "notes.learning.heating_balance",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            {
-              "type": "section_note",
-              "text_key": "notes.learning.heating_balance_missing",
-              "tone": "muted",
-              "icon": "mdi:information-outline",
-              "visible_if": {
-                "!": {
-                  "var": "diagnostic/live/analysis/learning/heating_balance/state"
-                }
-              }
-            }
-          ]
-        },
-        {
           "type": "metric_grid",
           "title_key": "sections.learning.title",
           "metrics": [
@@ -5310,6 +5006,51 @@
             },
             {
               "type": "status",
+              "label_key": "metrics.near_band_source",
+              "source": "diagnostic",
+              "path": "live/analysis/control/near_band_source",
+              "align": "center",
+              "map": {
+                "auto_model_aware": {
+                  "label_key": "status.near_band_source.model",
+                  "tone": "info",
+                  "icon": "mdi:target"
+                },
+                "no response model": {
+                  "label_key": "status.near_band_source.no_response_model",
+                  "tone": "muted",
+                  "icon": "mdi:target"
+                },
+                "fallback_no_ext": {
+                  "label_key": "status.near_band_source.no_outdoor",
+                  "tone": "muted",
+                  "icon": "mdi:target"
+                },
+                "fallback_model": {
+                  "label_key": "status.near_band_source.model_unusable",
+                  "tone": "muted",
+                  "icon": "mdi:target"
+                },
+                "fallback_slope_low": {
+                  "label_key": "status.near_band_source.slope_low",
+                  "tone": "muted",
+                  "icon": "mdi:target"
+                },
+                "reset": {
+                  "label_key": "status.near_band_source.reset",
+                  "tone": "muted",
+                  "icon": "mdi:target"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
               "label_key": "metrics.in_deadtime",
               "source": "diagnostic",
               "path": "live/control/in_deadtime_window",
@@ -5654,16 +5395,6 @@
                 },
                 "heating rate": {
                   "label_key": "status.calibration.corrected.heating_rate",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "emitter lag": {
-                  "label_key": "status.calibration.corrected.emitter_lag",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "heating rate,emitter lag": {
-                  "label_key": "status.calibration.corrected.both",
                   "tone": "info",
                   "icon": "mdi:information-outline"
                 }

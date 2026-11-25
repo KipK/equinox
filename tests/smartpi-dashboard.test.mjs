@@ -149,7 +149,7 @@ test("anticipation group binds the published correction, horizon and horizon sou
   assert.equal(translate(dashboard, "fr", byPath("live/temperature/anticipated").label_key), "Température anticipée");
   assert.equal(translate(dashboard, "en", byPath("live/temperature/anticipated").label_key), "Anticipated temperature");
   assert.equal(byPath(anticipationPaths[1]).format, "duration_s");
-  assert.deepEqual(Object.keys(byPath(anticipationPaths[2]).map), ["heating balance", "dead times", "none", "measurement pulses"]);
+  assert.deepEqual(Object.keys(byPath(anticipationPaths[2]).map), ["response model", "dead times", "none", "measurement pulses"]);
   assert.equal(byPath(anticipationPaths[2]).fallback_show_value, true);
   for (const language of ["en", "fr"]) {
     for (const entry of [...walk(group)].filter((node) => node.label_key || node.title_key || node.text_key)) {
@@ -189,7 +189,7 @@ test("anticipation values keep their sign, zero and unit, and read as a readable
 });
 
 test("the four horizon sources are translated in both languages and unknown codes stay raw and neutral", () => {
-  const labels = { "heating balance": ["Heating balance", "Bilan de chauffe", "info"], "dead times": ["Dead times", "Temps morts", "info"], none: ["None", "Aucun", "muted"],
+  const labels = { "response model": ["Response model", "Modèle de réponse", "info"], "dead times": ["Dead times", "Temps morts", "info"], none: ["None", "Aucun", "muted"],
     "measurement pulses": ["Measurement pulses", "Impulsions de mesure", "info"] };
   for (const [code, [english, french, tone]] of Object.entries(labels)) {
     const view = renderer(anticipationLive(0.2, 300, code));
@@ -208,20 +208,18 @@ test("the four horizon sources are translated in both languages and unknown code
   assert.doesNotMatch(text, /tone="?warning"?|tone="?danger"?/);
 });
 
-test("heating balance shows the kept emitter lag used by the anticipation in heating", () => {
-  const keptLag = sectionPath("learning", "live/analysis/learning/heating_balance/kept_lag_s");
-  const keptCount = sectionPath("learning", "live/analysis/learning/heating_balance/kept_lags");
-  for (const path of [keptLag.path, keptCount.path]) assertPublished(path);
-  assert.equal(keptLag.format, "duration_s");
-  assert.equal(translate(dashboard, "en", keptLag.label_key), "Emitter lag used by the anticipation in heating");
-  assert.match(translate(dashboard, "fr", keptLag.label_key), /anticipation en chauffage/);
-  assert.ok(translate(dashboard, "fr", keptCount.label_key) && translate(dashboard, "en", keptCount.label_key));
-  const view = renderer({ analysis: { learning: { heating_balance: { kept_lag_s: 600, kept_lags: 5 } } } });
-  assert.match(view._formatSourceValue(keptLag), /^10\s?m/u);
-  assert.equal(view._formatSourceValue(keptCount), "5");
-  const empty = renderer({ analysis: { learning: { heating_balance: { kept_lag_s: null, kept_lags: 0 } } } });
-  assert.equal(empty._formatSourceValue(keptLag), "--");
-  assert.equal(empty._formatSourceValue(keptCount), "0");
+test("the heating balance is gone and the near band source is labelled in both languages", () => {
+  assert.doesNotMatch(JSON.stringify(dashboard), /heating_balance|heating balance|Bilan de chauffe/iu);
+  const source = sectionPath("health", "live/analysis/control/near_band_source");
+  assertPublished(source.path);
+  const view = renderer({ analysis: { control: { near_band_source: "no response model" } } });
+  for (const [language, label] of [["en", "No response model"], ["fr", "Sans modèle de réponse"]]) {
+    view.language = language;
+    const text = templateText(view._renderStatus(source));
+    assert.ok(text.includes(label), language);
+    assert.doesNotMatch(text, /status-pill raw/u);
+  }
+  assert.ok(!("fallback_deadtime" in source.map));
 });
 
 test("No label names a setpoint-trajectory state that SmartPI does not publish", () => {
@@ -232,7 +230,7 @@ test("No label names a setpoint-trajectory state that SmartPI does not publish",
 
 test("HEAT/COOL preserve physical temperatures and show powers without a ratio conversion", () => {
   for (const mode of ["heat", "cool"]) {
-    const view = renderer({ power: { applied_percent: 45 }, ...anticipationLive(0.5, 300, "heating balance") }, mode);
+    const view = renderer({ power: { applied_percent: 45 }, ...anticipationLive(0.5, 300, "response model") }, mode);
     assert.equal(view._formatSourceValue(byPath(anticipationPaths[0])), "0.50 °C");
     assert.equal(view._formatSourceValue(nodes.find((entry) => entry.path === "live/power/applied_percent")), "45.0 %");
     assert.equal(view._formatSourceValue(byPath("temperature")), "21.00 °C");
@@ -473,7 +471,7 @@ test("the calibration block shows the pulses, the result, the reading against th
   assert.match(view._formatSourceValue(sectionPath("health", "live/calibration/in_force_lag_s")), /^25\s?m/u);
   const corrected = sectionPath("health", "live/calibration/corrected");
   // `corrected` is a list of plain names, read by the status as its comma-joined text.
-  for (const [list, label] of [[[], /Nothing corrected/], [["heating rate"], /Heating rate/], [["heating rate", "emitter lag"], /Heating rate and emitter lag/]]) {
+  for (const [list, label] of [[[], /Nothing corrected/], [["heating rate"], /Heating rate/]]) {
     view.hass.states["sensor.diag"].attributes.live.calibration.corrected = list;
     assert.match(templateText(view._renderItem(corrected)), label);
   }
