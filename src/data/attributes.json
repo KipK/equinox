@@ -23,7 +23,6 @@
 
   "history.control.ki": "1/(°C·min)",
   "history.control.kp": "1/°C",
-  "history.deadtime.applied_s": "s",
   "history.feedforward.wall_power_percent": "%",
   "history.model.a": "°C/min",
   "history.model.b": "min⁻¹",

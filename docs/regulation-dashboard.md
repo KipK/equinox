@@ -57,7 +57,7 @@ The SmartPI dashboard uses these nine sections in this order:
 | Model and prediction / Modèle et prévision | `model` | A/B, confidence, dead times and response model |
 | Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
-| Emitter lag / Retard de l’émetteur | `tar_learning` | Dead time in force, morning and refined emitter lags, last evaluation and data exclusions |
+| Emitter lag / Retard de l’émetteur | `tar_learning` | Initial dead time, morning and refined emitter lags, last evaluation and data exclusions |
 | Protections / Protections | `health` | Guards, holds, governance and calibration |
 | Actions / Actions | `actions` | Existing confirmed maintenance commands |
 
@@ -65,7 +65,7 @@ The existing section IDs remain valid for selection, desktop navigation and
 the mobile section menu.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
-controller data directly from `live/...` and its nineteen historical series from
+controller data directly from `live/...` and its eighteen historical series from
 `history/...`; it does not branch on SmartPI debug mode or reconstruct controller
 state. The only derived live metrics divide published loss by heating response
 to compare the models’ static holding-power ratios. Published `live/power/*_percent` values are already percentages.
@@ -100,7 +100,7 @@ ahead of time. Both use
 a 6-hour window. Applied power is an actuator command, not a measurement of
 delivered heat.
 
-The nineteen diagnostic Recorder series (SmartPI 1.0) are:
+The eighteen diagnostic Recorder series (SmartPI 1.0) are:
 
 - `history/temperature/indoor`
 - `history/temperature/anticipated`
@@ -120,7 +120,6 @@ The nineteen diagnostic Recorder series (SmartPI 1.0) are:
 - `history/room_model/b_eq`
 - `history/room_model/forecast_error_1h_c`
 - `history/room_model/forecast_error_12h_c`
-- `history/deadtime/applied_s`
 
 Command displays `live/feedforward/source` in French or English and
 `live/feedforward/wall_power_percent` in % of full power. A published room model
@@ -197,19 +196,11 @@ feedforward, shown in Command.
 The `tar_learning` section follows `live/tar_learning`. Learning is always
 enabled in SmartPI 0.7, independently of the A/B learning toggle; there is no
 T_ar configuration option and no `gate` or `path` diagnostic. It applies only
-to PWM heating and is unsupported with valves. Status, applied source (the
-initial measurement, morning learning, refined identification or a lower bound),
-`applied_s`, `gains_s`, `bootstrap_s`, `reference_s`, the limit flag and
-`limit_reason` explain the dead time actually used: `applied_s`, `gains_s`,
-`bootstrap_s` and `reference_s` are dead times, and `applied_s` takes the learned
-emitter lag value when it is used. The refined value takes priority
-over the morning value, and a lower bound raises a shorter learned emitter lag. The
-gains compare half the learned emitter lag with a reference dead time (`reference_s`, the larger
-of the first initial measurement kept since learning started and the current
-one): a shorter half keeps the reference, up to twice the reference the half
-value is used, and above that it is used only when the morning and identification
-values agree, otherwise twice the reference applies. The initial dead time measurement
-never changes.
+to PWM heating and is unsupported with valves. SmartPI's regulation does not read
+these values. The status and the initial dead time measurement (`bootstrap_s`,
+which never changes, and of which twice is a floor of the emitter lag fitted on a
+comfort step) head the section. The refined value takes priority over the morning
+value, and a lower bound raises a shorter learned emitter lag.
 
 Morning diagnostics show `fast.value_s`, confirmed mornings, the lower bound
 (`fast.lower_bound_s`, from comfort steps cut by sunrise) with its count, the
@@ -225,7 +216,6 @@ such as a window, shedding, a temperature jump or a command override; an absent
 reason does not imply completed learning. All known values use plain FR/EN
 labels, with neutral/raw fallbacks for future values.
 
-The seven-day history of the dead time in force reads only `history/deadtime/applied_s`, in seconds.
 Morning/refined values and their evaluation details are live-only. The existing
 emitter lag metrics in Learning describe a separate signal; they are preserved.
 `vt-state.ts` reads calibration from schema v2 `live/control/phase` and
@@ -235,7 +225,13 @@ Command separates the PI/FF/holding contributions and integral value from a
 three-column **PI gains** group: `live/control/kp`, `live/control/ki` and
 `live/control/ti_min`. Ti is the effective integral time Kp/Ki in minutes,
 published by SmartPI. When Ki is non-positive, SmartPI publishes `null` and Ti
-renders as `--`; Equinox does not calculate a replacement value.
+renders as `--`; Equinox does not calculate a replacement value. The same group
+shows the delay read by the gain rule (`live/analysis/control/gain_delay_s`,
+**Gain delay**) and the closed-loop time of the rule (`gain_closed_loop_time_s`,
+**Closed-loop time (λ)**), both as durations, and a status below it for
+`gain_delay_source` (`dead time`: the dead time after a start). All three are
+`null` without a reliable dead time (safe gains): the durations render as `--` and
+the source status is hidden.
 
 Below the existing power history, Command shows two additional 12-hour graphs:
 the integral state in **°C·min**, then **Kp and Ki** together. The gains share a
@@ -316,7 +312,7 @@ is a neutral interruption after a power transition. Missing outcomes remain
 `--`; unknown codes remain visible with neutral styling. The active
 wait is bounded by 4 h and the passive wait by 12 h, allowing a slow emitter to
 release stored heat after power stops. No countdown or timeout is inferred by
-Equinox. These live diagnostics are separate from the nineteen Recorder series,
+Equinox. These live diagnostics are separate from the eighteen Recorder series,
 and an entity can leave them absent.
 
 Overview and Protections translate `I:OVERRIDE(guard_cut)` as **Thermal protection
@@ -350,7 +346,7 @@ The configuration and actual renderer methods are covered by
 documentation examples, anticipation values and horizon sources, missing/null/zero values,
 unknown enums, HEAT/COOL units, Ti, response model, calibration, detector waits/outcomes, early
 initial-learning collection and early publication, pause notices, the calibration
-notice in any letter case, thermal protection cuts, the nineteen Recorder paths, room-model ratios and
+notice in any letter case, thermal protection cuts, the eighteen Recorder paths, room-model ratios and
 forecast comparisons, emitter lag states, source timelines and desktop/mobile
 selection templates. The reference fixture in
 `tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from

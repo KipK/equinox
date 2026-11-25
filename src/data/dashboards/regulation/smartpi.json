@@ -328,29 +328,13 @@
       "graphs.room.errors": "Évolution de la justesse des prévisions",
       "notes.room.history": "Les courbes de paramètres comparent a sur une échelle et b / b_eq sur l’autre, dans leurs unités physiques. Les courbes d’erreur montrent la justesse à 1 h et 12 h. Les températures prévues, la référence « température inchangée » et les nombres de vérifications sont des valeurs courantes seulement.",
       "sections.room_model.title": "Modèle de pièce",
-      "notes.emitter.intro": "L’apprentissage du retard de l’émetteur est toujours actif, sans option à activer, en chauffage PWM. Il est indépendant de la pause de l’apprentissage A/B et n’est pas pris en charge avec une vanne. La valeur affinée est prioritaire, puis celle des matins ; une borne basse peut la relever. Sans retard de l’émetteur appris, la mesure initiale du temps mort est utilisée.",
+      "notes.emitter.intro": "L’apprentissage du retard de l’émetteur est toujours actif, sans option à activer, en chauffage PWM. Il est indépendant de la pause de l’apprentissage A/B et n’est pas pris en charge avec une vanne. La régulation ne lit pas ces valeurs : la valeur affinée est prioritaire, puis celle des matins ; une borne basse peut la relever.",
       "metrics.emitter.status.0": "Apprentissage actif",
       "metrics.emitter.status.1": "Vérification des bibliothèques de calcul",
       "metrics.emitter.status.2": "Bibliothèques indisponibles : temps mort initial utilisé",
       "metrics.emitter.status.3": "Apprentissage non pris en charge avec une vanne",
       "metrics.emitter.status": "État de l’apprentissage",
-      "metrics.emitter.source.0": "Mesure initiale du temps mort",
-      "metrics.emitter.source.1": "Apprentissage des matins",
-      "metrics.emitter.source.2": "Identification affinée",
-      "metrics.emitter.source.3": "Borne basse (montée coupée par le lever du soleil)",
-      "metrics.emitter.source": "Origine du temps mort en vigueur",
-      "metrics.emitter.applied": "Temps mort en vigueur",
-      "metrics.emitter.gains": "Temps mort utilisé par les gains",
       "metrics.emitter.bootstrap": "Temps mort initial conservé",
-      "metrics.emitter.reference": "Temps mort de référence des gains",
-      "groups.emitter.applied": "Temps mort utilisé par la régulation",
-      "metrics.emitter.out_of_bound.0": "Retard de l’émetteur appris limité",
-      "metrics.emitter.out_of_bound.1": "Aucune limite appliquée",
-      "metrics.emitter.out_of_bound": "Limite sur le retard de l’émetteur appris",
-      "metrics.emitter.limit": "Raison de la limite",
-      "metrics.emitter.limit.0": "Retard de l’émetteur appris plus court que la référence : les gains gardent le temps mort de référence",
-      "metrics.emitter.limit.1": "Retard de l’émetteur appris supérieur au double de la référence et non confirmé par une seconde méthode : les gains utilisent le double du temps mort de référence",
-      "notes.emitter.bounds": "Les gains attendent un temps mort apparent : ils comparent la moitié du retard de l’émetteur appris à une référence, la plus grande de la première mesure initiale du temps mort conservée depuis le début de l’apprentissage et de la mesure actuelle. Si cette moitié est plus courte que la référence, les gains gardent la référence. Jusqu’à deux fois la référence, ils utilisent cette moitié. Au-delà, ils l’utilisent seulement si la valeur des matins et celle de l’identification concordent à un facteur 1,25 près ; sinon ils utilisent le double de la référence. Une borne basse n’est jamais confirmée ainsi. La mesure initiale du temps mort n’est jamais modifiée.",
       "metrics.emitter.fast": "Retard de l’émetteur publié des matins",
       "metrics.emitter.confirmed": "Matins confirmés",
       "metrics.emitter.last_value": "Dernier matin accepté : retard de l’émetteur",
@@ -442,8 +426,6 @@
       "metrics.emitter.invalid.8": "Température extérieure indisponible",
       "metrics.emitter.invalid": "Données actuellement exclues : raison",
       "notes.emitter.data": "Une raison d’exclusion indique que les données courantes ne servent pas à cet apprentissage. « -- » signifie qu’aucune raison n’est fournie ; cela ne prouve pas que l’apprentissage est terminé.",
-      "graphs.emitter.applied": "Temps mort en vigueur",
-      "graphs.emitter.delay": "Temps mort de chauffe en vigueur",
       "sections.tar_learning.title": "Retard de l’émetteur",
       "groups.model.deadband": "Bande morte",
       "hero.overview.pulses": "L'installation collecte ses premières mesures par impulsions de mesure : repos, pleine puissance, puis arrêt pendant la lecture du pic de température.",
@@ -512,7 +494,12 @@
       "status.near_band_source.no_outdoor": "Sans température extérieure",
       "status.near_band_source.model_unusable": "Modèle de chauffe pas encore fiable",
       "status.near_band_source.slope_low": "Pente de chauffe trop faible",
-      "status.near_band_source.reset": "Réinitialisée"
+      "status.near_band_source.reset": "Réinitialisée",
+      "groups.emitter.initial": "Mesure initiale du temps mort",
+      "metrics.gain_delay": "Retard des gains",
+      "metrics.gain_delay_source": "Origine du retard des gains",
+      "status.gain_delay_source.dead_time": "Temps mort après un démarrage",
+      "metrics.gain_closed_loop_time": "Temps de boucle fermée (λ)"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -838,29 +825,13 @@
       "graphs.room.errors": "Forecast accuracy over time",
       "notes.room.history": "The parameter curves compare a on one scale and b / b_eq on the other, in their physical units. The error curves show accuracy at 1 h and 12 h. Forecast temperatures, the unchanged-temperature reference and check counts are current values only.",
       "sections.room_model.title": "Room model",
-      "notes.emitter.intro": "Emitter lag learning is always enabled, with no option to turn on, in PWM heating. It is independent of the A/B learning pause and is not supported with a valve. The refined value takes priority, then the morning value; a lower bound can raise it. Without a learned emitter lag, the initial dead time measurement is used.",
+      "notes.emitter.intro": "Emitter lag learning is always enabled, with no option to turn on, in PWM heating. It is independent of the A/B learning pause and is not supported with a valve. The regulation does not read these values: the refined value takes priority, then the morning value; a lower bound can raise it.",
       "metrics.emitter.status.0": "Learning active",
       "metrics.emitter.status.1": "Checking numerical libraries",
       "metrics.emitter.status.2": "Libraries unavailable: initial dead time in use",
       "metrics.emitter.status.3": "Learning not supported with a valve",
       "metrics.emitter.status": "Learning status",
-      "metrics.emitter.source.0": "Initial dead time measurement",
-      "metrics.emitter.source.1": "Morning learning",
-      "metrics.emitter.source.2": "Refined identification",
-      "metrics.emitter.source.3": "Lower bound (rise cut by sunrise)",
-      "metrics.emitter.source": "Source of the dead time in force",
-      "metrics.emitter.applied": "Dead time in force",
-      "metrics.emitter.gains": "Dead time used by gains",
       "metrics.emitter.bootstrap": "Initial dead time (preserved)",
-      "metrics.emitter.reference": "Gain reference dead time",
-      "groups.emitter.applied": "Dead time used by regulation",
-      "metrics.emitter.out_of_bound.0": "Learned emitter lag limited",
-      "metrics.emitter.out_of_bound.1": "No limit applied",
-      "metrics.emitter.out_of_bound": "Limit on the learned emitter lag",
-      "metrics.emitter.limit": "Reason for the limit",
-      "metrics.emitter.limit.0": "Learned emitter lag shorter than the reference: the gains keep the reference dead time",
-      "metrics.emitter.limit.1": "Learned emitter lag above twice the reference and not confirmed by a second method: the gains use twice the reference dead time",
-      "notes.emitter.bounds": "The gains expect an apparent dead time: they compare half the learned emitter lag with a reference, the larger of the first initial dead time measurement kept since learning started and the current one. If that half is shorter than the reference, the gains keep the reference. Up to twice the reference, they use that half. Above, they use it only when the morning value and the identification value agree within a factor of 1.25; otherwise they use twice the reference. A lower bound is never confirmed this way. The initial dead time measurement is never modified.",
       "metrics.emitter.fast": "Published morning emitter lag",
       "metrics.emitter.confirmed": "Confirmed mornings",
       "metrics.emitter.last_value": "Last accepted morning: emitter lag",
@@ -952,8 +923,6 @@
       "metrics.emitter.invalid.8": "Outdoor temperature unavailable",
       "metrics.emitter.invalid": "Currently excluded data: reason",
       "notes.emitter.data": "An exclusion reason means the current data are not used for this learning. “--” means no reason is supplied; it does not establish that learning is complete.",
-      "graphs.emitter.applied": "Dead time in force",
-      "graphs.emitter.delay": "Heating dead time in force",
       "sections.tar_learning.title": "Emitter lag",
       "groups.model.deadband": "Dead band",
       "hero.overview.pulses": "The system is collecting its first measurements with measurement pulses: rest, full power, then a stop while the temperature peak is read.",
@@ -1022,7 +991,12 @@
       "status.near_band_source.no_outdoor": "No outdoor temperature",
       "status.near_band_source.model_unusable": "Heating model not reliable yet",
       "status.near_band_source.slope_low": "Heating slope too low",
-      "status.near_band_source.reset": "Reset"
+      "status.near_band_source.reset": "Reset",
+      "groups.emitter.initial": "Initial dead time measurement",
+      "metrics.gain_delay": "Gain delay",
+      "metrics.gain_delay_source": "Gain delay source",
+      "status.gain_delay_source.dead_time": "Dead time after a start",
+      "metrics.gain_closed_loop_time": "Closed-loop time (λ)"
     }
   },
   "sections": [
@@ -1788,8 +1762,44 @@
               "path": "live/control/ti_min",
               "digits": 1,
               "unit": "min"
+            },
+            {
+              "label_key": "metrics.gain_delay",
+              "source": "diagnostic",
+              "path": "live/analysis/control/gain_delay_s",
+              "digits": 1,
+              "format": "duration_s"
+            },
+            {
+              "label_key": "metrics.gain_closed_loop_time",
+              "source": "diagnostic",
+              "path": "live/analysis/control/gain_closed_loop_time_s",
+              "digits": 1,
+              "format": "duration_s"
             }
           ]
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/analysis/control/gain_delay_source",
+          "label_key": "metrics.gain_delay_source",
+          "map": {
+            "dead time": {
+              "label_key": "status.gain_delay_source.dead_time",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true,
+          "visible_if": {
+            "var": "diagnostic/live/analysis/control/gain_delay_source"
+          }
         },
         {
           "type": "section_note",
@@ -4027,134 +4037,22 @@
                 "icon": "mdi:help-circle-outline"
               },
               "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/source",
-              "label_key": "metrics.emitter.source",
-              "map": {
-                "bootstrap": {
-                  "label_key": "metrics.emitter.source.0",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "fast": {
-                  "label_key": "metrics.emitter.source.1",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "refined": {
-                  "label_key": "metrics.emitter.source.2",
-                  "tone": "ok",
-                  "icon": "mdi:information-outline"
-                },
-                "lower_bound": {
-                  "label_key": "metrics.emitter.source.3",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
             }
           ]
         },
         {
           "type": "metric_grid",
-          "title_key": "groups.emitter.applied",
-          "columns": 3,
+          "title_key": "groups.emitter.initial",
+          "columns": 1,
           "metrics": [
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/applied_s",
-              "label_key": "metrics.emitter.applied",
-              "digits": 1,
-              "format": "duration_s"
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/gains_s",
-              "label_key": "metrics.emitter.gains",
-              "digits": 1,
-              "format": "duration_s"
-            },
             {
               "source": "diagnostic",
               "path": "live/tar_learning/bootstrap_s",
               "label_key": "metrics.emitter.bootstrap",
               "digits": 1,
               "format": "duration_s"
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/reference_s",
-              "label_key": "metrics.emitter.reference",
-              "digits": 1,
-              "format": "duration_s"
             }
           ]
-        },
-        {
-          "type": "status",
-          "source": "diagnostic",
-          "path": "live/tar_learning/out_of_bound",
-          "label_key": "metrics.emitter.out_of_bound",
-          "map": {
-            "true": {
-              "label_key": "metrics.emitter.out_of_bound.0",
-              "tone": "warning",
-              "icon": "mdi:information-outline"
-            },
-            "false": {
-              "label_key": "metrics.emitter.out_of_bound.1",
-              "tone": "muted",
-              "icon": "mdi:information-outline"
-            }
-          },
-          "fallback": {
-            "label_key": "fallback.unknown_code",
-            "tone": "muted",
-            "icon": "mdi:help-circle-outline"
-          },
-          "fallback_show_value": true
-        },
-        {
-          "type": "status",
-          "source": "diagnostic",
-          "path": "live/tar_learning/limit_reason",
-          "label_key": "metrics.emitter.limit",
-          "map": {
-            "learned delay shorter than the reference: the gains keep the reference dead time": {
-              "label_key": "metrics.emitter.limit.0",
-              "tone": "warning",
-              "icon": "mdi:information-outline"
-            },
-            "learned delay above twice the reference and not confirmed by a second method: the gains use twice the reference dead time": {
-              "label_key": "metrics.emitter.limit.1",
-              "tone": "warning",
-              "icon": "mdi:information-outline"
-            }
-          },
-          "fallback": {
-            "label_key": "fallback.unknown_code",
-            "tone": "muted",
-            "icon": "mdi:help-circle-outline"
-          },
-          "fallback_show_value": true,
-          "visible_if": {
-            "var": "diagnostic/live/tar_learning/limit_reason"
-          }
-        },
-        {
-          "type": "section_note",
-          "text_key": "notes.emitter.bounds",
-          "tone": "info",
-          "icon": "mdi:information-outline"
         },
         {
           "type": "metric_grid",
@@ -4762,29 +4660,6 @@
           "text_key": "notes.emitter.data",
           "tone": "info",
           "icon": "mdi:information-outline"
-        },
-        {
-          "type": "history",
-          "title_key": "graphs.emitter.delay",
-          "range": "7d",
-          "series": [
-            {
-              "entity": "$diagnostic_entity",
-              "attribute": "history/deadtime/applied_s",
-              "label_key": "graphs.emitter.applied",
-              "scale_group": "deadtime",
-              "unit": "s"
-            }
-          ],
-          "options": {
-            "tooltip": true,
-            "legend": true,
-            "scales": true,
-            "tools": false,
-            "date_picker": false,
-            "entity_picker": false,
-            "range_picker": false
-          }
         }
       ]
     },

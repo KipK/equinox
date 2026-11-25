@@ -241,7 +241,7 @@ test("HEAT/COOL preserve physical temperatures and show powers without a ratio c
 test("PI gains display the published Ti in minutes and keep unavailable values absent", () => {
   const gains = section("command").items.find((entry) => entry.title_key === "groups.command.gains");
   assert.equal(gains.columns, 3);
-  assert.deepEqual(gains.metrics.map((entry) => entry.path), ["live/control/kp", "live/control/ki", "live/control/ti_min"]);
+  assert.deepEqual(gains.metrics.map((entry) => entry.path), ["live/control/kp", "live/control/ki", "live/control/ti_min", "live/analysis/control/gain_delay_s", "live/analysis/control/gain_closed_loop_time_s"]);
   const ti = gains.metrics[2];
   const view = renderer({ control: { kp: 0.3, ki: 0.01, ti_min: 30 } });
   assert.equal(view._formatSourceValue(ti), "30.0 min");
@@ -249,6 +249,33 @@ test("PI gains display the published Ti in minutes and keep unavailable values a
   const supplied = renderer({ control: { kp: 0.3, ki: 0.01, ti_min: 27.5 } });
   assert.equal(supplied._formatSourceValue(ti), "27.5 min");
   for (const live of [undefined, {}, { control: { kp: 0.3, ki: 0, ti_min: null } }, { control: { kp: 0.3, ki: -0.01, ti_min: null } }]) assert.equal(renderer(live)._formatSourceValue(ti), "--");
+});
+
+test("the gain delay, its source and the closed-loop time sit next to the PI gains and stay neutral when absent", () => {
+  const gains = section("command").items.find((entry) => entry.title_key === "groups.command.gains");
+  const [delay, loop] = gains.metrics.slice(3);
+  const view = renderer({ analysis: { control: { gain_delay_s: 900, gain_delay_source: "dead time", gain_closed_loop_time_s: 2700 } } });
+  assert.equal(view._formatSourceValue(delay), "15m");
+  assert.equal(view._formatSourceValue(loop), "45m");
+  const source = sectionPath("command", "live/analysis/control/gain_delay_source");
+  assert.deepEqual(source.visible_if, { var: "diagnostic/live/analysis/control/gain_delay_source" });
+  for (const [language, label, text, delayLabel, loopLabel] of [
+    ["en", "Gain delay source", /Dead time after a start/, "Gain delay", /^Closed-loop time \(λ\)$/],
+    ["fr", "Origine du retard des gains", /Temps mort après un démarrage/, "Retard des gains", /^Temps de boucle fermée \(λ\)$/]]) {
+    view.language = language;
+    assert.match(templateText(view._renderStatus(source)), text);
+    assert.equal(translate(dashboard, language, delay.label_key), delayLabel);
+    assert.match(translate(dashboard, language, loop.label_key), loopLabel);
+    assert.equal(translate(dashboard, language, source.label_key), label);
+  }
+  for (const live of [undefined, {}, { analysis: { control: { gain_delay_s: null, gain_delay_source: null, gain_closed_loop_time_s: null } } }]) {
+    const none = renderer(live);
+    assert.equal(none._formatSourceValue(delay), "--");
+    assert.equal(none._formatSourceValue(loop), "--");
+  }
+  const future = renderer({ analysis: { control: { gain_delay_source: "future_source" } } });
+  assert.match(templateText(future._renderStatus(source)), /future_source/);
+  assert.match(templateText(future._renderStatus(source)), /tone="?muted"?/);
 });
 
 test("full collection bars do not imply completed learning", () => {
@@ -527,11 +554,11 @@ test("the learning block reason, the direct-start labels, the cut mode and the n
   assert.equal(templateText(renderer({ learning: { block_reason: null } })._renderItem(block)), "");
 });
 
-test("history covers all nineteen published Recorder paths and keeps compact approach graphs separate", () => {
+test("history covers all eighteen published Recorder paths and keeps compact approach graphs separate", () => {
   const histories = nodes.filter((entry) => entry.type === "history");
   const diagnosticPaths = new Set(histories.flatMap((entry) => entry.series).filter((entry) => entry.entity === "$diagnostic_entity").map((entry) => entry.attribute));
   assert.equal(published.source.version, "1.0-dev");
-  assert.equal(diagnosticPaths.size, 19);
+  assert.equal(diagnosticPaths.size, 18);
   assert.deepEqual(diagnosticPaths, new Set(published.history.map((path) => `history/${path}`)));
   const [thermal, command] = section("anticipation").items.filter((entry) => entry.type === "history");
   assert.equal(thermal.range, "6h");
@@ -719,9 +746,9 @@ test("feedforward uses all four published sources and preserves signed wall powe
   }
 });
 
-test("emitter diagnostics distinguish the dead time in force, accepted mornings and the latest evaluated morning", () => {
+test("emitter diagnostics distinguish the initial dead time, accepted mornings and the latest evaluated morning", () => {
   const live = { learning: { enabled: false }, tar_learning: {
-    status: "active", applied_s: 1800, gains_s: 900, bootstrap_s: 1200, source: "refined", out_of_bound: false,
+    status: "active", bootstrap_s: 1200,
     fast: { value_s: 1500, confirmed_mornings: 3, last_value_s: 1560, last_status: "unconfirmed",
       last_unconfirmed_reason: "night with at least 1 hour without heating between 23:00 and the comfort step",
       last_morning: { day: "2026-11-08", accepted: false, reason: "temperature rise too small", room_class: "undetermined" } },
@@ -730,7 +757,7 @@ test("emitter diagnostics distinguish the dead time in force, accepted mornings 
     night_room_class: "no_thermal_mass", data_invalid_reason: "window open"
   } };
   const view = renderer(live);
-  for (const [path, expected] of [["applied_s", "30m"], ["gains_s", "15m"], ["bootstrap_s", "20m"],
+  for (const [path, expected] of [["bootstrap_s", "20m"],
     ["fast/value_s", "25m"], ["fast/confirmed_mornings", "3"], ["fast/last_value_s", "26m"],
     ["fast/last_morning/day", "2026-11-08"], ["refined/tau_e_s", "30m"]]) {
     assert.equal(view._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), expected);
@@ -739,17 +766,19 @@ test("emitter diagnostics distinguish the dead time in force, accepted mornings 
     view.language = language;
     const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
     assert.match(render("status"), language === "fr" ? /Apprentissage actif/ : /Learning active/);
-    assert.match(render("source"), language === "fr" ? /Identification affinée/ : /Refined identification/);
     assert.match(render("fast/last_morning/accepted"), language === "fr" ? /Non/ : /No/);
     assert.match(render("fast/last_morning/reason"), language === "fr" ? /Montée en température trop faible/ : /Temperature rise too small/);
     assert.match(render("refined/class"), language === "fr" ? /inertie thermique/ : /thermal mass/);
     assert.match(render("night_room_class"), language === "fr" ? /sans inertie/ : /without detected thermal mass/);
     assert.match(render("data_invalid_reason"), language === "fr" ? /Fenêtre ouverte/ : /Window open/);
-    live.tar_learning.out_of_bound = true;
-    assert.match(render("out_of_bound"), /tone="?warning"?/);
   }
   assert.doesNotMatch(JSON.stringify(section("tar_learning")), /tar_learning\/(?:gate|path|enabled)/u);
   assert.match(translate(dashboard, "fr", "notes.emitter.intro"), /sans option/);
+  const paths = new Set([...walk(section("tar_learning"))].map((entry) => entry.path));
+  for (const removed of ["applied_s", "gains_s", "source", "reference_s", "in_force_s", "in_force_source", "out_of_bound", "limit_reason"]) {
+    assert.ok(!paths.has(`live/tar_learning/${removed}`), removed);
+    assert.ok(!published.live.includes(`tar_learning.${removed}`), removed);
+  }
 });
 
 test("absent 0.7 blocks, null scores and future enums stay unavailable or neutral", () => {
@@ -764,10 +793,10 @@ test("absent 0.7 blocks, null scores and future enums stay unavailable or neutra
     }
   }
   const view = renderer({ room_model: { status: "future_room", tracking: "future_tracking", walls: "future_walls", last_refusal_reason: "future_refusal" },
-    tar_learning: { status: "future_delay", source: "future_source", data_invalid_reason: "future_exclusion", refined: { class: "future_class" } },
+    tar_learning: { status: "future_delay", data_invalid_reason: "future_exclusion", refined: { class: "future_class" } },
     feedforward: { source: "future_feedforward" } });
   for (const [id, paths] of [["room_model", ["status", "tracking", "walls", "last_refusal_reason"]],
-    ["tar_learning", ["status", "source", "data_invalid_reason", "refined/class"]], ["command", ["source"]]]) {
+    ["tar_learning", ["status", "data_invalid_reason", "refined/class"]], ["command", ["source"]]]) {
     for (const path of paths) {
       const item = sectionPath(id, `live/${id === "command" ? "feedforward" : id}/${path}`);
       const text = templateText(view._renderStatus(item));
@@ -777,7 +806,7 @@ test("absent 0.7 blocks, null scores and future enums stay unavailable or neutra
   }
 });
 
-test("new histories keep coefficient units, recorded forecast errors and applied seconds without live substitutions", () => {
+test("new histories keep coefficient units and recorded forecast errors without live substitutions", () => {
   const view = renderer({});
   const parameters = section("room_model").items.find((item) => item.title_key === "graphs.room.parameters");
   const coefficients = view._betterHistoryConfig(parameters);
@@ -793,48 +822,26 @@ test("new histories keep coefficient units, recorded forecast errors and applied
   assert.equal(errors.showTimeRangeSelector, true);
   assert.deepEqual(errors.series.map((item) => item.attribute.join("/")), ["history/room_model/forecast_error_1h_c", "history/room_model/forecast_error_12h_c"]);
   assert.ok(errors.series.every((item) => item.unit === "°C" && item.group === "forecast_error"));
-  const delay = view._betterHistoryConfig(section("tar_learning").items.find((item) => item.type === "history"));
-  assert.equal(delay.hours, 168);
-  assert.equal(delay.series[0].attribute.join("/"), "history/deadtime/applied_s");
-  assert.equal(delay.series[0].unit, "s");
+  assert.equal(section("tar_learning").items.find((item) => item.type === "history"), undefined);
   const units = JSON.parse(readFileSync(new URL("../src/data/attributes.json", import.meta.url)));
-  for (const config of [coefficients, errors, delay]) {
+  for (const config of [coefficients, errors]) {
     assert.equal(config.debugPerformance, false);
     for (const item of config.series) assert.equal(item.unit, units[item.attribute.join(".")]);
   }
 });
 
-test("emitter lag learning shows the gain reference, the limit on the learned emitter lag and the lower bound", () => {
-  const live = { tar_learning: { status: "active", source: "lower_bound", applied_s: 1200, gains_s: 600, bootstrap_s: 600, reference_s: 600,
-    out_of_bound: true, limit_reason: "learned delay shorter than the reference: the gains keep the reference dead time",
-    fast: { value_s: null, confirmed_mornings: 0, lower_bound_s: 540, lower_bound_mornings: 2 } } };
-  const view = renderer(live);
-  for (const [path, expected] of [["reference_s", "10m"], ["fast/lower_bound_s", "9m"], ["fast/lower_bound_mornings", "2"]]) {
+test("emitter lag learning shows the lower bound from comfort steps cut by sunrise", () => {
+  const view = renderer({ tar_learning: { status: "active", bootstrap_s: 600,
+    fast: { value_s: null, confirmed_mornings: 0, lower_bound_s: 540, lower_bound_mornings: 2 } } });
+  for (const [path, expected] of [["bootstrap_s", "10m"], ["fast/lower_bound_s", "9m"], ["fast/lower_bound_mornings", "2"]]) {
     assert.equal(view._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), expected);
   }
-  const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
-  for (const [language, source, limit, bounded] of [
-    ["en", /Lower bound \(rise cut by sunrise\)/, /Learned emitter lag shorter than the reference/, /Learned emitter lag limited/],
-    ["fr", /Borne basse \(montée coupée par le lever du soleil\)/, /Retard de l’émetteur appris plus court que la référence/, /Retard de l’émetteur appris limité/]]) {
-    view.language = language;
-    assert.match(render("source"), source);
-    assert.match(render("limit_reason"), limit);
-    assert.match(render("out_of_bound"), bounded);
-  }
-  const limit = sectionPath("tar_learning", "live/tar_learning/limit_reason");
-  assert.deepEqual(limit.visible_if, { var: "diagnostic/live/tar_learning/limit_reason" });
-  view.language = "en";
-  live.tar_learning.limit_reason = "future limit";
-  assert.match(render("limit_reason"), /future limit/);
-  assert.match(render("limit_reason"), /tone="?muted"?/);
   for (const absent of [null, undefined]) {
-    const none = renderer({ tar_learning: { limit_reason: absent, reference_s: absent, fast: { lower_bound_s: absent, lower_bound_mornings: absent } } });
-    for (const path of ["reference_s", "fast/lower_bound_s", "fast/lower_bound_mornings"]) {
+    const none = renderer({ tar_learning: { bootstrap_s: absent, fast: { lower_bound_s: absent, lower_bound_mornings: absent } } });
+    for (const path of ["bootstrap_s", "fast/lower_bound_s", "fast/lower_bound_mornings"]) {
       assert.equal(none._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), "--");
     }
   }
-  assert.match(translate(dashboard, "fr", "notes.emitter.bounds"), /référence/);
-  assert.doesNotMatch(translate(dashboard, "en", "notes.emitter.bounds"), /half and twice/);
 });
 
 test("emitter evaluation dates are local dates, with confirmation and the 0.7 comfort step reasons", () => {
