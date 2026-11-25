@@ -54,7 +54,7 @@ The SmartPI dashboard uses these nine sections in this order:
 | Overview / Synthèse | `overview` | Temperature, user setpoint, applied command and useful current influences |
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
 | Target approach / Approche de consigne | `anticipation` | User setpoint, temperature anticipation and command history |
-| Model and prediction / Modèle et prévision | `model` | A/B, confidence, dead times and response model |
+| Model and prediction / Modèle et prévision | `model` | A/B, confidence, dead time and response model |
 | Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
 | Emitter lag / Retard de l’émetteur | `tar_learning` | Initial dead time, morning and refined emitter lags, last evaluation and data exclusions |
@@ -89,7 +89,7 @@ or falling slope). `anticipation_horizon_s` is the horizon in use, shown as a co
 duration like the other durations. `anticipation_horizon_source` is shown as a status:
 **Response model** (the emitter lag of the response model: dead time plus response
 time constant), and without a model **Measurement pulses** (emitter lag kept from the
-measurement pulses of the direct start), **Dead times**, or **None**; an unknown code stays visible with neutral
+measurement pulses of the direct start), **Dead time** (the reliable dead time after a start), or **None**; an unknown code stays visible with neutral
 styling. A short on-screen note explains the mechanism.
 
 The section also compares the recorded indoor temperature, the recorded anticipated
@@ -293,26 +293,29 @@ variable details retain their raw value.
 
 Model and prediction places A and B dispersion indicators side by side on their
 own compact row, wrapping only when the available width is too narrow.
-Next to the dead times, a **Response model** group reads `live/model/{dead_time_s,response_time_constant_s,response_source,response_confidence}`,
+Next to the dead time after a start, a **Response model** group reads `live/model/{dead_time_s,response_time_constant_s,response_source,response_confidence}`,
 `live/analysis/control/effective_dead_time_s` and
 `live/analysis/learning/response_model/prediction_rms_c`: dead time, response time
 constant and effective dead time as compact durations, the median prediction error
 in °C, the source of the latest accepted event and the response confidence. A
 seven-day graph reads `history/model/effective_dead_time_s` in seconds. Null values
 stay `--`; unknown sources stay raw with neutral styling.
-It also displays a Dead time detection group using
-`live/analysis/deadtime/{state,waiting_elapsed_s,heat_last_outcome,cool_last_outcome}`.
+Only the dead time after a start of the active mode is shown: one row, its
+reliability and the last wait outcome follow the thermostat mode, read from
+`live/model/deadtime_heat_s` and `live/model/deadtime_heat_reliable` in HEAT and
+from their `deadtime_cool` mirrors in COOL (SmartPI no longer publishes the dead time
+after a stop). It also displays a Dead time detection group using
+`live/analysis/deadtime/{state,waiting_elapsed_s}` and the last outcome
+`live/analysis/deadtime/heat_last_outcome` (HEAT) or `cool_last_outcome` (COOL).
 The waiting duration is visible only for `WAITING_HEAT_RESPONSE` and
 `WAITING_COOL_RESPONSE`. Labels refer to a temperature rise or drop in both HEAT
-and COOL: active and passive responses swap when the HVAC mode changes.
+and COOL.
 `HEATING` and `COOLING` describe detector tracking states and do not by themselves
 prove a successful detection. Each retained outcome describes the last wait for
 that direction: `detected` is successful, `timeout` is a warning, and `aborted`
 is a neutral interruption after a power transition. Missing outcomes remain
-`--`; unknown codes remain visible with neutral styling. The active
-wait is bounded by 4 h and the passive wait by 12 h, allowing a slow emitter to
-release stored heat after power stops. No countdown or timeout is inferred by
-Equinox. These live diagnostics are separate from the eighteen Recorder series,
+`--`; unknown codes remain visible with neutral styling. No countdown or timeout
+is inferred by Equinox. These live diagnostics are separate from the eighteen Recorder series,
 and an entity can leave them absent.
 
 Overview and Protections translate `I:OVERRIDE(guard_cut)` as **Thermal protection
@@ -1054,7 +1057,7 @@ Example:
     },
     {
       "type": "status",
-      "label_key": "model.deadtime_heat",
+      "label_key": "model.deadtime_start",
       "source": "diagnostic",
       "path": "live/model/deadtime_heat_reliable",
       "map": {

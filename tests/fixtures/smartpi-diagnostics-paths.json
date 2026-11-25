@@ -3,7 +3,7 @@
   "source": {
     "repository": "vtherm_smartpi",
     "branch": "dev-1.0",
-    "revision": "2f513ac",
+    "revision": "e168610",
     "version": "1.0-dev",
     "live": "tests/fixtures/published_diagnostics_paths.json",
     "additional_live": [
@@ -12,7 +12,7 @@
     ],
     "history": "custom_components/vtherm_smartpi/smartpi/diagnostic_history.py",
     "reference": "documentation/en/diagnostics.md",
-    "note": "The publisher live-path fixture omits tar_learning and room_model. Their nested fields are snapshotted from the diagnostics methods and the documented 1h/2h/6h/12h horizon dictionaries."
+    "note": "The publisher live-path fixture omits tar_learning and room_model. Their nested fields are snapshotted from the diagnostics methods and the documented 1h/2h/6h/12h horizon dictionaries. In COOL the mode publishes the mirror of its dead time paths (model.deadtime_cool_s, model.deadtime_cool_reliable, analysis.deadtime.cool_last_outcome) instead of the heating ones; the publisher fixture is a HEATING snapshot, so the cooling mirrors are kept here."
   },
   "live": [
     "analysis",
@@ -73,7 +73,6 @@
     "calibration",
     "calibration.corrected",
     "calibration.deadtime_start_s",
-    "calibration.deadtime_stop_s",
     "calibration.in_force_a",
     "calibration.in_force_b",
     "calibration.in_force_lag_s",

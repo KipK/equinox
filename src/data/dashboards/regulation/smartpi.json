@@ -10,7 +10,7 @@
       "sections.learning.title": "Apprentissage",
       "sections.learning.summary": "Mesures de la réponse de l'installation et des pertes thermiques.",
       "sections.model.title": "Modèle et prévision",
-      "sections.model.summary": "Modèle A/B, fiabilité et temps morts.",
+      "sections.model.summary": "Modèle A/B, fiabilité et temps mort.",
       "sections.command.title": "Commande",
       "sections.command.summary": "Demande de puissance, limites et détail de la commande.",
       "sections.anticipation.title": "Approche de consigne",
@@ -28,7 +28,7 @@
       "hero.learning.title": "Apprentissage de l'installation",
       "hero.learning.subtitle": "Suivi des mesures collectées et du retard de l'émetteur.",
       "hero.model.title": "Modèle et prévision thermique",
-      "hero.model.subtitle": "Le modèle appris A/B et les temps morts décrivent la réponse thermique ; le modèle de pièce dispose de son propre onglet.",
+      "hero.model.subtitle": "Le modèle appris A/B et le temps mort décrivent la réponse thermique ; le modèle de pièce dispose de son propre onglet.",
       "hero.health.title": "Surveillance active",
       "hero.health.subtitle": "Les protections peuvent figer l'apprentissage ; une calibration ne se lance que sur demande.",
       "hero.actions.title": "Actions Smart PI",
@@ -51,8 +51,6 @@
       "metrics.a": "A - Réponse signée (chauffage + / refroidissement -)",
       "metrics.b": "B - Pertes thermiques",
       "metrics.tau": "Tau",
-      "metrics.deadtime_heat": "Temps mort chauffe",
-      "metrics.deadtime_cool": "Temps mort refroidissement",
       "metrics.a_stability": "Dispersion A",
       "metrics.b_stability": "Dispersion B",
       "metrics.accepted_a": "Mises à jour A acceptées",
@@ -69,8 +67,6 @@
       "metrics.confidence": "Confiance modèle",
       "metrics.reliability": "Fiabilité",
       "metrics.tau_reliable": "Tau",
-      "metrics.deadtime_heat_reliable": "Temps mort chauffe",
-      "metrics.deadtime_cool_reliable": "Temps mort refroidissement",
       "metrics.governance": "Régime de gouvernance",
       "metrics.thermal_decision": "Décision thermique",
       "metrics.thermal_reason": "Raison",
@@ -177,9 +173,8 @@
       "metrics.anticipation.temperature": "Température anticipée",
       "metrics.anticipation.horizon": "Horizon d'anticipation",
       "metrics.anticipation.source": "Origine de l'horizon",
-      "status.anticipation.source.dead_times": "Temps morts",
       "status.anticipation.source.none": "Aucun",
-      "notes.approach.anticipation": "En phase stable, la température mesurée est corrigée de la distance que la pièce va parcourir pendant le temps entre une commande et son effet (au plus 1 °C). La correction est nulle hors phase stable, sans horizon ou sans pente de la température. L'horizon est le retard de l'émetteur du modèle de réponse (temps mort plus constante de temps) quand il est publié ; sans modèle, il vient des impulsions de mesure du démarrage direct quand elles ont donné un retard de l'émetteur, à défaut des temps morts.",
+      "notes.approach.anticipation": "En phase stable, la température mesurée est corrigée de la distance que la pièce va parcourir pendant le temps entre une commande et son effet (au plus 1 °C). La correction est nulle hors phase stable, sans horizon ou sans pente de la température. L'horizon est le retard de l'émetteur du modèle de réponse (temps mort plus constante de temps) quand il est publié ; sans modèle, il vient des impulsions de mesure du démarrage direct quand elles ont donné un retard de l'émetteur, à défaut du temps mort après un démarrage.",
       "graphs.approach.temperature": "Température mesurée, température anticipée et consigne",
       "graphs.approach.command": "Commande calculée et commande appliquée",
       "notes.approach.history": "Le premier graphique compare la température mesurée, la température anticipée (mesure plus correction, celle que lit le régulateur) et la consigne. Quand la courbe anticipée atteint la consigne avant la courbe mesurée, la commande baisse en avance. Le second graphique montre la commande calculée et la commande appliquée sur la même période.",
@@ -191,7 +186,7 @@
       "status.learning.stage.monitoring": "Surveillance du modèle",
       "status.learning.stage.degraded": "Modèle dégradé",
       "notes.learning.bootstrap": "Les barres comptent les mesures collectées, pas la progression totale de l'apprentissage. Atteindre un objectif ne garantit pas leur validation : les mesures de réponse peuvent encore attendre le modèle de réponse, puis être réévaluées. L'apprentissage peut donc continuer ou demander des mesures supplémentaires.",
-      "groups.model.deadtime_detection": "Détection des temps morts",
+      "groups.model.deadtime_detection": "Détection du temps mort",
       "metrics.deadtime_state": "État du détecteur",
       "status.deadtime.off": "Au repos",
       "status.deadtime.waiting_heat": "Attente d'une montée de température",
@@ -199,7 +194,7 @@
       "status.deadtime.heating": "Suivi de la réponse montante",
       "status.deadtime.cooling": "Suivi de la réponse descendante",
       "metrics.deadtime_waiting_elapsed": "Attente en cours",
-      "notes.model.deadtime": "Les résultats concernent la dernière attente de chaque réponse. Après une coupure, un émetteur lent peut continuer à chauffer : l'attente passive peut durer jusqu'à 12 h. Une interruption indique un changement de puissance avant la détection, pas un défaut du modèle.",
+      "notes.model.deadtime": "Les résultats concernent la dernière attente de la réponse à un démarrage. Une interruption indique un changement de puissance avant la détection, pas un défaut du modèle.",
       "status.deadtime.outcome.detected": "Détecté",
       "status.deadtime.outcome.timeout": "Délai dépassé",
       "status.deadtime.outcome.aborted": "Interrompu",
@@ -499,7 +494,10 @@
       "metrics.gain_delay": "Retard des gains",
       "metrics.gain_delay_source": "Origine du retard des gains",
       "status.gain_delay_source.dead_time": "Temps mort après un démarrage",
-      "metrics.gain_closed_loop_time": "Temps de boucle fermée (λ)"
+      "metrics.gain_closed_loop_time": "Temps de boucle fermée (λ)",
+      "metrics.deadtime_start": "Temps mort après un démarrage",
+      "metrics.deadtime_start_reliable": "Temps mort",
+      "status.anticipation.source.dead_time": "Temps mort après un démarrage"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -507,7 +505,7 @@
       "sections.learning.title": "Learning",
       "sections.learning.summary": "Measurements of system response and thermal losses.",
       "sections.model.title": "Model and prediction",
-      "sections.model.summary": "A/B model, reliability and dead times.",
+      "sections.model.summary": "A/B model, reliability and dead time.",
       "sections.command.title": "Command",
       "sections.command.summary": "Power demand, limits and command breakdown.",
       "sections.anticipation.title": "Target approach",
@@ -525,7 +523,7 @@
       "hero.learning.title": "Learning how the system responds",
       "hero.learning.subtitle": "Collected measurements and emitter lag.",
       "hero.model.title": "Thermal model and prediction",
-      "hero.model.subtitle": "The learned A/B model and dead times describe the thermal response; the room model has its own tab.",
+      "hero.model.subtitle": "The learned A/B model and dead time describe the thermal response; the room model has its own tab.",
       "hero.health.title": "Active supervision",
       "hero.health.subtitle": "Protections may freeze learning; a calibration runs only on request.",
       "hero.actions.title": "Smart PI actions",
@@ -548,8 +546,6 @@
       "metrics.a": "A - Signed response (heat + / cool -)",
       "metrics.b": "B - Thermal losses",
       "metrics.tau": "Tau",
-      "metrics.deadtime_heat": "Heat dead time",
-      "metrics.deadtime_cool": "Cool dead time",
       "metrics.a_stability": "A dispersion",
       "metrics.b_stability": "B dispersion",
       "metrics.accepted_a": "Accepted A updates",
@@ -566,8 +562,6 @@
       "metrics.confidence": "Model confidence",
       "metrics.reliability": "Reliability",
       "metrics.tau_reliable": "Tau",
-      "metrics.deadtime_heat_reliable": "Heat dead time",
-      "metrics.deadtime_cool_reliable": "Cool dead time",
       "metrics.governance": "Governance regime",
       "metrics.thermal_decision": "Thermal decision",
       "metrics.thermal_reason": "Reason",
@@ -674,9 +668,8 @@
       "metrics.anticipation.temperature": "Anticipated temperature",
       "metrics.anticipation.horizon": "Anticipation horizon",
       "metrics.anticipation.source": "Horizon source",
-      "status.anticipation.source.dead_times": "Dead times",
       "status.anticipation.source.none": "None",
-      "notes.approach.anticipation": "In the stable phase, the measured temperature is corrected by the distance the room is about to travel during the time between a command and its effect (at most 1 °C). The correction is zero outside the stable phase, without a horizon or without a temperature slope. The horizon is the emitter lag of the response model (dead time plus response time constant) when it is published; without a model, it comes from the measurement pulses of the direct start when they gave an emitter lag, else from the dead times.",
+      "notes.approach.anticipation": "In the stable phase, the measured temperature is corrected by the distance the room is about to travel during the time between a command and its effect (at most 1 °C). The correction is zero outside the stable phase, without a horizon or without a temperature slope. The horizon is the emitter lag of the response model (dead time plus response time constant) when it is published; without a model, it comes from the measurement pulses of the direct start when they gave an emitter lag, else from the dead time after a start.",
       "graphs.approach.temperature": "Measured temperature, anticipated temperature and setpoint",
       "graphs.approach.command": "Calculated and applied command",
       "notes.approach.history": "The first graph compares the measured temperature, the anticipated temperature (measurement plus correction, the one the regulator reads) and the setpoint. When the anticipated curve reaches the setpoint before the measured one, the command drops ahead of time. The second graph shows the calculated and applied commands over the same period.",
@@ -696,7 +689,7 @@
       "status.deadtime.heating": "Tracking the rising response",
       "status.deadtime.cooling": "Tracking the falling response",
       "metrics.deadtime_waiting_elapsed": "Current wait",
-      "notes.model.deadtime": "Outcomes describe the last wait for each response. After power stops, a slow emitter may keep warming the room: the passive wait can last up to 12 h. An interruption means power changed before detection, not a model failure.",
+      "notes.model.deadtime": "Outcomes describe the last wait for the response to a start. An interruption means power changed before detection, not a model failure.",
       "status.deadtime.outcome.detected": "Detected",
       "status.deadtime.outcome.timeout": "Timed out",
       "status.deadtime.outcome.aborted": "Interrupted",
@@ -996,7 +989,10 @@
       "metrics.gain_delay": "Gain delay",
       "metrics.gain_delay_source": "Gain delay source",
       "status.gain_delay_source.dead_time": "Dead time after a start",
-      "metrics.gain_closed_loop_time": "Closed-loop time (λ)"
+      "metrics.gain_closed_loop_time": "Closed-loop time (λ)",
+      "metrics.deadtime_start": "Dead time after a start",
+      "metrics.deadtime_start_reliable": "Dead time",
+      "status.anticipation.source.dead_time": "Dead time after a start"
     }
   },
   "sections": [
@@ -2008,8 +2004,8 @@
                   "tone": "info",
                   "icon": "mdi:radiator"
                 },
-                "dead times": {
-                  "label_key": "status.anticipation.source.dead_times",
+                "dead time": {
+                  "label_key": "status.anticipation.source.dead_time",
                   "tone": "info",
                   "icon": "mdi:timer-outline"
                 },
@@ -2211,21 +2207,37 @@
             },
             {
               "type": "metric_grid",
-              "columns": 2,
+              "columns": 1,
               "metrics": [
                 {
-                  "label_key": "metrics.deadtime_heat",
+                  "label_key": "metrics.deadtime_start",
                   "source": "diagnostic",
                   "path": "live/model/deadtime_heat_s",
                   "unit": "s",
-                  "digits": 0
+                  "digits": 0,
+                  "visible_if": {
+                    "!=": [
+                      {
+                        "var": "climate/state"
+                      },
+                      "cool"
+                    ]
+                  }
                 },
                 {
-                  "label_key": "metrics.deadtime_cool",
+                  "label_key": "metrics.deadtime_start",
                   "source": "diagnostic",
                   "path": "live/model/deadtime_cool_s",
                   "unit": "s",
-                  "digits": 0
+                  "digits": 0,
+                  "visible_if": {
+                    "==": [
+                      {
+                        "var": "climate/state"
+                      },
+                      "cool"
+                    ]
+                  }
                 }
               ]
             }
@@ -2499,7 +2511,7 @@
             },
             {
               "type": "status",
-              "label_key": "metrics.deadtime_heat_reliable",
+              "label_key": "metrics.deadtime_start_reliable",
               "source": "diagnostic",
               "path": "live/model/deadtime_heat_reliable",
               "align": "center",
@@ -2519,11 +2531,19 @@
                 "label": "--",
                 "tone": "muted",
                 "icon": "mdi:help-circle-outline"
+              },
+              "visible_if": {
+                "!=": [
+                  {
+                    "var": "climate/state"
+                  },
+                  "cool"
+                ]
               }
             },
             {
               "type": "status",
-              "label_key": "metrics.deadtime_cool_reliable",
+              "label_key": "metrics.deadtime_start_reliable",
               "source": "diagnostic",
               "path": "live/model/deadtime_cool_reliable",
               "align": "center",
@@ -2543,6 +2563,14 @@
                 "label": "--",
                 "tone": "muted",
                 "icon": "mdi:help-circle-outline"
+              },
+              "visible_if": {
+                "==": [
+                  {
+                    "var": "climate/state"
+                  },
+                  "cool"
+                ]
               }
             }
           ]
@@ -2653,7 +2681,15 @@
                     "tone": "muted",
                     "icon": "mdi:help-circle-outline"
                   },
-                  "fallback_show_value": true
+                  "fallback_show_value": true,
+                  "visible_if": {
+                    "!=": [
+                      {
+                        "var": "climate/state"
+                      },
+                      "cool"
+                    ]
+                  }
                 },
                 {
                   "type": "status",
@@ -2683,7 +2719,15 @@
                     "tone": "muted",
                     "icon": "mdi:help-circle-outline"
                   },
-                  "fallback_show_value": true
+                  "fallback_show_value": true,
+                  "visible_if": {
+                    "==": [
+                      {
+                        "var": "climate/state"
+                      },
+                      "cool"
+                    ]
+                  }
                 }
               ]
             },

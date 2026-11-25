@@ -149,7 +149,7 @@ test("anticipation group binds the published correction, horizon and horizon sou
   assert.equal(translate(dashboard, "fr", byPath("live/temperature/anticipated").label_key), "Température anticipée");
   assert.equal(translate(dashboard, "en", byPath("live/temperature/anticipated").label_key), "Anticipated temperature");
   assert.equal(byPath(anticipationPaths[1]).format, "duration_s");
-  assert.deepEqual(Object.keys(byPath(anticipationPaths[2]).map), ["response model", "dead times", "none", "measurement pulses"]);
+  assert.deepEqual(Object.keys(byPath(anticipationPaths[2]).map), ["response model", "dead time", "none", "measurement pulses"]);
   assert.equal(byPath(anticipationPaths[2]).fallback_show_value, true);
   for (const language of ["en", "fr"]) {
     for (const entry of [...walk(group)].filter((node) => node.label_key || node.title_key || node.text_key)) {
@@ -174,7 +174,7 @@ test("the approach section no longer binds a trajectory, a filtered setpoint or 
 
 test("anticipation values keep their sign, zero and unit, and read as a readable duration", () => {
   for (const mode of ["heat", "cool"]) {
-    const view = renderer(anticipationLive(mode === "heat" ? 0.35 : -0.4, 540, "dead times"), mode);
+    const view = renderer(anticipationLive(mode === "heat" ? 0.35 : -0.4, 540, "dead time"), mode);
     assert.equal(view._formatSourceValue(byPath(anticipationPaths[0])), mode === "heat" ? "0.35 °C" : "-0.40 °C");
     assert.match(view._formatSourceValue(byPath(anticipationPaths[1])), /^9\s?m/u);
   }
@@ -189,7 +189,7 @@ test("anticipation values keep their sign, zero and unit, and read as a readable
 });
 
 test("the four horizon sources are translated in both languages and unknown codes stay raw and neutral", () => {
-  const labels = { "response model": ["Response model", "Modèle de réponse", "info"], "dead times": ["Dead times", "Temps morts", "info"], none: ["None", "Aucun", "muted"],
+  const labels = { "response model": ["Response model", "Modèle de réponse", "info"], "dead time": ["Dead time after a start", "Temps mort après un démarrage", "info"], none: ["None", "Aucun", "muted"],
     "measurement pulses": ["Measurement pulses", "Impulsions de mesure", "info"] };
   for (const [code, [english, french, tone]] of Object.entries(labels)) {
     const view = renderer(anticipationLive(0.2, 300, code));
@@ -377,6 +377,24 @@ test("dead time waiting age follows detector state and retained outcomes stay se
       assert.equal(templateText(view._renderItem(age)), "");
     }
   }
+});
+
+test("one dead time row, its reliability and its last outcome follow the mode, with nothing about the dead time after a stop", () => {
+  const rows = [["live/model/deadtime_heat_s", "live/model/deadtime_cool_s"], ["live/model/deadtime_heat_reliable", "live/model/deadtime_cool_reliable"],
+    ["live/analysis/deadtime/heat_last_outcome", "live/analysis/deadtime/cool_last_outcome"]];
+  for (const [mode, visibleIndex] of [["heat", 0], ["cool", 1], ["off", 0]]) {
+    const view = renderer({}, mode);
+    for (const pair of rows) {
+      const shown = pair.filter((path) => view._conditionMatches(sectionPath("model", path).visible_if));
+      assert.deepEqual(shown, [pair[visibleIndex]], `${mode} ${pair[0]}`);
+    }
+  }
+  const [heat, cool] = rows[0].map((path) => sectionPath("model", path));
+  assert.equal(heat.label_key, cool.label_key);
+  assert.equal(translate(dashboard, "en", heat.label_key), "Dead time after a start");
+  assert.equal(translate(dashboard, "fr", heat.label_key), "Temps mort après un démarrage");
+  assert.doesNotMatch(JSON.stringify(dashboard), /deadtime_stop/u);
+  assert.ok(!publishedPaths.has("live/calibration/deadtime_stop_s"));
 });
 
 test("dead time outcomes distinguish timeout and interruption from a model failure", () => {
