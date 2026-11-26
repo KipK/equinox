@@ -42,12 +42,12 @@ filenames may contain only `a-z`, `0-9`, `_`, and `-`.
 
 Built-in dashboards currently include:
 
-- `smartpi.json` — Smart PI regulation dashboard with nine sections covering the current regulation state, command, target approach, learned model, room model, learning, emitter lag, protections, and maintenance actions.
+- `smartpi.json` — Smart PI regulation dashboard with eight sections covering the current regulation state, command, target approach, learned model, room model, learning, protections, and maintenance actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
 
 ### Built-in SmartPI dashboard
 
-The SmartPI dashboard uses these nine sections in this order:
+The SmartPI dashboard uses these eight sections in this order:
 
 | English / French | Stable section ID | Purpose |
 | --- | --- | --- |
@@ -55,9 +55,8 @@ The SmartPI dashboard uses these nine sections in this order:
 | Command / Commande | `command` | Requested, limited and applied command, actuator constraints and PI/FF contributions |
 | Target approach / Approche de consigne | `anticipation` | User setpoint, temperature anticipation and command history |
 | Model and prediction / Modèle et prévision | `model` | A/B, confidence, dead time and response model |
-| Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, model comparison, forecasts and forecast accuracy |
+| Room model / Modèle de pièce | `room_model` | Daily identification, wall tracking, quiet periods and data quality, model comparison, forecasts and forecast accuracy |
 | Learning / Apprentissage | `learning` | A/B acquisition, admission and freezes |
-| Emitter lag / Retard de l’émetteur | `tar_learning` | Initial dead time, morning and refined emitter lags, last evaluation and data exclusions |
 | Protections / Protections | `health` | Guards, holds, governance and calibration |
 | Actions / Actions | `actions` | Existing confirmed maintenance commands |
 
@@ -147,6 +146,19 @@ observed sensor resolution. Known states and refusals have FR/EN explanations;
 future values remain visible with neutral styling. A rejected daily fit does
 not invalidate the parameters already published.
 
+A **Quiet periods and data** group shows what the identification works from:
+`live/room_model/quiet_periods/{count,reason}` (the number of quiet periods in the
+catalogue and, when none can be found, why: for example an unknown home
+position, so the absence of sun cannot be checked; the reason is hidden when
+absent), the start, end and regulated start of the last closed quiet period
+(`live/room_model/quiet_periods/last/{start,end,regulated_from}`, local times,
+`--` without a period or when the room never regulated at its low setpoint),
+`live/room_model/history_h` (hours of recorded history) and
+`live/room_model/data_invalid_reason` (why the recorded data are currently
+excluded, such as a window, shedding, a temperature jump or a command override;
+`--` means the data are valid). Known reasons have FR/EN labels, with
+neutral/raw fallbacks for future values.
+
 Identification needs about six days of recorded nights with heating. Valves
 are unsupported. Walls need sensor steps of at most 0.015 °C: a 0.1 °C sensor can
 still yield a simple room model, but cannot identify the walls. The waiting
@@ -191,33 +203,6 @@ unavailable without identified walls, a precise sensor or reliable tracking.
 This estimate is distinct from the wall contribution actually included in the
 feedforward, shown in Command.
 
-#### Emitter lag / Retard de l’émetteur
-
-The `tar_learning` section follows `live/tar_learning`. Learning is always
-enabled in SmartPI 0.7, independently of the A/B learning toggle; there is no
-T_ar configuration option and no `gate` or `path` diagnostic. It applies only
-to PWM heating and is unsupported with valves. SmartPI's regulation does not read
-these values. The status and the initial dead time measurement (`bootstrap_s`,
-which never changes, and of which twice is a floor of the emitter lag fitted on a
-comfort step) head the section. The refined value takes priority over the morning
-value, and a lower bound raises a shorter learned emitter lag.
-
-Morning diagnostics show `fast.value_s`, confirmed mornings, the lower bound
-(`fast.lower_bound_s`, from comfort steps cut by sunrise) with its count, the
-last accepted value and its confirmation or reason for non-confirmation. The
-last evaluated morning is shown separately with its local date (`YYYY-MM-DD`),
-acceptance, reason, confirmation, reason for non-confirmation and room class: it
-may differ from the last accepted morning. At least three consistent confirmed
-mornings are needed. Refined diagnostics show the published `tau_e_s`, room
-class, air-wall coupling, wall time constant, latest daily evaluation date,
-whether its six nights are regulated, and `night_room_class`. A daily evaluation
-is not necessarily a publication. `data_invalid_reason` explains exclusions
-such as a window, shedding, a temperature jump or a command override; an absent
-reason does not imply completed learning. All known values use plain FR/EN
-labels, with neutral/raw fallbacks for future values.
-
-Morning/refined values and their evaluation details are live-only. The existing
-emitter lag metrics in Learning describe a separate signal; they are preserved.
 `vt-state.ts` reads calibration from schema v2 `live/control/phase` and
 `live/calibration/state`, compared without case.
 
@@ -297,7 +282,7 @@ Next to the dead time after a start, a **Response model** group reads `live/mode
 `live/analysis/control/effective_dead_time_s` and
 `live/analysis/learning/response_model/prediction_rms_c`: dead time, response time
 constant and effective dead time as compact durations, the median prediction error
-in °C, the source of the latest accepted event and the response confidence. A
+in °C, the source of the latest accepted event and the response confidence. `live/analysis/learning/response_model/pending_outliers` counts the events kept aside because they are far from the model in force, waiting for a confirming event (events awaiting confirmation); it is hidden while it is 0 or absent. A
 seven-day graph reads `history/model/effective_dead_time_s` in seconds. Null values
 stay `--`; unknown sources stay raw with neutral styling.
 Only the dead time after a start of the active mode is shown: one row, its
@@ -350,18 +335,19 @@ documentation examples, anticipation values and horizon sources, missing/null/ze
 unknown enums, HEAT/COOL units, Ti, response model, calibration, detector waits/outcomes, early
 initial-learning collection and early publication, pause notices, the calibration
 notice in any letter case, thermal protection cuts, the eighteen Recorder paths, room-model ratios and
-forecast comparisons, emitter lag states, source timelines and desktop/mobile
+forecast comparisons, quiet periods and data quality, source timelines and desktop/mobile
 selection templates. The reference fixture in
 `tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from
 vtherm_smartpi dev-1.0 and records its source revision and files. The publisher’s
-live-path fixture currently omits room_model and tar_learning, so those fields
-are snapshotted from their diagnostics methods and the documented horizon maps.
+live-path fixture lists `quiet_periods.last` without its three fields, which are
+added from the documentation; the room model forecast horizons and the restart
+fields are snapshotted from the diagnostics methods.
 Update the snapshot from the publisher when that contract changes. These tests do not paint a browser:
 final mobile/desktop and Flat/Liquid Glow appearance needs checking in Home
 Assistant.
 
 The `live/learning/enabled` diagnostic controls whether Summary and Actions
-show A/B learning as enabled or paused; emitter lag learning stays independent. Actions offers the matching confirmed
+show A/B learning as enabled or paused; Actions offers the matching confirmed
 `vtherm_smartpi.set_smartpi_learning` service call with `learning_enabled: false`
 or `true`; it targets the configured climate entity. Its label and icon follow
 the current diagnostic state: enabled learning shows Pause, while paused learning

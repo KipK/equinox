@@ -111,8 +111,8 @@ test("documentation examples and named diagnostic paths match the published cont
   }
 });
 
-test("nine sections retain navigation IDs, with no legacy bindings or unused translations", () => {
-  assert.deepEqual(dashboard.sections.map((entry) => entry.id), ["overview", "command", "anticipation", "model", "room_model", "learning", "tar_learning", "health", "actions"]);
+test("eight sections retain navigation IDs, with no legacy bindings or unused translations", () => {
+  assert.deepEqual(dashboard.sections.map((entry) => entry.id), ["overview", "command", "anticipation", "model", "room_model", "learning", "health", "actions"]);
   assert.doesNotMatch(JSON.stringify(dashboard), /landing|governor|user_setpoint"\s*,\s*"source"\s*:\s*"diagnostic/iu);
   const usedKeys = new Set(nodes.flatMap((entry) => Object.entries(entry).filter(([key]) => key.endsWith("_key")).map(([, value]) => value)));
   for (const language of ["fr", "en"]) assert.deepEqual(new Set(Object.keys(dashboard.translations[language])), usedKeys);
@@ -764,45 +764,10 @@ test("feedforward uses all four published sources and preserves signed wall powe
   }
 });
 
-test("emitter diagnostics distinguish the initial dead time, accepted mornings and the latest evaluated morning", () => {
-  const live = { learning: { enabled: false }, tar_learning: {
-    status: "active", bootstrap_s: 1200,
-    fast: { value_s: 1500, confirmed_mornings: 3, last_value_s: 1560, last_status: "unconfirmed",
-      last_unconfirmed_reason: "night with at least 1 hour without heating between 23:00 and the comfort step",
-      last_morning: { day: "2026-11-08", accepted: false, reason: "temperature rise too small", room_class: "undetermined" } },
-    refined: { tau_e_s: 1800, class: "thermal_mass", k_per_s: 0.0002, tau_w_h: 24,
-      last_evaluation: { day: "2026-11-08", regulated_nights: false } },
-    night_room_class: "no_thermal_mass", data_invalid_reason: "window open"
-  } };
-  const view = renderer(live);
-  for (const [path, expected] of [["bootstrap_s", "20m"],
-    ["fast/value_s", "25m"], ["fast/confirmed_mornings", "3"], ["fast/last_value_s", "26m"],
-    ["fast/last_morning/day", "2026-11-08"], ["refined/tau_e_s", "30m"]]) {
-    assert.equal(view._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), expected);
-  }
-  for (const language of ["en", "fr"]) {
-    view.language = language;
-    const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
-    assert.match(render("status"), language === "fr" ? /Apprentissage actif/ : /Learning active/);
-    assert.match(render("fast/last_morning/accepted"), language === "fr" ? /Non/ : /No/);
-    assert.match(render("fast/last_morning/reason"), language === "fr" ? /Montée en température trop faible/ : /Temperature rise too small/);
-    assert.match(render("refined/class"), language === "fr" ? /inertie thermique/ : /thermal mass/);
-    assert.match(render("night_room_class"), language === "fr" ? /sans inertie/ : /without detected thermal mass/);
-    assert.match(render("data_invalid_reason"), language === "fr" ? /Fenêtre ouverte/ : /Window open/);
-  }
-  assert.doesNotMatch(JSON.stringify(section("tar_learning")), /tar_learning\/(?:gate|path|enabled)/u);
-  assert.match(translate(dashboard, "fr", "notes.emitter.intro"), /sans option/);
-  const paths = new Set([...walk(section("tar_learning"))].map((entry) => entry.path));
-  for (const removed of ["applied_s", "gains_s", "source", "reference_s", "in_force_s", "in_force_source", "out_of_bound", "limit_reason"]) {
-    assert.ok(!paths.has(`live/tar_learning/${removed}`), removed);
-    assert.ok(!published.live.includes(`tar_learning.${removed}`), removed);
-  }
-});
-
 test("absent 0.7 blocks, null scores and future enums stay unavailable or neutral", () => {
-  for (const live of [undefined, {}, { room_model: null, tar_learning: null, feedforward: { source: null, wall_power_percent: null } }]) {
+  for (const live of [undefined, {}, { room_model: null, feedforward: { source: null, wall_power_percent: null } }]) {
     const view = renderer(live);
-    for (const id of ["room_model", "tar_learning"]) {
+    for (const id of ["room_model"]) {
       for (const item of walk(section(id))) {
         if (item.type === "value" || item.source === "diagnostic" && item.digits !== undefined) {
           assert.equal(view._formatSourceValue(item), "--", item.path);
@@ -810,11 +775,10 @@ test("absent 0.7 blocks, null scores and future enums stay unavailable or neutra
       }
     }
   }
-  const view = renderer({ room_model: { status: "future_room", tracking: "future_tracking", walls: "future_walls", last_refusal_reason: "future_refusal" },
-    tar_learning: { status: "future_delay", data_invalid_reason: "future_exclusion", refined: { class: "future_class" } },
+  const view = renderer({ room_model: { status: "future_room", tracking: "future_tracking", walls: "future_walls", last_refusal_reason: "future_refusal", data_invalid_reason: "future_exclusion", quiet_periods: { reason: "future_quiet" } },
     feedforward: { source: "future_feedforward" } });
-  for (const [id, paths] of [["room_model", ["status", "tracking", "walls", "last_refusal_reason"]],
-    ["tar_learning", ["status", "data_invalid_reason", "refined/class"]], ["command", ["source"]]]) {
+  for (const [id, paths] of [["room_model", ["status", "tracking", "walls", "last_refusal_reason", "data_invalid_reason", "quiet_periods/reason"]],
+    ["command", ["source"]]]) {
     for (const path of paths) {
       const item = sectionPath(id, `live/${id === "command" ? "feedforward" : id}/${path}`);
       const text = templateText(view._renderStatus(item));
@@ -840,7 +804,6 @@ test("new histories keep coefficient units and recorded forecast errors without 
   assert.equal(errors.showTimeRangeSelector, true);
   assert.deepEqual(errors.series.map((item) => item.attribute.join("/")), ["history/room_model/forecast_error_1h_c", "history/room_model/forecast_error_12h_c"]);
   assert.ok(errors.series.every((item) => item.unit === "°C" && item.group === "forecast_error"));
-  assert.equal(section("tar_learning").items.find((item) => item.type === "history"), undefined);
   const units = JSON.parse(readFileSync(new URL("../src/data/attributes.json", import.meta.url)));
   for (const config of [coefficients, errors]) {
     assert.equal(config.debugPerformance, false);
@@ -848,54 +811,41 @@ test("new histories keep coefficient units and recorded forecast errors without 
   }
 });
 
-test("emitter lag learning shows the lower bound from comfort steps cut by sunrise", () => {
-  const view = renderer({ tar_learning: { status: "active", bootstrap_s: 600,
-    fast: { value_s: null, confirmed_mornings: 0, lower_bound_s: 540, lower_bound_mornings: 2 } } });
-  for (const [path, expected] of [["bootstrap_s", "10m"], ["fast/lower_bound_s", "9m"], ["fast/lower_bound_mornings", "2"]]) {
-    assert.equal(view._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), expected);
-  }
-  for (const absent of [null, undefined]) {
-    const none = renderer({ tar_learning: { bootstrap_s: absent, fast: { lower_bound_s: absent, lower_bound_mornings: absent } } });
-    for (const path of ["bootstrap_s", "fast/lower_bound_s", "fast/lower_bound_mornings"]) {
-      assert.equal(none._formatSourceValue(sectionPath("tar_learning", `live/tar_learning/${path}`)), "--");
-    }
-  }
-});
-
-test("emitter evaluation dates are local dates, with confirmation and the 0.7 comfort step reasons", () => {
-  const live = { tar_learning: { fast: { last_morning: { day: "2026-11-12", accepted: false, confirmed: false,
-    reason: "comfort step cut by sunrise: gives only a lower bound of the delay, not a value",
-    unconfirmed_reason: "the room did not reach its low setpoint before the comfort step" } },
-  refined: { last_evaluation: { day: "2026-11-13", regulated_nights: true } } } };
+test("quiet periods, data quality and the response-model pending count follow the published paths", () => {
+  const live = { room_model: { quiet_periods: { reason: null, count: 4,
+    last: { start: "2026-11-24 23:10", end: "2026-11-25 05:40", regulated_from: "2026-11-25 01:00" } },
+    history_h: 168.4, data_invalid_reason: "window open" },
+  analysis: { learning: { response_model: { pending_outliers: 2 } } } };
   const view = renderer(live);
-  assert.equal(view._formatSourceValue(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/day")), "2026-11-12");
-  assert.equal(view._formatSourceValue(sectionPath("tar_learning", "live/tar_learning/refined/last_evaluation/day")), "2026-11-13");
-  assert.equal(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/day").digits, undefined);
-  const render = (path) => templateText(view._renderStatus(sectionPath("tar_learning", `live/tar_learning/${path}`)));
+  assert.equal(view._formatSourceValue(sectionPath("room_model", "live/room_model/quiet_periods/count")), "4");
+  assert.equal(view._formatSourceValue(sectionPath("room_model", "live/room_model/history_h")), "168 h");
+  for (const [path, expected] of [["start", "2026-11-24 23:10"], ["end", "2026-11-25 05:40"], ["regulated_from", "2026-11-25 01:00"]]) {
+    assert.equal(view._formatSourceValue(sectionPath("room_model", `live/room_model/quiet_periods/last/${path}`)), expected);
+  }
+  const none = renderer({ room_model: { quiet_periods: { reason: null, count: 0, last: null }, history_h: null } });
+  for (const path of ["last/start", "last/end", "last/regulated_from"]) {
+    assert.equal(none._formatSourceValue(sectionPath("room_model", `live/room_model/quiet_periods/${path}`)), "--");
+  }
+  assert.equal(none._formatSourceValue(sectionPath("room_model", "live/room_model/history_h")), "--");
   for (const language of ["en", "fr"]) {
     view.language = language;
-    assert.match(render("fast/last_morning/confirmed"), language === "fr" ? /Non confirmé/ : /Unconfirmed/);
-    assert.match(render("fast/last_morning/unconfirmed_reason"), language === "fr" ? /n’a pas atteint sa consigne basse/ : /did not reach its low setpoint/);
-    assert.match(render("fast/last_morning/reason"), language === "fr" ? /ne donne qu’une borne basse/ : /gives only a lower bound/);
+    assert.match(templateText(view._renderStatus(sectionPath("room_model", "live/room_model/data_invalid_reason"))), language === "fr" ? /Fenêtre ouverte/ : /Window open/);
+    const reason = renderer({ room_model: { quiet_periods: { reason: "home position unknown: the absence of sun cannot be checked" } } });
+    reason.language = language;
+    assert.match(templateText(reason._renderStatus(sectionPath("room_model", "live/room_model/quiet_periods/reason"))), language === "fr" ? /Position du domicile inconnue/ : /Home position unknown/);
   }
-  assert.doesNotMatch(JSON.stringify(section("tar_learning")), /kept as a lower bound/u);
-  for (const [code, english] of [
-    ["home position unknown: the absence of sun cannot be checked", /Home position unknown/],
-    ["comfort step in daylight", /Comfort step in daylight/],
-    ["no quiet period before the comfort step (dark, constant setpoint and valid data for at least 1 hour)", /No quiet period/],
-    ["low setpoint not held in the dark with valid data for the 2 hours before the comfort step", /Low setpoint not held in the dark/],
-    ["sunrise too soon after the comfort step", /Sunrise too soon/],
-    ["comfort step cut by sunrise before its response could be measured", /cut by sunrise before its response/],
-    ["setpoint restored after a restart, not a comfort step", /Setpoint restored after a restart/]]) {
-    live.tar_learning.fast.last_morning.reason = code;
-    view.language = "en";
-    assert.match(render("fast/last_morning/reason"), english);
-    assert.match(render("fast/last_morning/reason"), /tone="?(muted|info)"?/);
-  }
-  const unconfirmed = renderer({ tar_learning: { fast: { last_morning: { confirmed: true, unconfirmed_reason: null, reason: "future reason" } } } });
-  assert.deepEqual(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/unconfirmed_reason").visible_if,
-    { var: "diagnostic/live/tar_learning/fast/last_morning/unconfirmed_reason" });
-  assert.match(templateText(unconfirmed._renderStatus(sectionPath("tar_learning", "live/tar_learning/fast/last_morning/reason"))), /future reason/);
+  assert.deepEqual(sectionPath("room_model", "live/room_model/quiet_periods/reason").visible_if, { var: "diagnostic/live/room_model/quiet_periods/reason" });
+  const pending = sectionPath("model", "live/analysis/learning/response_model/pending_outliers");
+  assert.equal(view._formatSourceValue(pending), "2");
+  assert.deepEqual(pending.visible_if, { var: "diagnostic/live/analysis/learning/response_model/pending_outliers" });
+  assert.equal(translate(dashboard, "fr", "metrics.response.pending_outliers"), "Mesures en attente de confirmation");
+  assert.equal(translate(dashboard, "en", "metrics.response.pending_outliers"), "Events awaiting confirmation");
+});
+
+test("the emitter lag view built on tar_learning is gone", () => {
+  assert.equal(section("tar_learning"), undefined);
+  assert.doesNotMatch(JSON.stringify(dashboard), /tar_learning|metrics\.emitter|notes\.emitter/u);
+  assert.ok(!published.live.some((path) => path.startsWith("tar_learning")));
 });
 
 // Generic prefix_map behavior of status items, exercised on a published integral-mode path.

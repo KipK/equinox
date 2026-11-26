@@ -323,105 +323,6 @@
       "graphs.room.errors": "Évolution de la justesse des prévisions",
       "notes.room.history": "Les courbes de paramètres comparent a sur une échelle et b / b_eq sur l’autre, dans leurs unités physiques. Les courbes d’erreur montrent la justesse à 1 h et 12 h. Les températures prévues, la référence « température inchangée » et les nombres de vérifications sont des valeurs courantes seulement.",
       "sections.room_model.title": "Modèle de pièce",
-      "notes.emitter.intro": "L’apprentissage du retard de l’émetteur est toujours actif, sans option à activer, en chauffage PWM. Il est indépendant de la pause de l’apprentissage A/B et n’est pas pris en charge avec une vanne. La régulation ne lit pas ces valeurs : la valeur affinée est prioritaire, puis celle des matins ; une borne basse peut la relever.",
-      "metrics.emitter.status.0": "Apprentissage actif",
-      "metrics.emitter.status.1": "Vérification des bibliothèques de calcul",
-      "metrics.emitter.status.2": "Bibliothèques indisponibles : temps mort initial utilisé",
-      "metrics.emitter.status.3": "Apprentissage non pris en charge avec une vanne",
-      "metrics.emitter.status": "État de l’apprentissage",
-      "metrics.emitter.bootstrap": "Temps mort initial conservé",
-      "metrics.emitter.fast": "Retard de l’émetteur publié des matins",
-      "metrics.emitter.confirmed": "Matins confirmés",
-      "metrics.emitter.last_value": "Dernier matin accepté : retard de l’émetteur",
-      "metrics.emitter.lower_bound": "Borne basse du retard de l’émetteur",
-      "metrics.emitter.lower_bound_count": "Bornes basses confirmées",
-      "groups.emitter.fast": "Apprentissage des matins",
-      "metrics.emitter.confirmation.0": "Matin confirmé",
-      "metrics.emitter.confirmation.1": "Matin non confirmé : valeur inutilisée",
-      "metrics.emitter.confirmation.2": "Aucun matin accepté",
-      "metrics.emitter.confirmation": "Confirmation du dernier matin accepté",
-      "metrics.emitter.unconfirmed_reason.0": "Au moins 1 h sans chauffe alors que la pièce était régulée à sa consigne basse avant le passage en confort",
-      "metrics.emitter.unconfirmed_reason.1": "La pièce n’a pas atteint sa consigne basse avant le passage en confort",
-      "metrics.emitter.unconfirmed_reason.2": "La pièce est restée régulée à sa consigne basse moins de 1 h 30 avant le passage en confort",
-      "metrics.emitter.unconfirmed_reason": "Raison de non-confirmation",
-      "metrics.emitter.last_day": "Dernier matin évalué",
-      "metrics.emitter.accepted.0": "Oui",
-      "metrics.emitter.accepted.1": "Non",
-      "metrics.emitter.accepted": "Évaluation acceptée",
-      "metrics.emitter.morning_confirmed.0": "Confirmé",
-      "metrics.emitter.morning_confirmed.1": "Non confirmé : valeur ou borne inutilisée",
-      "metrics.emitter.morning_confirmed": "Confirmation de cette évaluation",
-      "metrics.emitter.morning_unconfirmed_reason": "Raison de non-confirmation de cette évaluation",
-      "metrics.emitter.morning_reason.0": "Matin accepté",
-      "metrics.emitter.morning_reason.1": "Échec du calcul",
-      "metrics.emitter.morning_reason.2": "Données manquantes ou exclues autour du passage en confort",
-      "metrics.emitter.morning_reason.3": "Pertes b pas encore apprises",
-      "metrics.emitter.morning_reason.4": "Aucun démarrage de chauffe après le passage en confort",
-      "metrics.emitter.morning_reason.5": "Nuit inutilisable pour ce type de pièce",
-      "metrics.emitter.morning_reason.6": "Trop peu de températures avant le passage en confort",
-      "metrics.emitter.morning_reason.7": "Évolution nocturne de température inutilisable",
-      "metrics.emitter.morning_reason.8": "Évolution nocturne incompatible avec les cycles de chauffe",
-      "metrics.emitter.morning_reason.9": "Évolution nocturne de température trop irrégulière",
-      "metrics.emitter.morning_reason.10": "La montée en température n’a pas pu être ajustée",
-      "metrics.emitter.morning_reason.11": "Ajustement de la montée en température trop imprécis",
-      "metrics.emitter.morning_reason.12": "Montée en température trop courte pour être mesurée",
-      "metrics.emitter.morning_reason.13": "Trop peu de chaleur fournie pendant la montée",
-      "metrics.emitter.morning_reason.14": "Montée en température trop faible",
-      "metrics.emitter.morning_reason.15": "La sonde de température transmet trop rarement",
-      "metrics.emitter.morning_reason.16": "Nuit régulée : aucune mesure",
-      "metrics.emitter.morning_reason.17": "Pièce non régulée pendant les 2 h avant le passage en confort",
-      "metrics.emitter.morning_reason.18": "Pièce hors de sa consigne éco avant le passage en confort",
-      "metrics.emitter.morning_reason.19": "Puissance de chauffe instable avant le passage en confort",
-      "metrics.emitter.morning_reason.20": "Pas de hausse nette du chauffage au passage en confort",
-      "metrics.emitter.morning_reason.21": "Pièce avec inertie après une nuit régulée : mesure par identification sur plusieurs jours uniquement",
-      "metrics.emitter.morning_reason.22": "Type de pièce encore inconnu",
-      "metrics.emitter.morning_reason.23": "SmartPI hors de la régulation stable (apprentissage initial)",
-      "metrics.emitter.morning_reason.24": "SmartPI hors de la régulation stable (calibration)",
-      "metrics.emitter.morning_reason.25": "SmartPI hors de la régulation stable (stable)",
-      "metrics.emitter.morning_reason.26": "SmartPI hors de la régulation stable (dégradée)",
-      "metrics.emitter.morning_reason.27": "Position du domicile inconnue : l’absence de soleil ne peut pas être vérifiée",
-      "metrics.emitter.morning_reason.28": "Passage en confort en plein jour",
-      "metrics.emitter.morning_reason.29": "Aucune période calme avant le passage en confort (nuit, consigne constante et données valides pendant au moins 1 h)",
-      "metrics.emitter.morning_reason.30": "Consigne basse non tenue dans l’obscurité, avec des données valides, pendant les 2 h avant le passage en confort",
-      "metrics.emitter.morning_reason.31": "Lever du soleil trop proche après le passage en confort",
-      "metrics.emitter.morning_reason.32": "Passage en confort coupé par le lever du soleil avant que sa réponse puisse être mesurée",
-      "metrics.emitter.morning_reason.33": "Passage en confort coupé par le lever du soleil : ne donne qu’une borne basse du retard de l’émetteur, pas une valeur",
-      "metrics.emitter.morning_reason.34": "Consigne rétablie après un redémarrage, pas un passage en confort",
-      "metrics.emitter.morning_reason": "Résultat du dernier matin évalué",
-      "metrics.emitter.morning_class.0": "Pièce avec inertie thermique",
-      "metrics.emitter.morning_class.1": "Pièce sans inertie thermique détectée",
-      "metrics.emitter.morning_class.2": "Type de pièce indéterminé",
-      "metrics.emitter.morning_class": "Type de pièce de ce matin",
-      "notes.emitter.fast": "La valeur des matins demande au moins 3 passages en confort confirmés et cohérents : une hausse de consigne d’au moins 1 °C, à toute heure, après une consigne basse tenue dans l’obscurité. Quand le lever du soleil coupe la montée trop tôt, le passage ne donne qu’une borne basse du retard de l’émetteur, jamais une valeur. Un passage non confirmé reste visible mais n’est pas utilisé.",
-      "metrics.emitter.refined": "Retard de l’émetteur affiné publié τe",
-      "metrics.emitter.coupling": "Couplage air-murs",
-      "metrics.emitter.wall_time": "Constante de temps des murs",
-      "groups.emitter.refined": "Identification affinée",
-      "metrics.emitter.refined_class.0": "Pièce avec inertie thermique",
-      "metrics.emitter.refined_class.1": "Pièce sans inertie thermique détectée",
-      "metrics.emitter.refined_class.2": "Type de pièce indéterminé",
-      "metrics.emitter.refined_class": "Type de pièce en service",
-      "metrics.emitter.night_class.0": "Pièce avec inertie thermique",
-      "metrics.emitter.night_class.1": "Pièce sans inertie thermique détectée",
-      "metrics.emitter.night_class.2": "Type de pièce indéterminé",
-      "metrics.emitter.night_class": "Type de pièce des nuits sans chauffe",
-      "metrics.emitter.evaluation_day": "Dernière évaluation quotidienne",
-      "metrics.emitter.nights.0": "Oui",
-      "metrics.emitter.nights.1": "Non",
-      "metrics.emitter.nights": "Les six nuits sont régulées",
-      "notes.emitter.refined": "L’identification compare deux séries de 3 nuits. Le retard de l’émetteur affiné ne remplace celui des matins que si les 6 nuits sont régulées ; une évaluation quotidienne n’est donc pas nécessairement une publication.",
-      "metrics.emitter.invalid.0": "Fenêtre ouverte",
-      "metrics.emitter.invalid.1": "Délestage",
-      "metrics.emitter.invalid.2": "Mode sécurité",
-      "metrics.emitter.invalid.3": "Mode chauffage inactif",
-      "metrics.emitter.invalid.4": "Commande inconnue",
-      "metrics.emitter.invalid.5": "Commande remplacée par le thermostat",
-      "metrics.emitter.invalid.6": "Saut de température",
-      "metrics.emitter.invalid.7": "Température intérieure indisponible",
-      "metrics.emitter.invalid.8": "Température extérieure indisponible",
-      "metrics.emitter.invalid": "Données actuellement exclues : raison",
-      "notes.emitter.data": "Une raison d’exclusion indique que les données courantes ne servent pas à cet apprentissage. « -- » signifie qu’aucune raison n’est fournie ; cela ne prouve pas que l’apprentissage est terminé.",
-      "sections.tar_learning.title": "Retard de l’émetteur",
       "groups.model.deadband": "Bande morte",
       "hero.overview.pulses": "L'installation collecte ses premières mesures par impulsions de mesure : repos, pleine puissance, puis arrêt pendant la lecture du pic de température.",
       "status.learning.stage.measurement_pulses": "Impulsions de mesure",
@@ -490,14 +391,34 @@
       "status.near_band_source.model_unusable": "Modèle de chauffe pas encore fiable",
       "status.near_band_source.slope_low": "Pente de chauffe trop faible",
       "status.near_band_source.reset": "Réinitialisée",
-      "groups.emitter.initial": "Mesure initiale du temps mort",
       "metrics.gain_delay": "Retard des gains",
       "metrics.gain_delay_source": "Origine du retard des gains",
       "status.gain_delay_source.dead_time": "Temps mort après un démarrage",
       "metrics.gain_closed_loop_time": "Temps de boucle fermée (λ)",
       "metrics.deadtime_start": "Temps mort après un démarrage",
       "metrics.deadtime_start_reliable": "Temps mort",
-      "status.anticipation.source.dead_time": "Temps mort après un démarrage"
+      "status.anticipation.source.dead_time": "Temps mort après un démarrage",
+      "metrics.room.invalid.0": "Fenêtre ouverte",
+      "metrics.room.invalid.1": "Délestage",
+      "metrics.room.invalid.2": "Mode sécurité",
+      "metrics.room.invalid.3": "Mode chauffage inactif",
+      "metrics.room.invalid.4": "Commande inconnue",
+      "metrics.room.invalid.5": "Commande remplacée par le thermostat",
+      "metrics.room.invalid.6": "Saut de température",
+      "metrics.room.invalid.7": "Température intérieure indisponible",
+      "metrics.room.invalid.8": "Température extérieure indisponible",
+      "metrics.room.invalid": "Données actuellement exclues : raison",
+      "metrics.response.pending_outliers": "Mesures en attente de confirmation",
+      "groups.room.quiet": "Périodes calmes et données",
+      "metrics.room.quiet_count": "Périodes calmes enregistrées",
+      "metrics.room.history": "Historique enregistré",
+      "metrics.room.quiet_reason": "Pourquoi aucune période calme",
+      "metrics.room.quiet_reason.0": "Position du domicile inconnue : l’absence de soleil ne peut pas être vérifiée",
+      "metrics.room.quiet_start": "Dernière période calme : début",
+      "metrics.room.quiet_end": "Dernière période calme : fin",
+      "metrics.room.quiet_regulated": "Régulation à la consigne basse depuis",
+      "notes.room.quiet": "Les périodes calmes sont les plages sombres, à consigne constante et aux données valides, que le modèle de pièce utilise pour s’identifier. « -- » en régulation signifie que la pièce n’a jamais été régulée à sa consigne basse pendant la dernière période.",
+      "notes.room.data": "Une raison d’exclusion indique que les données courantes ne servent pas au modèle de pièce. « -- » signifie qu’aucune raison n’est fournie : les données sont valides."
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -818,105 +739,6 @@
       "graphs.room.errors": "Forecast accuracy over time",
       "notes.room.history": "The parameter curves compare a on one scale and b / b_eq on the other, in their physical units. The error curves show accuracy at 1 h and 12 h. Forecast temperatures, the unchanged-temperature reference and check counts are current values only.",
       "sections.room_model.title": "Room model",
-      "notes.emitter.intro": "Emitter lag learning is always enabled, with no option to turn on, in PWM heating. It is independent of the A/B learning pause and is not supported with a valve. The regulation does not read these values: the refined value takes priority, then the morning value; a lower bound can raise it.",
-      "metrics.emitter.status.0": "Learning active",
-      "metrics.emitter.status.1": "Checking numerical libraries",
-      "metrics.emitter.status.2": "Libraries unavailable: initial dead time in use",
-      "metrics.emitter.status.3": "Learning not supported with a valve",
-      "metrics.emitter.status": "Learning status",
-      "metrics.emitter.bootstrap": "Initial dead time (preserved)",
-      "metrics.emitter.fast": "Published morning emitter lag",
-      "metrics.emitter.confirmed": "Confirmed mornings",
-      "metrics.emitter.last_value": "Last accepted morning: emitter lag",
-      "metrics.emitter.lower_bound": "Lower bound of the emitter lag",
-      "metrics.emitter.lower_bound_count": "Confirmed lower bounds",
-      "groups.emitter.fast": "Morning learning",
-      "metrics.emitter.confirmation.0": "Morning confirmed",
-      "metrics.emitter.confirmation.1": "Morning unconfirmed: value unused",
-      "metrics.emitter.confirmation.2": "No accepted morning",
-      "metrics.emitter.confirmation": "Last accepted morning confirmation",
-      "metrics.emitter.unconfirmed_reason.0": "At least 1 hour without heating while the room was regulated at its low setpoint before the comfort step",
-      "metrics.emitter.unconfirmed_reason.1": "The room did not reach its low setpoint before the comfort step",
-      "metrics.emitter.unconfirmed_reason.2": "The room was regulated at its low setpoint for less than 1.5 hours before the comfort step",
-      "metrics.emitter.unconfirmed_reason": "Reason for non-confirmation",
-      "metrics.emitter.last_day": "Last evaluated morning",
-      "metrics.emitter.accepted.0": "Yes",
-      "metrics.emitter.accepted.1": "No",
-      "metrics.emitter.accepted": "Evaluation accepted",
-      "metrics.emitter.morning_confirmed.0": "Confirmed",
-      "metrics.emitter.morning_confirmed.1": "Unconfirmed: value or bound unused",
-      "metrics.emitter.morning_confirmed": "Confirmation of this evaluation",
-      "metrics.emitter.morning_unconfirmed_reason": "Reason this evaluation is not confirmed",
-      "metrics.emitter.morning_reason.0": "Accepted",
-      "metrics.emitter.morning_reason.1": "Computation failed",
-      "metrics.emitter.morning_reason.2": "Missing or excluded data around the comfort step",
-      "metrics.emitter.morning_reason.3": "Heat loss b not learned yet",
-      "metrics.emitter.morning_reason.4": "No heating start after the comfort step",
-      "metrics.emitter.morning_reason.5": "Night not usable for this type of room",
-      "metrics.emitter.morning_reason.6": "Too few temperature readings before the comfort step",
-      "metrics.emitter.morning_reason.7": "Night temperature trend not usable",
-      "metrics.emitter.morning_reason.8": "Night temperature trend does not match the heating cycles",
-      "metrics.emitter.morning_reason.9": "Night temperature trend too irregular",
-      "metrics.emitter.morning_reason.10": "Temperature rise could not be fitted",
-      "metrics.emitter.morning_reason.11": "Temperature rise fitted too loosely",
-      "metrics.emitter.morning_reason.12": "Temperature rise too short to measure",
-      "metrics.emitter.morning_reason.13": "Too little heat delivered during the rise",
-      "metrics.emitter.morning_reason.14": "Temperature rise too small",
-      "metrics.emitter.morning_reason.15": "Temperature sensor reports too rarely",
-      "metrics.emitter.morning_reason.16": "Regulated night: no measurement",
-      "metrics.emitter.morning_reason.17": "Room not regulated during the 2 hours before the comfort step",
-      "metrics.emitter.morning_reason.18": "Room not at its eco setpoint before the comfort step",
-      "metrics.emitter.morning_reason.19": "Heating power not steady before the comfort step",
-      "metrics.emitter.morning_reason.20": "No clear heating increase at the comfort step",
-      "metrics.emitter.morning_reason.21": "Room with thermal mass after a regulated night: measured by the multi-day identification only",
-      "metrics.emitter.morning_reason.22": "Type of room not known yet",
-      "metrics.emitter.morning_reason.23": "SmartPI not in steady regulation (bootstrap)",
-      "metrics.emitter.morning_reason.24": "SmartPI not in steady regulation (calibration)",
-      "metrics.emitter.morning_reason.25": "SmartPI not in steady regulation (stable)",
-      "metrics.emitter.morning_reason.26": "SmartPI not in steady regulation (degraded)",
-      "metrics.emitter.morning_reason.27": "Home position unknown: the absence of sun cannot be checked",
-      "metrics.emitter.morning_reason.28": "Comfort step in daylight",
-      "metrics.emitter.morning_reason.29": "No quiet period before the comfort step (dark, constant setpoint and valid data for at least 1 hour)",
-      "metrics.emitter.morning_reason.30": "Low setpoint not held in the dark with valid data for the 2 hours before the comfort step",
-      "metrics.emitter.morning_reason.31": "Sunrise too soon after the comfort step",
-      "metrics.emitter.morning_reason.32": "Comfort step cut by sunrise before its response could be measured",
-      "metrics.emitter.morning_reason.33": "Comfort step cut by sunrise: gives only a lower bound of the emitter lag, not a value",
-      "metrics.emitter.morning_reason.34": "Setpoint restored after a restart, not a comfort step",
-      "metrics.emitter.morning_reason": "Last evaluated morning outcome",
-      "metrics.emitter.morning_class.0": "Room with thermal mass",
-      "metrics.emitter.morning_class.1": "Room without detected thermal mass",
-      "metrics.emitter.morning_class.2": "Room type undetermined",
-      "metrics.emitter.morning_class": "Room type for this morning",
-      "notes.emitter.fast": "The morning value needs at least 3 confirmed, consistent comfort steps: a setpoint rise of at least 1 °C, at any hour, after a low setpoint held in the dark. When sunrise cuts the rise too early, the step gives only a lower bound of the emitter lag, never a value. An unconfirmed step stays visible but is not used.",
-      "metrics.emitter.refined": "Published refined emitter lag τe",
-      "metrics.emitter.coupling": "Air-wall coupling",
-      "metrics.emitter.wall_time": "Wall time constant",
-      "groups.emitter.refined": "Refined identification",
-      "metrics.emitter.refined_class.0": "Room with thermal mass",
-      "metrics.emitter.refined_class.1": "Room without detected thermal mass",
-      "metrics.emitter.refined_class.2": "Room type undetermined",
-      "metrics.emitter.refined_class": "Room type in use",
-      "metrics.emitter.night_class.0": "Room with thermal mass",
-      "metrics.emitter.night_class.1": "Room without detected thermal mass",
-      "metrics.emitter.night_class.2": "Room type undetermined",
-      "metrics.emitter.night_class": "Room type from unheated nights",
-      "metrics.emitter.evaluation_day": "Latest daily evaluation",
-      "metrics.emitter.nights.0": "Yes",
-      "metrics.emitter.nights.1": "No",
-      "metrics.emitter.nights": "All six nights are regulated",
-      "notes.emitter.refined": "Identification compares two series of 3 nights. The refined emitter lag replaces the morning value only if all 6 nights are regulated; a daily evaluation therefore does not necessarily mean a publication.",
-      "metrics.emitter.invalid.0": "Window open",
-      "metrics.emitter.invalid.1": "Power shedding",
-      "metrics.emitter.invalid.2": "Safety mode",
-      "metrics.emitter.invalid.3": "Hvac not heating",
-      "metrics.emitter.invalid.4": "Command unknown",
-      "metrics.emitter.invalid.5": "Command overridden",
-      "metrics.emitter.invalid.6": "Temperature jump",
-      "metrics.emitter.invalid.7": "Indoor temperature unavailable",
-      "metrics.emitter.invalid.8": "Outdoor temperature unavailable",
-      "metrics.emitter.invalid": "Currently excluded data: reason",
-      "notes.emitter.data": "An exclusion reason means the current data are not used for this learning. “--” means no reason is supplied; it does not establish that learning is complete.",
-      "sections.tar_learning.title": "Emitter lag",
       "groups.model.deadband": "Dead band",
       "hero.overview.pulses": "The system is collecting its first measurements with measurement pulses: rest, full power, then a stop while the temperature peak is read.",
       "status.learning.stage.measurement_pulses": "Measurement pulses",
@@ -985,14 +807,34 @@
       "status.near_band_source.model_unusable": "Heating model not reliable yet",
       "status.near_band_source.slope_low": "Heating slope too low",
       "status.near_band_source.reset": "Reset",
-      "groups.emitter.initial": "Initial dead time measurement",
       "metrics.gain_delay": "Gain delay",
       "metrics.gain_delay_source": "Gain delay source",
       "status.gain_delay_source.dead_time": "Dead time after a start",
       "metrics.gain_closed_loop_time": "Closed-loop time (λ)",
       "metrics.deadtime_start": "Dead time after a start",
       "metrics.deadtime_start_reliable": "Dead time",
-      "status.anticipation.source.dead_time": "Dead time after a start"
+      "status.anticipation.source.dead_time": "Dead time after a start",
+      "metrics.room.invalid.0": "Window open",
+      "metrics.room.invalid.1": "Power shedding",
+      "metrics.room.invalid.2": "Safety mode",
+      "metrics.room.invalid.3": "Hvac not heating",
+      "metrics.room.invalid.4": "Command unknown",
+      "metrics.room.invalid.5": "Command overridden",
+      "metrics.room.invalid.6": "Temperature jump",
+      "metrics.room.invalid.7": "Indoor temperature unavailable",
+      "metrics.room.invalid.8": "Outdoor temperature unavailable",
+      "metrics.room.invalid": "Currently excluded data: reason",
+      "metrics.response.pending_outliers": "Events awaiting confirmation",
+      "groups.room.quiet": "Quiet periods and data",
+      "metrics.room.quiet_count": "Quiet periods recorded",
+      "metrics.room.history": "Recorded history",
+      "metrics.room.quiet_reason": "Why no quiet period",
+      "metrics.room.quiet_reason.0": "Home position unknown: the absence of sun cannot be checked",
+      "metrics.room.quiet_start": "Last quiet period: start",
+      "metrics.room.quiet_end": "Last quiet period: end",
+      "metrics.room.quiet_regulated": "Regulated at the low setpoint from",
+      "notes.room.quiet": "Quiet periods are the dark spans, at a constant setpoint and with valid data, that the room model identifies itself from. \"--\" for the regulated start means the room never regulated at its low setpoint during the last period.",
+      "notes.room.data": "An exclusion reason means the data currently recorded are not used by the room model. \"--\" means no reason is given: the data are valid."
     }
   },
   "sections": [
@@ -2279,6 +2121,15 @@
                   "path": "live/analysis/learning/response_model/prediction_rms_c",
                   "unit": "°C",
                   "digits": 3
+                },
+                {
+                  "label_key": "metrics.response.pending_outliers",
+                  "source": "diagnostic",
+                  "path": "live/analysis/learning/response_model/pending_outliers",
+                  "digits": 0,
+                  "visible_if": {
+                    "var": "diagnostic/live/analysis/learning/response_model/pending_outliers"
+                  }
                 }
               ]
             },
@@ -3275,6 +3126,143 @@
         },
         {
           "type": "metric_grid",
+          "title_key": "groups.room.quiet",
+          "columns": 2,
+          "metrics": [
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/quiet_periods/count",
+              "label_key": "metrics.room.quiet_count",
+              "digits": 0
+            },
+            {
+              "source": "diagnostic",
+              "path": "live/room_model/history_h",
+              "label_key": "metrics.room.history",
+              "digits": 0,
+              "unit": "h"
+            }
+          ]
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/room_model/quiet_periods/reason",
+          "label_key": "metrics.room.quiet_reason",
+          "map": {
+            "home position unknown: the absence of sun cannot be checked": {
+              "label_key": "metrics.room.quiet_reason.0",
+              "tone": "warning",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true,
+          "visible_if": {
+            "var": "diagnostic/live/room_model/quiet_periods/reason"
+          }
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 210,
+          "items": [
+            {
+              "type": "value",
+              "source": "diagnostic",
+              "path": "live/room_model/quiet_periods/last/start",
+              "label_key": "metrics.room.quiet_start"
+            },
+            {
+              "type": "value",
+              "source": "diagnostic",
+              "path": "live/room_model/quiet_periods/last/end",
+              "label_key": "metrics.room.quiet_end"
+            },
+            {
+              "type": "value",
+              "source": "diagnostic",
+              "path": "live/room_model/quiet_periods/last/regulated_from",
+              "label_key": "metrics.room.quiet_regulated"
+            }
+          ]
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.quiet",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "status",
+          "source": "diagnostic",
+          "path": "live/room_model/data_invalid_reason",
+          "label_key": "metrics.room.invalid",
+          "map": {
+            "window open": {
+              "label_key": "metrics.room.invalid.0",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "power shedding": {
+              "label_key": "metrics.room.invalid.1",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "safety mode": {
+              "label_key": "metrics.room.invalid.2",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "hvac not heating": {
+              "label_key": "metrics.room.invalid.3",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "command unknown": {
+              "label_key": "metrics.room.invalid.4",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "command overridden": {
+              "label_key": "metrics.room.invalid.5",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "temperature jump": {
+              "label_key": "metrics.room.invalid.6",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "indoor temperature unavailable": {
+              "label_key": "metrics.room.invalid.7",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            },
+            "outdoor temperature unavailable": {
+              "label_key": "metrics.room.invalid.8",
+              "tone": "info",
+              "icon": "mdi:information-outline"
+            }
+          },
+          "fallback": {
+            "label_key": "fallback.unknown_code",
+            "tone": "muted",
+            "icon": "mdi:help-circle-outline"
+          },
+          "fallback_show_value": true
+        },
+        {
+          "type": "section_note",
+          "text_key": "notes.room.data",
+          "tone": "info",
+          "icon": "mdi:information-outline"
+        },
+        {
+          "type": "metric_grid",
           "title_key": "groups.room.parameters",
           "columns": 2,
           "metrics": [
@@ -4028,680 +4016,6 @@
         {
           "type": "section_note",
           "text_key": "notes.learning",
-          "tone": "info",
-          "icon": "mdi:information-outline"
-        }
-      ]
-    },
-    {
-      "id": "tar_learning",
-      "title_key": "sections.tar_learning.title",
-      "icon": "mdi:timer-sand",
-      "items": [
-        {
-          "type": "section_note",
-          "text_key": "notes.emitter.intro",
-          "tone": "info",
-          "icon": "mdi:information-outline"
-        },
-        {
-          "type": "layout_grid",
-          "min_width": 210,
-          "items": [
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/status",
-              "label_key": "metrics.emitter.status",
-              "map": {
-                "active": {
-                  "label_key": "metrics.emitter.status.0",
-                  "tone": "ok",
-                  "icon": "mdi:information-outline"
-                },
-                "checking_dependencies": {
-                  "label_key": "metrics.emitter.status.1",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "dependencies_unavailable": {
-                  "label_key": "metrics.emitter.status.2",
-                  "tone": "warning",
-                  "icon": "mdi:information-outline"
-                },
-                "valve_mode_not_supported": {
-                  "label_key": "metrics.emitter.status.3",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            }
-          ]
-        },
-        {
-          "type": "metric_grid",
-          "title_key": "groups.emitter.initial",
-          "columns": 1,
-          "metrics": [
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/bootstrap_s",
-              "label_key": "metrics.emitter.bootstrap",
-              "digits": 1,
-              "format": "duration_s"
-            }
-          ]
-        },
-        {
-          "type": "metric_grid",
-          "title_key": "groups.emitter.fast",
-          "columns": 3,
-          "metrics": [
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/value_s",
-              "label_key": "metrics.emitter.fast",
-              "digits": 1,
-              "format": "duration_s"
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/confirmed_mornings",
-              "label_key": "metrics.emitter.confirmed",
-              "digits": 0
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/last_value_s",
-              "label_key": "metrics.emitter.last_value",
-              "digits": 1,
-              "format": "duration_s"
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/lower_bound_s",
-              "label_key": "metrics.emitter.lower_bound",
-              "digits": 1,
-              "format": "duration_s"
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/lower_bound_mornings",
-              "label_key": "metrics.emitter.lower_bound_count",
-              "digits": 0
-            }
-          ]
-        },
-        {
-          "type": "status",
-          "source": "diagnostic",
-          "path": "live/tar_learning/fast/last_status",
-          "label_key": "metrics.emitter.confirmation",
-          "map": {
-            "confirmed": {
-              "label_key": "metrics.emitter.confirmation.0",
-              "tone": "ok",
-              "icon": "mdi:information-outline"
-            },
-            "unconfirmed": {
-              "label_key": "metrics.emitter.confirmation.1",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "none": {
-              "label_key": "metrics.emitter.confirmation.2",
-              "tone": "muted",
-              "icon": "mdi:information-outline"
-            }
-          },
-          "fallback": {
-            "label_key": "fallback.unknown_code",
-            "tone": "muted",
-            "icon": "mdi:help-circle-outline"
-          },
-          "fallback_show_value": true
-        },
-        {
-          "type": "status",
-          "source": "diagnostic",
-          "path": "live/tar_learning/fast/last_unconfirmed_reason",
-          "label_key": "metrics.emitter.unconfirmed_reason",
-          "map": {
-            "at least 1 hour without heating while the room was regulated at its low setpoint before the comfort step": {
-              "label_key": "metrics.emitter.unconfirmed_reason.0",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "the room did not reach its low setpoint before the comfort step": {
-              "label_key": "metrics.emitter.unconfirmed_reason.1",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "the room was regulated at its low setpoint for less than 1.5 hours before the comfort step": {
-              "label_key": "metrics.emitter.unconfirmed_reason.2",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            }
-          },
-          "fallback": {
-            "label_key": "fallback.unknown_code",
-            "tone": "muted",
-            "icon": "mdi:help-circle-outline"
-          },
-          "fallback_show_value": true
-        },
-        {
-          "type": "layout_grid",
-          "min_width": 210,
-          "items": [
-            {
-              "type": "value",
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/last_morning/day",
-              "label_key": "metrics.emitter.last_day"
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/last_morning/accepted",
-              "label_key": "metrics.emitter.accepted",
-              "map": {
-                "true": {
-                  "label_key": "metrics.emitter.accepted.0",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "false": {
-                  "label_key": "metrics.emitter.accepted.1",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/last_morning/confirmed",
-              "label_key": "metrics.emitter.morning_confirmed",
-              "map": {
-                "true": {
-                  "label_key": "metrics.emitter.morning_confirmed.0",
-                  "tone": "ok",
-                  "icon": "mdi:information-outline"
-                },
-                "false": {
-                  "label_key": "metrics.emitter.morning_confirmed.1",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/last_morning/unconfirmed_reason",
-              "label_key": "metrics.emitter.morning_unconfirmed_reason",
-              "map": {
-                "at least 1 hour without heating while the room was regulated at its low setpoint before the comfort step": {
-                  "label_key": "metrics.emitter.unconfirmed_reason.0",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "the room did not reach its low setpoint before the comfort step": {
-                  "label_key": "metrics.emitter.unconfirmed_reason.1",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "the room was regulated at its low setpoint for less than 1.5 hours before the comfort step": {
-                  "label_key": "metrics.emitter.unconfirmed_reason.2",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true,
-              "visible_if": {
-                "var": "diagnostic/live/tar_learning/fast/last_morning/unconfirmed_reason"
-              }
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/last_morning/reason",
-              "label_key": "metrics.emitter.morning_reason",
-              "map": {
-                "accepted": {
-                  "label_key": "metrics.emitter.morning_reason.0",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "computation failed": {
-                  "label_key": "metrics.emitter.morning_reason.1",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "missing or excluded data around the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.2",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "heat loss b not learned yet": {
-                  "label_key": "metrics.emitter.morning_reason.3",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "no heating start after the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.4",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "night not usable for this type of room": {
-                  "label_key": "metrics.emitter.morning_reason.5",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "too few temperature readings before the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.6",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "night temperature trend not usable": {
-                  "label_key": "metrics.emitter.morning_reason.7",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "night temperature trend does not match the heating cycles": {
-                  "label_key": "metrics.emitter.morning_reason.8",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "night temperature trend too irregular": {
-                  "label_key": "metrics.emitter.morning_reason.9",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "temperature rise could not be fitted": {
-                  "label_key": "metrics.emitter.morning_reason.10",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "temperature rise fitted too loosely": {
-                  "label_key": "metrics.emitter.morning_reason.11",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "temperature rise too short to measure": {
-                  "label_key": "metrics.emitter.morning_reason.12",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "too little heat delivered during the rise": {
-                  "label_key": "metrics.emitter.morning_reason.13",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "temperature rise too small": {
-                  "label_key": "metrics.emitter.morning_reason.14",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "temperature sensor reports too rarely": {
-                  "label_key": "metrics.emitter.morning_reason.15",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "regulated night: no measurement": {
-                  "label_key": "metrics.emitter.morning_reason.16",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "room not regulated during the 2 hours before the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.17",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "room not at its eco setpoint before the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.18",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "heating power not steady before the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.19",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "no clear heating increase at the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.20",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "room with thermal mass after a regulated night: measured by the multi-day identification only": {
-                  "label_key": "metrics.emitter.morning_reason.21",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "type of room not known yet": {
-                  "label_key": "metrics.emitter.morning_reason.22",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "SmartPI not in steady regulation (bootstrap)": {
-                  "label_key": "metrics.emitter.morning_reason.23",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "SmartPI not in steady regulation (calibration)": {
-                  "label_key": "metrics.emitter.morning_reason.24",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "SmartPI not in steady regulation (stable)": {
-                  "label_key": "metrics.emitter.morning_reason.25",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "SmartPI not in steady regulation (degraded)": {
-                  "label_key": "metrics.emitter.morning_reason.26",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "home position unknown: the absence of sun cannot be checked": {
-                  "label_key": "metrics.emitter.morning_reason.27",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "comfort step in daylight": {
-                  "label_key": "metrics.emitter.morning_reason.28",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "no quiet period before the comfort step (dark, constant setpoint and valid data for at least 1 hour)": {
-                  "label_key": "metrics.emitter.morning_reason.29",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "low setpoint not held in the dark with valid data for the 2 hours before the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.30",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "sunrise too soon after the comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.31",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "comfort step cut by sunrise before its response could be measured": {
-                  "label_key": "metrics.emitter.morning_reason.32",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                },
-                "comfort step cut by sunrise: gives only a lower bound of the delay, not a value": {
-                  "label_key": "metrics.emitter.morning_reason.33",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "setpoint restored after a restart, not a comfort step": {
-                  "label_key": "metrics.emitter.morning_reason.34",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/fast/last_morning/room_class",
-              "label_key": "metrics.emitter.morning_class",
-              "map": {
-                "thermal_mass": {
-                  "label_key": "metrics.emitter.morning_class.0",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "no_thermal_mass": {
-                  "label_key": "metrics.emitter.morning_class.1",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "undetermined": {
-                  "label_key": "metrics.emitter.morning_class.2",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            }
-          ]
-        },
-        {
-          "type": "section_note",
-          "text_key": "notes.emitter.fast",
-          "tone": "info",
-          "icon": "mdi:information-outline"
-        },
-        {
-          "type": "metric_grid",
-          "title_key": "groups.emitter.refined",
-          "columns": 3,
-          "metrics": [
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/refined/tau_e_s",
-              "label_key": "metrics.emitter.refined",
-              "digits": 1,
-              "format": "duration_s"
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/refined/k_per_s",
-              "label_key": "metrics.emitter.coupling",
-              "digits": 6,
-              "unit": "s⁻¹"
-            },
-            {
-              "source": "diagnostic",
-              "path": "live/tar_learning/refined/tau_w_h",
-              "label_key": "metrics.emitter.wall_time",
-              "digits": 2,
-              "unit": "h"
-            }
-          ]
-        },
-        {
-          "type": "layout_grid",
-          "min_width": 210,
-          "items": [
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/refined/class",
-              "label_key": "metrics.emitter.refined_class",
-              "map": {
-                "thermal_mass": {
-                  "label_key": "metrics.emitter.refined_class.0",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "no_thermal_mass": {
-                  "label_key": "metrics.emitter.refined_class.1",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "undetermined": {
-                  "label_key": "metrics.emitter.refined_class.2",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/night_room_class",
-              "label_key": "metrics.emitter.night_class",
-              "map": {
-                "thermal_mass": {
-                  "label_key": "metrics.emitter.night_class.0",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "no_thermal_mass": {
-                  "label_key": "metrics.emitter.night_class.1",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "undetermined": {
-                  "label_key": "metrics.emitter.night_class.2",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            },
-            {
-              "type": "value",
-              "source": "diagnostic",
-              "path": "live/tar_learning/refined/last_evaluation/day",
-              "label_key": "metrics.emitter.evaluation_day"
-            },
-            {
-              "type": "status",
-              "source": "diagnostic",
-              "path": "live/tar_learning/refined/last_evaluation/regulated_nights",
-              "label_key": "metrics.emitter.nights",
-              "map": {
-                "true": {
-                  "label_key": "metrics.emitter.nights.0",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "false": {
-                  "label_key": "metrics.emitter.nights.1",
-                  "tone": "muted",
-                  "icon": "mdi:information-outline"
-                }
-              },
-              "fallback": {
-                "label_key": "fallback.unknown_code",
-                "tone": "muted",
-                "icon": "mdi:help-circle-outline"
-              },
-              "fallback_show_value": true
-            }
-          ]
-        },
-        {
-          "type": "section_note",
-          "text_key": "notes.emitter.refined",
-          "tone": "info",
-          "icon": "mdi:information-outline"
-        },
-        {
-          "type": "status",
-          "source": "diagnostic",
-          "path": "live/tar_learning/data_invalid_reason",
-          "label_key": "metrics.emitter.invalid",
-          "map": {
-            "window open": {
-              "label_key": "metrics.emitter.invalid.0",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "power shedding": {
-              "label_key": "metrics.emitter.invalid.1",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "safety mode": {
-              "label_key": "metrics.emitter.invalid.2",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "hvac not heating": {
-              "label_key": "metrics.emitter.invalid.3",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "command unknown": {
-              "label_key": "metrics.emitter.invalid.4",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "command overridden": {
-              "label_key": "metrics.emitter.invalid.5",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "temperature jump": {
-              "label_key": "metrics.emitter.invalid.6",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "indoor temperature unavailable": {
-              "label_key": "metrics.emitter.invalid.7",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            },
-            "outdoor temperature unavailable": {
-              "label_key": "metrics.emitter.invalid.8",
-              "tone": "info",
-              "icon": "mdi:information-outline"
-            }
-          },
-          "fallback": {
-            "label_key": "fallback.unknown_code",
-            "tone": "muted",
-            "icon": "mdi:help-circle-outline"
-          },
-          "fallback_show_value": true
-        },
-        {
-          "type": "section_note",
-          "text_key": "notes.emitter.data",
           "tone": "info",
           "icon": "mdi:information-outline"
         }
