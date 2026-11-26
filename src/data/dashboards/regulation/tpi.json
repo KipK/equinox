@@ -1,0 +1,886 @@
+{
+  "schema_version": 1,
+  "kind": "regulation-dashboard",
+  "algorithm": "tpi",
+  "title": "TPI",
+  "title_key": "title",
+  "translations": {
+    "fr": {
+      "title": "TPI",
+      "sections.overview.title": "Synthèse",
+      "sections.overview.summary": "Puissance calculée par la régulation TPI et coefficients utilisés.",
+      "sections.learning.title": "Auto TPI",
+      "sections.learning.summary": "Apprentissage des coefficients Kint et Kext.",
+      "sections.actions.title": "Actions",
+      "sections.actions.summary": "Démarrer ou arrêter l'apprentissage Auto TPI.",
+      "hero.title": "Régulation TPI",
+      "hero.subtitle": "Puissance = Kint × (consigne − intérieur) + Kext × (consigne − extérieur), appliquée en temps de marche dans chaque cycle.",
+      "groups.power": "Puissance",
+      "groups.coefficients": "Coefficients utilisés",
+      "groups.settings": "Réglages",
+      "metrics.on_percent": "Puissance demandée",
+      "metrics.power_percent": "Puissance appliquée",
+      "metrics.kint": "Kint",
+      "metrics.kext": "Kext",
+      "metrics.threshold_low": "Seuil bas",
+      "metrics.threshold_high": "Seuil haut",
+      "metrics.cycle": "Cycle",
+      "metrics.min_activation": "Activation minimale",
+      "metrics.min_deactivation": "Désactivation minimale",
+      "units.min": "min",
+      "units.s": "s",
+      "graphs.overview": "Température et puissance",
+      "graphs.temperature": "Température",
+      "graphs.setpoint": "Consigne",
+      "graphs.power": "Puissance",
+      "learning.not_enabled": "L'Auto TPI n'est pas activé pour ce thermostat. Activez-le dans les réglages TPI de la configuration du thermostat.",
+      "learning.state": "Apprentissage",
+      "learning.state.active": "Session en cours",
+      "learning.state.off": "Aucune session",
+      "learning.continuous": "Kext continu",
+      "learning.continuous.on": "Activé",
+      "learning.continuous.off": "Désactivé",
+      "learning.kint_windows": "Kint : fenêtres de montée",
+      "learning.kext_cycles": "Kext : cycles stabilisés",
+      "learning.confidence": "Avancement",
+      "learning.kint": "Kint appris",
+      "learning.kext": "Kext appris",
+      "learning.cycles": "Cycles observés",
+      "learning.start": "Début de session",
+      "learning.last_status": "Dernier cycle",
+      "learning.graph": "Coefficients appris",
+      "learning.help": "Kint est ajusté sur des fenêtres de montée d'au moins 30 minutes, quand la pièce est à au moins 0,3 °C sous la consigne. Kext est ajusté une fois la pièce stabilisée près de la consigne. La session se termine après 15 fenêtres Kint et 50 cycles Kext ; les coefficients sont alors enregistrés dans la configuration.",
+      "status.learning_started": "Apprentissage démarré",
+      "status.learning_resumed": "Apprentissage repris",
+      "status.learning_stopped": "Apprentissage arrêté",
+      "status.learning_disabled": "Apprentissage désactivé",
+      "status.learned_indoor_heat": "Kint appris (chauffe)",
+      "status.learned_indoor_cool": "Kint appris (clim)",
+      "status.learned_outdoor_heat": "Kext appris (chauffe)",
+      "status.learned_outdoor_cool": "Kext appris (clim)",
+      "status.continuous_kext_learned_heat": "Kext appris en continu (chauffe)",
+      "status.continuous_kext_learned_cool": "Kext appris en continu (clim)",
+      "status.kext_waiting_settling": "Kext attend que la pièce se stabilise",
+      "status.kint_window_crossed_setpoint": "Consigne franchie pendant la fenêtre Kint",
+      "status.cycle_too_short": "Cycle trop court",
+      "status.cycle_gap_detected": "Cycle trop long",
+      "status.setpoint_changed_during_cycle": "Consigne modifiée pendant le cycle",
+      "status.continuous_kext_setpoint_changed": "Consigne modifiée pendant le cycle",
+      "status.consigne_changed": "Consigne modifiée pendant le cycle",
+      "status.not_heating_or_cooling": "Ni chauffe ni clim",
+      "status.cooling_down_naturally": "La pièce se refroidit d'elle-même",
+      "status.warming_up_naturally": "La pièce se réchauffe d'elle-même",
+      "status.anomalous_overheating": "Au-dessus de la consigne sans chauffer",
+      "status.anomalous_overcooling": "Sous la consigne sans refroidir",
+      "status.cycle_interrupted_by_overpowering": "Cycle limité par le délestage",
+      "status.central_boiler_off": "Chaudière centrale arrêtée",
+      "status.heating_failure_detected": "Défaut de chauffe détecté",
+      "status.startup_cycle": "Premier cycle après un arrêt",
+      "status.target_temp_is_zero": "Pas de consigne",
+      "status.gap_out_too_small": "Température extérieure trop proche de la consigne",
+      "status.continuous_kext_not_bootstrapped": "Le Kext continu attend une première session",
+      "status.prefix.power_out_of_range": "Puissance saturée {value}",
+      "status.prefix.outdoor_delta_too_small": "Température extérieure trop proche de la consigne {value}",
+      "status.prefix.gap_too_large_for_outdoor": "Écart trop grand pour Kext {value}",
+      "status.prefix.no_learning_possible": "Rien à apprendre {value}",
+      "actions.resume": "Reprendre l'apprentissage",
+      "actions.resume.confirm": "Reprendre la session Auto TPI avec les données d'apprentissage actuelles ?",
+      "actions.start": "Démarrer une nouvelle session",
+      "actions.start.confirm": "Démarrer une nouvelle session Auto TPI à partir des coefficients configurés ? Les données d'apprentissage actuelles sont réinitialisées.",
+      "actions.stop": "Arrêter l'apprentissage",
+      "actions.stop.confirm": "Arrêter la session Auto TPI ? Les coefficients appris jusqu'ici restent utilisés jusqu'à la prochaine session."
+    },
+    "en": {
+      "title": "TPI",
+      "sections.overview.title": "Summary",
+      "sections.overview.summary": "Power computed by the TPI regulation and coefficients in use.",
+      "sections.learning.title": "Auto TPI",
+      "sections.learning.summary": "Learning of the Kint and Kext coefficients.",
+      "sections.actions.title": "Actions",
+      "sections.actions.summary": "Start or stop the Auto TPI learning.",
+      "hero.title": "TPI regulation",
+      "hero.subtitle": "Power = Kint × (setpoint − indoor) + Kext × (setpoint − outdoor), applied as an on time within each cycle.",
+      "groups.power": "Power",
+      "groups.coefficients": "Coefficients in use",
+      "groups.settings": "Settings",
+      "metrics.on_percent": "Requested power",
+      "metrics.power_percent": "Applied power",
+      "metrics.kint": "Kint",
+      "metrics.kext": "Kext",
+      "metrics.threshold_low": "Low threshold",
+      "metrics.threshold_high": "High threshold",
+      "metrics.cycle": "Cycle",
+      "metrics.min_activation": "Minimal activation",
+      "metrics.min_deactivation": "Minimal deactivation",
+      "units.min": "min",
+      "units.s": "s",
+      "graphs.overview": "Temperature and power",
+      "graphs.temperature": "Temperature",
+      "graphs.setpoint": "Setpoint",
+      "graphs.power": "Power",
+      "learning.not_enabled": "Auto TPI is not enabled for this thermostat. Enable it in the TPI settings of the thermostat configuration.",
+      "learning.state": "Learning",
+      "learning.state.active": "Session in progress",
+      "learning.state.off": "No session",
+      "learning.continuous": "Continuous Kext",
+      "learning.continuous.on": "Enabled",
+      "learning.continuous.off": "Disabled",
+      "learning.kint_windows": "Kint: rise windows",
+      "learning.kext_cycles": "Kext: settled cycles",
+      "learning.confidence": "Progress",
+      "learning.kint": "Learned Kint",
+      "learning.kext": "Learned Kext",
+      "learning.cycles": "Observed cycles",
+      "learning.start": "Session start",
+      "learning.last_status": "Last cycle",
+      "learning.graph": "Learned coefficients",
+      "learning.help": "Kint is adjusted over rise windows of at least 30 minutes, when the room is at least 0.3 °C below the setpoint. Kext is adjusted once the room has settled near the setpoint. The session ends after 15 Kint windows and 50 Kext cycles; the coefficients are then saved to the configuration.",
+      "status.learning_started": "Learning started",
+      "status.learning_resumed": "Learning resumed",
+      "status.learning_stopped": "Learning stopped",
+      "status.learning_disabled": "Learning disabled",
+      "status.learned_indoor_heat": "Kint learned (heat)",
+      "status.learned_indoor_cool": "Kint learned (cool)",
+      "status.learned_outdoor_heat": "Kext learned (heat)",
+      "status.learned_outdoor_cool": "Kext learned (cool)",
+      "status.continuous_kext_learned_heat": "Kext learned continuously (heat)",
+      "status.continuous_kext_learned_cool": "Kext learned continuously (cool)",
+      "status.kext_waiting_settling": "Kext waits for the room to settle",
+      "status.kint_window_crossed_setpoint": "Setpoint crossed during the Kint window",
+      "status.cycle_too_short": "Cycle too short",
+      "status.cycle_gap_detected": "Cycle too long",
+      "status.setpoint_changed_during_cycle": "Setpoint changed during the cycle",
+      "status.continuous_kext_setpoint_changed": "Setpoint changed during the cycle",
+      "status.consigne_changed": "Setpoint changed during the cycle",
+      "status.not_heating_or_cooling": "Neither heating nor cooling",
+      "status.cooling_down_naturally": "Room cooling down by itself",
+      "status.warming_up_naturally": "Room warming up by itself",
+      "status.anomalous_overheating": "Above the setpoint without heating",
+      "status.anomalous_overcooling": "Below the setpoint without cooling",
+      "status.cycle_interrupted_by_overpowering": "Cycle limited by power shedding",
+      "status.central_boiler_off": "Central boiler off",
+      "status.heating_failure_detected": "Heating failure detected",
+      "status.startup_cycle": "First cycle after a stop",
+      "status.target_temp_is_zero": "No setpoint",
+      "status.gap_out_too_small": "Outdoor temperature too close to the setpoint",
+      "status.continuous_kext_not_bootstrapped": "Continuous Kext waits for a first session",
+      "status.prefix.power_out_of_range": "Power saturated {value}",
+      "status.prefix.outdoor_delta_too_small": "Outdoor temperature too close to the setpoint {value}",
+      "status.prefix.gap_too_large_for_outdoor": "Gap too large for Kext {value}",
+      "status.prefix.no_learning_possible": "Nothing to learn {value}",
+      "actions.resume": "Resume learning",
+      "actions.resume.confirm": "Resume the Auto TPI session with the current learning data?",
+      "actions.start": "Start a new session",
+      "actions.start.confirm": "Start a new Auto TPI session from the configured coefficients? The current learning data is reset.",
+      "actions.stop": "Stop learning",
+      "actions.stop.confirm": "Stop the Auto TPI session? The coefficients learned so far stay in use until the next session."
+    }
+  },
+  "sections": [
+    {
+      "id": "overview",
+      "title_key": "sections.overview.title",
+      "icon": "mdi:sine-wave",
+      "summary_key": "sections.overview.summary",
+      "items": [
+        {
+          "type": "hero_status",
+          "title_key": "hero.title",
+          "subtitle_key": "hero.subtitle",
+          "icon": "mdi:sine-wave",
+          "tone": "info"
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 260,
+          "items": [
+            {
+              "type": "metric_grid",
+              "title_key": "groups.power",
+              "metrics": [
+                {
+                  "label_key": "metrics.on_percent",
+                  "source": "climate",
+                  "path": "on_percent",
+                  "format": "number",
+                  "value_multiplier": 100,
+                  "digits": 0,
+                  "unit": "%"
+                },
+                {
+                  "label_key": "metrics.power_percent",
+                  "source": "climate",
+                  "path": "power_percent",
+                  "format": "number",
+                  "digits": 0,
+                  "unit": "%"
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "title_key": "groups.coefficients",
+              "visible_if": {
+                "var": "climate/vtherm_over_switch/tpi_coef_int"
+              },
+              "metrics": [
+                {
+                  "label_key": "metrics.kint",
+                  "source": "climate",
+                  "path": "vtherm_over_switch/tpi_coef_int",
+                  "format": "number",
+                  "digits": 3
+                },
+                {
+                  "label_key": "metrics.kext",
+                  "source": "climate",
+                  "path": "vtherm_over_switch/tpi_coef_ext",
+                  "format": "number",
+                  "digits": 4
+                },
+                {
+                  "label_key": "metrics.threshold_low",
+                  "source": "climate",
+                  "path": "vtherm_over_switch/tpi_threshold_low",
+                  "format": "number",
+                  "digits": 1,
+                  "unit": "°C"
+                },
+                {
+                  "label_key": "metrics.threshold_high",
+                  "source": "climate",
+                  "path": "vtherm_over_switch/tpi_threshold_high",
+                  "format": "number",
+                  "digits": 1,
+                  "unit": "°C"
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "title_key": "groups.coefficients",
+              "visible_if": {
+                "var": "climate/vtherm_over_valve/tpi_coef_int"
+              },
+              "metrics": [
+                {
+                  "label_key": "metrics.kint",
+                  "source": "climate",
+                  "path": "vtherm_over_valve/tpi_coef_int",
+                  "format": "number",
+                  "digits": 3
+                },
+                {
+                  "label_key": "metrics.kext",
+                  "source": "climate",
+                  "path": "vtherm_over_valve/tpi_coef_ext",
+                  "format": "number",
+                  "digits": 4
+                },
+                {
+                  "label_key": "metrics.threshold_low",
+                  "source": "climate",
+                  "path": "vtherm_over_valve/tpi_threshold_low",
+                  "format": "number",
+                  "digits": 1,
+                  "unit": "°C"
+                },
+                {
+                  "label_key": "metrics.threshold_high",
+                  "source": "climate",
+                  "path": "vtherm_over_valve/tpi_threshold_high",
+                  "format": "number",
+                  "digits": 1,
+                  "unit": "°C"
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "title_key": "groups.coefficients",
+              "visible_if": {
+                "var": "climate/vtherm_over_climate_valve/valve_regulation/tpi_coef_int"
+              },
+              "metrics": [
+                {
+                  "label_key": "metrics.kint",
+                  "source": "climate",
+                  "path": "vtherm_over_climate_valve/valve_regulation/tpi_coef_int",
+                  "format": "number",
+                  "digits": 3
+                },
+                {
+                  "label_key": "metrics.kext",
+                  "source": "climate",
+                  "path": "vtherm_over_climate_valve/valve_regulation/tpi_coef_ext",
+                  "format": "number",
+                  "digits": 4
+                },
+                {
+                  "label_key": "metrics.threshold_low",
+                  "source": "climate",
+                  "path": "vtherm_over_climate_valve/valve_regulation/tpi_threshold_low",
+                  "format": "number",
+                  "digits": 1,
+                  "unit": "°C"
+                },
+                {
+                  "label_key": "metrics.threshold_high",
+                  "source": "climate",
+                  "path": "vtherm_over_climate_valve/valve_regulation/tpi_threshold_high",
+                  "format": "number",
+                  "digits": 1,
+                  "unit": "°C"
+                }
+              ]
+            },
+            {
+              "type": "metric_grid",
+              "title_key": "groups.settings",
+              "metrics": [
+                {
+                  "label_key": "metrics.cycle",
+                  "source": "climate",
+                  "path": "configuration/cycle_min",
+                  "format": "number",
+                  "digits": 0,
+                  "unit_key": "units.min"
+                },
+                {
+                  "label_key": "metrics.min_activation",
+                  "source": "climate",
+                  "path": "configuration/minimal_activation_delay_sec",
+                  "format": "number",
+                  "digits": 0,
+                  "unit_key": "units.s"
+                },
+                {
+                  "label_key": "metrics.min_deactivation",
+                  "source": "climate",
+                  "path": "configuration/minimal_deactivation_delay_sec",
+                  "format": "number",
+                  "digits": 0,
+                  "unit_key": "units.s"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "history",
+          "title_key": "graphs.overview",
+          "range": "24h",
+          "series": [
+            {
+              "entity": "$climate_entity",
+              "attribute": "current_temperature",
+              "label_key": "graphs.temperature",
+              "unit": "°C",
+              "scale_group": "temperature"
+            },
+            {
+              "entity": "$climate_entity",
+              "attribute": "temperature",
+              "label_key": "graphs.setpoint",
+              "unit": "°C",
+              "scale_group": "temperature"
+            },
+            {
+              "entity": "$climate_entity",
+              "attribute": "power_percent",
+              "label_key": "graphs.power",
+              "unit": "%",
+              "scale_group": "power"
+            }
+          ],
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "learning",
+      "title_key": "sections.learning.title",
+      "icon": "mdi:brain",
+      "summary_key": "sections.learning.summary",
+      "items": [
+        {
+          "type": "section_note",
+          "text_key": "learning.not_enabled",
+          "tone": "info",
+          "icon": "mdi:information-outline",
+          "visible_if": {
+            "!": {
+              "var": "diagnostic/entity_id"
+            }
+          }
+        },
+        {
+          "type": "layout_grid",
+          "min_width": 240,
+          "visible_if": {
+            "var": "diagnostic/entity_id"
+          },
+          "items": [
+            {
+              "type": "status",
+              "label_key": "learning.state",
+              "source": "diagnostic",
+              "path": "state",
+              "align": "center",
+              "map": {
+                "active": {
+                  "label_key": "learning.state.active",
+                  "tone": "ok",
+                  "icon": "mdi:school-outline"
+                },
+                "off": {
+                  "label_key": "learning.state.off",
+                  "tone": "muted",
+                  "icon": "mdi:pause-circle-outline"
+                }
+              },
+              "fallback": {
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "learning.continuous",
+              "source": "climate",
+              "path": "specific_states/auto_tpi_continuous_kext",
+              "align": "center",
+              "map": {
+                "on": {
+                  "label_key": "learning.continuous.on",
+                  "tone": "ok",
+                  "icon": "mdi:autorenew"
+                },
+                "off": {
+                  "label_key": "learning.continuous.off",
+                  "tone": "muted",
+                  "icon": "mdi:autorenew-off"
+                }
+              },
+              "fallback": {
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "learning.last_status",
+              "source": "diagnostic",
+              "path": "last_learning_status",
+              "map": {
+                "learned_indoor_heat": {
+                  "label_key": "status.learned_indoor_heat",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "learned_indoor_cool": {
+                  "label_key": "status.learned_indoor_cool",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "learned_outdoor_heat": {
+                  "label_key": "status.learned_outdoor_heat",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "learned_outdoor_cool": {
+                  "label_key": "status.learned_outdoor_cool",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "continuous_kext_learned_heat": {
+                  "label_key": "status.continuous_kext_learned_heat",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "continuous_kext_learned_cool": {
+                  "label_key": "status.continuous_kext_learned_cool",
+                  "tone": "ok",
+                  "icon": "mdi:check-circle-outline"
+                },
+                "learning_started": {
+                  "label_key": "status.learning_started",
+                  "tone": "info",
+                  "icon": "mdi:play-circle-outline"
+                },
+                "learning_resumed": {
+                  "label_key": "status.learning_resumed",
+                  "tone": "info",
+                  "icon": "mdi:play-circle-outline"
+                },
+                "learning_stopped": {
+                  "label_key": "status.learning_stopped",
+                  "tone": "muted",
+                  "icon": "mdi:stop-circle-outline"
+                },
+                "learning_disabled": {
+                  "label_key": "status.learning_disabled",
+                  "tone": "muted",
+                  "icon": "mdi:stop-circle-outline"
+                },
+                "kext_waiting_settling": {
+                  "label_key": "status.kext_waiting_settling",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "kint_window_crossed_setpoint": {
+                  "label_key": "status.kint_window_crossed_setpoint",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "cycle_too_short": {
+                  "label_key": "status.cycle_too_short",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "cycle_gap_detected": {
+                  "label_key": "status.cycle_gap_detected",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "setpoint_changed_during_cycle": {
+                  "label_key": "status.setpoint_changed_during_cycle",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "continuous_kext_setpoint_changed": {
+                  "label_key": "status.continuous_kext_setpoint_changed",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "consigne_changed": {
+                  "label_key": "status.consigne_changed",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "not_heating_or_cooling": {
+                  "label_key": "status.not_heating_or_cooling",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "cooling_down_naturally": {
+                  "label_key": "status.cooling_down_naturally",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "warming_up_naturally": {
+                  "label_key": "status.warming_up_naturally",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "startup_cycle": {
+                  "label_key": "status.startup_cycle",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "target_temp_is_zero": {
+                  "label_key": "status.target_temp_is_zero",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "gap_out_too_small": {
+                  "label_key": "status.gap_out_too_small",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "continuous_kext_not_bootstrapped": {
+                  "label_key": "status.continuous_kext_not_bootstrapped",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "anomalous_overheating": {
+                  "label_key": "status.anomalous_overheating",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "anomalous_overcooling": {
+                  "label_key": "status.anomalous_overcooling",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "cycle_interrupted_by_overpowering": {
+                  "label_key": "status.cycle_interrupted_by_overpowering",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "central_boiler_off": {
+                  "label_key": "status.central_boiler_off",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "heating_failure_detected": {
+                  "label_key": "status.heating_failure_detected",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                }
+              },
+              "prefix_map": {
+                "power_out_of_range": {
+                  "label_key": "status.prefix.power_out_of_range",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "outdoor_delta_too_small": {
+                  "label_key": "status.prefix.outdoor_delta_too_small",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "gap_too_large_for_outdoor": {
+                  "label_key": "status.prefix.gap_too_large_for_outdoor",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                },
+                "no_learning_possible": {
+                  "label_key": "status.prefix.no_learning_possible",
+                  "tone": "muted",
+                  "icon": "mdi:timer-sand"
+                }
+              },
+              "fallback": {
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "label_key": "learning.kint_windows",
+          "visible_if": {
+            "var": "diagnostic/entity_id"
+          },
+          "value": {
+            "source": "diagnostic",
+            "path": "coeff_int_cycles"
+          },
+          "target": 15,
+          "digits": 0
+        },
+        {
+          "type": "progress",
+          "label_key": "learning.kext_cycles",
+          "visible_if": {
+            "var": "diagnostic/entity_id"
+          },
+          "value": {
+            "source": "diagnostic",
+            "path": "coeff_ext_cycles"
+          },
+          "target": 50,
+          "digits": 0
+        },
+        {
+          "type": "metric_grid",
+          "visible_if": {
+            "var": "diagnostic/entity_id"
+          },
+          "metrics": [
+            {
+              "label_key": "learning.kint",
+              "source": "diagnostic",
+              "path": "calculated_coef_int",
+              "format": "number",
+              "digits": 3
+            },
+            {
+              "label_key": "learning.kext",
+              "source": "diagnostic",
+              "path": "calculated_coef_ext",
+              "format": "number",
+              "digits": 4
+            },
+            {
+              "label_key": "learning.confidence",
+              "source": "diagnostic",
+              "path": "model_confidence",
+              "format": "number",
+              "value_multiplier": 100,
+              "digits": 0,
+              "unit": "%"
+            },
+            {
+              "label_key": "learning.cycles",
+              "source": "diagnostic",
+              "path": "heating_cycles_count",
+              "format": "number",
+              "digits": 0
+            },
+            {
+              "label_key": "learning.start",
+              "source": "diagnostic",
+              "path": "learning_start_dt",
+              "format": "datetime"
+            }
+          ]
+        },
+        {
+          "type": "history",
+          "title_key": "learning.graph",
+          "range": "7d",
+          "visible_if": {
+            "var": "diagnostic/entity_id"
+          },
+          "series": [
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "calculated_coef_int",
+              "label_key": "metrics.kint",
+              "scale_group": "kint"
+            },
+            {
+              "entity": "$diagnostic_entity",
+              "attribute": "calculated_coef_ext",
+              "label_key": "metrics.kext",
+              "scale_group": "kext"
+            }
+          ],
+          "options": {
+            "tooltip": true,
+            "legend": true,
+            "scales": true,
+            "tools": false,
+            "date_picker": false,
+            "entity_picker": false,
+            "range_picker": false
+          }
+        },
+        {
+          "type": "section_note",
+          "text_key": "learning.help",
+          "tone": "info",
+          "icon": "mdi:information-outline",
+          "visible_if": {
+            "var": "diagnostic/entity_id"
+          }
+        }
+      ]
+    },
+    {
+      "id": "actions",
+      "title_key": "sections.actions.title",
+      "icon": "mdi:gesture-tap-button",
+      "summary_key": "sections.actions.summary",
+      "items": [
+        {
+          "type": "section_note",
+          "text_key": "learning.not_enabled",
+          "tone": "info",
+          "icon": "mdi:information-outline",
+          "visible_if": {
+            "!": {
+              "var": "diagnostic/entity_id"
+            }
+          }
+        },
+        {
+          "type": "action",
+          "id": "auto-tpi-resume",
+          "label_key": "actions.resume",
+          "icon": "mdi:play-circle-outline",
+          "service": "versatile_thermostat.set_auto_tpi_mode",
+          "target": {
+            "entity_id": "$climate_entity"
+          },
+          "data": {
+            "auto_tpi_mode": true,
+            "reinitialise": false
+          },
+          "visible_if": {
+            "and": [
+              {
+                "var": "diagnostic/entity_id"
+              },
+              {
+                "!=": [
+                  {
+                    "var": "diagnostic/state"
+                  },
+                  "active"
+                ]
+              }
+            ]
+          },
+          "confirmation": {
+            "enabled": true,
+            "text_key": "actions.resume.confirm"
+          }
+        },
+        {
+          "type": "action",
+          "id": "auto-tpi-start",
+          "label_key": "actions.start",
+          "icon": "mdi:restart",
+          "service": "versatile_thermostat.set_auto_tpi_mode",
+          "target": {
+            "entity_id": "$climate_entity"
+          },
+          "data": {
+            "auto_tpi_mode": true,
+            "reinitialise": true
+          },
+          "visible_if": {
+            "and": [
+              {
+                "var": "diagnostic/entity_id"
+              },
+              {
+                "!=": [
+                  {
+                    "var": "diagnostic/state"
+                  },
+                  "active"
+                ]
+              }
+            ]
+          },
+          "confirmation": {
+            "enabled": true,
+            "text_key": "actions.start.confirm"
+          }
+        },
+        {
+          "type": "action",
+          "id": "auto-tpi-stop",
+          "label_key": "actions.stop",
+          "icon": "mdi:stop-circle-outline",
+          "service": "versatile_thermostat.set_auto_tpi_mode",
+          "target": {
+            "entity_id": "$climate_entity"
+          },
+          "data": {
+            "auto_tpi_mode": false,
+            "reinitialise": false
+          },
+          "visible_if": {
+            "==": [
+              {
+                "var": "diagnostic/state"
+              },
+              "active"
+            ]
+          },
+          "confirmation": {
+            "enabled": true,
+            "text_key": "actions.stop.confirm"
+          }
+        }
+      ]
+    }
+  ]
+}

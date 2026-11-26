@@ -44,6 +44,7 @@ Built-in dashboards currently include:
 
 - `smartpi.json` — Smart PI regulation dashboard with eight sections covering the current regulation state, command, target approach, learned model, room model, learning, protections, and maintenance actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
+- `tpi.json` — Versatile Thermostat TPI regulation: requested and applied power, coefficients and thresholds in use, temperature and power history, Auto TPI learning (state, Kint windows and Kext cycles progress, learned coefficients and their history, last cycle result) and actions to resume, restart or stop the learning through `versatile_thermostat.set_auto_tpi_mode`. The Auto TPI part reads the learning sensor that Versatile Thermostat publishes as `specific_states.regulation_diagnostics`; without it, only the regulation summary is shown.
 
 ### Built-in SmartPI dashboard
 
