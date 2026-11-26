@@ -4,6 +4,7 @@ All notable changes to Equinox will be documented in this file.
 
 ## 0.5.0-dev
 
+- Follow SmartPI 1.0: the room model is observation only. Command no longer shows the wall part of the holding power (value and curve), and the holding source is always the learned model. The room model tab shows whether the regulation uses it (no, observation only) and its notes no longer say it supplies the holding power.
 - SmartPI 1.0 stage 6: the emitter lag tab is gone (SmartPI no longer publishes `tar_learning`). The room model tab shows the quiet periods (count, why none can be found, start, end and regulated start of the last one), the hours of recorded history and why the recorded data are currently excluded. Model and prediction shows the response-model events awaiting confirmation (hidden at 0).
 - SmartPI 1.0 stage 5: Model and prediction shows one dead time after a start that follows the mode (its reliability and the last wait outcome too) instead of a heating and a cooling dead time; the dead time after a stop is gone, as is its note. The anticipation horizon source `dead time` reads Dead time after a start.
 - SmartPI 1.0 stage 4: Command shows the gain delay, where it comes from (dead time after a start) and the closed-loop time (λ) next to Kp, Ki and Ti. The emitter lag tab no longer shows the applied values SmartPI stopped publishing (dead time in force and used by the gains, its source, the gain reference, the limit on the learned emitter lag and its reason) nor their 7-day graph.

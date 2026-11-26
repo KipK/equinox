@@ -64,7 +64,7 @@ The existing section IDs remain valid for selection, desktop navigation and
 the mobile section menu.
 
 The built-in definition requires SmartPI diagnostic schema v2. It reads current
-controller data directly from `live/...` and its eighteen historical series from
+controller data directly from `live/...` and its seventeen historical series from
 `history/...`; it does not branch on SmartPI debug mode or reconstruct controller
 state. The only derived live metrics divide published loss by heating response
 to compare the models’ static holding-power ratios. Published `live/power/*_percent` values are already percentages.
@@ -99,7 +99,7 @@ ahead of time. Both use
 a 6-hour window. Applied power is an actuator command, not a measurement of
 delivered heat.
 
-The eighteen diagnostic Recorder series (SmartPI 1.0) are:
+The seventeen diagnostic Recorder series (SmartPI 1.0) are:
 
 - `history/temperature/indoor`
 - `history/temperature/anticipated`
@@ -114,26 +114,19 @@ The eighteen diagnostic Recorder series (SmartPI 1.0) are:
 - `history/model/b`
 - `history/model/effective_dead_time_s`
 - `history/feedforward/source` (text timeline)
-- `history/feedforward/wall_power_percent`
 - `history/room_model/a`
 - `history/room_model/b_eq`
 - `history/room_model/forecast_error_1h_c`
 - `history/room_model/forecast_error_12h_c`
 
-Command displays `live/feedforward/source` in French or English and
-`live/feedforward/wall_power_percent` in % of full power. A published room model
-supplies holding power in PWM heating: air and walls while tracking is reliable,
-static part only while tracking is not reliable, or the simple model without
-walls. Without a publication, in cooling or with a valve, the learned A/B model
-remains the source.
-A source change is absorbed by the integral rather than causing a command jump.
-The power history overlays the wall contribution with FF and PI on the same
-percentage axis. `history/feedforward/source` shares that graph’s group and is
-rendered by ha-better-history as a text ribbon, never a numeric curve. Recorder
-keeps the publisher’s plain English values; the French on-screen guide explains
-all four source values without changing the recorded data.
+Command displays `live/feedforward/source`, always the learned A/B model, in
+French or English. The holding power comes from that model in every mode; the
+room model is observation only. A source change is absorbed by the integral
+rather than causing a command jump. The power history overlays FF and PI on the
+same percentage axis. `history/feedforward/source` shares that graph's group and
+is rendered by ha-better-history as a text ribbon, never a numeric curve.
 
-The seven additional series are always published, with `null` for values not
+The six additional series are always published, with `null` for values not
 computed. Old recorded periods may lack them. No live values are substituted
 for missing history, and the applied power remains a command rather than a
 measurement of delivered heat.
@@ -141,8 +134,9 @@ measurement of delivered heat.
 #### Room model / Modèle de pièce
 
 The `room_model` section displays `live/room_model/status`, tracking, wall
-identification, last refusal, publication day, last identification day and
-observed sensor resolution. Known states and refusals have FR/EN explanations;
+identification, whether the regulation uses the model
+(`live/room_model/used_by_regulation`, always "no": observation only), last
+refusal, publication day, last identification day and observed sensor resolution. Known states and refusals have FR/EN explanations;
 future values remain visible with neutral styling. A rejected daily fit does
 not invalidate the parameters already published.
 
@@ -200,8 +194,7 @@ a measured speedup.
 `live/room_model/wall_extra_power_percent` is positive when walls absorb heat
 beyond their steady share and negative when they give heat back. It stays
 unavailable without identified walls, a precise sensor or reliable tracking.
-This estimate is distinct from the wall contribution actually included in the
-feedforward, shown in Command.
+It is an observation: the regulation does not use it.
 
 `vt-state.ts` reads calibration from schema v2 `live/control/phase` and
 `live/calibration/state`, compared without case.
@@ -300,7 +293,7 @@ prove a successful detection. Each retained outcome describes the last wait for
 that direction: `detected` is successful, `timeout` is a warning, and `aborted`
 is a neutral interruption after a power transition. Missing outcomes remain
 `--`; unknown codes remain visible with neutral styling. No countdown or timeout
-is inferred by Equinox. These live diagnostics are separate from the eighteen Recorder series,
+is inferred by Equinox. These live diagnostics are separate from the seventeen Recorder series,
 and an entity can leave them absent.
 
 Overview and Protections translate `I:OVERRIDE(guard_cut)` as **Thermal protection
@@ -334,7 +327,7 @@ The configuration and actual renderer methods are covered by
 documentation examples, anticipation values and horizon sources, missing/null/zero values,
 unknown enums, HEAT/COOL units, Ti, response model, calibration, detector waits/outcomes, early
 initial-learning collection and early publication, pause notices, the calibration
-notice in any letter case, thermal protection cuts, the eighteen Recorder paths, room-model ratios and
+notice in any letter case, thermal protection cuts, the seventeen Recorder paths, room-model ratios and
 forecast comparisons, quiet periods and data quality, source timelines and desktop/mobile
 selection templates. The reference fixture in
 `tests/fixtures/smartpi-diagnostics-paths.json` copies the published paths from

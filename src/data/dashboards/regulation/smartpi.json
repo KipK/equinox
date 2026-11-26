@@ -212,16 +212,11 @@
       "status.integral.guard_cut": "Coupure de protection thermique",
       "status.integral.guard_cut.description": "Le chauffage est coupé pour éviter une surchauffe. La reprise attend une baisse suffisante de température ; l'excès d'intégrale diminue pendant la coupure tout en conservant la correction utile.",
       "metrics.holding.source.0": "Modèle appris A/B",
-      "metrics.holding.source.1": "Modèle de pièce : air et murs",
-      "metrics.holding.source.2": "Modèle de pièce : part statique",
-      "metrics.holding.source.3": "Modèle de pièce simple",
       "metrics.holding.source": "Source de la puissance de maintien",
-      "metrics.holding.walls": "Part des murs dans le maintien",
-      "notes.holding": "Le modèle de pièce publié fournit le maintien en chauffage PWM. Avec des murs identifiés et un suivi fiable, il ajoute leur absorption de chaleur (+) ou déduit la chaleur rendue (−). Sinon, seule sa part statique est utilisée. Sans modèle publié, en froid ou avec une vanne, le modèle appris A/B fournit le maintien.",
-      "graphs.holding.walls": "Murs dans le maintien",
+      "notes.holding": "Le maintien vient du modèle appris A/B. Le modèle de pièce est observé seulement : il n’intervient pas dans la régulation.",
       "graphs.holding.source": "Source du maintien",
-      "notes.holding.timeline": "Le bandeau sous les courbes indique la source du maintien : « learned model » = modèle appris A/B ; « room model (air and walls) » = air et murs ; « room model (static part) » = part statique seule ; « room model (simple) » = modèle simple. La courbe des murs est en % de pleine puissance : positive à l’absorption, négative à la restitution.",
-      "notes.room.intro": "Ce modèle représente l’air, les murs et l’émetteur. Il est identifié chaque jour à partir des nuits enregistrées et fournit le maintien une fois publié. Les valeurs publiées restent en service si une nouvelle identification est refusée.",
+      "notes.holding.timeline": "Le bandeau sous les courbes indique la source du maintien : le modèle appris A/B.",
+      "notes.room.intro": "Ce modèle représente l’air, les murs et l’émetteur. Il est identifié chaque jour à partir des nuits enregistrées. Il est observé seulement : il ne fournit pas le maintien et n’intervient pas dans la régulation. Les valeurs publiées restent affichées si une nouvelle identification est refusée.",
       "metrics.room.status.0": "Apprentissage en cours",
       "metrics.room.status.1": "Modèle avec murs identifié",
       "metrics.room.status.2": "Modèle simple sans murs",
@@ -314,7 +309,7 @@
       "groups.room.accuracy.6h": "Justesse à 6 h",
       "groups.room.accuracy.12h": "Justesse à 12 h",
       "metrics.room.wall_power": "Puissance supplémentaire des murs",
-      "notes.room.wall_power": "En % de pleine puissance, au-delà de leur part stationnaire : positif quand les murs absorbent de la chaleur, négatif quand ils en rendent. Indisponible sans murs identifiés, sans sonde précise ou quand le suivi n’est pas fiable. La part effectivement incluse dans le maintien apparaît dans Commande.",
+      "notes.room.wall_power": "En % de pleine puissance, au-delà de leur part stationnaire : positif quand les murs absorbent de la chaleur, négatif quand ils en rendent. Indisponible sans murs identifiés, sans sonde précise ou quand le suivi n’est pas fiable.",
       "graphs.room.a": "Réponse a de la pièce",
       "graphs.room.b": "Pertes statiques b_eq de la pièce",
       "graphs.room.parameters": "Modèles appris et de pièce",
@@ -418,7 +413,10 @@
       "metrics.room.quiet_end": "Dernière période calme : fin",
       "metrics.room.quiet_regulated": "Régulation à la consigne basse depuis",
       "notes.room.quiet": "Les périodes calmes sont les plages sombres, à consigne constante et aux données valides, que le modèle de pièce utilise pour s’identifier. « -- » en régulation signifie que la pièce n’a jamais été régulée à sa consigne basse pendant la dernière période.",
-      "notes.room.data": "Une raison d’exclusion indique que les données courantes ne servent pas au modèle de pièce. « -- » signifie qu’aucune raison n’est fournie : les données sont valides."
+      "notes.room.data": "Une raison d’exclusion indique que les données courantes ne servent pas au modèle de pièce. « -- » signifie qu’aucune raison n’est fournie : les données sont valides.",
+      "metrics.room.used": "Utilisé par la régulation",
+      "metrics.room.used.true": "Oui",
+      "metrics.room.used.false": "Non (observation)"
     },
     "en": {
       "sections.overview.title": "Overview",
@@ -628,16 +626,11 @@
       "status.integral.guard_cut": "Thermal protection cut",
       "status.integral.guard_cut.description": "Heating is off to prevent overheating. It resumes after the temperature falls enough; excess integral decreases during the cut while retaining the useful correction.",
       "metrics.holding.source.0": "Learned A/B model",
-      "metrics.holding.source.1": "Room model: air and walls",
-      "metrics.holding.source.2": "Room model: static part",
-      "metrics.holding.source.3": "Simple room model",
       "metrics.holding.source": "Holding power source",
-      "metrics.holding.walls": "Wall part of holding power",
-      "notes.holding": "A published room model supplies holding power in PWM heating. With identified walls and reliable tracking, it adds their heat absorption (+) or subtracts the heat they give back (−). Otherwise, only its static part is used. Without a published model, in cooling or with a valve, the learned A/B model supplies holding power.",
-      "graphs.holding.walls": "Walls in holding power",
+      "notes.holding": "Holding power comes from the learned A/B model. The room model is observation only: it does not take part in the regulation.",
       "graphs.holding.source": "Holding source",
-      "notes.holding.timeline": "The ribbon below the curves shows the holding source: learned model, room model (air and walls), room model (static part), or room model (simple). The wall curve is in % of full power: positive when absorbing heat, negative when giving heat back.",
-      "notes.room.intro": "This model represents the air, walls and emitter. It is identified daily from recorded nights and supplies holding power once published. Published values remain in use if a new identification is refused.",
+      "notes.holding.timeline": "The ribbon below the curves shows the holding source: the learned A/B model.",
+      "notes.room.intro": "This model represents the air, walls and emitter. It is identified daily from recorded nights. It is observation only: it does not supply holding power and does not take part in the regulation. Published values remain displayed if a new identification is refused.",
       "metrics.room.status.0": "Learning",
       "metrics.room.status.1": "Model with walls identified",
       "metrics.room.status.2": "Simple model without walls",
@@ -730,7 +723,7 @@
       "groups.room.accuracy.6h": "Accuracy at 6 h",
       "groups.room.accuracy.12h": "Accuracy at 12 h",
       "metrics.room.wall_power": "Wall extra power",
-      "notes.room.wall_power": "In % of full power, beyond their steady share: positive when walls absorb heat, negative when they give heat back. Unavailable without identified walls, a precise sensor or reliable tracking. The share actually included in holding power is shown in Command.",
+      "notes.room.wall_power": "In % of full power, beyond their steady share: positive when walls absorb heat, negative when they give heat back. Unavailable without identified walls, a precise sensor or reliable tracking.",
       "graphs.room.a": "Room response a",
       "graphs.room.b": "Room static loss b_eq",
       "graphs.room.parameters": "Learned and room models",
@@ -834,7 +827,10 @@
       "metrics.room.quiet_end": "Last quiet period: end",
       "metrics.room.quiet_regulated": "Regulated at the low setpoint from",
       "notes.room.quiet": "Quiet periods are the dark spans, at a constant setpoint and with valid data, that the room model identifies itself from. \"--\" for the regulated start means the room never regulated at its low setpoint during the last period.",
-      "notes.room.data": "An exclusion reason means the data currently recorded are not used by the room model. \"--\" means no reason is given: the data are valid."
+      "notes.room.data": "An exclusion reason means the data currently recorded are not used by the room model. \"--\" means no reason is given: the data are valid.",
+      "metrics.room.used": "Used by the regulation",
+      "metrics.room.used.true": "Yes",
+      "metrics.room.used.false": "No (observation only)"
     }
   },
   "sections": [
@@ -1537,21 +1533,6 @@
                   "label_key": "metrics.holding.source.0",
                   "tone": "info",
                   "icon": "mdi:information-outline"
-                },
-                "room model (air and walls)": {
-                  "label_key": "metrics.holding.source.1",
-                  "tone": "ok",
-                  "icon": "mdi:information-outline"
-                },
-                "room model (static part)": {
-                  "label_key": "metrics.holding.source.2",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
-                },
-                "room model (simple)": {
-                  "label_key": "metrics.holding.source.3",
-                  "tone": "info",
-                  "icon": "mdi:information-outline"
                 }
               },
               "fallback": {
@@ -1560,14 +1541,6 @@
                 "icon": "mdi:help-circle-outline"
               },
               "fallback_show_value": true
-            },
-            {
-              "type": "value",
-              "source": "diagnostic",
-              "path": "live/feedforward/wall_power_percent",
-              "label_key": "metrics.holding.walls",
-              "digits": 1,
-              "unit": "%"
             }
           ]
         },
@@ -1677,13 +1650,6 @@
               "label_key": "graphs.command.ff",
               "unit": "%",
               "scale_group": "power"
-            },
-            {
-              "entity": "$diagnostic_entity",
-              "attribute": "history/feedforward/wall_power_percent",
-              "label_key": "graphs.holding.walls",
-              "scale_group": "power",
-              "unit": "%"
             },
             {
               "entity": "$diagnostic_entity",
@@ -2932,6 +2898,30 @@
                 "not identified: no better than the simple model": {
                   "label_key": "metrics.room.walls.4",
                   "tone": "muted",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "source": "diagnostic",
+              "path": "live/room_model/used_by_regulation",
+              "label_key": "metrics.room.used",
+              "map": {
+                "true": {
+                  "label_key": "metrics.room.used.true",
+                  "tone": "ok",
+                  "icon": "mdi:information-outline"
+                },
+                "false": {
+                  "label_key": "metrics.room.used.false",
+                  "tone": "info",
                   "icon": "mdi:information-outline"
                 }
               },

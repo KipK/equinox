@@ -3,7 +3,7 @@
   "source": {
     "repository": "vtherm_smartpi",
     "branch": "dev-1.0",
-    "revision": "8601041",
+    "revision": "f7ec453",
     "version": "1.0-dev",
     "live": "tests/fixtures/published_diagnostics_paths.json",
     "additional_live": [
@@ -104,7 +104,6 @@
     "feedforward.deadband_p_mode",
     "feedforward.deadband_power_source",
     "feedforward.source",
-    "feedforward.wall_power_percent",
     "governance",
     "governance.regime",
     "governance.thermal_update_decision",
@@ -209,6 +208,7 @@
     "room_model.unchanged_temperature_error_c.1h",
     "room_model.unchanged_temperature_error_c.2h",
     "room_model.unchanged_temperature_error_c.6h",
+    "room_model.used_by_regulation",
     "room_model.wall_extra_power_percent",
     "room_model.walls",
     "setpoint",
@@ -243,7 +243,6 @@
     "model/b",
     "model/effective_dead_time_s",
     "feedforward/source",
-    "feedforward/wall_power_percent",
     "room_model/a",
     "room_model/b_eq",
     "room_model/forecast_error_1h_c",

@@ -572,11 +572,11 @@ test("the learning block reason, the direct-start labels, the cut mode and the n
   assert.equal(templateText(renderer({ learning: { block_reason: null } })._renderItem(block)), "");
 });
 
-test("history covers all eighteen published Recorder paths and keeps compact approach graphs separate", () => {
+test("history covers all seventeen published Recorder paths and keeps compact approach graphs separate", () => {
   const histories = nodes.filter((entry) => entry.type === "history");
   const diagnosticPaths = new Set(histories.flatMap((entry) => entry.series).filter((entry) => entry.entity === "$diagnostic_entity").map((entry) => entry.attribute));
   assert.equal(published.source.version, "1.0-dev");
-  assert.equal(diagnosticPaths.size, 18);
+  assert.equal(diagnosticPaths.size, 17);
   assert.deepEqual(diagnosticPaths, new Set(published.history.map((path) => `history/${path}`)));
   const [thermal, command] = section("anticipation").items.filter((entry) => entry.type === "history");
   assert.equal(thermal.range, "6h");
@@ -735,37 +735,48 @@ test("room identification guidance handles learning, coarse sensors, unsupported
   }
 });
 
-test("feedforward uses all four published sources and preserves signed wall power with its history ribbon", () => {
+test("feedforward has one published source with its history ribbon and the wall power view is gone", () => {
   const current = sectionPath("command", "live/feedforward/source");
   const chart = section("command").items.find((item) => item.title_key === "graphs.command.title");
-  for (const source of ["learned model", "room model (air and walls)", "room model (static part)", "room model (simple)"]) {
-    const view = renderer({ feedforward: { source, wall_power_percent: -12.5 } });
-    for (const language of ["en", "fr"]) {
-      view.language = language;
-      const text = templateText(view._renderStatus(current));
-      assert.doesNotMatch(text, /--/);
-      if (language === "fr") assert.match(text, /Modèle/);
-      assert.equal(view._formatSourceValue(sectionPath("command", "live/feedforward/wall_power_percent")), "-12.5 %");
-      const config = view._betterHistoryConfig(chart);
-      const ribbon = config.series.find((item) => item.attribute?.join("/") === "history/feedforward/source");
-      assert.equal(ribbon.group, "power");
-      assert.equal(ribbon.unit, undefined);
-      assert.equal(ribbon.entity, "sensor.diag");
-      const powers = config.series.filter((item) => ["history/feedforward/wall_power_percent", "history/power/ff_percent", "history/power/pi_percent"].includes(item.attribute?.join("/")));
-      assert.equal(powers.length, 3);
-      assert.ok(powers.every((item) => item.group === ribbon.group && item.unit === "%"));
-    }
+  assert.deepEqual(Object.keys(current.map), ["learned model"]);
+  for (const language of ["en", "fr"]) {
+    const view = renderer({ feedforward: { source: "learned model" } });
+    view.language = language;
+    const text = templateText(view._renderStatus(current));
+    assert.doesNotMatch(text, /--/);
+    assert.match(text, language === "fr" ? /Modèle appris/ : /Learned A\/B model/);
+    const config = view._betterHistoryConfig(chart);
+    const ribbon = config.series.find((item) => item.attribute?.join("/") === "history/feedforward/source");
+    assert.equal(ribbon.group, "power");
+    assert.equal(ribbon.unit, undefined);
+    assert.equal(ribbon.entity, "sensor.diag");
+    const powers = config.series.filter((item) => ["history/power/ff_percent", "history/power/pi_percent"].includes(item.attribute?.join("/")));
+    assert.equal(powers.length, 2);
+    assert.ok(powers.every((item) => item.group === ribbon.group && item.unit === "%"));
   }
+  assert.doesNotMatch(JSON.stringify(dashboard), /feedforward\/wall_power_percent|room model \(/u);
   for (const value of [0, 12.5, -12.5, null, undefined]) {
-    const view = renderer({ room_model: { wall_extra_power_percent: value }, feedforward: { wall_power_percent: value } });
-    for (const item of [sectionPath("room_model", "live/room_model/wall_extra_power_percent"), sectionPath("command", "live/feedforward/wall_power_percent")]) {
-      assert.equal(view._formatSourceValue(item), value == null ? "--" : `${value.toFixed(1)} %`);
-    }
+    const view = renderer({ room_model: { wall_extra_power_percent: value } });
+    const item = sectionPath("room_model", "live/room_model/wall_extra_power_percent");
+    assert.equal(view._formatSourceValue(item), value == null ? "--" : `${value.toFixed(1)} %`);
   }
 });
 
+test("the room model group says it is observation only and stays neutral without the value", () => {
+  const used = sectionPath("room_model", "live/room_model/used_by_regulation");
+  assertPublished(used.path);
+  for (const [language, label, text] of [["fr", "Utilisé par la régulation", /Non \(observation\)/], ["en", "Used by the regulation", /No \(observation only\)/]]) {
+    const view = renderer({ room_model: { used_by_regulation: false } });
+    view.language = language;
+    assert.equal(translate(dashboard, language, used.label_key), label);
+    assert.match(templateText(view._renderStatus(used)), text);
+  }
+  const absent = renderer({ room_model: {} });
+  assert.match(templateText(absent._renderStatus(used)), /tone="?muted"?/);
+});
+
 test("absent 0.7 blocks, null scores and future enums stay unavailable or neutral", () => {
-  for (const live of [undefined, {}, { room_model: null, feedforward: { source: null, wall_power_percent: null } }]) {
+  for (const live of [undefined, {}, { room_model: null, feedforward: { source: null } }]) {
     const view = renderer(live);
     for (const id of ["room_model"]) {
       for (const item of walk(section(id))) {
