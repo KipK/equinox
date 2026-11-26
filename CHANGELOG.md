@@ -2,6 +2,10 @@
 
 All notable changes to Equinox will be documented in this file.
 
+## Unreleased
+
+- Add a built-in TPI regulation dashboard for Versatile Thermostat: power, coefficients and thresholds in use, temperature and power history, Auto TPI learning progress with learned coefficients and last cycle result, and actions to resume, restart or stop the learning. The Auto TPI part requires a Versatile Thermostat version that publishes its learning sensor as `specific_states.regulation_diagnostics`.
+
 ## 0.4.8
 
 - Update ha-better-history to 0.5.1 and Vite to 8.3.8: selected history targets show as compact chips again with Home Assistant 2026.9 and later, and closing a history picker inside a Home Assistant dialog no longer closes that dialog.
