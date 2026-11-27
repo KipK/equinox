@@ -37,6 +37,7 @@ import type {
 import type { EquinoxViewModel } from "../types/view-model";
 
 const VALUE_FALLBACK = "--";
+const HISTORY_START_MARGIN_HOURS = 1;
 const DESTRUCTIVE_ACTION_SERVICES = new Set([
   "vtherm_smartpi.reset_smartpi_learning",
   "vtherm_smartpi.force_smartpi_calibration",
@@ -875,7 +876,7 @@ export class EquinoxRegulationRenderer extends LitElement {
 
     const options = item.options ?? {};
     const config: BetterHistoryConfig = {
-      hours: this._historyRangeHours(item.range),
+      hours: this._historyHours(item),
       showDatePicker: options.date_picker ?? false,
       showEntityPicker: options.entity_picker ?? false,
       showLegend: options.legend ?? true,
@@ -897,7 +898,7 @@ export class EquinoxRegulationRenderer extends LitElement {
 
   private _betterHistorySeries(series: RegulationDashboardHistorySeries): NonNullable<BetterHistoryConfig["series"]> {
     const entity = this._resolveHistoryEntity(series.entity);
-    if (!entity) return [];
+    if (!entity) return series.fallback ? this._betterHistorySeries(series.fallback) : [];
 
     return [
       {
@@ -927,6 +928,26 @@ export class EquinoxRegulationRenderer extends LitElement {
       default:
         return entity;
     }
+  }
+
+  /** Hours shown by a history graph: from its start value when available, otherwise its range. */
+  private _historyHours(item: RegulationDashboardHistoryItem): number {
+    const startMs = this._historyStartMs(item);
+    if (startMs === undefined) return this._historyRangeHours(item.range);
+
+    // The rolling range is recomputed every hour (see the cache key): one hour of
+    // margin keeps the start inside the graph until the next recomputation.
+    const hours = (Date.now() - startMs) / 3_600_000 + HISTORY_START_MARGIN_HOURS;
+    const maxHours = item.max_range ? this._historyRangeHours(item.max_range) : undefined;
+    return maxHours === undefined ? hours : Math.min(hours, maxHours);
+  }
+
+  private _historyStartMs(item: RegulationDashboardHistoryItem): number | undefined {
+    if (!item.start) return undefined;
+
+    const value = readRegulationSourceValue(this._context(), item.start.source, item.start.path);
+    const startMs = typeof value === "string" || typeof value === "number" ? new Date(value).getTime() : Number.NaN;
+    return Number.isFinite(startMs) && startMs < Date.now() ? startMs : undefined;
   }
 
   private _historyRangeHours(range: string | undefined): number {
@@ -967,6 +988,8 @@ export class EquinoxRegulationRenderer extends LitElement {
       power: this.config?.power_entity ?? "",
       humidity: this.config?.humidity_entity ?? "",
       temperature: this.config?.temperature_entity ?? "",
+      start: this._historyStartMs(item) ?? null,
+      hour: item.start ? Math.floor(Date.now() / 3_600_000) : null,
       item
     });
   }

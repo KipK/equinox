@@ -44,7 +44,7 @@ Built-in dashboards currently include:
 
 - `smartpi.json` — Smart PI regulation dashboard with eight sections covering the current regulation state, command, target approach, learned model, room model, learning, protections, and maintenance actions.
 - `hysteresis.json` — Hysteresis heat/cool overview using diagnostics published under `specific_states.hysteresis`, including active state, requested power, decision reason, activation/deactivation thresholds, and configured deltas.
-- `tpi.json` — Versatile Thermostat TPI regulation: requested and applied power, coefficients and thresholds in use, temperature and power history, Auto TPI learning (state, Kint windows and Kext cycles progress, learned coefficients and their history, last cycle result) and actions to resume, restart or stop the learning through `versatile_thermostat.set_auto_tpi_mode`. The Auto TPI part reads the learning sensor that Versatile Thermostat publishes as `specific_states.regulation_diagnostics`; without it, only the regulation summary is shown.
+- `tpi.json` — Versatile Thermostat TPI regulation: requested and applied power, coefficients and thresholds in use, temperature and power history, Auto TPI learning (state, Kint windows and Kext cycles progress, last cycle result, and a graph of the learning session from its start with room temperature, setpoint and learned coefficients; the room temperature comes from `temperature_entity` when it is set, otherwise from the thermostat) and actions to resume, restart or stop the learning through `versatile_thermostat.set_auto_tpi_mode`. The Auto TPI part reads the learning sensor that Versatile Thermostat publishes as `specific_states.regulation_diagnostics`; without it, only the regulation summary is shown.
 
 ### Built-in SmartPI dashboard
 
@@ -1064,6 +1064,8 @@ Fields:
 | `type` | yes | `"history"` | |
 | `title`, `title_key` | no | string | Graph title. |
 | `range` | no | string | `h`, `d`, or `w`, for example `12h`, `2d`, `1w`. Defaults to `24h`. |
+| `start` | no | object | Value reference (`source`, `path`) to a date. When it holds a past date, the graph starts there (with one hour of margin) instead of using `range`. |
+| `max_range` | no | string | Longest range shown when `start` is used, in the same format as `range`. |
 | `series` | yes | array | One or more series. If all series resolve to missing entities, the graph is replaced by a source-missing note. |
 | `options` | no | object | Graph control visibility. |
 
@@ -1077,6 +1079,7 @@ Series fields:
 | `unit`, `unit_key` | no | string | Series unit. |
 | `scale_group` | no | string | Shared scale group passed to `ha-better-history`. |
 | `color` | no | string | CSS color. |
+| `fallback` | no | object | Series used instead when `entity` resolves to no entity, for example `$temperature_entity` without `config.temperature_entity`. |
 
 Entity tokens:
 
