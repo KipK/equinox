@@ -114,3 +114,25 @@ test("coefficients in use are read from the attribute block of the thermostat ty
   const view = renderer(activeDiagnostic);
   assert.deepEqual(grids.map((grid) => view._conditionMatches(grid.visible_if)), [true, false, false]);
 });
+
+test("the learning graph shows temperatures and coefficients from the session start", () => {
+  const graph = section("learning").items.find((entry) => entry.type === "history");
+  const hoursAgo = (hours) => new Date(Date.now() - hours * 3_600_000).toISOString();
+  const withStart = (start) => ({ ...activeDiagnostic, attributes: { ...activeDiagnostic.attributes, learning_start_dt: start } });
+
+  const fromClimate = renderer(withStart(hoursAgo(50)))._betterHistoryConfig(graph);
+  assert.deepEqual(fromClimate.series.map((series) => [series.entity, series.attribute]), [
+    ["climate.test", ["current_temperature"]],
+    ["climate.test", ["temperature"]],
+    ["sensor.test_auto_tpi_learning_state", ["calculated_coef_int"]],
+    ["sensor.test_auto_tpi_learning_state", ["calculated_coef_ext"]]
+  ]);
+  assert.ok(Math.abs(fromClimate.hours - 51) < 0.01);
+
+  const withSensor = renderer(withStart(hoursAgo(50)));
+  withSensor.config = { entity: "climate.test", temperature_entity: "sensor.room_temperature" };
+  assert.deepEqual([withSensor._betterHistoryConfig(graph).series[0].entity, withSensor._betterHistoryConfig(graph).series[0].attribute], ["sensor.room_temperature", undefined]);
+
+  assert.equal(renderer(activeDiagnostic)._betterHistoryConfig(graph).hours, 7 * 24);
+  assert.equal(renderer(withStart(hoursAgo(60 * 24)))._betterHistoryConfig(graph).hours, 30 * 24);
+});

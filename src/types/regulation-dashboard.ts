@@ -179,6 +179,8 @@ export interface RegulationDashboardHistoryItem extends RegulationDashboardBaseI
   title?: string;
   title_key?: string;
   range?: string;
+  start?: RegulationDashboardValueRef;
+  max_range?: string;
   series: RegulationDashboardHistorySeries[];
   options?: RegulationDashboardHistoryOptions;
 }
@@ -190,6 +192,7 @@ export interface RegulationDashboardHistorySeries extends RegulationDashboardLab
   unit_key?: string;
   scale_group?: string;
   color?: string;
+  fallback?: RegulationDashboardHistorySeries;
 }
 
 export type RegulationDashboardEntityToken =

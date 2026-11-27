@@ -48,7 +48,7 @@
       "learning.cycles": "Cycles observés",
       "learning.start": "Début de session",
       "learning.last_status": "Dernier cycle",
-      "learning.graph": "Coefficients appris",
+      "learning.graph": "Session d'apprentissage",
       "learning.help": "Kint est ajusté sur des fenêtres de montée de 10 à 30 minutes, selon la vitesse de montée, quand la pièce est à au moins 0,3 °C sous la consigne. Kext est ajusté une fois la pièce stabilisée près de la consigne. La session se termine après 15 fenêtres Kint et 50 cycles Kext ; les coefficients sont alors enregistrés dans la configuration.",
       "status.learning_started": "Apprentissage démarré",
       "status.learning_resumed": "Apprentissage repris",
@@ -133,7 +133,7 @@
       "learning.cycles": "Observed cycles",
       "learning.start": "Session start",
       "learning.last_status": "Last cycle",
-      "learning.graph": "Learned coefficients",
+      "learning.graph": "Learning session",
       "learning.help": "Kint is adjusted over rise windows of 10 to 30 minutes, sized from the rise speed, when the room is at least 0.3 °C below the setpoint. Kext is adjusted once the room has settled near the setpoint. The session ends after 15 Kint windows and 50 Kext cycles; the coefficients are then saved to the configuration.",
       "status.learning_started": "Learning started",
       "status.learning_resumed": "Learning resumed",
@@ -733,10 +733,35 @@
           "type": "history",
           "title_key": "learning.graph",
           "range": "7d",
+          "start": {
+            "source": "diagnostic",
+            "path": "learning_start_dt"
+          },
+          "max_range": "30d",
           "visible_if": {
             "var": "diagnostic/entity_id"
           },
           "series": [
+            {
+              "entity": "$temperature_entity",
+              "label_key": "graphs.temperature",
+              "unit": "°C",
+              "scale_group": "temperature",
+              "fallback": {
+                "entity": "$climate_entity",
+                "attribute": "current_temperature",
+                "label_key": "graphs.temperature",
+                "unit": "°C",
+                "scale_group": "temperature"
+              }
+            },
+            {
+              "entity": "$climate_entity",
+              "attribute": "temperature",
+              "label_key": "graphs.setpoint",
+              "unit": "°C",
+              "scale_group": "temperature"
+            },
             {
               "entity": "$diagnostic_entity",
               "attribute": "calculated_coef_int",
