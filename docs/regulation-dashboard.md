@@ -134,6 +134,9 @@ measurement of delivered heat.
 
 #### Room model / Modèle de pièce
 
+The tab opens with a warning note: the room model is experimental and for
+observation only; its values are for study and do not drive the heating.
+
 The `room_model` section displays `live/room_model/status`, tracking, wall
 identification, whether the regulation uses the model
 (`live/room_model/used_by_regulation`, always "no": observation only), last

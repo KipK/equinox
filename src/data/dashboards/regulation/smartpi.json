@@ -216,6 +216,7 @@
       "notes.holding": "Le maintien vient du modèle appris A/B. Le modèle de pièce est observé seulement : il n’intervient pas dans la régulation.",
       "graphs.holding.source": "Source du maintien",
       "notes.holding.timeline": "Le bandeau sous les courbes indique la source du maintien : le modèle appris A/B.",
+      "notes.room.experimental": "Expérimental : le modèle de pièce est en observation seulement. Ses valeurs servent à l’étude et ne pilotent pas le chauffage.",
       "notes.room.intro": "Ce modèle représente l’air, les murs et l’émetteur. Il est identifié chaque jour à partir des nuits enregistrées. Il est observé seulement : il ne fournit pas le maintien et n’intervient pas dans la régulation. Les valeurs publiées restent affichées si une nouvelle identification est refusée.",
       "metrics.room.status.0": "Apprentissage en cours",
       "metrics.room.status.1": "Modèle avec murs identifié",
@@ -630,6 +631,7 @@
       "notes.holding": "Holding power comes from the learned A/B model. The room model is observation only: it does not take part in the regulation.",
       "graphs.holding.source": "Holding source",
       "notes.holding.timeline": "The ribbon below the curves shows the holding source: the learned A/B model.",
+      "notes.room.experimental": "Experimental: the room model is for observation only. Its values are for study and do not drive the heating.",
       "notes.room.intro": "This model represents the air, walls and emitter. It is identified daily from recorded nights. It is observation only: it does not supply holding power and does not take part in the regulation. Published values remain displayed if a new identification is refused.",
       "metrics.room.status.0": "Learning",
       "metrics.room.status.1": "Model with walls identified",
@@ -2676,6 +2678,12 @@
       "title_key": "sections.room_model.title",
       "icon": "mdi:home-thermometer-outline",
       "items": [
+        {
+          "type": "section_note",
+          "text_key": "notes.room.experimental",
+          "tone": "warning",
+          "icon": "mdi:flask-outline"
+        },
         {
           "type": "section_note",
           "text_key": "notes.room.intro",
