@@ -2,7 +2,7 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## Unreleased
+## 0.4.9
 
 - Add a built-in TPI regulation dashboard for Versatile Thermostat: power, coefficients and thresholds in use, temperature and power history, Auto TPI learning progress, last cycle result and a graph of the learning session from its start (room temperature, setpoint, learned coefficients), and actions to resume, restart or stop the learning. The Auto TPI part requires a Versatile Thermostat version that publishes its learning sensor as `specific_states.regulation_diagnostics`.
 - Regulation dashboards: a `history` graph can start at a date read from a value (`start`, capped by `max_range`), and a series can name a `fallback` series used when its entity is not configured.
