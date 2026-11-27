@@ -2,10 +2,8 @@
 
 All notable changes to Equinox will be documented in this file.
 
-## 0.5.0-dev
+## 0.5.0-rc.1
 
-- Add a built-in TPI regulation dashboard for Versatile Thermostat: power, coefficients and thresholds in use, temperature and power history, Auto TPI learning progress, last cycle result and a graph of the learning session from its start (room temperature, setpoint, learned coefficients), and actions to resume, restart or stop the learning. The Auto TPI part requires a Versatile Thermostat version that publishes its learning sensor as `specific_states.regulation_diagnostics`.
-- Regulation dashboards: a `history` graph can start at a date read from a value (`start`, capped by `max_range`), and a series can name a `fallback` series used when its entity is not configured.
 - Follow SmartPI 1.0: the room model is observation only. Command no longer shows the wall part of the holding power (value and curve), and the holding source is always the learned model. The room model tab shows whether the regulation uses it (no, observation only) and its notes no longer say it supplies the holding power.
 - SmartPI 1.0 stage 6: the emitter lag tab is gone (SmartPI no longer publishes `tar_learning`). The room model tab shows the quiet periods (count, why none can be found, start, end and regulated start of the last one), the hours of recorded history and why the recorded data are currently excluded. Model and prediction shows the response-model events awaiting confirmation (hidden at 0).
 - SmartPI 1.0 stage 5: Model and prediction shows one dead time after a start that follows the mode (its reliability and the last wait outcome too) instead of a heating and a cooling dead time; the dead time after a stop is gone, as is its note. The anticipation horizon source `dead time` reads Dead time after a start.
@@ -13,9 +11,7 @@ All notable changes to Equinox will be documented in this file.
 - SmartPI 1.0 stage 3: the Heating balance group is gone (SmartPI no longer publishes it). The anticipation horizon source reads Response model, Target approach and Protections explain the anticipation horizon and the calibration corrections accordingly (only the heating rate is corrected; the horizon in use is the response model one), and Protections shows where the near band comes from, including No response model.
 - Fix "Smart PI calibration active" shown on every SmartPI 1.0 thermostat: the calibration state is compared without case, and only the `Calibration` phase or a state other than `idle` counts as a running calibration.
 - SmartPI 1.0: Protections shows the calibration by pulses (state, pulses, result, last request, reading against the values in use, corrections) and the regulation mode with the heating cut above the setpoint; the automatic calibration rows are gone. Model and prediction shows the response model (dead time, response time constant, effective dead time and its 7-day history, prediction error, source, confidence) next to the dead times; the emitter lag on constant-power phases is gone from Learning. Learning shows why the learning is blocked. The direct-start labels (measurement pulses) and the new integral hold sources are translated in French and English.
-- Add a Schedule menu entry when the ha-chauffage integration is set up. It opens the ha-chauffage schedule card for the card's thermostat in a dialog, with its weeks, slots, overrides and access levels. A new `show_schedule` option hides it.
 - SmartPI 1.0: the dashboard no longer shows what SmartPI 1.0 removed: the feed-forward correction FF3 and its thermal twin, the slow feed-forward trim (FFTrim) and its Equilibrium / FFTrim section, and the time-to-setpoint estimate. Overview and Model and prediction lose the matching statuses; the Room model and Emitter lag tabs are unchanged.
-- Fix the Liquid Glow border glow disappearing with themes that set `ha-card-border-width` to a bare `0` (no unit) since 0.4.5. The card now normalizes the theme border width before using it in the glow position.
 - SmartPI: the dashboard uses two names only, dead time (the time before the room temperature first moves after a command) and emitter lag (the mean time the commanded heat takes to arrive in the room), in French and English. The initial dead time measurement says dead time; the response and morning/refined learning values say emitter lag.
 - SmartPI: follow the slope anticipation that replaces the setpoint trajectory, in heating and cooling. Target approach shows the anticipation correction in °C, the horizon in use and where it comes from (heating balance, dead times or none) and the anticipated temperature, in French and English; its temperature graph plots the measured temperature, the anticipated temperature and the thermostat setpoint. Overview plots the thermostat setpoint. The trajectory, filtered setpoint and braking indicators, their history series and the matching FF3 and FFTrim states are gone from the dashboard.
 - Emitter lag: the text for a morning not confirmed reads "less than 1.5 hours" at the low setpoint.
@@ -26,6 +22,20 @@ All notable changes to Equinox will be documented in this file.
 - Show the feedforward holding source and wall contribution in Command, with a source timeline and wall power overlaid on FF/PI history.
 - Cover the SmartPI Recorder series, adding room coefficient/forecast-error. Keep live-only forecasts, reference scores and evaluation details out of historical curves.
 - Add safe live coefficient ratios in % of full power per °C and physical unit metadata for the new recorded attributes. Document remaining historical series requests.
+
+## 0.4.9
+
+- Add a built-in TPI regulation dashboard for Versatile Thermostat: power, coefficients and thresholds in use, temperature and power history, Auto TPI learning progress, last cycle result and a graph of the learning session from its start (room temperature, setpoint, learned coefficients), and actions to resume, restart or stop the learning. The Auto TPI part requires a Versatile Thermostat version that publishes its learning sensor as `specific_states.regulation_diagnostics`.
+- Regulation dashboards: a `history` graph can start at a date read from a value (`start`, capped by `max_range`), and a series can name a `fallback` series used when its entity is not configured.
+
+## 0.4.8
+
+- Update ha-better-history to 0.5.1 and Vite to 8.3.8: selected history targets show as compact chips again with Home Assistant 2026.9 and later, and closing a history picker inside a Home Assistant dialog no longer closes that dialog.
+- Fix the Liquid Glow border glow disappearing with themes that set `ha-card-border-width` to a bare `0` (no unit) since 0.4.5. The card now normalizes the theme border width before using it in the glow position.
+
+## 0.4.7
+
+- Add a Schedule menu entry when the ha-chauffage integration is set up. It opens the ha-chauffage schedule card for the card's thermostat in a dialog, with its weeks, slots, overrides and access levels. A new `show_schedule` option hides it.
 
 ## 0.4.6
 
