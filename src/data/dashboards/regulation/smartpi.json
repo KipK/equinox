@@ -347,7 +347,6 @@
       "status.calibration.request.learning_stage": "Refusée : apprentissage initial en cours",
       "status.calibration.request.paused": "Refusée : apprentissage en pause",
       "status.calibration.request.off": "Refusée : thermostat éteint",
-      "status.calibration.request.too_soon": "Refusée : moins de 24 h après la dernière calibration",
       "status.calibration.request.in_progress": "Ignorée : une calibration est en cours",
       "metrics.calibration_pulses": "Impulsions effectuées",
       "metrics.calibration_reading_a": "Vitesse de chauffe lue",
@@ -359,7 +358,23 @@
       "metrics.calibration_corrected": "Corrigé par la calibration",
       "status.calibration.corrected.none": "Rien n'a été corrigé",
       "status.calibration.corrected.heating_rate": "Vitesse de chauffe",
-      "notes.health.calibration": "Une calibration ne se lance que sur demande. Ses impulsions lisent la vitesse de chauffe, le coefficient de pertes et le retard de l'émetteur ; dès que deux lectures concordent, la vitesse de chauffe n'est corrigée que si la valeur en usage s'en écarte de plus de 30 %. Le coefficient de pertes et le retard de l'émetteur sont lus, jamais corrigés ; l'horizon d'anticipation en usage est celui du modèle de réponse.",
+      "metrics.calibration_origin": "Origine",
+      "status.calibration.origin.automatic": "Automatique",
+      "status.calibration.origin.requested": "Demandée",
+      "metrics.calibration_automatic_status": "Calibration automatique",
+      "status.calibration.automatic.not_needed": "Pas nécessaire",
+      "status.calibration.automatic.waiting_days": "En attente : 3 jours après la mise à jour",
+      "status.calibration.automatic.waiting_night": "En attente d'une nuit calme",
+      "status.calibration.automatic.in_progress": "En cours",
+      "status.calibration.automatic.attempts_used": "Tentatives épuisées",
+      "status.calibration.automatic.home_unknown": "Position du domicile inconnue",
+      "metrics.calibration_interruption": "Première interruption",
+      "metrics.calibration_interruption_time": "Heure de l'interruption",
+      "status.calibration.interruption.setpoint": "Consigne modifiée",
+      "status.calibration.interruption.stopped": "Thermostat arrêté",
+      "status.calibration.interruption.mode": "Changement de mode",
+      "status.calibration.interruption.paused": "Apprentissage en pause",
+      "notes.health.calibration": "Une calibration automatique se lance après une mise à jour ; une notification explique une calibration échouée ou interrompue, et une calibration demandée peut être relancée aussitôt. Ses impulsions lisent la vitesse de chauffe, le coefficient de pertes et le retard de l'émetteur ; dès que deux lectures concordent, la vitesse de chauffe n'est corrigée que si la valeur en usage s'en écarte de plus de 30 %. Le coefficient de pertes et le retard de l'émetteur sont lus, jamais corrigés ; l'horizon d'anticipation en usage est celui du modèle de réponse.",
       "metrics.learning_block_reason": "Apprentissage bloqué par",
       "status.learning.block.heating_unavailable": "Chauffage indisponible",
       "status.learning.block.disturbance": "Perturbation",
@@ -762,7 +777,6 @@
       "status.calibration.request.learning_stage": "Refused: initial learning in progress",
       "status.calibration.request.paused": "Refused: learning paused",
       "status.calibration.request.off": "Refused: thermostat off",
-      "status.calibration.request.too_soon": "Refused: less than 24 h after the last calibration",
       "status.calibration.request.in_progress": "Ignored: a calibration is in progress",
       "metrics.calibration_pulses": "Pulses done",
       "metrics.calibration_reading_a": "Heating rate read",
@@ -774,7 +788,23 @@
       "metrics.calibration_corrected": "Corrected by the calibration",
       "status.calibration.corrected.none": "Nothing corrected",
       "status.calibration.corrected.heating_rate": "Heating rate",
-      "notes.health.calibration": "A calibration is started on request only. Its pulses read the heating rate, the loss coefficient and the emitter lag; once two readings agree, the heating rate is corrected only when the value in use differs by more than 30 %. The loss coefficient and the emitter lag are read, never corrected; the anticipation horizon in use is the one of the response model.",
+      "metrics.calibration_origin": "Origin",
+      "status.calibration.origin.automatic": "Automatic",
+      "status.calibration.origin.requested": "Requested",
+      "metrics.calibration_automatic_status": "Automatic calibration",
+      "status.calibration.automatic.not_needed": "Not needed",
+      "status.calibration.automatic.waiting_days": "Waiting: 3 days after the update",
+      "status.calibration.automatic.waiting_night": "Waiting for a quiet night",
+      "status.calibration.automatic.in_progress": "In progress",
+      "status.calibration.automatic.attempts_used": "Attempts used",
+      "status.calibration.automatic.home_unknown": "Home position unknown",
+      "metrics.calibration_interruption": "First interruption",
+      "metrics.calibration_interruption_time": "Interruption time",
+      "status.calibration.interruption.setpoint": "Setpoint changed",
+      "status.calibration.interruption.stopped": "Thermostat stopped",
+      "status.calibration.interruption.mode": "Mode changed",
+      "status.calibration.interruption.paused": "Learning paused",
+      "notes.health.calibration": "An automatic calibration is started after an update; a notification explains a failed or interrupted calibration, and a requested calibration can be relaunched at once. Its pulses read the heating rate, the loss coefficient and the emitter lag; once two readings agree, the heating rate is corrected only when the value in use differs by more than 30 %. The loss coefficient and the emitter lag are read, never corrected; the anticipation horizon in use is the one of the response model.",
       "metrics.learning_block_reason": "Learning blocked by",
       "status.learning.block.heating_unavailable": "Heating unavailable",
       "status.learning.block.disturbance": "Disturbance",
@@ -4528,11 +4558,6 @@
                   "tone": "warning",
                   "icon": "mdi:alert-outline"
                 },
-                "refused: too soon": {
-                  "label_key": "status.calibration.request.too_soon",
-                  "tone": "warning",
-                  "icon": "mdi:alert-outline"
-                },
                 "ignored: in progress": {
                   "label_key": "status.calibration.request.in_progress",
                   "tone": "info",
@@ -4545,6 +4570,132 @@
                 "icon": "mdi:help-circle-outline"
               },
               "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.calibration_origin",
+              "source": "diagnostic",
+              "path": "live/calibration/automatic",
+              "align": "center",
+              "map": {
+                "true": {
+                  "label_key": "status.calibration.origin.automatic",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "false": {
+                  "label_key": "status.calibration.origin.requested",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true,
+              "visible_if": {
+                "var": "diagnostic/live/calibration/result"
+              }
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.calibration_automatic_status",
+              "source": "diagnostic",
+              "path": "live/calibration/automatic_status",
+              "align": "center",
+              "map": {
+                "not needed": {
+                  "label_key": "status.calibration.automatic.not_needed",
+                  "tone": "muted",
+                  "icon": "mdi:information-outline"
+                },
+                "waiting: 3 days after the update": {
+                  "label_key": "status.calibration.automatic.waiting_days",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "waiting: quiet night": {
+                  "label_key": "status.calibration.automatic.waiting_night",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "in progress": {
+                  "label_key": "status.calibration.automatic.in_progress",
+                  "tone": "info",
+                  "icon": "mdi:information-outline"
+                },
+                "attempts used": {
+                  "label_key": "status.calibration.automatic.attempts_used",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "home position unknown": {
+                  "label_key": "status.calibration.automatic.home_unknown",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true
+            },
+            {
+              "type": "status",
+              "label_key": "metrics.calibration_interruption",
+              "source": "diagnostic",
+              "path": "live/calibration/interruptions/0/reason",
+              "align": "center",
+              "map": {
+                "setpoint change": {
+                  "label_key": "status.calibration.interruption.setpoint",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "thermostat stopped": {
+                  "label_key": "status.calibration.interruption.stopped",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "mode change": {
+                  "label_key": "status.calibration.interruption.mode",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                },
+                "learning paused": {
+                  "label_key": "status.calibration.interruption.paused",
+                  "tone": "warning",
+                  "icon": "mdi:alert-outline"
+                }
+              },
+              "fallback": {
+                "label_key": "fallback.unknown_code",
+                "tone": "muted",
+                "icon": "mdi:help-circle-outline"
+              },
+              "fallback_show_value": true,
+              "visible_if": {
+                "var": "diagnostic/live/calibration/interruptions/0/reason"
+              }
+            },
+            {
+              "type": "metric_grid",
+              "columns": 1,
+              "metrics": [
+                {
+                  "label_key": "metrics.calibration_interruption_time",
+                  "source": "diagnostic",
+                  "path": "live/calibration/interruptions/0/at",
+                  "format": "datetime",
+                  "visible_if": {
+                    "var": "diagnostic/live/calibration/interruptions/0/reason"
+                  }
+                }
+              ]
             },
             {
               "type": "metric_grid",

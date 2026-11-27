@@ -63,7 +63,8 @@ function assertBindings(value) {
       : typeof entry.var === "string" && entry.var.startsWith("diagnostic/") ? entry.var.slice("diagnostic/".length) : undefined;
     if (currentPath !== undefined) {
       assert.ok(currentPath.startsWith("live/"), `Current SmartPI values must use live/: ${currentPath}`);
-      assertPublished(currentPath);
+      // A list element (`interruptions/0/reason`) is published as its list.
+      assertPublished(currentPath.replace(/\/\d+(\/.*)?$/u, ""));
     }
     if (entry.entity === "$diagnostic_entity" && entry.attribute) {
       assert.ok(entry.attribute.startsWith("history/"));
@@ -496,21 +497,49 @@ test("the main card reports a SmartPI calibration only while one runs", () => {
 
 test("the calibration block shows the pulses, the result, the reading against the values in use and the corrections", () => {
   const paths = [...walk(section("health"))].map((entry) => entry.path).filter(Boolean);
-  for (const leaf of ["state", "pulses_done", "result", "last_request", "last_time", "reading_a", "in_force_a", "reading_b", "in_force_b", "reading_lag_s", "in_force_lag_s", "corrected"]) {
+  for (const leaf of ["state", "pulses_done", "result", "last_request", "last_time", "reading_a", "in_force_a", "reading_b", "in_force_b", "reading_lag_s", "in_force_lag_s", "corrected", "automatic", "automatic_status", "interruptions/0/reason", "interruptions/0/at"]) {
     assert.ok(paths.includes(`live/calibration/${leaf}`), leaf);
   }
   assert.doesNotMatch(JSON.stringify(dashboard), /autocalib|retry_count|response_lag/u);
-  const live = { calibration: { state: "full power", pulses_done: 2, result: "readings agree", last_request: "refused: too soon",
+  const live = { calibration: { state: "full power", pulses_done: 2, result: "readings agree", last_request: "refused: learning paused",
     reading_a: 0.0123, in_force_a: 0.02, reading_lag_s: 900, in_force_lag_s: 1500 } };
   const view = renderer(live);
   const render = (leaf) => templateText(view._renderStatus(sectionPath("health", `live/calibration/${leaf}`)));
-  for (const [language, state, result, request] of [["en", /Pulse: full power/, /Two readings agree/, /less than 24 h/], ["fr", /Impulsion : pleine puissance/, /Deux lectures concordent/, /moins de 24 h/]]) {
+  for (const [language, state, result, request] of [["en", /Pulse: full power/, /Two readings agree/, /Refused: learning paused/], ["fr", /Impulsion : pleine puissance/, /Deux lectures concordent/, /Refusée : apprentissage en pause/]]) {
     view.language = language;
     assert.match(render("state"), state);
     assert.match(render("result"), result);
     assert.match(render("last_request"), request);
   }
   view.language = "en";
+  assert.ok(!JSON.stringify(dashboard).includes("too soon"));
+  const origin = sectionPath("health", "live/calibration/automatic");
+  const interruption = sectionPath("health", "live/calibration/interruptions/0/reason");
+  const interruptionTime = sectionPath("health", "live/calibration/interruptions/0/at");
+  for (const [language, automatic, text] of [["en", true, /Automatic/], ["en", false, /Requested/], ["fr", true, /Automatique/], ["fr", false, /Demandée/]]) {
+    view.language = language;
+    view.hass.states["sensor.diag"].attributes.live.calibration.automatic = automatic;
+    assert.match(templateText(view._renderItem(origin)), text);
+  }
+  for (const [language, status, text] of [["en", "waiting: quiet night", /quiet night/], ["fr", "home position unknown", /domicile inconnue/], ["en", "attempts used", /Attempts used/]]) {
+    view.language = language;
+    view.hass.states["sensor.diag"].attributes.live.calibration.automatic_status = status;
+    assert.match(templateText(view._renderItem(sectionPath("health", "live/calibration/automatic_status"))), text);
+  }
+  view.language = "en";
+  const calibration = view.hass.states["sensor.diag"].attributes.live.calibration;
+  calibration.interruptions = [];
+  assert.equal(templateText(view._renderItem(interruption)), "");
+  calibration.interruptions = [{ reason: "setpoint change", at: "2026-11-20T03:10:00" }];
+  assert.match(templateText(view._renderItem(interruption)), /Setpoint changed/);
+  assert.ok(view._conditionMatches(interruptionTime.visible_if));
+  assert.match(templateText(view._renderMetric(interruptionTime)), /Interruption time[\s\S]*3:10/);
+  calibration.interruptions = [];
+  assert.ok(!view._conditionMatches(interruptionTime.visible_if));
+  calibration.interruptions = [{ reason: "setpoint change", at: "2026-11-20T03:10:00" }];
+  calibration.result = "";
+  assert.equal(templateText(view._renderItem(origin)), "");
+  calibration.result = "readings agree";
   assert.equal(view._formatSourceValue(sectionPath("health", "live/calibration/pulses_done")), "2");
   assert.equal(view._formatSourceValue(sectionPath("health", "live/calibration/reading_a")), "0.01230 °C/min");
   assert.match(view._formatSourceValue(sectionPath("health", "live/calibration/in_force_lag_s")), /^25\s?m/u);

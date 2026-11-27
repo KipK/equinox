@@ -319,12 +319,17 @@ It also shows `live/analysis/control/near_band_source`, where the near band come
 (computed from the model, no response model, no outdoor temperature, heating model not
 reliable yet, heating slope too low, reset); an unknown code stays visible with neutral styling.
 The Calibration group reads
-`live/calibration/{state,pulses_done,result,last_request,last_time}`, the reading
+`live/calibration/{state,pulses_done,result,last_request,last_time}`, the origin
+(`automatic`, shown once a result exists), the automatic calibration status
+(`automatic_status`), the interruptions (`interruptions`: the reason and time of the
+first one are shown), the reading
 against the values in use (`reading_a`/`in_force_a`, `reading_b`/`in_force_b`,
 `reading_lag_s`/`in_force_lag_s`, the latter being the anticipation horizon in use) and `corrected`
 (only the heating rate can be corrected). States, results and request
 answers use plain FR/EN labels; `corrected` is a list shown as one status, and it
-is hidden before any calibration result. A calibration runs only on request.
+is hidden before any calibration result. SmartPI can start one calibration by itself
+after an update; a requested calibration is not refused for being too soon after
+the last one.
 
 The configuration and actual renderer methods are covered by
 `npm run test:smartpi` (Node 24), including published diagnostic bindings and
