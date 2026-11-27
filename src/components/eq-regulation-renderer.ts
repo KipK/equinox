@@ -38,6 +38,7 @@ import type { EquinoxViewModel } from "../types/view-model";
 
 const VALUE_FALLBACK = "--";
 const HISTORY_START_MARGIN_HOURS = 1;
+const HISTORY_PANEL_HEIGHT_PX = 180;
 const DESTRUCTIVE_ACTION_SERVICES = new Set([
   "vtherm_smartpi.reset_smartpi_learning",
   "vtherm_smartpi.force_smartpi_calibration",
@@ -708,11 +709,16 @@ export class EquinoxRegulationRenderer extends LitElement {
       `;
     }
 
+    // Each scale group gets its own panel with its legend: grow the graph beyond two panels.
+    const scaleGroups = new Set(betterHistoryConfig.series.map((series) => series.group ?? series.entity)).size;
+    const chartStyle = scaleGroups > 2 ? `height: ${scaleGroups * HISTORY_PANEL_HEIGHT_PX}px;` : "";
+
     return html`
       <article class="history-block">
         ${this._translate(item.title_key, item.title) ? html`<h3>${this._translate(item.title_key, item.title)}</h3>` : nothing}
         <equinox-better-history
           class="history-chart"
+          style=${chartStyle}
           .hass=${this.hass}
           .config=${betterHistoryConfig}
           .attributeUnits=${equinoxAttributeUnits(this._staticAttributeUnits)}
