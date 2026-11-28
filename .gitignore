@@ -6,4 +6,7 @@ node_modules/
 *.log
 *.bak
 build.sh
-.agents/
+.agents/rules/
+
+# Short-term agent memory (local task folders)
+.agents/local/

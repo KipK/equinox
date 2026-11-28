@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "ask": [
+      "Bash(git commit *)",
+      "Bash(git --no-pager commit *)",
+      "Bash(git push *)",
+      "Bash(git --no-pager push *)",
+      "Bash(git tag *)",
+      "Bash(git --no-pager tag *)"
+    ]
+  },
+  "hooks": {
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Compaction instructions: keep in the summary the slug of the task in progress, its folder .agents/local/tasks/<task-slug>/, what is done, the current state (branch, uncommitted files, tests), the next step, ruled-out ideas and open questions.'",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'The context was just compacted. If a task is in progress: re-read its .agents/local/tasks/<task-slug>/plan.md and handoff.md, bring handoff.md up to date from the summary (template .agents/templates/handoff.md), then continue. Never write task state into .agents/context/.'",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
